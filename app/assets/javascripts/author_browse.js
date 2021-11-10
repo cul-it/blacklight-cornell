@@ -1,7 +1,8 @@
 // https://id.loc.gov/authorities/names/suggest/?q=Twain,+Mark,+1835-1910
 // id.loc.gov/authorities/names/label/[label]
-var foundWikiData = false;
 var hasWikiImage = false;
+var showWikiAcknowledge = false;
+var wikiDescription;
 var authorBrowse = {
     onLoad: function() {
       var localname = $("#auth_loc_localname").val();
@@ -9,6 +10,10 @@ var authorBrowse = {
      
       if ( authorBrowse.displayAnyExternalData ) {
       	authorBrowse.getWikiImage(localname);
+      }
+      else {
+          $('#bio-desc').removeClass("d-none");
+          $('#no-wiki-ref-info').removeClass("d-none");
       }
       authorBrowse.bindEventHandlers();
     },
@@ -34,16 +39,17 @@ var authorBrowse = {
 
     // Get Image
     getWikiImage: function(localname) {
-      console.log("LOC local name = " + localname);
+      // console.log("LOC local name = " + localname);
       var wikidataEndpoint = "https://query.wikidata.org/sparql";
-      var sparqlQuery = "SELECT ?entity ?image ?citizenship ?birthname ?label (group_concat(DISTINCT ?educated_at; separator = \", \") as ?education) (group_concat(DISTINCT ?pseudos; separator = \", \") as ?pseudonyms) "
+      var sparqlQuery = "SELECT ?entity ?image ?citizenship ?birthname ?label ?description (group_concat(DISTINCT ?educated_at; separator = \", \") as ?education) (group_concat(DISTINCT ?pseudos; separator = \", \") as ?pseudonyms) "
                   + " WHERE { ?entity wdt:P244 '" + localname + "' . ?entity rdfs:label ?label . FILTER (langMatches( lang(?label), \"EN\" ) ) "
                   + " OPTIONAL {?entity wdt:P18 ?image . ?entity wdt:P27 ?citizenshipRoot . ?citizenshipRoot rdfs:label ?citizenship . FILTER (langMatches( lang(?citizenship), \"EN\" ) ) }"
                   + " OPTIONAL {?entity wdt:P69 ?educationRoot . ?educationRoot rdfs:label ?educated_at . FILTER (langMatches( lang(?educated_at), \"EN\" ) ) }"
                   + " OPTIONAL {?entity wdt:P69 ?educationRoot . ?educationRoot rdfs:label ?educated_at . FILTER (langMatches( lang(?educated_at), \"EN\" ) ) }"
                   + " OPTIONAL {?entity wdt:P742 ?pseudos . }"
                   + " OPTIONAL {?entity wdt:P1477 ?birthname . }"
-                  + " } GROUP BY ?entity ?image ?citizenship ?birthname ?label LIMIT 1";
+                  + " OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = \"en\")}"
+                  + " } GROUP BY ?entity ?image ?citizenship ?birthname ?label?description  LIMIT 1";
       $.ajax({
         url : wikidataEndpoint,
         headers : {
@@ -57,9 +63,12 @@ var authorBrowse = {
               var bindings = data["results"]["bindings"];
   		      var label = "";
               var wikiAcknowledge = "";
-              var showWikiAcknowledge = false;
               if ( bindings['length'] > 0 ) {
                 var binding = bindings[0];
+    		    if ( authorBrowse.displayProperty("description", binding) ) {
+                    var tempString = bindings[0]["description"]["value"]
+      		        wikiDescription = tempString.charAt(0).toUpperCase() + tempString.slice(1) + ".";
+    		    }
   			    if ( bindings[0]["label"] != undefined ) {
   			      label = bindings[0]["label"]["value"]
   				  // get the QID so we can use DBpedia to get a decent description
@@ -71,9 +80,11 @@ var authorBrowse = {
   			    }
                 if (authorBrowse.displayProperty("image", binding)) {       
                   imageUrl = bindings[0]["image"]["value"];
-                  hasWikiImage = true;
-                  $("#agent-image").attr("src",imageUrl);
-                  $("#img-container").show();
+                  if ( authorBrowse.isSupportedImageType(imageUrl) ) {
+                    hasWikiImage = true;
+                    $("#agent-image").attr("src",imageUrl);
+                    $("#img-container").show();
+                  }
                 }
                 if ( authorBrowse.displayProperty("birthname", binding) ) {
                   birthname = bindings[0]["birthname"]["value"];
@@ -112,7 +123,6 @@ var authorBrowse = {
                   }
                 }
                 if ( showWikiAcknowledge ) {
-                  foundWikiData = true;
                   $("div#wiki-acknowledge").append(wikiAcknowledge);
                   if ( !hasWikiImage ) {
                       $("#comment-container").removeClass();
@@ -120,7 +130,7 @@ var authorBrowse = {
                   }
                 }
               }
-              if ( !hasWikiImage && !foundWikiData ) {
+              if ( !hasWikiImage && !showWikiAcknowledge ) {
                   $("#bio-desc").removeClass("d-none");
                   $('#no-wiki-ref-info').removeClass("d-none")
               }
@@ -149,9 +159,9 @@ var authorBrowse = {
 		  type: "jsonp"
         },
         success : function (data) {
+		  var comment = "";
           if ( data && "results" in data && "bindings" in data["results"] ) {
             var bindings = data["results"]["bindings"];
-		    var comment = "";
             var dbpLink = "<span class='ls-acknowledge'>(From DBPedia.)</span>";
             if ( bindings['length'] > 0 ) {
   		  	  if ( bindings[0]["uri"] != undefined ) {
@@ -172,8 +182,19 @@ var authorBrowse = {
 		  	  }
 		    }
           }
-          $('#info-details').removeClass("d-none");
-          $('#has-wiki-ref-info').removeClass("d-none");
+          // clean up this logic
+          if ( showWikiAcknowledge || comment.length > 0 ) {
+              if ( comment.length > 0 ) {
+                  $("#bio-desc").addClass("d-none");
+                  $('#no-wiki-ref-info').addClass("d-none")                  
+              }
+              else if ( !subjectDataBrowse.isPropertyExcluded("description") ) {
+                $('#dbp-comment').text(wikiDescription);
+                $('#dbp-comment').show();
+              }
+              $('#info-details').removeClass("d-none");
+              $('#has-wiki-ref-info').removeClass("d-none");
+          }
         }
       });	
 	},
@@ -182,7 +203,7 @@ var authorBrowse = {
 	getExclusions: function() {
 		var exclusionsInput = $("#exclusions");
 		if(exclusionsInput.length && exclusionsInput.val() != "") {
-			console.log(exclusionsInput.val());
+			// console.log(exclusionsInput.val());
 			var exclusionsJSON = JSON.parse(exclusionsInput.val());
 			return exclusionsJSON;
 		}
@@ -218,7 +239,15 @@ var authorBrowse = {
 			
 		}
 		return exclusionHash;
+	},
+	//Check image type supported
+	isSupportedImageType(image) {
+		//Supported html display types = jpg, jpeg, gift, png, svg
+		//Wikidata query may return other types.  Not displaying currently
+		var fileExtension = image.substr( (image.lastIndexOf('.') +1) ).toLowerCase();
+		return (fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "gif" || fileExtension == "png" || fileExtension == "svg");
 	}
+    
 };
 
 Blacklight.onLoad(function() {

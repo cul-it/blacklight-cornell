@@ -93,7 +93,7 @@ class retrieveLCSH {
 			}
 		});
 		if(linksArray.length > 0) {
-			var displayHTML = "<h3 class='mt-4'>Browse related items by call number</h3><div class='ml-4'>" + linksArray.join(", ") + "</div>";
+			var displayHTML = "<div>Browse related items by call number:</div><div class='ml-4'>" + linksArray.join(", ") + "</div>";
 			$("#callnumberbrowselink").html(displayHTML);
 		}
 	}

@@ -28,10 +28,11 @@
 	  end
   %> 
 	  <div id="info-details" class="row info-row ml-0 d-none">
-	    <div id="img-container" class="col-sm-3 col-md-3 col-lg-3 text-center" style="display:none">
-	    	<img id="agent-image" src="" title="author image" width="120px"/><span class="kp-source text-nowrap" style="font-size:12px">Image: Wikidata</span>
+	    <div id="img-container" class="col-sm-5 col-md-4 col-lg-3 text-center" style="display:none">
+	    	<img id="agent-image" src="" title="author image" width="120px"/><br/>
+            <span class="kp-source text-nowrap" style="font-size:12px">Image: Wikidata</span>
 	    </div>
-	    <div id="comment-container" class="col-sm-9 col-md-9 col-lg-9">
+	    <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
 			<div id="dbp-comment"></div>
 	    	<dl class="row" id="item-details">
 		        <% if bio_data["Occupation"].present? %>
@@ -111,12 +112,14 @@
 			  </li>
 			  <% @formats.each do |f| %>
 			    <li>
-			      <%= format_the_format(f, encoded_heading)%>
+                  <%= build_search_link(f, encoded_heading, search_field(@headingsResponse[0]["headingTypeDesc"]))%>
 			    </li>
 			  <% end %>
 			</ul>
 		  </div>
 	    </div>
+        <%# Will display relevant call numbers for the subject if they're available. %>
+        <div id="callnumberbrowselink" class="mb-4 mt-4 ml-2" localname="<%=@loc_localname.gsub('"','')%>"></div>
 	</div>
   </div>
     <div id="has-wiki-ref-info" class="d-none">
@@ -125,5 +128,3 @@
           <%= render_reference_info("author", @headingsResponse,@loc_localname) %>
         </div>
     </div>
-  <%# Will display relevant call numbers for the subject if they're available. %>
-  <div id="callnumberbrowselink" class="mb-4" localname="<%=@loc_localname.gsub('"','')%>"></div>

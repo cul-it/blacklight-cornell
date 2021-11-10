@@ -22,11 +22,10 @@ var subjectBrowse = {
 var subjectDataBrowse = {
     onLoad: function() {
       var localname = $("#subj_loc_localname").val();
-      console.log("local name = " + localname);
+      // console.log("local name = " + localname);
       subjectDataBrowse.init();
      
       if (subjectDataBrowse.displayAnyExternalData) {
-        console.log("display any");
         if ( localname.length > 0 ) {
             this.getWikiImage(localname);
         }
@@ -35,7 +34,6 @@ var subjectDataBrowse = {
         }
       }
       else {
-          console.log("display nada");
           $('#bio-desc').removeClass("d-none");
           $('#no-wiki-ref-info').removeClass("d-none");
       }
@@ -50,7 +48,6 @@ var subjectDataBrowse = {
   
   // Get Image country = P17; territory P131; location P276
   getWikiImage: function(localname) {
-      console.log("get image");
     var wikidataEndpoint = "https://query.wikidata.org/sparql";
     var sparqlQuery = "SELECT ?entity ?image ?label ?description "
                   + " WHERE { ?entity wdt:P244 '" + localname + "' . "
@@ -74,12 +71,15 @@ var subjectDataBrowse = {
               var binding = bindings[0];
               if ( subjectDataBrowse.displayProperty("image", binding) ) {
                 imageUrl = bindings[0]["image"]["value"];
-                hasWikiImage = true;
-                $("#subject-image").attr("src",imageUrl);
-                $("#img-container").show();
+                if ( subjectDataBrowse.isSupportedImageType(imageUrl) ) {
+                  hasWikiImage = true;
+                  $("#subject-image").attr("src",imageUrl);
+                  $("#img-container").show();
+                }
               }
   		      if ( bindings[0]["description"] != undefined ) {
-  		        wikiDescription = bindings[0]["description"]["value"]
+                var tempString = bindings[0]["description"]["value"]
+  		        wikiDescription = tempString.charAt(0).toUpperCase() + tempString.slice(1) + ".";
   		      }
   		      if ( bindings[0]["label"] != undefined ) {
   		        label = bindings[0]["label"]["value"]
@@ -98,9 +98,8 @@ var subjectDataBrowse = {
   
   // we can use the wikidata QID to get an entity description from DBpedia
   getDbpediaDescription: function(qid, label) {
-      console.log("get description");
-      console.log("QID: " + qid);
-      console.log("label: " + label);
+      // console.log("QID: " + qid);
+      // console.log("label: " + label);
       var wikidataEndpoint = "https://dbpedia.org/sparql";
       var sparqlQuery = " SELECT distinct ?uri ?comment WHERE {"
                         + " { SELECT (?e1) AS ?uri ?comment WHERE { ?e1 dbp:d '" + qid + "'@en . ?e1 rdfs:comment ?comment . FILTER (langMatches(lang(?comment),\"en\")) }} UNION "
@@ -131,7 +130,6 @@ var subjectDataBrowse = {
                     $("#comment-container").removeClass();
                     $("#comment-container").addClass("col-sm-12").addClass("col-md-12").addClass("col-lg-12");
                 }
-                console.log("check description");
                 if ( !subjectDataBrowse.isPropertyExcluded("description") ) {
   			      $('#dbp-comment').text(comment);
                   $('#dbp-comment').append(dbpLink);
@@ -166,7 +164,7 @@ var subjectDataBrowse = {
   getExclusions: function() {
 	var exclusionsInput = $("#exclusions");
 	if(exclusionsInput.length && exclusionsInput.val() != "") {
-		console.log(exclusionsInput.val());
+		// console.log(exclusionsInput.val());
 		var exclusionsJSON = JSON.parse(exclusionsInput.val());
 		return exclusionsJSON;
 	}
@@ -203,7 +201,14 @@ var subjectDataBrowse = {
 		
 	}
 	return exclusionHash;
-  }
+  },
+  //Check image type supported
+  isSupportedImageType(image) {
+  	//Supported html display types = jpg, jpeg, gift, png, svg
+  	//Wikidata query may return other types.  Not displaying currently
+  	var fileExtension = image.substr( (image.lastIndexOf('.') +1) ).toLowerCase();
+  	return (fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "gif" || fileExtension == "png" || fileExtension == "svg");
+  }  
 };
 
 Blacklight.onLoad(function() {

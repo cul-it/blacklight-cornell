@@ -21,7 +21,9 @@
 	end
 %>
 <div id="kpanelContent">
-    <div id="time-indicator" class="text-center pt-10 pb-10"><img src="/assets/ajax-indicator.gif" title="time indicator gif"/></div>
+    <div id="time-indicator" class="text-center pt-10 pb-10">
+        <%= image_tag("ajax-indicator.gif", alt: "processing time indicator", id: "kp-time-indicator") %>
+    </div>
 	<div id="popoverContent" class="kp-content d-none">
 		<div id="authContent" class="float-none clearfix">
 		<% if display_image == true %>
@@ -97,8 +99,8 @@
 		</div>		
 		
 			
-		<div class='mt-1 w-100 text-right'>
-			<a id="fullRecordLink" href=""><span class='badge badge-primary kp-badge w-45 mt-2'>View full info</span></a>
+		<div class='mt-2 w-100 text-right'>
+			<a id="fullRecordLink" href=""><span class='info-button d-sm-inline-block btn btn-sm btn-outline-secondary'>View full info &raquo;</span></a>
 		</div>
 
 <div>

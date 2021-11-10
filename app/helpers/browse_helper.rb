@@ -45,7 +45,10 @@ def render_bio_data(bd)
   html = ""
   bd.each do |t,d|
     unless t == "Gender"
-      html += "<dt>" + t + ":</dt><dd>"
+      if t == "Group/Organization"
+        t = "Affiliation"
+      end
+      html += "<dt>" + t + ":</dt><dd style='margin-left:120px'>"
       if t == "Occupation"
         d.each do |data|
           if !data.equal?(d.last)
@@ -78,7 +81,11 @@ def render_reference_info(type,h_response,loc_localname)
     end
   end
   if !loc_localname.blank?
-    html += build_lcsh_link(loc_localname.gsub('"',''))
+    if loc_localname[1..2] == "sh"
+      html += build_lcsh_link(loc_localname.gsub('"',''))
+    else
+      html += build_lcnaf_link(loc_localname.gsub('"',''))
+    end
   end
   return html.html_safe
 end
@@ -165,66 +172,137 @@ def build_heading_type(heading_type)
     return html.html_safe   
  end
 
-def format_the_format(format, encoded_heading)
+  def build_search_link(format_type, encoded_heading, search_type)
+    if search_type == "pers" || search_type == "corp" || search_type == "event"
+      the_search_field = 'search_field_row[]=author_' + search_type + '_browse&search_field_row[]=subject_' + search_type + '_browse'
+      return format_auth_subj_formats(format_type, encoded_heading, the_search_field)
+    else
+      the_search_field = 'subject_' + search_type + '_browse'
+      return format_subject_only_formats(format_type, encoded_heading, the_search_field)
+    end
+    return ""
+  end
+  
+  def format_auth_subj_formats(format, encoded_heading, the_search_field)
+    html = ""    
+    f = format.split(" (")[0]
+    case f
+    when "Books"
+      html = '<i class="fa fa-book"></i>'
+      html += '<a id="facet_link_book" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Book&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Journals/Periodicals"
+      html = '<i class="fa fa-book-open"></i>'
+      html += '<a id="facet_link_journal_periodical" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Journal/Periodical&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Manuscripts/Archives"
+      html = '<i class="fa fa-archive"></i>'
+      html += '<a id="facet_link_manuscript_archive" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Manuscript/Archive&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Maps"
+      html = '<i class="fa fa-globe"></i>'
+      html += '<a id="facet_link_map" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Map&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Musical Scores"
+      html = '<i class="fa-musical-score"></i>'
+      html += '<a id="facet_link_musical_score" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Musical%20Score&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Non-musical Recordings"
+      html = '<i class="fa fa-headphones"></i>'
+      html += '<a id="facet_link_non_musical_recording" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Non-musical%20Recording&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Videos"
+      html = '<i class="fa fa-video-camera"></i>'
+      html += '<a id="facet_link_video" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Video&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Computer Files"
+      html = '<i class="fa fa-save"></i>'
+      html += '<a id="facet_link_computer_file" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Computer%20File&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Databases"
+      html = '<i class="fa fa-database"></i>'
+      html += '<a id="facet_link_database" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Database&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Musical Recordings"
+      html = '<i class="fa fa-music"></i>'
+      html += '<a id="facet_link_musical_recording" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Musical%20Recording&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Theses"
+      html = '<i class="fa fa-file-text-o"></i>'
+      html += '<a id="facet_link_thesis" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Thesis&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Microforms"
+      html = '<i class="fa fa-film"></i>'
+      html += '<a id="facet_link_microform" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Microform&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    when "Miscellaneous"
+      html = '<i class="fa fa-ellipsis-h"></i>'
+      html += '<a id="facet_link_miscellaneous" href="/?advanced_query=yes&boolean_row[1]=OR&f[format][]=Miscellaneous&op_row[]=AND&op_row[]=AND'
+      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + format + '</a>'
+    end
+    return html.html_safe
+  end
+
+  def format_subject_only_formats(format, encoded_heading, the_search_field)
     html = ""    
     f = format.split(" (")[0]
     case f
     when "Books"
       html = '<i class="fa fa-book"></i>'
       html += '<a id="facet_link_book" href="/?f%5Bformat%5D%5B%5D=Book&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Journals/Periodicals"
       html = '<i class="fa fa-book-open"></i>'
       html += '<a id="facet_link_journal_periodical" href="href="/?f%5Bformat%5D%5B%5D=Journal/Periodical&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Digital Collections"
       html = '<i class="fa fa-th-large"></i>'
       html += '<a id="facet_link_digital_collections" href="href="https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Manuscripts/Archives"
       html = '<i class="fa fa-archive"></i>'
       html += '<a id="facet_link_manuscript_archive" href="/?f%5Bformat%5D%5B%5D=Manuscript/Archive&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Maps"
       html = '<i class="fa fa-globe"></i>'
       html += '<a id="facet_link_map" href="/?f%5Bformat%5D%5B%5D=Map&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Musical Scores"
       html = '<i class="fa-musical-score"></i>'
       html += '<a id="facet_link_musical_score" href="/?f%5Bformat%5D%5B%5D=Musical%20Score&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Non-musical Recordings"
       html = '<i class="fa fa-headphones"></i>'
       html += '<a id="facet_link_non_musical_recording" href="/?f%5Bformat%5D%5B%5D=Non-musical%20Recording&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Videos"
       html = '<i class="fa fa-video-camera"></i>'
       html += '<a id="facet_link_video" href="/?f%5Bformat%5D%5B%5D=Video&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Computer Files"
       html = '<i class="fa fa-save"></i>'
       html += '<a id="facet_link_computer_file" href="/?f%5Bformat%5D%5B%5D=Computer%20File&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Databases"
       html = '<i class="fa fa-database"></i>'
       html += '<a id="facet_link_database" href="/?f%5Bformat%5D%5B%5D=Database&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Musical Recordings"
       html = '<i class="fa fa-music"></i>'
       html += '<a id="facet_link_musical_recording" href="/?f%5Bformat%5D%5B%5D=Musical%20Recording&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Theses"
       html = '<i class="fa fa-file-text-o"></i>'
       html += '<a id="facet_link_thesis" href="/?f%5Bformat%5D%5B%5D=Thesis&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Microforms"
       html = '<i class="fa fa-film"></i>'
       html += '<a id="facet_link_microform" href="/?f%5Bformat%5D%5B%5D=Microform&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     when "Miscellaneous"
       html = '<i class="fa fa-ellipsis-h"></i>'
       html += '<a id="facet_link_miscellaneous" href="/?f%5Bformat%5D%5B%5D=Miscellaneous&amp;q='
-      html += encoded_heading + '&amp;search_field=all_fields">' + format + '</a>'
+      html += encoded_heading + '&amp;search_field=' + the_search_field + '">' + format + '</a>'
     end
     return html.html_safe
   end
