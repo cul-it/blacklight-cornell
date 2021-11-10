@@ -27,6 +27,13 @@ class BookmarksController < CatalogController
     results = Blacklight.solr.find( { :q => "id:*", })
   end
 
+
+  # show citations on a page
+  def show_citation_page
+    @response, @documents = action_documents
+    render :partial=>"bookmarks/citation_page"
+  end
+
   # save bookmarks and log in to book bags
   def bookmarks_book_bags_login
     #binding.pry
