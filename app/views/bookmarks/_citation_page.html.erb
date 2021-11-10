@@ -13,7 +13,6 @@
 <% name = params[:form] %>
   <%  sym_name = "export_as_#{name}_citation_txt" %>
   <% @documents.each_with_index do |document,i| %>
-    <% Rails.logger.info("TLW72 CITATION DOC = " + document.inspect) %>
     <%  if document.respond_to?(sym_name.to_sym) %>
       <% begin %>
         <% d = document.send(sym_name.to_sym) %>
