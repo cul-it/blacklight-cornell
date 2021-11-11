@@ -1,6 +1,8 @@
 ---
-#? "Eliot, George, 1819-1880"
-#:      
+? "Simon, David, 1957-"
+: ~
+# ? "Eliot, George, 1819-1880"
+# :
 #    - "birthname"
 #    - "education"
 #? "Saunders, George, 1958-"
@@ -15,7 +17,7 @@
 # If you want to exclude particular Wikidata or DbPedia properties from displaying in the knowledge panel
 # or the author or subject browse pages, list the authority and then use properties afeter
 # Here is an example using all possible properties
-# ? "Eliot, George, 1819-1880,"
+# ? "Eliot, George, 1819-1880"
 # :
 #   - "image"
 #   - "description"
