@@ -40,9 +40,9 @@
         <% citation_format = t('blacklight.citation.'+name) %>
         <li>
         <% if bookmarks_index %>
-          <%= link_to citation_format,  show_citation_page_path(:form => name), {:id => 'citationLink-'+name, :name => citation_format, :class => 'dropdown-item', data: {}.merge({ blacklight_modal: "trigger" })} %>
+          <%= link_to citation_format,  show_citation_page_path(:form => name), {:id => 'citationLink-'+name, :name => citation_format, :class => 'dropdown-item citationLink', data: {}.merge({ blacklight_modal: "trigger" })} %>
         <% else %>
-          <%= link_to citation_format,  show_book_bags_citation_page_path(:form => name), {:id => 'citationLink-'+name, :name => citation_format, :class => 'dropdown-item', data: {}.merge({ blacklight_modal: "trigger" })} %>
+          <%= link_to citation_format,  show_book_bags_citation_page_path(:form => name), {:id => 'citationLink-'+name, :name => citation_format, :class => 'dropdown-item citationLink', data: {}.merge({ blacklight_modal: "trigger" })} %>
         <% end %>
         </li>
       <% end %>
