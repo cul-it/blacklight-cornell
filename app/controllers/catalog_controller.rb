@@ -1152,7 +1152,8 @@ def new_tou
   # end
   okapi_url = ENV['OKAPI_URL']
   okapi_tenant = ENV['TENANT_ID']
-  okapi_token = ENV['X_OKAPI_TOKEN']
+ # okapi_token = ENV['X_OKAPI_TOKEN']
+  okapi_token = CUL::FOLIO::Edge.authenticate(okapi_url, okapi_tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
   uri = URI(okapi_url + '/eholdings/titles/' + title_id + '?include=resources' )
   req = Net::HTTP::Get.new(uri)
   req['X-Okapi_Tenant'] = ENV['TENANT_ID']
