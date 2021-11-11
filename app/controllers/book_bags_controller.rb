@@ -191,7 +191,8 @@ class BookBagsController < CatalogController
 
   # show citations on a page
   def show_citation_page
-    @response, @documents = action_documents
+    docs = @bb.index
+    @response, @documents = search_service.fetch(docs, :per_page => 1000,:rows => 1000)
     render :partial=>"bookmarks/citation_page"
   end
 
