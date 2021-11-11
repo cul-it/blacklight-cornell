@@ -187,7 +187,11 @@ class BookBagsController < CatalogController
     docs = @bb.index
     per_page = docs.count
     options =   {:per_page => per_page,:rows => per_page}
-    search_service.fetch(docs, options)
+
+    save_level = Rails.logger.level; Rails.logger.level = Logger::DEBUG
+    ret = search_service.fetch(docs, options)
+    Rails.logger.level = save_level
+    ret
   end
 
   # show citations on a page
