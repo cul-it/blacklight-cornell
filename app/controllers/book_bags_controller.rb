@@ -184,9 +184,9 @@ class BookBagsController < CatalogController
   end
 
   def action_documents
-    per_page = current_or_guest_user.bookmarks.count
-    options =   {:per_page => per_page,:rows => per_page}
     docs = @bb.index
+    per_page = docs.count
+    options =   {:per_page => per_page,:rows => per_page}
     search_service.fetch(docs, options)
   end
 

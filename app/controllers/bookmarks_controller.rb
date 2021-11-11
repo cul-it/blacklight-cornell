@@ -32,7 +32,8 @@ class BookmarksController < CatalogController
   def show_citation_page
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
-    @response, @documents = search_service.fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
+    per_page = bookmark_ids.count
+    @response, @documents = search_service.fetch(bookmark_ids, :per_page => per_page,:rows => per_page)
     render :partial=>"bookmarks/citation_page"
   end
 
