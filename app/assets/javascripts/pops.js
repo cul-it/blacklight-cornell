@@ -64,7 +64,7 @@ class kPanel {
   
   //Lookup suggestions in LOC for this name specifically
   queryLOCSuggestions(locPath, locQuery, rdfType) {   
-    var lookupURL = "http://id.loc.gov/authorities/" + locPath
+    var lookupURL = "https://id.loc.gov/authorities/" + locPath
     + "/suggest?q=" + locQuery + "&rdftype=" + rdfType
     + "&count=1";
     var eThis = this;
