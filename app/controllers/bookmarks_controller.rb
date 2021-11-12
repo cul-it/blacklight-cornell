@@ -33,11 +33,7 @@ class BookmarksController < CatalogController
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
     per_page = bookmark_ids.count
-
-    save_level = Rails.logger.level; Rails.logger.level = Logger::DEBUG
     @response, @documents = search_service.fetch(bookmark_ids, :per_page => per_page,:rows => per_page)
-    Rails.logger.level = save_level
-
     render :partial=>"bookmarks/citation_page"
   end
 
