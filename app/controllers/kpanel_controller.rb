@@ -40,8 +40,11 @@ class KpanelController < ApplicationController
   	# This should return the JSON for solr documents
     results = get_browse_info(@authq, @auth_type)
     @data = results[0]
+    heading = @data["heading"]
     #Call helper method to see whether external data should or should not be included within panel
-    permissions_key = @authq.delete_prefix('"').delete_suffix('"')
+    #This used to be @authq but changing it because the parameter from the link may have different
+    #ending punctuation than the heading in the browse.  Relying entirely on heading now
+    permissions_key = heading.delete_prefix('"').delete_suffix('"')
     @exclusions = check_permissions(permissions_key)
     render "panel"
     
