@@ -3,12 +3,15 @@ module ExternalDataHelper
 	require 'json'
  	def get_exclusion(key, exclude_entities)
  		return_json = {"exclusion": false}
- 		exclusion_key = key.sub(/[.,;]?$/, '')		
+ 		# Commenting out code which replaced ending punctuation
+ 		# Now checks directly against the string
+ 		# Heading in yaml file must exactly match the heading field in the solr index
+ 		#exclusion_key = key.sub(/[.,;]?$/, '')		
  		# Check for key where the ending punctuation has been replaced
- 		if(exclude_entities.key?(exclusion_key))
+ 		if(exclude_entities.key?(key))
  			return_json[:exclusion] = true
- 			if(exclude_entities[exclusion_key]!= nil && exclude_entities[exclusion_key].length)
- 				return_json[:properties] = exclude_entities[exclusion_key]
+ 			if(exclude_entities[key]!= nil && exclude_entities[key].length)
+ 				return_json[:properties] = exclude_entities[key]
  			end
  		end
  		return return_json
@@ -29,7 +32,8 @@ module ExternalDataHelper
  		return_json = {}
  		if(key != "")
  			exclude_entities = load_yaml()
- 			if(!exclude_entities.nil?)
+ 			Rails.logger.info("#{exclude_entities.inspect}")
+ 			if(exclude_entities && !exclude_entities.nil?)
  				return_json = get_exclusion(key, exclude_entities)
  			end 
  		end

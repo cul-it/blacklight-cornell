@@ -25,4 +25,4 @@
 #   - "citizenship"
 #   - "education"
 #   - "pseudonyms"
-# NOTE: Since the ending punctuation may be inconsistent, remove any trailing "." or "," above. "-" should appear as is
+# NOTE: The strings in this file must exactly match the heading field in the browse indices to work
