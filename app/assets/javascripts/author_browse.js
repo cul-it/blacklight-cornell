@@ -41,15 +41,14 @@ var authorBrowse = {
     getWikiImage: function(localname) {
       // console.log("LOC local name = " + localname);
       var wikidataEndpoint = "https://query.wikidata.org/sparql";
-      var sparqlQuery = "SELECT ?entity ?image ?citizenship ?birthname ?label ?description (group_concat(DISTINCT ?educated_at; separator = \", \") as ?education) (group_concat(DISTINCT ?pseudos; separator = \", \") as ?pseudonyms) "
+      var sparqlQuery = "SELECT ?entity ?image ?citizenship ?label ?description (group_concat(DISTINCT ?educated_at; separator = \", \") as ?education) (group_concat(DISTINCT ?pseudos; separator = \", \") as ?pseudonyms) "
                   + " WHERE { ?entity wdt:P244 '" + localname + "' . ?entity rdfs:label ?label . FILTER (langMatches( lang(?label), \"EN\" ) ) "
                   + " OPTIONAL {?entity wdt:P18 ?image . ?entity wdt:P27 ?citizenshipRoot . ?citizenshipRoot rdfs:label ?citizenship . FILTER (langMatches( lang(?citizenship), \"EN\" ) ) }"
                   + " OPTIONAL {?entity wdt:P69 ?educationRoot . ?educationRoot rdfs:label ?educated_at . FILTER (langMatches( lang(?educated_at), \"EN\" ) ) }"
                   + " OPTIONAL {?entity wdt:P69 ?educationRoot . ?educationRoot rdfs:label ?educated_at . FILTER (langMatches( lang(?educated_at), \"EN\" ) ) }"
                   + " OPTIONAL {?entity wdt:P742 ?pseudos . }"
-                  + " OPTIONAL {?entity wdt:P1477 ?birthname . }"
                   + " OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = \"en\")}"
-                  + " } GROUP BY ?entity ?image ?citizenship ?birthname ?label?description  LIMIT 1";
+                  + " } GROUP BY ?entity ?image ?citizenship ?label?description  LIMIT 1";
       $.ajax({
         url : wikidataEndpoint,
         headers : {
@@ -85,12 +84,6 @@ var authorBrowse = {
                     $("#agent-image").attr("src",imageUrl);
                     $("#img-container").show();
                   }
-                }
-                if ( authorBrowse.displayProperty("birthname", binding) ) {
-                  birthname = bindings[0]["birthname"]["value"];
-                  $("dd.birthname").text(birthname + "*");
-                  $(".birthname").removeClass("birthname");
-                  showWikiAcknowledge = true;
                 }
                 if ( authorBrowse.displayProperty("citizenship", binding) ) {
                   citizenship = bindings[0]["citizenship"]["value"];
@@ -141,7 +134,7 @@ var authorBrowse = {
     	
 	// we can use the wikidata QID to get an entity description from DBpedia
 	getDbpediaDescription: function(qid, label) {
-	  var wikidataEndpoint = "https://dbpedia.org/sparql";
+	  var dbpediaUrl = "https://dbpedia.org/sparql";
       var sparqlQuery = " SELECT distinct ?uri ?comment WHERE {"
                         + " { SELECT (?e1) AS ?uri ?comment WHERE { ?e1 dbp:d '" + qid + "'@en . ?e1 rdfs:comment ?comment . "
                         + " ?e1 rdf:type dbo:Person . FILTER (langMatches(lang(?comment),\"en\")) } } UNION "
@@ -149,15 +142,14 @@ var authorBrowse = {
                         + " ?e2 rdf:type dbo:Person . FILTER (langMatches(lang(?comment),\"en\"))} } UNION "
                         + " { SELECT (?e3) AS ?uri ?comment WHERE { ?e3 rdfs:label '" + label + "'@en . ?e3 rdfs:comment ?comment . "
                         + " ?e3 rdf:type yago:Person100007846 . FILTER (langMatches(lang(?comment),\"en\"))} }} "
+      var fullQuery = dbpediaUrl + "?query=" +  escape(sparqlQuery) + "&format=json";
       $.ajax({
-        url : wikidataEndpoint,
+        url : fullQuery,
         headers : {
           Accept : 'application/sparql-results+json'
         },
-        data : {
-          query : sparqlQuery,
-		  type: "jsonp"
-        },
+        dataType: "jsonp",
+        "jsonp": "callback",
         success : function (data) {
 		  var comment = "";
           if ( data && "results" in data && "bindings" in data["results"] ) {
@@ -195,6 +187,10 @@ var authorBrowse = {
               $('#info-details').removeClass("d-none");
               $('#has-wiki-ref-info').removeClass("d-none");
           }
+        },
+        error : function() {
+            $("#bio-desc").removeClass("d-none");
+            $('#no-wiki-ref-info').removeClass("d-none")                  
         }
       });	
 	},

@@ -3,7 +3,6 @@
 : ~
 # ? "Eliot, George, 1819-1880"
 # :
-#    - "birthname"
 #    - "education"
 #? "Saunders, George, 1958-"
 #: ~
@@ -21,7 +20,6 @@
 # :
 #   - "image"
 #   - "description"
-#   - "birthname"
 #   - "citizenship"
 #   - "education"
 #   - "pseudonyms"

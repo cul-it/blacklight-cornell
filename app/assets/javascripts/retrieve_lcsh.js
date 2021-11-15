@@ -109,7 +109,7 @@ class retrieveLCSH {
 Blacklight.onLoad(function() {
 	// Check for particular element and attribute with uri in order to retrieve classification information
     // Needs to be a value in the field.
-	if ( $('#callnumberbrowselink').length && $('#callnumberbrowselink').val().length > 0 ) {
+	if ( $('#callnumberbrowselink').length && $('#callnumberbrowselink').attr("localname").length > 0 ) {
 		var localname = $('#callnumberbrowselink').attr("localname");
 		//Putting this logic back in
 		var lcshURI = ( localname.substring(0, 2) == "sh" ) ? "http://id.loc.gov/authorities/subjects/" + localname : "http://id.loc.gov/authorities/names/" + localname;

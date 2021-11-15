@@ -100,20 +100,18 @@ var subjectDataBrowse = {
   getDbpediaDescription: function(qid, label) {
       // console.log("QID: " + qid);
       // console.log("label: " + label);
-      var wikidataEndpoint = "https://dbpedia.org/sparql";
+      var dbpediaUrl = "https://dbpedia.org/sparql";
       var sparqlQuery = " SELECT distinct ?uri ?comment WHERE {"
                         + " { SELECT (?e1) AS ?uri ?comment WHERE { ?e1 dbp:d '" + qid + "'@en . ?e1 rdfs:comment ?comment . FILTER (langMatches(lang(?comment),\"en\")) }} UNION "
                         + " { SELECT (?e2) AS ?uri ?comment WHERE { ?e2 rdfs:label '" + label + "'@en . ?e2 rdfs:comment ?comment . FILTER (langMatches(lang(?comment),\"en\"))}}} "
-
+      var fullQuery = dbpediaUrl + "?query=" +  escape(sparqlQuery) + "&format=json";
       $.ajax({
-        url : wikidataEndpoint,
+        url : fullQuery,
         headers : {
           Accept : 'application/sparql-results+json'
         },
-        data : {
-          query : sparqlQuery,
-  	  type: "jsonp"
-        },
+        dataType: "jsonp",
+        "jsonp": "callback",
         success : function (data) {
           if ( data && "results" in data && "bindings" in data["results"] ) {
             var bindings = data["results"]["bindings"];
@@ -156,6 +154,10 @@ var subjectDataBrowse = {
                 $('#no-wiki-ref-info').removeClass("d-none");
             }
           }
+        },
+        error : function() {
+            $("#bio-desc").removeClass("d-none");
+            $('#no-wiki-ref-info').removeClass("d-none")                  
         }
       });	
   },
