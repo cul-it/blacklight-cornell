@@ -11,11 +11,12 @@
     #   and function "export_as_xxx_citation_txt"
     %>
   <% name = params[:form] %>
-  <% sym_name = ERB::Util.html_escape("export_as_#{name}_citation_txt") %>
+  <% sym_name = "export_as_#{name}_citation_txt" %>
   <% @documents.each_with_index do |document,i| %>
-    <%  if document.respond_to?(sym_name.to_sym) %>
+    <% citation_format = ERB::Util.html_escape(sym_name.to_sym) %>
+    <%  if document.respond_to?(citation_format) %>
       <% begin %>
-        <% d = document.send(sym_name.to_sym) %>
+        <% d = document.send(citation_format) %>
         <% if i == 0  %>
           <h2 class="lightboxLink" data-placement="right" title data-toggle="tooltip" data-original-title="<%=d[0]%>"><%= t("blacklight.citation.#{name}") %></h2>
         <% end %>
