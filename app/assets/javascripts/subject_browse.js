@@ -1,5 +1,10 @@
 var hasWikiImage = false;
+var hasWikiData = false;
+var hasDbpediaDesc = false;
 var wikiDescription;
+var wikiAcknowledge;
+var wikiQid;
+var wikiLabel;
 var subjectBrowse = {
   onLoad: function() {
     this.bindCrossRefsToggle();  
@@ -66,7 +71,6 @@ var subjectDataBrowse = {
       success : function (data) {
           if ( data && "results" in data && "bindings" in data["results"] ) {
             var bindings = data["results"]["bindings"];
-  	        var label = "";
             if ( bindings['length'] > 0 ) {
               var binding = bindings[0];
               if ( subjectDataBrowse.displayProperty("image", binding) ) {
@@ -75,6 +79,7 @@ var subjectDataBrowse = {
                   hasWikiImage = true;
                   $("#subject-image").attr("src",imageUrl);
                   $("#img-container").show();
+                  $("#wiki-image").attr("href", bindings[0]['entity']['value']);
                 }
               }
   		      if ( bindings[0]["description"] != undefined ) {
@@ -82,15 +87,21 @@ var subjectDataBrowse = {
   		        wikiDescription = tempString.charAt(0).toUpperCase() + tempString.slice(1) + ".";
   		      }
   		      if ( bindings[0]["label"] != undefined ) {
-  		        label = bindings[0]["label"]["value"]
+  		        wikiLabel = bindings[0]["label"]["value"]
   			    // get the QID so we can use DBpedia to get a decent description
-  			    var qid = bindings[0]['entity']['value'].split("/")[4];
-                subjectDataBrowse.getDbpediaDescription(qid, label);
+  			    wikiQid = bindings[0]['entity']['value'].split("/")[4];
+                hasWikiData = true;
   		      }
             }
-            else {
-                subjectDataBrowse.getDbpediaDescription("x", $("h2").text().replaceAll(">","").trim());
-            }
+          }
+      },
+      complete : function() {
+  	      // Arguments differ depending on whether we have wiki metadata
+          if ( !hasWikiData ) {
+            subjectDataBrowse.getDbpediaDescription("x", $("h2").text().replaceAll(">","").trim());
+          }
+          else {
+            subjectDataBrowse.getDbpediaDescription(wikiQid, wikiLabel);  
           }
       }
     });
@@ -113,6 +124,7 @@ var subjectDataBrowse = {
         dataType: "jsonp",
         "jsonp": "callback",
         success : function (data) {
+            console.log("dbpedia success");
           if ( data && "results" in data && "bindings" in data["results"] ) {
             var bindings = data["results"]["bindings"];
   	        var comment = "";
@@ -129,37 +141,36 @@ var subjectDataBrowse = {
                     $("#comment-container").addClass("col-sm-12").addClass("col-md-12").addClass("col-lg-12");
                 }
                 if ( !subjectDataBrowse.isPropertyExcluded("description") ) {
-  			      $('#dbp-comment').text(comment);
+                    console.log("show description");
+                  wikiDescription = comment;
+                  hasDbpediaDesc = true;
+                  $('#dbp-comment').text(wikiDescription);
                   $('#dbp-comment').append(dbpLink);
+                  // we include all of these because of a timing issue
+                  $('#dbp-comment').show();
+                  $("#bio-desc").addClass("d-none");
+                  $('#no-wiki-ref-info').addClass("d-none");
                   $('#info-details').removeClass("d-none");
-  			      $('#dbp-comment').show();
                   $('#has-wiki-ref-info').removeClass("d-none");
-                }
-                else {
-                    $('#bio-desc').removeClass("d-none");
-                    $('#no-wiki-ref-info').removeClass("d-none");
                 }
   	  	      }
   	        }
-            else if ( hasWikiImage ) {
-                $('#info-details').removeClass("d-none");
-                if ( !subjectDataBrowse.isPropertyExcluded("description") ) {
-                    $('#dbp-comment').text(wikiDescription);
-                    $('#dbp-comment').show();
-                }
-                $('#has-wiki-ref-info').removeClass("d-none");
-            }
-            else {
-                $('#bio-desc').removeClass("d-none");
-                $('#no-wiki-ref-info').removeClass("d-none");
-            }
           }
-        },
-        error : function() {
-            $("#bio-desc").removeClass("d-none");
-            $('#no-wiki-ref-info').removeClass("d-none")                  
         }
-      });	
+    });	
+    if ( hasWikiImage || hasDbpediaDesc ) {
+        if ( !authorBrowse.isPropertyExcluded("description") ) {
+          $('#dbp-comment').text(wikiDescription);
+          $('#dbp-comment').show();
+        }
+        // $("div#wiki-acknowledge").append(wikiAcknowledge);
+        $('#info-details').removeClass("d-none");
+        $('#has-wiki-ref-info').removeClass("d-none");
+    }
+    else {
+        $("#bio-desc").removeClass("d-none");
+        $('#no-wiki-ref-info').removeClass("d-none"); 
+    }
   },
   
   //Method for reading exclusion information i.e whether Wikdiata/DbPedia info will be allowed for this heading

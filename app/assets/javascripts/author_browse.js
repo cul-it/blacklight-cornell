@@ -1,15 +1,18 @@
 // https://id.loc.gov/authorities/names/suggest/?q=Twain,+Mark,+1835-1910
 // id.loc.gov/authorities/names/label/[label]
 var hasWikiImage = false;
-var showWikiAcknowledge = false;
+var hasWikiData = false;
 var wikiDescription;
+var wikiAcknowledge;
+var wikiQid;
+var wikiLabel;
 var authorBrowse = {
     onLoad: function() {
       var localname = $("#auth_loc_localname").val();
       authorBrowse.init();
      
       if ( authorBrowse.displayAnyExternalData ) {
-      	authorBrowse.getWikiImage(localname);
+      	authorBrowse.getWikiData(localname);
       }
       else {
           $('#bio-desc').removeClass("d-none");
@@ -37,31 +40,29 @@ var authorBrowse = {
         
     },
 
-    // Get Image
-    getWikiImage: function(localname) {
-      // console.log("LOC local name = " + localname);
-      var wikidataEndpoint = "https://query.wikidata.org/sparql";
-      var sparqlQuery = "SELECT ?entity ?image ?citizenship ?label ?description (group_concat(DISTINCT ?educated_at; separator = \", \") as ?education) (group_concat(DISTINCT ?pseudos; separator = \", \") as ?pseudonyms) "
-                  + " WHERE { ?entity wdt:P244 '" + localname + "' . ?entity rdfs:label ?label . FILTER (langMatches( lang(?label), \"EN\" ) ) "
-                  + " OPTIONAL {?entity wdt:P18 ?image . ?entity wdt:P27 ?citizenshipRoot . ?citizenshipRoot rdfs:label ?citizenship . FILTER (langMatches( lang(?citizenship), \"EN\" ) ) }"
-                  + " OPTIONAL {?entity wdt:P69 ?educationRoot . ?educationRoot rdfs:label ?educated_at . FILTER (langMatches( lang(?educated_at), \"EN\" ) ) }"
-                  + " OPTIONAL {?entity wdt:P69 ?educationRoot . ?educationRoot rdfs:label ?educated_at . FILTER (langMatches( lang(?educated_at), \"EN\" ) ) }"
-                  + " OPTIONAL {?entity wdt:P742 ?pseudos . }"
-                  + " OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = \"en\")}"
-                  + " } GROUP BY ?entity ?image ?citizenship ?label?description  LIMIT 1";
-      $.ajax({
-        url : wikidataEndpoint,
-        headers : {
-          Accept : 'application/sparql-results+json'
-        },
-        data : {
-          query : sparqlQuery
-        },
-        success : function (data) {
+    // Get image and metadata
+    getWikiData: function(localname) {
+        // console.log("LOC local name = " + localname);
+        var wikidataEndpoint = "https://query.wikidata.org/sparql";
+        var sparqlQuery = "SELECT ?entity ?image ?citizenship ?label ?description (group_concat(DISTINCT ?educated_at; separator = \", \") as ?education) (group_concat(DISTINCT ?pseudos; separator = \", \") as ?pseudonyms) "
+                    + " WHERE { ?entity wdt:P244 '" + localname + "' . ?entity rdfs:label ?label . FILTER (langMatches( lang(?label), \"EN\" ) ) "
+                    + " OPTIONAL {?entity wdt:P18 ?image . ?entity wdt:P27 ?citizenshipRoot . ?citizenshipRoot rdfs:label ?citizenship . FILTER (langMatches( lang(?citizenship), \"EN\" ) ) }"
+                    + " OPTIONAL {?entity wdt:P69 ?educationRoot . ?educationRoot rdfs:label ?educated_at . FILTER (langMatches( lang(?educated_at), \"EN\" ) ) }"
+                    + " OPTIONAL {?entity wdt:P69 ?educationRoot . ?educationRoot rdfs:label ?educated_at . FILTER (langMatches( lang(?educated_at), \"EN\" ) ) }"
+                    + " OPTIONAL {?entity wdt:P742 ?pseudos . }"
+                    + " OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = \"en\")}"
+                    + " } GROUP BY ?entity ?image ?citizenship ?label?description  LIMIT 1";
+        $.ajax({
+          url : wikidataEndpoint,
+          headers : {
+            Accept : 'application/sparql-results+json'
+          },
+          data : {
+            query : sparqlQuery
+          },
+          success : function (data) {
             if ( data && "results" in data && "bindings" in data["results"] ) {
               var bindings = data["results"]["bindings"];
-  		      var label = "";
-              var wikiAcknowledge = "";
               if ( bindings['length'] > 0 ) {
                 var binding = bindings[0];
     		    if ( authorBrowse.displayProperty("description", binding) ) {
@@ -69,13 +70,11 @@ var authorBrowse = {
       		        wikiDescription = tempString.charAt(0).toUpperCase() + tempString.slice(1) + ".";
     		    }
   			    if ( bindings[0]["label"] != undefined ) {
-  			      label = bindings[0]["label"]["value"]
+  			      wikiLabel = bindings[0]["label"]["value"]
   				  // get the QID so we can use DBpedia to get a decent description
-  				  var qid = bindings[0]['entity']['value'].split("/")[4];
+  				  wikiQid = bindings[0]['entity']['value'].split("/")[4];
   				  // console.log("QID: " + qid);
                   wikiAcknowledge = "  <span class='ld-acknowledge'>* <a href='" + bindings[0]['entity']['value'] + "' target='_blank'>From Wikidata <i class='fa fa-external-link'></i></a></span>"
-  				  //Display if description allowed
-                  authorBrowse.getDbpediaDescription(qid, label);
   			    }
                 if (authorBrowse.displayProperty("image", binding)) {       
                   imageUrl = bindings[0]["image"]["value"];
@@ -83,20 +82,21 @@ var authorBrowse = {
                     hasWikiImage = true;
                     $("#agent-image").attr("src",imageUrl);
                     $("#img-container").show();
+                    $("#wiki-image").attr("href", bindings[0]['entity']['value']);
                   }
                 }
                 if ( authorBrowse.displayProperty("citizenship", binding) ) {
                   citizenship = bindings[0]["citizenship"]["value"];
                   $("dd.citizenship").text(citizenship + "*");
                   $(".citizenship").removeClass("citizenship");
-                  showWikiAcknowledge = true;
+                  hasWikiData = true;
                 }
                 if ( authorBrowse.displayProperty("education", binding) ) {
                   education = bindings[0]["education"]["value"];
                   var tmpArray = $.unique(education.split(', '));
                   $("dd.education").text(tmpArray.join(", ") + "*");
                   $(".education").removeClass("education");
-                  showWikiAcknowledge = true;
+                  hasWikiData = true;
                 }
                 if ( authorBrowse.displayProperty("pseudonyms", binding) ) {
                   if ( $('.agent-notes').length == 0 ) {
@@ -104,7 +104,7 @@ var authorBrowse = {
                     pseudonyms = bindings[0]["pseudonyms"]["value"];
                     var tmpArray = $.unique(pseudonyms.split(', '));
                     $.each(tmpArray, function(k,v) {
-  				      if ( v != label ) {
+  				      if ( v != wikiLabel ) {
                         the_html += '<li>' + v + '</li>';
   				      }
                     });
@@ -112,24 +112,22 @@ var authorBrowse = {
   				    if ( the_html.indexOf('<li>') > 0 ) {
                       $("dl#itemDetails").append(the_html + "*");
   			        }
-                    showWikiAcknowledge = true;
+                    hasWikiData = true;
                   }
                 }
-                if ( showWikiAcknowledge ) {
-                  $("div#wiki-acknowledge").append(wikiAcknowledge);
-                  if ( !hasWikiImage ) {
-                      $("#comment-container").removeClass();
-                      $("#comment-container").addClass("col-sm-12").addClass("col-md-12").addClass("col-lg-12");
-                  }
-                }
-              }
-              if ( !hasWikiImage && !showWikiAcknowledge ) {
-                  $("#bio-desc").removeClass("d-none");
-                  $('#no-wiki-ref-info').removeClass("d-none")
               }
             }
-        }
-      });
+          },
+          complete : function() {
+              if ( !hasWikiImage && !hasWikiData ) {
+                authorBrowse.displayCatalogMetadata();
+              }
+              else {
+      	      // If we have a wiki image or metadata, see if there's a dbpedia description
+                authorBrowse.getDbpediaDescription(wikiQid, wikiLabel);  
+              }
+          }
+        });
     },
     	
 	// we can use the wikidata QID to get an entity description from DBpedia
@@ -161,39 +159,44 @@ var authorBrowse = {
   				dbpLink = "  <span class='ld-acknowledge'>(<a href='" + uri + "' target='_blank'>From DBPedia <i class='fa fa-external-link'></i></a>.)</span>"
   		  	  }
 		  	  if ( bindings[0]["comment"] != undefined ) {
-		  	    comment = bindings[0]["comment"]["value"]
+		  	      comment = bindings[0]["comment"]["value"]
                   if ( !hasWikiImage ) {
                       $("#comment-container").removeClass();
                       $("#comment-container").addClass("col-sm-12").addClass("col-md-12").addClass("col-lg-12");
                   }
   				  if ( !authorBrowse.isPropertyExcluded("description") ) {
-				    $('#dbp-comment').text(comment);
+				    wikiDescription = comment;
+                    $('#dbp-comment').text(wikiDescription);
                     $('#dbp-comment').append(dbpLink);
-                    $('#dbp-comment').show();
                   }
 		  	  }
 		    }
           }
-          // clean up this logic
-          if ( showWikiAcknowledge || comment.length > 0 ) {
-              if ( comment.length > 0 ) {
-                  $("#bio-desc").addClass("d-none");
-                  $('#no-wiki-ref-info').addClass("d-none")                  
-              }
-              else if ( !subjectDataBrowse.isPropertyExcluded("description") ) {
-                $('#dbp-comment').text(wikiDescription);
-                $('#dbp-comment').show();
-              }
-              $('#info-details').removeClass("d-none");
-              $('#has-wiki-ref-info').removeClass("d-none");
-          }
         },
-        error : function() {
-            $("#bio-desc").removeClass("d-none");
-            $('#no-wiki-ref-info').removeClass("d-none")                  
-        }
-      });	
+      });
+      if ( hasWikiImage || hasWikiData ) {
+          if ( !authorBrowse.isPropertyExcluded("description") ) {
+            $('#dbp-comment').text(wikiDescription);
+            $('#dbp-comment').show();
+          }
+          if ( !hasWikiImage ) {
+              $("#comment-container").removeClass();
+              $("#comment-container").addClass("col-sm-12").addClass("col-md-12").addClass("col-lg-12");
+          }
+          $("div#wiki-acknowledge").append(wikiAcknowledge);
+          $('#info-details').removeClass("d-none");
+          $('#has-wiki-ref-info').removeClass("d-none");
+      }
+      else {
+          authorBrowse.displayCatalogMetadata();
+      }
 	},
+    
+    // when there's no wikidata or an error occurs in one of the ajax calls
+    displayCatalogMetadata: function() {
+      $("#bio-desc").removeClass("d-none");
+      $('#no-wiki-ref-info').removeClass("d-none");
+    },
 	
 	//Method for reading exclusion information i.e whether Wikdiata/DbPedia info will be allowed for this heading
 	getExclusions: function() {
