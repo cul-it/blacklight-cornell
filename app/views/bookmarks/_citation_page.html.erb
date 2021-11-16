@@ -10,19 +10,23 @@
   <%# each name xxx  must link: locale "blacklight.citation.xxx"
     #   and function "export_as_xxx_citation_txt"
     %>
-  <% name = params[:form] %>
-  <% sym_name = "export_as_#{name}_citation_txt" %>
-  <% @documents.each_with_index do |document,i| %>
-    <% citation_format = ERB::Util.html_escape(sym_name.to_sym) %>
-    <%  if document.respond_to?(citation_format) %>
-      <% begin %>
-        <% d = document.send(citation_format) %>
-        <% if i == 0  %>
-          <h2 class="lightboxLink" data-placement="right" title data-toggle="tooltip" data-original-title="<%=d[0]%>"><%= t("blacklight.citation.#{name}") %></h2>
+  <% names = %w[apa chicago cse mla mla8]  %>
+  <%  names.each do |name|  %>
+    <% if name == params[:form] %>
+      <% sym_name = "export_as_#{name}_citation_txt" %>
+      <% @documents.each_with_index do |document,i| %>
+        <% citation_format = sym_name.to_sym %>
+        <%  if document.respond_to?(citation_format) %>
+          <% begin %>
+            <% d = document.send(citation_format) %>
+            <% if i == 0  %>
+              <h2 class="lightboxLink" data-placement="right" title data-toggle="tooltip" data-original-title="<%=d[0]%>"><%= t("blacklight.citation.#{name}") %></h2>
+            <% end %>
+            <%= (d[1]).html_safe %><br/>
+          <% rescue %>
+            <%= ('').html_safe %><br/>
+          <% end %>
         <% end %>
-        <%= (d[1]).html_safe %><br/>
-      <% rescue %>
-        <%= ('').html_safe %><br/>
       <% end %>
     <% end %>
   <% end %>
