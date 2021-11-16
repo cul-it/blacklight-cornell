@@ -10,8 +10,8 @@
   <%# each name xxx  must link: locale "blacklight.citation.xxx"
     #   and function "export_as_xxx_citation_txt"
     %>
-  <% name = ERB::Util.html_escape(params[:form]) %>
-  <% sym_name = "export_as_#{name}_citation_txt" %>
+  <% name = params[:form] %>
+  <% sym_name = ERB::Util.html_escape("export_as_#{name}_citation_txt") %>
   <% @documents.each_with_index do |document,i| %>
     <%  if document.respond_to?(sym_name.to_sym) %>
       <% begin %>
