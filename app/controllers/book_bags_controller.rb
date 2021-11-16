@@ -184,9 +184,16 @@ class BookBagsController < CatalogController
   end
 
   def action_documents
-    options =   {:per_page => 1000,:rows => 1000}
     docs = @bb.index
+    per_page = docs.count
+    options =   {:per_page => per_page,:rows => per_page}
     search_service.fetch(docs, options)
+  end
+
+  # show citations on a page
+  def show_citation_page
+    @response, @documents = action_documents
+    render :partial=>"bookmarks/citation_page"
   end
 
   def citation

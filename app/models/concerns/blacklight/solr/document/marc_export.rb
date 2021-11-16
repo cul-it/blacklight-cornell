@@ -235,6 +235,7 @@ module Blacklight::Solr::Document::MarcExport
   protected
 
   def citeproc_citation(record,csl)
+    Rails.logger.level = Logger::WARN
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
     cp  = CiteProc::Processor.new style: csl, format: 'html'

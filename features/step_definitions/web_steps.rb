@@ -217,6 +217,13 @@ When("I view my citations") do
   page.find(:xpath, '//a[@id="citationLink"]').click
 end
 
+Then("I view my citations in form {string}") do |string|
+  within page.find("ul#item-tools") do
+    page.find(:css, "a#cite-menu", visible: false).click
+    page.find(:xpath, "//*[text()=\"#{string}\"]").click
+  end
+end
+
 Then("where am I") do
   puts "\n********************* where am I V\n"
   puts page.current_url.inspect
@@ -281,7 +288,7 @@ Then("the popup should include {string}") do |string|
   begin
     @popup = find_popup_window
     patiently do
-      @popup.find(:xpath, "//*[text()=\"#{string}\"]", :visible => :all).visible?
+      @popup.find(:css, "*", :visible => :all, normalize_ws: true, text: string)
     end
   rescue Exception => e
     puts "popup exception: #{e}"
