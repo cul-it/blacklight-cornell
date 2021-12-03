@@ -929,7 +929,10 @@ class AeonController < ApplicationController
   	  	      if itemHash["rmc"].nil?
   	  	      	itemHash["rmc"] = {}
   	  	      	itemHash["rmc"]["Vault location"] = "not in record"
-  	  	      end	  	  
+  	  	      end
+                      if itemHash["rmc"]["Vault location"].nil?
+                         itemHash["rmc"]["Vault location"] = ""
+                      end	  	  
   	       	  if itemHash["location"]["name"].include?('Non-Circulating')
   	  #     	  	ret = itemHash["rmc"]["Vault location"]
   	            ret = ret + " <div> <div><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
