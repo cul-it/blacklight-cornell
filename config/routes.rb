@@ -37,6 +37,7 @@ get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_logi
 get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_item_limit_bookmarks'
 get 'bookmarks/export' => 'bookmarks#export'
 get 'bookmarks/book_bags_login' => 'bookmarks#bookmarks_book_bags_login', :as => 'bookmarks_book_bags_login'
+get 'bookmarks/citation_page' => 'bookmarks#show_citation_page', :as => 'show_citation_page'
 
 resources :bookmarks do
   concerns :exportable
@@ -205,6 +206,7 @@ devise_for :users, controllers: {
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
+  get 'book_bags/citation_page' => 'book_bags#show_citation_page', :as => 'show_book_bags_citation_page'
 
   # custom error pages
   match "/404", :to => "errors#not_found", :via => :all
