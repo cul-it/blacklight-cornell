@@ -1,9 +1,16 @@
 <% if @headingsResponse.present?  %>
   <% if !request.xhr? %>
     <div class="return-link">
-      <%= link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do %>
-        <i class="fa fa-arrow-circle-left"></i>
-        Back to list
+      <% if params[:bib].present? %>
+        <%= link_to "/catalog/" + params[:bib] do %>
+          <i class="fa fa-arrow-circle-left"></i>
+          Back to item
+        <% end %>        
+      <% else %>
+        <%= link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do %>
+          <i class="fa fa-arrow-circle-left"></i>
+          Back to list
+        <% end %>
       <% end %>
     </div>
   <% end %>
