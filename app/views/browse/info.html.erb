@@ -1,6 +1,8 @@
 <% if @headingsResponse.present?  %>
   <% if !request.xhr? %>
     <div class="return-link">
+      <%# We could reach this page from either the author browse results or item view. If it's %>
+      <%# from the item view, the bib will be a parameter. Use that to set the correct navigation. %>
       <% if params[:bib].present? %>
         <%= link_to "/catalog/" + params[:bib] do %>
           <i class="fa fa-arrow-circle-left"></i>
