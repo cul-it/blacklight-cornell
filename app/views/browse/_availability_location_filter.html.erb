@@ -23,35 +23,60 @@
 	  "Veterinary Library"
 	]
 %>
-<div id="location-filter-dropdown dropdown">
-    <a href="#" class="btn btn-default btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" id="location-filter-menu" aria-haspopup="true" aria-expanded="false">Availability</a>
-    <div class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
-        <% libs.each { |lib| %>
-            <% 
-			lib_encoded = CGI::escape(lib)
-            if params[:fq] && params[:fq].include?("location")
-                checked = params[:fq] == "location:\"#{lib_encoded}\"" ? '✓ ' : ''
-	        elsif params[:fq] && params[:fq].include?("online")
-	            checked = params[:fq] == "online:\"#{lib_encoded}\"" ? '✓ ' : ''
-            else 
-                checked = lib == 'All' ? '✓ ' : ''
-			end
-			start = params.has_key?(:start) ? params[:start] : 0
-			order = params.has_key?(:order) ? params[:order] : 'forward'
-            %>
-            <% if lib == 'All' %>
-                <div class="dropdown-item">
-                    <%= link_to "#{checked}#{lib}", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
-                </div>
-            <% elsif lib == 'Online' %>
-                <div class="dropdown-item">
-                    <%= link_to "#{checked}#{lib}", :fq => "online:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
-                </div>
+<%# If we're going to the virtual browse, then we want to display a select element.%>
+<% if params[:browse_type].present? && params[:browse_type] == "virtual" %>
+  <div id="location-filter-dropdown dropdown" class="d-sm-inline-block align-top">
+    <% 
+	  start = params.has_key?(:start) ? params[:start] : 0
+	  order = params.has_key?(:order) ? params[:order] : 'forward'
+      url = "/browse?authq=#{params[:authq]}&browse_type=virtual&order=#{order}&start=#{start}"%>
+      <label for="browse_type" class="sr-only">Library select</label>
+      <select id="vb-lib-select" class="form-control w-100" onchange="location = this.value;">
+          <% libs.each do |lib| %>
+            <% lib_encoded = CGI::escape(lib) %>
+            <% if lib == "All" %>
+              <option value="<%= url %>">All libraries</option>
+            <% elsif lib == "Online" %>
+              <% selected = params[:fq].present? && params[:fq].include?(lib) ? "selected" : "" %>
+              <option value="<%= url + '&fq=online:""' + lib_encoded + '"'%>"  <%= selected %> ><%= lib %></option>
             <% else %>
-                <div class="dropdown-item">
-                    <%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
-                </div>
+              <% selected = params[:fq].present? && params[:fq].include?(lib) ? "selected" : "" %>  
+              <option value="<%= url + '&fq=location:"' + lib_encoded  + '"'%>" <%= selected %> ><%= lib %></option>
             <% end %>
-        <% } %>
-        </ul>
-</div>
+          <% end %>
+      </select>
+  </div>
+<% else %>
+  <div id="location-filter-dropdown dropdown">
+      <a href="#" class="btn btn-default btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" id="location-filter-menu" aria-haspopup="true" aria-expanded="false">Availability</a>
+      <div class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
+          <% libs.each { |lib| %>
+              <% 
+  			lib_encoded = CGI::escape(lib)
+              if params[:fq] && params[:fq].include?("location")
+                  checked = params[:fq] == "location:\"#{lib_encoded}\"" ? '✓ ' : ''
+  	        elsif params[:fq] && params[:fq].include?("online")
+  	            checked = params[:fq] == "online:\"#{lib_encoded}\"" ? '✓ ' : ''
+              else 
+                  checked = lib == 'All' ? '✓ ' : ''
+  			end
+  			start = params.has_key?(:start) ? params[:start] : 0
+  			order = params.has_key?(:order) ? params[:order] : 'forward'
+              %>
+              <% if lib == 'All' %>
+                  <div class="dropdown-item">
+                      <%= link_to "#{checked}#{lib}", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
+                  </div>
+              <% elsif lib == 'Online' %>
+                  <div class="dropdown-item">
+                      <%= link_to "#{checked}#{lib}", :fq => "online:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
+                  </div>
+              <% else %>
+                  <div class="dropdown-item">
+                      <%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
+                  </div>
+              <% end %>
+          <% } %>
+      </div>
+  </div>
+<% end %>
