@@ -9,13 +9,14 @@
 	else
 	   internal_class =  response[8]['format']
 	end
-
 %>
-<div id="view-type-dropdown">
-  <ul class="fa-ul-crap" style="list-style:none;">
+
+<div id="view-type-dropdown" class="d-sm-inline-block">
+  <%= render :partial => 'browse/availability_location_filter' %>
+  <ul class="fa-ul-dropdown d-sm-inline-block list-unstyled">
     <li class="dropdown">
-      <div class="btn-group">
-        <a id="vb-view-type" href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ccc;">
+      <div class="btn-group mb-2">
+        <a id="vb-view-type" href="#" class="btn btn-default btn-md dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false">
     	    <i class="fa fa-th" aria-hidden="true">&nbsp;&nbsp;</i>View type <b class="caret"></b>
         </a>
         <ul class="dropdown-menu" aria-labelledby="vb-view-type">
@@ -34,8 +35,7 @@
     </li>
   </ul>
 </div>
-<div class="">
-  <div></div>
+<div>
   <div id="classification" class="row class-heading-full" data-anchor-label="<%= internal_class%>" data-keep-count="false" data-next-count="0" data-prev-count="0">
     <div class="vb-scroll-nav">
 	    <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'scroll_left']);"> 
@@ -63,7 +63,7 @@
 		</div>
 	<% count = 0 %>
   	<% response.each_with_index do |doc, i| %>
-      <div class="inner-container<% if count == 8 %> inner-container-primary<%end%>" id="<%= doc['id'] %>"   data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
+      <div class="inner-container<% if count == 8 %> inner-container-primary<%end%>" id="<%= doc['id'] %>" data-location-fq="<%= @location %>" data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
 	    <div class="vb-callnum-hdr-full">
 	      <%= doc['callnumber'] %>
 		</div>
@@ -88,16 +88,22 @@
 		     <div><%= doc['pub_date'].sub("[","").sub("]","") %></div>
 		   <% end %>
 		</div>
-		<div class="vb-footer">
-		  <%# avail = JSON.parse(doc["availability"]) %>
-		  <% if doc["availability"].include?("Online")  %>
-		    <div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> <%= doc["availability"] %></div>
-		  <%# elsif doc["availability"].include?("Not") %>
-			<%# <div class="vb-availability"><i class="fa fa-clock-o" title="Online" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
-		  <%# else %>
-			<%# <div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> <%# doc["availability"] %><%#</div>%>
-		  <% end %>
-		</div>
+        <div class="vb-footer">
+          <% avail = JSON.parse(doc["availability"]) %>
+          <% if avail["availAt"].present? %>
+        	<div class="vb-availability">
+                <i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available 
+            </div>
+          <% elsif avail["online"].present? %>
+        	<div class="vb-availability">
+                <i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online
+            </div>
+          <% elsif avail["unavailAt"].present? %>
+            <div class="vb-availability">
+        	    <i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available 
+            </div>
+          <% end %>
+        </div>
 	  </div>
 	  <% count += 1 %>
 	<% end %>
