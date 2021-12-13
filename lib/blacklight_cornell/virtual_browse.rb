@@ -14,23 +14,24 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
 
   # gets the documents on either "side" of the selected one. Direction determines whether
   # to get the previous or next group of docs.
-  def get_surrounding_docs(callnumber,direction,start,rows)
+  def get_surrounding_docs(callnumber,direction,start,rows, location="")
+    @location = location.gsub('&','%26')
     base_solr_url = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
     dbclnt = HTTPClient.new
     solrResponseFull = []
     return_array = []
     if direction == "reverse"
       q =  {"q" => '[* TO "' + callnumber.gsub("\\"," ").gsub('"',' ') +'"]' }
-      url = base_solr_url + "/" + @@browse_index_callnumber + "/reverse?wt=json&" + q.to_param + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
+      url = base_solr_url + "/" + @@browse_index_callnumber + "/reverse?wt=json&" + q.to_param + '&fq=' + location.gsub(" ", "+").gsub("&", "%26") + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
     else
       q =  {"q" => '["' + callnumber.gsub("\\"," ").gsub('"',' ') +'" TO *]' }
-      url = base_solr_url + "/" + @@browse_index_callnumber + "/browse?wt=json&" + q.to_param + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
+      url = base_solr_url + "/" + @@browse_index_callnumber + "/browse?wt=json&" + q.to_param + '&fq=' + location.gsub(" ", "+").gsub("&", "%26") + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
     end
+
     solrResultString = dbclnt.get_content( url )
     if !solrResultString.nil?
       y = solrResultString
       solrResponseFull = JSON.parse(y)
-      #Rails.logger.info("*********************** solrResponseFull = " + solrResponseFull.inspect)
       solrResponseFull["response"]["docs"].each do |doc|          
         tmp_hash = get_document_details(doc)
         return_array.push(tmp_hash)
@@ -63,10 +64,8 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     tmp_hash["pub_date"] = doc["pub_date_display"].present? ? doc["pub_date_display"] : ""
     tmp_hash["publisher"] = doc["publisher_display"].present? ? doc["publisher_display"] : ""
     tmp_hash["author"] = doc["author_display"].present? ? doc["author_display"] : ""
-    # temporary change for covid availability
-    # tmp_hash["availability"] = doc["availability_json"].present? ? doc["availability_json"] : ""
-    tmp_hash["availability"] = process_availability(doc["availability_json"])
-    tmp_hash["locations"] = process_locations(doc["availability_json"])
+    tmp_hash["availability"] = doc["availability_json"].present? ? doc["availability_json"] : ""
+    tmp_hash["locations"] = doc["availability_json"].present? ? process_locations(doc["availability_json"]) : []
     tmp_hash["citation"] = doc["cite_preescaped_display"].present? ? doc["cite_preescaped_display"] : ""
     tmp_hash["callnumber"] = doc["callnum_display"].present? ? doc["callnum_display"] : ""
     # the difference between these next two: "internal_class_label" gets used in the data attribute 
@@ -144,7 +143,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   # /get_previous
   def previous_callnumber
     start = (params["start"].to_i * 8)
-    @previous_doc =  get_surrounding_docs(params["callnum"],"reverse",start,8)
+    location = ""
+    location = params["fq"] if params["fq"].present?
+    @previous_doc =  get_surrounding_docs(params["callnum"],"reverse",start,8,location)
     respond_to do |format|
       format.js
     end
@@ -153,7 +154,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   # /get_next
   def next_callnumber
     start = (params["start"].to_i * 8) + 1
-    @next_doc =  get_surrounding_docs(params["callnum"],"forward",start,8)
+    location = ""
+    location = params["fq"] if params["fq"].present?
+    @next_doc =  get_surrounding_docs(params["callnum"],"forward",start,8,location)
     respond_to do |format|
       format.js
     end

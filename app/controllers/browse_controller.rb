@@ -133,8 +133,12 @@ class BrowseController < ApplicationController
     @has_previous = check_for_previous if params["authq"].present?
     @has_next = check_for_next if params["authq"].present?
     if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "virtual"
-      previous_eight = get_surrounding_docs(params[:authq],"reverse",0,8)
-      next_eight = get_surrounding_docs(params[:authq],"forward",0,9)
+      location = "" 
+      if params[:fq].present? && params[:fq].include?("location:")
+        location = params[:fq]
+      end
+      previous_eight = get_surrounding_docs(params[:authq],"reverse",0,8,location)
+      next_eight = get_surrounding_docs(params[:authq],"forward",0,9,location)
       @headingsResponse = previous_eight.reverse() + next_eight
       params[:authq].gsub!('%20', ' ')
     end
