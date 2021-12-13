@@ -7,12 +7,12 @@ Feature: Browse info
   @browse
   Scenario: View an author authority record for a personal name
     Given I request the personal name author item view for Jauss, Hans Robert
-    Then I should see the text 'Works by:'
+    Then I should see the text 'Total Works By:'
 
   @browse
   Scenario: View a subject authority record for a geographic name
     Given I request the geographic name subject item view for China%20%7C%20History
-    Then I should see the text 'Works about:'
+    Then I should see the text 'Total Works About:'
 
   @browse
   Scenario: View an author title authority record for a work
