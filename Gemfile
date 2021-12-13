@@ -129,5 +129,6 @@ gem 'citeproc-ruby'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
 gem 'ebsco-eds'
-gem 'loofah', '~> 2.0', '>= 2.2.1'
+#gem 'loofah', '~> 2.0', '>= 2.3'
+gem 'loofah', '2.3'
 
