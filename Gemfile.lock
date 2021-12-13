@@ -396,10 +396,11 @@ GEM
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
     libv8-node (15.14.0.1)
+    libv8-node (15.14.0.1-x86_64-linux)
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.3.0)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
@@ -445,6 +446,8 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
+      racc (~> 1.4)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     nokogumbo (2.0.2)
       nokogiri (~> 1.8, >= 1.8.4)
@@ -740,7 +743,7 @@ DEPENDENCIES
   json
   kaminari (>= 0.15)
   libnotify
-  loofah (= 2.3)
+  loofah (= 2.3.1)
   marc
   meta_request
   mini_racer (= 0.4.0)
