@@ -53,7 +53,7 @@ if @notes.present? && !@notes.empty?
   more_less = false
   @notes.each do |n|
     next if n.blank?
-    if notes_html.length > 400 || n.length > 400
+    if notes_html.length > 500 || n.length > 500
       notes_html += '<span class="notes-content" style="display:none;">' + n + '<br/></span>'
       more_less = true
     else
