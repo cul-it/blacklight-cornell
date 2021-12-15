@@ -1,7 +1,7 @@
 <%# Quick and dirty pandemic hack. If an item is only at Adelson, we don't want any request buttons to display.%>
 <%# The location field is an array that can contain multiple Adelson string, so we check all of them. If any are%>
 <%# are not Adelson, then we dive into the template code. Otherwise we skip everything.%>
-<% if !@document["location"].all? { |lib| lib.include?("Adelson") } %>
+<% if !@document["location"].nil? && !@document["location"].all? { |lib| lib.include?("Adelson") } %>
   <% if group == "Circulating"  || group == "Rare" %>
   <%
     # Need a parameter to pass to requests that determines whether to add
