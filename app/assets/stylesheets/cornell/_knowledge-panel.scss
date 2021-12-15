@@ -1,0 +1,141 @@
+// Top row with author's image and name
+.popover {
+    max-width: 100%;
+	width:350px !important;
+	background-color: #edebe7;
+}
+.kp-content .kp-flexrow {
+  display: flex;
+} 
+.kp-content figure.kp-entity-image {
+  margin-right: 10px;
+}
+.kp-content figure.kp-entity-image > img {
+  max-width: 100px;
+  max-height: 100px;
+}
+.kp-content h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+.kp-content .kp-source {
+  font-size: smaller;
+  margin-top: 5px;
+}
+
+// List items and heading
+.kp-content h4 {
+  margin: 10px 0 4px 0;
+}
+.kp-content ul {
+  list-style: none;
+  padding: 0 !important;
+  margin-bottom: 0;
+}
+.kp-content li:before {
+  content: "�";
+  padding-right: 3px;
+}
+
+// Button to expand list
+.kp-content button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 15px 0 0;
+  font-size: smaller;
+  display: none;
+}
+
+// Truncate long titles with ellipsis
+.kp-content li > a {
+  vertical-align: top;
+  display: inline-block; 
+  max-width: 24em; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  margin: 0;
+}
+
+.kp-map {
+  width:200px;
+  height:200px;
+}
+
+//Originally in base.scss in ld4p2 branch
+a.data-src {
+    margin-left: 8px !important;
+}
+.data-src  img {
+	width: 16px;
+}
+
+//There don't appear to be any empty fields
+
+.kp-content div.dl {
+	float:none;
+	margin-top:0px;
+	margin-bottom:1rem;
+	float:none;
+	clear:both;
+	font-size:90%;
+}
+
+.kp-content div.dt {
+    clear: both;
+	float:left;
+	width:30% !important;
+	margin: 10px 0px 0px 0px !important;
+	text-align:left;
+	font-weight: normal;
+	color:#222;
+}
+
+.kp-content div.dd {
+    clear: right;
+	float:right;
+	width:70% !important;
+	margin: 10px 0px 0px 0px !important;
+}
+
+
+span.kp-badge {
+    font-weight: normal;
+    font-size: 14px;
+}
+
+span.subj-badge {
+    font-weight: lighter;
+}
+
+.blacklight-catalog-show .popover dl.dl-horizontal dt {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: .75em 0 .15em 0;
+    font-weight: 700;
+    color: #222;
+    font-size: 90%;
+}
+
+.blacklight-catalog-show .popover .author-works {
+    margin-left: 0;
+    display: block;
+    margin-bottom: .25em;
+}
+
+.blacklight-catalog-show .popover h2 {
+    margin: 0 0 .25em 0;
+    font-size: 20px;
+    line-height: 1.2em;
+}
+
+.field1-bg {
+	background-color: #FFFBF5;	
+}
+
+.field2-bg {
+	background-color: #F7F1E8;	
+}
+

@@ -45,4 +45,5 @@
 //= require tooltip.js
 
 //= require catalog/discogs.js
-
+//= require author_browse.js
+//= require retrieve_lcsh.js

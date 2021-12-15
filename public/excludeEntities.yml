@@ -1,0 +1,26 @@
+---
+? "Simon, David, 1957-"
+: ~
+# ? "Eliot, George, 1819-1880"
+# :
+#    - "education"
+#? "Saunders, George, 1958-"
+#: ~
+# Above are examples for preventing external data for certain authorities from being displayed
+# If you wish to not display Wikidata and DbPedia information for an authority, add the authority
+# string and leave do not include any properties after
+# e.g. 
+# ? "Authority Name"
+# : ~
+# The George Saunders example shows this scenario
+# If you want to exclude particular Wikidata or DbPedia properties from displaying in the knowledge panel
+# or the author or subject browse pages, list the authority and then use properties afeter
+# Here is an example using all possible properties
+# ? "Eliot, George, 1819-1880"
+# :
+#   - "image"
+#   - "description"
+#   - "citizenship"
+#   - "education"
+#   - "pseudonyms"
+# NOTE: The strings in this file must exactly match the heading field in the browse indices to work
