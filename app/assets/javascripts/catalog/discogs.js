@@ -11,7 +11,9 @@ if ( $('body').prop('className').indexOf("catalog-show") >= 0 ) {
           type: 'GET',
           data: remote,
           complete: function(xhr, status) {
-              // console.log("getDiscogsDetails complete");
+              // We don't have to do anything here. The get_discogs method in the discogs.rb 
+              // lib responds with a js format, and that references the get_discogs.js.erb file.
+              // Everything is handled there.
           }
         }); 
     }
