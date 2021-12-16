@@ -4,9 +4,18 @@ resource_uri = @discogs_data['uri']
 if @author_addl.present? && !@author_addl.empty?
   author_addl_html = '<dt class="blacklight-author_addl_json col-sm-3"><div class="discogs-off"">Contributors:</div></dt>' +
                      '<dd class="blacklight-author_addl_json col-sm-9 discogs-off">'
+  count = 0
+  more_less = false
   @author_addl.each do |a|
+    if count > 10 && @author_addl.length > 12
+      more_less = true
+      author_addl_html += '<span class="contributor-content" style="display:none;">' + a + '<br/></span>'
+    else
       author_addl_html += a + '<br/>'
+    end
+    count = count + 1
   end
+  author_addl_html += '<a href="#" class="more-contributors d-block">more »</a>' if more_less
   author_addl_html += '</dd>'
 end
 
@@ -20,21 +29,38 @@ if @contents.present? && !@contents.empty?
  # create the contents/track list
   contents_html = '<dt class="blacklight-contents_display col-sm-3"><div class="discogs-off"">Table of contents:</div></dt>' +
                    '<dd class="blacklight-author_addl_json col-sm-9 discogs-off"><ul>'
-  
+
+  count = 0
+  more_less = false
   @contents.each do |t|
-     contents_html += '<li>' + t + "</li>" 
+    if count > 12 && @contents.length > 15
+      more_less = true
+      contents_html += '<li class="contents-content" style="display:none;">' + t + "</li>"
+    else 
+     contents_html += '<li>' + t + "</li>"
+    end
+    count = count + 1
   end
-  contents_html += '</ul></dd>'
+  contents_html += '</ul>'
+  contents_html += '<a href="#" class="more-contents">more »</a>' if more_less
+  contents_html += '</dd>'
 end
 
 if @notes.present? && !@notes.empty?
 # create the notes section
   notes_html = '<dt class="blacklight-notes col-sm-3"><div class="discogs-off"">Notes:</div></dt>' +
                '<dd class="blacklight-notes col-sm-9 discogs-off">'
-  
+  more_less = false
   @notes.each do |n|
-     notes_html += n + '<br/>' 
+    next if n.blank?
+    if notes_html.length > 500 || n.length > 500
+      notes_html += '<span class="notes-content" style="display:none;">' + n + '<br/></span>'
+      more_less = true
+    else
+      notes_html += '<span>' + n + '<br/></span>'
+    end
   end
+  notes_html += '<a href="#" class="more-notes">more »</a>' if more_less
   notes_html += '</dd>'
 end
 
@@ -145,3 +171,27 @@ else if ( $('#discogs-image').length ) {
   var disclaimer = '<div class="img_disclaimer"> Image from <a href="' + "<%=raw escape_javascript(resource_uri) %>" + '" onclick="javascript:_paq.push([\'trackEvent\', \'itemView\', \'Discogs image\']);" target="_blank">Discogs <i class="fa fa-external-link"></i></a>.<br/></div>';
   $('#discogs-image').append(disclaimer);
 }
+
+$('.more-notes').click(function(e) {
+    e.preventDefault();
+    $(this).text(function(i, t) {
+        $('.notes-content').slideToggle();
+        return t == '« less' ? 'more »' : '« less';
+    });
+});
+
+$('.more-contents').click(function(e) {
+    e.preventDefault();
+    $(this).text(function(i, t) {
+        $('.contents-content').slideToggle();
+        return t == '« less' ? 'more »' : '« less';
+    });
+});
+
+$('.more-contributors').click(function(e) {
+    e.preventDefault();
+    $(this).text(function(i, t) {
+        $('.contributor-content').slideToggle();
+        return t == '« less' ? 'more »' : '« less';
+    });
+});
