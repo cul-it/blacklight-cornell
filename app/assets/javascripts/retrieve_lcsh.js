@@ -86,7 +86,7 @@ class retrieveLCSH {
 			if(val.indexOf("-") > -1) {
 				var classificationRange = val.split("-");
 				if(classificationRange.length == 2) {
-					return eThis.generateCallNumberBrowseLink(classificationRange[0]) + " - " + eThis.generateCallNumberBrowseLink(classificationRange[1]);
+					return eThis.generateCallNumberBrowseLink(classificationRange[0], classificationRange[1]);
 				}
 			} else {
 				return eThis.generateCallNumberBrowseLink(val);
@@ -99,9 +99,13 @@ class retrieveLCSH {
 	}
 	
 	//This may be a partial or full string
-	generateCallNumberBrowseLink(classificationString) {
+	generateCallNumberBrowseLink(classificationString, endClassificationString) {
 		var url = "/browse?authq=" + classificationString + "&start=0&browse_type=Call-Number";
-		var html = "<a href='" + url + "'>" + classificationString + "</a>";
+		var displayText = classificationString;
+		if(endClassificationString != null && endClassificationString != "") {
+			displayText += " - " + endClassificationString;
+		}
+		var html = "<a href='" + url + "'>" + displayText + "</a>";
 		return html;
 	}
 }
