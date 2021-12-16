@@ -1,4 +1,4 @@
- <% encoded_heading = (@headingsResponse[0]["heading"]).gsub('&', '%26').gsub("\"", "'") %>
+<% encoded_heading = (@headingsResponse[0]["heading"]).gsub('&', '%26').gsub("\"", "'") %>
 <input id="auth_loc_localname" type="hidden" value="<%=@loc_localname.gsub('"','')%>"/>
 <% bio_data = @headingsResponse[0]["rda_json"].present? ? JSON.parse(@headingsResponse[0]["rda_json"]) : {} %>
 <% permissions_key = @headingsResponse[0]["heading"].delete_prefix('"').delete_suffix('"')
@@ -63,7 +63,7 @@
 	                <ul class="agent-notes">
 			        <% the_notes.each do |n| %>
 			          <% if n.class.inspect == "Hash"%>
-			            <li><a href="/browse?authq=#{n['header']}&start=0&browse_type=Author"><%= n['header']%></a></li>
+			            <li><a href="/browse?authq=<%=n['header']%>&start=0&browse_type=Author"><%= n['header']%></a></li>
 			          <% end %>
 			        <% end %>
 			        </ul>
@@ -75,7 +75,7 @@
                   <% if pseudonym.present? %>
 	    		    <dt class="col-sm-4">Pseudonym for:</dt>
 	    		    <dd class="col-sm-8">
-	                  <a href="/browse?authq=#{pseudonym}&start=0&browse_type=Author"><%=pseudonym%></a>
+	                  <a href="/browse?authq=<%=pseudonym%>&start=0&browse_type=Author"><%=pseudonym%></a>
 		            </dd>
                   <% end %>
 	    	    <% end %>
