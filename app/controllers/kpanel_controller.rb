@@ -18,7 +18,7 @@ class KpanelController < ApplicationController
   def get_browse_info(authq, auth_type)
   	result = nil
     if(auth_type != "" && authq != "")
-      p =  {"q" => authq.gsub("\\"," ")}
+      p =  {"q" => authq.gsub("\\"," ").gsub("%26", "&")}
       base_url = (auth_type == "author") ? @@browse_author: @@browse_subject
       query_url = base_url + "/browse?wt=json&" + p.to_param
       url = URI.parse(query_url)
