@@ -281,7 +281,7 @@ end
  def get_author_loc_url
    @has_wiki_data = params[:hasWD].nil? ? false : true
    heading = @headingsResponse[0]["heading"].gsub(/\.$/, '')
-   search_url = "https://id.loc.gov/authorities/names/suggest?q=" + heading + "&rdftype=PersonalName&count=1"
+   search_url = "https://id.loc.gov/authorities/names/suggest?q=" + heading + "&rdftype=" + params[:headingtype].gsub(" ", "") + "&count=1"
    url = URI.parse(URI.escape(search_url))
    resp = Net::HTTP.get_response(url)
    data = resp.body

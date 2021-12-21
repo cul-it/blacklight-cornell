@@ -18,13 +18,12 @@ class kPanel {
   		event.preventDefault();
   		var e=$(this);
   		//e.off('click');
-		var auth = e.attr("data-auth");
+		var auth = e.attr("data-auth").replace("&", "%26");
 		var fullRecordLink = e.data("poload");	  
 		//only for authors
 		var authType = "author";
 		var catalogAuthURL = "/panel?type=" + authType + "&authq=\"" + auth + "\"";   
-		
-	    $.get(catalogAuthURL,function(d) {
+	    $.get((catalogAuthURL),function(d) {
 	    	var displayHTML= $(d).find("div#kpanelContent").html();
 	    	//Change trigger to focus for prod- click for debugging
 	       e.popover({content: displayHTML, html:true, trigger:'focus'}).popover('show');
@@ -81,6 +80,11 @@ class kPanel {
           var locURI = urisArray[0]; 
           eThis.queryWikidata(locURI);
         }
+        else {
+            // Probably shouldn't be here, but we are. So vcall the function that hides the
+            // time indicator and displays the panel contents.
+            eThis.processWikidataInfo(data);
+        }
       },
       error: function(xhr, status, error) {
       	//If LOC error occurs, then no additional requests are made to retrieve information
@@ -104,6 +108,7 @@ class kPanel {
   
   //given an LOC URI, query if equivalent wikidata entity exists and get image and/or description
 	queryWikidata(locURI) {
+        
 		var wikidataEndpoint = "https://query.wikidata.org/sparql?";
 		var localname = this.getLocalName(locURI);
 		var sparqlQuery = this.getWikidataQuery(locURI, localname);
@@ -184,7 +189,6 @@ class kPanel {
          	var description = wikidataParsedData["description"];
             $("#wikidataDescription").html(description);
          }
-
          $('#time-indicator').hide();         
          $('#popoverContent').removeClass("d-none");
 	 }
