@@ -274,10 +274,11 @@ var  carouselActions = {
           dataType: "jsonp",
           jsonp: "json.wrf",
           complete: function(xhr, status) {
-            // commenting this out for now (7/14/21). may not need this if block
-            // if ( prevCount < 2 && keepCount == "true" ) {
-            //   carouselActions.et_scroll_home();
-            // }
+            // The first get_previous call on page load can cause the primary work to be off-center.
+            // This re-centers it in the VSB.
+             if ( prevCount < 2 && keepCount == "true" ) {
+               carouselActions.et_scroll_home();
+             }
             setTimeout(function(){ $('#vb-time-indicator').hide(); }, 3000);
             //carouselActions.setup_click_for_preview();
           }
