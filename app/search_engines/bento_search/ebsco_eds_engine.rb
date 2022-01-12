@@ -30,9 +30,6 @@ class BentoSearch::EbscoEdsEngine
             :profile => ENV['EDS_PROFILE']
         })
 
-        # session.add_limiter('FT1', 'y') # Available in Library Collection
-        # session.add_limiter('FT', 'y')  # full text
-
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
