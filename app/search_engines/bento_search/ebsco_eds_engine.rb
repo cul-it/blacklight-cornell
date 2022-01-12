@@ -134,6 +134,16 @@ end
                         end
                     end
                     next unless found_get_it
+
+                    found_already = false
+                    results.each do | check |
+                        if check.unique_id == rec.id
+                            found_already = true
+                            break
+                        end
+                    end
+                    next if found_already
+
                     found += 1
                     throw :enough_hits if found > required_hit_count
 
