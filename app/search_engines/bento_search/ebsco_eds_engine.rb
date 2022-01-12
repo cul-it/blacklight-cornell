@@ -126,6 +126,14 @@ end
                     links = rec.eds_fulltext_links()
                     next unless links.present?
 
+                    found_get_it = false
+                    links.each do | link |
+                        if link[:label].include? "Get it! Cornell"
+                            found_get_it = true
+                            break
+                        end
+                    end
+                    next unless found_get_it
                     found += 1
                     throw :enough_hits if found > required_hit_count
 
