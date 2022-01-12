@@ -22,9 +22,9 @@
             <% if i == 0  %>
               <h2 class="lightboxLink" data-placement="right" title data-toggle="tooltip" data-original-title="<%=d[0]%>"><%= t("blacklight.citation.#{name}") %></h2>
             <% end %>
-            <%= (d[1]).html_safe %><br/>
+            <p><%= (d[1]).html_safe %></p>
           <% rescue %>
-            <%= ('').html_safe %><br/>
+            <p><%= ('').html_safe %></p>
           <% end %>
         <% end %>
       <% end %>
