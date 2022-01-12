@@ -62,6 +62,7 @@ Rails.logger.level = save_level
 
         response = session.search(sq)
         total_hits = response.stat_total_hits
+        total_tested_hits = [response.stat_total_hits.to_i, 100].min
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 jgr25_context = "#{__FILE__}:#{__LINE__}"
@@ -80,7 +81,7 @@ Rails.logger.level = save_level
         catch :enough_hits do
             found = 0
             page = 0
-            max_page = (total_hits / per_page).ceil
+            max_page = (total_tested_hits / per_page).ceil
             for page in 0..max_page
 
                 sq = {
