@@ -177,15 +177,37 @@ Rails.logger.level = save_level
                     end
                     item.link = rec.eds_plink()
 
+                    good_types = ['customlink-fulltext', 'cataloglink', 'ebook-pdf', 'ebook-epub', 'pdf']
                     links.each do | link |
 
-                        if link[:label].include? "Get it! Cornell" # DISCOVERYACCESS-6637
+                        unless good_types.index(link[:type]).nil?
+                            url = URI.extract(link[:url], ['http', 'https']).first
+                            label = link[:label]
+                            if link[:url].include? "Series:"
+                                label = "Series " + label
+                            end
                             item.other_links << BentoSearch::Link.new(
-                                :url => link[:url],
+                                :url => url,
                                 :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                                :label => link[:label]
-                                )
+                                :label => label
+                            )
                         end
+
+
+                        # if link[:label].include? "Get it! Cornell" # DISCOVERYACCESS-6637
+                        #         item.other_links << BentoSearch::Link.new(
+                        #         :url => link[:url],
+                        #         :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                        #         :label => link[:label]
+                        #         )
+                        # elsif link[:label].include? "URL" # DISCOVERYACCESS-6637
+                        #     url = URI.extract(link[:url]).first
+                        #     item.other_links << BentoSearch::Link.new(
+                        #         :url => url,
+                        #         :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
+                        #         :label => link[:label]
+                        #         )
+                        # end
                     end
 
                     item.format_str = rec.eds_publication_type()
