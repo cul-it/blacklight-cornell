@@ -36,18 +36,6 @@ class BentoSearch::EbscoEdsEngine
         q = args[:oq].present? ? args[:oq] : args[:query].present? ? args[:query] : nil
         if q.nil?
             results.total_items = 0
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "no query: " + args.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
             return results
         end
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
@@ -63,18 +51,6 @@ Rails.logger.level = save_level
         response = session.search(sq)
         total_hits = response.stat_total_hits
         total_tested_hits = [response.stat_total_hits.to_i, 100].min
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "total_hits: " + total_hits.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
 
         results.total_items = total_hits.to_i
 
@@ -92,56 +68,13 @@ Rails.logger.level = save_level
                  }
 
                 response = session.search(sq, add_actions: true )
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "response.applied_limiters(): " + response.applied_limiters().inspect
-msg << "page: " + page.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
 
                 response.records.each do |rec|
-if rec.present?
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "full text pdf: " + rec.eds_pdf_fulltext_available().inspect
-msg << "full text html: " + rec.eds_html_fulltext_available().inspect
-msg << "full text links: " + rec.eds_fulltext_links().inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
-end
                     links = rec.eds_fulltext_links()
                     next unless links.present?
 
                     found_get_it = false
                     links.each do | link |
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "link[:label]: " + link[:label].inspect
-msg << "link[:type]: " + link[:type].inspect
-msg << "link[:url]: " + link[:url].inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
                         if link[:label].include? "Get it! Cornell"
                             found_get_it = true
                             break
