@@ -73,6 +73,7 @@ class BentoSearch::EbscoEdsEngine
                     links = rec.eds_fulltext_links()
                     next unless links.present?
 
+                    # inaccessible items creap in unless we require a 'Get it! Cornell' link
                     found_get_it = false
                     links.each do | link |
                         if link[:label].include? "Get it! Cornell"
@@ -82,6 +83,7 @@ class BentoSearch::EbscoEdsEngine
                     end
                     next unless found_get_it
 
+                    # duplicates creep in unless
                     found_already = false
                     results.each do | check |
                         if check.unique_id == rec.id
@@ -110,6 +112,7 @@ class BentoSearch::EbscoEdsEngine
                     end
                     item.link = rec.eds_plink()
 
+                    # Get It! Cornell links are all customlink-fulltext, but these other types also exist
                     good_types = ['customlink-fulltext', 'cataloglink', 'ebook-pdf', 'ebook-epub', 'pdf']
                     links.each do | link |
 
