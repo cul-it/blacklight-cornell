@@ -288,7 +288,7 @@ Then("the popup should include {string}") do |string|
   begin
     @popup = find_popup_window
     patiently do
-      @popup.find(:css, "*", :visible => :all, normalize_ws: true, text: string)
+      @popup.find(:css, "p", :visible => :all, normalize_ws: true, text: string)
     end
   rescue Exception => e
     puts "popup exception: #{e}"

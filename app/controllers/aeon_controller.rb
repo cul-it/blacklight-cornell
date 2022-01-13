@@ -247,33 +247,66 @@ class AeonController < ApplicationController
     end 
 	prelim = '
 	<!DOCTYPE html>
-	<html lang="en">
+	<html lang="en-US">
 	<head>
 	<title>Request for ' + title + '</title>
 	<script>var itemdata = {};</script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
-	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
-	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
-	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/request.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
-	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
+    <meta data-name="aeon_wpv" data-bn="v5.1.14" data-bid="17648" data-cid="5169011a1c864ea61424ec386d248ba1398a6730" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"	
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="rmc-aeon.library.cornell.edu/aeon/css/cookieconsent.min.css" />
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/atlasUtility.js"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js" integrity="sha256-VrmtNHAdGzjNsUNtWYG55xxE9xDTz4gF63x/prKXKH0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.min.js" integrity="sha256-VX6SyoDzanqBxHY3YQyaYB/R7t5TpgjF4ZvotrViKAY=" crossorigin="anonymous"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/webAlerts.js"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/cookieconsent.min.js" data-cfasync="false"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/atlasCookieConsent.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/request.js"></script>
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon511/css/aeon.css" >
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon511/css/custom.css" >
+<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/rmc_scripts.js"></script>
 	</head>
 	<body>
-	<script type="text/javascript">
-	<!--
-	showheader("find")
-	//-->
-	</script>
+    <header class="head">
+  <div>
+    <a href="#content" accesskey="S" onclick="$(\'#content\').focus();" class="offscreen">Skip to Main Content</a>
+  </div>
+  <div class="container">
+    <div class="cornell-logo d-none d-sm-block">
+      <a href="http://www.cornell.edu" class="insignia">Cornell University</a>
+      <div class="library-brand">
+        <a href="https://library.cornell.edu">Library</a>
+      </div>
+    </div>
+    <div class="d-block d-sm-none">
+      <a class="mobile-cornell-logo" href="https://www.cornell.edu">Cornell University</a>
+      <a class="library-brand-mobile" href="https://library.cornell.edu">Library</a>
+    </div>
+    <h1>Division of Rare and Manuscript Collections</h1>
+  </div>
+</header>
 
-
-	<div id="main-content">
+	<div id="main-content" class="container-fluid">
 	<form id="EADRequest" name="EADRequest"
 	action="' + loginurl + '"
               method="GET" class="form-horizontal">
-	<b>' + title + '</b>' + fa +
-	'<b> ' + re506 + '</b>' +
+	<h4>' + title + '</h4>' + fa +
+	'<strong> ' + re506 + '</strong>' +
 	cart + '
 	<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="' + bibid + '"/>
 	<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
@@ -306,23 +339,58 @@ class AeonController < ApplicationController
 	<html lang="en">
 	<head>
 	<title>Scanning Request for ' + title + '</title>
+	
 	<script>var itemdata = {};</script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
-	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/bootstrap.min.css">
-	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/date.js"></script>
-	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/repro_request.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/repro.css" >
-	<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon/js/rmc_scripts.js"></script>
+    <meta data-name="aeon_wpv" data-bn="v5.1.14" data-bid="17648" data-cid="5169011a1c864ea61424ec386d248ba1398a6730" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"	
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="rmc-aeon.library.cornell.edu/aeon/css/cookieconsent.min.css" />
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/atlasUtility.js"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js" integrity="sha256-VrmtNHAdGzjNsUNtWYG55xxE9xDTz4gF63x/prKXKH0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.min.js" integrity="sha256-VX6SyoDzanqBxHY3YQyaYB/R7t5TpgjF4ZvotrViKAY=" crossorigin="anonymous"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/webAlerts.js"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/cookieconsent.min.js" data-cfasync="false"></script>
+<script src="https://rmc-aeon.library.cornell.edu/aeon/js/atlasCookieConsent.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/request.js"></script>
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon511/css/aeon.css" >
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon511/css/custom.css" >
+<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/rmc_scripts.js"></script>
 	</head>
 	<body>
-	<script type="text/javascript">
-	<!--
-	showheader("find")
-	//-->
-	</script>
 
+    <header class="head">
+  <div>
+    <a href="#content" accesskey="S" onclick="$(\'#content\').focus();" class="offscreen">Skip to Main Content</a>
+  </div>
+  <div class="container">
+    <div class="cornell-logo d-none d-sm-block">
+      <a href="http://www.cornell.edu" class="insignia">Cornell University</a>
+      <div class="library-brand">
+        <a href="https://library.cornell.edu">Library</a>
+      </div>
+    </div>
+    <div class="d-block d-sm-none">
+      <a class="mobile-cornell-logo" href="https://www.cornell.edu">Cornell University</a>
+      <a class="library-brand-mobile" href="https://library.cornell.edu">Library</a>
+    </div>
+    <h1>Division of Rare and Manuscript Collections</h1>
+  </div>
+</header>
     <h1>RMC Scanning Request</h1>
     
     <div>' + disclaimer + '</div> 
@@ -330,8 +398,8 @@ class AeonController < ApplicationController
 	<form id="RequestForm" 
 	action="' + loginurl + '"
               method="GET" class="form-horizontal">
-	<h2>' + title + '</h2>' + fa +
-	'<b> ' + re506 + '</b>' +
+	<h4>' + title + '</h4>' + fa +
+	'<strong> ' + re506 + '</strong>' +
 	cart + '
 	<input type="hidden" name="AeonForm" value="PhotoduplicationRequest">
 	<input type="hidden" name="SkipOrderEstimate" value="Yes">
@@ -366,8 +434,8 @@ class AeonController < ApplicationController
   end
  
   def loginurl
-	return "https://newcatalog-login.library.cornell.edu/aeon/aeon-login.php"  	
-#   	return "http://dev-jac244.library.cornell.edu/aeon/aeon-login.php" 
+	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php"  	
+#   	return "http://dev-jac2445.library.cornell.edu/aeon511/aeon-login.php" 
   #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
  
@@ -464,24 +532,10 @@ class AeonController < ApplicationController
         </div>
 </div> <!-- id=noshow -->
         <div class="control-group">
-           <label class="control-label"><b>Schedule or Save</b></label>
-           <p>You may schedule a date to visit or save your request to review and schedule a visit later.</>
+           <label class="control-label"><strong>Schedule or Save</strong></label>
+           <p>You may schedule an appointment to visit on the next screen after authentication, or save your request to review and schedule an appointment later.</>
         </div>
-        <div class="control-group">
-          <input id="UserReview" name="UserReview" type="radio" value="Yes">
-          <label class="control-label">Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.</label>
-          <br/>
-          <input id="UserDate" name="UserDate" type="radio" value="Yes">
-          <label class="control-label">' + @schedule_text + '</label>
-        </div>
-        <div class="control-group">
-        <input id="ScheduledDate" name="ScheduledDate" type="text" value="Select date">
-        <label class="control-label">
-        <span id="ScheduledText"></span></label>
-        <div class="controls">
-        </div>
-        </div>
-
+ 
         <!-- <div class="control-group">
         <label class="control-label">
         <span id="ReviewText">' + @review_text + '</span></label>
@@ -670,9 +724,9 @@ class AeonController < ApplicationController
    	dub = '
         <div class="control-group">
         <label class="control-label">
-        <input type="submit" class="btn" id="SubmitButton" name="SubmitButton" value="Submit Request">
+        <input type="submit" class="btn btn-dark" id="SubmitButton" name="SubmitButton" value="Submit Request">
         </label>
-        <input type="button" class="btn" id="clear"  name="clear" value="Clear Form">
+        <input type="button" class="btn btn-secondary" id="clear"  name="clear" value="Clear Form">
         <br/>' + @quest_text + '<br/>
         </div>
       '
