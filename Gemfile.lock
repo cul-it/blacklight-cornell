@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 2ebccb862be64da688343347038c97a5d3679522
+  revision: 9e8cbe7cfdbded59e88ba4296484702fe5e092ed
   branch: folio
   specs:
-    blacklight_cornell_requests (4.1.1)
+    blacklight_cornell_requests (4.2.0)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -379,24 +379,25 @@ GEM
       railties (>= 3.2.16)
     json (2.3.0)
     jwt (1.5.6)
-    kaminari (1.2.1)
+    kaminari (1.2.2)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.1)
-      kaminari-activerecord (= 1.2.1)
-      kaminari-core (= 1.2.1)
-    kaminari-actionview (1.2.1)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
       actionview
-      kaminari-core (= 1.2.1)
-    kaminari-activerecord (1.2.1)
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
       activerecord
-      kaminari-core (= 1.2.1)
-    kaminari-core (1.2.1)
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     language_list (1.2.1)
     latex-decode (0.3.1)
     libnotify (0.9.4)
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
     libv8-node (15.14.0.1)
+    libv8-node (15.14.0.1-x86_64-linux)
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -420,7 +421,6 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.1115)
     mini_mime (1.1.2)
-    mini_portile2 (2.6.1)
     mini_racer (0.4.0)
       libv8-node (~> 15.14.0.0)
     minitest (5.15.0)
@@ -444,8 +444,7 @@ GEM
       net-ssh (>= 4.0.0)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.12.5)
-      mini_portile2 (~> 2.6.1)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     nokogumbo (2.0.2)
       nokogiri (~> 1.8, >= 1.8.4)
@@ -577,7 +576,7 @@ GEM
     rspec-support (3.9.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    ruby-oci8 (2.2.9)
+    ruby-oci8 (2.2.10)
     ruby-plsql (0.8.0)
     ruby-saml (1.13.0)
       nokogiri (>= 1.10.5)
@@ -638,7 +637,7 @@ GEM
     temple (0.8.2)
     textpow (1.4.0)
       plist (>= 3.0.1)
-    thor (1.1.0)
+    thor (1.2.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
     timers (4.3.0)
@@ -660,6 +659,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8)
+    unicode (0.4.4.4)
     unicode_utils (1.4.0)
     utf8-cleaner (0.2.5)
       activesupport
