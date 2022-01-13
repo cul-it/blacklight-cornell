@@ -51,7 +51,7 @@ Rails.logger.level = save_level
             return results
         end
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
-        per_page = 3;
+        per_page = 3
 
         sq = {
             query: q,
