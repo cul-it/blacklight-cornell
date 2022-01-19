@@ -79,10 +79,9 @@
       <% if pda != 'yes' %>
         <%= i["call"] %>
         <span class="text-it">
-        <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', "aria-label" => i["location"]["name"] + " " + i["call"], :data => {:toggle => 'tooltip', :placement => 'right', blacklight_modal: "trigger"}, :title =>
+        <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', "aria-label" => "Text " + i["location"]["name"] + " " + i["call"], :data => {:toggle => 'tooltip', :placement => 'right', blacklight_modal: "trigger"}, :title =>
             'Text call number'} do %>
-          <i class="fa fa-mobile" aria-hidden="true"></i>
-            <%= t('blacklight.tools.sms') %>
+          <i class="fa fa-mobile" aria-hidden="true"></i><%= t('blacklight.tools.sms') %>
         <% end %>
       <% end %>
     </div>
