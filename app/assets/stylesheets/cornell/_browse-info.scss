@@ -28,7 +28,15 @@ ul.nav-tabs li {
 }
 .ld-acknowledge {
     font-size: 14px;
+    i {
+        margin-left: .25rem;
+    }
 }
 #item-details > dt {
     font-weight: normal !important;
+}
+#lcnaf-link {
+    i {
+        margin-left: .25rem;
+    }
 }

@@ -74,7 +74,7 @@ var authorBrowse = {
   				  // get the QID so we can use DBpedia to get a decent description
   				  wikiQid = bindings[0]['entity']['value'].split("/")[4];
   				  // console.log("QID: " + qid);
-                  wikiAcknowledge = "  <span class='ld-acknowledge'>* <a href='" + bindings[0]['entity']['value'] + "' target='_blank'>From Wikidata <i class='fa fa-external-link'></i></a></span>"
+                  wikiAcknowledge = "  <span class='ld-acknowledge'>* <a href='" + bindings[0]['entity']['value'] + "'>From Wikidata<i class='fa fa-external-link' aria-hidden='true'></i></a></span>"
   			    }
                 if (authorBrowse.displayProperty("image", binding)) {       
                   imageUrl = bindings[0]["image"]["value"];
@@ -156,7 +156,7 @@ var authorBrowse = {
             if ( bindings['length'] > 0 ) {
   		  	  if ( bindings[0]["uri"] != undefined ) {
   		  	    uri = bindings[0]["uri"]["value"]
-  				dbpLink = "  <span class='ld-acknowledge'>(<a href='" + uri + "' target='_blank'>From DBPedia <i class='fa fa-external-link'></i></a>.)</span>"
+  				dbpLink = "  <span class='ld-acknowledge'>(<a href='" + uri + "'>From DBPedia<i class='fa fa-external-link' aria-hidden='true'></i></a>.)</span>"
   		  	  }
 		  	  if ( bindings[0]["comment"] != undefined ) {
 		  	      comment = bindings[0]["comment"]["value"]
