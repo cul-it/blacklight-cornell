@@ -97,13 +97,13 @@ def build_heading_type(heading_type)
 
  def build_lcnaf_link(localname)
    html = '<div id="lcnaf-link" class="mt-2 mb-4"><span><a href="https://id.loc.gov/authorities/names/' + localname
-   html += '.html" target="_blank">Library of Congress Name Authority File (LCNAF) <i class="fa fa-external-link"></i></a></span></div>'
+   html += '.html">Library of Congress Name Authority File (LCNAF)<i class="fa fa-external-link" aria-hidden="true"></i></a></span></div>'
    return html.html_safe
  end
 
  def build_lcsh_link(localname)
    html = '<div id="lcnaf-link" class="mt-2 mb-4"><span><a href="https://id.loc.gov/authorities/subjects/' + localname
-   html += '.html" target="_blank">Library of Congress Subject Headings (LCSH) <i class="fa fa-external-link"></i></a></span></div>'
+   html += '.html">Library of Congress Subject Headings (LCSH)<i class="fa fa-external-link" aria-hidden="true"></i></a></span></div>'
    return html.html_safe
  end
 
