@@ -132,7 +132,7 @@ var subjectDataBrowse = {
             if ( bindings['length'] > 0 ) {
     		  	  if ( bindings[0]["uri"] != undefined ) {
     		  	    uri = bindings[0]["uri"]["value"]
-    				dbpLink = "  <span class='ld-acknowledge'>(<a href='" + uri + "' target='_blank'>From DBPedia <i class='fa fa-external-link'></i></a>.)</span>"
+    				dbpLink = "  <span class='ld-acknowledge'>(<a href='" + uri + "'>From DBPedia<i class='fa fa-external-link' aria-hidden='true'></i></a>.)</span>"
     		  	  }
   	  	      if ( bindings[0]["comment"] != undefined ) {
   	  	        comment = bindings[0]["comment"]["value"]
