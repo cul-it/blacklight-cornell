@@ -112,24 +112,6 @@ class BentoSearch::EbscoEdsEngine
                     end
                     item.link = rec.eds_plink()
 
-                    # Get It! Cornell links are all customlink-fulltext, but these other types also exist
-                    # good_types = ['customlink-fulltext', 'cataloglink', 'ebook-pdf', 'ebook-epub', 'pdf']
-                    # links.each do | link |
-
-                    #     unless good_types.index(link[:type]).nil?
-                    #         url = URI.extract(link[:url], ['http', 'https']).first
-                    #         label = link[:label]
-                    #         if link[:url].include? "Series:"
-                    #             label = "Series " + label
-                    #         end
-                    #         item.other_links << BentoSearch::Link.new(
-                    #             :url => url,
-                    #             :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                    #             :label => label
-                    #         )
-                    #     end
-                    # end
-
                     item.format_str = rec.eds_publication_type()
                     item.doi = rec.eds_document_doi()
                     if rec.eds_page_start().present?
