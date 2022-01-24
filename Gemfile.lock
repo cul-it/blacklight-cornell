@@ -47,8 +47,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 93b26d448a4dd90a084671f4a6333f6fb0c45baa
-  branch: folio
+  revision: 58e18e208779c4078e3cfdd7786b5013eb29ce70
+  branch: master
   specs:
     my_account (2.1.1)
       blacklight (>= 7.0)
