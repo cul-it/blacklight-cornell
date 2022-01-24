@@ -179,7 +179,7 @@ class kPanel {
          		image += "?width=" + this.imageSize;
 	         	//Check filename to ensure that w are
 	         	var html = "<figure class='kp-entity-image float-left'><img src='" + image + "'><br>"
-                html += "<span class='kp-source'>Image: <a href='" + uri + "' target='_blank'>Wikidata</a></span></figure>";
+                html += "<span class='kp-source'>Image: <a href='" + uri + "'>Wikidata</a></span></figure>";
 	            $("#imageContent").html(html);
             }         	
          }
