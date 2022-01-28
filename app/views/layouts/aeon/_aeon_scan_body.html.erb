@@ -1,0 +1,160 @@
+        <script> var bibdata = {"items": [{"author":null,"title":null,"pub_place":null,"publisher":null,"publisher_date":null,"edition":null,"bib_format":null,"permlocation":null,"permlocationcode":null,"holdings":[]}]}; </script>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="Restrictions" name="Restrictions" value="<%= @re506 %>"/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="ItemInfo3" name="ItemInfo3" value="<%= @re506 %>"/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><input type="hidden" id="ItemInfo5" name="ItemInfo5" value=""/>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls"><div id="Warningdis" name="Warningdis"><%= @warning %></div>
+        <div><input type="hidden" id="AeonForm" name="AeonForm" value="<%= @type %>"/></div>
+        <label for="Format">
+        <span class="field">
+        <span class="req">*</span>
+        <span class="valid">
+        <span class="bold">Format</span>
+        </span>
+        </span>
+        <select id="Format" name="Format" size="1" class="f-name" tabindex="0">
+        <option>a. PDF: $1</option>
+        <option>b. TIFF 600 dpi: $35</option>
+        <option>c. TIFF 600 dpi > 12x17: $45</option>
+        <option>d. MP3 of audio: $75</option>
+        <option>e. MP4 of video: $75</option>
+        <option>f. MP4 of film: $200</option>
+        <option>g. PDF of microfilm: $50</option>
+        <option>h. PDF of thesis: $50</option>
+        <option>i. Existing digital file: $10</option>
+        </select>
+        </label>
+        <label for="ServiceLevel">
+        <span class="field">
+        <span class="req">*</span>
+        <span class="valid">
+        <span class="bold">Service Level</span>
+        </span>
+        </span>
+        <select id="ServiceLevel" name="ServiceLevel" size="1" class="f-name" tabindex="0">
+        <option>"a. Normal: $15"</option>
+        <option>("b. Rush < 3 weeks: $40")</option>
+        </select>
+        </label>
+        <label for="ShippingOption">
+        <span class="field"> <span class="req">*</span>  
+        <span class="valid"><span class="bold">Delivery Method</span></span> </span>
+	    <select id="ShippingOption" name="ShippingOption" size="1" class="f-name" tabindex="0">
+		<option>a. Digital file download: $0"<option>
+		</select>
+		</label>
+		<br />
+		<label for="Special Request"> 
+  		  <span class="field"> 
+    		<span class="valid">
+      			<span class="bold">Date Needed/Special Requests/Questions?
+      			Please enter any deadlines, special requests or questions for library staff. 
+     			</span>
+  			</span>
+		<br/>
+  		<textarea area id="SpecialRequest"  rows="2" cols="40" class="f-name" tabindex="0"></textarea>
+		</label>        
+		<br />
+		<label for="Notes">
+  			<span class="field">
+    			<span class="valid"><span class="bold">Reference Notes</span></span><br />
+  				<span class="note">You can use this field to add any notes about this item or request that may be helpful for your own personal reference later.</span>
+  			</span>
+  		<br/>
+  		<textarea id="Notes" name="Notes" maxlength ="255" rows="2" cols="40" class="f-name" tabindex="0"></textarea><br />
+		</label>
+		<label for="ItemCitation">
+  			<span class="field">
+    			<span class="valid"><span class="bold">Online Image Citation</span>
+    		</span>
+    	<br /> 
+  		<span class="note">If you have seen the image you are requesting online, type the URL here. You may also enter an image ID # if known. </span>
+  		</span>
+  		<br/>
+  		<textarea id="ItemCitation" name="ItemCitation" maxlength ="255" rows="2" cols="40" class="f-name" tabindex="0"></textarea><br />
+		</label>
+		<label for="PageCount">
+  		<span class="field">
+    	<span class="valid"><span class="bold">Page Count, if Known</span></span><br />
+  		</span>
+  		<br/>
+  		<textarea id="PageCount" name="PageCount" maxlength ="255" rows="2" cols="40" class="f-name" tabindex="0"></textarea><br />
+		</label>    			
+    			    			       
+        <div class="row-fluid">
+<div id="noshow">
+        <div class="control-group">
+        <label class="control-label" for="ItemTitle" >Title</label>
+        <div class="controls"><textarea id="ItemTitle" name="ItemTitle">'<%= @title %>'</textarea>
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">CallNumber</label>
+        <div class="controls">
+        <input type="text" id="CallNumber" name="CallNumber" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Box or item number(s)</label>
+        <div class="controls">
+        <input type="text" id="ItemVolume" name="ItemVolume" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Author</label>
+        <div class="controls">
+        <input type="text" name="ItemAuthor" value="<%= @author %>'">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Place of Publication</label>
+        <div class="controls">
+        <input type="text" id="ItemPlace" name="ItemPlace" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Publisher</label>
+        <div class="controls">
+        <input type="text" id="ItemPublisher" name="ItemPublisher" value=""/>
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Date</label>
+        <div class="controls">
+        <input type="text" id="ItemDate" name="ItemDate" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Edition</label>
+        <div class="controls">Refer
+        <input type="text" id="ItemEdition" name="ItemEdition" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Location</label>
+        <div class="controls">
+        <input type="text" id="Location" name="Location" value="">
+        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">Copy</label>
+        <div class="controls">
+        <input type="text" id="ItemIssue" name="ItemIssue" value="">
+        </div>
+        </div>
+</div> <!-- id=noshow -->
+
+        <!-- <div class="control-group">
+        <label class="control-label">
+        <span id="ReviewText">'<%= @review_text %>'</span></label>
+        </div> -->
+        </div>
