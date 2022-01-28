@@ -21,6 +21,7 @@
 
 <% items.each do |i| %>
 <div class="holding">
+  <%#= i.inspect %>
   <% if group == "Rare" %>
     <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
   <% end %>
@@ -49,6 +50,9 @@
     <% if pda == 'yes' %>
       <div class="location">
         <%= i["call"] %>
+        </br>
+        <% pda_array = @document['url_pda_display'][0].split('|') %>
+        <a href='<%= pda_array[0] %>'><%= pda_array[1] %></a>
       </div>
     <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' and !@document['url_pda_display'].present? %>
       <div class="location">
