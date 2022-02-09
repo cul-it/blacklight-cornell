@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 9e8cbe7cfdbded59e88ba4296484702fe5e092ed
+  revision: 998f6dda1ecccc7e1ca8d6f1d7169a02db343790
   branch: folio
   specs:
-    blacklight_cornell_requests (4.2.0)
+    blacklight_cornell_requests (4.2.1)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -304,9 +304,9 @@ GEM
     erubis (2.7.0)
     et-orbi (1.2.2)
       tzinfo
-    exception_notification (4.4.3)
-      actionmailer (>= 4.0, < 7)
-      activesupport (>= 4.0, < 7)
+    exception_notification (4.5.0)
+      actionmailer (>= 5.2, < 8)
+      activesupport (>= 5.2, < 8)
     execjs (2.7.0)
     faraday (0.17.0)
       multipart-post (>= 1.2, < 3)
