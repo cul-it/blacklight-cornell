@@ -5,12 +5,7 @@
   <% if availability["availAt"].present? %>
     <% availability["availAt"].each do |location,callnumber| %>
       <div class="status ">
-        <%# Temporary (?) Omicron change. Adelson works are not available.%>
-        <% if location.include?("Adelson") %>
-          <i class="fa fa-clock-o" title="Not currently available" aria-hidden="true"></i>
-        <% else %>
-	      <i class="fa fa-check" title="Available" aria-hidden="true"></i>
-        <% end %>
+        <i class="fa fa-check" title="Available" aria-hidden="true"></i>
         <span class="location">
           <% unless location == "Library Technical Services Review Shelves" %>
             <%= "#{location}" %>
