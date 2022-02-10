@@ -20,22 +20,15 @@
         <% if i['copy'].present? %>
           c. <%= i['copy'] %>
         <% end %>
-        <%# Temporary pandemic change: ADELSON items are unavailable %>
-        <%= build_returned_display(i) if i['items']['returned'].present? && !i["location"]["name"].include?("Adelson")%>
+        <%= build_returned_display(i) if i['items']['returned'].present? %>
       </div>
   <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>
     <div class="status">
       <span class="online-label">
-        <%# Temporary pandemic change: ADELSON items are unavailable %>
-        <% if i["location"]["name"].include?("Adelson") %>
-            <i class="fa fa-clock-o" aria-hidden="true" title="Not currently abailable"></i> Not currently available
-        <% else %>
-          <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
-          <%= I18n.t('blacklight.catalog.available') %>
-        <% end %>
+        <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
+        <%= I18n.t('blacklight.catalog.available') %>
       </span>
-      <%# Temporary pandemic change: ADELSON items are unavailable %>
-      <%= I18n.t('blacklight.catalog.on_site') unless i["location"]["name"].include?("Adelson") %>
+      <%= I18n.t('blacklight.catalog.on_site') %>
       <% if i["location"]["name"].include?("Kheel")%>
         <div><span class="online-label">Contact the <a href="https://catherwood.library.cornell.edu/kheel/">Kheel Center</a> to view this item.</span></div>
       <% end %>
