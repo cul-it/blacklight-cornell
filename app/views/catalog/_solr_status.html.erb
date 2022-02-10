@@ -14,13 +14,8 @@
   <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && i["circ"] == true  %>
       <div class="status">
         <span class="online-label">
-        <%# Temporary pandemic change: ADELSON items are unavailable %>
-            <% if i["location"]["name"].include?("Adelson") %>
-              <i class="fa fa-clock-o" aria-hidden="true" title="Not currently abailable"></i> Not currently available
-            <% else %>
-              <i class="fa fa-check" aria-hidden="true"></i>
-              <%= I18n.t('blacklight.catalog.available') %>
-            <% end %>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <%= I18n.t('blacklight.catalog.available') %>
         </span>
         <% if i['copy'].present? %>
           c. <%= i['copy'] %>
