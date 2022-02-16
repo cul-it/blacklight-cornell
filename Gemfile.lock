@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 998f6dda1ecccc7e1ca8d6f1d7169a02db343790
+  revision: bb74cf225a9eef3eca5e29460548fabfdebd09c1
   branch: folio
   specs:
-    blacklight_cornell_requests (4.2.1)
+    blacklight_cornell_requests (4.2.2)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -366,7 +366,7 @@ GEM
     httpi (2.4.4)
       rack
       socksify
-    i18n (1.9.1)
+    i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
