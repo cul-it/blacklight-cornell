@@ -1,3 +1,4 @@
+<% on_order_flag = 0%>
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
   <div class="status">
     <span class="online-label">
@@ -48,9 +49,11 @@
         <i class="fa fa-clock-o" aria-hidden="true"></i>
         <% if duetime.present? %>
           <%= status %>, due <%= duetime %>
-        <% elsif duedate.present? %>
+        <% elsif duedate.present? %>]
+          chickens
           <%= status %>, due <%= duedate %>
         <% else %>
+           <% on_order_flag = 1 %>
           <%= status %>
         <% end %>
         <% if item['enum'].present?  %>
@@ -119,8 +122,11 @@
   <%= build_returned_display(i) if i['items']['returned'].present? %>
 <% end %>
 <% end %>
-<% if i["order"].present?  %>
+<% if i["order"].present? %>
+ <% if on_order_flag == 0 %>
   <div class="status">
-    <i class="fa fa-clock-o" aria-hidden="true"></i> <%= I18n.t('blacklight.catalog.on_order') %>
+    <i class="fa fa-clock-o" aria-hidden="true"></i> <%#= I18n.t('blacklight.catalog.on_order') %>
   </div>
+ <% else %>
+ <% end %>
 <% end %>
