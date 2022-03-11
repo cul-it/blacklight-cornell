@@ -1,3 +1,5 @@
+<% holdings_restrictions = "" %>
+
 <div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
 	<% Rails.logger.debug("mjc12test2: authgroups #{session[:cu_authenticated_groups] }") %>
@@ -210,6 +212,9 @@
 	          <% online_items = [] %>
 	          <% holdings.each do |k,holding| %>
 	          <%#= holdings[k]["active"].inspect %>
+	          <% if !holding["restrictions"].nil? %>
+	          <%   holdings_restrictions = holding["restrictions"][0] %>
+	          <% end %>
 	          <% if !holding['links'].nil? and holding['links'][0]['users'].present?  %>
 	          <span class="access-restriction">
 	            <h3>Restrictions</h3>
@@ -245,6 +250,12 @@
 	        <% end %>
 	      </div>
 	      <%# access restrictions %>
+	      <% if holdings_restrictions != "" %>
+	        <span class="access-restriction">
+	         <h3>Restrictions</h3>
+	         <%= holdings_restrictions %>
+	         </span>
+	      <% end %>
 	      <% if restrictions_display.present? %>
 
 	        <span class="access-restriction">
