@@ -39,7 +39,7 @@
 
     <header class="head">
   <div>
-    <a href="#content" accesskey="S" onclick="$(\'#content\').focus();" class="offscreen">Skip to Main Content</a>
+    <a href="#main-content" onclick="$(\'#content\').focus();" class="offscreen">Skip to main content</a>
   </div>
   <div class="container">
     <div class="cornell-logo d-none d-sm-block">
@@ -55,24 +55,21 @@
     <h1>Division of Rare and Manuscript Collections</h1>
   </div>
 </header>
-    <h1>RMC Scanning Request</h1>
+    <h2>RMC Scanning Request</h2>
     
     <div><%= @disclaimer %></div> 
 	<div id="main-content">
 	<form id="RequestForm" 
 	action="<%= @the_loginurl %>"
               method="GET" class="form-horizontal">
-	<h4><%= @title %></h4>
+	<h3><%= @title %></h3>
 
 	<% if !@finding_aid.nil? %>
-	    <a href='<%= @finding_aid %>' target='_blank'>  Finding Aid</a>
-        <br>
-    <% else %>
-        <br>
-    <% end %>
+	  <p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
+  <% end %>
     
 	<strong><%= @re506 %></strong><div id="shoppingcart">
-	<span id="numitems" >&nbsp;Number of items selected:</span>
+	<span id="numitems">Number of items selected:</span>
 	<span id="num-selections-wrapper">
 	<span id="num-selections">
 	</span>

@@ -36,7 +36,7 @@
 	<body>
     <header class="head">
   <div>
-    <a href="#content" accesskey="S" onclick="$(\'#content\').focus();" class="offscreen">Skip to Main Content</a>
+    <a href="#main-content" onclick="$(\'#content\').focus();" class="offscreen">Skip to main content</a>
   </div>
   <div class="container">
     <div class="cornell-logo d-none d-sm-block">
@@ -57,17 +57,14 @@
 	<form id="EADRequest" name="EADRequest"
 	action=" <%= @the_loginurl %> "
               method="GET" class="form-horizontal">
-	<h4><%= @title %></h4>
+	<h2><%= @title %></h2>
 		
 	<% if !@finding_aid.nil? %>
-	    <a href='<%= @finding_aid %>' target='_blank'>  Finding Aid</a>
-        <br>
-    <% else %>
-        <br>
-    <% end %>	
+	  <p><a href='<%= @finding_aid %>' target='_blank'>  Finding Aid</a></p>
+  <% end %>	
 	
 	<strong><%= @re506 %></strong>	<div id="shoppingcart">
-	<span id="numitems" >&nbsp;Number of items selected:</span>
+	<span id="numitems">Number of items selected:</span>
 	<span id="num-selections-wrapper">
 	<span id="num-selections">
 	</span>
