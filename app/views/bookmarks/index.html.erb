@@ -14,7 +14,10 @@
   <p><%= t('blacklight.bookmarks.no_bookmarks') %></p>
   <p><%= link_to bookmarks_book_bags_login_path do %>
     <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
-    <% end %></p>
+    <%= form_tag(bookmarks_book_bags_login_path) do %>
+            <button type='submit'><%= t('blacklight.bookmarks.find_book_bag') %></button>
+            <% end %>
+            <% end %></p>
 
 <% else %>
   <div class="results-info">
@@ -30,6 +33,9 @@
         <span class="bookmarks-login"><%= link_to bookmarks_book_bags_login_path do %>
           <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
         <% end %></span>
+        <%= form_tag(bookmarks_book_bags_login_path) do %>
+            <button type='submit'><%= t('blacklight.bookmarks.find_book_bag') %></button>
+            <% end %>
       </div>
       <div class="col-sm-12 col-md-4">
         <%= render :partial => 'per_page_widget' %>

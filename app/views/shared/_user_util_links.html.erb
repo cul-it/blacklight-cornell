@@ -16,7 +16,9 @@
             %>
             <li>
               <%= link_to 'Sign in', @sign_in_link, method: :post, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
-            </li>
+            <%= form_tag(@sign_in_link) do %>
+            <button type='submit'>Sign in with netid</button>
+            <% end %></li>
           <% end %>
         <% end %>
       <% end %>
