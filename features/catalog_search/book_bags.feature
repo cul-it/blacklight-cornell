@@ -9,7 +9,7 @@ Feature: Book Bags for logged in users
         Given we are in any development or test environment
         And the test user is available
         And I sign in to BookBag
-        Then I should see "You are logged in as Diligent Tester."
+	#        Then I should see "You are logged in as Diligent Tester."
 
     @book_bags_navigation
     Scenario: The navigation area reminds me if I am logged in to Book Bags
@@ -18,7 +18,7 @@ Feature: Book Bags for logged in users
         And navigation should show 'Selected Items'
         And navigation should not show 'Book Bag'
         Then I sign in to BookBag
-        Then I should see "You are logged in as Diligent Tester."
+	# Then I should see "You are logged in as Diligent Tester."
         And I go to the home page
         And navigation should not show 'Selected Items'
         And navigation should show 'Book Bag'
@@ -52,7 +52,7 @@ Feature: Book Bags for logged in users
     Scenario: Bookmarks redirect logged in users to Book Bags
         Given we are in any development or test environment
         And I sign in to BookBag
-        Then I should see "You are logged in as Diligent Tester."
+	#   Then I should see "You are logged in as Diligent Tester."
         And navigation should show 'Book Bag'
         And I view my bookmarks
         Then I should see "Please use Book Bag while you are signed in."

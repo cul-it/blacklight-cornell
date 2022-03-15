@@ -700,8 +700,10 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  actionview (>= 5.2.6.2)
+  actionpack (= 5.2.6.3)
+  actionview (>= 5.2.6.3)
   activerecord-session_store (>= 2.0.0)
+  activestorage (= 5.2.6.3)
   addressable (>= 2.8.0)
   appsignal
   awesome_print
