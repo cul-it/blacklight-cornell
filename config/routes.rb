@@ -50,6 +50,8 @@ end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
+get "signin", to: "signin#index"
+
 # devise_for :users
 
 devise_for :users, controllers: {
