@@ -56,14 +56,14 @@
 						</div>
 					</div>
 	
-	<input type="hidden" name="AeonForm" value="PhotoduplicationRequest">
-	<input type="hidden" name="SkipOrderEstimate" value="Yes">
-	<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
-	<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
-	<input type="hidden" name="RequestType" value="Copy"/>
-	<input type="hidden" id="DocumentType" name="DocumentType" value="<%= @doctype %>"/>
-	<input type="hidden" name="FormValidationOverride" value="AllRequests">
-	<input type="hidden" name="SkipFieldLengthValidation" value="yes">
+					<input type="hidden" name="AeonForm" value="PhotoduplicationRequest">
+					<input type="hidden" name="SkipOrderEstimate" value="Yes">
+					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
+					<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
+					<input type="hidden" name="RequestType" value="Copy"/>
+					<input type="hidden" id="DocumentType" name="DocumentType" value="<%= @doctype %>"/>
+					<input type="hidden" name="FormValidationOverride" value="AllRequests">
+					<input type="hidden" name="SkipFieldLengthValidation" value="yes">
 
 	<%= render :partial => 'layouts/aeon/scan_holdings' %>
 	<%= render :partial => 'layouts/aeon/aeon_scan_body' %>
