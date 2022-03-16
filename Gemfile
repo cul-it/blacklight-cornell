@@ -99,14 +99,14 @@ gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'
 
-gem 'omniauth'
-gem 'omniauth-saml'
+gem 'omniauth', '~> 2.0'
+gem 'omniauth-saml', '~> 2.0'
 gem 'omniauth-rails_csrf_protection'
 #gem 'omniauth-google-oauth2'
 # Use Omniauth Google plugin
-gem 'omniauth-google-oauth2', '~> 0.4.1'
+gem 'omniauth-google-oauth2', '~> 0.8'
 # Use Omniauth Facebook plugin
-gem 'omniauth-facebook', '~> 4.0'
+gem 'omniauth-facebook', '~> 5.0'
 gem 'xmlrpc'
 gem 'bootstrap'
 gem 'font-awesome-rails'
