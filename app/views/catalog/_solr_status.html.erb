@@ -1,3 +1,5 @@
+<% on_order_flag = 0 %>
+
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
   <div class="status">
     <span class="online-label">
@@ -41,6 +43,7 @@
          <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
       <% end %>
       <% if !item["status"].nil? %>
+                  <% on_order_flag = 1 %>
         <% status = item["status"]["status"].present? ? item["status"]["status"] : '' %>
         <% duedate = item["status"]["due"].present? ? Time.at(item["status"]["due"]).strftime("%m/%d/%y") : nil %>
         <% duetime = item["status"]["due"].present? && item["status"]["shortLoan"].present? && item["status"]["shortLoan"] ? Time.at(item["status"]["due"]).strftime("%m/%d/%y %l:%M %P") : nil %>
@@ -97,6 +100,7 @@
                 <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
               <% end %>
           <% end %>
+
         <%end %>
         <% if item["recalls"].present? || item["holds"].present? %>
           <% item["recalls"] = 0 unless item["recalls"].present?  %>
@@ -119,8 +123,9 @@
   <%= build_returned_display(i) if i['items']['returned'].present? %>
 <% end %>
 <% end %>
-<% if i["order"].present?  %>
+ <% if i["order"].present? and on_order_flag != 1 %>
   <div class="status">
     <i class="fa fa-clock-o" aria-hidden="true"></i> <%= I18n.t('blacklight.catalog.on_order') %>
   </div>
-<% end %>
+   <% on_order_flag = 0 %>
+<% end %>  
