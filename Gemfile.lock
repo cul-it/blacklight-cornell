@@ -169,8 +169,9 @@ GEM
       marc-fastxmlwriter
       rails
       traject (>= 2.1, < 4)
-    blacklight_range_limit (7.9.1)
-      blacklight (~> 7.0)
+    blacklight_range_limit (7.1.0)
+      blacklight (>= 7.0)
+      rails (>= 3.0)
     bootstrap (4.3.1)
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
@@ -742,7 +743,7 @@ DEPENDENCIES
   blacklight-hierarchy
   blacklight-marc (~> 6.2)
   blacklight_cornell_requests!
-  blacklight_range_limit (~> 7.0)
+  blacklight_range_limit (= 7.1.0)
   blacklight_unapi!
   bootstrap (= 4.3.1)
   borrow_direct!
