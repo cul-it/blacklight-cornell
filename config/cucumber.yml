@@ -1,11 +1,11 @@
 <%
 rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 rerun_opts = rerun.to_s.strip.empty? ? "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} features" : "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} #{rerun}"
-JENK_lax_std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --tags not @wip -r features"
-JENK_std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags not @wip -r features"
-std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'}  --tags not @wip --tags not @saml_off --tags not @saml_on -r features"
-nosaml_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'}  --tags not @wip --tags @saml_off -r features"
-saml_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'}  --tags not @wip --tags not @saml_off --tags @saml_on  -r features"
+JENK_lax_std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --tags 'not @wip' -r features"
+JENK_std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags 'not @wip' -r features"
+std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'}  --tags 'not @wip' --tags 'not @saml_off' --tags 'not @saml_on' -r features"
+nosaml_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'}  --tags 'not @wip' --tags @saml_off -r features"
+saml_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'}  --tags 'not @wip' --tags 'not @saml_off' --tags @saml_on  -r features"
 %>
 jenkins_lax: <%= JENK_lax_std_opts %> features
 jenkins_strict: <%= JENK_std_opts %> features
@@ -13,4 +13,4 @@ saml: <%= saml_opts %> features
 nosaml: <%= nosaml_opts %> features
 default: <%= std_opts %> features
 wip: --tags @wip:3 --wip features
-rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags not @wip -r features
+rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags 'not @wip' -r features
