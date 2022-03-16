@@ -84,6 +84,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_sign_in_anywhere
     Scenario Outline: I should be able to log in with the test user from any page
+        Given PENDING
         Given we are in any development or test environment
         And the test user is available
         And I go to <page>
