@@ -84,12 +84,11 @@ Feature: Book Bags for logged in users
 
     @book_bags_sign_in_anywhere
     Scenario Outline: I should be able to log in with the test user from any page
-        Given PENDING
         Given we are in any development or test environment
         And the test user is available
-        And I go to <page>
-        And I sign in
+        And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
+        Then I go to <page>
         And navigation should show 'Book Bag'
         And I sign out
 
