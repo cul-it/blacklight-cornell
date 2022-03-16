@@ -781,7 +781,7 @@ DEPENDENCIES
   loofah (= 2.3.1)
   marc
   meta_request
-  mini_racer (= 0.4.0)
+  mini_racer
   mollom
   my_account!
   mysql2 (= 0.5.2)
