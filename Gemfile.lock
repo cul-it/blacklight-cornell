@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: bb74cf225a9eef3eca5e29460548fabfdebd09c1
-  branch: folio
+  revision: 5dc75bb8890a59a6281a29d938d8f1ac07a7e627
+  branch: folio-no-oci8
   specs:
     blacklight_cornell_requests (4.2.2)
       activerecord-oracle_enhanced-adapter
@@ -19,7 +19,6 @@ GIT
       nokogiri
       protected_attributes_continued
       rails (~> 5.1)
-      ruby-oci8
 
 GIT
   remote: https://github.com/cul-it/blacklight-unapi
@@ -576,7 +575,6 @@ GEM
     rspec-support (3.9.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    ruby-oci8 (2.2.10)
     ruby-plsql (0.8.0)
     ruby-saml (1.13.0)
       nokogiri (>= 1.10.5)
