@@ -371,8 +371,14 @@ Then("there should be a print bookmarks button") do
   end
 end
 
+def visit_via_post(url)
+  page.driver.post(url)
+  page.driver.status_code.should eql 200
+end
+
 Then("I sign in") do
-  visit "/users/auth/saml"
+  # visit "/users/auth/saml"
+  visit_via_post("users/auth/saml")
 end
 
 Then("I sign out") do
