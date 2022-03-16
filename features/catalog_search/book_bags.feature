@@ -237,7 +237,7 @@ Feature: Book Bags for logged in users
         And I sign out
         And I request the item view for 361984
         Then I should see the label 'The annual of the British school at Athens'
-        And I sign in
+        And I sign in to BookBag
         And I sleep 2 seconds
         Then navigation should show the BookBag with no item count
         When I go to BookBag
