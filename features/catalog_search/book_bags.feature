@@ -208,8 +208,8 @@ Feature: Book Bags for logged in users
         And I sign in to BookBag
         And I empty the BookBag
         And I sign out
-        And I am on the home page
-        And I sign in
+        And I sign in to BookBag
+        Then I go to the home page
         And navigation should show the BookBag with no item count
 		When I fill in the search box with 'the'
 		And I press 'search'
