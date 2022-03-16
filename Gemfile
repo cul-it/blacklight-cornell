@@ -49,7 +49,7 @@ gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
 gem 'rsolr'
 gem 'utf8-cleaner'
-gem 'mini_racer', '~> 0.5.0' #, '0.4.0'#, platforms: :ruby
+# gem 'mini_racer', '~> 0.5.0' #, '0.4.0'#, platforms: :ruby
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
