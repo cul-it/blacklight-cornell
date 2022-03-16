@@ -11,7 +11,7 @@ OPT3="-t ~@boundwith  -p jenkins_lax --format junit --out results/ "
 # this displays test results in human readable format.
 OPT3="-t ~@boundwith  -p jenkins_lax "
 OPT2="-t ~@search_availability_title_mission_etrangeres_missing "
-OPT4=" -t ~@saml_off "
+OPT4=" -t not @saml_off "
 
 if [ $# -eq 0 ]; then
     bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4
