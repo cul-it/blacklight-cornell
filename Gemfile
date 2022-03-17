@@ -1,12 +1,13 @@
 source 'https://rubygems.org'
-ruby "2.5.5"
+ruby "2.6.4"
 #another try
-gem 'rails', '5.2.6'
+gem 'rails', '5.2.6.3'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal'
 gem "sprockets", '~> 3.7.2'
-gem "actionview", ">= 5.2.6"
+gem "actionview", ">= 5.2.6.3"
+
 # added for rails 4.
 gem 'activerecord-session_store', ">= 2.0.0"
 gem 'protected_attributes_continued'
@@ -20,7 +21,7 @@ group :development,:test, :integration do
 end
 
 group :production,:staging do
-  gem 'mysql2', '0.5.2'
+  gem 'mysql2' #, '0.5.2'
 end
 
 gem 'savon', '~> 2.11.1'
@@ -42,7 +43,7 @@ gem 'marc'
 gem 'blacklight-marc'
 gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
-gem 'nokogiri', '>= 1.12.5'
+gem 'nokogiri', '>= 1.13.2'
 gem 'rufus-scheduler'
 gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
@@ -98,13 +99,14 @@ gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'
 
-gem 'omniauth'
+gem 'omniauth', '>= 1.9.1'
 gem 'omniauth-saml'
 #gem 'omniauth-google-oauth2'
 # Use Omniauth Google plugin
-gem 'omniauth-google-oauth2', '~> 0.4.1'
+gem 'omniauth-google-oauth2' #, '~> 0.4.1'
 # Use Omniauth Facebook plugin
-gem 'omniauth-facebook', '~> 4.0'
+gem 'omniauth-facebook' #, '~> 4.0'
+gem 'omniauth-rails_csrf_protection'
 gem 'xmlrpc'
 gem 'bootstrap'
 gem 'font-awesome-rails'
