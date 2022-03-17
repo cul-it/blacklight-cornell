@@ -7,7 +7,6 @@ gem "dotenv-deployment"
 gem 'appsignal'
 gem "sprockets", '~> 3.7.2'
 gem "actionview", ">= 5.2.6.3"
-gem 'sqlite3'
 
 # added for rails 4.
 gem 'activerecord-session_store', ">= 2.0.0"
@@ -50,7 +49,8 @@ gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
 gem 'rsolr'
 gem 'utf8-cleaner'
-gem 'mini_racer', '0.4.0'#, platforms: :ruby
+gem 'mini_racer', '0.6.2', platforms: :ruby
+gem 'libv8-node'
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
