@@ -63,6 +63,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'cucumber-rails', :require => false # Set require = false to get rid of a warning message
+  gem 'cucumber', '3.1.2'
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
