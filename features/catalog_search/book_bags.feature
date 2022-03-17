@@ -7,6 +7,7 @@ Feature: Book Bags for logged in users
     @book_bags_sign_in
     Scenario: I can sign in to book bags
         Given we are in any development or test environment
+        And I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
