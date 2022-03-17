@@ -28,8 +28,8 @@ echo "Arguments:"
 echo $ARGS
 
 if [ $# -eq 0 ]; then
-    CUCUMBER_FILTER_TAGS="${OPT}" bundle exec cucumber $ARGS
+    bundle exec cucumber --tags '${OPT}' $ARGS
 else
-    CUCUMBER_FILTER_TAGS="${OPT}" bundle exec cucumber $ARGS "$1"
+    bundle exec cucumber --tags '${OPT}' $ARGS "$1"
 fi
 
