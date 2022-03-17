@@ -7,6 +7,7 @@ gem "dotenv-deployment"
 gem 'appsignal'
 gem "sprockets", '~> 3.7.2'
 gem "actionview", ">= 5.2.6.3"
+gem 'sqlite3'
 
 # added for rails 4.
 gem 'activerecord-session_store', ">= 2.0.0"

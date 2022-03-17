@@ -633,7 +633,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.1)
+    sqlite3 (1.4.2)
     summon (2.0.5)
       json
     temple (0.8.2)
