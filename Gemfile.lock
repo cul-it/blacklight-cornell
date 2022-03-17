@@ -459,7 +459,7 @@ GEM
     multi_test (0.1.2)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
-    mysql2 (0.5.2)
+    mysql2 (0.5.3)
     namae (1.1.1)
     nenv (0.3.0)
     net-http-persistent (3.1.0)
@@ -780,7 +780,7 @@ DEPENDENCIES
   meta_request
   mollom
   my_account!
-  mysql2 (= 0.5.2)
+  mysql2 (= 0.5.3)
   net-ldap
   net-scp (= 2.0.0)
   net-ssh (= 5.2.0)
