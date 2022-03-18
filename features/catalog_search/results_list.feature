@@ -364,15 +364,17 @@ Feature: Results list
       | call number     |
 
   @DISCOVERYACCESS-6660
+  @DISCOVERYACCESS-7436
   @javascript
   @omniauth_test
   Scenario: After logging in on the results page I expect to see the same results
+    Given PENDING
     Given I am on the home page
     When I fill in the search box with 'birds'
     And I press 'search'
     Then I should get results
     And I should see the label 'Birds I have kept in years gone by'
-    Then I sign in
+    Then I sign in to BookBag
     And I should see "You are logged in as Diligent Tester."
     Then I should get results
     And I should see the label 'Birds I have kept in years gone by'

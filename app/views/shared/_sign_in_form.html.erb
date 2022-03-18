@@ -1,0 +1,8 @@
+<link rel="stylesheet" type="text/css" href="/stylesheets/cornell/link-button.css">
+<form method="post" action="<%= user_saml_omniauth_authorize_path %>">
+    <%= token_tag %>
+    <button class="link-button" type="submit" name="Sign in"
+    title='Sign in to email items or save them to Book Bag'
+    onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);"
+    >Sign in</button>
+</form>
