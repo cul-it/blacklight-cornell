@@ -7,6 +7,7 @@ Feature: Book Bags for logged in users
     @book_bags_sign_in
     Scenario: I can sign in to book bags
         Given we are in any development or test environment
+        And I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
@@ -86,9 +87,9 @@ Feature: Book Bags for logged in users
     Scenario Outline: I should be able to log in with the test user from any page
         Given we are in any development or test environment
         And the test user is available
-        And I go to <page>
-        And I sign in
+        And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
+        Then I go to <page>
         And navigation should show 'Book Bag'
         And I sign out
 
@@ -208,8 +209,8 @@ Feature: Book Bags for logged in users
         And I sign in to BookBag
         And I empty the BookBag
         And I sign out
-        And I am on the home page
-        And I sign in
+        And I sign in to BookBag
+        Then I go to the home page
         And navigation should show the BookBag with no item count
 		When I fill in the search box with 'the'
 		And I press 'search'
@@ -237,7 +238,7 @@ Feature: Book Bags for logged in users
         And I sign out
         And I request the item view for 361984
         Then I should see the label 'The annual of the British school at Athens'
-        And I sign in
+        And I sign in to BookBag
         And I sleep 2 seconds
         Then navigation should show the BookBag with no item count
         When I go to BookBag
