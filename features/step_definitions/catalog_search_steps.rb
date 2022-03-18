@@ -142,7 +142,7 @@ When("I sign in to BookBag") do
   visit 'book_bags/index'
   # 'Sign In' blacklight-nav link is not available on Jenkins since
   # ENV['SAML_IDP_TARGET_URL’] is undefined there
-  click_link "Sign in to enable your Book Bag"
+  click_button "Sign in to enable your Book Bag"
 end
 
 Given("we are in the development environment") do
