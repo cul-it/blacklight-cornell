@@ -103,6 +103,7 @@ gem 'devise-guests', '~> 0.3'
 
 gem 'omniauth', '>= 1.9.1'
 gem 'omniauth-saml'
+gem 'omniauth-rails_csrf_protection'
 #gem 'omniauth-google-oauth2'
 # Use Omniauth Google plugin
 gem 'omniauth-google-oauth2' #, '~> 0.4.1'
