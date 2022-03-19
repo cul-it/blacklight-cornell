@@ -131,7 +131,7 @@ GEM
     akami (1.3.1)
       gyoku (>= 0.4.0)
       nokogiri
-    appsignal (3.0.25)
+    appsignal (2.11.10)
       rack
     arel (9.0.0)
     autoprefixer-rails (10.4.2.0)
@@ -722,7 +722,7 @@ DEPENDENCIES
   actionview (>= 5.2.6.3)
   activerecord-session_store (>= 2.0.0)
   addressable (>= 2.8.0)
-  appsignal
+  appsignal (= 2.11.10)
   awesome_print
   bento_search
   blacklight (= 7.0.1)
