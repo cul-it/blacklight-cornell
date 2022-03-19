@@ -12,7 +12,7 @@ set :default_environment, {
   'RUBY_VERSION' => "ruby-2.6.4",
   'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.6.4",
   'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.6.4:/usr/local/rvm/gems/ruby-2.6.4@global",
-  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.6.4@global/gems/bundler-2.2.25"  # If you are using bundler.
+  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.6.4/gems/bundler-2.3.9/exe/bundle"  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
 
