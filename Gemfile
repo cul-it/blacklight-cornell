@@ -4,7 +4,7 @@ ruby "2.6.4"
 gem 'rails', '5.2.6.3'
 gem "dotenv-rails"
 gem "dotenv-deployment"
-gem 'appsignal'
+gem 'appsignal', '2.11.10'
 gem "sprockets", '~> 3.7.2'
 gem "actionview", ">= 5.2.6.3"
 gem "byebug"
