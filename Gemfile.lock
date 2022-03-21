@@ -565,6 +565,7 @@ GEM
       actionpack (>= 3, < 8)
       redis (>= 3, < 5)
     regexp_parser (2.2.1)
+    repost (0.3.8)
     require_all (2.0.0)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -795,6 +796,7 @@ DEPENDENCIES
   rb-inotify
   rb-readline (~> 0.5.x)
   redis-session-store
+  repost
   rsolr
   rspec
   rspec-rails
@@ -823,4 +825,4 @@ RUBY VERSION
    ruby 2.6.4p104
 
 BUNDLED WITH
-   2.3.9
+   2.3.6
