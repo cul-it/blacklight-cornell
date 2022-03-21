@@ -1,5 +1,5 @@
-input[type=button],
-input[type=submit] {
+input[type=button].link-button,
+input[type=submit].link-button {
     background: none!important;
     border: none;
     padding: 0!important;
