@@ -17,7 +17,7 @@
               end
             %>
             <li>
-              <%= button_to 'Sign in with your netid', @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
+              <%= button_to 'Sign in with your netid', class: "link-button", @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
             </li>
               <br/>
             <% if ENV['GOOGLE_CLIENT_ID'] %>
