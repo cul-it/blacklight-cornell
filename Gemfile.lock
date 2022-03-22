@@ -46,8 +46,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 06c42ea86ea6185477a214cc985bce39a6a12004
-  branch: master
+  revision: d80acd325a821556e313051ca731deac48691660
+  branch: DISCOVERYACCESS-7436
   specs:
     my_account (2.1.2)
       blacklight (>= 7.0)
@@ -231,7 +231,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.1.10)
     confstruct (1.1.0)
       hashie (>= 3.3, < 5)
     connection_pool (2.2.5)
