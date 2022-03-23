@@ -397,3 +397,19 @@ end
 Then("I clear transactions") do
   clear_sqlite
 end
+
+Given("I click on the Sign in link") do
+  within page.find("ul.blacklight-nav") do
+    click_button("Sign in")
+  end
+end
+
+Given("I click on the first {string}") do |string|
+    first("a", :text => "#{string}").click
+end
+
+Then("I should be required to sign in") do
+  # detect that the user would have to log in
+  expect(page.find("#main-article")).to have_selector("form#login")
+  expect(page.find(".cu-unit")).to have_text("CUWebLogin")
+end
