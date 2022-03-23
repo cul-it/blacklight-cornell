@@ -12,3 +12,6 @@
 <% if params['action'] == 'redirect_nonshib' %>
    <%= render :partial => 'layouts/aeon/redirect_nonshib_prelim' %>
 <% end %>
+<% if params['action'] == 'redirect_shib' %>
+   <%= render :partial => 'layouts/aeon/redirect_shib_prelim' %>
+<% end %>

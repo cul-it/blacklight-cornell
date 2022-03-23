@@ -515,10 +515,6 @@ class AeonController < ApplicationController
   def cleanupAeonParamsX#(params)
   	aeonParams = []
   end
- 
-  def redirect_shib
-  	redirect_to 'https://rmc-aeon.library.cornell.edu'
-  end
 
   def make_bibdata(document)
   	output = ""
@@ -904,5 +900,11 @@ class AeonController < ApplicationController
   def redirect_nonshib
     Rails.logger.info("BEEGER = #{params}")
   end
+ 
+  def redirect_shib
+  #	redirect_to 'https://rmc-aeon.library.cornell.edu'
+  end
+ 
+ 
   	                          
 end

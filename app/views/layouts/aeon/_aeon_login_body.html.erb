@@ -19,13 +19,6 @@
   </div>
 </header>
 <div class="container">
-
-  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="POST">
-      <input type="hidden" name="authenticated" value="true" />
-      <input type="hidden" name="target" value="http://newcatalog-login.library.cornell.edu/aeon511/redirect-shib.php" />
-      <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
-    </form>
-
     <% @paramsString = "" %>
     <% params.each do |key, value| %>
     <% if value.class != Array %>
@@ -40,6 +33,15 @@
       <% newParams['AeonParams'] = @paramsString %>
       <% params = newParams %>
       <%#= params.inspect %>
+
+<!--  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="POST">  -->
+  <form action="redirect_shib" method="GET">  
+      <input type="hidden" name="authenticated" value="true" />
+           <input type="hidden" name='newParams' value='<%= @paramsString %>'>
+<!--      <input type="hidden" name="target" value="http://newcatalog-login.library.cornell.edu/aeon511/redirect-shib.php" /> -->
+      <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
+    </form>
+
          <form action="redirect_nonshib" method="GET" style="margin-top: 30px;">
            <input type="hidden" name='newParams' value='<%= @paramsString %>'>
       
