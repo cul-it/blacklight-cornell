@@ -45,9 +45,9 @@ module Blacklight::Solr::Document::MarcExport
     citeproc_citation( to_marc,'modern-language-association-7th-edition')
   end
 
-  def old_xxx_export_as_mla8_citation_txt
-    mla8_citation( to_marc )
-  end
+  # def old_xxx_export_as_mla8_citation_txt
+  #   mla8_citation( to_marc )
+  # end
 
     #cp  = CiteProc::Processor.new style: 'modern-language-association-8th-edition', format: 'html'
   def export_as_mla8_citation_txt
@@ -119,31 +119,31 @@ module Blacklight::Solr::Document::MarcExport
   # is not, it's instead some weird under-documented Refworks
   # proprietary marc-ish in text/plain format. See
   # http://robotlibrarian.billdueber.com/sending-marcish-data-to-refworks/
-  def export_as_refworks_marc_txt
-    fields = to_marc.find_all { |f| ('000'..'999') === f.tag }
-    text = "LEADER #{to_marc.leader}"
-    fields.each do |field|
-    unless ["940","999"].include?(field.tag)
-      if field.is_a?(MARC::ControlField)
-        text << "#{field.tag}    #{field.value}\n"
-      else
-        text << "#{field.tag} "
-        text << (field.indicator1 ? field.indicator1 : " ")
-        text << (field.indicator2 ? field.indicator2 : " ")
-        text << " "
-          field.each {|s| s.code == 'a' ? text << "#{s.value}" : text << " |#{s.code}#{s.value}"}
-        text << "\n"
-       end
-        end
-    end
+  # def export_as_refworks_marc_txt
+  #   fields = to_marc.find_all { |f| ('000'..'999') === f.tag }
+  #   text = "LEADER #{to_marc.leader}"
+  #   fields.each do |field|
+  #   unless ["940","999"].include?(field.tag)
+  #     if field.is_a?(MARC::ControlField)
+  #       text << "#{field.tag}    #{field.value}\n"
+  #     else
+  #       text << "#{field.tag} "
+  #       text << (field.indicator1 ? field.indicator1 : " ")
+  #       text << (field.indicator2 ? field.indicator2 : " ")
+  #       text << " "
+  #         field.each {|s| s.code == 'a' ? text << "#{s.value}" : text << " |#{s.code}#{s.value}"}
+  #       text << "\n"
+  #      end
+  #       end
+  #   end
 
-    # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
-    # it seems to want C form normalization, although RefWorks support
-    # couldn't tell me that. -jrochkind
-    text = ActiveSupport::Multibyte::Unicode.normalize(text, :c)
+  #   # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
+  #   # it seems to want C form normalization, although RefWorks support
+  #   # couldn't tell me that. -jrochkind
+  #   text = ActiveSupport::Multibyte::Unicode.normalize(text, :c)
 
-    return text
-  end
+  #   return text
+  # end
  FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
    "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
    "Book"=>"Book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"Map",
@@ -162,79 +162,81 @@ module Blacklight::Solr::Document::MarcExport
    "Website" => "Web Page"
    }
 
-  def OLD_export_as_endnote()
-    end_note_format = {
-      "100.a" => "%A" ,
-      "260.a" => "%C" ,
-      "260.c" => "%D" ,
-      "264.a" => "%C" ,
-      "264.c" => "%D" ,
-      "700.a" => "%E" ,
-      "260.b" => "%I" ,
-      "264.b" => "%I" ,
-      "440.a" => "%J" ,
-      "024.a" => "%R" ,
-      "020.a" => "%@" ,
-      "022.a" => "%@" ,
-      "245.a,245.b" => "%T" ,
-      "856.u" => "%U" ,
-      "250.a" => "%7"
-    }
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    marc_obj = to_marc
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} marc_obj #{marc_obj.inspect}")
-    # TODO. This should be rewritten to guess
-    # from actual Marc instead, probably.
-    fmt_str = 'Generic'
-    text = ''
-    fmt = self['format'].first
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} fmt #{fmt.inspect}"
-    if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
-      fmt_str = FACET_TO_ENDNOTE_TYPE[fmt]
-     end
-    if  fmt == 'Book'  && self['online'] && self['online'].first == 'Online'
-      fmt_str = 'Electronic Book'
-    end
-    text << "%0 #{ fmt_str }\n"
-    # If there is some reliable way of getting the language of a record we can add it here
-    #text << "%G #{record['language'].first}\n"
-    if !self["language_facet"].blank?
-       self["language_facet"].map{|la|  text += "%G #{la}\n" }
-    end
-    # #marc field is key, value is tag target
-    end_note_format.each do |key,etag|
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} key,etag #{key},#{etag}")
-      values = key.split(",")
-      first_value = values[0].split('.')
-      if values.length > 1
-        second_value = values[1].split('.')
-      else
-        second_value = []
-      end
+  # def OLD_export_as_endnote()
+  #   end_note_format = {
+  #     "100.a" => "%A" ,
+  #     "260.a" => "%C" ,
+  #     "260.c" => "%D" ,
+  #     "264.a" => "%C" ,
+  #     "264.c" => "%D" ,
+  #     "700.a" => "%E" ,
+  #     "260.b" => "%I" ,
+  #     "264.b" => "%I" ,
+  #     "440.a" => "%J" ,
+  #     "024.a" => "%R" ,
+  #     "020.a" => "%@" ,
+  #     "022.a" => "%@" ,
+  #     "245.a,245.b" => "%T" ,
+  #     "856.u" => "%U" ,
+  #     "250.a" => "%7"
+  #   }
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+  #   marc_obj = to_marc
+  #   Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} marc_obj #{marc_obj.inspect}")
+  #   # TODO. This should be rewritten to guess
+  #   # from actual Marc instead, probably.
+  #   fmt_str = 'Generic'
+  #   text = ''
+  #   fmt = self['format'].first
+  #   Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} fmt #{fmt.inspect}"
+  #   if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
+  #     fmt_str = FACET_TO_ENDNOTE_TYPE[fmt]
+  #    end
+  #   if  fmt == 'Book'  && self['online'] && self['online'].first == 'Online'
+  #     fmt_str = 'Electronic Book'
+  #   end
+  #   text << "%0 #{ fmt_str }\n"
+  #   # If there is some reliable way of getting the language of a record we can add it here
+  #   #text << "%G #{record['language'].first}\n"
+  #   if !self["language_facet"].blank?
+  #      self["language_facet"].map{|la|  text += "%G #{la}\n" }
+  #   end
+  #   # #marc field is key, value is tag target
+  #   end_note_format.each do |key,etag|
+  #     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} key,etag #{key},#{etag}")
+  #     values = key.split(",")
+  #     first_value = values[0].split('.')
+  #     if values.length > 1
+  #       second_value = values[1].split('.')
+  #     else
+  #       second_value = []
+  #     end
 
-      if marc_obj[first_value[0].to_s]
-        marc_obj.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
-          if field[first_value[1]].to_s or field[second_value[1]].to_s
-            text << "#{etag.gsub('_','')}"
-            if field[first_value[1]].to_s
-              text << " #{clean_end_punctuation(field[first_value[1]].to_s)}"
-            end
-            if field[second_value[1]].to_s
-              text << " #{clean_end_punctuation(field[second_value[1]].to_s)}"
-            end
-            text << "\n"
-          end
-        end
-      end
-    end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
-    text
-  end
+  #     if marc_obj[first_value[0].to_s]
+  #       marc_obj.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
+  #         if field[first_value[1]].to_s or field[second_value[1]].to_s
+  #           text << "#{etag.gsub('_','')}"
+  #           if field[first_value[1]].to_s
+  #             text << " #{clean_end_punctuation(field[first_value[1]].to_s)}"
+  #           end
+  #           if field[second_value[1]].to_s
+  #             text << " #{clean_end_punctuation(field[second_value[1]].to_s)}"
+  #           end
+  #           text << "\n"
+  #         end
+  #       end
+  #     end
+  #   end
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
+  #   text
+  # end
 
   protected
 
   def citeproc_citation(record,csl)
+    Rails.logger.debug "mjc12test doing citeproc"
+
     Rails.logger.level = Logger::WARN
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
@@ -374,208 +376,208 @@ module Blacklight::Solr::Document::MarcExport
     #(cp.render :bibliography, id: id)[0]
     end
 
-  def mla8_citation(record)
+  # def mla8_citation(record)
 
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    text = ''
-    authors_final = []
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+  #   text = ''
+  #   authors_final = []
 
-    #setup formatted author list
-    #authors = get_author_list(record)
-    all_authors = get_all_authors(record)
-      # If there are secondary (i.e. from 700 fields) authors, add them to
-      # primary authors only if there are no corporate, meeting, primary authors
-    if !all_authors[:primary_authors].blank?
-      all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
-     elsif !all_authors[:secondary_authors].blank?
-      all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
-     end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
-    authors = case
-              when !all_authors[:primary_authors].blank?
-               all_authors[:primary_authors]
-              when !all_authors[:primary_corporate_authors].blank?
-                all_authors[:primary_corporate_authors]
-              when !all_authors[:meeting_authors].blank?
-                all_authors[:meeting_authors]
-              when !all_authors[:secondary_authors].blank?
-                all_authors[:secondary_authors]
-              when !all_authors[:secondary_corporate_authors].blank?
-                all_authors[:secondary_corporate_authors]
-              else
-                []
-              end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
-    if !authors.blank?
-    if authors.length < 4
-      authors.each do |l|
-        if l == authors.first #first
-          authors_final.push(l)
-        elsif l == authors.last #last
-          authors_final.push(", and " + name_reverse(l) + ".")
-        else #all others
-          authors_final.push(", " + name_reverse(l))
-        end
-      end
-      text += authors_final.join
-      unless text.blank?
-        if text[-1,1] != "."
-          text += ". "
-        else
-          text += " "
-        end
-      end
-    else
-      text += authors.first + ", et al. "
-    end
-    end
-    # setup title
-    title = setup_title_info(record)
-    if !title.nil?
-      text += "<i>" + mla_citation_title(title) + "</i> "
-    end
+  #   #setup formatted author list
+  #   #authors = get_author_list(record)
+  #   all_authors = get_all_authors(record)
+  #     # If there are secondary (i.e. from 700 fields) authors, add them to
+  #     # primary authors only if there are no corporate, meeting, primary authors
+  #   if !all_authors[:primary_authors].blank?
+  #     all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
+  #    elsif !all_authors[:secondary_authors].blank?
+  #     all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
+  #    end
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
+  #   authors = case
+  #             when !all_authors[:primary_authors].blank?
+  #              all_authors[:primary_authors]
+  #             when !all_authors[:primary_corporate_authors].blank?
+  #               all_authors[:primary_corporate_authors]
+  #             when !all_authors[:meeting_authors].blank?
+  #               all_authors[:meeting_authors]
+  #             when !all_authors[:secondary_authors].blank?
+  #               all_authors[:secondary_authors]
+  #             when !all_authors[:secondary_corporate_authors].blank?
+  #               all_authors[:secondary_corporate_authors]
+  #             else
+  #               []
+  #             end
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+  #   if !authors.blank?
+  #   if authors.length < 4
+  #     authors.each do |l|
+  #       if l == authors.first #first
+  #         authors_final.push(l)
+  #       elsif l == authors.last #last
+  #         authors_final.push(", and " + name_reverse(l) + ".")
+  #       else #all others
+  #         authors_final.push(", " + name_reverse(l))
+  #       end
+  #     end
+  #     text += authors_final.join
+  #     unless text.blank?
+  #       if text[-1,1] != "."
+  #         text += ". "
+  #       else
+  #         text += " "
+  #       end
+  #     end
+  #   else
+  #     text += authors.first + ", et al. "
+  #   end
+  #   end
+  #   # setup title
+  #   title = setup_title_info(record)
+  #   if !title.nil?
+  #     text += "<i>" + mla_citation_title(title) + "</i> "
+  #   end
 
-    # Edition
-    edition_data = setup_edition(record)
-    text += edition_data + " " unless edition_data.nil?
+  #   # Edition
+  #   edition_data = setup_edition(record)
+  #   text += edition_data + " " unless edition_data.nil?
 
-    # Publication
-    text += setup_pub_info_mla8(record) + ", " unless setup_pub_info(record).nil?
+  #   # Publication
+  #   text += setup_pub_info_mla8(record) + ", " unless setup_pub_info(record).nil?
 
-    # Get Pub Date
-    text += setup_pub_date(record) unless setup_pub_date(record).nil?
-    if text[-1,1] != "."
-      text += "." unless text.nil? or text.blank?
-    end
-    text
-  end
+  #   # Get Pub Date
+  #   text += setup_pub_date(record) unless setup_pub_date(record).nil?
+  #   if text[-1,1] != "."
+  #     text += "." unless text.nil? or text.blank?
+  #   end
+  #   text
+  # end
 
-  def mla_citation(record)
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    text = ''
-    authors_final = []
+  # def mla_citation(record)
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+  #   text = ''
+  #   authors_final = []
 
-    #setup formatted author list
-    #authors = get_author_list(record)
-    all_authors = get_all_authors(record)
-      # If there are secondary (i.e. from 700 fields) authors, add them to
-      # primary authors only if there are no corporate, meeting, primary authors
-    if !all_authors[:primary_authors].blank?
-      all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
-     elsif !all_authors[:secondary_authors].blank?
-      all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
-     end
+  #   #setup formatted author list
+  #   #authors = get_author_list(record)
+  #   all_authors = get_all_authors(record)
+  #     # If there are secondary (i.e. from 700 fields) authors, add them to
+  #     # primary authors only if there are no corporate, meeting, primary authors
+  #   if !all_authors[:primary_authors].blank?
+  #     all_authors[:primary_authors] += all_authors[:secondary_authors] unless all_authors[:secondary_authors].blank?
+  #    elsif !all_authors[:secondary_authors].blank?
+  #     all_authors[:primary_authors] = all_authors[:secondary_authors] if (all_authors[:corporate_authors].blank? &&  all_authors[:meeting_authors].blank?)
+  #    end
 
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
-    authors = case
-              when !all_authors[:primary_authors].blank?
-               all_authors[:primary_authors]
-              when !all_authors[:primary_corporate_authors].blank?
-                all_authors[:primary_corporate_authors]
-              when !all_authors[:meeting_authors].blank?
-                all_authors[:meeting_authors]
-              when !all_authors[:secondary_authors].blank?
-                all_authors[:secondary_authors]
-              when !all_authors[:secondary_corporate_authors].blank?
-                all_authors[:secondary_corporate_authors]
-              else
-                []
-              end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
-    if !authors.blank?
-    if authors.length < 4
-      authors.each do |l|
-        if l == authors.first #first
-          authors_final.push(l)
-        elsif l == authors.last #last
-          authors_final.push(", and " + name_reverse(l) + ".")
-        else #all others
-          authors_final.push(", " + name_reverse(l))
-        end
-      end
-      text += authors_final.join
-      unless text.blank?
-        if text[-1,1] != "."
-          text += ". "
-        else
-          text += " "
-        end
-      end
-    else
-      text += authors.first + ", et al. "
-    end
-    end
-    # setup title
-    title = setup_title_info(record)
-    if !title.nil?
-      text += "<i>" + mla_citation_title(title) + "</i> "
-    end
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} all_authors = #{all_authors.inspect}")
+  #   authors = case
+  #             when !all_authors[:primary_authors].blank?
+  #              all_authors[:primary_authors]
+  #             when !all_authors[:primary_corporate_authors].blank?
+  #               all_authors[:primary_corporate_authors]
+  #             when !all_authors[:meeting_authors].blank?
+  #               all_authors[:meeting_authors]
+  #             when !all_authors[:secondary_authors].blank?
+  #               all_authors[:secondary_authors]
+  #             when !all_authors[:secondary_corporate_authors].blank?
+  #               all_authors[:secondary_corporate_authors]
+  #             else
+  #               []
+  #             end
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+  #   if !authors.blank?
+  #   if authors.length < 4
+  #     authors.each do |l|
+  #       if l == authors.first #first
+  #         authors_final.push(l)
+  #       elsif l == authors.last #last
+  #         authors_final.push(", and " + name_reverse(l) + ".")
+  #       else #all others
+  #         authors_final.push(", " + name_reverse(l))
+  #       end
+  #     end
+  #     text += authors_final.join
+  #     unless text.blank?
+  #       if text[-1,1] != "."
+  #         text += ". "
+  #       else
+  #         text += " "
+  #       end
+  #     end
+  #   else
+  #     text += authors.first + ", et al. "
+  #   end
+  #   end
+  #   # setup title
+  #   title = setup_title_info(record)
+  #   if !title.nil?
+  #     text += "<i>" + mla_citation_title(title) + "</i> "
+  #   end
 
-    # Edition
-    edition_data = setup_edition(record)
-    text += edition_data + " " unless edition_data.nil?
+  #   # Edition
+  #   edition_data = setup_edition(record)
+  #   text += edition_data + " " unless edition_data.nil?
 
-    # Publication
-    text += setup_pub_info(record) + ", " unless setup_pub_info(record).nil?
+  #   # Publication
+  #   text += setup_pub_info(record) + ", " unless setup_pub_info(record).nil?
 
-    # Get Pub Date
-    text += setup_pub_date(record) unless setup_pub_date(record).nil?
-    if text[-1,1] != "."
-      text += "." unless text.nil? or text.blank?
-    end
-    text
-  end
+  #   # Get Pub Date
+  #   text += setup_pub_date(record) unless setup_pub_date(record).nil?
+  #   if text[-1,1] != "."
+  #     text += "." unless text.nil? or text.blank?
+  #   end
+  #   text
+  # end
 
-  def apa_citation(record)
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    text = ''
-    authors_list = []
-    authors_list_final = []
+  # def apa_citation(record)
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
+  #   text = ''
+  #   authors_list = []
+  #   authors_list_final = []
 
-    #setup formatted author list
-    authors = apa_get_author_list(record)
-    authors.each do |l|
-      authors_list.push(abbreviate_name(l)) unless l.blank?
-    end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_list = #{authors_list.inspect}")
-    authors_list.each do |l|
-      if l == authors_list.first #first
-        authors_list_final.push(l.strip)
-      elsif l == authors_list.last #last
-        authors_list_final.push(", &amp; " + l.strip)
-      else #all others
-        authors_list_final.push(", " + l.strip)
-      end
-    end
-    text += authors_list_final.join
-    unless text.blank?
-      if text[-1,1] != "."
-        text += ". "
-      else
-        text += " "
-      end
-    end
-    # Get Pub Date
-    text += "(" + setup_pub_date(record) + "). " unless setup_pub_date(record).nil?
+  #   #setup formatted author list
+  #   authors = apa_get_author_list(record)
+  #   authors.each do |l|
+  #     authors_list.push(abbreviate_name(l)) unless l.blank?
+  #   end
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
+  #   Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_list = #{authors_list.inspect}")
+  #   authors_list.each do |l|
+  #     if l == authors_list.first #first
+  #       authors_list_final.push(l.strip)
+  #     elsif l == authors_list.last #last
+  #       authors_list_final.push(", &amp; " + l.strip)
+  #     else #all others
+  #       authors_list_final.push(", " + l.strip)
+  #     end
+  #   end
+  #   text += authors_list_final.join
+  #   unless text.blank?
+  #     if text[-1,1] != "."
+  #       text += ". "
+  #     else
+  #       text += " "
+  #     end
+  #   end
+  #   # Get Pub Date
+  #   text += "(" + setup_pub_date(record) + "). " unless setup_pub_date(record).nil?
 
-    # setup title info
-    title = setup_title_info(record)
-    text += "<i>" + title + "</i> " unless title.nil?
+  #   # setup title info
+  #   title = setup_title_info(record)
+  #   text += "<i>" + title + "</i> " unless title.nil?
 
-    # Edition
-    edition_data = setup_edition(record)
-    text += edition_data + " " unless edition_data.nil?
+  #   # Edition
+  #   edition_data = setup_edition(record)
+  #   text += edition_data + " " unless edition_data.nil?
 
-    # Publisher info
-    text += setup_pub_info(record) unless setup_pub_info(record).nil?
-    unless text.blank?
-      if text[-1,1] != "."
-        text += "."
-      end
-    end
-    text
-  end
+  #   # Publisher info
+  #   text += setup_pub_info(record) unless setup_pub_info(record).nil?
+  #   unless text.blank?
+  #     if text[-1,1] != "."
+  #       text += "."
+  #     end
+  #   end
+  #   text
+  # end
 
   def setup_pub_info_mla8(record)
     text = ''
@@ -597,7 +599,9 @@ module Blacklight::Solr::Document::MarcExport
     return nil if text.strip.blank?
     clean_end_punctuation(text.strip)
   end
+
   def setup_pub_info(record)
+    Rails.logger.debug "mjc12test: Using setup_pub_info from marc"
     text = ''
     pub_info_field = record.find{|f| f.tag == '260'}
     if pub_info_field.nil?
@@ -637,9 +641,11 @@ module Blacklight::Solr::Document::MarcExport
     end
     clean_end_punctuation(date_value) if date_value
   end
+
   # process 100,110,111 and 700, 710, 711
   # putting together role indicators.
   def get_contrib_roles(record)
+    Rails.logger.debug "mjc12test gretting contrib roles"
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     contributors = ["100","110","111","700","710","711" ]
     relators = {}
@@ -664,6 +670,8 @@ module Blacklight::Solr::Document::MarcExport
   # Original comment:
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
+    Rails.logger.debug "mjc12test: getting all authors from marcexport"
+
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
     translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"
@@ -842,68 +850,68 @@ module Blacklight::Solr::Document::MarcExport
   end
 
 
-  def apa_get_author_list(record)
-    author_list = []
-    authors_primary = record.find{|f| f.tag == '100'}
-    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
-    author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
-    authors_secondary = record.find_all{|f| ('700') === f.tag}
-    if !authors_secondary.nil?
-      authors_secondary.each do |l|
-        author_list.push(apa_clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
-      end
-    end
-    author_list.uniq!
-    if author_list.blank?
-      authors_primary = record.find{|f| f.tag == '110'}
-      author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
-      author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
-      author_list.uniq!
-    end
-    author_list
-  end
+  # def apa_get_author_list(record)
+  #   author_list = []
+  #   authors_primary = record.find{|f| f.tag == '100'}
+  #   author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
+  #   author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
+  #   authors_secondary = record.find_all{|f| ('700') === f.tag}
+  #   if !authors_secondary.nil?
+  #     authors_secondary.each do |l|
+  #       author_list.push(apa_clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+  #     end
+  #   end
+  #   author_list.uniq!
+  #   if author_list.blank?
+  #     authors_primary = record.find{|f| f.tag == '110'}
+  #     author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
+  #     author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
+  #     author_list.uniq!
+  #   end
+  #   author_list
+  # end
 
-  def get_author_list(record)
-    author_list = []
-    authors_primary = record.find{|f| f.tag == '100'}
-    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
-    author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
-    authors_secondary = record.find_all{|f| ('700') === f.tag}
-    if !authors_secondary.nil?
-      authors_secondary.each do |l|
-        author_list.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
-      end
-    end
+  # def get_author_list(record)
+  #   author_list = []
+  #   authors_primary = record.find{|f| f.tag == '100'}
+  #   author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
+  #   author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
+  #   authors_secondary = record.find_all{|f| ('700') === f.tag}
+  #   if !authors_secondary.nil?
+  #     authors_secondary.each do |l|
+  #       author_list.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+  #     end
+  #   end
 
-    author_list.uniq!
-    author_list
-  end
+  #   author_list.uniq!
+  #   author_list
+  # end
 
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
-  def old_get_all_authors(record)
-    translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
-    primary_authors = []; translators = []; editors = []; compilers = []
-    record.find_all{|f| f.tag === "100" }.each do |field|
-      primary_authors << field["a"] if field["a"]
-    end
-    record.find_all{|f| f.tag === "700" }.each do |field|
-      if field["a"]
-        relators = []
-        relators << clean_end_punctuation(field["e"]) if field["e"]
-        relators << clean_end_punctuation(field["4"]) if field["4"]
-        if relators.include?(translator_code)
-          translators << field["a"]
-        elsif relators.include?(editor_code)
-          editors << field["a"]
-        elsif relators.include?(compiler_code)
-          compilers << field["a"]
-        else
-          primary_authors << field["a"]
-        end
-      end
-    end
-    {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers}
-  end
+  # def old_get_all_authors(record)
+  #   translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
+  #   primary_authors = []; translators = []; editors = []; compilers = []
+  #   record.find_all{|f| f.tag === "100" }.each do |field|
+  #     primary_authors << field["a"] if field["a"]
+  #   end
+  #   record.find_all{|f| f.tag === "700" }.each do |field|
+  #     if field["a"]
+  #       relators = []
+  #       relators << clean_end_punctuation(field["e"]) if field["e"]
+  #       relators << clean_end_punctuation(field["4"]) if field["4"]
+  #       if relators.include?(translator_code)
+  #         translators << field["a"]
+  #       elsif relators.include?(editor_code)
+  #         editors << field["a"]
+  #       elsif relators.include?(compiler_code)
+  #         compilers << field["a"]
+  #       else
+  #         primary_authors << field["a"]
+  #       end
+  #     end
+  #   end
+  #   {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers}
+  # end
 
   def abbreviate_name(name)
     return name unless name =~ /,/
