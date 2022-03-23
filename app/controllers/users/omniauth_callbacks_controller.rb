@@ -37,7 +37,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
 #https://www.interexchange.org/articles/engineering/lets-devise-google-oauth-login/
- def google_oauth2
+ def google_oauth2_original
     auth = request.env["omniauth.auth"]
     semail = auth.info.email
     u = User.where(email: semail).first
@@ -67,6 +67,32 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       params[:error] = :account_not_found
       #do_failure_things
       redirect_to root_path, :notice => "You are not logged in."
+    end
+  end
+
+  def google_oauth2
+    # You need to implement the method below in your model (e.g. app/models/user.rb)
+    @user = User.from_omniauth(request.env['omniauth.auth'])
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "@user: " + @user.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
+
+    if @user.persisted?
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
+      sign_in_and_redirect @user, event: :authentication
+    else
+      session['devise.google_data'] = request.env['omniauth.auth'].except('extra') # Removing extra as it can overflow some session stores
+      redirect_to new_user_registration_url, alert: @user.errors.full_messages.join("\n")
     end
   end
 
