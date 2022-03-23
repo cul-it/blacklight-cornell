@@ -135,11 +135,13 @@ en:
       clear: 'Clear'
 
     citation:
-      apa:  'APA 6th ed.'
+      apa6:  'APA 6th ed.'
+      apa: 'APA 7th ed.'
       chicago: 'Chicago 17th ed.'
       cse:  'Council of Science Editors'
-      mla:  'MLA 7th ed.'
+      mla7:  'MLA 7th ed.'
       mla8: 'MLA 8th ed.'
+      mla: "MLA 9th ed."
 
     email:
       form:
