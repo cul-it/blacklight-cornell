@@ -57,7 +57,7 @@ Rails.logger.level = save_level
 #binding.pry
 #*******************
 
-if u
+    if u
       @user = u
     else
       @user = User.new(email: semail)
