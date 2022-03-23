@@ -411,6 +411,7 @@ GEM
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
     libv8-node (16.10.0.0-x86_64-darwin)
+    libv8-node (16.10.0.0-x86_64-darwin-19)
     libv8-node (16.10.0.0-x86_64-linux)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -716,6 +717,7 @@ GEM
     yell (2.2.2)
 
 PLATFORMS
+  x86_64-darwin-19
   x86_64-darwin-20
   x86_64-linux
 
@@ -825,4 +827,4 @@ RUBY VERSION
    ruby 2.6.4p104
 
 BUNDLED WITH
-   2.3.6
+   2.3.9
