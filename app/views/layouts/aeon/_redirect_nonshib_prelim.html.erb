@@ -1,0 +1,51 @@
+<html>
+<%= params["newParams"].inspect %>
+<% aeonStuff = params["newParams"].split('&') %>
+<%= aeonStuff.inspect %>
+<meta http-equiv='content-type' content='text/html; charset=utf-8' />
+<link href='aeon.css' rel='stylesheet' type='text/css' />
+<title>Login to Aeon at Cornell University Library</title>
+<body onload='window.focus();'>
+  Redirecting...
+  <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/nonshib/aeon.dll' method='POST'>
+  <input type="hidden" name='AeonForm' value='EADRequest'>
+  <!-- // I think we need a param with this name/value.  Doesn't need to be a button. -->
+  <input type='hidden' name='SubmitButton' value='Submit Request'>
+<pre></pre> 
+  <% itemNumbers = [] %> 
+  <% aeonStuff.each do | param | %>
+     <% name_value = param.split('=') %>
+     <% if name_value.length() > 2 %>
+        <% name_value[1] = name_value[1] + ' = ' + name_value[2] %>
+     <% end %>
+     <% name = name_value[0] %>
+     <% value = name_value[1] %>
+     <% if name.start_with?('ItemNumber_') %>
+        <% itemNumbers << value %>
+     <% end %>
+     <% if name != 'controller' and name != 'action' %>
+     <input type="hidden" name="<%= name %>" value="<%= value %>" >
+     <% end %>
+  <% end%>
+<!--     <input type="hidden" name="31924095286310" value="31924095286310" >
+     <input type="hidden" name="ItemVolume_31924095286310" value="" >
+     <input type="hidden" name="Location_31924095286310" value="rmc+Kroch+Library+Rare+%26+Manuscripts" >
+     <input type="hidden" name="CallNumber_31924095286310" value="Rare+Books+PR6068.O924+H365+2000" >
+     <input_type="hidden" name="Restrictions_31924095286310" value="" >
+     <input type="hidden" name="ItemInfo1_31924095286310" value="" >
+     <input type="hidden" name="ItemNumber_31924095286310" value="31924095286310" >
+     <input type="hidden" name="ItemIssue_31924095286310" value="1"> -->
+     <% itemNumbers.each do | itemNum | %>
+      <input type="hidden" name="Request" value="<%= itemNum %>" > 
+     <% end %> 
+      
+  <input type='submit' name='Button' value='Login to Aeon' />
+  </form>
+   <script>
+    // submits the form right after it is parsed
+    window.focus(); document.forms['aeonPoster'].submit();
+ 
+  </script>  
+
+</body>
+</html>

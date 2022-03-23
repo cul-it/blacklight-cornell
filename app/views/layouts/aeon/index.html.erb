@@ -2,6 +2,13 @@
 <%#= params['action'].inspect %>
 <% if params['action'] == "reading_room_request" %>
 	<%= render :partial => 'layouts/aeon/prelim' %>
-<% else %>
+<% end %>
+<% if params['action'] == "scan_aeon" %>    
 	<%= render :partial => 'layouts/aeon/scan_prelim' %>
+<% end %>
+<% if params['action'] == 'aeon_login' %>
+	<%= render :partial => 'layouts/aeon/aeon_login_prelim' %>
+<% end %>
+<% if params['action'] == 'redirect_nonshib' %>
+   <%= render :partial => 'layouts/aeon/redirect_nonshib_prelim' %>
 <% end %>

@@ -441,8 +441,9 @@ class AeonController < ApplicationController
   end
  
   def loginurl
-	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php"  	
-#   	return "http://dev-jac2445.library.cornell.edu/aeon511/aeon-login.php" 
+	#return "https://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php"  	
+   	return "http://localhost:3000/aeon/aeon_login" 
+   #	return "http://dev-jac244.library.cornell.edu/aeon511/aeon-login.php"
   #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
  
@@ -896,5 +897,12 @@ class AeonController < ApplicationController
    return ret 	
   end
 
+  def aeon_login
+    return params
+  end
+ 
+  def redirect_nonshib
+    Rails.logger.info("BEEGER = #{params}")
+  end
   	                          
 end
