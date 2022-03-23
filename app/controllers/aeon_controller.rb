@@ -442,7 +442,7 @@ class AeonController < ApplicationController
  
   def loginurl
 	#return "https://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php"  	
-   	return "http://localhost:3000/aeon/aeon_login" 
+   	return "/aeon/aeon_login" 
    #	return "http://dev-jac244.library.cornell.edu/aeon511/aeon-login.php"
   #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
