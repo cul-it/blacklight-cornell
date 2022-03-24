@@ -1,6 +1,21 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 123,
+      "fingerprint": "870fa4a5cfd770898e1b7a159368b4210fe366634512563f9fb1c1cbbfef1d78",
+      "check_name": "EOLRuby",
+      "message": "Support for Ruby 2.6.4 ends on 2022-03-31",
+      "file": "Gemfile.lock",
+      "line": 534,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium"
+    },
+    {
       "warning_type": "Mass Assignment",
       "warning_code": 60,
       "fingerprint": "214e078d81e28a61aeffd369d08c178d4b9738057e7c64c962c44337f03115b6",

@@ -1,12 +1,14 @@
 source 'https://rubygems.org'
-ruby "2.5.5"
+ruby "2.6.4"
 #another try
-gem 'rails', '5.2.6'
+gem 'rails', '5.2.6.3'
 gem "dotenv-rails"
 gem "dotenv-deployment"
-gem 'appsignal'
+gem 'appsignal', '2.11.10'
 gem "sprockets", '~> 3.7.2'
-gem "actionview", ">= 5.2.6"
+gem "actionview", ">= 5.2.6.3"
+gem "byebug"
+gem "ffi"
 # added for rails 4.
 gem 'activerecord-session_store', ">= 2.0.0"
 gem 'protected_attributes_continued'
@@ -20,7 +22,7 @@ group :development,:test, :integration do
 end
 
 group :production,:staging do
-  gem 'mysql2', '0.5.2'
+  gem 'mysql2', '0.5.3'
 end
 
 gem 'savon', '~> 2.11.1'
@@ -28,7 +30,7 @@ gem 'parslet'
 gem 'ultraviolet'
 gem 'yaml_db'
 gem 'blacklight', '7.0.1'
-gem 'blacklight_range_limit', '~> 7.0'
+gem 'blacklight_range_limit', '7.1.0'
 gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
 gem 'kaminari', '>= 0.15'
 
@@ -39,16 +41,17 @@ gem 'httpclient'
 gem 'haml'
 gem 'haml-rails'
 gem 'marc'
-gem 'blacklight-marc'
+gem 'blacklight-marc', '~> 6.2'
 gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
-gem 'nokogiri', '>= 1.12.5'
+gem 'nokogiri', '>= 1.13.2'
 gem 'rufus-scheduler'
 gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
 gem 'rsolr'
 gem 'utf8-cleaner'
-gem 'mini_racer', '0.4.0'#, platforms: :ruby
+gem 'mini_racer', '0.6.2', platforms: :ruby
+gem 'libv8-node'
 # Gems used only for assets and not required
 # in production environments by default.
   gem 'sass-rails',   '~> 5.0'
@@ -62,6 +65,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'cucumber-rails', :require => false # Set require = false to get rid of a warning message
+  gem 'cucumber', '3.1.2'
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
@@ -98,27 +102,30 @@ gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'
 
-gem 'omniauth'
-gem 'omniauth-saml'
+gem 'omniauth', '~> 2.0'
+gem 'omniauth-saml', '~> 2.0'
+gem 'omniauth-rails_csrf_protection'
 #gem 'omniauth-google-oauth2'
 # Use Omniauth Google plugin
-gem 'omniauth-google-oauth2', '~> 0.4.1'
+gem 'omniauth-google-oauth2', '~> 0.8'
 # Use Omniauth Facebook plugin
-gem 'omniauth-facebook', '~> 4.0'
+gem 'omniauth-facebook', '~> 5.0'
+gem 'repost'
 gem 'xmlrpc'
-gem 'bootstrap'
+gem 'bootstrap', '4.3.1'
+gem 'sassc', '2.2.1'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'folio-no-oci8'
+gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'DISCOVERYACCESS-7436'
 #gem 'blacklight_cornell_requests', :path => '/Users/tlw72/dev/bc-requests'
 #gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/local_requests'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
 gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge'
-gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'master'
+gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'DISCOVERYACCESS-7436'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 gem 'ruby-saml', '>= 1.12.1'
 gem 'bento_search'
-gem 'celluloid'  # Required for bento_search multisearcher
+gem 'celluloid', '0.17.4' # Required for bento_search multisearcher
 gem 'mollom'
 gem 'exception_notification'
 gem 'piwik_analytics', '~> 1.0.1'
@@ -131,4 +138,3 @@ gem 'google-analytics-rails', '1.1.1'
 gem 'ebsco-eds'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.3.1'
-

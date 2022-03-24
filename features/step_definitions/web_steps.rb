@@ -99,8 +99,16 @@ Then("I should see a link {string}") do |string|
   page.find("a", :text => "#{string}")
 end
 
+Then("I should see a button {string}") do |string|
+  page.find("button", :text => "#{string}")
+end
+
 Then("I should not see a link {string}") do |string|
   expect(page).not_to have_selector("a", :text => "#{string}")
+end
+
+Then("I should not see a button {string}") do |string|
+  expect(page).not_to have_selector("button", :text => "#{string}")
 end
 
 Then("I should see the CUWebLogin page") do
