@@ -11,12 +11,8 @@
         <% if current_or_guest_user %>
           <% if !current_user %>
             <% @goo_sign_in_link = user_google_oauth2_omniauth_authorize_path%>
-            <% @sign_in_link =
-              ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  signin_path
-            %>
             <li>
               <%= render :partial => 'shared/sign_in_form' %>
-              <%#= link_to 'Sign in', @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
             </li>
           <% end %>
         <% end %>
