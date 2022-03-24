@@ -231,8 +231,8 @@ var  carouselActions = {
       }
       if ( $(selected).data("locations").length > 0 ) {        
           $('#prev-available').html($(selected).data("locations"));
-          $('#prev-available').hide(); // keep this hidden until covid changes are lifted
-          $('#label-available').hide(); // keep this hidden until covid changes are lifted
+          $('#prev-available').show();
+          $('#label-available').show();
       }
       else {
           $('#label-available').hide();
@@ -253,6 +253,10 @@ var  carouselActions = {
   getPrevious: function(callnumber) {
       var prevCount = $('#classification').attr("data-prev-count");
       var keepCount = $('#classification').attr("data-keep-count");
+      var fqLocation = "";
+      if ( $('.inner-container-primary').attr("data-location-fq") != undefined && $('.inner-container-primary').attr("data-location-fq").length > 0 ) {
+          fqLocation = "&fq=" + $('.inner-container-primary').attr("data-location-fq");
+      }
       // If we've already retrieved previous docs twice, we're done;
       // so instead display a link to the main CN browse page.
       if ( prevCount == 3 && keepCount == "true" ) {
@@ -264,16 +268,17 @@ var  carouselActions = {
         var remote = true;
         setTimeout(function(){ $('#vb-time-indicator').show(); }, 1000);
         $.ajax({
-          url : "/get_previous?callnum=" + callnumber + "&start=" + prevCount,
+          url : "/get_previous?callnum=" + callnumber + "&start=" + prevCount + fqLocation,
           type: 'GET',
           data: remote,
           dataType: "jsonp",
           jsonp: "json.wrf",
           complete: function(xhr, status) {
-            // commenting this out for now (7/14/21). may not need this if block
-            // if ( prevCount < 2 && keepCount == "true" ) {
-            //   carouselActions.et_scroll_home();
-            // }
+            // The first get_previous call on page load can cause the primary work to be off-center.
+            // This re-centers it in the VSB.
+             if ( prevCount < 2 && keepCount == "true" ) {
+               carouselActions.et_scroll_home();
+             }
             setTimeout(function(){ $('#vb-time-indicator').hide(); }, 3000);
             //carouselActions.setup_click_for_preview();
           }
@@ -284,6 +289,10 @@ var  carouselActions = {
   getNext: function(callnumber) {
       var nextCount = $('#classification').attr("data-next-count");
       var keepCount = $('#classification').attr("data-keep-count");
+      var fqLocation = "";
+      if ( $('.inner-container-primary').attr("data-location-fq") != undefined && $('.inner-container-primary').attr("data-location-fq").length > 0 ) {
+          fqLocation = "&fq=" + $('.inner-container-primary').attr("data-location-fq");
+      }
       // If we've already retrieved ensuing/next docs twice, we're done;
       // so instead display a link to the main CN browse page.
       if ( nextCount == 3 && keepCount == "true" ) {
@@ -295,7 +304,7 @@ var  carouselActions = {
         var remote = true;
         setTimeout(function(){ $('#vb-time-indicator').show(); }, 1000);
         $.ajax({
-          url : "/get_next?callnum=" + callnumber + "&start=" + nextCount,
+          url : "/get_next?callnum=" + callnumber + "&start=" + nextCount + fqLocation,
           type: 'GET',
           data: remote,
           dataType: "jsonp",

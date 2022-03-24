@@ -123,7 +123,6 @@ Feature: Item view
     Given I request the item view for 3749
     Then it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
-<<<<<<< HEAD
   @request_button
   @all_item_view
   @saml_off
@@ -137,22 +136,6 @@ Feature: Item view
   Scenario: As a user I can request an item, when SAML involved.
     Given I request the item view for 30000
     Then it should have link "Request" with value "/request/auth/30000.scan"
-=======
-  # Hiding request buttons for Folio migration so need to comment these two out.
-  # @request_button
-  # @all_item_view
-  # @saml_off
-  # Scenario: As a user I can request an item, when not SAML involved.
-  #   Given I request the item view for 30000
-  #   Then it should have link "Request item" with value "/request/30000"
-  # 
-  # @request_button
-  # @all_item_view
-  # @saml_on
-  # Scenario: As a user I can request an item, when SAML involved.
-  #   Given I request the item view for 30000
-  #   Then it should have link "Request" with value "/request/auth/30000?scan=yes"
->>>>>>> origin
 
   # Availability simple, one location, and is available
   @availability
@@ -684,7 +667,7 @@ Feature: Item view
     # Temporary change for Covid-19: added 'not' to the following line.
     Then I should not see the label 'On-site use'
     And I should not see the label 'Request item'
-    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
+    And it should have link "Hours" with value "https://cornellspif.com/contact-spif/"
 
   # availability -- Spacecraft Planetary Imaging Facilty , and also another library.
   # make sure we do NOT block request button just because SPIF.
@@ -701,7 +684,7 @@ Feature: Item view
     Then I should not see the label 'On-site use'
     # Hiding request buttons for Folio migration so need to comment out this next line.
     # And I should see the label 'Request item'
-    And it should have link "Hours/Map" with value "http://spif.astro.cornell.edu/"
+    And it should have link "Hours" with value "https://cornellspif.com/contact-spif/"
 
 
 
@@ -725,7 +708,7 @@ Feature: Item view
     Given I request the item view for 2083253
     # Temporary change for Covid-19: added 'not' to the following line.
     Then I should not see the label 'On-site use'
-    And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
+    And it should have link "Hours" with value "https://www.library.cornell.edu/libraries/rmc"
 
   @hours-page
   @on-site-use
@@ -733,7 +716,7 @@ Feature: Item view
   Scenario: View an hotel items holdings, and have pointer to ILR help page.
     Given I request the item view for 330333
     Then I should see the label 'On-site use'
-    And it should have link "Hours/Map" with value "https://www.library.cornell.edu/libraries/rmc"
+    And it should have link "Hours" with value "https://www.library.cornell.edu/libraries/rmc"
 
 # item view links to call number browse
 #  @all_item_view

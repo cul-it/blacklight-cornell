@@ -6,6 +6,36 @@
 	background: white;
 }
 
+// Links
+// ------------------------
+
+// Add underlines to most links
+.main-content,
+.blacklight-nav,
+footer,
+.search-bar .nav,
+.popover {
+	a {
+		text-decoration: underline;
+	}
+}
+
+// Remove in some cases
+.main-content,
+footer {
+	.btn {
+		text-decoration: none;
+	}
+}
+.main-content {
+	.search-source {
+		a {
+			text-decoration: none;
+		}
+	}
+}
+
+
 // Typography
 // ------------------------
 

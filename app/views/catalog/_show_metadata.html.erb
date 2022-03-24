@@ -1,3 +1,5 @@
+<% holdings_restrictions = "" %>
+
 <div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
 	<% Rails.logger.debug("mjc12test2: authgroups #{session[:cu_authenticated_groups] }") %>
@@ -54,14 +56,12 @@
 	        <% end %>
 	      <% end %>
 
-	        <%  summary_holdings = '' %>
+	      <%  summary_holdings = '' %>
+	      <% if is_online?(@document) %>
 	        <div class="holdings-online">
-                <%# the extra etas_facet condition can be removed in the July '21 sprint %>
-	        	<% if is_online?(@document) && @document["etas_facet"].nil? %>
-	        		<div class="online-label">
-	            		<i class="fa fa-check" aria-hidden="true"></i>Online
-	        		</div>
-	        	<%end %>
+	        	<div class="online-label">
+	            <i class="fa fa-check" aria-hidden="true"></i>Online
+	        	</div>
 	        <ul class="list-unstyled">
 	         <% if @document["holdings_json"].present? %>
 	         <%# holdings = JSON.parse(@document['holdings_record_display'][0]) %>
@@ -192,6 +192,7 @@
 	           <% end %>
 	          </ul>
 	        </div>
+	      <%end %>
             <%# online-holdings %>
 
 	      <%# end %>
@@ -211,6 +212,9 @@
 	          <% online_items = [] %>
 	          <% holdings.each do |k,holding| %>
 	          <%#= holdings[k]["active"].inspect %>
+	          <% if !holding["restrictions"].nil? %>
+	          <%   holdings_restrictions = holding["restrictions"][0] %>
+	          <% end %>
 	          <% if !holding['links'].nil? and holding['links'][0]['users'].present?  %>
 	          <span class="access-restriction">
 	            <h3>Restrictions</h3>
@@ -246,6 +250,12 @@
 	        <% end %>
 	      </div>
 	      <%# access restrictions %>
+	      <% if holdings_restrictions != "" %>
+	        <span class="access-restriction">
+	         <h3>Restrictions</h3>
+	         <%= holdings_restrictions %>
+	         </span>
+	      <% end %>
 	      <% if restrictions_display.present? %>
 
 	        <span class="access-restriction">

@@ -59,6 +59,10 @@
           <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
         <% end %>
       <% end %>
+      <% if params[:controller] == 'blacklight_cornell_requests/request' %>
+           <% hidden_params[:format] = 'html' %>
+      <% end %>
+     
       <%= render_hash_as_hidden_fields(hidden_params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-6 mb-0">

@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'repost'
+
 class BookmarksController < CatalogController
   include Blacklight::Bookmarks
 
@@ -13,7 +15,7 @@ class BookmarksController < CatalogController
 
   # same as show_email_login_required_bookmarks but for the catalog item view
   def show_email_login_required_item
-    login = ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  user_saml_omniauth_authorize_path
+    login = ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  signin_path
     render :partial=>"bookmarks/email_login_required_item_view", locals: { login_path: login, document_id: params[:id] }
   end
 
@@ -27,12 +29,23 @@ class BookmarksController < CatalogController
     results = Blacklight.solr.find( { :q => "id:*", })
   end
 
+
+  # show citations on a page
+  def show_citation_page
+    @bookmarks = token_or_current_or_guest_user.bookmarks
+    bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
+    per_page = bookmark_ids.count
+    @response, @documents = search_service.fetch(bookmark_ids, :per_page => per_page,:rows => per_page)
+    render :partial=>"bookmarks/citation_page"
+  end
+
   # save bookmarks and log in to book bags
   def bookmarks_book_bags_login
     #binding.pry
     # hack to return to book_bags page after login
-    session[:cuwebauth_return_path] = book_bags_index_path
-    redirect_to user_saml_omniauth_authorize_path
+    # session[:cuwebauth_return_path] = book_bags_index_path
+    # redirect_to user_saml_omniauth_authorize_path
+    redirect_post(user_saml_omniauth_authorize_path, options: {authenticity_token: :auto})
   end
 
 end

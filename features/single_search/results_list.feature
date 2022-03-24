@@ -100,12 +100,12 @@ Feature: Results list
 	    Then I should get bento results
 	    And I should see the text "Research Guides"
 
-  @all_results_list @search_with_view_all_music_match_box
-  Scenario: Search with view all music link
-    Given I literally go to search
-    When I fill in "q" with 'nature morte'
-    And I press 'Search'
-     Then I should get bento results
+#  @all_results_list @search_with_view_all_music_match_box
+#  Scenario: Search with view all music link
+#    Given I literally go to search
+#    When I fill in "q" with 'nature morte'
+#    And I press 'Search'
+#     Then I should get bento results
    # Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page-entries"
 
   @all_results_list @search_with_view_all_manuscript_archive

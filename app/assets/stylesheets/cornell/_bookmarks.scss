@@ -60,6 +60,23 @@
 	}
 }
 
+.btn-link {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  padding: 0;
+  .fa {
+  	margin-right: .25rem;
+  }
+  // padding: 0!important;
+  // /*optional*/
+  // font-family: arial, sans-serif;
+  // /*input has OS specific font-family*/
+  // color: #069;
+  // text-decoration: underline;
+  // cursor: pointer;
+}
+
 // MEDIA QUERIES
 // -------------------------
 

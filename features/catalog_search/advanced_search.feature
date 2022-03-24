@@ -97,7 +97,7 @@ Feature: Search
     And I fill in "q_row2" with 'springer'
     And I select 'All Fields' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
-    Then I should get 3 results
+    Then I should get results
 
  @adv_search
  @all_search
@@ -239,7 +239,7 @@ Feature: Search
   Scenario: Perform an advanced search by notes
     When I literally go to advanced
     And I sleep 4 seconds
-    And I fill in "q_row1" with 'Prepared under the sponsorship of the Propulsion and Energetics Panel.'
+    And I fill in "q_row1" with '"Prepared under the sponsorship of the Propulsion and Energetics Panel."'
     And I select 'all' from the 'op_row' drop-down
     And I select 'Notes' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'North Atlantic Treaty Organization'
