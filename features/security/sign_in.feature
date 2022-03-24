@@ -12,8 +12,7 @@ Scenario: I sign in from the home page
     Then I should be required to sign in
 
 Scenario: I sign in with the Menu My Account selection
-    Given our host is "http://dev-jgr25.internal.library.cornell.edu:3000/"
-    And I go to the home page
+    Given I go to the home page
     And I select 'My Account' from the Library Menu
     Then I follow "Log in with your NetID or GuestID"
      Then where am I
