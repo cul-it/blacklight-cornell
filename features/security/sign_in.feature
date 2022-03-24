@@ -10,3 +10,12 @@ Scenario: I sign in from the home page
     And I click on the Sign in link
     Then where am I
     Then I should be required to sign in
+
+Scenario: I sign in with the Menu My Account selection
+    Given I go to the home page
+    And I select 'My Account' from the Library Menu
+    Then I follow "Log in with your NetID or GuestID"
+     Then where am I
+    Then show me the page
+   And I press "Continue"
+    Then I should be required to sign in

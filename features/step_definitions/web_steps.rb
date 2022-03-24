@@ -413,3 +413,10 @@ Then("I should be required to sign in") do
   expect(page.find("#main-article")).to have_selector("form#login")
   expect(page.find(".cu-unit")).to have_text("CUWebLogin")
 end
+
+Given("I select {string} from the Library Menu") do |string|
+  within "div.library-menu" do
+    find("#library-menu").click
+    click_link "#{string}"
+  end
+end
