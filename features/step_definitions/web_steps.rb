@@ -420,3 +420,7 @@ Given("I select {string} from the Library Menu") do |string|
     click_link "#{string}"
   end
 end
+
+Given /^our host is "([^\"]+)"$/ do |host|
+  Capybara.app_host = host
+end
