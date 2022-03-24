@@ -53,6 +53,9 @@ module NavigationHelpers
     when /the browse page/
       '/browse'
 
+    when /my account/
+      '/myaccount'
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
