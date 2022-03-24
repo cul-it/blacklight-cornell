@@ -1,9 +1,5 @@
-<link rel="stylesheet" type="text/css" href="/stylesheets/cornell/link-button.css">
-<form method="post" action="<%= user_saml_omniauth_authorize_path %>">
+<form method="post" action="<%= user_saml_omniauth_authorize_path %>" class="mb-4">
     <%= token_tag %>
-    <span class="fa fa-arrow-circle-right"></span>
-    <button class="link-button" type="submit" name="Sign in Book Bag"
-    title='Sign in to email items or save them to Book Bag'
-    onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);"
-    >Sign in to email items or save them to Book Bag</button>
+    <button class="btn-link" type="submit" name="Sign in Book Bag" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);"
+    ><span class="fa fa-arrow-circle-right" aria-hidden="true"></span>Sign in to email items or save them to Book Bag</button>
 </form>
