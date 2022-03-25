@@ -22,7 +22,7 @@ Feature: Browse search
   Scenario: View a basic checked out item
     Given I request the item view for 1077314
     Then the availability icon should show a clock
-    And availability should show status 'Checked out'
+    And availability should show status 'Checked out, due'
     And availability should show the due date
 
   @DISCOVERYACCESS-7118
@@ -30,7 +30,6 @@ Feature: Browse search
     Given I request the item view for 1077314
     Then the first availability icon for 'ILR Library (Ives Hall)' should show a clock
     And the first availability for 'ILR Library (Ives Hall)' should show status 'Checked out, due'
-    And availability should show the due date
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item that is missing
