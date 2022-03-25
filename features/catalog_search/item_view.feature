@@ -250,7 +250,7 @@ Feature: Item view
   @all_item_view
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 10976407
+    Given I request the item view for 8753977
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item The goldfinch
