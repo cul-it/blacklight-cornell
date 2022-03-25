@@ -117,10 +117,10 @@ Feature: Select and export items from the result set
 | 1378974 | endnote |  '%A Condie, Carol Joy' |
 | 1378974 | ris | 'AU  - Condie, Carol Joy' |
 | 1378974 | endnote_xml| '<author>Condie, Carol Joy</author>' |
-| 1002 | endnote | '%Z http://newcatalog.library.cornell.edu/catalog/1002' |
-| 1002 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/1002' |
-| 1002 | endnote_xml | '<notes>http://newcatalog.library.cornell.edu/catalog/1002' |
-| 1002 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/1002</dc:description>' |
+| 13251647 | endnote | '%Z http://newcatalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | endnote_xml | '<notes>http://newcatalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/13251647</dc:description>' |
 | 6112378 | rss | '<title>The Kalabagh Dam</title>' |
 
 @all_select_and_export
