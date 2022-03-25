@@ -13,14 +13,14 @@ Feature: Browse search
 
   @DISCOVERYACCESS-7118
   Scenario: View a recently returned item
-    Given I request the item view for 595322
+    Given I request the item view for 4957578
     Then the first availability icon for "Olin Library" should show a checkmark
     And the first availability for "Olin Library" should show status 'Available'
     # no date available: And the first availability for "Olin Library" should show the date
 
   @DISCOVERYACCESS-7118
   Scenario: View a basic checked out item
-    Given I request the item view for 10055679
+    Given I request the item view for 1077314
     Then the availability icon should show a clock
     And availability should show status 'Checked out'
     And availability should show the due date
