@@ -33,9 +33,9 @@ Feature: Browse search
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item that is missing
-    Given I request the item view for 8623
-    Then the first availability icon for 'Olin Library' should show a clock
-    And the first availability for 'Olin Library' should show status 'Missing'
+    Given I request the item view for 5729532
+    Then the first availability icon for 'Uris Library' should show a clock
+    And the first availability for 'Uris Library' should show status 'Missing'
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item that is in transit
