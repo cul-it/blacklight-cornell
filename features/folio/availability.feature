@@ -20,6 +20,7 @@ Feature: Browse search
 
   @DISCOVERYACCESS-7118
   Scenario: View a basic checked out item
+    Given PENDING
     Given I request the item view for 1077314
     Then the availability icon should show a clock
     And availability should show status 'Checked out, due'
@@ -39,12 +40,14 @@ Feature: Browse search
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item that is in transit
+    Given PENDING
     Given I request the item view for 1077314
     Then the first availability icon for 'ILR Library' should show a clock
     And the first availability for 'ILR Library' should show status 'In transit'
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item that is in a temporary location
+    Given PENDING
     Given I request the item view for 38097
     Then the first availability icon for 'Library Annex' should show a checkmark
     And the first availability for 'Library Annex' should show status 'Available'
