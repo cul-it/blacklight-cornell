@@ -13,7 +13,7 @@ Feature: Browse search
 
   @DISCOVERYACCESS-7118
   Scenario: View a recently returned item
-    Given I request the item view for 4957578
+    Given I request the item view for 3849306
     Then the first availability icon for "Olin Library" should show a checkmark
     And the first availability for "Olin Library" should show status 'Available'
     # no date available: And the first availability for "Olin Library" should show the date
@@ -27,9 +27,9 @@ Feature: Browse search
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item checked out for a short loan
-    Given I request the item view for 10635622
-    Then the first availability icon for 'Music Library' should show a clock
-    And the first availability for 'Music Library' should show status 'Checked out'
+    Given I request the item view for 1077314
+    Then the first availability icon for 'ILR Library (Ives Hall)' should show a clock
+    And the first availability for 'ILR Library (Ives Hall)' should show status 'Checked out, due'
     And availability should show the due date
 
   @DISCOVERYACCESS-7118
