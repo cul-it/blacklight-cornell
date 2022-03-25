@@ -35,7 +35,7 @@
     <div class="btn-group">
       <a href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="cite-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true"></i>Cite <b class="caret"></b></a>
       <ul class="dropdown-menu" aria-labelledby="cite-menu">
-      <% names = %w[apa chicago cse mla mla8]  %>
+      <% names = %w[apa6 apa chicago cse mla8 mla]  %>
       <%  names.each do |name|  %>
         <% citation_format = t('blacklight.citation.'+name) %>
         <li>

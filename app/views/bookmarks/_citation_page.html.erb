@@ -10,7 +10,7 @@
   <%# each name xxx  must link: locale "blacklight.citation.xxx"
     #   and function "export_as_xxx_citation_txt"
     %>
-  <% names = %w[apa chicago cse mla mla8]  %>
+  <% names = %w[apa chicago cse mla8 mla]  %>
   <%  names.each do |name|  %>
     <% if name == params[:form] %>
       <% sym_name = "export_as_#{name}_citation_txt" %>

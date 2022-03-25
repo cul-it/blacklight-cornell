@@ -33,16 +33,24 @@ module Blacklight::Solr::Document::MarcExport
   # redesigned at some point to be more general purpose, but this
   # is in-line with what we had before, but at least now attached
   # to the document extension where it belongs.
-  def export_as_apa_citation_txt
-    citeproc_citation( to_marc,'apa')
+  def export_as_apa6_citation_txt
+    citeproc_citation( to_marc,'apa-6th-edition')
+  end
+
+  # The apa-no-initials style identifies itself as 7th edition as of 3/23/22.
+  # Presumably it will be updated to appear as 8th edition when there is an 8th ed.
+  def export_as_apa_citation_txt # i.e., APA 7
+    citeproc_citation( to_marc,'apa-no-initials')
   end
 
   def export_as_cse_citation_txt
     citeproc_citation( to_marc,'council-of-science-editors')
   end
 
-  def export_as_mla_citation_txt
-    citeproc_citation( to_marc,'modern-language-association-7th-edition')
+  # The 'mla' style identifies itself as MLA 9 as of 3/23/22. As with apa-no-initials,
+  # it will presumably be updated to reflect MLA 10, etc. once that exists.
+  def export_as_mla_citation_txt  # i.e., MLA 9
+    citeproc_citation( to_marc,'modern-language-association')
   end
 
   # def old_xxx_export_as_mla8_citation_txt
@@ -51,8 +59,7 @@ module Blacklight::Solr::Document::MarcExport
 
     #cp  = CiteProc::Processor.new style: 'modern-language-association-8th-edition', format: 'html'
   def export_as_mla8_citation_txt
-    #citeproc_citation( to_marc,'modern-language-association-8th-edition')
-    citeproc_citation( to_marc,'modern-language-association')
+    citeproc_citation( to_marc,'modern-language-association-8th-edition')
   end
 
   def export_as_chicago_citation_txt
