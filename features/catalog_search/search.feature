@@ -205,7 +205,7 @@ Feature: Search
     Then I should get results
     And I sleep 8 seconds
     And I should see the "fa-clock-o" class
-    And I should see the label 'Uris Library'
+    And I should see the label 'ILR Library (Ives Hall)'
 
   # @all_search
   # @DISCOVERYACCESS-5984
