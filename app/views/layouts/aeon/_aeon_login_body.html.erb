@@ -34,11 +34,11 @@
       <% params = newParams %>
       <%#= params.inspect %>
 
-<!--  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="POST">  -->
-  <form action="redirect_shib" method="GET">  
+<!-- <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="POST"> -->
+   <form action="redirect_shib" method="POST"> 
       <input type="hidden" name="authenticated" value="true" />
-           <input type="hidden" name='newParams' value='<%= @paramsString %>'>
-<!--      <input type="hidden" name="target" value="http://newcatalog-login.library.cornell.edu/aeon511/redirect-shib.php" /> -->
+      <input type="hidden" name='newParams' value='<%= @paramsString %>'>
+ <!--     <input type="hidden" name="target" value="http://dev-jac244.library.cornell.edu/aeon511/redirect-shib.php" />   -->
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 

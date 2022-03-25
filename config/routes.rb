@@ -224,7 +224,7 @@ devise_for :users, controllers: {
   get 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_request', :constraints => { :id => /.+/}
   put 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_prequest', :constraints => { :id => /.+/}
   get 'aeon/aeon_login' => 'aeon#aeon_login', :as => 'aeon_login'
-  get 'aeon/redirect_shib' => 'aeon#redirect_shib', :as => 'redirect_shib'
+  match 'aeon/redirect_shib' => 'aeon#redirect_shib', :via => :post, :as => 'redirect_shib'
   get 'aeon/redirect_nonshib' => 'aeon#redirect_nonshib', :as => 'redirect_nonshib'
   get 'aeon/request_aeon/:id' => 'aeon#request_aeon', :as => 'request_aeon', :constraints => { :id => /.+/}
   get 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_aeon', :constraints => { :id => /.+/}
