@@ -246,7 +246,7 @@ Feature: Item view
     Given I request the item view for 5729532
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item bonsai culture and care
+  # Availability for an In transit item Kenneth A. R. Kennedy papers
   @all_item_view
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item
