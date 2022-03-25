@@ -20,7 +20,7 @@
      <% end %>
      <% name = name_value[0] %>
      <% value = name_value[1] %>
-     <% if name.start_with?('ItemNumber_') %>
+     <% if name.start_with?('ItemNumber_') or name == 'ItemNumber'%>
         <% itemNumbers << value %>
      <% end %>
      <% if name != 'controller' and name != 'action' %>
@@ -38,7 +38,7 @@
     // submits the form right after it is parsed
     window.focus(); document.forms['aeonPoster'].submit();  
 
-  </script>
+  </script> 
 
 </body>
 </html>
