@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 5dc75bb8890a59a6281a29d938d8f1ac07a7e627
-  branch: folio-no-oci8
+  revision: 826bf61fcc92401398f9de383e5a67ffd46a1538
+  branch: DISCOVERYACCESS-7436
   specs:
     blacklight_cornell_requests (4.2.2)
       activerecord-oracle_enhanced-adapter
@@ -46,8 +46,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 06c42ea86ea6185477a214cc985bce39a6a12004
-  branch: master
+  revision: d80acd325a821556e313051ca731deac48691660
+  branch: DISCOVERYACCESS-7436
   specs:
     my_account (2.1.2)
       blacklight (>= 7.0)
@@ -231,7 +231,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.1.10)
     confstruct (1.1.0)
       hashie (>= 3.3, < 5)
     connection_pool (2.2.5)
@@ -411,6 +411,7 @@ GEM
       ffi (>= 1.0.11)
     library_stdnums (1.6.0)
     libv8-node (16.10.0.0-x86_64-darwin)
+    libv8-node (16.10.0.0-x86_64-darwin-19)
     libv8-node (16.10.0.0-x86_64-linux)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -565,6 +566,7 @@ GEM
       actionpack (>= 3, < 8)
       redis (>= 3, < 5)
     regexp_parser (2.2.1)
+    repost (0.3.8)
     require_all (2.0.0)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -715,6 +717,7 @@ GEM
     yell (2.2.2)
 
 PLATFORMS
+  x86_64-darwin-19
   x86_64-darwin-20
   x86_64-linux
 
@@ -795,6 +798,7 @@ DEPENDENCIES
   rb-inotify
   rb-readline (~> 0.5.x)
   redis-session-store
+  repost
   rsolr
   rspec
   rspec-rails
