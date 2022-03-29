@@ -1,0 +1,58 @@
+
+    <header class="head">
+ <div>
+    <a href="#content" accesskey="S" onclick="$('#content').focus();" class="offscreen">Skip to Main Content</a>
+  </div>
+
+  <div class="container">
+    <div class="cornell-logo d-none d-sm-block">
+      <a href="http://www.cornell.edu" class="insignia">Cornell University</a>
+      <div class="library-brand">
+        <a href="https://library.cornell.edu">Library</a>
+      </div>
+    </div>
+    <div class="d-block d-sm-none">
+      <a class="mobile-cornell-logo" href="https://www.cornell.edu">Cornell University</a>
+      <a class="library-brand-mobile" href="https://library.cornell.edu">Library</a>
+    </div>
+    <h1>Division of Rare and Manuscript Collections</h1>
+  </div>
+</header>
+<div class="container">
+    <% @paramsString = "" %>
+    <% params.each do |key, value| %>
+    <% if value.class != Array %>
+      <% if value.include? "&" %>
+        <% value = CGI.escape(value) %>
+      <% end %>
+     <%  @paramsString = @paramsString + key + '=' + value + '&' %>
+     <% end %>
+    <% end %>
+    <%#= params.inspect %>
+      <% newParams = params %>
+      <% newParams['AeonParams'] = @paramsString %>
+      <% params = newParams %>
+      <%#= params.inspect %>
+
+<!--  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="POST">  -->
+   <form action="/aeon/redirect_shib" method="POST"> 
+      <input type="hidden" name="authenticated" value="true" />
+      <input type="hidden" name="authType" value="RemoteAuth" />      
+      <input type="hidden" name='newParams' value='<%= @paramsString %>'>
+<!--     <input type="hidden" name="target" value="/aeon/redirect_shib?<%= @paramsString %>" /> -->   
+       <input type="hidden" name="target" value="/aeon/redirect_shib" >  
+      <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
+    </form>
+
+         <form action="redirect_nonshib" method="GET" style="margin-top: 30px;">
+           <input type="hidden" name='newParams' value='<%= @paramsString %>'>
+      
+        <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
+    </form>
+    <%#= @paramsString.inspect %>
+</div>
+</div>
+</div>
+
+
+				
