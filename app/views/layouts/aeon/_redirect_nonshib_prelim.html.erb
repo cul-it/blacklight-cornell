@@ -20,21 +20,14 @@
      <% end %>
      <% name = name_value[0] %>
      <% value = name_value[1] %>
-     <% if name.start_with?('ItemNumber_') %>
-        <% itemNumbers << value %>
+     <% if name.start_with?('ItemNumber') %>
+       <% itemNumbers << value %>
      <% end %>
      <% if name != 'controller' and name != 'action' %>
      <input type="hidden" name="<%= name %>" value="<%= value %>" >
      <% end %>
   <% end%>
-<!--     <input type="hidden" name="31924095286310" value="31924095286310" >
-     <input type="hidden" name="ItemVolume_31924095286310" value="" >
-     <input type="hidden" name="Location_31924095286310" value="rmc+Kroch+Library+Rare+%26+Manuscripts" >
-     <input type="hidden" name="CallNumber_31924095286310" value="Rare+Books+PR6068.O924+H365+2000" >
-     <input_type="hidden" name="Restrictions_31924095286310" value="" >
-     <input type="hidden" name="ItemInfo1_31924095286310" value="" >
-     <input type="hidden" name="ItemNumber_31924095286310" value="31924095286310" >
-     <input type="hidden" name="ItemIssue_31924095286310" value="1"> -->
+     <% itemNumbers = itemNumbers.uniq %>
      <% itemNumbers.each do | itemNum | %>
       <input type="hidden" name="Request" value="<%= itemNum %>" > 
      <% end %> 

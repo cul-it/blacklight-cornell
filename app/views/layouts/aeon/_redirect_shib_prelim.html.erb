@@ -26,7 +26,8 @@
      <% if name != 'controller' and name != 'action' %>
      <input type="hidden" name="<%= name %>" value="<%= value %>" >
      <% end %>
-  <% end%>
+   <% end%>
+     <% itemNumbers = itemNumbers.uniq %>
      <% itemNumbers.each do | itemNum | %>
       <input type="hidden" name="Request" value="<%= itemNum %>" > 
      <% end %> 
@@ -35,9 +36,9 @@
  <br><%#= itemNumbers.inspect %><br>  
     <%#= request.env['CONTENT_LENGTH'].inspect %>
     <%#= cookies.inspect %>
-   <% request.env.each do | cookie | %>
+   <%# request.env.each do | cookie | %>
       <%#= cookie[0].inspect %><%#= cookie[1].inspect %> </br>
-   <% end %>
+   <%# end %>
   <script>
     // submits the form right after it is parsed
     window.focus(); document.forms['aeonPoster'].submit();  
