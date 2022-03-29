@@ -6,6 +6,9 @@ class AeonController < ApplicationController
   require 'net/sftp'
   require 'net/scp'
   require 'net/ssh'
+  require 'uri'
+  require 'net/http'
+  require 'httparty'
  
   @ic = 0
   @bcc = 0
@@ -902,7 +905,19 @@ class AeonController < ApplicationController
   end
  
   def redirect_shib
-  #	redirect_to 'https://rmc-aeon.library.cornell.edu'
+  	@user = User.new()
+  #	@session = Session.new()
+  	#session.user = "jac244"
+  	Rails.logger.info("SHIB = #{params}")
+  	uri = URI('https://rmc-aeon.library.cornell.edu/aeon/aeon.dll')
+	res = Net::HTTP.get_response(uri)
+	Rails.logger.info("COOOKIE = #{cookies.inspect}")
+	Rails.logger.info("RESBODY= #{res.body if res.is_a?(Net::HTTPSuccess)}")
+	response = HTTParty.get('https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=https://newcatalog-folio-int.library.cornell.edu')
+	Rails.logger.info("HTTPARTY = #{response}")
+	Rails.logger.info("COOOKIE = #{cookies.inspect}")
+	outbound_params = params
+#  	redirect_to "https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=https://newcatalog-folio-int.library.cornell.edu/aeon/redirect_shib/newParams=[" + outbound_params['newParams'].inspect + ']' 
   end
  
  

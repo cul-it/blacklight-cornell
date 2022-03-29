@@ -1,9 +1,9 @@
 <html>
-<%= params["newParams"].inspect %>
+<%#= params["newParams"].inspect %>
 <% aeonStuff = params["newParams"].split('&') %>
-<%= aeonStuff.inspect %>
+<%#= aeonStuff.inspect %>
 <meta http-equiv='content-type' content='text/html; charset=utf-8' />
-<link href='aeon.css' rel='stylesheet' type='text/css' />
+<link href='https://rmc-aeon.library.cornell.edu/aeon/css/aeon.css' rel='stylesheet' type='text/css' />
 <title>Login to Aeon at Cornell University Library</title>
 <body onload='window.focus();'>
   Redirecting...
@@ -20,8 +20,8 @@
      <% end %>
      <% name = name_value[0] %>
      <% value = name_value[1] %>
-     <% if name.start_with?('ItemNumber_') or name == 'ItemNumber'%>
-        <% itemNumbers << value %>
+     <% if name.start_with?('ItemNumber_') %>
+         <% itemNumbers << value %>
      <% end %>
      <% if name != 'controller' and name != 'action' %>
      <input type="hidden" name="<%= name %>" value="<%= value %>" >
@@ -30,10 +30,14 @@
      <% itemNumbers.each do | itemNum | %>
       <input type="hidden" name="Request" value="<%= itemNum %>" > 
      <% end %> 
- <br><%= itemNumbers.inspect %><br>  
-    
   <input type='submit' name='Button' value='Login to Aeon' />
   </form>
+ <br><%#= itemNumbers.inspect %><br>  
+    <%#= request.env['CONTENT_LENGTH'].inspect %>
+    <%#= cookies.inspect %>
+   <% request.env.each do | cookie | %>
+      <%#= cookie[0].inspect %><%#= cookie[1].inspect %> </br>
+   <% end %>
   <script>
     // submits the form right after it is parsed
     window.focus(); document.forms['aeonPoster'].submit();  

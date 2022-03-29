@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
 
   layout 'blacklight'
 
-#  WEBrick::HTTPRequest.const_set("MAX_URI_LENGTH", 10240)
+  WEBrick::HTTPRequest.const_set("MAX_URI_LENGTH", 10240)
   #protect_from_forgery with:  :exception
-  protect_from_forgery with:  :null_session
+#  protect_from_forgery with:  :null_session
 
   set_callback :logging_in_user, :before, :show_login_action
 
