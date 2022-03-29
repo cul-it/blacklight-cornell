@@ -1,31 +1,32 @@
 <html>
-<%#= params["newParams"].inspect %>
+<%= params["newParams"].inspect %>
 <% aeonStuff = params["newParams"].split('&') %>
 <%#= aeonStuff.inspect %>
 <meta http-equiv='content-type' content='text/html; charset=utf-8' />
-<link href='https://rmc-aeon.library.cornell.edu/aeon/css/aeon.css' rel='stylesheet' type='text/css' />
+<link href='aeon.css' rel='stylesheet' type='text/css' />
 <title>Login to Aeon at Cornell University Library</title>
 <body onload='window.focus();'>
   Redirecting...
   <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/aeon/aeon.dll' method='POST'>
-  <input type="hidden" name='AeonForm' value='EADRequest'>
+   <input type="hidden" name='AeonForm' value='EADRequest'>
   <!-- // I think we need a param with this name/value.  Doesn't need to be a button. -->
   <input type='hidden' name='SubmitButton' value='Submit Request'>
 <pre></pre> 
   <% itemNumbers = [] %> 
   <% aeonStuff.each do | param | %>
-     <% name_value = param.split('=') %>
+    <% name_value = param.split('=') %>
+     
      <% if name_value.length() > 2 %>
         <% name_value[1] = name_value[1] + ' = ' + name_value[2] %>
-     <% end %>
-     <% name = name_value[0] %>
-     <% value = name_value[1] %>
-     <% if name.start_with?('ItemNumber_') %>
+      <% end %>
+       <% name = name_value[0] %>
+       <% value = name_value[1] %>
+       <% if name.start_with?('ItemNumber') %>
          <% itemNumbers << value %>
-     <% end %>
-     <% if name != 'controller' and name != 'action' %>
-     <input type="hidden" name="<%= name %>" value="<%= value %>" >
-     <% end %>
+       <% end %>
+       <% if name != 'controller' and name != 'action' %>
+       <input type="hidden" name="<%= name %>" value="<%= value %>" >
+       <% end %>
    <% end%>
      <% itemNumbers = itemNumbers.uniq %>
      <% itemNumbers.each do | itemNum | %>
@@ -33,17 +34,17 @@
      <% end %> 
   <input type='submit' name='Button' value='Login to Aeon' />
   </form>
- <br><%#= itemNumbers.inspect %><br>  
+ <br><%= itemNumbers.inspect %><br>  
     <%#= request.env['CONTENT_LENGTH'].inspect %>
     <%#= cookies.inspect %>
    <%# request.env.each do | cookie | %>
       <%#= cookie[0].inspect %><%#= cookie[1].inspect %> </br>
    <%# end %>
-  <script>
+<!--  <script>
     // submits the form right after it is parsed
     window.focus(); document.forms['aeonPoster'].submit();  
 
-  </script> 
+</script> -->
 
 </body>
 </html>
