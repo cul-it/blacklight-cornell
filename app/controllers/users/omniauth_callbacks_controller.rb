@@ -77,8 +77,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
  Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
  msg = [" #{__method__} ".center(60,'Z')]
  msg << jgr25_context
- msg << "request.env: " + request.env.inspect
- msg << "session: " + session.inspect
+ msg << "request.env omniauth: " + request["omniauth.auth"].env.inspect
+ msg << "session[:cuwebauth_return_path]: " + session[:cuwebauth_return_path].inspect
  msg << 'Z' * 60
  msg.each { |x| puts 'ZZZ ' + x.to_yaml }
  Rails.logger.level = save_level
