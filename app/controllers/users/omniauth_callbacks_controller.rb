@@ -71,21 +71,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def saml
- #****************** DISCOVERYACCESS-7454 -
- save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
- jgr25_context = "#{__FILE__}:#{__LINE__}"
- Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
- msg = [" #{__method__} ".center(60,'Z')]
- msg << jgr25_context
- msg << "request.env omniauth: " + request.env["omniauth.auth"].inspect unless request.env["omniauth.auth"].nil?
- msg << "request.env origin: " + request.env["omniauth.origin"].inspect unless request.env["omniauth.origin"].nil?
- msg << "request.env returnpath: " + request.env["omniauth.returnpath"].inspect unless request.env["omniauth.returnpath"].nil?
- msg << "session[:cuwebauth_return_path]: " + session[:cuwebauth_return_path].inspect unless session[:cuwebauth_return_path].nil?
- msg << 'Z' * 60
- msg.each { |x| puts 'ZZZ ' + x.to_yaml }
- Rails.logger.level = save_level
- #binding.pry
-#*******************
     auth = request.env["omniauth.auth"]
     semail = auth.info.email[0]
     u = User.where(email: semail).first
