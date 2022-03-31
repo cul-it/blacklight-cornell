@@ -1,4 +1,4 @@
-<% if document.id.present? %>
+<% if document.present? %>
     <% inject_auto_discovery_link_tag %>
     <%= content_tag :abbr, '', class: 'unapi-id', title: document.id %>
 <% end %>
