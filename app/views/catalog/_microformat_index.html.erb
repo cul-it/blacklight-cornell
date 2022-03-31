@@ -1,2 +1,4 @@
-<% inject_auto_discovery_link_tag %>
-<%= content_tag :abbr, '', class: 'unapi-id', title: document.id %>
+<% if document.id.present? %>
+    <% inject_auto_discovery_link_tag %>
+    <%= content_tag :abbr, '', class: 'unapi-id', title: document.id %>
+<% end %>
