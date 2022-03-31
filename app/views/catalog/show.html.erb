@@ -26,7 +26,7 @@
   <% end %>
 <% end %>
 
-<% if document.present? && document.id.present? %>
+<% if @document.present? && @document.id.present? %>
 <%= render :partial => 'microformat_default' %>
 <% end %>
 <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title.html_safe, :application_name => application_name).html_safe %>
