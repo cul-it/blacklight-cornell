@@ -36,7 +36,7 @@
   </form>
  <br><%= itemNumbers.inspect %><br>  
     <%#= request.env['CONTENT_LENGTH'].inspect %>
-    <%#= cookies.inspect %>
+    <%= cookies.request.env.inspect %>
    <%# request.env.each do | cookie | %>
       <%#= cookie[0].inspect %><%#= cookie[1].inspect %> </br>
    <%# end %>
