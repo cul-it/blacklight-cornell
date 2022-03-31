@@ -34,7 +34,8 @@
      <% end %> 
   <input type='submit' name='Button' value='Login to Aeon' />
   </form>
- <br><%= itemNumbers.inspect %><br>  
+ <br><%= itemNumbers.inspect %><br> 
+ SESSION = <%= session.inspect %> 
     <%#= request.env['CONTENT_LENGTH'].inspect %>
     <%= cookies.request.env.inspect %>
    <%# request.env.each do | cookie | %>

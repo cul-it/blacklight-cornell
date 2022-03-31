@@ -53,6 +53,9 @@ class AeonController < ApplicationController
  end
 
  def reading_room_request  #rewrite of monograph.php from voy-api.library.cornell.edu
+ 	@user = User.new
+ 	@user[:id] = 1
+ 	session[:user_id] = @user.id
  	@title
  	@reading_room_request
  	@re506
@@ -110,7 +113,7 @@ class AeonController < ApplicationController
 #	@fo = footer 
 #    @all.html_safe = @the_prelim.html_safe + @warning.html_safe + @ho.html_safe + @body.html_safe + this_sub.html_safe + @clear.html_safe + @form.html_safe + @fo.html_safe
 #    @all = @this_sub + @clear + @form + @fo
-    session[:current_user_id] = 1
+     session[:current_user_id] = 1
  #    File.write("#{Rails.root}/tmp/form2.html", @all)
  #    reading
  end
@@ -176,7 +179,7 @@ class AeonController < ApplicationController
 #	@fo = footer 
 #    @all.html_safe = @the_prelim.html_safe + @warning.html_safe + @ho.html_safe + @body.html_safe + this_sub.html_safe + @clear.html_safe + @form.html_safe + @fo.html_safe
 #    @all = @the_prelim + @warning + @ho + @body + this_sub + @clear + @form + @fo
-    session[:current_user_id] = 1
+     session[:current_user_id] = 1
 #    File.write("#{Rails.root}/tmp/scan_form.html", @all)
 #    scanning
 
