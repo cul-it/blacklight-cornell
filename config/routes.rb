@@ -32,7 +32,7 @@ resources :solr_documents, except: [:index], path: '/catalog', controller: 'cata
 end
 
 #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
-# get 'bookmarks/index' => 'bookmarks#index'
+get 'bookmarks/index' => 'bookmarks#index'
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
 get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
 get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_item_limit_bookmarks'
