@@ -27,9 +27,9 @@
 <% end %>
 
 <% if @document.present? && @document.id.present? %>
-<%= render :partial => 'microformat_default' %>
+  <%= render :partial => 'microformat_default' %>
+  <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title.html_safe, :application_name => application_name).html_safe %>
 <% end %>
-<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title.html_safe, :application_name => application_name).html_safe %>
  <% content_for(:head) do -%>
         <%  render_link_rel_alternates          %>
         <%= render_opensearch_response_metadata %>
