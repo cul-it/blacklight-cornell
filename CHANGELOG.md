@@ -1,6 +1,6 @@
 # Changelog
 
-DISCOVERYACCESS-7454-b
+DISCOVERYACCESS-7454-c
 
 ## [dev-folio] - 2021-10-01
 
