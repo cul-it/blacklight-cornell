@@ -4,7 +4,7 @@ require 'repost'
 class BookmarksController < CatalogController
   include Blacklight::Bookmarks
 
-  def show
+  def index
     #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     jgr25_context = "#{__FILE__}:#{__LINE__}"
