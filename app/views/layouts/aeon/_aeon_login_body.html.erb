@@ -33,15 +33,15 @@
       <% newParams['AeonParams'] = @paramsString %>
       <% params = newParams %>
       <%#= params.inspect %>
-      <%= session.inspect %>
+      <%= session[:user_id] %>
 
-<!--  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="POST">  -->
-   <form action="/aeon/redirect_shib" method="POST"> 
+ <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" > 
+<!--   <form action="/aeon/redirect_shib" method="POST">  -->
       <input type="hidden" name="authenticated" value="true" />
       <input type="hidden" name="authType" value="RemoteAuth" />      
       <input type="hidden" name='newParams' value='<%= @paramsString %>'>
-<!--     <input type="hidden" name="target" value="/aeon/redirect_shib?<%= @paramsString %>" /> -->   
-       <input type="hidden" name="target" value="/aeon/redirect_shib" >  
+    <input type="hidden" name="target" value="/aeon/redirect_shib?<%= @paramsString %>" />  
+<!--       <input type="hidden" name="target" value="www.google.com" >  -->
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 

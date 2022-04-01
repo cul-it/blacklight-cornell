@@ -35,12 +35,17 @@
   <input type='submit' name='Button' value='Login to Aeon' />
   </form>
  <br><%= itemNumbers.inspect %><br> 
- SESSION = <%= session.inspect %> 
+ SESSION = <%= session %> 
+    SESSION_LOADED = <%= session.loaded? %>
+    SESSION_HASH = <%= session.keys.inspect %>
+    <% session.each do | name, val| %>
+       <%= name %>  <%= val %>
+    <% end %>
     <%#= request.env['CONTENT_LENGTH'].inspect %>
-    <%= cookies.request.env.inspect %>
-   <%# request.env.each do | cookie | %>
-      <%#= cookie[0].inspect %><%#= cookie[1].inspect %> </br>
-   <%# end %>
+    <%#= cookies.request.env.inspect %>
+   <% cookies.request.env.each do | cookie | %>
+      <%= cookie[0].inspect %><%= cookie[1].inspect %> </br>
+   <% end %>
 <!--  <script>
     // submits the form right after it is parsed
     window.focus(); document.forms['aeonPoster'].submit();  
