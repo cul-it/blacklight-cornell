@@ -38,7 +38,7 @@ get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_i
 get 'bookmarks/export' => 'bookmarks#export'
 get 'bookmarks/book_bags_login' => 'bookmarks#bookmarks_book_bags_login', :as => 'bookmarks_book_bags_login'
 get 'bookmarks/citation_page' => 'bookmarks#show_citation_page', :as => 'show_citation_page'
-get 'bookmarks/:id' => 'bookmarks#index'
+# get 'bookmarks/:id' => 'bookmarks#index'
 
 resources :bookmarks do
   concerns :exportable
