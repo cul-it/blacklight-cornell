@@ -131,10 +131,11 @@ gem 'exception_notification'
 gem 'piwik_analytics', '~> 1.0.1'
 gem 'citeproc'
 #gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
-gem 'csl-styles', :git => 'https://github.com/inukshuk/csl-styles', :branch => 'master', :submodules => true
-gem 'citeproc-ruby'
+#gem 'csl-styles', :git => 'https://github.com/inukshuk/csl-styles', :branch => 'master', :submodules => true
+gem 'csl-styles', '~> 1.0'
+gem 'citeproc-ruby', '~> 1.1'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
-gem 'ebsco-eds'
+gem 'ebsco-eds', '~> 1.0'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.3.1'

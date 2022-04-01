@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 826bf61fcc92401398f9de383e5a67ffd46a1538
-  branch: DISCOVERYACCESS-7436
+  revision: 4f57ba0b12682ef9d89a0049e381950996f0de27
+  branch: master
   specs:
-    blacklight_cornell_requests (4.2.2)
+    blacklight_cornell_requests (4.2.3)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
@@ -19,6 +19,7 @@ GIT
       nokogiri
       protected_attributes_continued
       rails (~> 5.1)
+      repost
 
 GIT
   remote: https://github.com/cul-it/blacklight-unapi
@@ -28,15 +29,6 @@ GIT
     blacklight_unapi (0.1.0)
       blacklight
       rails
-
-GIT
-  remote: https://github.com/cul-it/csl-styles
-  revision: c7b50754fc907247c7533deed09d69478a9669c9
-  branch: master
-  submodules: true
-  specs:
-    csl-styles (1.0.1.9)
-      csl (~> 1.0)
 
 GIT
   remote: https://github.com/cul-it/cul-folio-edge
@@ -240,6 +232,8 @@ GEM
     crass (1.0.6)
     csl (1.5.2)
       namae (~> 1.0)
+    csl-styles (1.0.1.11)
+      csl (~> 1.0)
     cucumber (3.1.2)
       builder (>= 2.1.2)
       cucumber-core (~> 3.2.0)
@@ -744,9 +738,9 @@ DEPENDENCIES
   capybara-email
   celluloid (= 0.17.4)
   citeproc
-  citeproc-ruby
+  citeproc-ruby (~> 1.1)
   coffee-rails (~> 4.0)
-  csl-styles!
+  csl-styles (~> 1.0)
   cucumber (= 3.1.2)
   cucumber-rails
   cul-folio-edge!
@@ -755,7 +749,7 @@ DEPENDENCIES
   devise-guests (~> 0.3)
   dotenv-deployment
   dotenv-rails
-  ebsco-eds
+  ebsco-eds (~> 1.0)
   exception_notification
   ffi
   font-awesome-rails
@@ -827,4 +821,4 @@ RUBY VERSION
    ruby 2.6.4p104
 
 BUNDLED WITH
-   2.3.9
+   2.3.6
