@@ -33,7 +33,11 @@ class BookmarksController < CatalogController
     Rails.logger.level = save_level
     #binding.pry
     #*******************
-    super
+    if params[:id] == 'index'
+      redirect_to bookmarks_path
+    else
+     super
+    end
   end
 
   def can_add
