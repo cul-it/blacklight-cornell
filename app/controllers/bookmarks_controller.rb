@@ -5,7 +5,7 @@ class BookmarksController < CatalogController
   include Blacklight::Bookmarks
 
   def index
-    #******************
+    #****************** DISCOVERYACCESS-7461-c -
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     jgr25_context = "#{__FILE__}:#{__LINE__}"
     Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
@@ -17,7 +17,7 @@ class BookmarksController < CatalogController
     Rails.logger.level = save_level
     #binding.pry
     #*******************
-
+    super
   end
 
   def can_add
