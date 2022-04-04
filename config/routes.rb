@@ -32,6 +32,7 @@ resources :solr_documents, except: [:index], path: '/catalog', controller: 'cata
 end
 
 #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
+get 'bookmarks/index' => 'bookmarks#index'
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
 get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
 get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_item_limit_bookmarks'
@@ -49,6 +50,8 @@ resources :bookmarks do
 end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+
+get "signin", to: "signin#index"
 
 # devise_for :users
 
@@ -81,7 +84,7 @@ devise_for :users, controllers: {
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
   get 'catalog/afemail/:id' => 'catalog#afemail', :as => 'catalog_afemail'
-  get 'logins' => 'catalog#logins', :as => 'catalog_logins'
+  # get 'logins' => 'catalog#logins', :as => 'catalog_logins'
   get 'credits' => 'catalog#credits', :as => 'catalog_credits'
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'

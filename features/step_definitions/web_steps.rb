@@ -99,8 +99,16 @@ Then("I should see a link {string}") do |string|
   page.find("a", :text => "#{string}")
 end
 
+Then("I should see a button {string}") do |string|
+  page.find("button", :text => "#{string}")
+end
+
 Then("I should not see a link {string}") do |string|
   expect(page).not_to have_selector("a", :text => "#{string}")
+end
+
+Then("I should not see a button {string}") do |string|
+  expect(page).not_to have_selector("button", :text => "#{string}")
 end
 
 Then("I should see the CUWebLogin page") do
@@ -388,4 +396,31 @@ end
 
 Then("I clear transactions") do
   clear_sqlite
+end
+
+Given("I click on the Sign in link") do
+  within page.find("ul.blacklight-nav") do
+    click_button("Sign in")
+  end
+end
+
+Given("I click on the first {string}") do |string|
+    first("a", :text => "#{string}").click
+end
+
+Then("I should be required to sign in") do
+  # detect that the user would have to log in
+  expect(page.find("#main-article")).to have_selector("form#login")
+  expect(page.find(".cu-unit")).to have_text("CUWebLogin")
+end
+
+Given("I select {string} from the Library Menu") do |string|
+  within "div.library-menu" do
+    find("#library-menu").click
+    click_link "#{string}"
+  end
+end
+
+Given /^our host is "([^\"]+)"$/ do |host|
+  Capybara.app_host = host
 end

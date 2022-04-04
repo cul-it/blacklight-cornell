@@ -142,20 +142,21 @@ When("I sign in to BookBag") do
   visit 'book_bags/index'
   # 'Sign In' blacklight-nav link is not available on Jenkins since
   # ENV['SAML_IDP_TARGET_URL’] is undefined there
-  click_link "Sign in to enable your Book Bag"
+  within "#main-container" do
+    click_button "Sign in to email items or save them to Book Bag"
+  end
 end
 
 Given("we are in the development environment") do
-  expect(ENV['RAILS_ENV']).to eq('development')
+  expect(ENV['COLLECTIONS']).to eq('development')
 end
 
 Given("we are in any development or test environment") do
-  expect(ENV['RAILS_ENV']).not_to eq('production')
+  expect(ENV['COLLECTIONS']).not_to eq('production')
 end
 
 Given("I enable the {string} environment") do |string|
   if ['development', 'test', 'production'].include?(string)
-      ENV['RAILS_ENV']=string
       ENV["COLLECTIONS"]=string
   else
       expect(false)

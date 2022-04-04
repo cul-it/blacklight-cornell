@@ -10,19 +10,19 @@
             <% @goo_sign_in_link = user_google_oauth2_omniauth_authorize_path%>
             <% @fb_sign_in_link = user_facebook_omniauth_authorize_path%>
             <% @sign_in_link =
-              if request.env['PATH_INFO'] == "/bookmarks" 
+              if request.env['PATH_INFO'] == "/bookmarks"
                 '/book_bags/index'
               else
                user_saml_omniauth_authorize_path
               end
             %>
             <li>
-              <%= link_to 'Sign in with your netid', @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
+              <%= button_to 'Sign in with your netid', @sign_in_link, class: "link-button", :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
             </li>
               <br/>
             <% if ENV['GOOGLE_CLIENT_ID'] %>
               <li>
-                <%= link_to 'Sign in with your google id', @goo_sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
+                <%= button_to 'Sign in with your google id', @goo_sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
               </li>
             <% end %>
             <% if ENV['FACEBOOK_KEY'] %>

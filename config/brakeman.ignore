@@ -1,6 +1,21 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 121,
+      "fingerprint": "9a3951031616a07c8e02c86652f537e92c08685da97f5ec2b12d5d3602b55bb8",
+      "check_name": "EOLRuby",
+      "message": "Support for Ruby 2.6.4 ends on 2022-03-31",
+      "file": "Gemfile.lock",
+      "line": 535,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High"
+    },
+    {
       "warning_type": "Mass Assignment",
       "warning_code": 60,
       "fingerprint": "214e078d81e28a61aeffd369d08c178d4b9738057e7c64c962c44337f03115b6",
@@ -37,21 +52,6 @@
       "user_input": null,
       "confidence": "Weak",
       "note": ""
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 106,
-      "fingerprint": "c8adc1c0caf2c9251d1d8de588fb949070212d0eed5e1580aee88bab2287b772",
-      "check_name": "SanitizeMethods",
-      "message": "loofah gem 2.10.0 is vulnerable (CVE-2018-8048). Upgrade to 2.2.1",
-      "file": "Gemfile.lock",
-      "line": 395,
-      "link": "https://github.com/flavorjones/loofah/issues/144",
-      "code": null,
-      "render_path": null,
-      "location": null,
-      "user_input": null,
-      "confidence": "Medium"
     }
   ],
   "updated": "2021-06-11 14:47:23 -0400",
