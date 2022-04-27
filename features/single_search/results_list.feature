@@ -50,13 +50,13 @@ Feature: Results list
     And I should see the text "Zhen cang Mao Zedong"
 
 
-  @all_results_list @search_with_no_best_bets
-  Scenario: Search with no best bets
-    Given I literally go to search
-    When I fill in "q" with 'otitis media'
-    And I press 'Search'
-    Then I should get bento results
-    And I should not see the text "Best Bet"
+	#  @all_results_list @search_with_no_best_bets
+	#Scenario: Search with no best bets
+	#Given I literally go to search
+	#When I fill in "q" with 'otitis media'
+	#And I press 'Search'
+	#Then I should get bento results
+	#And I should not see the text "Best Bet"
 
 
 
