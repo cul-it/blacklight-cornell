@@ -43,7 +43,7 @@ class BookmarksController < CatalogController
   def bookmarks_book_bags_login
     #binding.pry
     # hack to return to book_bags page after login
-    # session[:cuwebauth_return_path] = book_bags_index_path
+    session[:cuwebauth_return_path] = book_bags_index_path
     # redirect_to user_saml_omniauth_authorize_path
     redirect_post(user_saml_omniauth_authorize_path, options: {authenticity_token: :auto})
   end
