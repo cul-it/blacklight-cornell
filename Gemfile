@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
-ruby "2.6.4"
+ruby "2.7.2"
 #another try
-gem 'rails', '5.2.6.3'
+gem 'rails'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal', '2.11.10'
 gem "sprockets", '~> 3.7.2'
-gem "actionview", ">= 5.2.6.3"
+gem "actionview", "~> 7.0"
 gem "byebug"
 gem "ffi"
 # added for rails 4.
@@ -128,14 +128,15 @@ gem 'bento_search'
 gem 'celluloid', '0.17.4' # Required for bento_search multisearcher
 gem 'mollom'
 gem 'exception_notification'
-gem 'piwik_analytics', '~> 1.0.1'
+# gem 'piwik_analytics', '~> 1.0.1'
+gem 'autometal-piwik', :require => 'piwik'
 gem 'citeproc'
-#gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
-#gem 'csl-styles', :git => 'https://github.com/inukshuk/csl-styles', :branch => 'master', :submodules => true
-gem 'csl-styles', '~> 1.0'
-gem 'citeproc-ruby', '~> 1.1'
+gem 'csl-styles', '~> 2.0', '>= 2.0.1'
+#gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
+gem 'citeproc-ruby', '~> 2.0'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
-gem 'ebsco-eds', '~> 1.0'
+# gem 'ebsco-eds'
+gem 'ebsco-eds', :git => 'https://github.com/ebsco/edsapi-ruby', :branch => 'adding-citation-support'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.3.1'
