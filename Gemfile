@@ -132,7 +132,7 @@ gem 'piwik_analytics', '~> 1.0.1'
 gem 'citeproc'
 gem 'csl-styles', '~> 2.0', '>= 2.0.1'
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
-gem 'citeproc-ruby'
+gem 'citeproc-ruby', '~> 2.0'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
 # gem 'ebsco-eds'
