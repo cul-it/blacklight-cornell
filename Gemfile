@@ -139,3 +139,6 @@ gem 'google-analytics-rails', '1.1.1'
 gem 'ebsco-eds', :git => 'https://github.com/ebsco/edsapi-ruby', :branch => 'adding-citation-support'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.3.1'
+
+# for ebsco-eds
+gem 'csl', '~> 2.0'
