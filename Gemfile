@@ -142,4 +142,3 @@ gem 'loofah', '2.3.1'
 
 # for ebsco-eds
 gem 'csl', '~> 2.0'
-gem 'activesupport', '>= 7'
