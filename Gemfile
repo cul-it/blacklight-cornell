@@ -107,7 +107,7 @@ gem 'omniauth-saml', '~> 2.0'
 gem 'omniauth-rails_csrf_protection'
 #gem 'omniauth-google-oauth2'
 # Use Omniauth Google plugin
-gem 'omniauth-google-oauth2', '~> 0.8'
+gem 'omniauth-google-oauth2'
 # Use Omniauth Facebook plugin
 gem 'omniauth-facebook', '~> 5.0'
 gem 'repost'
