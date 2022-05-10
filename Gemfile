@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby "2.6.4"
+ruby
 #another try
-gem 'rails', '5.2.6.3'
+gem 'rails'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal', '2.11.10'
