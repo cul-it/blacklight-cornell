@@ -141,4 +141,3 @@ gem 'ebsco-eds', :git => 'https://github.com/ebsco/edsapi-ruby', :branch => 'add
 gem 'loofah', '2.3.1'
 
 # for ebsco-eds
-gem 'csl', '~> 2.0'
