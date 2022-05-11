@@ -4,9 +4,9 @@ ruby "2.6.4"
 gem 'rails'
 gem "dotenv-rails"
 gem "dotenv-deployment"
-gem 'appsignal', '2.11.10'
-gem "sprockets", '~> 3.7.2'
-gem "actionview", ">= 5.2.6.3"
+gem 'appsignal'#, '2.11.10'
+gem "sprockets"#, '~> 3.7.2'
+gem "actionview"#, ">= 5.2.6.3"
 gem "byebug"
 gem "ffi"
 # added for rails 4.
