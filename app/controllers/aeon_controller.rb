@@ -441,7 +441,8 @@ class AeonController < ApplicationController
   end
  
   def loginurl
-	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php"  	
+  	return "/aeon/aeon_login"
+#	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php"  	
 # 	return "http://dev-jac2445.library.cornell.edu/aeon511/aeon-login.php" 
   #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
@@ -904,5 +905,27 @@ class AeonController < ApplicationController
    return ret 	
   end
 
+ def aeon_login
+    return params
+  end
+
+  def redirect_nonshib
+    Rails.logger.info("BEEGER = #{params}")
+  end
+
+  def redirect_shib
+        @user = User.new()
+  #     @session = Session.new()
+        #session.user = "jac244"
+        Rails.logger.info("SHIB = #{params}")
+        uri = URI('https://rmc-aeon.library.cornell.edu/aeon/aeon.dll')
+        res = Net::HTTP.get_response(uri)
+        Rails.logger.info("COOOKIE = #{cookies.inspect}")
+        Rails.logger.info("RESBODY= #{res.body if res.is_a?(Net::HTTPSuccess)}")
+#        response = HTTParty.get('https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=https://newcatalog-folio-int.library.cornell.edu')
+        Rails.logger.info("HTTPARTY = #{response}")
+        Rails.logger.info("COOOKIE = #{cookies.inspect}")
+        outbound_params = params
+  end
   	                          
 end

@@ -1,0 +1,44 @@
+<html>
+<%= params["newParams"].inspect %>
+<% aeonStuff = params["newParams"].split('&') %>
+<%= aeonStuff.inspect %>
+<meta http-equiv='content-type' content='text/html; charset=utf-8' />
+<link href='aeon.css' rel='stylesheet' type='text/css' />
+<title>Login to Aeon at Cornell University Library</title>
+<body onload='window.focus();'>
+  Redirecting...
+  <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/nonshib/aeon.dll' method='POST'>
+  <input type="hidden" name='AeonForm' value='EADRequest'>
+  <!-- // I think we need a param with this name/value.  Doesn't need to be a button. -->
+  <input type='hidden' name='SubmitButton' value='Submit Request'>
+<pre></pre> 
+  <% itemNumbers = [] %> 
+  <% aeonStuff.each do | param | %>
+     <% name_value = param.split('=') %>
+     <% if name_value.length() > 2 %>
+        <% name_value[1] = name_value[1] + ' = ' + name_value[2] %>
+     <% end %>
+     <% name = name_value[0] %>
+     <% value = name_value[1] %>
+     <% if name.start_with?('ItemNumber') %>
+       <% itemNumbers << value %>
+     <% end %>
+     <% if name != 'controller' and name != 'action' %>
+     <input type="hidden" name="<%= name %>" value="<%= value %>" >
+     <% end %>
+  <% end%>
+     <% itemNumbers = itemNumbers.uniq %>
+     <% itemNumbers.each do | itemNum | %>
+      <input type="hidden" name="Request" value="<%= itemNum %>" > 
+     <% end %> 
+     
+  <input type='submit' name='Button' value='Login to Aeon' />
+  </form>
+<!--   <script>
+    // submits the form right after it is parsed
+    window.focus(); document.forms['aeonPoster'].submit();
+ 
+</script>  -->
+
+</body>
+</html>
