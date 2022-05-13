@@ -628,9 +628,9 @@ Feature: Item view
   @bookplates
   @DISCOVERYACCESS-2823
   Scenario: Show link to e-bookplate
-    Given I request the item view for 8948570
+    Given I request the item view for 9330651
     Then I should see the label 'Bookplate'
-    And it should have link "In memory of Albert Leskowitz." with value "http://plates.library.cornell.edu/donor/DNR00451"
+    And it should have link "A Gift of Il Hwan Cho and Soon Ja Cho in support of Korean Studies." with value "http://plates.library.cornell.edu/donor/DNR00393"
 
   #Confessio fidei exhibita invictiss
   #The Eugene M. Kaufmann, Jr. Endowment Fund., The Arthur H. and Mary Marden Dean Book Fund.
