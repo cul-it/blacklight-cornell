@@ -665,7 +665,7 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 9264410
     # Temporary change for Covid-19: added 'not' to the following line.
-    Then I should not see the label 'On-site use'
+    Then I should see the label 'On-site use'
     And I should not see the label 'Request item'
     And it should have link "Hours" with value "https://cornellspif.com/contact-spif/"
 
