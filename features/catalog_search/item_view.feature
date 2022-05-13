@@ -227,7 +227,7 @@ Feature: Item view
   @availability
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
-    Given I request the item view for 2144728
+    Given I request the item view for 7899862
     Then I should see the labels 'Declared lost'
 
   # Availability for a Missing item Municipal innovations
@@ -280,7 +280,7 @@ Feature: Item view
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 13)
-    Given I request the item view for 259600
+    Given I request the item view for 7899862
     Then I should see the label 'Declared lost'
 
   # Make sure subfield z is displayed.

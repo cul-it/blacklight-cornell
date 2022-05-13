@@ -200,6 +200,7 @@ Feature: Browse search
   | 7644460 | Medicare |
   | 7690221 | International Criminal Court, Article 98 |
   | 784742 | Los indios eran muy penetrantes |
+  | 7899862 | Discourse on sacred and profane images |
   | 7935065 | Rechevai︠a︡ kommunikat︠s︡ii︠a︡ |
   | 7943432 | The basic practice of statistics |
   | 7981095 | Shelter medicine for veterinarians and staff |
