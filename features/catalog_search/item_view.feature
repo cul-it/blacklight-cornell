@@ -273,8 +273,9 @@ Feature: Item view
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 14)
-    Given I request the item view for 5318858
-    Then I should see the label 'Declared lost v.2'
+    Given I request the item view for 362639
+    Then I should see the label 'Lost and paid v. 67, no. 4 - 2019'
+    And I should see the label 'Declared lost v. 67, no. 3 - 2019'
 
   # Availability for a lost item status 13
   @all_item_view
