@@ -470,7 +470,7 @@ Feature: Item view
   @DISCOVERYACCESS-1679
   @all_item_view
   Scenario: Show the record properly when xisbn does not work
-    Given I request the item view for 8881455
+    Given I request the item view for 4481177
     Then I should see the label 'Language'
 
   # various boundwith cases
