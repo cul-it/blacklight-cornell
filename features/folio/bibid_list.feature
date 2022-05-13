@@ -11,7 +11,7 @@ Feature: Browse search
     Then I should see the label '<title>'
 
   Examples:
-  | id | title |
+  | bibid | title |
   | 1001 | Reflections |
   | 1003756 | Struktura filosofskogo znanii︠a︡ |
   | 10055679 | Big chicken |
