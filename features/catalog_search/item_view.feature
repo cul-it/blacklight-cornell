@@ -637,7 +637,8 @@ Feature: Item view
   @all_item_view
   @bookplates
   @DISCOVERYACCESS-2823
-  Scenario: Show link to e-bookplates
+  Scenario: Show links two e-bookplates from one asset
+    Given PENDING
     Given I request the item view for 4473308
     Then I should see the label 'Bookplate'
     And it should have link "The Eugene M. Kaufmann, Jr. Endowment Fund." with value "http://plates.library.cornell.edu/donor/DNR00386"
