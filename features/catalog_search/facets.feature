@@ -66,6 +66,6 @@ Feature: Facets
 
 	Examples:
 		| category | facet | count |
-		| Publication Year | Unknown | 2 |
+		| Publication Year | Unknown | 3 |
 		| Library Location | Adelson Library | 2 |
 		| Call Number | A - General | 8 |
