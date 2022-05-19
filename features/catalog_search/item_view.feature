@@ -227,7 +227,7 @@ Feature: Item view
   @availability
   @all_item_view
   Scenario: As a user I can see the availability for an lost item (status 15) (Polymer Chemistry)
-    Given I request the item view for 2144728
+    Given I request the item view for 7899862
     Then I should see the labels 'Declared lost'
 
   # Availability for a Missing item Municipal innovations
@@ -246,11 +246,11 @@ Feature: Item view
     Given I request the item view for 5729532
     Then I should see the labels 'Missing'
 
-  # Availability for an In transit item bonsai culture and care
+  # Availability for an In transit item Kenneth A. R. Kennedy papers
   @all_item_view
   @availability @intransit
   Scenario: As a user I can see the availability for an In transit item
-    Given I request the item view for 10976407
+    Given I request the item view for 8753977
     Then I should see the labels 'In transit'
 
   # Availability for an In transit item The goldfinch
@@ -273,14 +273,15 @@ Feature: Item view
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 14)
-    Given I request the item view for 5318858
-    Then I should see the label 'Declared lost v.2'
+    Given I request the item view for 362639
+    Then I should see the label 'Lost and paid v. 67, no. 4 - 2019'
+    And I should see the label 'Declared lost v. 67, no. 3 - 2019'
 
   # Availability for a lost item status 13
   @all_item_view
   @availability
   Scenario: As a user I can see the availability for an lost item (status 13)
-    Given I request the item view for 259600
+    Given I request the item view for 7899862
     Then I should see the label 'Declared lost'
 
   # Make sure subfield z is displayed.
@@ -469,7 +470,7 @@ Feature: Item view
   @DISCOVERYACCESS-1679
   @all_item_view
   Scenario: Show the record properly when xisbn does not work
-    Given I request the item view for 8881455
+    Given I request the item view for 4481177
     Then I should see the label 'Language'
 
   # various boundwith cases
@@ -627,16 +628,17 @@ Feature: Item view
   @bookplates
   @DISCOVERYACCESS-2823
   Scenario: Show link to e-bookplate
-    Given I request the item view for 8948570
+    Given I request the item view for 9330651
     Then I should see the label 'Bookplate'
-    And it should have link "In memory of Albert Leskowitz." with value "http://plates.library.cornell.edu/donor/DNR00451"
+    And it should have link "A Gift of Il Hwan Cho and Soon Ja Cho in support of Korean Studies." with value "http://plates.library.cornell.edu/donor/DNR00393"
 
   #Confessio fidei exhibita invictiss
   #The Eugene M. Kaufmann, Jr. Endowment Fund., The Arthur H. and Mary Marden Dean Book Fund.
   @all_item_view
   @bookplates
   @DISCOVERYACCESS-2823
-  Scenario: Show link to e-bookplates
+  Scenario: Show links two e-bookplates from one asset
+    Given PENDING
     Given I request the item view for 4473308
     Then I should see the label 'Bookplate'
     And it should have link "The Eugene M. Kaufmann, Jr. Endowment Fund." with value "http://plates.library.cornell.edu/donor/DNR00386"
@@ -665,7 +667,7 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 9264410
     # Temporary change for Covid-19: added 'not' to the following line.
-    Then I should not see the label 'On-site use'
+    Then I should see the label 'On-site use'
     And I should not see the label 'Request item'
     And it should have link "Hours" with value "https://cornellspif.com/contact-spif/"
 
@@ -681,7 +683,7 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 9203210
     # Temporary change for Covid-19: added 'not' to the following line.
-    Then I should not see the label 'On-site use'
+    Then I should see the label 'On-site use'
     # Hiding request buttons for Folio migration so need to comment out this next line.
     # And I should see the label 'Request item'
     And it should have link "Hours" with value "https://cornellspif.com/contact-spif/"
@@ -707,7 +709,7 @@ Feature: Item view
   Scenario: View an items holdings, and have pointer to RMC help page.
     Given I request the item view for 2083253
     # Temporary change for Covid-19: added 'not' to the following line.
-    Then I should not see the label 'On-site use'
+    Then I should see the label 'On-site use'
     And it should have link "Hours" with value "https://www.library.cornell.edu/libraries/rmc"
 
   @hours-page
