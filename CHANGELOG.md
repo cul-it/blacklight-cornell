@@ -1,5 +1,9 @@
 # Changelog
 
+DISCOVERYACCESS-7446-b - blacklight-cornell-merge-pr job has this line in it:
+FOLIO_FEW='http://folio-opac-dev.library.cornell.edu:8983/solr/b2'
+Changed that to b3
+
 DISCOVERYACCESS-7194c - useless change to allow retesting
 
 DISCOVERYACCESS-7454-c
