@@ -50,13 +50,13 @@ Feature: Results list
     And I should see the text "Zhen cang Mao Zedong"
 
 
-  @all_results_list @search_with_no_best_bets
-  Scenario: Search with no best bets
-    Given I literally go to search
-    When I fill in "q" with 'otitis media'
-    And I press 'Search'
-    Then I should get bento results
-    And I should not see the text "Best Bet"
+	#  @all_results_list @search_with_no_best_bets
+	#Scenario: Search with no best bets
+	#Given I literally go to search
+	#When I fill in "q" with 'otitis media'
+	#And I press 'Search'
+	#Then I should get bento results
+	#And I should not see the text "Best Bet"
 
 
 
@@ -71,15 +71,15 @@ Feature: Results list
    @all_results_list @search_with_view_all_digital_collections
 	  Scenario: Search with view all books link
 	    Given I literally go to search
-	    When I fill in "q" with 'game design'
+	    When I fill in "q" with 'delights'
 	    And I press 'Search'
 	    Then I should get bento results
-	    And I should see the text "The basketball game"
+	    And I should see the text "Whipped cream"
 
   @all_results_list @search_with_view_advanced_link
   Scenario: Search with view all books link
 	    Given I literally go to search
-	    When I fill in "q" with 'game design'
+	    When I fill in "q" with 'delights'
 	    And I press 'Search'
 	    Then I should get bento results
 	    And I should see the text "or use advanced search"

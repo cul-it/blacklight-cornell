@@ -286,7 +286,7 @@
 	            <% f = JSON.parse(form) %>
 	            <div class="other-form">
 	              <span class="other-form-title">
-	                <%= link_to f["title"], "/catalog/#{f["bibid"]}", { "aria-label": "Bib ID ##{f["bibid"]}" } %>
+	                <%= link_to f["title"], "/catalog/#{f["bibid"]}", { "aria-label": "#{f["title"]}, bib ID #{f["bibid"]}" } %>
 	              </span>
 	              <% formats = f["format"].split(",") %>
 	                <% formats.each do |format| %>
