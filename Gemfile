@@ -124,7 +124,7 @@ gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge'
 #gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'master'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 gem 'ruby-saml', '>= 1.12.1'
-gem 'bento_search'
+# gem 'bento_search'
 gem 'celluloid', '0.17.4' # Required for bento_search multisearcher
 gem 'mollom'
 gem 'exception_notification'
