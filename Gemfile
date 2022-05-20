@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 ruby "2.6.4"
 #another try
-gem 'rails', '5.2.6.3'
+gem 'rails', '5.2.8'
 gem "dotenv-rails"
 gem "dotenv-deployment"
 gem 'appsignal', '2.11.10'
 gem "sprockets", '~> 3.7.2'
-gem "actionview", ">= 5.2.6.3"
+gem "actionview", ">= 5.2.7.1"
 gem "byebug"
 gem "ffi"
 # added for rails 4.
