@@ -45,16 +45,16 @@ Feature: Facets
 
 	Examples:
 		| category | facet | count |
-		| Access | At the Library  | 176  |
+		| Access | At the Library  | 181  |
 		| Format | Book | 166 |
 		| Author, etc. | Rowling, J. K. | 8 |
-		| Language | English | 176 |
+		| Language | English | 169 |
 		| Subject | Magic | 8 |
 		| Subject: Region | United States | 25 |
 		| Subject: Era | 1900 - 1999 | 5 |
-		| Genre | Periodicals | 25 |
-		| Fiction/Non-Fiction | Non-Fiction (books) | 128 |
-		| Date Acquired | Since last year | 7 |
+		| Genre | Periodicals | 26 |
+		| Fiction/Non-Fiction | Non-Fiction (books) | 136 |
+		| Date Acquired | Since last year | 14 |
 
 
 	@DISCOVERYACCESS-7221
@@ -66,6 +66,6 @@ Feature: Facets
 
 	Examples:
 		| category | facet | count |
-		| Publication Year | Unknown | 2 |
-		| Library Location | Adelson Library | 3 |
-		| Call Number | A - General | 7 |
+		| Publication Year | Unknown | 3 |
+		| Library Location | Adelson Library | 2 |
+		| Call Number | A - General | 8 |

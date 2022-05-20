@@ -182,7 +182,7 @@ Feature: Search
   Scenario: Perform a title search and see avail icon, avail at  multiple locations
     Given I am on the home page
     And I select 'Title' from the 'search_field' drop-down
-    And I fill in the search box with 'Atlas des missions de la '
+    And I fill in the search box with 'Plan of Franklinville'
     And I press 'search'
     Then I should get results
     And I sleep 15 seconds
@@ -205,7 +205,7 @@ Feature: Search
     Then I should get results
     And I sleep 8 seconds
     And I should see the "fa-clock-o" class
-    And I should see the label 'Uris Library'
+    And I should see the label 'ILR Library (Ives Hall)'
 
   # @all_search
   # @DISCOVERYACCESS-5984

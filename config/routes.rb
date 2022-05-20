@@ -32,11 +32,13 @@ resources :solr_documents, except: [:index], path: '/catalog', controller: 'cata
 end
 
 #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
+get 'bookmarks/index' => 'bookmarks#index'
 get 'bookmarks/show_email_login_required_bookmarks' => 'bookmarks#show_email_login_required_bookmarks'
 get 'bookmarks/show_email_login_required_item/:id' => 'bookmarks#show_email_login_required_item', :as => 'email_require_login'
 get 'bookmarks/show_selected_item_limit_bookmarks' => 'bookmarks#show_selected_item_limit_bookmarks'
 get 'bookmarks/export' => 'bookmarks#export'
 get 'bookmarks/book_bags_login' => 'bookmarks#bookmarks_book_bags_login', :as => 'bookmarks_book_bags_login'
+get 'bookmarks/citation_page' => 'bookmarks#show_citation_page', :as => 'show_citation_page'
 
 resources :bookmarks do
   concerns :exportable
@@ -48,6 +50,8 @@ resources :bookmarks do
 end
 
   #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+
+get "signin", to: "signin#index"
 
 # devise_for :users
 
@@ -80,7 +84,7 @@ devise_for :users, controllers: {
   resources :catalog, only:  [:post, :get]
   get 'catalog/email' => 'catalog#email', :as => 'catalog_email', :via => :post
   get 'catalog/afemail/:id' => 'catalog#afemail', :as => 'catalog_afemail'
-  get 'logins' => 'catalog#logins', :as => 'catalog_logins'
+  # get 'logins' => 'catalog#logins', :as => 'catalog_logins'
   get 'credits' => 'catalog#credits', :as => 'catalog_credits'
 
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
@@ -121,6 +125,12 @@ devise_for :users, controllers: {
 
   # discogs processing
   get "/get_discogs" => 'catalog#get_discogs', as: 'get_discogs'
+
+  # Knowledge panel/info box view
+  get 'panel'=> 'kpanel#panel'
+  get 'kpanel/index'
+  # Permissions for showing certain external info
+  get '/check_permissions' => 'handle_external_data#check_permissions', as: 'check_permissions'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -199,6 +209,7 @@ devise_for :users, controllers: {
   match 'book_bags/email', via: [:get, :post]
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
+  get 'book_bags/citation_page' => 'book_bags#show_citation_page', :as => 'show_book_bags_citation_page'
 
   # custom error pages
   match "/404", :to => "errors#not_found", :via => :all
@@ -212,10 +223,12 @@ devise_for :users, controllers: {
   get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
   #  get 'book_bags' => 'book_bags#index'
   get 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_request', :constraints => { :id => /.+/}
+  put 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_prequest', :constraints => { :id => /.+/}
   get 'aeon/login' => 'aeon#login', :as => 'login'
   get 'aeon/redirect_shib' => 'aeon#redirect_shib', :as => 'redirect-shib'
   get 'aeon/request_aeon/:id' => 'aeon#request_aeon', :as => 'request_aeon', :constraints => { :id => /.+/}
   get 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_aeon', :constraints => { :id => /.+/}
+  put 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_paeon', :constraints => { :id => /.+/}
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 end

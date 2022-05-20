@@ -50,13 +50,13 @@ Feature: Results list
     And I should see the text "Zhen cang Mao Zedong"
 
 
-  @all_results_list @search_with_no_best_bets
-  Scenario: Search with no best bets
-    Given I literally go to search
-    When I fill in "q" with 'otitis media'
-    And I press 'Search'
-    Then I should get bento results
-    And I should not see the text "Best Bet"
+	#  @all_results_list @search_with_no_best_bets
+	#Scenario: Search with no best bets
+	#Given I literally go to search
+	#When I fill in "q" with 'otitis media'
+	#And I press 'Search'
+	#Then I should get bento results
+	#And I should not see the text "Best Bet"
 
 
 
@@ -71,15 +71,15 @@ Feature: Results list
    @all_results_list @search_with_view_all_digital_collections
 	  Scenario: Search with view all books link
 	    Given I literally go to search
-	    When I fill in "q" with 'game design'
+	    When I fill in "q" with 'delights'
 	    And I press 'Search'
 	    Then I should get bento results
-	    And I should see the text "The basketball game"
+	    And I should see the text "Whipped cream"
 
   @all_results_list @search_with_view_advanced_link
   Scenario: Search with view all books link
 	    Given I literally go to search
-	    When I fill in "q" with 'game design'
+	    When I fill in "q" with 'delights'
 	    And I press 'Search'
 	    Then I should get bento results
 	    And I should see the text "or use advanced search"
@@ -100,12 +100,12 @@ Feature: Results list
 	    Then I should get bento results
 	    And I should see the text "Research Guides"
 
-  @all_results_list @search_with_view_all_music_match_box
-  Scenario: Search with view all music link
-    Given I literally go to search
-    When I fill in "q" with 'nature morte'
-    And I press 'Search'
-     Then I should get bento results
+#  @all_results_list @search_with_view_all_music_match_box
+#  Scenario: Search with view all music link
+#    Given I literally go to search
+#    When I fill in "q" with 'nature morte'
+#    And I press 'Search'
+#     Then I should get bento results
    # Then box "link_top_musical_recording" should match "0" th "from Catalog" in "page-entries"
 
   @all_results_list @search_with_view_all_manuscript_archive

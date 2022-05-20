@@ -28,18 +28,27 @@
       <%= 'Browse "' + params[:authq] + '" in call numbers' %>
     <% end %>
   </h2>
-  <% if params[:browse_type] != "virtual" %>
-    <%= render 'pagination' %>
-  <% end %>
   <% if params[:browse_type] == "virtual" %>
     <%= render 'virtual_browse', :response => @headingsResponse%>
-  <% elsif params[:browse_type] == "Call-Number" %>
-    <%= render 'heading_callnumber', :response => @headingsResponse, :order => params[:order] %>
   <% else %>
-    <% if params[:order] == "reverse" %>
-      <%= render 'heading', :response => @headingsResponse.reverse %>
+    <% if params[:browse_type] == "Call-Number" %>
+      <% if @headingsResponse["response"]["numFound"] > 0 %>
+        <%= render 'pagination' %>
+        <%= render 'heading_callnumber', :response => @headingsResponse, :order => params[:order] %>
+        <%= render 'pagination'%>
+      <% else %>
+         <h3>
+           No results
+         </h3>
+      <% end %>
     <% else %>
-      <%= render 'heading', :response => @headingsResponse %>
+      <%= render 'pagination' %>
+      <% if params[:order] == "reverse" %>
+        <%= render 'heading', :response => @headingsResponse.reverse %>
+      <% else %>
+        <%= render 'heading', :response => @headingsResponse %>
+      <% end %>
+      <%= render 'pagination' %>
     <% end %>
   <% end %>
 <% end %>
@@ -52,7 +61,4 @@
   <h2>
     Please enter a query
   </h2>
-<% end %>
-<% if @headingsResponse.present? && params[:browse_type] != "virtual" %>
-  <%= render 'pagination' %>
 <% end %>

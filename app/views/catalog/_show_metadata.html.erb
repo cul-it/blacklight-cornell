@@ -1,9 +1,12 @@
+<% holdings_restrictions = "" %>
+
 <div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
+	<% Rails.logger.debug("mjc12test2: authgroups #{session[:cu_authenticated_groups] }") %>
   <%
     # With Blacklight 7, we can't access these using field_value. So get them all out of
     # the Solr doc right up front.
-    title_display = @document['title_display']
+    title_display = @document['title_display']#folio_title_link(@document['title_display'], @document['instance_id'])
     title_vern_display = @document['title_vern_display'] # 10751949
     subtitle_display = @document['subtitle_display']
     subtitle_vern_display = @document['subtitle_vern_display'] # 10615953
@@ -53,14 +56,12 @@
 	        <% end %>
 	      <% end %>
 
-	        <%  summary_holdings = '' %>
+	      <%  summary_holdings = '' %>
+	      <% if is_online?(@document) %>
 	        <div class="holdings-online">
-                <%# the extra etas_facet condition can be removed in the July '21 sprint %>
-	        	<% if is_online?(@document) && @document["etas_facet"].nil? %>
-	        		<div class="online-label">
-	            		<i class="fa fa-check" aria-hidden="true"></i>Online
-	        		</div>
-	        	<%end %>
+	        	<div class="online-label">
+	            <i class="fa fa-check" aria-hidden="true"></i>Online
+	        	</div>
 	        <ul class="list-unstyled">
 	         <% if @document["holdings_json"].present? %>
 	         <%# holdings = JSON.parse(@document['holdings_record_display'][0]) %>
@@ -150,7 +151,6 @@
 		                        <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
 		                        <%#= holdings_json.inspect  %>
 		                         <% if restrictions_display.present? %>
-						  	       <h3>Restrictions</h3>
 		                       	   </div>
 		                       	 <% end %>
 						  		 <% if !restrictions_display.present? %>
@@ -192,6 +192,7 @@
 	           <% end %>
 	          </ul>
 	        </div>
+	      <%end %>
             <%# online-holdings %>
 
 	      <%# end %>
@@ -211,6 +212,9 @@
 	          <% online_items = [] %>
 	          <% holdings.each do |k,holding| %>
 	          <%#= holdings[k]["active"].inspect %>
+	          <% if !holding["restrictions"].nil? %>
+	          <%   holdings_restrictions = holding["restrictions"][0] %>
+	          <% end %>
 	          <% if !holding['links'].nil? and holding['links'][0]['users'].present?  %>
 	          <span class="access-restriction">
 	            <h3>Restrictions</h3>
@@ -246,6 +250,12 @@
 	        <% end %>
 	      </div>
 	      <%# access restrictions %>
+	      <% if holdings_restrictions != "" %>
+	        <span class="access-restriction">
+	         <h3>Restrictions</h3>
+	         <%= holdings_restrictions %>
+	         </span>
+	      <% end %>
 	      <% if restrictions_display.present? %>
 
 	        <span class="access-restriction">
@@ -276,7 +286,7 @@
 	            <% f = JSON.parse(form) %>
 	            <div class="other-form">
 	              <span class="other-form-title">
-	                <%= link_to f["title"], "/catalog/#{f["bibid"]}" %>
+	                <%= link_to f["title"], "/catalog/#{f["bibid"]}", { "aria-label": "#{f["title"]}, bib ID #{f["bibid"]}" } %>
 	              </span>
 	              <% formats = f["format"].split(",") %>
 	                <% formats.each do |format| %>
@@ -313,7 +323,7 @@
 	  </div>
 	  <%# end col-md-4 %>
 	  <div class="col-md-8 order-md-4">
-	    <div class="pull-right item-cover">
+	    <div class="float-sm-right item-cover">
 		  <% if @document["format_main_facet"] == "Musical Recording" && @discogs_image_url.present?%>
 			<%= format_discogs_image(@discogs_image_url)%>
 		  <% end %>

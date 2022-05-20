@@ -1,14 +1,15 @@
 #view-type-dropdown-cn {
   margin-left: 140px;
-  margin-top: -40px;
+  margin-top: -47px;
   text-align: right;
   padding-right: 10px;
+  float: right;
 }
 #view-type-dropdown {
   width: 1010px;
   text-align: right;
   padding-right: 10px;
-  margin-bottom: -10px;
+  margin: 16px 0 -25px;
   @media (max-width: 1185px) {
     width: 806px;
   }
@@ -425,6 +426,7 @@
 }
 .vb-preview > dl > dt, .vb-preview-full > dl > dt {
     text-align: right;
+    font-weight: normal !important;
 	width: 22%;
     @media (max-width: 991px) and (min-width: 769px) {
       width: 24%;
@@ -435,7 +437,7 @@
 }
 .vb-preview > dl > dd, .vb-preview-full > dl > dd {
     margin-bottom: 0;
-    padding-left: 8px;
+    padding-left: 8px !important;
 	width: 75%;
     @media (max-width: 768px) {
       width: 70%;
@@ -546,4 +548,10 @@
     -webkit-box-shadow: 0px 5px 5px #95815a;
     -moz-box-shadow: 0px 5px 5px #95815a;
     box-shadow: 0px 5px 5px #95815a;
+}
+#vb-view-type, #vb-view-list, #vb-view-virtual {
+    color: #495057;
+}
+#vb-view-type {
+    border: 1px solid #ccc;
 }

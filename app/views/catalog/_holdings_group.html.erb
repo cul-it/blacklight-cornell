@@ -21,6 +21,7 @@
 
 <% items.each do |i| %>
 <div class="holding">
+  <%#= i.inspect %>
   <% if group == "Rare" %>
     <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
   <% end %>
@@ -49,6 +50,9 @@
     <% if pda == 'yes' %>
       <div class="location">
         <%= i["call"] %>
+        </br>
+        <% pda_array = @document['url_pda_display'][0].split('|') %>
+        <a href='<%= pda_array[0] %>'><%= pda_array[1] %></a>
       </div>
     <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' and !@document['url_pda_display'].present? %>
       <div class="location">
@@ -56,12 +60,12 @@
         <span class="map-it">
           <% if i['location']['hoursCode'].present? %>
             <% if i["location"]["hoursCode"] == "spif" %>
-              <%= link_to "Hours/Map", "http://spif.astro.cornell.edu/", "aria-label" => i["location"]["name"] %>
+              <%= link_to "Hours", "https://cornellspif.com/contact-spif/", "aria-label" => i["location"]["name"] +" Hours" %>
             <% else %>
               <% if i['location']['hoursCode'] == "ciser" %>
-                <%= link_to "Hours/Map", "http://ciser.cornell.edu/", "aria-label" => i["location"]["name"] %>
+                <%= link_to "Hours", "https://ciser.cornell.edu/", "aria-label" => i["location"]["name"] +" Hours" %>
               <% else %>
-                <%= link_to "Hours/Map", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] %>
+                <%= link_to "Hours", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] +" Hours" %>
               <% end %>
             <% end %>
           <% end %>
@@ -79,10 +83,9 @@
       <% if pda != 'yes' %>
         <%= i["call"] %>
         <span class="text-it">
-        <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', "aria-label" => i["location"]["name"] + " " + i["call"], :data => {:toggle => 'tooltip', :placement => 'right', blacklight_modal: "trigger"}, :title =>
+        <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', "aria-label" => "Text " + i["location"]["name"] + " " + i["call"], :data => {:toggle => 'tooltip', :placement => 'right', blacklight_modal: "trigger"}, :title =>
             'Text call number'} do %>
-          <i class="fa fa-mobile" aria-hidden="true"></i>
-            <%= t('blacklight.tools.sms') %>
+          <i class="fa fa-mobile" aria-hidden="true"></i><%= t('blacklight.tools.sms') %>
         <% end %>
       <% end %>
     </div>

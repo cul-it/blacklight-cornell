@@ -24,6 +24,9 @@
 		padding-bottom: 1em;
 		font-size: 16px;
 		border-bottom: 2px solid $light-tan;
+		.fa {
+			margin-right: .25rem;
+		}
 	}
 	.list-unstyled {
 		padding: 0;
@@ -73,8 +76,11 @@ h3.rare {
 .text-it,
 .map-it {
 	margin-left: .5em;
-	font-size: 12px;
+	font-size: .8rem;
 	font-weight: normal;
+	.fa {
+		margin-right: .25rem;
+	}
 }
 .text-it {
 	.tooltip-inner {

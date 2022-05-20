@@ -1,8 +1,4 @@
-<div class="announcement" aria-label="Announcement" role="complementary">
-  <div id="skiptocontent"><a href="#maincontent">skip to main content</a></div>
-  <div class="container">
-    <p class="text-center"><a href="https://library.cornell.edu/covid-19">Hybrid library for a hybrid semester: COVID-19 updates &raquo;</a></p>
-  </div>
+<div id="skiptocontent" aria-label="Skip link" role="complementary"><a href="#maincontent">skip to main content</a></div>
 </div>
 <div class="cornell-identity" aria-label="Cornell" role="banner">
   <%# if search results, add a link to skip facets for screen readers %>
@@ -17,7 +13,7 @@
   <div class="container">
     <div class="cornell-brand">
       <div class="row">
-        <div class="cornell-logo col-sm-9">
+        <div class="cornell-logo col-9">
           <div class="logo d-none d-sm-block">
             <a href="http://www.cornell.edu" class="insignia">Cornell University</a>
             <div class="library-brand">
@@ -28,25 +24,22 @@
             <a class="library-brand-mobile" href="http://www.library.cornell.edu">Library</a>
           </div>
         </div>
-        <% if part_of_catalog? %>
-          <div class="library-menu col-sm-3 text-right d-none d-sm-block">
-            <div class="dropdown">
-              <button id="library-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-library" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Menu button']);">
-                <i class="fa fa-bars" aria-hidden="true" title="Library menu"></i><span class="btn-library-label">Menu</span>
-              </button>
-              <div class="dropdown-menu" aria-labelledby="library-menu">
-                <a href="http://www.library.cornell.edu/" class="dropdown-item">Home</a>
-                <a href="http://www.library.cornell.edu/about" class="dropdown-item">About Us</a>
-                <a href="http://www.library.cornell.edu/libraries" class="dropdown-item">Libraries</a>
-                <a href="http://www.library.cornell.edu/reserves" class="dropdown-item">Textbooks</a>
-                <a href="http://www.library.cornell.edu/research" class="dropdown-item">Research</a>
-                <a href="http://www.library.cornell.edu/services" class="dropdown-item">Services</a>
-                <a href="http://www.library.cornell.edu/ask" class="dropdown-item">Ask a Librarian</a>
-                <a href="/myaccount/login" class="dropdown-item">My Account</a>
-              </div>
+        <div class="col-3">
+          <div class="dropdown help-menu">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="help-menu-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Help
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="help-menu-button">
+              <h6 class="dropdown-header">Need help?</h6>
+              <a class="dropdown-item" href="https://library.cornell.edu/ask" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Ask a Librarian']);">Ask a Librarian</a>
+              <a class="dropdown-item" href="https://library.cornell.edu/help/catalog" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Search tips']);">Search Tips</a>
+              <h6 class="dropdown-header">If we don't have it</h6>
+              <a class="dropdown-item" href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Borrow Direct']);">Borrow Direct</a>
+              <a class="dropdown-item" href="https://cornell.hosts.atlas-sys.com/illiad/" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Interlibrary Loan']);">Interlibrary Loan</a>
+              <a class="dropdown-item" href="http://www.library.cornell.edu/services/request/recommend" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Recommend a Purchase']);">Recommend a Purchase</a>
             </div>
           </div>
-        <% end %>
+        </div>
       </div>
     </div>
   </div> <!-- /container -->
@@ -55,7 +48,7 @@
 <header aria-label="Library">
   <div class="container">
     <div class="row">
-      <div class="col-sm-9 col-lg-4 catalog-name">
+      <div class="col-sm-8 col-lg-4 catalog-name">
         <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
           <div class="facets-toggleable-sm">
             <button class="navbar-toggler navbar-toggler-right util-links-toggle" type="button" data-toggle="collapse" data-target="#links-panel-collapse" aria-controls="links-panel-collapse" aria-expanded="false" aria-label="Toggle links">
@@ -86,7 +79,7 @@
       <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
         <%= render :partial=>'/shared/user_util_links' %>
       <% else %>
-        <div class="col-sm-3 col-lg-8 d-none d-sm-block">
+        <div class="col-sm-4 col-lg-8 d-none d-sm-block">
           <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog &raquo;</a></p>
         </div>
       <% end %>

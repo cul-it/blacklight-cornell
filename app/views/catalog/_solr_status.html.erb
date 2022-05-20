@@ -1,7 +1,5 @@
-<%# Temporary variable for Covid-19 special processing %>
-<%
-  browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || ""
-%>
+<% on_order_flag = 0 %>
+
 <% if i["avail"].present? && !i["items"].present? && !pda.present? && !i["order"].present? && i["call"] != "On Order" %>
   <div class="status">
     <span class="online-label">
@@ -9,67 +7,47 @@
       <%= I18n.t('blacklight.catalog.available') %>
     </span>
     <%= I18n.t('blacklight.catalog.on_site') %>
+    <% if i["location"]["name"].include?("Kheel")%>
+      <div><span class="online-label">Contact the <a href="https://catherwood.library.cornell.edu/kheel/">Kheel Center</a> to view this item.</span></div>
+    <% end %>
   </div>
 <% end %>
-
 <% if i["items"].present? %>
   <% if i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && i["circ"] == true  %>
       <div class="status">
         <span class="online-label">
-  	      <% if i["location"].present? && i["location"]["library"].present? && browseable_libraries.include?(i["location"]["library"])%>
-            <i class="fa fa-check" aria-hidden="true"></i>
-             <%= I18n.t('blacklight.catalog.available') %>
-          <% elsif i["location"].present? && i["location"]["name"].present? && i["location"]["name"].include?("Adelson")%>
-            <i class="fa fa-clock-o" aria-hidden="true"></i>
-             Unavailable at this time
-          <%# elsif i["location"].present? && !browseable_libraries.include?(i["location"]["library"])%>
-          <%#  <i class="fa fa-clock-o" aria-hidden="true"></i> %>
-          <%#  Available by request %>
-          <% else %>
-              <i class="fa fa-check" aria-hidden="true"></i>
-              <%= I18n.t('blacklight.catalog.available') %>
-          <% end %>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <%= I18n.t('blacklight.catalog.available') %>
         </span>
         <% if i['copy'].present? %>
           c. <%= i['copy'] %>
         <% end %>
-        <% if i['items']['returned'].present? &&
-          i['items']['returned'][0].present? &&
-          i['items']['returned'][0]['status'].present? &&
-          i['items']['returned'][0]['status']['returned'].present? %>
-          <% time_retured = i['items']['returned'][0]['status']['returned'] %>
-          Returned <%= Time.at(time_retured).strftime("%m/%d/%y") %>
-        <% end %>
+        <%= build_returned_display(i) if i['items']['returned'].present? %>
       </div>
-
   <% elsif (i["items"]["avail"].present? && i["items"]["avail"] == i["items"]["count"] && noncirc == true && i["circ"] != true) %>
     <div class="status">
       <span class="online-label">
-	    <%# covid related changes %>
-	    <% if i["location"].present? && browseable_libraries.include?(i["location"]["library"])%>
-          <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
-          <%= I18n.t('blacklight.catalog.available') %>
-          </span>
-          <%= I18n.t('blacklight.catalog.on_site') %>
-        <% else %>
-          <i class="fa fa-clock-o" aria-hidden="true"></i>
-           Unavailable at this time
-          </span>
-        <% end %>
+        <i class="fa fa-check fa-on-site" title="On-site use" aria-hidden="true"></i>
+        <%= I18n.t('blacklight.catalog.available') %>
+      </span>
+      <%= I18n.t('blacklight.catalog.on_site') %>
+      <% if i["location"]["name"].include?("Kheel")%>
+        <div><span class="online-label">Contact the <a href="https://catherwood.library.cornell.edu/kheel/">Kheel Center</a> to view this item.</span></div>
+      <% end %>
+      <%= build_returned_display(i) if i['items']['returned'].present? %>
     </div>
-
-
   <% elsif i["items"]["unavail"].present?  %>
     <% i["items"]["unavail"].each do |item| %>
       <% if item["boundWith"] == true %>
          <% item["status"] = {} %>
          <% item["status"] = i["boundWith"]["#{item["id"]}"]["status"] %>
       <% end %>
-     <% if !item["status"].nil? %>
-      <% status = item["status"]["status"].present? ? item["status"]["status"] : '' %>
-      <% duedate = item["status"]["due"].present? ? Time.at(item["status"]["due"]).strftime("%m/%d/%y") : nil %>
-      <% duetime = item["status"]["due"].present? && item["status"]["shortLoan"].present? && item["status"]["shortLoan"] ? Time.at(item["status"]["due"]).strftime("%m/%d/%y %l:%M %P") : nil %>
-      <div class="status <%=status.downcase.gsub(' ', '-')%>">
+      <% if !item["status"].nil? %>
+                  <% on_order_flag = 1 %>
+        <% status = item["status"]["status"].present? ? item["status"]["status"] : '' %>
+        <% duedate = item["status"]["due"].present? ? Time.at(item["status"]["due"]).strftime("%m/%d/%y") : nil %>
+        <% duetime = item["status"]["due"].present? && item["status"]["shortLoan"].present? && item["status"]["shortLoan"] ? Time.at(item["status"]["due"]).strftime("%m/%d/%y %l:%M %P") : nil %>
+        <div class="status <%=status.downcase.gsub(' ', '-')%>">
         <i class="fa fa-clock-o" aria-hidden="true"></i>
         <% if duetime.present? %>
           <%= status %>, due <%= duetime %>
@@ -122,21 +100,19 @@
                 <%= Time.at(item["status"]["date"]).strftime("%m/%d/%y") %>
               <% end %>
           <% end %>
-      <%end %>
-      <% if item["recalls"].present? || item["holds"].present? %>
-        <% item["recalls"] = 0 unless item["recalls"].present?  %>
-        <% item["holds"] = 0 unless item["holds"].present?  %>
-        (Requests: <%= item["holds"] + item["recalls"] %>)
+
+        <%end %>
+        <% if item["recalls"].present? || item["holds"].present? %>
+          <% item["recalls"] = 0 unless item["recalls"].present?  %>
+          <% item["holds"] = 0 unless item["holds"].present?  %>
+          (Requests: <%= item["holds"] + item["recalls"] %>)
+        <% end %>
+        </div>    
       <% end %>
-    </div>
-    <% end %>
   <%end %>
   <% if i["items"]["avail"].present? && i["items"]["avail"] != i["items"]["count"] %>
     <% some_av = 'yes' %>
-  <% end %>
-
-<% if some_av == 'yes'  %>
-  <div class="status">
+    <div class="status">
       <span class="online-label">
         <i class="fa fa-check" aria-hidden="true"></i>
         <%= I18n.t('blacklight.catalog.available') %>
@@ -144,10 +120,12 @@
       All other volumes/copies
     </div>
   <% end %>
+  <%= build_returned_display(i) if i['items']['returned'].present? %>
 <% end %>
 <% end %>
-<% if i["order"].present?  %>
+ <% if i["order"].present? and on_order_flag != 1 %>
   <div class="status">
     <i class="fa fa-clock-o" aria-hidden="true"></i> <%= I18n.t('blacklight.catalog.on_order') %>
   </div>
-<% end %>
+   <% on_order_flag = 0 %>
+<% end %>  

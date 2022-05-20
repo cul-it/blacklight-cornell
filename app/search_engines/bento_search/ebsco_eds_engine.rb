@@ -39,7 +39,7 @@ class BentoSearch::EbscoEdsEngine
             return results
         end
         required_hit_count = args[:per_page].present? ? [args[:per_page], 1].max : 1
-        per_page = 3;
+        per_page = 3
 
         sq = {
             query: q,
@@ -50,13 +50,14 @@ class BentoSearch::EbscoEdsEngine
 
         response = session.search(sq)
         total_hits = response.stat_total_hits
+        total_tested_hits = [response.stat_total_hits.to_i, 100].min
 
         results.total_items = total_hits.to_i
 
         catch :enough_hits do
             found = 0
             page = 0
-            max_page = (total_hits / per_page).ceil
+            max_page = (total_tested_hits / per_page).ceil
             for page in 0..max_page
 
                 sq = {
@@ -69,9 +70,28 @@ class BentoSearch::EbscoEdsEngine
                 response = session.search(sq, add_actions: true )
 
                 response.records.each do |rec|
-
                     links = rec.eds_fulltext_links()
                     next unless links.present?
+
+                    # inaccessible items creap in unless we require a 'Get it! Cornell' link
+                    found_get_it = false
+                    links.each do | link |
+                        if link[:label].include? "Get it! Cornell"
+                            found_get_it = true
+                            break
+                        end
+                    end
+                    next unless found_get_it
+
+                    # duplicates creep in unless
+                    found_already = false
+                    results.each do | check |
+                        if check.unique_id == rec.id
+                            found_already = true
+                            break
+                        end
+                    end
+                    next if found_already
 
                     found += 1
                     throw :enough_hits if found > required_hit_count
@@ -91,17 +111,6 @@ class BentoSearch::EbscoEdsEngine
                         item.authors << BentoSearch::Author.new(:display => author)
                     end
                     item.link = rec.eds_plink()
-
-                    links.each do | link |
-
-                        if link[:label].include? "Get it! Cornell" # DISCOVERYACCESS-6637
-                            item.other_links << BentoSearch::Link.new(
-                                :url => link[:url],
-                                :rel => (link[:type].downcase.include? "fulltext") ? 'alternate' : nil,
-                                :label => link[:label]
-                                )
-                        end
-                    end
 
                     item.format_str = rec.eds_publication_type()
                     item.doi = rec.eds_document_doi()

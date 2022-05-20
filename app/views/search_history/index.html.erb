@@ -1,5 +1,5 @@
 <% sidebar_items << capture do %>
-  <p><%= link_back_to_catalog %></p>
+  <p><%= link_back_to_catalog if defined?(current_search_session) %></p>
 <% end %>
 <h2><%=t('blacklight.search_history.title')%></h2>
 <%- if @searches.blank? -%>

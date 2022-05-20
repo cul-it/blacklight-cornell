@@ -1,6 +1,7 @@
 <div class="col-12 col-lg-8 facets-toggleable-sm">
 
   <div id="links-panel-collapse" class="links-collapse facets-collapse collapse">
+
     <ul class="blacklight-nav nav flex-column flex-md-row">
       <% if ENV['SAML_IDP_TARGET_URL'] %>
         <% if current_user %>
@@ -11,41 +12,34 @@
         <% if current_or_guest_user %>
           <% if !current_user %>
             <% @goo_sign_in_link = user_google_oauth2_omniauth_authorize_path%>
-            <% @sign_in_link =
-              ENV['GOOGLE_CLIENT_ID'] ?  catalog_logins_path :  user_saml_omniauth_authorize_path
-            %>
             <li>
-              <%= link_to 'Sign in', @sign_in_link, :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
+              <%= render :partial => 'shared/sign_in_form' %>
             </li>
           <% end %>
         <% end %>
       <% end %>
 
       <% if !current_user %>
-      <li>
-      <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
-              <%= t('blacklight.header_links.bookmarks') %>
-              (<span data-role='bookmark-counter'><%= guest_user.bookmarks.count %></span>)
-              <% end %>
-      </li>
+        <li>
+          <%= link_to bookmarks_path, {id:'bookmarks_nav'} do %>
+            <%= t('blacklight.header_links.bookmarks') %>
+            (<span data-role='bookmark-counter'><%= guest_user.bookmarks.count %></span>)
+          <% end %>
+        </li>
       <% else %>
-      <li>
-      <%= link_to "/book_bags/index", id:'book_bags_nav' do %>
-        <% if BookBag.enabled? && session[:bookbag_count].present? %>
-            <span>Book Bag (<span data-role='bookmark-counter'><%= session[:bookbag_count].to_s %></span>)</span>
-        <% else %>
-            <span>Book Bag</span>
-        <% end %>
-        <% end %>
-      </li>
+        <li>
+          <%= link_to "/book_bags/index", id:'book_bags_nav' do %>
+            <% if BookBag.enabled? && session[:bookbag_count].present? %>
+              <span>Book Bag (<span data-role='bookmark-counter'><%= session[:bookbag_count].to_s %></span>)</span>
+            <% else %>
+              <span>Book Bag</span>
+            <% end %>
+          <% end %>
+        </li>
       <% end %>
-
       <li><%= link_to t('blacklight.header_links.search_history'), blacklight.search_history_path %></li>
-      <li>
-        <a href="http://www.library.cornell.edu/help/catalog" class="tips-link" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Search Tips']);">Search Tips</a>
-      </li>
-      <li><a href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Borrow Direct']);">Borrow Direct</a></li>
-      <li><a href="https://cornell.hosts.atlas-sys.com/illiad/" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Interlibrary Loan']);">Interlibrary Loan</a></li>
+      <li><a href="/myaccount/login" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'My Account Blacklight']);"><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>
     </ul>
+
   </div>
 </div>
