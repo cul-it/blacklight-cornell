@@ -78,8 +78,14 @@ ul.blacklight-nav {
     a.logout:hover {
       background: none;
     }
+    a {
+      .fa {
+        color: $cornell-primary;
+        margin-right: .3rem;
+      }
+    }
     li {
-      font-size: .85rem;
+      font-size: .9rem;
       padding: .5rem 0;
     }
     .myaccount-link {
@@ -111,6 +117,14 @@ ul.blacklight-nav {
   .navbar-toggler-icon {
     background-image: $navbar-light-toggler-icon-bg;
   }
+}
+.dropdown-header {
+  color: $cornell-primary;
+}
+
+.help-menu {
+  float: right;
+  margin-right: 2.5rem; // to account for the Chat slideout on mobile
 }
 
 // Library menu 
@@ -208,6 +222,12 @@ ul.blacklight-nav {
     .alert {
       text-align: center;
     }
+  }
+  .help-menu {
+    margin-right: 0;
+  }
+  .links-collapse {
+    text-align: right;
   }
 }
 

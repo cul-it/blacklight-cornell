@@ -3,6 +3,21 @@
     {
       "warning_type": "Unmaintained Dependency",
       "warning_code": 122,
+      "fingerprint": "98b26f60d776fd41ee6f088c833725145be9aac2d7c5b33780241c273622db42",
+      "check_name": "EOLRails",
+      "message": "Support for Rails 5.2.6.3 ends on 2022-06-01",
+      "file": "Gemfile.lock",
+      "line": 536,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 122,
       "fingerprint": "21ab0fe00fdd5899ffc405cff75aadb91b805ee996a614f7e27b08a287e9062d",
       "check_name": "EOLRuby",
       "message": "Support for Rails 5.2.6.3 ends on 2022-06-01",

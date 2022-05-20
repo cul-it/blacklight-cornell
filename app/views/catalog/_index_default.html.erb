@@ -5,9 +5,11 @@
       <span class="blacklight-author_display"><%= simple_render_index_field_value :document => document, :field => 'author_display' %></span>
       <% formats = simple_render_index_field_value document, :field => 'format' %>
       <% formats.each do |format| %>
-        <span class="format">
-          <%= format.html_safe %>
-        </span>
+        <% if format.present? %>
+          <span class="format">
+            <%= format.html_safe %>
+          </span>
+        <% end %>
       <% end %>
       <span class="blacklight-pub_info_display"><%= simple_render_index_field_value :document => document, :field => 'pub_info_display' %></span>
       <span class="blacklight-language_display"><%= simple_render_index_field_value :document => document, :field => 'language_display' %></span>
