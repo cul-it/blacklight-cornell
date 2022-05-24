@@ -1,5 +1,6 @@
 server 'aws-108-114.internal.library.cornell.edu',  :app, :web, :db, :primary => true, user: 'jenkins' 
-server 'aws-108-199.internal.library.cornell.edu',  :app, :web, :db, :primary => true, user: 'jenkins' 
+# Seems like this server is no longer in play?
+#server 'aws-108-199.internal.library.cornell.edu',  :app, :web, :db, :primary => true, user: 'jenkins' 
 # deploy second server in cluster
 
 #server "da-prod-web1.library.cornell.edu", "da-prod-web2.library.cornell.edu", :app, :web, :db, :primary => true
