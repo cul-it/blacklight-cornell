@@ -442,9 +442,9 @@ class AeonController < ApplicationController
  
   def loginurl
   	return "/aeon/aeon_login"
-#	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php"  	
+	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon_test-login.php"  	
 # 	return "http://dev-jac2445.library.cornell.edu/aeon511/aeon-login.php" 
-  #	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
+ # 	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
  
   def warning(title)
@@ -925,7 +925,7 @@ class AeonController < ApplicationController
 #        response = HTTParty.get('https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=https://newcatalog-folio-int.library.cornell.edu')
         Rails.logger.info("HTTPARTY = #{response}")
         Rails.logger.info("COOOKIE = #{cookies.inspect}")
-        outbound_params = params
+        @outbound_params = params
   end
   	                          
 end
