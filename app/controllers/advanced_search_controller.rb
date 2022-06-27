@@ -67,12 +67,12 @@ class AdvancedSearchController < ApplicationController
 
 #          if !@results['summon_bento'].nil?
 #            @results['summon_bento'].each do |result|
-#              result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+#              result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
 #            end
 #          end
 #          if !@results['summonArticles'].nil?
 #            @results['summonArticles'].each do |result|
-#              result.link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + result.link unless result.link.nil?
+#              result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
 #            end
 #          end
 
