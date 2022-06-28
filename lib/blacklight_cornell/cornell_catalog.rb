@@ -11,6 +11,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include Blacklight::TokenBasedUser
   include BlacklightCornell::VirtualBrowse
   include BlacklightCornell::Discogs
+
   #  include ActsAsTinyURL
   Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
@@ -94,8 +95,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     ActionController::Parameters.permit_all_parameters = true
     zparams = ActionController::Parameters.new(utf8: "✓", :boolean_row => {"1"=>"AND"}, q_row: ["(OCoLC)#{oid}", ""], op_row: ["phrase", "phrase"], search_field_row: ["publisher number/other identifier", "publisher number/other identifier"], sort: "score desc, pub_date_sort desc, title_sort asc", search_field: "advanced", advanced_query: "yes", commit: "Search", controller: "catalog", action: "index")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} zparams = #{zparams.inspect}"
-    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+    if extra_head_content.present?
+      extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+      extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+    end
     (@response, deprecated_document_list) = search_service.oclc_search_results(zparams)
     @document_list = deprecated_document_list
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
@@ -134,8 +137,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
     # @bookmarks = current_or_guest_user.bookmarks
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+    if extra_head_content.present?
+      extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+      extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+    end
     # set_bag_name
     # make sure we are not going directly to home page
     if !params[:qdisplay].nil?
@@ -243,7 +248,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     ['worldcat'].each do |key|
       @expanded_results [key] =  { :count => 0 , :url => '' }
     end
-  
+
     # Expand search only under certain conditions
     tmp = BentoSearch::Results.new
     if !(params[:search_field] == 'call number')
@@ -472,7 +477,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
      format.js { render :layout => false }
    end
  end
- 
+
 protected
 
   # sets up the session[:history] hash if it doesn't already exist.
@@ -825,7 +830,7 @@ private
     tempStringArray = string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
     return tempStringArray
   end
-  
+
   # will delete this in the July '21 sprint
   #def cleanup_params(params)
   #  qparam_display = params[:qdisplay]
