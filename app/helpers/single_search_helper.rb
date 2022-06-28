@@ -56,7 +56,7 @@ module SingleSearchHelper
       else
         edsuri = 'http://search.ebscohost.com/login.aspx?authtype=ip,guest&profile=eds&Groupid=main&custid=s9001366'
       end
-      link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + edsuri.to_s
+      link = 'https://proxy.library.cornell.edu/login?url=' + edsuri.to_s
     when "summon_bento"
       link = "#"
     when "digitalCollections"
