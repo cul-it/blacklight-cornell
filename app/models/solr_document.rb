@@ -125,7 +125,7 @@ class SolrDocument
       if url_access['url'].present?
         access_url = url_access['url']
         access_url.sub!('http://proxy.library.cornell.edu/login?url=','')
-        access_url.sub!('http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=','')
+        access_url.sub!('https://proxy.library.cornell.edu/login?url=','')
         return access_url
       end
     end
