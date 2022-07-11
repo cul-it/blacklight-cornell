@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   #prepend_before_filter :set_return_path
 
   layout 'blacklight'
-
+  WEBrick::HTTPRequest.const_set("MAX_URI_LENGTH", 10240)
   #protect_from_forgery with:  :exception
   protect_from_forgery with:  :null_session
 
