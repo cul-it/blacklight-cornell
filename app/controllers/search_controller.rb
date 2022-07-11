@@ -217,7 +217,7 @@ class SearchController < ApplicationController
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
     elsif engine_id == 'ebsco_eds'
       query = query.gsub('&', '%26')
-      query = "https://proxy.library.cornell.edu/login?url=http://eds-api.ebscohost.com/edsapi/rest/Search?query-1=AND,#{query}"
+      query = "https://discovery-ebsco-com.proxy.library.cornell.edu/c/u2yil2/results?q=#{query}"
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
