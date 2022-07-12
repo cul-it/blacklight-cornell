@@ -5,7 +5,7 @@ default: &defaults
   # Your app's name
   name: "BlacklightCornell"
   
-  # Ignore errors from bogus http methods
+  # Errors that should not be reported by AppSignal
   ignore_errors:
     - ActionController::UnknownHttpMethod
 
