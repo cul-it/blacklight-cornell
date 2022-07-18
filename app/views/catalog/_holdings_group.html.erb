@@ -49,10 +49,9 @@
 
     <% if pda == 'yes' %>
       <div class="location">
-        <%= i["call"] %>
+        <%= 'Available for the Library to purchase' %>
         </br>
-        <% pda_array = @document['url_pda_display'][0].split('|') %>
-        <a href='<%= pda_array[0] %>'><%= pda_array[1] %></a>
+        <%= 'Request item for rush purchase (typically within a week).' %>
       </div>
     <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' and !@document['url_pda_display'].present? %>
       <div class="location">
