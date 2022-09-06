@@ -1,16 +1,16 @@
 source 'https://rubygems.org'
-ruby "2.6.4"
+ruby "3.1.2"
 #another try
 gem 'rails', '5.2.8'
 gem "dotenv-rails"
 gem "dotenv-deployment"
-gem 'appsignal', '2.11.10'
-gem "sprockets", '~> 3.7.2'
-gem "actionview", ">= 5.2.7.1"
+gem 'appsignal'#, '2.11.10'
+gem "sprockets"#, '~> 3.7.2'
+gem "actionview"#, ">= 5.2.7.1"
 gem "byebug"
 gem "ffi"
 # added for rails 4.
-gem 'activerecord-session_store', ">= 2.0.0"
+gem 'activerecord-session_store'#, ">= 2.0.0"
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 
@@ -29,7 +29,7 @@ gem 'savon', '~> 2.11.1'
 gem 'parslet'
 gem 'ultraviolet'
 gem 'yaml_db'
-gem 'blacklight', '7.0.1'
+gem 'blacklight', '7.29.0'
 gem 'blacklight_range_limit', '7.1.0'
 gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
 gem 'kaminari', '>= 0.15'
