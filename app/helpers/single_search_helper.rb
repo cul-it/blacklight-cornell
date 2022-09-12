@@ -50,13 +50,10 @@ module SingleSearchHelper
     when "ebsco_eds"
       bq = ss_encode(params[:q] || params[:query])
       if bq.present?
-        edsq = {direct: true, authtype: "ip,uid", profile: "eds", bQuery: bq,
-          custid: "s9001366", groupid: "main" }
-        edsuri = URI::HTTP.build(host: 'search.ebscohost.com', query: URI.encode_www_form(edsq))
+        link = "https://proxy.library.cornell.edu/login?url=https://discovery.ebsco.com/c/u2yil2/results?q=#{bq}"
       else
-        edsuri = 'http://search.ebscohost.com/login.aspx?authtype=ip,guest&profile=eds&Groupid=main&custid=s9001366'
+        link = "https://proxy.library.cornell.edu/login?url=https://discovery.ebsco.com/c/u2yil2"
       end
-      link = 'http://encompass.library.cornell.edu/cgi-bin/checkIP.cgi?access=gateway_standard%26url=' + edsuri.to_s
     when "summon_bento"
       link = "#"
     when "digitalCollections"
