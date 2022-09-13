@@ -41,7 +41,11 @@ class BentoSearch::DigitalCollectionsEngine
     portal_response = nil
 
     Rails.logger.debug "mjc12test: #{portal_response}"
-    results = portal_response['response']['docs'] unless portal_response['response']['docs'].nil?
+    if portal_response['response'].any? && portal_response['response']['docs'].any?
+      results = portal_response['response']['docs']
+    else
+      results = []
+    end
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
