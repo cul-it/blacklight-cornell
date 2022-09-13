@@ -32,7 +32,7 @@ class BentoSearch::DigitalCollectionsEngine
         Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
         msg = [" #{__method__} ".center(60,'Z')]
         msg << jgr25_context
-        msg << "portal_response['response']: " + portal_response['response'].inspect
+        msg << "portal_response['data']: " + portal_response['data'].inspect
         msg << 'Z' * 60
         msg.each { |x| puts 'ZZZ ' + x.to_yaml }
         Rails.logger.level = save_level
