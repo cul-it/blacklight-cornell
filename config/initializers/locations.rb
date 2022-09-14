@@ -21,7 +21,7 @@ Rails.logger.level = save_level
 #*******************
       d = loc[1]
       #jgr l = Location.exists?("voyager_id: d['voyager_id']")
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
+      #jgr Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
       if (l)
         #jgr r = Location.where("voyager_id: d['voyager_id']")
         r.first.update(d)
