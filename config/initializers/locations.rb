@@ -22,8 +22,6 @@ Rails.logger.level = save_level
       d = loc[1]
       voyager_id = d["voyager_id"].nil? ? 0 : d["voyager_id"]
       l=0
-      l = Location.exists?(voyager_id)
-
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 jgr25_context = "#{__FILE__}:#{__LINE__}"
@@ -37,7 +35,9 @@ msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 #binding.pry
 #*******************
-      #jgr Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
+
+# l = Location.exists?(voyager_id)
+#jgr Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
       if (l)
         #jgr r = Location.where("voyager_id: d['voyager_id']")
         r.first.update(d)
