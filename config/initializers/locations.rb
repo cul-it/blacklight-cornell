@@ -20,7 +20,20 @@ Rails.logger.level = save_level
 #binding.pry
 #*******************
       d = loc[1]
-      #jgr l = Location.exists?("voyager_id: d['voyager_id']")
+      voyager_id = d["voyager_id"].nil? ? 0 : d["voyager_id"];
+      l = Location.exists?(voyager_id)
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "l: " + l.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
       #jgr Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
       if (l)
         #jgr r = Location.where("voyager_id: d['voyager_id']")
