@@ -8,10 +8,10 @@ if ActiveRecord::Base.connection.table_exists? :locations
     LOCATIONS_CONFIG['locations'].each do |loc|  
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} loc =  #{loc.inspect}")
       d = loc[1]
-      l = Location.exists?(d['voyager_id'])
+      l = Location.exists?(voyager_id: d['voyager_id'])
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
-      if (l)
-        r = Location.where(d['voyager_id'])
+      if (l)  
+        r = Location.where(voyager_id: d['voyager_id'])
         r.first.update(d)
       else
         nl = Location.new(d) 
