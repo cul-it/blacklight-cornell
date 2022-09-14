@@ -3,9 +3,7 @@
 # Contains initialization for bento_search as suggested in the documentation:
 # http://rubydoc.info/gems/bento_search/frames/
 begin
-	SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml", aliases: true)
-rescue ArgumentError
-	SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
+  SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
 rescue Errno::ENOENT
   puts <<-eos
 
@@ -20,9 +18,7 @@ rescue Errno::ENOENT
 end
 #conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result
 begin
-	SOLR_CONFIG = YAML.load(ERB.new(File.read("#{::Rails.root}/config/blacklight.yml")).result, aliases: true)
-rescue ArgumentError
-	SOLR_CONFIG = YAML.load(ERB.new(File.read("#{::Rails.root}/config/blacklight.yml")).result)
+  SOLR_CONFIG = YAML.load(ERB.new(File.read("#{::Rails.root}/config/blacklight.yml")).result)
 rescue Errno::ENOENT
   puts <<-eos
   ******************************************************************************
