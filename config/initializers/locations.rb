@@ -36,7 +36,7 @@ Rails.logger.level = save_level
 #binding.pry
 #*******************
 
-# l = Location.exists?(voyager_id)
+      l = Location.exists?(:voyager_id => voyager_id)
 #jgr Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
       if (l)
         #jgr r = Location.where("voyager_id: d['voyager_id']")
