@@ -22,15 +22,15 @@ if ActiveRecord::Base.connection.table_exists? :locations
 
   rescue Errno::ENOENT
     puts <<-eos
-  
+
     ******************************************************************************
     Your locations.yml config file is missing.
     See config/locations.yml.example
     ******************************************************************************
-  
+
     eos
-  
-  
+
+
   end
-  
+
 end
