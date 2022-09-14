@@ -3,10 +3,14 @@ class Databases < ActiveRecord::Base
   require 'dotenv'
     # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
     HTTPI.adapter = :net_http
-  conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result)
-  ActiveRecord::Base.establish_connection(
-  conf[Rails.env]
-  )
+    begin
+      conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result, aliases: true)
+    rescue
+      conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result)
+    end
+    ActiveRecord::Base.establish_connection(
+        conf[Rails.env]
+        )
   def self.update
     Rails.logger.info("Successfully entered Databases.update #{Time.now}")
     wsdl_path = 'https://rmws.serialssolutions.com/serialssolutionswebservice/SerialsSolutions360WebService.asmx?wsdl'
@@ -23,7 +27,7 @@ class Databases < ActiveRecord::Base
        :pretty_print_xml => true
        ) #do convert_request_keys_to :none end
     #Rails.logger.info("Client = #{client}")
-    
+
     response2 = client.call(:license_data, message: { :request => { :LibraryCode => ENV['ERM_LIBCODE'], :UserName => ENV['ERM_USERNAME'], :Password => ENV['ERM_PASSWORD']}})
     if response2.nil? or response2.blank?
        Rails.logger.info("Response is nil or blank")

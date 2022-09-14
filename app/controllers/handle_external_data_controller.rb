@@ -3,7 +3,7 @@
 class HandleExternalDataController < ApplicationController
 	require 'yaml'
 	require 'json'
-	
+
 	#Is this URI allowed
 	#def get_uri_exclusion(uri, exclude_URI)
 	#	return {"exclusion":false}
@@ -16,10 +16,10 @@ class HandleExternalDataController < ApplicationController
  	#def prop_for_uri_allowed(uri, property, exclude_property_for_URI)
  	#	return true
  	#end
- 	
+
  	#String or URI allowed (in case heading itself is not matching)
  	def get_exclusion(key, exclude_entities)
- 		return_json = {"exclusion": false}		
+ 		return_json = {"exclusion": false}
  		if(exclude_entities.key?(key))
  			return_json["exclusion"] = true
  			if(exclude_entities[key]!= nil && exclude_entities[key].length)
@@ -28,10 +28,14 @@ class HandleExternalDataController < ApplicationController
  		end
  		return return_json
  	end
- 
+
  	def load_yaml()
  		data_file_path = Rails.root.join("public/excludeEntities.yml")
- 		exclude_entities = YAML.load(File.read(data_file_path))
+ 		begin
+			exclude_entities = YAML.load(File.read(data_file_path), aliases: true)
+		rescue
+ 			exclude_entities = YAML.load(File.read(data_file_path))
+		end
  		return exclude_entities
  	end
 
@@ -42,18 +46,18 @@ class HandleExternalDataController < ApplicationController
  	def check_permissions
  		#@query_type = params[:query_type] || ""
  		@key = params[:key] || ""
- 		
+
  		exclude_entities = load_yaml()
- 		
+
  		return_json = {}
  		if(@key != "")
- 			return_json = get_exclusion(@key, exclude_entities) 
+ 			return_json = get_exclusion(@key, exclude_entities)
  		end
- 		
+
  		render :json => return_json
- 	
+
  	end
- 
- 
- 
+
+
+
 end

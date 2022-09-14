@@ -17,7 +17,9 @@ class CatalogController < ApplicationController
 
   # Ensure that the configuration file is present
   begin
-    SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
+    SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml", aliases: true)
+  rescue ArgumentError
+    SEARCH_API_CONFIG = YAML.load("#{::Rails.root}/config/search_apis.yml");
   rescue Errno::ENOENT
     puts <<-eos
 
