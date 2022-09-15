@@ -13,6 +13,7 @@ gem 'activerecord-session_store'#, ">= 2.0.0"
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 gem 'psych', '< 4'
+gem 'net-smtp'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
