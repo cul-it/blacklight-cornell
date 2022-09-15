@@ -35,7 +35,7 @@ msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 #binding.pry
 #*******************
-
+      return
       l = Location.exists?("voyager_id" => voyager_id)
 #jgr Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
       if (l)
