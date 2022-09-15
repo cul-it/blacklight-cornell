@@ -1,4 +1,6 @@
 BlacklightCornell::Application.configure do
+  config.hosts << /[a-z0-9\-.]+\.library\.cornell\.edu/
+
   # Settings specified here will take precedence over those in config/application.rb
  config.eager_load = false
  #config.eager_load = true
