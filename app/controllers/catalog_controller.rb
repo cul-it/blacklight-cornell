@@ -5,7 +5,7 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
 #  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
-  include Blacklight::DefaultComponentConfiguration
+  # include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
   require 'net/http'
   require 'uri'
@@ -62,6 +62,12 @@ class CatalogController < ApplicationController
     config.index.partials << 'microformat'
     config.show.partials << 'microformat'
     # end of unapi config.
+
+    # deprecation of Blacklight::DefaultComponentConfiguration
+    add_results_document_tool
+    add_results_collection_tool
+    add_show_tools_partial
+    add_nav_action
 
     ## Should the raw solr document endpoint (e.g. /catalog/:id/raw) be enabled
     config.raw_endpoint.enabled = true
