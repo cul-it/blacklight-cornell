@@ -25,7 +25,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   # The check for the q parameter ensures that searches, including empty searches, and
   # advanced searches are not affected.
   def homepage_default user_parameters
-    if user_parameters['q'].nil? && user_parameters['fq'].size == 0
+    if user_parameters['q'].nil? && user_parameters['fq'].blank?
       user_parameters = streamline_query(user_parameters)
     end
   end
