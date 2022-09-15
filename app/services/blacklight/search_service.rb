@@ -30,9 +30,9 @@ module Blacklight
         # if the search limit has been exceeded, set the page param to the last viewable page
         if exceeded
             search_limit = Rails.configuration.search_limit
-            per_page_i = user_params[:per_page].present? ? user_params[:per_page].to_i : 20
+            per_page_i = @user_params[:per_page].present? ? @user_params[:per_page].to_i : 20
             last_page = search_limit/per_page_i
-            user_params[:page] = last_page
+            @user_params[:page] = last_page
         end
 
         builder = search_builder.with(search_state)
