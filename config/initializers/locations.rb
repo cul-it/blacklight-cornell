@@ -36,7 +36,7 @@ msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 #binding.pry
 #*******************
-      l = Location.exists?(**query_hash)
+      l = Location.exists?(query_hash)
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 jgr25_context = "#{__FILE__}:#{__LINE__}"
@@ -51,7 +51,7 @@ Rails.logger.level = save_level
 #*******************
 #jgr Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} l =  #{l.inspect}")
       if (l)
-        r = Location.where(**query_hash)
+        r = Location.where(query_hash)
         r.first.update(d)
       else
         nl = Location.new(d)
