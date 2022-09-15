@@ -24,6 +24,6 @@ if ENV['REDIS_SESSION_HOST'] && ((ENV['RAILS_ENV'] == 'production') or (ENV['RAI
   }
 
 else
-  BlacklightCornell::Application.config.session_store  :active_record_store,   {:expire_after => 30.minutes }
+  BlacklightCornell::Application.config.session_store  :active_record_store, key: '_blacklightcornell_session',  {:expire_after => 30.minutes }
 
 end
