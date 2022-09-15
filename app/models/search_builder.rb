@@ -24,7 +24,8 @@ class SearchBuilder < Blacklight::SearchBuilder
   # Removes unnecessary elements from the solr query when the homepage is loaded.
   # The check for the q parameter ensures that searches, including empty searches, and
   # advanced searches are not affected.
-  def homepage_default user_parameters
+  def homepage_default search_state
+    user_parameters = search_state.params
     if user_parameters['q'].nil? && user_parameters['fq'].size == 0
       user_parameters = streamline_query(user_parameters)
     end
