@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby "3.1.2"
 #another try
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 6.0'
 gem "dotenv-rails"
 gem 'appsignal'#, '2.11.10'
 gem "sprockets"#, '~> 3.7.2'
@@ -13,7 +13,6 @@ gem 'activerecord-session_store'#, ">= 2.0.0"
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 gem 'psych', '< 4'
-gem 'activerecord', '5.2.8.1'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
