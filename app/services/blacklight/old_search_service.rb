@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # SearchService returns search results from the repository
 module Blacklight
-  class SearchService
+  class OldSearchService
     def initialize(config:, user_params: {}, search_builder_class: config.search_builder_class)
       @blacklight_config = config
       @user_params = user_params
