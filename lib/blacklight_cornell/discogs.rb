@@ -28,20 +28,20 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     fields << publisher
     publisher_number = doc['publisher_number_display'].present? ? doc['publisher_number_display'][0] : ""
     fields << publisher_number
-    
+
     author = author_cleanup(author)
     fields << author
     fields << single_author
-    
+
     query_string = build_discogs_query_string(fields)
     search_result = make_discogs_search_call(query_string)
     if (!search_result.nil? && !search_result.empty?) && (!search_result["results"].nil? && !search_result["results"].empty?)
       @discogs_image_url = search_result["results"][0]["cover_image"].present? ? search_result["results"][0]["cover_image"] : ""
       @discogs_id = search_result["results"][0]["id"].present? ? search_result["results"][0]["id"].to_s : ""
     end
-    
+
   end
-  
+
   def build_discogs_components
     # check present? or empty? for these
     @author_addl = process_discogs_contributors(@discogs_data["extraartists"]) if @discogs_data["extraartists"].present? && @discogs_data["extraartists"].size > 0
@@ -52,26 +52,26 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     styles = @discogs_data["styles"].present? ? @discogs_data["styles"] : []
     @genres = process_discogs_genres(genres, styles) if !genres.empty? || !styles.empty?
   end
-  
+
   def get_discogs_image(id)
     data = make_discogs_show_call(id)
     image_url = data["images"].present? ? data["images"][0]["resource_url"] : ""
     return image_url
   end
-  
+
   def author_cleanup(author)
     if  author.length > 0 && (author[-1] == "-" || author[-6] == "-")
         x = author.rindex(',')
         author = author[0..x-1]
         single_author = true;
-    # or if we only have one author but no date range  
+    # or if we only have one author but no date range
     elsif author.length > 0 && (author.scan(",").length == 1 && author[-1] == ".")
         author = author.gsub(/.\s*$/, "");
         single_author = true;
-    else 
+    else
     # removes closing period
       author = author.gsub(/\.$/, '')
-      
+
     end
     if author[-1] == ")"
       y = author.rindex('(')
@@ -79,19 +79,19 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     end
     return author
   end
-  
+
   def process_discogs_published(discogs)
     country = discogs["country"].present? ? discogs["country"] : ""
     year = discogs["year"].present? ? discogs["year"].to_s : ""
     labels = discogs["labels"].present? ? discogs["labels"] : []
     results = []
     tmp_string = ""
-    if !country.empty? 
+    if !country.empty?
         tmp_string += country + " : "
     end
     if !labels.empty?
       prev_label = ""
-      labels.each do |l| 
+      labels.each do |l|
         if l["name"] != prev_label
       		    tmp_string += l["name"] + ", "
       		    prev_label = l["name"]
@@ -100,7 +100,7 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     end
     if !year.empty?
         tmp_string += year + "."
-    else 
+    else
         tmp_string = tmp_string.sub(/.*\K,/, '.')
     end
     return results << tmp_string
@@ -127,12 +127,12 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     end
     return results
   end
-  
+
   def process_discogs_notes(notes)
     tmp_string = notes.gsub("\r","").gsub("\n\n","@@").gsub("\n","")
-    return tmp_string.split("@@")    
+    return tmp_string.split("@@")
   end
-   
+
   def process_discogs_genres(genres, styles)
     genres_array = []
     genres.each do |g|
@@ -143,7 +143,7 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     end
     return genres_array
   end
-   
+
   def build_discogs_query_string(fields)
     # fields = [title_resp, title, subtitle, pub_date, publisher, publisher_nbr, author, single_author]
     single_author = fields[7]
@@ -155,31 +155,31 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
         first_last = author[author.index(", ")+2..-1] + " " + author[0..author.index(",") -1 ]
         if !fields[1].include?(first_last) && !fields[2].include?(first_last)
             query_string = first_last + "+" + fields[1];
-        else 
+        else
             query_string = fields[1];
         end
       elsif !fields[1].include?(author)
           query_string = author + "+" + fields[1];
-      else 
+      else
           query_string = fields[1];
       end
-    else 
+    else
         query_string = fields[0] + "+" + fields[1];
     end
     if fields[2].length > 0
         query_string += "+" + fields[2] ;
     end
-    
+
     if fields[5].length > 0
         query_string += "+" + fields[5];
     else
         query_string += "+" + fields[4].gsub(",","").gsub(":","") + "+" + fields[3].to_s;
     end
     query_string = query_string.gsub(" ","+").gsub("&","and").gsub("++","+");
-    
+
     return query_string
   end
-  
+
   def make_discogs_search_call(query_string)
     key = ENV['DISCOGS_KEY'].present? ? ENV['DISCOGS_KEY'] : ""
     secret = ENV['DISCOGS_SECRET'].present? ? ENV['DISCOGS_SECRET'] : ""

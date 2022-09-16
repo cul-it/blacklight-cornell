@@ -14,7 +14,7 @@ class BrowseController < ApplicationController
   def heading
    @heading='Browse'
   end
-  
+
   def index
       base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
       Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
@@ -129,11 +129,11 @@ class BrowseController < ApplicationController
       end
       params[:authq].gsub!('%20', ' ')
     end
-    
+
     @has_previous = check_for_previous if params["authq"].present?
     @has_next = check_for_next if params["authq"].present?
     if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "virtual"
-      location = "" 
+      location = ""
       if params[:fq].present? && params[:fq].include?("location:")
         location = params[:fq]
       end
@@ -244,14 +244,14 @@ class BrowseController < ApplicationController
       # local name.
       @subject_is_author = check_author_status if params[:headingtype] == "Personal Name"
       @subject_is_author = false unless params[:headingtype] == "Personal Name"
-      
+
    	  loc_url = get_subject_loc_url if !@subject_is_author
    	  loc_url = get_author_loc_url if @subject_is_author
 
-      @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""  
+      @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
       @formats = get_formats(params[:authq], params[:headingtype])
  	  end
-    
+
     respond_to do |format|
       format.html { render layout: !request.xhr? } #renders naked html if ajax
     end
@@ -337,10 +337,10 @@ end
       end
       f_count = f_count + 1
     end
-    
+
     return tmp_array.sort
   end
- 
+
   def pluralize_format(format)
     case format
     when "Book"
@@ -375,43 +375,43 @@ end
     temp_hash = {}
     if htype == "Personal Name"
       temp_hash = {:q => '(((+author_pers_browse:"' + query + '") OR author_pers_browse:"' + query + '") OR ((+subject_pers_browse:"' + query + '") OR subject_pers_browse:"' + query + '"))',
-                   :qr => [query, query], 
-                   :or => ["AND", "AND"], 
+                   :qr => [query, query],
+                   :or => ["AND", "AND"],
                    :sfr => ["author_pers_browse", "subject_pers_browse"]}
     elsif htype == "Corporate Name"
-      temp_hash = {:q => '(((+author_corp_browse:"' + query + '") OR author_corp_browse:"' + query + '") OR ((+subject_corp_browse:"' + query + '") OR subject_corp_browse:"' + query + '"))', 
-                   :qr => [query, query], 
-                   :or => ["AND", "AND"], 
+      temp_hash = {:q => '(((+author_corp_browse:"' + query + '") OR author_corp_browse:"' + query + '") OR ((+subject_corp_browse:"' + query + '") OR subject_corp_browse:"' + query + '"))',
+                   :qr => [query, query],
+                   :or => ["AND", "AND"],
                    :sfr => ["author_corp_browse", "subject_corp_browse"]}
     elsif htype ==  "Event"
-      temp_hash = {:q => '(((+author_event_browse:"' + query + '") OR author_event_browse:"' + query + '") OR ((+subject_event_browse:"' + query + '") OR subject_event_browse:"' + query + '"))', 
-                   :qr => [query, query], 
-                   :or => ["AND", "AND"], 
+      temp_hash = {:q => '(((+author_event_browse:"' + query + '") OR author_event_browse:"' + query + '") OR ((+subject_event_browse:"' + query + '") OR subject_event_browse:"' + query + '"))',
+                   :qr => [query, query],
+                   :or => ["AND", "AND"],
                    :sfr => ["author_event_browse", "subject_event_browse"]}
     elsif htype ==  "Chronological Term"
-      temp_hash = {:q => '((+subject_era_browse:"' + query + '") OR subject_era_browse:"' + query + '")', 
-                   :qr => [query, query], 
-                   :or => ["AND"], 
+      temp_hash = {:q => '((+subject_era_browse:"' + query + '") OR subject_era_browse:"' + query + '")',
+                   :qr => [query, query],
+                   :or => ["AND"],
                    :sfr => ["subject_era_browse"]}
     elsif htype ==  "Genre/Form Term"
-      temp_hash = {:q => '((+subject_genr_browse:"' + query + '") OR subject_genr_browse:"' + query + '")', 
-                   :qr => [query], 
-                   :or => ["AND"], 
+      temp_hash = {:q => '((+subject_genr_browse:"' + query + '") OR subject_genr_browse:"' + query + '")',
+                   :qr => [query],
+                   :or => ["AND"],
                    :sfr => ["subject_genr_browse"]}
     elsif htype ==  "Geographic Name"
-      temp_hash = {:q => '((+subject_geo_browse:"' + query + '") OR subject_geo_browse:"' + query + '")', 
-                   :qr => [query], 
-                   :or => ["AND"], 
+      temp_hash = {:q => '((+subject_geo_browse:"' + query + '") OR subject_geo_browse:"' + query + '")',
+                   :qr => [query],
+                   :or => ["AND"],
                    :sfr => ["subject_geo_browse"]}
     elsif htype ==  "Topical Term"
-      temp_hash = {:q => '((+subject_topic_browse:"' + query + '") OR subject_topic_browse:"' + query + '")', 
-                   :qr => [query], 
-                   :or => ["AND"], 
+      temp_hash = {:q => '((+subject_topic_browse:"' + query + '") OR subject_topic_browse:"' + query + '")',
+                   :qr => [query],
+                   :or => ["AND"],
                    :sfr => ["subject_topic_browse"]}
     elsif htype ==  "Work"
-      temp_hash = {:q => '((+subject_work_browse:"' + query + '") OR subject_work_browse:"' + query + '")', 
-                   :qr => [query], 
-                   :or => ["AND"], 
+      temp_hash = {:q => '((+subject_work_browse:"' + query + '") OR subject_work_browse:"' + query + '")',
+                   :qr => [query],
+                   :or => ["AND"],
                    :sfr => ["subject_work_browse"]}
     end
     return temp_hash
