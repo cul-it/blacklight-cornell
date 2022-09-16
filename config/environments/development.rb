@@ -41,6 +41,9 @@ BlacklightCornell::Application.configure do
   # Raise exception on mass assignment protection for Active Record models
   #config.active_record.mass_assignment_sanitizer = :strict
   #config.active_record.mass_assignment_sanitizer = false
+  condig.active_record.yaml_column_permitted_classes = [
+    ActiveSupport::HashWithIndifferentAccess
+  ]
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
