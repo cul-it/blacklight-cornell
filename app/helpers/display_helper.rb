@@ -264,7 +264,7 @@ end
   }
 
   def render_clickable_document_show_field_value args
-    dp = Blacklight::DocumentPresenter.new( nil, nil)
+    dp = Blacklight::DocumentPresenter.new( nil, nil, nil)
     value = args[:value]
     value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
