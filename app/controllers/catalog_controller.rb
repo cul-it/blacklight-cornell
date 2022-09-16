@@ -212,7 +212,7 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
     config.add_facet_field 'location',
                           label: 'Library Location',
-                          partial: 'blacklight/hierarchy/facet_hierarchy',
+                          component: Blacklight::Hierarchy::FacetFieldListComponent,
                           sort: 'index',
                           limit: 100
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
