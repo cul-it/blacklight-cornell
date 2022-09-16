@@ -236,7 +236,7 @@ class BrowseController < ApplicationController
     # For new functionality
 	  if params[:browse_type] == "Author"
       loc_url = get_author_loc_url
-	    @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""      
+	    @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
       @formats = get_formats(params[:authq], params[:headingtype])
 	  end
  	  if params[:browse_type] == "Subject"
@@ -281,8 +281,12 @@ end
  def get_author_loc_url
    @has_wiki_data = params[:hasWD].nil? ? false : true
    heading = @headingsResponse[0]["heading"].gsub(/\.$/, '')
-   search_url = "https://id.loc.gov/authorities/names/suggest?q=" + heading + "&rdftype=" + params[:headingtype].gsub(" ", "") + "&count=1"
-   url = URI.parse(URI.escape(search_url))
+   path = 'https://id.loc.gov/authorities/names/suggest'
+   escaped = {q: heading, rdftype: params[:headingtype].gsub(" ", ""), count: 1}.to_param
+   search_url_escaped = path + '?' + escaped
+  #  search_url = "https://id.loc.gov/authorities/names/suggest?q=" + heading + "&rdftype=" + params[:headingtype].gsub(" ", "") + "&count=1"
+  #  url = URI.parse(URI.escape(search_url))
+   url = URI.parse(search_url_escaped)
    resp = Net::HTTP.get_response(url)
    data = resp.body
    result = JSON.parse(data)
@@ -293,8 +297,12 @@ end
    loc_path = "subjects"
    rdf_type = "(Topic OR rdftype:ComplexSubject OR rdftype:Geographic OR rdftype:GenreForm OR rdftype:CorporateName)"
    query = params[:authq].gsub(/\s>\s/, "--")
-   search_url = "https://id.loc.gov/authorities/" + loc_path + "/suggest?q=" + query + "&rdftype=" + rdf_type + "&count=1"    
-   url = URI.parse(URI.escape(search_url))
+   path = "https://id.loc.gov/authorities/" + loc_path + "/suggest"
+   escaped = {q: query, rdftype: rdf_type, count: 1}.to_param
+   search_url_escaped = path + '?' + escaped
+  #  search_url = "https://id.loc.gov/authorities/" + loc_path + "/suggest?q=" + query + "&rdftype=" + rdf_type + "&count=1"
+  #  url = URI.parse(URI.escape(search_url))
+   url = URI.parse(search_url_escaped)
    resp = Net::HTTP.get_response(url)
    data = resp.body
    result = JSON.parse(data)
