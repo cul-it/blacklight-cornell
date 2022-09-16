@@ -220,7 +220,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'lc_callnum_facet',
                            if: :has_search_parameters?,
                           label: 'Call Number',
-                          partial: 'blacklight/hierarchy/facet_hierarchy',
+                          component: Blacklight::Hierarchy::FacetFieldListComponent,
                           sort: 'count'
 
 
