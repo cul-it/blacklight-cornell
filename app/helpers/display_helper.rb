@@ -1081,20 +1081,6 @@ Rails.logger.level = save_level
       if fulltitle_vern.present? && english.present?
         label.prepend(fulltitle_vern + ' / ')
       end
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "label: " + label.inspect
-msg << "opts: " + opts.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
-      label
     end
 
     # Rewriting because we can't get the above to work properly....
@@ -1122,6 +1108,19 @@ Rails.logger.level = save_level
     # label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     # label ||= opts[:label] if opts[:label].is_a? String
     # label ||= doc.id
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "label: " + label.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
 
     #dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     #dp.render_field_value label
