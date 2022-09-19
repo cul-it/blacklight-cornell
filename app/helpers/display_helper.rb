@@ -1124,8 +1124,9 @@ Rails.logger.level = save_level
 
     #dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     #dp.render_field_value label
-    fp = Blacklight::FieldPresenter.new( self, doc, blacklight_config.show_fields[field], :value => label)
-    fp.render
+    # fp = Blacklight::FieldPresenter.new( self, doc, blacklight_config.show_fields[field], :value => label)
+    # fp.render
+    label
   end
 
   # Overrides original method from catalog_helper_behavior.rb
