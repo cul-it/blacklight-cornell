@@ -1098,6 +1098,7 @@ end
 
     #dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     #dp.render_field_value label
+    # John's magic comment line
     fp = Blacklight::FieldPresenter.new( self, doc, blacklight_config.show_fields[field], :value => label)
     fp.render
   end
