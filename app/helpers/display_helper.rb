@@ -1050,7 +1050,7 @@ end
   # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
-  def _cornell_render_document_index_label doc, opts
+  def _cornell_render_document_index_label doc
 
     # Rewriting because we can't get the above to work properly....
     label = doc["title_display"]
