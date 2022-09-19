@@ -1051,6 +1051,18 @@ end
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
   def _cornell_render_document_index_label doc, opts
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "opts: " + opts.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
     opts[:value]
     label = nil
     if opts[:label].is_a?(Array)
