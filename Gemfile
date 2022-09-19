@@ -9,7 +9,7 @@ gem "actionview"#, ">= 5.2.7.1"
 gem "byebug"
 gem "ffi"
 # added for rails 4.
-gem 'activerecord-session_store'#, ">= 2.0.0"
+gem 'activerecord-session_store', ">= 2.0.0"
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 gem 'net-smtp'
@@ -115,7 +115,7 @@ gem 'omniauth-facebook', '~> 5.0'
 gem 'repost'
 gem 'xmlrpc'
 gem 'bootstrap', '4.3.1'
-gem 'sassc', '2.2.1'
+gem 'sassc', '~> 2.4'
 gem 'font-awesome-rails'
 # gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
 gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'DISCOVERYACCESS-7627'
