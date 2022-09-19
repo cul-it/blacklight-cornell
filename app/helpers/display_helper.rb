@@ -1063,7 +1063,7 @@ msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 #binding.pry
 #*******************
-    opts[:value]
+    # opts[:value]
     label = nil
     if opts[:label].is_a?(Array)
       title = doc.fetch(opts[:label][0], :sep => nil)
