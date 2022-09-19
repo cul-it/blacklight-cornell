@@ -42,6 +42,7 @@ get 'bookmarks/citation_page' => 'bookmarks#show_citation_page', :as => 'show_ci
 
 resources :bookmarks do
   concerns :exportable
+  concerns :searchable
 
   collection do
     delete 'clear'
