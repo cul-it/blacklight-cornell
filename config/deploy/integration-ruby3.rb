@@ -1,4 +1,4 @@
-set :stage, :integration-ruby3
+set :stage, :integration
 
 server 'aws-108-239.internal.library.cornell.edu', roles: %w{app web db}, primary: true, user: 'jenkins' 
 
