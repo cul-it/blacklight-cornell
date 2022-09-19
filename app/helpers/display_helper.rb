@@ -1051,25 +1051,25 @@ end
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
   def _cornell_render_document_index_label doc, opts
-    #opts[:value]
-    # label = nil
-    # if opts[:label].is_a?(Array)
-    #   title = doc.fetch(opts[:label][0], :sep => nil)
-    #   Rails.logger.warn "mjc12test: doc: #{doc['fdisplay']}"
-    #   subtitle = doc.fetch(opts[:label][1], :sep => nil)
-    #   fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
-    #
-    #   Rails.logger.warn "mjc12test: title: #{title}, subtitle: #{subtitle}"
-    #   english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
-    #
-    #   # If title is missing, fall back to document id (bibid) as last resort
-    #   label ||= english.present? ? english : doc.id
-    #
-    #   # If we have a non-Roman script alternative, prepend it
-    #   if fulltitle_vern.present? && english.present?
-    #     label.prepend(fulltitle_vern + ' / ')
-    #   end
-    # end
+    opts[:value]
+    label = nil
+    if opts[:label].is_a?(Array)
+      title = doc.fetch(opts[:label][0], :sep => nil)
+      Rails.logger.warn "mjc12test: doc: #{doc['fdisplay']}"
+      subtitle = doc.fetch(opts[:label][1], :sep => nil)
+      fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
+
+      Rails.logger.warn "mjc12test: title: #{title}, subtitle: #{subtitle}"
+      english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
+
+      # If title is missing, fall back to document id (bibid) as last resort
+      label ||= english.present? ? english : doc.id
+
+      # If we have a non-Roman script alternative, prepend it
+      if fulltitle_vern.present? && english.present?
+        label.prepend(fulltitle_vern + ' / ')
+      end
+    end
 
     # Rewriting because we can't get the above to work properly....
     label = nil
