@@ -906,7 +906,7 @@ end
   def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
     opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
     # label = _cornell_render_document_index_label doc, opts
-    label = render_index_field_label doc, opts
+    label = render_index_field_label doc, opts, 'title_display'
     if params[:controller] == 'bookmarks'
       docID = doc.id
       link_to label, '/bookmarks/' + docID
