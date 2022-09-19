@@ -903,7 +903,7 @@ end
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
-  def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true, :field => 'title_display'})
+  def link_to_document(doc, field_or_opts = nil, opts={:label=>nil, :counter => nil, :results_view => true, :field => 'title_display'})
     opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
     # label = _cornell_render_document_index_label doc, opts
     label = render_index_field_label doc, opts
