@@ -225,15 +225,18 @@ class SearchController < ApplicationController
       #cat_url = "http://" + @catalog_host
 #      query = ((objectify_query query).gsub('%', '%25')).gsub('+','%2B').gsub('&', '%26')
       query = query.gsub('&', '%26')
+      path = '/'
       if format == 'all'
         #"#{cat_url}/?q=#{query}"
-        "/?q=#{query}"
+        escaped = { q: query }.to_param
       else
-         query = query.gsub('&','%26')
+        #  query = query.gsub('&','%26')
         #"#{cat_url}/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
         "/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}&search_field=all_fields"
+        escaped = { "f[format][]" => format, q: query, search_field: 'all_fields' }.to_param
         #"/?" + URI::escape("f[format][]=#{format}&")+"q=#{query}"
       end
+      escaped_search_url = path + '?' + escaped
     end
   end
 
