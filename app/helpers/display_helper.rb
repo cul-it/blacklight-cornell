@@ -264,7 +264,7 @@ end
   }
 
   def render_clickable_document_show_field_value args
-    dp = Blacklight::DocumentPresenter.new()
+    dp = Blacklight::DocumentPresenter.new( nil, nil, nil)
     value = args[:value]
     value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
@@ -903,16 +903,17 @@ end
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
-  def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
-    opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
-    label = _cornell_render_document_index_label doc, opts
-    if params[:controller] == 'bookmarks'
-      docID = doc.id
-      link_to label, '/bookmarks/' + docID
-    else
-      link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
-    end
-  end
+  # def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
+  #   opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
+  #   # label = _cornell_render_document_index_label doc, opts
+  #   label = render_index_field_label doc, opts
+  #   if params[:controller] == 'bookmarks'
+  #     docID = doc.id
+  #     link_to label, '/bookmarks/' + docID
+  #   else
+  #     link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
+  #   end
+  # end
 
   # link_back_to_catalog()
   # Overrides original method from blacklight_helper_behavior.rb
@@ -1050,25 +1051,39 @@ end
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
   def _cornell_render_document_index_label doc, opts
-    #opts[:value]
-    # label = nil
-    # if opts[:label].is_a?(Array)
-    #   title = doc.fetch(opts[:label][0], :sep => nil)
-    #   Rails.logger.warn "mjc12test: doc: #{doc['fdisplay']}"
-    #   subtitle = doc.fetch(opts[:label][1], :sep => nil)
-    #   fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
-    #
-    #   Rails.logger.warn "mjc12test: title: #{title}, subtitle: #{subtitle}"
-    #   english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
-    #
-    #   # If title is missing, fall back to document id (bibid) as last resort
-    #   label ||= english.present? ? english : doc.id
-    #
-    #   # If we have a non-Roman script alternative, prepend it
-    #   if fulltitle_vern.present? && english.present?
-    #     label.prepend(fulltitle_vern + ' / ')
-    #   end
-    # end
+    opts[:value]
+    label = nil
+    if opts[:label].is_a?(Array)
+      title = doc.fetch(opts[:label][0], :sep => nil)
+      Rails.logger.warn "mjc12test: doc: #{doc['fdisplay']}"
+      subtitle = doc.fetch(opts[:label][1], :sep => nil)
+      fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
+
+      Rails.logger.warn "mjc12test: title: #{title}, subtitle: #{subtitle}"
+      english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
+
+      # If title is missing, fall back to document id (bibid) as last resort
+      label ||= english.present? ? english : doc.id
+
+      # If we have a non-Roman script alternative, prepend it
+      if fulltitle_vern.present? && english.present?
+        label.prepend(fulltitle_vern + ' / ')
+      end
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "label: " + label.inspect
+msg << "opts: " + opts.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
+      label
+    end
 
     # Rewriting because we can't get the above to work properly....
     label = nil

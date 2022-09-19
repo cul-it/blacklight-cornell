@@ -76,6 +76,11 @@ BlacklightCornell::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.active_record.yaml_column_permitted_classes = [
+    ActiveSupport::HashWithIndifferentAccess
+  ]
+
+
   # Settings for the exception_notification gem
   #Rails.application.config.middleware.use ExceptionNotification::Rack,
   # :email => {

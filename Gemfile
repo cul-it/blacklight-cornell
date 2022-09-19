@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
-ruby "2.6.4"
+ruby "3.1.2"
 #another try
-gem 'rails', '5.2.8'
+gem 'rails', '~> 6.1'
 gem "dotenv-rails"
-gem "dotenv-deployment"
-gem 'appsignal', '2.11.10'
-gem "sprockets", '~> 3.7.2'
-gem "actionview", ">= 5.2.7.1"
+gem 'appsignal'#, '2.11.10'
+gem "sprockets"#, '~> 3.7.2'
+gem "actionview"#, ">= 5.2.7.1"
 gem "byebug"
 gem "ffi"
 # added for rails 4.
-gem 'activerecord-session_store', ">= 2.0.0"
+gem 'activerecord-session_store'#, ">= 2.0.0"
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
+gem 'net-smtp'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
@@ -29,7 +29,7 @@ gem 'savon', '~> 2.11.1'
 gem 'parslet'
 gem 'ultraviolet'
 gem 'yaml_db'
-gem 'blacklight', '7.0.1'
+gem 'blacklight', '7.29.0'
 gem 'blacklight_range_limit', '7.1.0'
 gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
 gem 'kaminari', '>= 0.15'
@@ -104,6 +104,7 @@ gem 'devise-guests', '~> 0.3'
 
 gem 'omniauth', '~> 2.0'
 gem 'omniauth-saml', '~> 2.0'
+gem 'omniauth-oauth2'
 gem 'omniauth-rails_csrf_protection'
 #gem 'omniauth-google-oauth2'
 # Use Omniauth Google plugin
@@ -115,16 +116,18 @@ gem 'xmlrpc'
 gem 'bootstrap', '4.3.1'
 gem 'sassc', '2.2.1'
 gem 'font-awesome-rails'
-gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+# gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'master'
+gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'DISCOVERYACCESS-7627'
 #gem 'blacklight_cornell_requests', :path => '/Users/tlw72/dev/bc-requests'
 #gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/local_requests'
 #gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
 gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge'
-gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'master'
+# gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'master'
+gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'DISCOVERYACCESS-7627'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 gem 'ruby-saml', '>= 1.12.1'
-gem 'bento_search'
+gem 'bento_search', '~> 2.0.0.rc1'
 gem 'celluloid', '0.17.4' # Required for bento_search multisearcher
 gem 'mollom'
 gem 'exception_notification'
