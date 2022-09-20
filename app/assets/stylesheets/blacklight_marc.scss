@@ -1,3 +1,9 @@
+/* jgr25
+temporary override to avoid missing $padding-xs-horizontal and $nav-link-padding
+
+https://my.diffend.io/gems/blacklight-marc/6.3.0/7.0.0.rc1
+https://github.com/psu-libraries/psulib_blacklight/wiki/Upgrading-to-Blacklight-v7.0.0.rc1#undefined-variable-padding-xs-horizontal
+*/
 /* border between items on marc view */
 $marc_item_separator: 1px solid $text-muted !default;
 
@@ -22,7 +28,7 @@ $marc_item_separator: 1px solid $text-muted !default;
   .ind1, .ind2
   {
     display:inline;
-    padding:0 $padding-xs-horizontal;
+    padding: 0 ($spacer / 2);
   }
 
   .subfields
@@ -34,9 +40,4 @@ $marc_item_separator: 1px solid $text-muted !default;
   {
     float:left;
   }
-}
-
-/* refworks uses a form; we need to give it some additional padding to make it look like a link */
-#refworks-form .btn {
-  padding: $nav-link-padding;
 }
