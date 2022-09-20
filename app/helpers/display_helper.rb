@@ -133,8 +133,6 @@ end
     if render_format == 'raw'
       return value
     else
-      fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
-      #dp.render_field_value value
       case  args[:field]
         when'url_findingaid_display'
           return value[0]
@@ -144,6 +142,7 @@ end
         when 'url_other_display'
           return value.join('<br>').html_safe
         else
+          fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
           fp.render
         end
     end
