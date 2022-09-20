@@ -11,6 +11,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include Blacklight::TokenBasedUser
   include BlacklightCornell::VirtualBrowse
   include BlacklightCornell::Discogs
+  include Blacklight::DefaultComponentConfiguration
+  include Blacklight::Marc::Catalog
 
   #  include ActsAsTinyURL
   Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
