@@ -56,8 +56,6 @@ set :assets_manifests, ['app/assets/config/manifest.js']
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 # append :linked_files, '.env'
 
-set :linked_files, fetch(:linked_files, []).push('config/database.yml')
-
 before 'deploy:updated', :install_env
 after 'deploy:started', "rvm:check"
 after 'deploy:started', :block_precompile

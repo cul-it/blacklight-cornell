@@ -86,6 +86,8 @@ module BlacklightCornell
     config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
+    config.active_record.suppress_multiple_database_warning
+
     # custom error pages
     config.exceptions_app = self.routes
     config.action_controller.permit_all_parameters = true
