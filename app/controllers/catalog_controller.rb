@@ -3,6 +3,8 @@ class CatalogController < ApplicationController
 
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
+  include Blacklight::Marc::Catalog
+
 #  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
   include Blacklight::DefaultComponentConfiguration

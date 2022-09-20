@@ -184,13 +184,13 @@ GEM
       blacklight (~> 7.18)
       deprecation
       rails (>= 5.1, < 7.1)
-    blacklight-marc (7.0.0)
-      blacklight (~> 7.0)
+    blacklight-marc (6.3.0)
+      blacklight (> 6.1, < 8.a)
       library_stdnums
-      marc (>= 0.4.3, < 1.1)
+      marc (>= 0.4.3, < 2.0)
       marc-fastxmlwriter
       rails
-      traject (~> 3.0)
+      traject (>= 2.1, < 4)
     blacklight_range_limit (7.1.0)
       blacklight (>= 7.0)
       rails (>= 3.0)
@@ -468,7 +468,8 @@ GEM
     lumberjack (1.2.8)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marc (1.0.4)
+    marc (1.2.0)
+      rexml
       scrub_rb (>= 1.0.1, < 2)
       unf
     marc-fastxmlwriter (1.1.0)
@@ -786,7 +787,7 @@ DEPENDENCIES
   bento_search (~> 2.0.0.rc1)
   blacklight (= 7.29.0)
   blacklight-hierarchy
-  blacklight-marc (= 7.0.0)
+  blacklight-marc (~> 6.2)
   blacklight_cornell_requests!
   blacklight_range_limit (= 7.1.0)
   blacklight_unapi!
