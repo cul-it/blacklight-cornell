@@ -23,7 +23,7 @@ class BentoSearch::LibguidesEngine
     guides_response = []
     guides_url = "http://lgapi-us.libapps.com/1.1/guides/?site_id=45&search_terms=#{q}&status=1&key=#{ENV['LIBGUIDES_API_KEY']}"
     begin
-      guides_response = JSON.load(open(guides_url))
+      guides_response = JSON.load(URI.open(guides_url))
     rescue Exception => e
       guides_response = []
       Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"

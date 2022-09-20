@@ -24,7 +24,7 @@ class BentoSearch::DigitalCollectionsEngine
     url = Addressable::URI.parse(uri)
     url.normalize
 
-    portal_response = JSON.load(open(url.to_s))
+    portal_response = JSON.load(URI.open(url.to_s))
 
     Rails.logger.debug "mjc12test: #{portal_response}"
     results = portal_response['response']['docs']
