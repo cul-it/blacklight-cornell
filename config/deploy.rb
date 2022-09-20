@@ -10,7 +10,7 @@ set :repo_url,  "git@github.com:cul-it/blacklight-cornell"
 #set :scm_verbose, true
 # todo: set user to jenkins
 #set :user, "jenkins"
-set :default_environment, {
+set :default_env, {
   'PATH' => "/usr/local/rvm/gems/ruby-3.1.2/bin:/usr/local/rvm/gems/ruby-3.1.2@global/bin:/usr/local/rvm/rubies/ruby-3.1.2/bin:/usr/local/rvm/bin:/opt/rh/devtoolset-10/root/usr/bin:$PATH",
   'RUBY_VERSION' => "ruby-3.1.2",
   'GEM_HOME'     => "/usr/local/rvm/gems/ruby-3.1.2",
