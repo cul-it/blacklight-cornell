@@ -10,14 +10,14 @@ set :repo_url,  "git@github.com:cul-it/blacklight-cornell"
 #set :scm_verbose, true
 # todo: set user to jenkins
 #set :user, "jenkins"
-#set :default_environment, {
-#  'PATH' => "/usr/local/rvm/gems/ruby-2.6.4/bin:/usr/local/rvm/gems/ruby-2.6.4@global/bin:/usr/local/rvm/rubies/ruby-2.6.4/bin:/usr/local/rvm/bin:/opt/rh/devtoolset-10/root/usr/bin:$PATH",
-#  'RUBY_VERSION' => "ruby-2.6.4",
-#  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-2.6.4",
-#  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-2.6.4:/usr/local/rvm/gems/ruby-2.6.4@global",
-#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-2.6.4/gems/bundler-2.3.9/exe/bundle"  # If you are using bundler.
+set :default_environment, {
+  'PATH' => "/usr/local/rvm/gems/ruby-3.1.2/bin:/usr/local/rvm/gems/ruby-3.1.2@global/bin:/usr/local/rvm/rubies/ruby-3.1.2/bin:/usr/local/rvm/bin:/opt/rh/devtoolset-10/root/usr/bin:$PATH",
+  'RUBY_VERSION' => "ruby-3.1.2",
+  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-3.1.2",
+  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-3.1.2:/usr/local/rvm/gems/ruby-3.1.2@global",
+#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-3.1.2/gems/bundler-2.3.9/exe/bundle"  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
-#}
+}
 
 set :rvm_ruby_version, '3.1.2'
 
