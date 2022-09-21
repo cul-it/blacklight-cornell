@@ -10,21 +10,84 @@ class BentoSearch::LibguidesEngine
   # BentoSearch::ResultItem objects for each hit in the current page. See individual class
   # documentation for more info.
   def search_implementation(args)
-
+    begin
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "args: " + args.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort
     Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
     bento_results = BentoSearch::Results.new
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "bento_results: " + bento_results.inspect
+msg << "configuration[:blacklight_format]: " + configuration[:blacklight_format].inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
 
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Research Guides'
-    q = URI::encode(args[:oq].gsub(" ","+"))
+    # q = URI::encode(args[:oq].gsub(" ","+"))
     guides_response = []
-    guides_url = "http://lgapi-us.libapps.com/1.1/guides/?site_id=45&search_terms=#{q}&status=1&key=#{ENV['LIBGUIDES_API_KEY']}"
-    begin
+    path = "http://lgapi-us.libapps.com/1.1/guides/"
+    st = args[:oq].gsub(" ","+")
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "st: " + st.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
+    escaped = {site_id: 45, search_terms: st, status: 1, key: ENV['LIBGUIDES_API_KEY']}.to_param
+    guides_url = path + '?' + escaped
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "guides_url: " + guides_url.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
       guides_response = JSON.load(URI.open(guides_url))
     rescue Exception => e
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "exception: " + e.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
       guides_response = []
       Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
       Rails.logger.error "Guides URL: " + guides_url
