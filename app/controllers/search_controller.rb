@@ -221,7 +221,6 @@ class SearchController < ApplicationController
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
-      query = query.gsub('&', '%26')
       path = '/'
       if format == 'all'
         escaped = { q: query }.to_param
