@@ -1,5 +1,4 @@
 class BentoSearch::LibguidesEngine
-
   include BentoSearch::SearchEngine
 
   # Next, at a minimum, you need to implement a #search_implementation method,
@@ -11,20 +10,20 @@ class BentoSearch::LibguidesEngine
   # documentation for more info.
   def search_implementation(args)
     begin
-    # 'args' should be a normalized search arguments hash including the following elements:
-    # :query, :per_page, :start, :page, :search_field, :sort
-    Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
-    bento_results = BentoSearch::Results.new
+      # 'args' should be a normalized search arguments hash including the following elements:
+      # :query, :per_page, :start, :page, :search_field, :sort
+      Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
+      bento_results = BentoSearch::Results.new
 
-    # Format is passed to the engine using the configuration set up in the bento_search initializer
-    # If not specified, we can maybe default to books for now.
-    format = configuration[:blacklight_format] || 'Research Guides'
-    # q = URI::encode(args[:oq].gsub(" ","+"))
-    guides_response = []
-    path = "http://lgapi-us.libapps.com/1.1/guides/"
-    st = args[:oq].gsub(" ","+")
-    escaped = {site_id: 45, search_terms: st, status: 1, key: ENV['LIBGUIDES_API_KEY']}.to_param
-    guides_url = path + '?' + escaped
+      # Format is passed to the engine using the configuration set up in the bento_search initializer
+      # If not specified, we can maybe default to books for now.
+      format = configuration[:blacklight_format] || "Research Guides"
+      # q = URI::encode(args[:oq].gsub(" ","+"))
+      guides_response = []
+      path = "http://lgapi-us.libapps.com/1.1/guides/"
+      st = args[:oq].gsub(" ", "+")
+      escaped = { site_id: 45, search_terms: st, status: 1, key: ENV["LIBGUIDES_API_KEY"] }.to_param
+      guides_url = path + "?" + escaped
       guides_response = JSON.load(URI.open(guides_url))
     rescue Exception => e
       guides_response = []
@@ -33,22 +32,19 @@ class BentoSearch::LibguidesEngine
     end
 
     Rails.logger.debug "mjc12test: #{guides_response}"
-    results = guides_response[0,3]
+    results = guides_response[0, 3]
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
-      item.title = i['name'].to_s
-      if i['description'].present?
-      item.abstract = i['description'].to_s
+      item.title = i["name"].to_s
+      if i["description"].present?
+        item.abstract = i["description"].to_s
       end
-      item.link = i['friendly_url']
+      item.link = i["friendly_url"]
       bento_results << item
     end
     bento_results.total_items = 0
 
     return bento_results
-
   end
-
-
 end
