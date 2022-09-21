@@ -19,7 +19,10 @@ class BentoSearch::InstitutionalRepositoriesEngine
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Institutional Repositories'
-    q = URI::encode(args[:oq].gsub(" ","+"))
+
+    qp = { q: args[:oq] }.to_param
+    # q = URI::encode(args[:oq].gsub(" ","+"))
+    q = qp[2..-1]
 
     uri = get_solr_url(args)
     url = Addressable::URI.parse(uri)
