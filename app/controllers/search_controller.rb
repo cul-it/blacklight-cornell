@@ -159,18 +159,6 @@ class SearchController < ApplicationController
     @digitalCollections = results.delete('digitalCollections')
     @institutionalRepositories = results.delete('institutionalRepositories')
     @libguides = results.delete('libguides')
-    #******************
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    jgr25_context = "#{__FILE__}:#{__LINE__}"
-    Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-    msg = [" #{__method__} ".center(60,'Z')]
-    msg << jgr25_context
-    msg << "@libguides: " + @libguides.inspect
-    msg << 'Z' * 60
-    msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-    Rails.logger.level = save_level
-    #binding.pry
-#*******************
     # Top 2 are books and articles, regardless of display_type
     #jgr25 top1 << ['summon_bento', results.delete('summon_bento')]
     top1 << ['ebsco_eds', results.delete('ebsco_eds')]
