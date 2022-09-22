@@ -26,7 +26,7 @@ Then /^I absolutely should see the text '(.*?)'$/i do |text|
 end
 
 Then(/^I should see the text "([^"]*)"$/) do |arg1|
-   page.should have_content(arg1)
+   expect(page).to have_content(arg1)
 end
 
 Then("I should see any text {string}") do |string|

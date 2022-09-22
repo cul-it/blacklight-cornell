@@ -230,6 +230,7 @@ Scenario Outline: Search with institutional repository results for each IR
   And I press 'Search'
   Then I should get Institutional Repository results
   And when I view all Repositories Items
+  And I sleep 2 seconds
   Then I should see the text "<repository>"
 
 Examples:
