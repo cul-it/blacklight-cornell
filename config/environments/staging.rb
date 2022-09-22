@@ -72,4 +72,9 @@ BlacklightCornell::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.active_record.yaml_column_permitted_classes = [
+    ActiveSupport::HashWithIndifferentAccess
+  ]
+
+
 end

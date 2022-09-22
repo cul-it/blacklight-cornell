@@ -36,6 +36,11 @@ BlacklightCornell::Application.configure do
   # See everything in the log (default is :info)
  config.log_level = ENV["LOG_LEVEL"].blank?  ? :debug : ENV["LOG_LEVEL"].to_sym
 
+ config.active_record.yaml_column_permitted_classes = [
+  ActiveSupport::HashWithIndifferentAccess
+]
+
+
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 

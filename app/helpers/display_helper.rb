@@ -133,8 +133,6 @@ end
     if render_format == 'raw'
       return value
     else
-      fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
-      #dp.render_field_value value
       case  args[:field]
         when'url_findingaid_display'
           return value[0]
@@ -144,6 +142,7 @@ end
         when 'url_other_display'
           return value.join('<br>').html_safe
         else
+          fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
           fp.render
         end
     end
@@ -264,7 +263,7 @@ end
   }
 
   def render_clickable_document_show_field_value args
-    dp = Blacklight::DocumentPresenter.new()
+    dp = Blacklight::DocumentPresenter.new( nil, nil, nil)
     value = args[:value]
     value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
@@ -903,14 +902,16 @@ end
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
-  def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
-    opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
-    label = _cornell_render_document_index_label doc, opts
+  def link_to_document(doc, field_or_opts = nil, opts={:label=>nil, :counter => nil, :results_view => true})
+    # opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
+    # label = _cornell_render_document_index_label doc, opts
     if params[:controller] == 'bookmarks'
+      label = field_or_opts
       docID = doc.id
       link_to label, '/bookmarks/' + docID
     else
-      link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
+      # link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
+      super
     end
   end
 
@@ -1049,30 +1050,10 @@ end
   # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
-  def _cornell_render_document_index_label doc, opts
-    #opts[:value]
-    # label = nil
-    # if opts[:label].is_a?(Array)
-    #   title = doc.fetch(opts[:label][0], :sep => nil)
-    #   Rails.logger.warn "mjc12test: doc: #{doc['fdisplay']}"
-    #   subtitle = doc.fetch(opts[:label][1], :sep => nil)
-    #   fulltitle_vern = doc.fetch(opts[:label][2], :sep => nil)
-    #
-    #   Rails.logger.warn "mjc12test: title: #{title}, subtitle: #{subtitle}"
-    #   english = title.present? && subtitle.present? ? title + ' : ' + subtitle : title
-    #
-    #   # If title is missing, fall back to document id (bibid) as last resort
-    #   label ||= english.present? ? english : doc.id
-    #
-    #   # If we have a non-Roman script alternative, prepend it
-    #   if fulltitle_vern.present? && english.present?
-    #     label.prepend(fulltitle_vern + ' / ')
-    #   end
-    # end
+  def _cornell_render_document_index_label doc
 
     # Rewriting because we can't get the above to work properly....
-    label = nil
-    field = "title"
+    label = doc["title_display"]
     title = doc['fulltitle_display']
     vern = doc['fulltitle_vern_display']
 
@@ -1089,17 +1070,6 @@ end
     end
 
     label ||= doc['id']
-
-    # This is a bit arcane, copied from the blacklight gem, so we're not sure we need it.
-    # label ||= doc.fetch(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
-    # label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
-    # label ||= opts[:label] if opts[:label].is_a? String
-    # label ||= doc.id
-
-    #dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    #dp.render_field_value label
-    fp = Blacklight::FieldPresenter.new( self, doc, blacklight_config.show_fields[field], :value => label)
-    fp.render
   end
 
   # Overrides original method from catalog_helper_behavior.rb
