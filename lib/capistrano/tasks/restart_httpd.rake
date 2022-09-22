@@ -1,6 +1,7 @@
 namespace :apache do
     desc "Restart Apache httpd"
     task :restart_httpd do
+        set :default_env {}
         on roles(:web) do |host|
             info "Restart on #{host}..."
             info "Restarting"
