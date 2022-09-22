@@ -5,8 +5,8 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
 
 #  include Blacklight::SearchHelper
-  include BlacklightCornell::CornellCatalog
   include Blacklight::DefaultComponentConfiguration
+  include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
   include Blacklight::Marc::Catalog
   require 'net/http'
