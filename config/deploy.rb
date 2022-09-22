@@ -58,7 +58,7 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 
 before 'deploy:updated', :install_env
 after 'deploy:started', "rvm:check"
-after 'deploy:started', :block_precompile
-#after 'deploy:publishing', 'apache:restart_httpd'
+#after 'deploy:started', :block_precompile
+after 'deploy:publishing', 'apache:restart_httpd'
 
 Rake::Task["deploy:assets:restore_manifest"].clear_actions

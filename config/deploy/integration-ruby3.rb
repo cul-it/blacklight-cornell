@@ -1,6 +1,6 @@
 set :stage, :integration
 
-server 'aws-108-239.internal.library.cornell.edu', roles: %w{app web db}, primary: true, user: 'jenkins' 
+server 'jenkins@aws-108-239.internal.library.cornell.edu', roles: %w{app web db}, primary: true, user: 'jenkins' 
 
 set :deploy_to, "/cul/web/newcatalog-int.library.cornell.edu/rails-app"
 
