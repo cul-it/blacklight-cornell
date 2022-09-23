@@ -5,7 +5,7 @@ namespace :apache do
         on roles(:web) do |host|
             info "Restart on #{host}..."
             info "Restarting"
-            execute :sudo, "systemctl reload httpd.service"
+            execute "sudo systemctl reload httpd.service"
             info "Restart finished."
         end
     end
