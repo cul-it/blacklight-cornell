@@ -19,7 +19,7 @@ class BentoSearch::BestBetEngine
     if q.ascii_only?
       best_bet = []
       begin
-        best_bet = JSON.load(open("https://bestbets.library.cornell.edu/match/#{q}"))
+        best_bet = JSON.load(URI.open("https://bestbets.library.cornell.edu/match/#{q}"))
       rescue Exception => e
         best_bet = []
         result = BentoSearch::ResultItem.new
