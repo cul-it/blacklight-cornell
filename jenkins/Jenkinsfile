@@ -30,10 +30,15 @@ pipeline {
 
         stage('Publish Coverage') {
             steps {
-                // Archive the built artifacts
-                archive (includes: 'pkg/*.gem')
                 sh 'mkdir -p coverage'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'MayDay'])
+                publishHTML ([
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'coverage',
+                reportFiles: 'excoveralls.html',
+                reportName: 'Coverage-Report'
+                ])
             }
         }
     }
