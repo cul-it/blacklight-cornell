@@ -31,7 +31,7 @@ pipeline {
         stage('Publish Coverage') {
             steps {
                 sh 'mkdir -p coverage'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'MayDay'])
             }
         }
     }
