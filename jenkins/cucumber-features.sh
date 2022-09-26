@@ -10,9 +10,8 @@ which bundle
 if [ $# -eq 0 ]
     then
         echo "Running all feature tests."
-        COVERAGE=true ../jenkins-opts.sh
+        COVERAGE=true ./jenkins-opts.sh
     else
         echo "Running feature: $1"
-        ls ../../
-        COVERAGE=true ../../jenkins-opts.sh "$1"
+        COVERAGE=true ./jenkins-opts.sh "$1"
 fi
