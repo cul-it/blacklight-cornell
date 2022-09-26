@@ -42,15 +42,14 @@ pipeline {
             steps {
                 sh 'mkdir -p coverage'
                 sh 'touch coverage/dummy-file.html'
-                publishHTML ([
+                publishHTML target: [
                     allowMissing: false,
-                    alwaysLinkToLastBuild: true,
+                    alwaysLinkToLastBuild: false,
                     keepAll: true,
                     reportDir: 'coverage',
-                    reportFiles: 'coveralls.html',
-                    reportName: 'Coverage-Report'
-                    ]
-                )
+                    reportFiles: 'index.html',
+                    reportName: 'RCov Report'
+                ]
             }
         }
     }
