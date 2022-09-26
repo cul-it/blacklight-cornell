@@ -13,5 +13,6 @@ if [ $# -eq 0 ]
         COVERAGE=true ../jenkins-opts.sh
     else
         echo "Running feature: $1"
-        COVERAGE=true ../jenkins-opts.sh "$1"
+        ls ../../
+        COVERAGE=true ../../jenkins-opts.sh "$1"
 fi
