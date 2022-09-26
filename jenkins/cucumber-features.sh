@@ -14,8 +14,8 @@ OPT4=" -t ~@saml_off "
 if [ $# -eq 0 ]
     then
         echo "Running all feature tests."
-        bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4
+        COVERAGE=on bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4
     else
         echo "Running feature: $1"
-        bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4 "$1"
+        COVERAGE=on bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4 "$1"
 fi
