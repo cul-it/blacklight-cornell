@@ -6,7 +6,7 @@ echo "**************************************************************************
 echo ""
 source jenkins/environment.sh
 gem install bundler -v 2.3.14
-bundle _2.3.14_ update blacklight_unapi blacklight_cornell_requests my_account sqlite3
+bundle update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle _2.3.14_ install
 RAILS_ENV=test bin/rake db:migrate
 brakeman --fast  -o brakeman-output.json
