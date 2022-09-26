@@ -42,8 +42,8 @@ pipeline {
             }
         }
     }
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cover', reportFiles: 'index.html', reportName: 'HTML Report - Coverage', reportTitles: 'Coverage Report'])
     post {
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cover', reportFiles: 'index.html', reportName: 'HTML Report - Coverage', reportTitles: 'Coverage Report'])
         success {
             echo "The thrill of victory"
             sh 'jenkins/report-status-to-github.sh success'
