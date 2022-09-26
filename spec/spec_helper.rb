@@ -1,7 +1,9 @@
 require 'rubygems'
 
 require 'simplecov'
-SimpleCov.start
+require 'simplecov-rcov'
+SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+SimpleCov.start 'rails'
 
 #require 'spork'
 require 'webmock/rspec'
