@@ -698,6 +698,7 @@ GEM
     scrub_rb (1.0.1)
     sexp_processor (4.16.1)
     shellany (0.0.1)
+    simplecov-lcov (0.8.0)
     slop (4.9.2)
     socksify (1.7.1)
     sprockets (3.7.2)
@@ -874,6 +875,7 @@ DEPENDENCIES
   sassc (~> 2.4)
   sassc-rails (>= 2.1.0)
   savon (~> 2.11.1)
+  simplecov-lcov (~> 0.8.0)
   spreewald!
   sprockets
   sqlite3
