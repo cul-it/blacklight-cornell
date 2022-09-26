@@ -89,8 +89,8 @@ group :test do
   gem 'vcr'
   gem 'capybara-email'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
-  gem 'simplecov'
-  gem 'simplecov-rcov'
+  gem 'simplecov', :require => false
+  gem 'simplecov-rcov', '0.2.3', :require => false
 end
 
 gem 'jquery-rails'
