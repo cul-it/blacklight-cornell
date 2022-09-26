@@ -30,7 +30,7 @@ pipeline {
 
         stage('Publish Coverage') {
             steps {
-                sh 'ls -l'
+                sh 'ls -l coverage'
                 sh 'mkdir -p coverage'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'MayDay'])
                 sh 'ls -l coverage'
