@@ -16,6 +16,7 @@ SimpleCov.start 'rails' do
 
   add_filter %w[version.rb initializer.rb]
 end
+
 #require 'spork'
 require 'webmock/rspec'
 
