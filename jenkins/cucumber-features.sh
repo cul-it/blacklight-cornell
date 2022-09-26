@@ -14,8 +14,8 @@ OPT4=" -t ~@saml_off "
 if [ $# -eq 0 ]
     then
         echo "Running all feature tests."
-        COVERAGE=on RAILS_ENV=test bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4
+        bundle exec COVERAGE=on RAILS_ENV=test cucumber $OPT1 $OPT2 $OPT3 $OPT4
     else
         echo "Running feature: $1"
-        COVERAGE=on RAILS_ENV=test bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4 "$1"
+        bundle exec COVERAGE=on RAILS_ENV=test cucumber $OPT1 $OPT2 $OPT3 $OPT4 "$1"
 fi
