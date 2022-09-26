@@ -6,11 +6,14 @@ echo "**************************************************************************
 echo ""
 source jenkins/environment.sh
 gem install bundler -v 2.3.14
-bundle _2.3.14_ update blacklight_unapi
-bundle _2.3.14_ update blacklight_cornell_requests
-bundle _2.3.14_ update my_account
-bundle _2.3.14_ update sqlite3
+bundle _2.3.14_ update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle _2.3.14_ install
+RAILS_ENV=test bin/rake db:migrate
+brakeman --fast  -o brakeman-output.json
+echo $RAILS_ENV
+rm -fr results/*
+mkdir -p results
+rm -f features/cassettes/cucumber_tags/*
 echo ""
 echo "*********************************************************************************"
 echo "Starting tests..."
