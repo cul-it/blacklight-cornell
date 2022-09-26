@@ -1,6 +1,7 @@
 require 'rubygems'
 
 require 'simplecov'
+SimpleCov.start
 
 SimpleCov.start 'rails' do
   if ENV['CI']
