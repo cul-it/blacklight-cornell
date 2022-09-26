@@ -11,6 +11,7 @@ if ( ENV['COVERAGE'] == 'on' )
   SimpleCov.start 'rails' do
     add_filter "/vendor/"
   end
+  puts "required simplecov (spec/spec_helper.rb)"
 end
 
 require 'rubygems'
