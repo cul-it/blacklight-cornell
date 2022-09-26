@@ -5,6 +5,7 @@ echo ""
 echo "*********************************************************************************"
 echo ""
 source jenkins/environment.sh
+gem install simplecov
 gem install bundler -v 2.3.14
 bundle _2.3.14_ install
 echo ""
