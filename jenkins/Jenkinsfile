@@ -18,7 +18,17 @@ pipeline {
             }
         }
 
-        stage("cucumber tests") {
+        stage("cucumber browse") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/browse'
+                    }
+                }
+            }
+        }
+
+        stage("cucumber digitalcollections") {
             steps {
                 timeout(45) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
@@ -31,6 +41,7 @@ pipeline {
         stage('Publish Coverage') {
             steps {
                 sh 'mkdir -p coverage'
+                sh 'touch coverage/dummy-file.html'
                 publishHTML ([
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
