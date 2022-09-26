@@ -42,6 +42,7 @@ pipeline {
             }
         }
     }
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cover', reportFiles: 'index.html', reportName: 'HTML Report - Coverage', reportTitles: 'Coverage Report'])
     post {
         success {
             echo "The thrill of victory"
