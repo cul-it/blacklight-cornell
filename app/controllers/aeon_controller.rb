@@ -76,7 +76,7 @@ class AeonController < ApplicationController
 	holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
 	if !@document["items_json"].nil?
 	  itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
-	  Rails.logger.info("POOKY = #{itemsJsonHash}")
+#	  Rails.logger.info("POOKY = #{itemsJsonHash}")
 	else
            itemsJsonHash = {}
         end
@@ -442,7 +442,7 @@ class AeonController < ApplicationController
  
   def loginurl
   	return "/aeon/aeon_login"
-	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon_test-login.php"  	
+#	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon_test-login.php"  	
 # 	return "http://dev-jac2445.library.cornell.edu/aeon511/aeon-login.php" 
  # 	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
@@ -580,16 +580,10 @@ class AeonController < ApplicationController
   		  valueArray.each do | key, hold |
   		  valueHash = Hash(hold)
   		  keyout = Hash[key]
-  	#	 status = keyout["status"]["code"]["1"]
-  	#	 bibdata_output_hash = bibdata_output_hash + '{"author":"' + document["author_display"] + '","title":"' + document["fulltitle_display"] + '","publisher":"' + publisher + '","publisher_date":"' + pubdate + '","pub_place":"' + pubplace + '","bib_format":"' + bib_format + '","holding_id":"' + holdingID + '","call_number":"' + callnum.inspect + '","barcode":"' + keyout['barcode'].inspect + '","PermLocation":"' + permLocation + '","PermLocationCode":"' + permLocationCode + '","status":"' + status + '","item_id":"' + keyout['id'].inspect + '"},'
 
     	  end
-  #	    count = count + 1
-  #	    if count > 1
-  #	    end	
   	  end
   	 end   
-  #  bibdata_output_hash = bibdata_output_hash + '}} ]}'
     
     return bibdata_output_hash
   end
@@ -642,11 +636,7 @@ class AeonController < ApplicationController
        c = ""
        b = ""
        d = ""
-#       if holdingsHash[holdingID]["call"].include?('Archives')
-#       	  b = holdingsHash[holdingID]["call"].split(' ')[1]
-#       else
-#       	  b = holdingsHash[holdingID]["call"]
-#       end
+
   	   if !thisItemArray.nil? and !thisItemArray.empty? 
   	     thisItemArray.each do | itemHash |
   	       unless (!itemHash["location"]["code"].include?('rmc') and !itemHash["location"]["code"].include?('rare'))
@@ -703,7 +693,7 @@ class AeonController < ApplicationController
   	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["rmc"]["Vault location"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["rmc"]["Vault location"]  + '",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	        	  end  	            	
   	            end 
-  	          else                  	 	            
+  	          else    
    	            ret = ret + "<div><label for='" + itemHash["barcode"] + "' class='sr-only'>" + itemHash["barcode"] + "</label><input class='ItemNo'  id='" + itemHash["barcode"] + "' name='" + itemHash["barcode"] + "' type='checkbox' VALUE='" + itemHash["barcode"] + "'>"
 				if itemHash["rmc"]["Vault location"].nil?
     				ret = ret + " (Request in Advance) " + b + c + "  " + restrictions + '</div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ' + itemHash["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
@@ -721,26 +711,32 @@ class AeonController < ApplicationController
   	  	      else
   	  	      	restrictions = ""
   	  	      end
-  	  	      if itemHash["rmc"].nil?
+  	  	      if itemHash["rmc"].nil? 
   	  	      	itemHash["rmc"] = {}
-  	  	      	itemHash["rmc"]["Vault location"] = "not in record"
+  	  	      	if !itemHash["location"]['library'].nil?
+  	  	      		itemHash['rmc']['Vault location'] = itemHash['location']['library']
+  	  	      	else
+  	  	      	    itemHash["rmc"]["Vault location"] = "not in record"
+  	  	      	end
   	  	      end
                       if itemHash["rmc"]["Vault location"].nil?
                          itemHash["rmc"]["Vault location"] = ""
                       end                  
   	       	  if itemHash["location"]["name"].include?('Non-Circulating')
   	  #     	  	ret = itemHash["rmc"]["Vault location"]
-  	  
+  	           if itemHash["call"].nil?
+  	           	 itemHash["call"] == ""
+  	           end
   	  #THIS IS WHERE THE PROBLEM IS
   	            ret = ret + "<div><label for='iid-" + itemHash["id"].to_s + "' class='sr-only'>iid-" + itemHash["id"].to_s + "</label><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
-#  	        	ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ' + itemHash["location"]["library"] + '",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
-  	        	ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ' + itemHash["rmc"]["Vault location"] + '",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	        	ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ' + itemHash["rmc"]["Vault location"] + '",code:"' + itemHash['location']["code"] + '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	          else
+  	          	
   	        	#ret = ret + itemHash["barcode"]
   	            ret = ret + "<div><label for='iid-" + itemHash["id"].to_s + "' class='sr-only'>iid-" + itemHash["id"].to_s + "</label><input class='ItemNo'  id='iid-" + itemHash["id"].to_s + "' name='iid-" + itemHash["id"].to_s + "' type='checkbox' VALUE='iid-" + itemHash["id"].to_s + "'>"
-#  	        	ret = ret + " (Request in Advance) " + b + c + " " + restrictions + '</div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ' + itemHash["location"]["library"] + '",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
-  	        	ret = ret + " (Request in Advance) " + b + c + " " + restrictions + '</div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ' + itemHash["rmc"]["Vault location"] + '",code:"' + itemHash['location']["code"] + '",callnumber:"' + holdingsHash[holdingID]["call"] + '",Restrictions:"' + restrictions + '"};</script>'
-  	          end
+  	        	ret = ret + " (Request in Advance) " + b + c + " " + restrictions + '</div><script> itemdata["iid-' + itemHash["id"].to_s + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"iid-' + itemHash["id"].to_s + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["rmc"]["Vault location"] + '",code:"' + itemHash['location']["code"] + '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+ 
+ 	          end
              d = ""
   	       end #barcode else
   	      end
@@ -756,9 +752,9 @@ class AeonController < ApplicationController
   	    		itemsHash.each do |key, value|
   	    			if count < 1
   	    				value.each do |val|
-                                            if val["location"]["library"] == 'Library Annex'
+                           if val["location"]["library"] == 'Library Annex'
                    			       val["location"]["library"] = "ANNEX"
-                                            end
+                          end
   	    				  if !val["barcode"].nil?
   	    				  	restrictions = ""
   	    				  	if !val["rmc"].nil?
@@ -910,21 +906,21 @@ class AeonController < ApplicationController
   end
 
   def redirect_nonshib
-    Rails.logger.info("BEEGER = #{params}")
+ #   Rails.logger.info("BEEGER = #{params}")
   end
 
   def redirect_shib
         @user = User.new()
   #     @session = Session.new()
         #session.user = "jac244"
-        Rails.logger.info("SHIB = #{params}")
+#        Rails.logger.info("SHIB = #{params}")
         uri = URI('https://rmc-aeon.library.cornell.edu/aeon/aeon.dll')
         res = Net::HTTP.get_response(uri)
-        Rails.logger.info("COOOKIE = #{cookies.inspect}")
-        Rails.logger.info("RESBODY= #{res.body if res.is_a?(Net::HTTPSuccess)}")
+ #       Rails.logger.info("COOOKIE = #{cookies.inspect}")
+ #       Rails.logger.info("RESBODY= #{res.body if res.is_a?(Net::HTTPSuccess)}")
 #        response = HTTParty.get('https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=https://newcatalog-folio-int.library.cornell.edu')
-        Rails.logger.info("HTTPARTY = #{response}")
-        Rails.logger.info("COOOKIE = #{cookies.inspect}")
+ #       Rails.logger.info("HTTPARTY = #{response}")
+ #       Rails.logger.info("COOOKIE = #{cookies.inspect}")
         @outbound_params = params
   end
   	                          
