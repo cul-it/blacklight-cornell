@@ -90,7 +90,7 @@ group :test do
   gem 'capybara-email'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'simplecov', :require => false
-  gem 'simplecov-rcov', '0.2.3', :require => false
+  gem 'simplecov-rcov', :require => false
 end
 
 gem 'jquery-rails'
