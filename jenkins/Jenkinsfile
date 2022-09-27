@@ -93,7 +93,7 @@ pipeline {
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
                 sh 'echo "dummy file to prevent copy error when there are no other files" > cover/dummy-file.txt'
-                publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage/', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'Blacklight Cornell'])
+                publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'BlacklightCornell'])
             }
         }
     }
