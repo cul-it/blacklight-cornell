@@ -92,8 +92,9 @@ pipeline {
             steps {
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
+                sh 'rm coverage/*'
                 // sh 'touch cover/dummy-file.html'
-                publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'Blacklight Cornell'])
+                publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage/', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'Blacklight Cornell'])
             }
         }
     }
