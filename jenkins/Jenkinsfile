@@ -90,16 +90,10 @@ pipeline {
 
         stage('Publish Coverage') {
             steps {
+                sh 'rm -r cover'
                 sh 'mkdir -p cover'
                 // sh 'touch cover/dummy-file.html'
-                publishHTML target: [
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'cover',
-                reportFiles: 'index.html',
-                reportName: 'CoverageReport'
-                ]
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cover', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'Blacklight Cornell'])
             }
         }
     }
