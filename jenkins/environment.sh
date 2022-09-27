@@ -20,4 +20,5 @@ which bundle
 chromedriver --version
 echo "Xvfb DISPLAY value is $DISPLAY"
 cp /cul/data/jenkins/environments/blacklight-cornell.env .env
+echo 'DEBUG_USER=ditester@example.edu' >>.env
 export RAILS_ENV=test
