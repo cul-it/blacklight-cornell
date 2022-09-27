@@ -38,25 +38,25 @@ pipeline {
             }
         }
 
-        // stage("cucumber catalog_search") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/catalog_search'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber catalog_search") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/catalog_search'
+                    }
+                }
+            }
+        }
 
-        // stage("cucumber databases") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/databases'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber databases") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/databases'
+                    }
+                }
+            }
+        }
 
         stage("cucumber digitalcollections") {
             steps {
@@ -68,32 +68,32 @@ pipeline {
             }
         }
 
-        // stage("cucumber folio") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/folio'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber folio") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/folio'
+                    }
+                }
+            }
+        }
 
-        // stage("cucumber single_search") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/single_search'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber single_search") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/single_search'
+                    }
+                }
+            }
+        }
 
         stage('Publish Coverage') {
             steps {
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
                 sh 'echo "dummy file to prevent copy error when there are no other files" > cover/dummy-file.txt'
-                publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'BlacklightCornell'])
+                publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: 'BlacklightCornell'])
             }
         }
     }
