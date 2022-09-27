@@ -12,6 +12,10 @@ if ( ENV['COVERAGE'] == 'on' )
     add_filter "/vendor/"
   end
   puts "required simplecov (spec/spec_helper.rb)"
+else
+  require 'simplecov'
+  require 'simplecov-rcov'
+  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 end
 
 require 'rubygems'

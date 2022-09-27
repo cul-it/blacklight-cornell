@@ -92,8 +92,7 @@ pipeline {
             steps {
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
-                sh 'rm coverage/*'
-                // sh 'touch cover/dummy-file.html'
+                sh 'echo "dummy file to prevent copy error when there are no other files" > cover/dummy-file.txt'
                 publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage/', reportFiles: 'index.html', reportName: 'HTMLReport', reportTitles: 'Blacklight Cornell'])
             }
         }
