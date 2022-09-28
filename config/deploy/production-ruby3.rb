@@ -1,8 +1,8 @@
 set :stage, :production
 
-server 'aws-108-028.internal.library.cornell.edu', roles: %w{app web db}, user: "jenkins"
-server 'aws-108-075.internal.library.cornell.edu', roles: %w{app web db}, user: "jenkins"
-server 'aws-108-045.internal.library.cornell.edu', roles: %w{app web db}, user: "jenkins"
+server 'aws-108-028.internal.library.cornell.edu', roles: %w{app web db}, primary: true, user: "jenkins"
+server 'aws-108-075.internal.library.cornell.edu', roles: %w{app web db}, primary: true, user: "jenkins"
+server 'aws-108-045.internal.library.cornell.edu', roles: %w{app web db}, primary: true, user: "jenkins"
 
 set :deploy_to, "/cul/web/newcatalog.library.cornell.edu/rails-app"
 
