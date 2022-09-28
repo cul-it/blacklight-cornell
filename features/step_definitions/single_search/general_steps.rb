@@ -34,6 +34,10 @@ Then("I should see any text {string}") do |string|
    page.should have_content(/#{string}/i)
 end
 
+Then("I should see {string} in the flash message") do |string|
+   expect(page.find("div.flash_messages")).to have_content string
+end
+
 
 # Then(/^I should see the text "(.*?)"$/) do |arg1|
 #   page.should have_content(arg1)
