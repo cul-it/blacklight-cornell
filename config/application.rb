@@ -83,8 +83,8 @@ module BlacklightCornell
     config.assets.compress = !Rails.env.development?
 
     config.assets.precompile += ['cornell/print.css']
-    config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+    # config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
+    # config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
     # custom error pages
     config.exceptions_app = self.routes
