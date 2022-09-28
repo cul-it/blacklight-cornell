@@ -54,7 +54,7 @@ set :assets_manifests, ['app/assets/config/manifest.js']
 # set :keep_assets, 2
 
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
-# append :linked_files, '.env'
+append :linked_files, '.env'
 
 before 'deploy:updated', :install_env
 after 'deploy:started', "rvm:check"
