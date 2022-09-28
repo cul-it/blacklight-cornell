@@ -57,7 +57,9 @@ Feature: Book Bags for logged in users
         And navigation should show 'Book Bag'
         And I enable ajax activity completion
         And I view my bookmarks
-        And I sleep 10 seconds
+        # I should be redirected back to /book_bags/index
+        And I sleep 2 seconds
+        Then navigation should show 'Book Bag'
         Then where am I
         Then I should see "Please use Book Bag while you are signed in." in the flash message
         And navigation should show 'Book Bag'
