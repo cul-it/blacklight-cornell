@@ -57,7 +57,7 @@ Feature: Book Bags for logged in users
         And navigation should show 'Book Bag'
         And I enable ajax activity completion
         And I view my bookmarks
-        Then show me the page
+        Then where am I
         Then I should see "Please use Book Bag while you are signed in." in the flash message
         And navigation should show 'Book Bag'
         Then I disable ajax activity completion
