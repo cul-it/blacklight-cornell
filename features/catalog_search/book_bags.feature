@@ -56,7 +56,8 @@ Feature: Book Bags for logged in users
         Then I should see "You are logged in as Diligent Tester."
         And navigation should show 'Book Bag'
         And I view my bookmarks
-        And I sleep 5 seconds
+        And I sleep 7 seconds
+        Then show me the page
         Then I should see "Please use Book Bag while you are signed in."
         And navigation should show 'Book Bag'
 
