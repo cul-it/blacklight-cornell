@@ -200,6 +200,7 @@ Feature: Book Bags for logged in users
         Then I should be on 'the bookmarks page'
         And there should be 3 items selected
         And I sign in to BookBag
+        And I sleep 3 seconds
         Then I should be on 'BookBag'
         And the BookBag should be empty
         And I should see "Add 3 Selected Items to your Book Bag"
