@@ -135,6 +135,8 @@ Feature: Item view
   @saml_on
   Scenario: As a user I can request an item, when SAML involved.
     Given I request the item view for 30000
+    Then show me the page
+    And where am I
     Then it should have link "Request" with value "/request/auth/30000.scan"
 
   # Availability simple, one location, and is available
