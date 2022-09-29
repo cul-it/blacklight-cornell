@@ -18,85 +18,85 @@ pipeline {
             }
         }
 
-        stage("cucumber single test") {
+        // stage("cucumber single test") {
+        //     steps {
+        //         timeout(45) {
+        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+        //                 sh 'jenkins/cucumber-features.sh features/catalog_search/item_view.feature:136'
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage("cucumber assumption") {
             steps {
                 timeout(45) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-                        sh 'jenkins/cucumber-features.sh features/catalog_search/item_view.feature:136'
+                        sh 'jenkins/cucumber-features.sh features/assumption'
                     }
                 }
             }
         }
 
-        // stage("cucumber assumption") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/assumption'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber browse") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/browse'
+                    }
+                }
+            }
+        }
 
-        // stage("cucumber browse") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/browse'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber catalog_search") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/catalog_search'
+                    }
+                }
+            }
+        }
 
-        // stage("cucumber catalog_search") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/catalog_search'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber databases") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/databases'
+                    }
+                }
+            }
+        }
 
-        // stage("cucumber databases") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/databases'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber digitalcollections") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/digitalcollections'
+                    }
+                }
+            }
+        }
 
-        // stage("cucumber digitalcollections") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/digitalcollections'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber folio") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/folio'
+                    }
+                }
+            }
+        }
 
-        // stage("cucumber folio") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/folio'
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage("cucumber single_search") {
-        //     steps {
-        //         timeout(45) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/single_search'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("cucumber single_search") {
+            steps {
+                timeout(45) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh features/single_search'
+                    }
+                }
+            }
+        }
 
         stage('Publish Coverage') {
             steps {
