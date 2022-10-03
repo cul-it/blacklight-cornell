@@ -51,12 +51,12 @@ pipeline {
         success {
             echo "The thrill of victory"
             sh 'jenkins/report-status-to-github.sh success'
-            // slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
         unsuccessful {
             echo "The agony of defeat"
             sh 'jenkins/report-status-to-github.sh failure'
-            // slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
     }
 }
