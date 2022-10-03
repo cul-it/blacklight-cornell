@@ -1,7 +1,7 @@
 #!/bin/bash
 STATUS="$1"
 
-curl "https://api.GitHub.com/repos/cul-it/digital-library-cornell-edu/statuses/$GIT_COMMIT" \
+curl "https://api.GitHub.com/repos/cul-it/blacklight-cornell/statuses/$GIT_COMMIT" \
     -H "Content-Type: application/json" \
     -H "Authorization: token $GIT_ACCESS_TOKEN" \
     -X POST \
