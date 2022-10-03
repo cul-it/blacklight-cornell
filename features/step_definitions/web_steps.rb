@@ -234,13 +234,13 @@ end
 
 Then("where am I") do
   puts "\n********************* where am I V\n"
-  puts page.current_url.inspect
+  puts URI.parse(current_url).path
   puts "\n********************* where am I ^\n"
 end
 
 def what_is(element)
   puts "\n********************* what is V\n"
-  puts page.current_url.inspect
+  puts URI.parse(current_url).path
   puts "\n"
   puts element.inspect
   puts "\n"

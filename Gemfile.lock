@@ -315,6 +315,7 @@ GEM
       devise
     diff-lcs (1.5.0)
     digest (3.1.0)
+    docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dot-properties (0.1.4)
@@ -337,7 +338,6 @@ GEM
       net-http-persistent (>= 3.1, < 5)
       public_suffix (~> 4.0)
     erubi (1.11.0)
-    erubis (2.7.0)
     et-orbi (1.2.7)
       tzinfo
     exception_notification (4.5.0)
@@ -402,22 +402,17 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    haml (5.2.2)
-      temple (>= 0.8.0)
+    haml (6.0.1)
+      temple (>= 0.8.2)
+      thor
       tilt
-    haml-rails (2.0.1)
+    haml-rails (2.1.0)
       actionpack (>= 5.1)
       activesupport (>= 5.1)
-      haml (>= 4.0.6, < 6.0)
-      html2haml (>= 1.0.1)
+      haml (>= 4.0.6)
       railties (>= 5.1)
     hashdiff (1.0.1)
     hashie (4.1.0)
-    html2haml (2.2.0)
-      erubis (~> 2.7.0)
-      haml (>= 4.0, < 6)
-      nokogiri (>= 1.6.0)
-      ruby_parser (~> 3.5)
     htmlentities (4.3.4)
     http (5.1.0)
       addressable (~> 2.8)
@@ -666,8 +661,6 @@ GEM
       nokogiri (>= 1.10.5)
       rexml
     ruby2_keywords (0.0.5)
-    ruby_parser (3.19.1)
-      sexp_processor (~> 4.16)
     rufus-scheduler (3.8.2)
       fugit (~> 1.1, >= 1.1.6)
     sass (3.7.4)
@@ -698,8 +691,15 @@ GEM
       nori (~> 2.4)
       wasabi (~> 3.4)
     scrub_rb (1.0.1)
-    sexp_processor (4.16.1)
     shellany (0.0.1)
+    simplecov (0.21.2)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov-rcov (0.3.1)
+      simplecov (>= 0.4.1)
+    simplecov_json_formatter (0.1.4)
     slop (4.9.2)
     socksify (1.7.1)
     sprockets (3.7.2)
@@ -880,6 +880,8 @@ DEPENDENCIES
   sassc (~> 2.4)
   sassc-rails (>= 2.1.0)
   savon (~> 2.11.1)
+  simplecov
+  simplecov-rcov
   spreewald!
   sprockets
   sqlite3

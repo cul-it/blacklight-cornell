@@ -134,7 +134,9 @@ Feature: Item view
   @all_item_view
   @saml_on
   Scenario: As a user I can request an item, when SAML involved.
+    Given PENDING
     Given I request the item view for 30000
+    #this next step does not work in pipeline - no /auth
     Then it should have link "Request" with value "/request/auth/30000.scan"
 
   # Availability simple, one location, and is available
