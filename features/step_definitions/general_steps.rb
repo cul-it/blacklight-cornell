@@ -126,3 +126,10 @@ end
 Then("I should see a facets sidebar") do
   expect(page).to have_selector('#sidebar > #facets')
 end
+
+Then("the {string} environment variable should be set to {string}") do |string, string2|
+  if ENV["#{string}"] != "#{string2}"
+    # expect to fail!
+    expect(page).to have_title "#{string}"
+  end
+end
