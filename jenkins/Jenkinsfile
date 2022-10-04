@@ -18,6 +18,7 @@ pipeline {
             }
         }
 
+        // use this version for quick turnaround while testing...
         stage("cucumber all tests") {
             steps {
                 timeout(60) {
@@ -28,6 +29,7 @@ pipeline {
             }
         }
 
+        // use this version for normal situations
         // stage("cucumber all tests") {
         //     steps {
         //         timeout(60) {
