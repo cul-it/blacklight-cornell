@@ -148,6 +148,8 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
+    airbrussh (1.4.1)
+      sshkit (>= 1.6.1, != 1.7.0)
     akami (1.3.1)
       gyoku (>= 0.4.0)
       nokogiri
@@ -204,14 +206,21 @@ GEM
     brakeman (5.3.1)
     builder (3.2.4)
     byebug (11.1.3)
-    capistrano (2.15.9)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
+    capistrano (3.17.1)
+      airbrussh (>= 1.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-bundler (2.1.0)
+      capistrano (~> 3.1)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
+    capistrano-rails (1.6.2)
+      capistrano (~> 3.1)
+      capistrano-bundler (>= 1.1, < 3)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
     capybara (3.37.1)
       addressable
       matrix
@@ -306,6 +315,7 @@ GEM
       devise
     diff-lcs (1.5.0)
     digest (3.1.0)
+    docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dot-properties (0.1.4)
@@ -328,7 +338,6 @@ GEM
       net-http-persistent (>= 3.1, < 5)
       public_suffix (~> 4.0)
     erubi (1.11.0)
-    erubis (2.7.0)
     et-orbi (1.2.7)
       tzinfo
     exception_notification (4.5.0)
@@ -393,23 +402,17 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    haml (5.2.2)
-      temple (>= 0.8.0)
+    haml (6.0.1)
+      temple (>= 0.8.2)
+      thor
       tilt
-    haml-rails (2.0.1)
+    haml-rails (2.1.0)
       actionpack (>= 5.1)
       activesupport (>= 5.1)
-      haml (>= 4.0.6, < 6.0)
-      html2haml (>= 1.0.1)
+      haml (>= 4.0.6)
       railties (>= 5.1)
     hashdiff (1.0.1)
     hashie (4.1.0)
-    highline (2.0.3)
-    html2haml (2.2.0)
-      erubis (~> 2.7.0)
-      haml (>= 4.0, < 6)
-      nokogiri (>= 1.6.0)
-      ruby_parser (~> 3.5)
     htmlentities (4.3.4)
     http (5.1.0)
       addressable (~> 2.8)
@@ -503,15 +506,11 @@ GEM
       timeout
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
-    net-sftp (3.0.0)
-      net-ssh (>= 5.0.0, < 7.0.0)
     net-smtp (0.3.1)
       digest
       net-protocol
       timeout
     net-ssh (5.2.0)
-    net-ssh-gateway (2.0.0)
-      net-ssh (>= 4.0.0)
     netrc (0.11.0)
     nio4r (2.5.8)
     nokogiri (1.13.8-arm64-darwin)
@@ -662,12 +661,8 @@ GEM
       nokogiri (>= 1.10.5)
       rexml
     ruby2_keywords (0.0.5)
-    ruby_parser (3.19.1)
-      sexp_processor (~> 4.16)
     rufus-scheduler (3.8.2)
       fugit (~> 1.1, >= 1.1.6)
-    rvm-capistrano (1.5.6)
-      capistrano (~> 2.15.4)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -696,8 +691,15 @@ GEM
       nori (~> 2.4)
       wasabi (~> 3.4)
     scrub_rb (1.0.1)
-    sexp_processor (4.16.1)
     shellany (0.0.1)
+    simplecov (0.21.2)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov-rcov (0.3.1)
+      simplecov (>= 0.4.1)
+    simplecov_json_formatter (0.1.4)
     slop (4.9.2)
     socksify (1.7.1)
     sprockets (3.7.2)
@@ -707,9 +709,12 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.5.0-arm64-darwin)
-    sqlite3 (1.5.0-x86_64-darwin)
-    sqlite3 (1.5.0-x86_64-linux)
+    sqlite3 (1.5.2-arm64-darwin)
+    sqlite3 (1.5.2-x86_64-darwin)
+    sqlite3 (1.5.2-x86_64-linux)
+    sshkit (1.21.3)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     summon (2.0.5)
       json
     temple (0.8.2)
@@ -744,7 +749,7 @@ GEM
     utf8-cleaner (1.0.0)
       activesupport
     vcr (6.1.0)
-    view_component (2.72.0)
+    view_component (2.73.0)
       activesupport (>= 5.0.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -801,8 +806,10 @@ DEPENDENCIES
   borrow_direct!
   brakeman
   byebug
-  capistrano (= 2.15.9)
+  capistrano (~> 3.10)
   capistrano-ext
+  capistrano-rails (~> 1.6)
+  capistrano-rvm
   capybara (>= 2.3, < 4)
   capybara-email
   celluloid (= 0.17.4)
@@ -869,20 +876,22 @@ DEPENDENCIES
   rspec_junit_formatter
   ruby-saml (>= 1.12.1)
   rufus-scheduler
-  rvm-capistrano (= 1.5.6)
   sass-rails (~> 5.0)
   sassc (~> 2.4)
   sassc-rails (>= 2.1.0)
   savon (~> 2.11.1)
+  simplecov
+  simplecov-rcov
   spreewald!
   sprockets
-  sqlite3
+  sqlite3 (~> 1.5.1)
   uglifier (>= 1.0.3)
   ultraviolet
   unicode
   unicode_utils
   utf8-cleaner
   vcr
+  view_component (= 2.73.0)
   webmock
   webrat
   xmlrpc

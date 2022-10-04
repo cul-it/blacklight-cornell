@@ -16,7 +16,7 @@ gem 'net-smtp'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.5.1'
   gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
   gem 'brakeman'
 end
@@ -33,7 +33,7 @@ gem 'blacklight', '7.29.0'
 gem 'blacklight_range_limit', '7.1.0'
 gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
 gem 'kaminari', '>= 0.15'
-
+gem 'view_component', '2.73.0' # ( was 2.72.0)
 gem 'blacklight-hierarchy'
 gem 'htmlentities'
 gem 'json'
@@ -89,12 +89,15 @@ group :test do
   gem 'vcr'
   gem 'capybara-email'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'simplecov', :require => false
+  gem 'simplecov-rcov', :require => false
 end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '5.0.5'
-gem 'rvm-capistrano', '1.5.6'
-gem 'capistrano', '2.15.9'
+gem "capistrano", "~> 3.10"
+gem "capistrano-rails", "~> 1.6"
+gem 'capistrano-rvm'
 gem 'capistrano-ext'
 gem 'net-ssh', '5.2.0'
 gem 'net-scp', '2.0.0'
@@ -143,3 +146,5 @@ gem 'google-analytics-rails', '1.1.1'
 gem 'ebsco-eds'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.3.1'
+
+
