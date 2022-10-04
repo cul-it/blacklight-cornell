@@ -16,7 +16,7 @@ gem 'net-smtp'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.5.1'
   gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
   gem 'brakeman'
 end
