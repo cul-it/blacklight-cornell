@@ -76,7 +76,6 @@ class AeonController < ApplicationController
 	holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
 	if !@document["items_json"].nil?
 	  itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
-#	  Rails.logger.info("POOKY = #{itemsJsonHash}")
 	else
            itemsJsonHash = {}
         end
