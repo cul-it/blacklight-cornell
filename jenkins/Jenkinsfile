@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Run prelude.sh'
                 sh 'jenkins/prelude.sh'
-                slackSend channel: "#newcatalog", color: "#439FE0", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+                slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
 
             }
         }
