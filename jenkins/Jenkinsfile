@@ -14,11 +14,10 @@ pipeline {
                 echo 'Run prelude.sh'
                 sh 'jenkins/prelude.sh'
                 slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-
             }
         }
 
-        // use this version for quick turnaround while testing........
+        // use this version for quick turnaround while testing............
         stage("cucumber all tests") {
             steps {
                 timeout(60) {
@@ -44,7 +43,7 @@ pipeline {
             steps {
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
-                sh 'echo "dummy file to prevent copy error when there are no other files" > cover/dummy-file.txt'
+                sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
                 publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: 'BlacklightCornell'])
             }
         }
