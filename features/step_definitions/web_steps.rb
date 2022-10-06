@@ -168,11 +168,7 @@ Then /^there should be ([0-9]+) items? in the BookBag$/ do |int|
 end
 
 Then /^navigation should show ([0-9]+) items? in the BookBag$/ do |int|
-  patiently do
-    within page.find('#book_bags_nav') do
-      find('span > span', text: "#{int.to_s}")
-     end
-  end
+  expect(page.find('span[data-role="bookmark-counter"]')).to have_content("#{int.to_s}")
 end
 
 Then("navigation should show the BookBag with no item count") do
