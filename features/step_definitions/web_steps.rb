@@ -150,7 +150,7 @@ Then /^navigation should( not)? show '([^']*)'$/ do |negation, string|
 end
 
 Then("the BookBag should be empty") do
-  page.find('div.results-info p', text: 'You have no selected items.')
+  expect(page.find('div.results-info').to have_content('You have no selected items.')
 end
 
 Then /^there should be ([0-9]+) items? in the BookBag$/ do |int|
