@@ -13,38 +13,37 @@ pipeline {
             steps {
                 echo 'Run prelude.sh'
                 sh 'jenkins/prelude.sh'
-                slackSend channel: "#newcatalog", color: "#439FE0", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-
+                slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
             }
         }
 
-        // use this version for quick turnaround while testing...
-        stage("cucumber all tests") {
-            steps {
-                timeout(60) {
-                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-                        sh 'jenkins/cucumber-features.sh features/assumption/assume.feature'
-                    }
-                }
-            }
-        }
-
-        // use this version for normal situations
+        // use this version for quick turnaround while testing pull request validation
         // stage("cucumber all tests") {
         //     steps {
         //         timeout(60) {
         //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh'
+        //                 sh 'jenkins/cucumber-features.sh features/assumption/assume.feature'
         //             }
         //         }
         //     }
         // }
 
+        // use this version for normal situations
+        stage("cucumber all tests") {
+            steps {
+                timeout(60) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh'
+                    }
+                }
+            }
+        }
+
         stage('Publish Coverage') {
             steps {
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
-                sh 'echo "dummy file to prevent copy error when there are no other files" > cover/dummy-file.txt'
+                sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
                 publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: 'BlacklightCornell'])
             }
         }
