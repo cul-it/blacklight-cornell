@@ -19,9 +19,9 @@ Feature: Bookmarks for anonymous users
     @bookmarks_select_items
     Scenario Outline: I can see the count of my selected items
         Given I am on the home page
-            When I fill in the search box with 'the'
-            And I press 'search'
-            Then I should get results
+        When I fill in the search box with 'the'
+        And I press 'search'
+        Then I should get results
         And there should be 0 items selected
         Then I select the first <count> catalog results
         And I sleep 5 seconds
