@@ -121,7 +121,7 @@ Feature: Book Bags for logged in users
         And I sleep 2 seconds
         When I view my selected items
         Then I should be on 'BookBags'
-        And there should be 1 items selected
+        And there should be 1 item in the BookBag
         Then load 1 selected items
         And I should not see the text "You have no selected items."
         Then I should see the text "Cite"
@@ -177,7 +177,7 @@ Feature: Book Bags for logged in users
         And I sleep 2 seconds
         When I view my selected items
         Then I should be on 'BookBags'
-        And there should be 3 items selected
+        And there should be 3 items in the BookBag
         Then I should see the text "Book Bag"
         And I should not see the text "You have no selected items."
         And there should be a print bookmarks button
