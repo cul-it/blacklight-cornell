@@ -13,8 +13,10 @@ pipeline {
             steps {
                 echo 'Run prelude.sh'
                 sh 'jenkins/prelude.sh'
-                if (BRANCH_NAME ==~ /PR-*/) {
-                    slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+                script {
+                    if (BRANCH_NAME ==~ /PR-*/) {
+                        slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+                    }
                 }
             }
         }
@@ -54,15 +56,19 @@ pipeline {
         success {
             echo "The thrill of victory"
             sh 'jenkins/report-status-to-github.sh success'
-            if (BRANCH_NAME ==~ /PR-*/) {
-                slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            script {
+                if (BRANCH_NAME ==~ /PR-*/) {
+                    slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+                }
             }
         }
         unsuccessful {
             echo "The agony of defeat"
             sh 'jenkins/report-status-to-github.sh failure'
-            if (BRANCH_NAME ==~ /PR-*/) {
-                slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            script {
+                if (BRANCH_NAME ==~ /PR-*/) {
+                    slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+                }
             }
         }
     }
