@@ -26,26 +26,26 @@ pipeline {
         }
 
         // use this version for quick turnaround while testing pull request validation
-        // stage("cucumber all tests") {
-        //     steps {
-        //         timeout(60) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/assumption/assume.feature'
-        //             }
-        //         }
-        //     }
-        // }
-
-        // use this version for normal situations
         stage("cucumber all tests") {
             steps {
                 timeout(60) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-                        sh 'jenkins/cucumber-features.sh'
+                        sh 'jenkins/cucumber-features.sh features/catalog_search/book_bags.feature:8'
                     }
                 }
             }
         }
+
+        // use this version for normal situations
+        // stage("cucumber all tests") {
+        //     steps {
+        //         timeout(60) {
+        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+        //                 sh 'jenkins/cucumber-features.sh'
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Publish Coverage') {
             steps {
