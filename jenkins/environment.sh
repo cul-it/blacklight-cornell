@@ -3,7 +3,6 @@ echo "**************** environment ****************"
 echo "Branch:"
 git rev-parse --abbrev-ref HEAD
 echo "JENKINS_HOME: $JENKINS_HOME"
-echo "Solr: $SOLR_URL"
 PATH=$PWD/bin:$PATH
 PATH=$GEM_HOME/bin:$PWD/bin:/usr/local/bin:$PATH
 source /etc/profile.d/rvm.sh
@@ -24,4 +23,5 @@ uuid=$(uuidgen)
 DEBUG_USER="ditester${uuid}@example.edu"
 echo "Diligent Tester: $DEBUG_USER"
 echo "DEBUG_USER=${DEBUG_USER}" >>.env
+grep ^SOLR_URL .env
 export RAILS_ENV=test
