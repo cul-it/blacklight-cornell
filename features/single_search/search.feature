@@ -41,7 +41,7 @@ Feature: Search
   Examples:
       | search | comment |
       | Union Barley Coffee | not in the collection & not full text |
-      | Lion's Coffee | not in the collection & not full text |
+      # | Lion's Coffee | not in the collection & not full text |
       | McLaughlin's Coffee | not in the collection & not full text |
       | Coffee questionnaire | not in the collection & not full text |
 
