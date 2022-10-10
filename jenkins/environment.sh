@@ -20,5 +20,8 @@ which bundle
 chromedriver --version
 echo "Xvfb DISPLAY value is $DISPLAY"
 cp /cul/data/jenkins/environments/blacklight-cornell.env .env
-echo 'DEBUG_USER=ditester@example.edu' >>.env
+uuid=$(uuidgen)
+DEBUG_USER="ditester${uuid}@example.edu"
+echo "Diligent Tester: $DEBUG_USER"
+echo "DEBUG_USER=${DEBUG_USER}" >>.env
 export RAILS_ENV=test

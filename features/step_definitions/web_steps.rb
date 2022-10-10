@@ -136,7 +136,7 @@ Then("I select the first {int} catalog results") do |int|
 end
 
 Then /^there should be ([0-9]+) items selected$/ do |int|
-  page.find(:xpath, '//span[@data-role="bookmark-counter"]').text.should match(int)
+  expect(page.find(:xpath, '//span[@data-role="bookmark-counter"]')).to have_content(int)
 end
 
 Then("navigation should show Book Bag contains {int}") do |int|
@@ -150,29 +150,25 @@ Then /^navigation should( not)? show '([^']*)'$/ do |negation, string|
 end
 
 Then("the BookBag should be empty") do
-  page.find('div.results-info p', text: 'You have no selected items.')
+  expect(page.find('div.results-info')).to have_content('You have no selected items.')
 end
 
 Then /^there should be ([0-9]+) items? in the BookBag$/ do |int|
-  patiently do
-    within page.find('div.results-info') do
-      if int == "0"
-        page.find('div.results-info p', text: 'You have no selected items.')
-      elsif int == "1"
-        expect(find('.page-entries > strong:nth-child(1)').text).to eq('1 result')
+  if int == "0"
+    expect(page.find('div.results-info')).to have_content('You have no selected items.')
+  else
+    within ('div.results-info') do
+      if int == "1"
+        expect(find('.page-entries')).to have_content('1 result')
       else
-        expect(find('.page-entries > strong:nth-child(3)').text).to eq("#{int.to_s}")
+        expect(find('.page-entries')).to have_content("1 - #{int.to_s} of #{int.to_s}")
       end
     end
   end
 end
 
 Then /^navigation should show ([0-9]+) items? in the BookBag$/ do |int|
-  patiently do
-    within page.find('#book_bags_nav') do
-      find('span > span', text: "#{int.to_s}")
-     end
-  end
+  expect(page.find('span[data-role="bookmark-counter"]')).to have_content("#{int.to_s}")
 end
 
 Then("navigation should show the BookBag with no item count") do
