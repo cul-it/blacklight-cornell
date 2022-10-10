@@ -12,7 +12,7 @@ pipeline {
         stage('Set up and run bundler') {
             steps {
                 echo 'Branch: ' + env.BRANCH_NAME
-                echo 'Git Branch: ' + env.GIT_BRANCH
+                echo 'Git Branch: ' + GIT_BRANCH
                 echo 'Run prelude.sh'
                 sh 'jenkins/prelude.sh'
                 script {
