@@ -54,7 +54,7 @@ Feature: Facets
 		| Subject: Era | 1900 - 1999 | 5 |
 		| Genre | Periodicals | 26 |
 		| Fiction/Non-Fiction | Non-Fiction (books) | 136 |
-		| Date Acquired | Since last year | 14 |
+		| Date Acquired | Since last year | 4 |
 
 
 	@DISCOVERYACCESS-7221

@@ -24,10 +24,14 @@ class BentoSearch::DigitalCollectionsEngine
     url = Addressable::URI.parse(uri)
     url.normalize
 
-    portal_response = JSON.load(open(url.to_s))
+    portal_response = JSON.load(URI.open(url.to_s))
 
     Rails.logger.debug "mjc12test: #{portal_response}"
-    results = portal_response['response']['docs']
+    if portal_response.nil? || portal_response['response'].nil? || portal_response['response']['docs'].nil?
+      results = []
+    else
+      results = portal_response['response']['docs']
+    end
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
@@ -55,7 +59,12 @@ class BentoSearch::DigitalCollectionsEngine
     end
       bento_results << item
     end
-    bento_results.total_items = portal_response['response']['pages']['total_count']
+
+    if portal_response.nil? || portal_response['response'].nil? || portal_response['response']['pages'].nil? || portal_response['response']['pages']['total_count'].nil?
+      bento_results.total_items = 0
+    else
+      bento_results.total_items = portal_response['response']['pages']['total_count']
+    end
 
     return bento_results
 

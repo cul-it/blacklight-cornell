@@ -1,7 +1,8 @@
 <%# main title container for doc partial view -%>
 <h2 class="blacklight-title_display">
   <%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %>
-  <%= link_to_document document, :label=>document_show_link_field(document), :counter => (document_counter + 1 + @response.params[:start].to_i) %>
+  <% label = _cornell_render_document_index_label document %>
+  <%= link_to_document document, label, :label=>document_show_link_field(document), :counter => (document_counter + 1 + @response.params[:start].to_i) %>
   <% unless document['pub_date_display'].nil? %>
   	<span class="blacklight-pub_date_display"><%= simple_render_index_field_value :document => document, :field => 'pub_date_display' %></span>
   <% end %>

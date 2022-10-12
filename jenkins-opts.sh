@@ -30,8 +30,8 @@ echo "Arguments:"
 echo $ARGS
 
 if [ $# -eq 0 ]; then
-    bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $OPT5 $OPT6
+    COVERAGE=on bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $OPT5 $OPT6
 else
-    bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $OPT5 $OPT6 "$1"
+    COVERAGE=on bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $OPT5 $OPT6 "$1"
 fi
 

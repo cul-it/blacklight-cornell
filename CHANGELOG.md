@@ -1,4 +1,4 @@
-# Changelog
+# ChangelogSS-7627-b - update to ruby 3.1.2
 
 DISCOVERYACCESS-7446-b - blacklight-cornell-merge-pr job has this line in it:
 FOLIO_FEW='http://folio-opac-dev.library.cornell.edu:8983/solr/b2'

@@ -304,7 +304,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     respond_to do |format|
       format.endnote_xml { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-      format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html        {setup_next_and_previous_documents}
       format.rss         { render :layout => false }
       format.ris         { render 'ris', :layout => false }
