@@ -441,9 +441,10 @@ class AeonController < ApplicationController
   end
  
   def loginurl
-  	return "/aeon/aeon_login"
+#  	return "/aeon/aeon_login"
 #	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon_test-login.php"  	
-# 	return "http://dev-jac2445.library.cornell.edu/aeon511/aeon-login.php" 
+# 	return "http://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php" 
+ 	return "http://newcatalog-login.library.cornell.edu/aeon511_test/aeon-login.php" 
  # 	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
   end
  
@@ -516,9 +517,9 @@ class AeonController < ApplicationController
   	aeonParams = []
   end
  
-  def redirect_shib
-  	redirect_to 'https://rmc-aeon.library.cornell.edu'
-  end
+#  def redirect_shib
+#  	redirect_to 'https://rmc-aeon.library.cornell.edu'
+#  end
 
   def make_bibdata(document)
   	output = ""
@@ -910,10 +911,10 @@ class AeonController < ApplicationController
   end
 
   def redirect_shib
-        @user = User.new()
-  #     @session = Session.new()
-        #session.user = "jac244"
-#        Rails.logger.info("SHIB = #{params}")
+        #@user = User.new()
+        #@session = Session.new()
+        #@session.user = "jac244"
+        Rails.logger.info("SHIB = #{params}")
         uri = URI('https://rmc-aeon.library.cornell.edu/aeon/aeon.dll')
         res = Net::HTTP.get_response(uri)
  #       Rails.logger.info("COOOKIE = #{cookies.inspect}")
