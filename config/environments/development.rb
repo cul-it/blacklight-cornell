@@ -1,4 +1,6 @@
 BlacklightCornell::Application.configure do
+  config.hosts << /[a-z0-9\-.]+\.library\.cornell\.edu/
+
   # Settings specified here will take precedence over those in config/application.rb
  config.eager_load = false
  #config.eager_load = true
@@ -39,6 +41,9 @@ BlacklightCornell::Application.configure do
   # Raise exception on mass assignment protection for Active Record models
   #config.active_record.mass_assignment_sanitizer = :strict
   #config.active_record.mass_assignment_sanitizer = false
+  config.active_record.yaml_column_permitted_classes = [
+    ActiveSupport::HashWithIndifferentAccess
+  ]
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)

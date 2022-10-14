@@ -26,12 +26,16 @@ Then /^I absolutely should see the text '(.*?)'$/i do |text|
 end
 
 Then(/^I should see the text "([^"]*)"$/) do |arg1|
-   page.should have_content(arg1)
+   expect(page).to have_content(arg1)
 end
 
 Then("I should see any text {string}") do |string|
    # // case insensitive
    page.should have_content(/#{string}/i)
+end
+
+Then("I should see {string} in the flash message") do |string|
+   expect(page.find("div.flash_messages > .alert")).to have_content string
 end
 
 

@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+    environment {
+        GIT_ACCESS_TOKEN = credentials('f3b46a8a-a247-4703-baf7-c27c69656aaa')
+        JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
+        SOLR_URL = credentials('FOLIO_FEW_solr_url')
+        STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
+        COLLECTIONS = "development"
+        CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
+    }
+    stages {
+        stage('Set up and run bundler') {
+            steps {
+                echo 'Branch: ' + BRANCH_NAME
+                echo 'Git Branch: ' + GIT_BRANCH
+                script {
+                    if (BRANCH_NAME ==~ /PR-.+/) {
+                        slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                    } else {
+                        echo "Skipping the slack messages unless it is a Pull Request."
+                    }
+                }
+                echo 'Run prelude.sh'
+                sh 'jenkins/prelude.sh'
+            }
+        }
+
+        // use this version for quick turnaround while testing pull request validation
+        // stage("cucumber all tests") {
+        //     steps {
+        //         timeout(60) {
+        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+        //                 sh 'jenkins/cucumber-features.sh features/catalog_search/book_bags.feature:8'
+        //             }
+        //         }
+        //     }
+        // }
+
+        // use this version for normal situations
+        stage("cucumber all tests") {
+            steps {
+                timeout(60) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh'
+                    }
+                }
+            }
+        }
+
+        stage('Publish Coverage') {
+            steps {
+                sh 'mkdir -p coverage'
+                sh 'chmod g+w coverage'
+                sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
+                publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: 'BlacklightCornell'])
+            }
+        }
+    }
+    post {
+        success {
+            echo "The thrill of victory"
+            sh 'jenkins/report-status-to-github.sh success'
+            script {
+                if (BRANCH_NAME ==~ /PR-.+/) {
+                    slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                }
+            }
+        }
+        unsuccessful {
+            echo "The agony of defeat"
+            sh 'jenkins/report-status-to-github.sh failure'
+            script {
+                if (BRANCH_NAME ==~ /PR-.+/) {
+                    slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                }
+            }
+        }
+    }
+}
