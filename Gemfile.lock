@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 9a3a035e45530f06c7ef9f33616de6552f95843f
+  revision: 20960baa9302b2a397d3804fdedfc9f8e46f335e
   branch: temp-main
   specs:
     blacklight_cornell_requests (4.2.5)
@@ -350,7 +350,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     gyoku (1.3.1)
       builder (>= 2.1.2)
-    haml (6.0.6)
+    haml (6.0.7)
       temple (>= 0.8.2)
       thor
       tilt
@@ -460,9 +460,9 @@ GEM
       net-ssh (>= 4.0.0)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.8-x86_64-darwin)
+    nokogiri (1.13.9-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.8-x86_64-linux)
+    nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     nori (2.6.0)
     notiffany (0.1.3)
@@ -648,7 +648,7 @@ GEM
     sqlite3 (1.4.2)
     summon (2.0.5)
       json
-    temple (0.8.2)
+    temple (0.9.1)
     textpow (1.4.0)
       plist (>= 3.0.1)
     thor (1.2.1)
