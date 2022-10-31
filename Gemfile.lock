@@ -402,7 +402,7 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    haml (6.0.1)
+    haml (6.0.8)
       temple (>= 0.8.2)
       thor
       tilt
@@ -513,11 +513,11 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.8-arm64-darwin)
+    nokogiri (1.13.9-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.8-x86_64-darwin)
+    nokogiri (1.13.9-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.8-x86_64-linux)
+    nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     nori (2.6.0)
     notiffany (0.1.3)
@@ -717,7 +717,7 @@ GEM
       net-ssh (>= 2.8.0)
     summon (2.0.5)
       json
-    temple (0.8.2)
+    temple (0.9.1)
     textpow (1.4.0)
       plist (>= 3.0.1)
     thor (1.2.1)
@@ -781,7 +781,7 @@ GEM
       rails (>= 3.0)
       rake (>= 0.8.7)
     yell (2.2.2)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.2)
 
 PLATFORMS
   arm64-darwin-21
