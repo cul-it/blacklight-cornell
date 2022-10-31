@@ -75,8 +75,7 @@ en:
         warning: 'Emailing is currently limited to Cornell only.'
         action:
           item_view:
-            text: 'Please %{href} with your Cornell ID, then click the Email button again.'
-            link_text: 'sign in'
+            text: 'Please sign in with your Cornell ID, then click the Email button again.'
           bookmarks_view: 'Add items to Book Bag for email and saving options'
       list_title: 'Your selected items'
       delete: 'Remove'
