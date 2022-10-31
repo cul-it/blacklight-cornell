@@ -68,7 +68,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     tmp_hash["locations"] = doc["availability_json"].present? ? process_locations(doc["availability_json"]) : []
     tmp_hash["citation"] = doc["cite_preescaped_display"].present? ? doc["cite_preescaped_display"] : ""
     tmp_hash["callnumber"] = doc["callnum_display"].present? ? doc["callnum_display"] : ""
-    # the difference between these next two: "internal_class_label" gets used in the data attribute 
+    # the difference between these next two: "internal_class_label" gets used in the data attribute
     # of some elements, while the "display_class_label" gets displayed in the UI and has the added
     # font awesomne html
     classification = doc["classification_display"].present? ? doc["classification_display"] : ""
@@ -76,7 +76,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     tmp_hash["display_class_label"] = tmp_hash["internal_class_label"].gsub(' : ','<i class="fa fa-caret-right class-caret"></i>').html_safe
     # tmp_hash["img_url"] = get_googlebooks_image(oclc_isbn[0], oclc_isbn[1], the_format)
     tmp_hash["img_url"] = get_googlebooks_image(oclc_id, isbn, the_format)
-    
+
     return tmp_hash
   end
 
@@ -84,14 +84,14 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   def process_availability(avail_json)
     browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || ""
     availability = JSON.parse(avail_json)
-    return "Online" if availability["online"].present? 
+    return "Online" if availability["online"].present?
     #return "Available" if availability["availAt"].present?
     #return "Not Available" if availability["unavailAt"].present?
     # Temporary for covid-19: don't show the availability for non-online items. Since the call number index
     # doesn't include holding info, we can't determine the actual availability.
     return "" if availability["availAt"].present? || availability["unavailAt"].present?
   end
-  
+
   # Builds an array of the availability information
   def process_locations(avail_json)
     availability = JSON.parse(avail_json)
@@ -105,7 +105,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
           i = k.index("(")
           tmp_str = k[0..i - 2]
           tmp_array << tmp_str
-        else 
+        else
           tmp_array << k
         end
       end
@@ -126,20 +126,20 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     tmp_array.delete_if do |t|
       count += 1
       if count == 1 and tmp_array[1].present? and tmp_array[1].downcase.include?(t[4..-1].downcase)
-        add = false 
+        add = false
         skipped_first = true
       end
       add = false if count == 2 and tmp_array[0].downcase.include?(t[t.index(" - ")+2..-1].downcase) and skipped_first == false
       #add = false if count == 3 and t.include?(tmp_array[2][tmp_array[2].index(" - ")+2..-1])
       #add = false if t.include?("(General)") && count != tmp_array.size
-      add = false if t.include?("By region:") 
+      add = false if t.include?("By region:")
       add = false if t.include?("By period:")
       final_array << t if add == true
       add = true
     end
     return final_array.join(" : ")
   end
-  
+
   # /get_previous
   def previous_callnumber
     start = (params["start"].to_i * 8)
@@ -172,7 +172,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
       format.js
     end
   end
-  
+
   def callnumber_cleanup(callnumber)
     callnumber.gsub("Oversize ","").gsub("Rare Books ","").gsub("ONLINE ","").gsub("Human Sexuality ","").gsub("Ellis ","").gsub("New & Noteworthy Books ","").gsub("A.D. White Oversize ","").sub("+ ","")
   end
@@ -199,7 +199,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     end
     return set_cover_image(format)
   end
-  
+
   # When there's no image from google books
   def set_cover_image(format)
     case format
@@ -226,7 +226,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     else
       return "cornell/virtual-browse/generic_cvr.png"
     end
-    
+
   end
-  
+
 end
