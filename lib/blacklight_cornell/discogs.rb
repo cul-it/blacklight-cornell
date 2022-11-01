@@ -185,7 +185,7 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   def make_discogs_search_call(query_string)
     key = ENV['DISCOGS_KEY'].present? ? ENV['DISCOGS_KEY'] : ""
     secret = ENV['DISCOGS_SECRET'].present? ? ENV['DISCOGS_SECRET'] : ""
-    uri = "https://api.discogs.com/database/search"
+    uri = URI("https://api.discogs.com/database/search")
     params = {q: query_string, type: 'release', key: key, secret: secret }
     uri.query = URI.encode_www_form(params)
     resp = Net::HTTP.get_response(uri)
