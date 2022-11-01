@@ -1,73 +1,74 @@
 <%
-# create the contributors list
-if @author_addl.present? && !@author_addl.empty?
-  author_addl_html = '<dt class="blacklight-author_addl_json col-sm-3"><div class="discogs-off"">Contributors:</div></dt>' +
-                     '<dd class="blacklight-author_addl_json col-sm-9 discogs-off">'
-  count = 0
-  more_less = false
-  @author_addl.each do |a|
-    if count > 10 && @author_addl.length > 12
-      more_less = true
-      author_addl_html += '<span class="contributor-content" style="display:none;">' + a + '<br/></span>'
-    else
-      author_addl_html += a + '<br/>'
 unless @discogs_data.nil?
+  resource_uri = @discogs_data['uri']
+  # create the contributors list
+  if @author_addl.present? && !@author_addl.empty?
+    author_addl_html = '<dt class="blacklight-author_addl_json col-sm-3"><div class="discogs-off"">Contributors:</div></dt>' +
+                      '<dd class="blacklight-author_addl_json col-sm-9 discogs-off">'
+    count = 0
+    more_less = false
+    @author_addl.each do |a|
+      if count > 10 && @author_addl.length > 12
+        more_less = true
+        author_addl_html += '<span class="contributor-content" style="display:none;">' + a + '<br/></span>'
+      else
+        author_addl_html += a + '<br/>'
+      end
+      count = count + 1
     end
-    count = count + 1
+    author_addl_html += '<a href="#" class="more-contributors d-block">more »</a>' if more_less
+    author_addl_html += '</dd>'
   end
-  author_addl_html += '<a href="#" class="more-contributors d-block">more »</a>' if more_less
-  author_addl_html += '</dd>'
-end
 
-# create the pub_info
-if @contents.present? && !@contents.empty?
-  pub_info = @pub_info[0] if @pub_info.size == 1
-  pub_info = @pub_info.join("<br/>") if @pub_info.size > 1
-  pub_info_html = '<dt class="blacklight-pub_info_display col-sm-3"><div class="discogs-off"">Published:</div></dt>' +
-                  '<dd class="blacklight-pub_info_display col-sm-9 discogs-off">' + pub_info + '</dd>'
-  
- # create the contents/track list
-  contents_html = '<dt class="blacklight-contents_display col-sm-3"><div class="discogs-off"">Table of contents:</div></dt>' +
-                   '<dd class="blacklight-author_addl_json col-sm-9 discogs-off"><ul>'
+  # create the pub_info
+  if @contents.present? && !@contents.empty?
+    pub_info = @pub_info[0] if @pub_info.size == 1
+    pub_info = @pub_info.join("<br/>") if @pub_info.size > 1
+    pub_info_html = '<dt class="blacklight-pub_info_display col-sm-3"><div class="discogs-off"">Published:</div></dt>' +
+                    '<dd class="blacklight-pub_info_display col-sm-9 discogs-off">' + pub_info + '</dd>'
 
-  count = 0
-  more_less = false
-  @contents.each do |t|
-    if count > 12 && @contents.length > 15
-      more_less = true
-      contents_html += '<li class="contents-content" style="display:none;">' + t + "</li>"
-    else 
-     contents_html += '<li>' + t + "</li>"
+  # create the contents/track list
+    contents_html = '<dt class="blacklight-contents_display col-sm-3"><div class="discogs-off"">Table of contents:</div></dt>' +
+                    '<dd class="blacklight-author_addl_json col-sm-9 discogs-off"><ul>'
+
+    count = 0
+    more_less = false
+    @contents.each do |t|
+      if count > 12 && @contents.length > 15
+        more_less = true
+        contents_html += '<li class="contents-content" style="display:none;">' + t + "</li>"
+      else
+      contents_html += '<li>' + t + "</li>"
+      end
+      count = count + 1
     end
-    count = count + 1
+    contents_html += '</ul>'
+    contents_html += '<a href="#" class="more-contents">more »</a>' if more_less
+    contents_html += '</dd>'
   end
-  contents_html += '</ul>'
-  contents_html += '<a href="#" class="more-contents">more »</a>' if more_less
-  contents_html += '</dd>'
-end
 
-if @notes.present? && !@notes.empty?
-# create the notes section
-  notes_html = '<dt class="blacklight-notes col-sm-3"><div class="discogs-off"">Notes:</div></dt>' +
-               '<dd class="blacklight-notes col-sm-9 discogs-off">'
-  more_less = false
-  @notes.each do |n|
-    next if n.blank?
-    if notes_html.length > 500 || n.length > 500
-      notes_html += '<span class="notes-content" style="display:none;">' + n + '<br/></span>'
-      more_less = true
-    else
-      notes_html += '<span>' + n + '<br/></span>'
+  if @notes.present? && !@notes.empty?
+  # create the notes section
+    notes_html = '<dt class="blacklight-notes col-sm-3"><div class="discogs-off"">Notes:</div></dt>' +
+                '<dd class="blacklight-notes col-sm-9 discogs-off">'
+    more_less = false
+    @notes.each do |n|
+      next if n.blank?
+      if notes_html.length > 500 || n.length > 500
+        notes_html += '<span class="notes-content" style="display:none;">' + n + '<br/></span>'
+        more_less = true
+      else
+        notes_html += '<span>' + n + '<br/></span>'
+      end
     end
+    notes_html += '<a href="#" class="more-notes">more »</a>' if more_less
+    notes_html += '</dd>'
   end
-  notes_html += '<a href="#" class="more-notes">more »</a>' if more_less
-  notes_html += '</dd>'
-end
 
-if @genres.present? && !@genres.empty?  
-  # create the genres list
-  genres_html = '<dt class="blacklight-subject_json col-sm-3"><div class="discogs-off">Genres:</div></dt>' +
-                '<dd class="blacklight-subject_json col-sm-9 discogs-off">' + @genres.join(", ") + '</dd>'
+  if @genres.present? && !@genres.empty?
+    # create the genres list
+    genres_html = '<dt class="blacklight-subject_json col-sm-3"><div class="discogs-off">Genres:</div></dt>' +
+                  '<dd class="blacklight-subject_json col-sm-9 discogs-off">' + @genres.join(", ") + '</dd>'
   end
 end
 %>
@@ -78,64 +79,64 @@ if ( ("<%=raw escape_javascript(pub_info_html) %>").length > 0 && $('.blacklight
       $('dd.blacklight-language_display').after("<%=raw escape_javascript(pub_info_html) %>");
   }
   else {
-      $('dd.blacklight-format').after("<%=raw escape_javascript(pub_info_html) %>");  	    
+      $('dd.blacklight-format').after("<%=raw escape_javascript(pub_info_html) %>");
   }
    show_discogs_data = true;
-}  
+}
 // genres list
 if ( ("<%=raw escape_javascript(genres_html) %>").length > 0 && $('.blacklight-subject_json').length == 0 ) {
   if ( $('dd.blacklight-description_display').length ) {
       $('dt.blacklight-description_display').before("<%=raw escape_javascript(genres_html) %>");
-  } 
+  }
   else if ( $('dd.blacklight-publisher_number_display').length ) {
       $('dd.blacklight-publisher_number_display').after("<%=raw escape_javascript(genres_html) %>");
-  } 
+  }
   else if ( $('dd.blacklight-pub_info_display').length ){
     $('dd.blacklight-pub_info_display').after("<%=raw escape_javascript(genres_html) %>");
   }
   else {
-      $('dd.blacklight-format').after("<%=raw escape_javascript(genres_html) %>");  
+      $('dd.blacklight-format').after("<%=raw escape_javascript(genres_html) %>");
   }
   show_discogs_data = true;
 }
 // addl authors/contributors
-if ( ("<%=raw escape_javascript(author_addl_html) %>").length > 0 ) {  
+if ( ("<%=raw escape_javascript(author_addl_html) %>").length > 0 ) {
   if ( $('dd.blacklight-author_addl_json').length ) {
     var contribs = $('dt.blacklight-author_addl_json').text();
     $('dt.blacklight-author_addl_json').text(contribs.replace("Other contributor","Contributors"));
     var other = "<%=raw escape_javascript(author_addl_html) %>"
     $('dd.blacklight-author_addl_json').after(other.replace("Contributors","Other contributors"));
-  }    
+  }
   else if ( $('dd.blacklight-contents_display').length ) {
       $('dt.blacklight-contents_display').before("<%=raw escape_javascript(author_addl_html) %>");
-  } 
+  }
   else if ( $('dd.blacklight-description_display').length ) {
       $('dd.blacklight-description_display').after("<%=raw escape_javascript(author_addl_html) %>");
-  } 
+  }
   else if ( $('dd.blacklight-contents_display').length ){
       $('dt.blacklight-notes').before("<%=raw escape_javascript(author_addl_html) %>");
   }
   else {
-      $('dl#itemDetails').append("<%=raw escape_javascript(author_addl_html) %>");  
+      $('dl#itemDetails').append("<%=raw escape_javascript(author_addl_html) %>");
   }
   show_discogs_data = true;
-}  
+}
 // contents/track list
-if ( ("<%=raw escape_javascript(contents_html) %>").length > 0 && $('.blacklight-contents_display').length == 0 ) {  
+if ( ("<%=raw escape_javascript(contents_html) %>").length > 0 && $('.blacklight-contents_display').length == 0 ) {
   if ( $('dd.blacklight-author_addl_json').length ) {
       $('dd.blacklight-author_addl_json').last().after("<%=raw escape_javascript(contents_html) %>");
-  } 
+  }
   else if ( $('dd.blacklight-description_display').length ) {
       $('dd.blacklight-description_display').after("<%=raw escape_javascript(contents_html) %>");
-  } 
+  }
   else if ( $('dd.blacklight-notes').length ){
     $('dt.blacklight-notes').before("<%=raw escape_javascript(contents_html) %>");
   }
   else {
-      $('dl#itemDetails').append("<%=raw escape_javascript(contents_html) %>");  
+      $('dl#itemDetails').append("<%=raw escape_javascript(contents_html) %>");
   }
   show_discogs_data = true;
-}  
+}
 // notes
 if ( ("<%=raw escape_javascript(notes_html) %>").length > 0 ) {
   if ( $('dt.blacklight-notes').length) {
