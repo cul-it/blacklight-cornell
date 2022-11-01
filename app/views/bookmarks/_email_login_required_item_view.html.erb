@@ -10,7 +10,7 @@
       <div class="modal-body">
         <h2><%= t('blacklight.bookmarks.email.warning') %></h2>
         <p><%= t('blacklight.bookmarks.email.action.item_view.text') %></p>
-        <%= button_to 'Sign in with your NetID', login_path, class: "btn btn-cul", :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);" %>
+        <%= button_to 'Sign in with your NetID', login_path, class: "btn btn-cul", :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'email_modal', 'Sign in']);" %>
       </div>
 
       <div class="modal-footer">
