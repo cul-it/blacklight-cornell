@@ -20,24 +20,50 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     dbclnt = HTTPClient.new
     solrResponseFull = []
     return_array = []
+    callno = callnumber.gsub("\\"," ").gsub('"',' ')
+    params = {
+      :wt => 'json',
+      :fq => location,
+      :fl => '*',
+      :start => start.to_s,
+      :rows => rows.to_s
+    }
+    uri = ''
     if direction == "reverse"
-      q =  {"q" => '[* TO "' + callnumber.gsub("\\"," ").gsub('"',' ') +'"]' }
-      url = base_solr_url + "/" + @@browse_index_callnumber + "/reverse?wt=json&" + q.to_param + '&fq=' + location.gsub(" ", "+").gsub("&", "%26") + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
+      # q =  {"q" => '[* TO "' + callnumber.gsub("\\"," ").gsub('"',' ') +'"]' }
+      params[:q] = '[* TO "' + callno + '"]'
+      # url = base_solr_url + "/" + @@browse_index_callnumber + "/reverse?wt=json&" + q.to_param + '&fq=' + location.gsub(" ", "+").gsub("&", "%26") + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
+      uri = URI(base_solr_url + "/" + @@browse_index_callnumber + "/reverse")
     else
-      q =  {"q" => '["' + callnumber.gsub("\\"," ").gsub('"',' ') +'" TO *]' }
-      url = base_solr_url + "/" + @@browse_index_callnumber + "/browse?wt=json&" + q.to_param + '&fq=' + location.gsub(" ", "+").gsub("&", "%26") + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
+      # q =  {"q" => '["' + callnumber.gsub("\\"," ").gsub('"',' ') +'" TO *]' }
+      params[:q] = '["' + callno +'" TO *]'
+      # url = base_solr_url + "/" + @@browse_index_callnumber + "/browse?wt=json&" + q.to_param + '&fq=' + location.gsub(" ", "+").gsub("&", "%26") + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
+      uri = URI(base_solr_url + "/" + @@browse_index_callnumber + "/browse")
     end
-
-    solrResultString = dbclnt.get_content( url )
+    uri.query = URI.encode_www_form(params)
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "uri: " + uri.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
+    # solrResultString = dbclnt.get_content( url )
+    solrResultString = dbclnt.get_content( uri )
     if !solrResultString.nil?
       y = solrResultString
       solrResponseFull = JSON.parse(y)
-      solrResponseFull["response"]["docs"].each do |doc|          
+      solrResponseFull["response"]["docs"].each do |doc|
         tmp_hash = get_document_details(doc)
         return_array.push(tmp_hash)
       end
     else
-      return_array.push("Could not find")
+      return_array = nil
     end
     return return_array
   end
