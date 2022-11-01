@@ -4,18 +4,6 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   def get_discogs
     id = params[:id] if params[:id].present?
     @discogs_data = make_discogs_show_call(id) if id.present? && !id.empty?
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "@discogs_data: " + @discogs_data.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
     build_discogs_components
     respond_to do |format|
       format.js { render layout: false }
