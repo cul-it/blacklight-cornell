@@ -4,9 +4,11 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   def get_discogs
     id = params[:id] if params[:id].present?
     @discogs_data = make_discogs_show_call(id) if id.present? && !id.empty?
-    build_discogs_components
-    respond_to do |format|
-      format.js { render layout: false }
+    unless @discogs_data.nil?
+      build_discogs_components
+      respond_to do |format|
+        format.js { render layout: false }
+      end
     end
   end
 
