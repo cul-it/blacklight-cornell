@@ -139,7 +139,9 @@ class BrowseController < ApplicationController
       end
       previous_eight = get_surrounding_docs(params[:authq],"reverse",0,8,location)
       next_eight = get_surrounding_docs(params[:authq],"forward",0,9,location)
-      @headingsResponse = previous_eight.reverse() + next_eight
+      if (previous_eight.present? && next_eight.present?)
+        @headingsResponse = previous_eight.reverse() + next_eight
+      end
       params[:authq].gsub!('%20', ' ')
     end
   end

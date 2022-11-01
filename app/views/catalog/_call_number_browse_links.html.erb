@@ -67,94 +67,98 @@
 					</a>
 				</div>
 			</div>
-	  	<% @previous_eight.reverse.each do |doc| %>
-	      <div class="inner-container"  id="<%= doc['id'] %>" data-title="<%= doc['title'] %>" data-locations="<%= doc['locations'].join(', ') %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
-		    <div class="vb-callnum-hdr">
-		      <%= doc['callnumber'] %>
-			</div>
-		    <div class="vb-img-container">
-			    <% if doc['img_url'].include?("cornell") %>
-			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
-				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
-				<% else %>
-	  			  <img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+		<% if @previous_eight.present? %>
+			<% @previous_eight.reverse.each do |doc| %>
+			<div class="inner-container"  id="<%= doc['id'] %>" data-title="<%= doc['title'] %>" data-locations="<%= doc['locations'].join(', ') %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
+				<div class="vb-callnum-hdr">
+				<%= doc['callnumber'] %>
+				</div>
+				<div class="vb-img-container">
+					<% if doc['img_url'].include?("cornell") %>
+					<% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
+					<%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
+					<% else %>
+					<img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+					<% end %>
+				</div>
+				<div class="vb-title">
+					<%= get_format_string(doc['format'].downcase)%>&nbsp;
+					<a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'carousel_title']);">
+					<% if doc['title'].length <= 52 %>
+						<%= doc['title'] %>
+					<% else %>
+						<%= doc['title'][0..52] + "..."%>
+					<% end %>
+					</a>
+					<% if doc['pub_date'].present? %>
+					<div style="clear:left;"><%= doc['pub_date'].sub("[","").sub("]","") %></div>
+					<% end %>
+				</div>
+				<div class="vb-footer">
+				<% avail = JSON.parse(doc["availability"]) %>
+					<div class="vb-location"><%#doc['location']%></div>
+				<% if avail["availAt"].present? %>
+					<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
+				<% elsif avail["online"].present? %>
+					<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
+				<% elsif avail["unavailAt"].present? %>
+					<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
 				<% end %>
+				</div>
 			</div>
-			  <div class="vb-title">
-			    <%= get_format_string(doc['format'].downcase)%>&nbsp;
-			    <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'carousel_title']);">
-			  	<% if doc['title'].length <= 52 %>
-			  		<%= doc['title'] %>
-			  	<% else %>
-			  		<%= doc['title'][0..52] + "..."%>
-			  	<% end %>
-			    </a> 
-			    <% if doc['pub_date'].present? %>
-			      <div style="clear:left;"><%= doc['pub_date'].sub("[","").sub("]","") %></div>
-			    <% end %>
-			  </div>
-			<div class="vb-footer">
-			  <% avail = JSON.parse(doc["availability"]) %>
-				<div class="vb-location"><%#doc['location']%></div>
-			  <% if avail["availAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
-			  <% elsif avail["online"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
-			  <% elsif avail["unavailAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
-			  <% end %>
-          	</div>
-		  </div> 
+			<% end %>
 		<% end %>
 		<% first = true %>
-	  	<% @next_eight.each_with_index do |doc, i| %>
-	      <div class="inner-container<% if first %> inner-container-primary<%end%>" id="<%= doc['id'] %>"   data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
-		  <% first = false %>
-		    <div class="vb-callnum-hdr">
-		      <%= doc['callnumber'] %>
-			</div>
-		    <div class="vb-img-container">
-			    <% if doc['img_url'].include?("cornell") %>
-			      <% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
-				  <%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
-				<% else %>
-	  			  <img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
-				<% end %>
-			</div>
-			  <div class="vb-title">
-			   <%= get_format_string(doc['format'].downcase)%>&nbsp;
-			   <a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'carousel_title']);">
-			     <% if doc['title'].length <= 52 %>
-			     	<%= doc['title'] %>
-			     <% else %>
-			     	<%= doc['title'][0..52] + "..."%>
-			     <% end %>
-			   </a> 
-			   <% if doc['pub_date'].present? %>
-			     <div><%= doc['pub_date'].sub("[","").sub("]","") %></div>
-			   <% end %>
-			</div>
-			<div class="vb-footer">
-			  <% avail = JSON.parse(doc["availability"]) %>
-				<div class="vb-location"><%#doc['location']%></div>
-			  <% if avail["availAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
-			  <% elsif avail["online"].present? %>
-				<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
-			  <% elsif avail["unavailAt"].present? %>
-				<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
-			  <% end %>
-			</div>
-		  </div> 
-		<% end %>
-		<div class="inner-container" id="next-reroute" style="display:none">
-			<div class="vb-reroute">
-				<a href="/browse?authq=&browse_type=virtual" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'viewmoreresults_right']);">
-					<div>View more results </div>
-					<div> <i class="fa fa-chevron-right"></i></div>
+		<% if @next_eight.present? %>
+			<% @next_eight.each_with_index do |doc, i| %>
+			<div class="inner-container<% if first %> inner-container-primary<%end%>" id="<%= doc['id'] %>"   data-locations="<%= doc['locations'].join(', ') %>" data-title="<%= doc['title'] %>" data-callnumber="<%= doc['callnumber'] %>" data-classification="<%= doc['internal_class_label'] %>" data-pubdate="<%= doc['pub_date'] %>" data-publisher="<%= doc['publisher'] %>" data-author="<%= doc['author'] %>">
+			<% first = false %>
+				<div class="vb-callnum-hdr">
+				<%= doc['callnumber'] %>
+				</div>
+				<div class="vb-img-container">
+					<% if doc['img_url'].include?("cornell") %>
+					<% the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]%>
+					<%= image_tag(doc['img_url'], alt: "Image not found", style: "width:120px") %>
+					<% else %>
+					<img width="120px" alt="" src="<%= doc['img_url'].sub("&zoom=5","6&zoom=1") %>"/>
+					<% end %>
+				</div>
+				<div class="vb-title">
+				<%= get_format_string(doc['format'].downcase)%>&nbsp;
+				<a href="/catalog/<%= doc['id'] %>" title="<%= doc['title'] %>" tabindex="-1" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'carousel_title']);">
+					<% if doc['title'].length <= 52 %>
+						<%= doc['title'] %>
+					<% else %>
+						<%= doc['title'][0..52] + "..."%>
+					<% end %>
 				</a>
+				<% if doc['pub_date'].present? %>
+					<div><%= doc['pub_date'].sub("[","").sub("]","") %></div>
+				<% end %>
+				</div>
+				<div class="vb-footer">
+				<% avail = JSON.parse(doc["availability"]) %>
+					<div class="vb-location"><%#doc['location']%></div>
+				<% if avail["availAt"].present? %>
+					<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>
+				<% elsif avail["online"].present? %>
+					<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>
+				<% elsif avail["unavailAt"].present? %>
+					<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available</div>
+				<% end %>
+				</div>
 			</div>
-		</div>
+			<% end %>
+			<div class="inner-container" id="next-reroute" style="display:none">
+				<div class="vb-reroute">
+					<a href="/browse?authq=&browse_type=virtual" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'viewmoreresults_right']);">
+						<div>View more results </div>
+						<div> <i class="fa fa-chevron-right"></i></div>
+					</a>
+				</div>
+			</div>
+		<% end %>
 	  </div>
 	<div id="return-home" class="return-home"><a id="return-home-link" href="javascript:void(0);" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'return_start']);">Return to start</a></div>
 	  <div class="preview-container">
