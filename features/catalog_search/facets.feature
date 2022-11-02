@@ -71,15 +71,27 @@ Feature: Facets
 		| Call Number | A - General | 8 |
 
 	@DISCOVERYACCESS-7855
-	Scenario Outline: Handling Publication Year date ranges
+	Scenario Outline: Handling valid Publication Year date ranges
 		Given I am on the home page
 		And I search for everything
 		Then I limit the publcation year from <begin> to <end>
 		Then I should get <count> results
-		And I should not see 'min date must be before the max date'
+		And I should not see 'Publication year facet out of range'
 
 	Examples:
 		| begin | end | count |
 		| 1600 | 2010 | 187 |
 		| 1910 | 1950 | 24 |
+
+	@DISCOVERYACCESS-7855
+	Scenario Outline: Handling invalid Publication Year date ranges
+		Given I am on the home page
+		And I search for everything
+		Then I limit the publcation year from <begin> to <end>
+		And I should see 'Publication year facet out of range'
+
+	Examples:
+		| begin | end | count |
+		| -1 | 2010 | 187 |
+		| 1910 | -4 | 24 |
 		| 1966 | 1800 | 2 |
