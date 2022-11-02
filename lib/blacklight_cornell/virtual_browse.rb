@@ -158,8 +158,10 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     location = ""
     location = params["fq"] if params["fq"].present?
     @previous_doc =  get_surrounding_docs(params["callnum"],"reverse",start,8,location)
-    respond_to do |format|
-      format.js
+    unless @previous_doc.nil?
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
@@ -169,8 +171,10 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     location = ""
     location = params["fq"] if params["fq"].present?
     @next_doc =  get_surrounding_docs(params["callnum"],"forward",start,8,location)
-    respond_to do |format|
-      format.js
+    unless @next_doc.nil?
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
@@ -179,9 +183,17 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     @callnumber = params["callnum"]
     previous_eight = get_surrounding_docs(params["callnum"],"reverse",0,8)
     next_eight = get_surrounding_docs(params["callnum"],"forward",0,9)
-    @new_carousel = previous_eight.reverse() + next_eight
-    respond_to do |format|
-      format.js
+    unless previous_eight.nil? && next_eight.nil?
+      if previous_eight.nil?
+        @new_carousel = next_eight
+      elsif next_eight.nil?
+        @new_carousel = previous_eight.reverse()
+      else
+        @new_carousel = previous_eight.reverse() + next_eight
+      end
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
