@@ -506,6 +506,8 @@ GEM
       timeout
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
+    net-sftp (4.0.0)
+      net-ssh (>= 5.0.0, < 8.0.0)
     net-smtp (0.3.1)
       digest
       net-protocol
@@ -849,6 +851,7 @@ DEPENDENCIES
   mysql2 (= 0.5.3)
   net-ldap
   net-scp (= 2.0.0)
+  net-sftp
   net-smtp
   net-ssh (= 5.2.0)
   nokogiri (>= 1.13.9)
