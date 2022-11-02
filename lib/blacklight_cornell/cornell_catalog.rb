@@ -147,6 +147,18 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     journal_titleHold = ''
     if (!params[:range].nil?)
       check_dates(params)
+    #******************
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    jgr25_context = "#{__FILE__}:#{__LINE__}"
+    Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+    msg = [" #{__method__} ".center(60,'Z')]
+    msg << jgr25_context
+    msg << "params[:range]: " + params[:range].inspect
+    msg << 'Z' * 60
+    msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+    Rails.logger.level = save_level
+    #binding.pry
+    #*******************
     end
     temp_search_field = ''
     if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
@@ -627,6 +639,20 @@ private
       end_test = begin_test
       begin_test = swap
     end
+    #******************
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    jgr25_context = "#{__FILE__}:#{__LINE__}"
+    Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+    msg = [" #{__method__} ".center(60,'Z')]
+    msg << jgr25_context
+    msg << "params[:range]: " + params[:range].inspect
+    msg << "begin_test: " + begin_test.inspect
+    msg << "end_test: " + end_test.inspect
+    msg << 'Z' * 60
+    msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+    Rails.logger.level = save_level
+    #binding.pry
+    #*******************
     params[:range][:pub_date_facet][:begin] = begin_test
     params[:range][:pub_date_facet][:end] = end_test
   end
