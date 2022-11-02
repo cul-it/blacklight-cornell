@@ -625,33 +625,16 @@ private
   def check_dates(params)
     begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
     end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
-    if begin_test.nil? or begin_test < 0
-      begin_test = 800
+    min_year = 0
+    unless begin_test.present? && begin_test >= min_year
+      raise ArgumentError.new("Publication year facet out of range: beginning of range should be #{min_year} or greater")
     end
-    if end_test.nil? or end_test < 0
-      end_test = Time.now.year + 2
+    unless end_test.present? && end_test >= min_year
+      raise ArgumentError.new("Publication year facet out of range: end of range should be #{min_year} or greater")
     end
-    if begin_test > end_test
-      swap = end_test
-      end_test = begin_test
-      begin_test = swap
+    unless begin_test <= end_test
+      raise ArgumentError.new("Publication year facet out of range: end of range should be the beginning of range or greater")
     end
-    #******************
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    jgr25_context = "#{__FILE__}:#{__LINE__}"
-    Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-    msg = [" #{__method__} ".center(60,'Z')]
-    msg << jgr25_context
-    msg << "params[:range]: " + params[:range].inspect
-    msg << "begin_test: " + begin_test.inspect
-    msg << "end_test: " + end_test.inspect
-    msg << 'Z' * 60
-    msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-    Rails.logger.level = save_level
-    #binding.pry
-    #*******************
-    params[:range][:pub_date_facet][:begin] = begin_test
-    params[:range][:pub_date_facet][:end] = end_test
   end
 
   def check_params(params)
