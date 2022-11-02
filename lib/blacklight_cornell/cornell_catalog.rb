@@ -287,6 +287,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       search_session[:q] = params[:q]
       # params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
+  rescue ArgumentError => e
+    logger.error e
+    flash[:error] = e.message
+    redirect_to session.delete(:return_to)
+  end
   end
 
   # get single document from the solr index
