@@ -15,29 +15,41 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   # gets the documents on either "side" of the selected one. Direction determines whether
   # to get the previous or next group of docs.
   def get_surrounding_docs(callnumber,direction,start,rows, location="")
+    if callnumber.nil?
+      return nil
+    end
     @location = location.gsub('&','%26')
     base_solr_url = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
     dbclnt = HTTPClient.new
     solrResponseFull = []
     return_array = []
+    callno = callnumber.gsub("\\"," ").gsub('"',' ')
+    params = {
+      :wt => 'json',
+      :fq => location,
+      :fl => '*',
+      :start => start.to_s,
+      :rows => rows.to_s
+    }
+    uri = ''
     if direction == "reverse"
-      q =  {"q" => '[* TO "' + callnumber.gsub("\\"," ").gsub('"',' ') +'"]' }
-      url = base_solr_url + "/" + @@browse_index_callnumber + "/reverse?wt=json&" + q.to_param + '&fq=' + location.gsub(" ", "+").gsub("&", "%26") + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
+      params[:q] = '[* TO "' + callno + '"]'
+      uri = URI(base_solr_url + "/" + @@browse_index_callnumber + "/reverse")
     else
-      q =  {"q" => '["' + callnumber.gsub("\\"," ").gsub('"',' ') +'" TO *]' }
-      url = base_solr_url + "/" + @@browse_index_callnumber + "/browse?wt=json&" + q.to_param + '&fq=' + location.gsub(" ", "+").gsub("&", "%26") + '&fl=*&start=' + start.to_s + '&rows=' + rows.to_s
+      params[:q] = '["' + callno +'" TO *]'
+      uri = URI(base_solr_url + "/" + @@browse_index_callnumber + "/browse")
     end
-
-    solrResultString = dbclnt.get_content( url )
+    uri.query = URI.encode_www_form(params)
+    solrResultString = dbclnt.get_content( uri )
     if !solrResultString.nil?
       y = solrResultString
       solrResponseFull = JSON.parse(y)
-      solrResponseFull["response"]["docs"].each do |doc|          
+      solrResponseFull["response"]["docs"].each do |doc|
         tmp_hash = get_document_details(doc)
         return_array.push(tmp_hash)
       end
     else
-      return_array.push("Could not find")
+      return_array = nil
     end
     return return_array
   end
@@ -146,8 +158,10 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     location = ""
     location = params["fq"] if params["fq"].present?
     @previous_doc =  get_surrounding_docs(params["callnum"],"reverse",start,8,location)
-    respond_to do |format|
-      format.js
+    unless @previous_doc.nil?
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
@@ -157,8 +171,10 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     location = ""
     location = params["fq"] if params["fq"].present?
     @next_doc =  get_surrounding_docs(params["callnum"],"forward",start,8,location)
-    respond_to do |format|
-      format.js
+    unless @next_doc.nil?
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
@@ -167,9 +183,17 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     @callnumber = params["callnum"]
     previous_eight = get_surrounding_docs(params["callnum"],"reverse",0,8)
     next_eight = get_surrounding_docs(params["callnum"],"forward",0,9)
-    @new_carousel = previous_eight.reverse() + next_eight
-    respond_to do |format|
-      format.js
+    unless previous_eight.nil? && next_eight.nil?
+      if previous_eight.nil?
+        @new_carousel = next_eight
+      elsif next_eight.nil?
+        @new_carousel = previous_eight.reverse()
+      else
+        @new_carousel = previous_eight.reverse() + next_eight
+      end
+      respond_to do |format|
+        format.js
+      end
     end
   end
 

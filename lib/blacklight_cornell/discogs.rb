@@ -4,9 +4,11 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   def get_discogs
     id = params[:id] if params[:id].present?
     @discogs_data = make_discogs_show_call(id) if id.present? && !id.empty?
-    build_discogs_components
-    respond_to do |format|
-      format.js { render layout: false }
+    unless @discogs_data.nil?
+      build_discogs_components
+      respond_to do |format|
+        format.js { render layout: false }
+      end
     end
   end
 
@@ -183,13 +185,10 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   def make_discogs_search_call(query_string)
     key = ENV['DISCOGS_KEY'].present? ? ENV['DISCOGS_KEY'] : ""
     secret = ENV['DISCOGS_SECRET'].present? ? ENV['DISCOGS_SECRET'] : ""
-    path = "https://api.discogs.com/database/search"
-    escaped = {q: query_string, type: 'release', key: key, secret: secret }.to_param
-    escaped_search_url = path + '?' + escaped
-    # search_url = "https://api.discogs.com/database/search?q=" + query_string + "&type=release&key=" + key + "&secret=" + secret
-    # url = URI.parse(URI.escape(search_url))
-    url = URI.parse(escaped_search_url)
-    resp = Net::HTTP.get_response(url)
+    uri = URI("https://api.discogs.com/database/search")
+    params = {q: query_string, type: 'release', key: key, secret: secret }
+    uri.query = URI.encode_www_form(params)
+    resp = Net::HTTP.get_response(uri)
     data = resp.body
     result = JSON.parse(data)
     return result if resp.kind_of? Net::HTTPSuccess
@@ -199,13 +198,10 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   def make_discogs_show_call(id)
     key = ENV['DISCOGS_KEY'].present? ? ENV['DISCOGS_KEY'] : ""
     secret = ENV['DISCOGS_SECRET'].present? ? ENV['DISCOGS_SECRET'] : ""
-    path = "https://api.discogs.com/releases/" + id
-    escaped = {key: key, secret: secret}.to_param
-    escaped_search_url = path + '?' + escaped
-    # search_url = "https://api.discogs.com/releases/" + id + "?key=" + key + "&secret=" + secret
-    # url = URI.parse(URI.escape(search_url))
-    url = URI.parse(escaped_search_url)
-    resp = Net::HTTP.get_response(url)
+    uri = URI("https://api.discogs.com/releases/" + id)
+    params = {key: key, secret: secret}
+    uri.query = URI.encode_www_form(params)
+    resp = Net::HTTP.get_response(uri)
     data = resp.body
     result = JSON.parse(data)
     return result if resp.kind_of? Net::HTTPSuccess
