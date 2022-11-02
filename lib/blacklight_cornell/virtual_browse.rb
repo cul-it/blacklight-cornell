@@ -15,6 +15,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
   # gets the documents on either "side" of the selected one. Direction determines whether
   # to get the previous or next group of docs.
   def get_surrounding_docs(callnumber,direction,start,rows, location="")
+    if callnumber.nil?
+      return nil
+    end
     @location = location.gsub('&','%26')
     base_solr_url = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
     dbclnt = HTTPClient.new
