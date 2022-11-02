@@ -123,6 +123,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # get search results from the solr index
   def index
+    begin
+      # for returning to the same page on exceptions
+      session[:return_to] ||= request.referer
+
     # check to see if the search limit has been exceeded
     session["search_limit_exceeded"] = false
     search_limit = Rails.configuration.search_limit
