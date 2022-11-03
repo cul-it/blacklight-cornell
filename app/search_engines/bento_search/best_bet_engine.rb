@@ -14,12 +14,10 @@ class BentoSearch::BestBetEngine
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort, :oq
     bento_results = BentoSearch::Results.new
-    q = args[:oq].gsub(" ","%20")
-    Rails.logger.debug "mjc12test: #{__FILE__} #{__LINE__} #{__method__} url parameter: #{q}"
-    if q.ascii_only?
+    uri = URI("https://bestbets.library.cornell.edu/match/#{args[:oq]}")
       best_bet = []
       begin
-        best_bet = JSON.load(URI.open("https://bestbets.library.cornell.edu/match/#{q}"))
+        best_bet = JSON.load(uri)
       rescue Exception => e
         best_bet = []
         result = BentoSearch::ResultItem.new
@@ -41,7 +39,7 @@ class BentoSearch::BestBetEngine
 
       bento_results << result unless best_bet.empty?
       bento_results.total_items = 1 unless best_bet.empty?
-    end
+
     return bento_results
 
   end
