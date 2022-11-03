@@ -623,6 +623,11 @@ private
   end
 
   def check_dates(params)
+    # check for Publication Year 'Unknown' - handled ok
+    if params[:range][:pub_date_facet][:missing].present?
+      return
+    end
+    # crashes later on if begin > end so raise exception here
     begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
     end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
     min_year = 0
