@@ -289,7 +289,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   rescue ArgumentError => e
     logger.error e
-    flash[:error] = e.message
+    flash[:notice] = e.message
     redirect_to session.delete(:return_to)
   end
   end
