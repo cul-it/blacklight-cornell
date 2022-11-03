@@ -60,3 +60,17 @@ Feature: Search
       | Lions' Plate: TikTok's Whipped Coffee | |
       | Utica Zoo, Utica Coffee Roasting | |
 
+  @DISCOVERYACCESS-6699
+  Scenario Outline: I can search for non-ascii strings
+    When I go to the search page
+    When I fill in "q" with '<search>'
+    And I press 'Search'
+    Then I should get bento results
+
+  Examples:
+      | search |
+      | Basics of Legal Research”  |
+      | If Only They’ Ask: Gender, Recruitment, and Political Ambition |
+      | Hà Nội   |
+      | 아, 김 수환 추기경 |
+
