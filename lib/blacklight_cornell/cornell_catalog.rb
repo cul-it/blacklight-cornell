@@ -627,13 +627,13 @@ private
     end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
     min_year = 0
     unless begin_test.present? && begin_test >= min_year
-      raise ArgumentError.new("Publication year facet out of range: beginning of range should be #{min_year} or greater")
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.begin'))
     end
     unless end_test.present? && end_test >= min_year
-      raise ArgumentError.new("Publication year facet out of range: end of range should be #{min_year} or greater")
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.end'))
     end
     unless begin_test <= end_test
-      raise ArgumentError.new("Publication year facet out of range: end of range should be the beginning of range or greater")
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.order'))
     end
   end
 
