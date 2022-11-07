@@ -103,23 +103,22 @@ Feature: Facets
 		And I should see '<facet_label>'
 
 	Examples:
-		| facet | facet_label |
-		| online | Access |
-		| format | Format |
-		| author_facet | Author, etc. |
-		| pub_date_facet | Publication Year |
-		| workid_facet | Work |
-		| language_facet | Language |
-		| fast_topic_facet | Subject |
-		| fast_geo_facet | Subject: Region |
-		| fast_era_facet | Subject: Era |
-		| fast_genre_facet | Genre |
-		| subject_content_facet | Fiction/Non-Fiction |
-		| lc_alpha_facet | Call Number |
-		| location_facet | Library Location |
-		| location | Library Location |
-		| hierarchy_facet | No Label Given |
-		| authortitle_facet | Author-Title |
-		| lc_callnum_facet | Call Number |
-		| collection | No Label Given |
-		| acquired_dt_query | Date Acquired |
+		| facet | facet_label | works |
+		| online | Access | yes |
+		| format | Format | yes |
+		| author_facet | Author, etc. | x |
+		| pub_date_facet | Publication Year | x |
+		| workid_facet | Work | x |
+		| language_facet | Language | yes |
+		| fast_topic_facet | Subject | x |
+		| fast_geo_facet | Subject: Region | x |
+		| fast_era_facet | Subject: Era | x |
+		| fast_genre_facet | Genre | x |
+		| subject_content_facet | Fiction/Non-Fiction | x |
+		| lc_alpha_facet | Call Number | x |
+		| location | Library Location | yes |
+		| hierarchy_facet | Hierarchy Facet | yes |
+		| authortitle_facet | Author-Title | x |
+		| lc_callnum_facet | Call Number | x |
+		| collection | Collection | x |
+		# wip | acquired_dt_query | Date Acquired | yes |
