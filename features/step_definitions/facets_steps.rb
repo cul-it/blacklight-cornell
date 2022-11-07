@@ -78,3 +78,8 @@ Then("I limit the publcation year from {int} to {int}") do |int, int2|
 		click_button "Limit"
 	end
 end
+
+
+Given("I visit the facet page for {string}") do |string|
+	visit "/catalog/facet/#{string}"
+end

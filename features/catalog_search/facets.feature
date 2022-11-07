@@ -95,3 +95,30 @@ Feature: Facets
 		| -1 | 2010 | 187 |
 		| 1910 | -4 | 24 |
 		| 1966 | 1800 | 2 |
+
+	@DISCOVERYACCESS-7869
+	Scenario Outline: Each facet should have it's own Facet page
+		Given I visit the facet page for '<facet>'
+		Then I should not see 'NoMethodError'
+		And I should see '<facet_label>'
+
+	Examples:
+		| facet | facet_label | works |
+		| online | Access | yes |
+		| format | Format | yes |
+		| author_facet | Author, etc. | x |
+		| pub_date_facet | Publication Year | x |
+		| workid_facet | Work | x |
+		| language_facet | Language | yes |
+		| fast_topic_facet | Subject | x |
+		| fast_geo_facet | Subject: Region | x |
+		| fast_era_facet | Subject: Era | x |
+		| fast_genre_facet | Genre | x |
+		| subject_content_facet | Fiction/Non-Fiction | x |
+		| lc_alpha_facet | Call Number | x |
+		| location | Library Location | yes |
+		| hierarchy_facet | Hierarchy Facet | yes |
+		| authortitle_facet | Author-Title | x |
+		| lc_callnum_facet | Call Number | x |
+		| collection | Collection | x |
+		# wip | acquired_dt_query | Date Acquired | yes |

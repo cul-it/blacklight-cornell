@@ -25,7 +25,9 @@ class SearchBuilder < Blacklight::SearchBuilder
   # The check for the q parameter ensures that searches, including empty searches, and
   # advanced searches are not affected.
   def homepage_default user_parameters
-    if user_parameters['q'].nil? && user_parameters['fq'].blank?
+    if !user_parameters['facet.field'].kind_of?(Array) || user_parameters['facet.field'].count == 1
+      # this is a request for a facet page, like /catalog/facet/author_facet
+    elsif user_parameters['q'].nil? && user_parameters['fq'].blank?
       user_parameters = streamline_query(user_parameters)
     end
   end
