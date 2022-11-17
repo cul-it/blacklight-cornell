@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 6374a55f8fc813385be1837776b88f16720d9df1
-  branch: DISCOVERYACCESS-7627
+  revision: 064320b6bb73b80d1ea2e5873fa0c58ac54b742f
+  branch: dev
   specs:
     blacklight_cornell_requests (4.2.7)
       activerecord-oracle_enhanced-adapter
@@ -402,7 +402,7 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    haml (6.0.8)
+    haml (6.0.10)
       temple (>= 0.8.2)
       thor
       tilt
