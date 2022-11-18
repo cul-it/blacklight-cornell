@@ -473,15 +473,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     flash[:error].blank?
   end
 
- def librarian_view
-   @response, @document = search_service.fetch params[:id]
-
-   respond_to do |format|
-     format.html
-     format.js { render :layout => false }
-   end
- end
-
 protected
 
   # sets up the session[:history] hash if it doesn't already exist.
