@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 1f9bae2fe7e545b316321f1e5a6ff148c86f07d7
+
+  revision: 0ca5159b4fda91a0cd93b9fd806928c96422adc8
   branch: dev
   specs:
     blacklight_cornell_requests (4.2.7)
@@ -703,7 +704,7 @@ GEM
     simplecov-rcov (0.3.1)
       simplecov (>= 0.4.1)
     simplecov_json_formatter (0.1.4)
-    slop (4.9.2)
+    slop (4.9.3)
     socksify (1.7.1)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
@@ -800,7 +801,7 @@ DEPENDENCIES
   bento_search (~> 2.0.0.rc1)
   blacklight (= 7.29.0)
   blacklight-hierarchy
-  blacklight-marc (~> 6.2)
+  blacklight-marc (~> 6.3)
   blacklight_cornell_requests!
   blacklight_range_limit (= 7.1.0)
   blacklight_unapi!
