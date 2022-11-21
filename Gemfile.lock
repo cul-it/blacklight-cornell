@@ -1,12 +1,13 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 064320b6bb73b80d1ea2e5873fa0c58ac54b742f
+  revision: 0ca5159b4fda91a0cd93b9fd806928c96422adc8
   branch: dev
   specs:
     blacklight_cornell_requests (4.2.7)
       activerecord-oracle_enhanced-adapter
       blacklight
       borrow_direct
+      cul-folio-edge (~> 2.0)
       dotenv
       dotenv-deployment
       dotenv-rails
