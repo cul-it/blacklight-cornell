@@ -235,6 +235,18 @@ module Blacklight::Solr::Document::MarcExport
   protected
 
   def citeproc_citation(record,csl)
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "record: " + record.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
     Rails.logger.level = Logger::WARN
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} csl = #{csl.inspect}")
