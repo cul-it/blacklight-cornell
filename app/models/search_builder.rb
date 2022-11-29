@@ -92,6 +92,10 @@ class SearchBuilder < Blacklight::SearchBuilder
     else # simple search code below
       if blacklight_params[:q].nil?
         blacklight_params[:q] = ''
+        if !blacklight_params[:f].nil?
+           key, value = blacklight_params[:f].first
+           user_parameters[:fq] = [ "{!term f=" + key + "}" + value[0] ] #blacklight_params[:f]
+        end
       end
       if !blacklight_params[:advanced_query].nil?
         blacklight_params.delete("advanced_query")

@@ -420,3 +420,7 @@ end
 Given /^our host is "([^\"]+)"$/ do |host|
   Capybara.app_host = host
 end
+
+Given("I visit the Cite page for {int}") do |int|
+  visit("/catalog/#{int}/citation")
+end
