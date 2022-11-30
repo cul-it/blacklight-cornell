@@ -89,6 +89,7 @@ module AdvancedHelper
     else
       query = params[:q_row][0]
     end
+    query = ActionView::Base.full_sanitizer.sanitize(query)
 #    params[:q_row][0].gsub!('\\\"','')
     row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\"" 
     row1 << " value="  
