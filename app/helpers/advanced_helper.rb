@@ -1,6 +1,6 @@
 # Helper methods for the advanced search form
 module AdvancedHelper
-  
+
   # Fill in default from existing search, if present
   # -- if you are using same search fields for basic
   # search and advanced, will even fill in properly if existing
@@ -47,7 +47,7 @@ module AdvancedHelper
       hash
     end
   end
-  
+
   def render_edited_advanced_search_new(params)
     if params[:boolean_row].nil?
       params[:boolean_row] = []
@@ -61,7 +61,7 @@ module AdvancedHelper
       params[:boolean_row] = [] #{"1"=>"AND"}
       params[:boolean_row] << "AND"
     end
-    
+
     if params[:q_row].nil?
       params[:q_row] = []
       params[:q_row][0] = ''
@@ -74,7 +74,7 @@ module AdvancedHelper
       params[:search_field_row] = []
       params[:search_field_row][0] = 'all_fields'
     end
-      
+
     subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author, etc."], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
@@ -91,10 +91,11 @@ module AdvancedHelper
     end
     # DISCOVERYACCESS-7882 - adv search html injection
     query = ActionView::Base.full_sanitizer.sanitize(query)
-#    params[:q_row][0].gsub!('\\\"','')
-    row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\"" 
-    row1 << " value="  
-    row1 << query #params[:q_row][0] 
+
+    #    params[:q_row][0].gsub!('\\\"','')
+    row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\""
+    row1 << " value="
+    row1 << query #params[:q_row][0]
     row1 << " /> "
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
     row1 << "<select class=\"form-control adv-search-control\" id=\"op_row\" name=\"op_row[]\">"
@@ -211,7 +212,7 @@ module AdvancedHelper
         next2rows << "<option value=\"" << key << "\">" << value << "</option>"
       end
     end
-    
+
     next2rows << "</select>"
     end
 
@@ -226,8 +227,8 @@ module AdvancedHelper
     word << row1 << next2rows << fparams
     return word.html_safe
   end
-  
-  
+
+
   def search_as_hidden_fields(options={})
     my_params = cornell_params_for_search({:omit_keys => [:page]}.merge(options))
 
@@ -273,7 +274,7 @@ module AdvancedHelper
     end
     name
   end
-  
-    
+
+
 
 end
