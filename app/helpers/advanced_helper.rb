@@ -126,6 +126,8 @@ module AdvancedHelper
         else
           params[:q_row][i] = params[:q_row][i]
         end
+        # DISCOVERYACCESS-7882 - adv search html injection
+        query = ActionView::Base.full_sanitizer.sanitize(params[:q_row][i])
 
          next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
          boolean_row_values.each do |key, value|
@@ -147,7 +149,7 @@ module AdvancedHelper
          next2rows << "</div>"
          next2rows << "<div class=\"form-group\">"
          next2rows << "<label for=\"q_row" << "#{i}\"" << " class=\"sr-only\">" << t('blacklight.search.form.q_row') << "</label>"
-         next2rows << "<input autocapitalize=\"off\" class=\"form-control adv-search-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\" value="  << params[:q_row][i] << " /> "
+         next2rows << "<input autocapitalize=\"off\" class=\"form-control adv-search-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\" value="  << query << " /> "
          next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t('blacklight.search.form.op_row') << "</label>"
          next2rows << "<select class=\"form-control adv-search-control\" id=\"op_row" << "#{i}" << "\" name=\"op_row[]\">"
          boolean_values.each do |key, value|
