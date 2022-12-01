@@ -13,3 +13,13 @@ Examples:
 | /edit?q_row[]=test%3E%3Cb%3Ethis-is-html%3C/b%3E | this-is-html |
 | /edit?q_row%5b%5d=test%3E%3Cb%3EINJECT-ME%3C/b%3E | INJECT-ME |
 | /edit?q_row%5b%5d=test%3E%3Cb%3EINJECT-ME%3C/b%3E&q_row%5b%5d=test%3E%3Cb%3EINJECT-ME%3C/b%3E&q_row%5b%5d=test%3E%3Cb%3EINJECT-ME%3C/b%3E | INJECT-ME |
+
+Scenario Outline: As a hacker, I can crash advanced search
+When I literally go to <hack>
+    And I should not see '<output>'
+    And I press 'advanced_search'
+    Then I should get results
+
+Examples:
+| hack | output |
+| /edit?q_row[]=curly&q_row[]=moe&q_row[]=larry | shep |
