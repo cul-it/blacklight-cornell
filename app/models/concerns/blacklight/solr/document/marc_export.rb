@@ -646,6 +646,18 @@ module Blacklight::Solr::Document::MarcExport
     record.find_all{|f| contributors.include?(f.tag) }.each do |field|
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
       if field["a"]
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "field: " + field.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
         contributor = clean_end_punctuation(field["a"])
         relators[contributor] = [] if relators[contributor].nil?
         field.find_all{|sf| sf.code == 'e' }.each do |sfe|
@@ -674,38 +686,82 @@ module Blacklight::Solr::Document::MarcExport
       primary_authors << field["a"] if field["a"]
     end
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
-      corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-                           (field['b'] ? ' ' + field['b'] : '')
+      field_a = native_language_text(record, field.tag, 'a')
+      field_a ||= field['a']
+      field_b = native_language_text(record, field.tag, 'b')
+      field_b ||= field['b']
+      corporate_authors << (field_a ? clean_end_punctuation(field_a) : '') +
+                            (field_b ? ' ' + field_b : '')
+      # corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+      #                        (field['b'] ? ' ' + field['b'] : '')
     end
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "corporate_authors: " + corporate_authors.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
     record.find_all{|f| f.tag === '110'}.each do |field|
-      primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-                           (field['b'] ? ' ' + field['b'] : '')
+      field_a = native_language_text(record, field.tag, 'a')
+      field_a ||= field['a']
+      field_b = native_language_text(record, field.tag, 'b')
+      field_b ||= field['b']
+      primary_corporate_authors << (field_a ? clean_end_punctuation(field_a) : '') +
+                           (field_b ? ' ' + field_b : '')
+      # primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+      #                      (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === '710'}.each do |field|
-      secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-                           (field['b'] ? ' ' + field['b'] : '')
+      field_a = native_language_text(record, field.tag, 'a')
+      field_a ||= field['a']
+      field_b = native_language_text(record, field.tag, 'b')
+      field_b ||= field['b']
+      secondary_corporate_authors << (field_a ? clean_end_punctuation(field_a) : '') +
+                           (field_b ? ' ' + field_b : '')
+      # secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+      #                      (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
-      meeting_authors << (field['a'] ? field['a'] : '') +
-                           (field['q'] ? ' ' + field['q'] : '')
+      field_a = native_language_text(record, field.tag, 'a')
+      field_a ||= field['a']
+      field_q = native_language_text(record, field.tag, 'q')
+      field_q ||= field['q']
+      meeting_authors << (field_a ? field_a : '') +
+                           (field_q ? ' ' + field_q : '')
+      # meeting_authors << (field['a'] ? field['a'] : '') +
+      #                      (field['q'] ? ' ' + field['q'] : '')
     end
     record.find_all{|f| f.tag === "700" }.each do |field|
       #if field["a"] && field['t'].blank?
       if field["a"] && field.indicator2 != '2'
         relators = []
-        relators << clean_end_punctuation(field["e"]) if field["e"]
-        relators << clean_end_punctuation(field["4"]) if field["4"]
+        field_a = native_language_text(field.tag, 'a')
+        field_e = native_language_text(field.tag, 'e')
+        field_4 = native_language_text(field.tag, '4')
+        if field_a.nil?
+          field_e = field["e"]
+          field_4 = field["4"]
+        end
+
+        relators << clean_end_punctuation(field_e) if field_e
+        relators << clean_end_punctuation(field["4"]) if field_4
         if relators.include?(translator_code)
-          translators << field["a"]
+          translators << field_a
         elsif relators.include?(editor_code)
-          editors << field["a"]
+          editors << field_a
         elsif relators.include?(compiler_code)
-          compilers << field["a"]
+          compilers << field_a
         else
           if setup_editors_flag(record)
-            editors << field["a"]
+            editors << field_a
           else
-            secondary_authors << field["a"]
+            secondary_authors << field_a
           end
         end
       end
@@ -778,11 +834,64 @@ module Blacklight::Solr::Document::MarcExport
   edited
   end
 
+  def alternate_script(record, tag = '245')
+    # translated tags refer to their 880 record
+    # 880 has same fields as the raw except the 6 subfield
+    # 880 6 subfield shows tag of referrer
+    # this returns the original or it's corresponding 880
+    # or nil if the tag doesn't exist
+    trans = nil
+    raw = record.find{ |f| f.tag === tag }
+    alternate = raw['6']
+    if alternate.present? && alternate.start_with?('880')
+      trans6 = alternate.gsub("880", tag)
+      alt = record.find_all { |f| f.tag === '880' }
+      alt.each do |a|
+        if a['6'].present? && a['6'].start_with?(trans6)
+          trans = a
+          break
+        end
+      end
+    end
+    trans ||= raw
+  end
+
+  def native_language_data(record, tag = '245', subfield = 'a')
+    # returns a MARC::DataField
+    datafield = nil
+    alt = record.find_all { |f| f.tag === '880' }
+    alt.each do |a|
+      if a['6'].present? && a['6'].start_with?(tag)
+        datafield = a.find{|s| s.code === subfield}
+        #******************
+        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+        jgr25_context = "#{__FILE__}:#{__LINE__}"
+        Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+        msg = [" #{__method__} ".center(60,'Z')]
+        msg << jgr25_context
+        msg << "datafield: " + datafield.inspect
+        msg << 'Z' * 60
+        msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+        Rails.logger.level = save_level
+        #binding.pry
+        #*******************
+        break
+      end
+    end
+    datafield
+  end
+
+  def native_language_text(record, tag = '245', subfield = 'a')
+    data = native_language_data(record, tag, subfield)
+    result = data.nil? ? nil : data.value
+  end
+
   def setup_title_info(record)
     text = ''
     title_info_field = record.find{|f| f.tag == '245'}
     if !title_info_field.nil?
-      a_title_info = title_info_field.find{|s| s.code == 'a'}
+      a_title_info = native_language_data(record, '245', 'a')
+      a_title_info ||= title_info_field.find{|s| s.code == 'a'}
       b_title_info = title_info_field.find{|s| s.code == 'b'}
       a_title_info = clean_end_punctuation(a_title_info.value.strip) unless a_title_info.nil? || a_title_info.value.nil?
       b_title_info = clean_end_punctuation(b_title_info.value.strip) unless b_title_info.nil? || b_title_info.value.nil?
@@ -795,6 +904,7 @@ module Blacklight::Solr::Document::MarcExport
 
     return nil if text.strip.blank?
     text.gsub!(' : ' ,': ')
+
     clean_end_punctuation(text.strip) + "."
   end
 
@@ -815,7 +925,8 @@ module Blacklight::Solr::Document::MarcExport
 
   def setup_series(record)
     field = record.find{|f| f.tag == '490'}
-    code = field.find{|s| s.code == 'a'} unless field.nil?
+    code = native_language_data(record, '490', 'a')
+    code ||= field.find{|s| s.code == 'a'} unless field.nil?
     data = code.value unless code.nil?
   end
 
@@ -832,7 +943,8 @@ module Blacklight::Solr::Document::MarcExport
 
   def setup_edition(record)
     field = record.find{|f| f.tag == '250'}
-    code = field.find{|s| s.code == 'a'} unless field.nil?
+    code = native_language_data(record, '250', 'a')
+    code ||= field.find{|s| s.code == 'a'} unless field.nil?
     data = code.value unless code.nil?
     if data.nil? or data == '1st ed.'
       return nil
