@@ -817,36 +817,6 @@ Rails.logger.level = save_level
     trans ||= raw
   end
 
-  def native_language_data(record, tag = '245', subfield = 'a')
-    # returns a MARC::DataField
-    datafield = nil
-    alt = record.find_all { |f| f.tag === '880' }
-    alt.each do |a|
-      if a['6'].present? && a['6'].start_with?(tag)
-        datafield = a.find{|s| s.code === subfield}
-        #******************
-        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-        jgr25_context = "#{__FILE__}:#{__LINE__}"
-        Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-        msg = [" #{__method__} ".center(60,'Z')]
-        msg << jgr25_context
-        msg << "datafield: " + datafield.inspect
-        msg << 'Z' * 60
-        msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-        Rails.logger.level = save_level
-        #binding.pry
-        #*******************
-        break
-      end
-    end
-    datafield
-  end
-
-  def native_language_text(record, tag = '245', subfield = 'a')
-    data = native_language_data(record, tag, subfield)
-    result = data.nil? ? nil : data.value
-  end
-
   def setup_title_info(record)
     text = ''
     title_info_field = record.find{|f| f.tag == '245'}
