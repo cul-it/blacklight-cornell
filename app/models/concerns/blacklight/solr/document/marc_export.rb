@@ -796,16 +796,21 @@ Rails.logger.level = save_level
     # 880 6 subfield shows tag of referrer
     # this returns the original or it's corresponding 880
     # or nil if the tag doesn't exist
+    # example:
+    # 250  ‡6 880-03 ‡a Di 1 ban.
+    # 880  ‡6 250-03/$1 ‡a 第1版.
     trans = nil
     raw = record.find{ |f| f.tag === tag }
-    alternate = raw['6']
-    if alternate.present? && alternate.start_with?('880')
-      trans6 = alternate.gsub("880", tag)
-      alt = record.find_all { |f| f.tag === '880' }
-      alt.each do |a|
-        if a['6'].present? && a['6'].start_with?(trans6)
-          trans = a
-          break
+    if raw.present? && raw['6'].present?
+      alternate = raw['6']
+      if alternate.present? && alternate.start_with?('880')
+        trans6 = alternate.gsub("880", tag)
+        alt = record.find_all { |f| f.tag === '880' }
+        alt.each do |a|
+          if a['6'].present? && a['6'].start_with?(trans6)
+            trans = a
+            break
+          end
         end
       end
     end
