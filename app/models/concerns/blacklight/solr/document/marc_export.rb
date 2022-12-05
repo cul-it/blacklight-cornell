@@ -686,82 +686,38 @@ Rails.logger.level = save_level
       primary_authors << field["a"] if field["a"]
     end
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
-      field_a = native_language_text(record, field.tag, 'a')
-      field_a ||= field['a']
-      field_b = native_language_text(record, field.tag, 'b')
-      field_b ||= field['b']
-      corporate_authors << (field_a ? clean_end_punctuation(field_a) : '') +
-                            (field_b ? ' ' + field_b : '')
-      # corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-      #                        (field['b'] ? ' ' + field['b'] : '')
+      corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+                           (field['b'] ? ' ' + field['b'] : '')
     end
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "corporate_authors: " + corporate_authors.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
     record.find_all{|f| f.tag === '110'}.each do |field|
-      field_a = native_language_text(record, field.tag, 'a')
-      field_a ||= field['a']
-      field_b = native_language_text(record, field.tag, 'b')
-      field_b ||= field['b']
-      primary_corporate_authors << (field_a ? clean_end_punctuation(field_a) : '') +
-                           (field_b ? ' ' + field_b : '')
-      # primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-      #                      (field['b'] ? ' ' + field['b'] : '')
+      primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+                           (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === '710'}.each do |field|
-      field_a = native_language_text(record, field.tag, 'a')
-      field_a ||= field['a']
-      field_b = native_language_text(record, field.tag, 'b')
-      field_b ||= field['b']
-      secondary_corporate_authors << (field_a ? clean_end_punctuation(field_a) : '') +
-                           (field_b ? ' ' + field_b : '')
-      # secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-      #                      (field['b'] ? ' ' + field['b'] : '')
+      secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
+                           (field['b'] ? ' ' + field['b'] : '')
     end
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
-      field_a = native_language_text(record, field.tag, 'a')
-      field_a ||= field['a']
-      field_q = native_language_text(record, field.tag, 'q')
-      field_q ||= field['q']
-      meeting_authors << (field_a ? field_a : '') +
-                           (field_q ? ' ' + field_q : '')
-      # meeting_authors << (field['a'] ? field['a'] : '') +
-      #                      (field['q'] ? ' ' + field['q'] : '')
+      meeting_authors << (field['a'] ? field['a'] : '') +
+                           (field['q'] ? ' ' + field['q'] : '')
     end
     record.find_all{|f| f.tag === "700" }.each do |field|
       #if field["a"] && field['t'].blank?
       if field["a"] && field.indicator2 != '2'
         relators = []
-        field_a = native_language_text(field.tag, 'a')
-        field_e = native_language_text(field.tag, 'e')
-        field_4 = native_language_text(field.tag, '4')
-        if field_a.nil?
-          field_e = field["e"]
-          field_4 = field["4"]
-        end
-
-        relators << clean_end_punctuation(field_e) if field_e
-        relators << clean_end_punctuation(field["4"]) if field_4
+        relators << clean_end_punctuation(field["e"]) if field["e"]
+        relators << clean_end_punctuation(field["4"]) if field["4"]
         if relators.include?(translator_code)
-          translators << field_a
+          translators << field["a"]
         elsif relators.include?(editor_code)
-          editors << field_a
+          editors << field["a"]
         elsif relators.include?(compiler_code)
-          compilers << field_a
+          compilers << field["a"]
         else
           if setup_editors_flag(record)
-            editors << field_a
+            editors << field["a"]
           else
-            secondary_authors << field_a
+            secondary_authors << field["a"]
           end
         end
       end
