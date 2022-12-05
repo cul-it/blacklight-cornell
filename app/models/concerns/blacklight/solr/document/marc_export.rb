@@ -819,9 +819,8 @@ Rails.logger.level = save_level
 
   def setup_title_info(record)
     text = ''
-    title_info_field = record.find{|f| f.tag == '245'}
+    title_info_field = alternate_script(record, '245')
     if !title_info_field.nil?
-      a_title_info = native_language_data(record, '245', 'a')
       a_title_info ||= title_info_field.find{|s| s.code == 'a'}
       b_title_info = title_info_field.find{|s| s.code == 'b'}
       a_title_info = clean_end_punctuation(a_title_info.value.strip) unless a_title_info.nil? || a_title_info.value.nil?
@@ -855,14 +854,14 @@ Rails.logger.level = save_level
   end
 
   def setup_series(record)
-    field = record.find{|f| f.tag == '490'}
+    field = alternate_script(record, '490')
     code = native_language_data(record, '490', 'a')
     code ||= field.find{|s| s.code == 'a'} unless field.nil?
     data = code.value unless code.nil?
   end
 
   def setup_doi(record)
-    field = record.find{|f| f.tag == '024'}
+    field = alternate_script(record, '024')
     code = field.find{|s| s.code == 'a'} unless field.nil?
     is_doi = field.find{|s| s.code == '2' and s.value == 'doi'} unless field.nil?
     data = if  !code.nil? and !is_doi.nil?
@@ -873,9 +872,8 @@ Rails.logger.level = save_level
   end
 
   def setup_edition(record)
-    field = record.find{|f| f.tag == '250'}
-    code = native_language_data(record, '250', 'a')
-    code ||= field.find{|s| s.code == 'a'} unless field.nil?
+    field = alternate_script(record, '250')
+    code = field.find{|s| s.code == 'a'} unless field.nil?
     data = code.value unless code.nil?
     if data.nil? or data == '1st ed.'
       return nil
@@ -887,18 +885,20 @@ Rails.logger.level = save_level
 
   def apa_get_author_list(record)
     author_list = []
-    authors_primary = record.find{|f| f.tag == '100'}
+    authors_primary = alternate_script(record, '100')
     author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
     author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
     authors_secondary = record.find_all{|f| ('700') === f.tag}
     if !authors_secondary.nil?
       authors_secondary.each do |l|
-        author_list.push(apa_clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+        asl = alternate_script(record, l.tag)
+        auth = asl.find{|s| s.code == 'a'}.value
+        author_list.push(apa_clean_end_punctuation(auth)) unless auth.nil?
       end
     end
     author_list.uniq!
     if author_list.blank?
-      authors_primary = record.find{|f| f.tag == '110'}
+      authors_primary = alternate_script(record, '110')
       author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
       author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
       author_list.uniq!
@@ -908,13 +908,15 @@ Rails.logger.level = save_level
 
   def get_author_list(record)
     author_list = []
-    authors_primary = record.find{|f| f.tag == '100'}
+    authors_primary = alternate_script(record, '100')
     author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
     author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
     authors_secondary = record.find_all{|f| ('700') === f.tag}
     if !authors_secondary.nil?
       authors_secondary.each do |l|
-        author_list.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+        asl = alternate_script(record, l.tag)
+        auth = asl.find{|s| s.code == 'a'}.value
+        author_list.push(clean_end_punctuation(auth)) unless auth.nil?
       end
     end
 
@@ -1029,7 +1031,7 @@ Rails.logger.level = save_level
     citeas = ''
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty = #{ty.inspect}")
     if (ty == 'manuscript')
-        field = record.find{|f| f.tag == '524'}
+        field = alternate_script(record, '524')
         citeas = field['a'] unless field.nil?
     end
   citeas.to_s
@@ -1047,7 +1049,7 @@ Rails.logger.level = save_level
 
   def setup_thesis_info(record)
     thesis = {type: "", inst: "", date: ""}
-    field = record.find{|f| f.tag == '502'}
+    field = alternate_script(record, '502')
     if field['a'].to_s.blank?
       thesis[:type]  = field['b'].to_s unless field.nil?
       thesis[:inst]  = field['c'].to_s unless field.nil?
