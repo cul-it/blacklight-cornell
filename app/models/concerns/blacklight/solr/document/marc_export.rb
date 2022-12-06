@@ -579,8 +579,10 @@ module Blacklight::Solr::Document::MarcExport
 
   def setup_pub_info_mla8(record)
     text = ''
+    # ***
     pub_info_field = record.find{|f| f.tag == '260'}
     if pub_info_field.nil?
+      # ***
       pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
     end
     if !pub_info_field.nil?
@@ -599,8 +601,10 @@ module Blacklight::Solr::Document::MarcExport
   end
   def setup_pub_info(record)
     text = ''
+    # ***
     pub_info_field = record.find{|f| f.tag == '260'}
     if pub_info_field.nil?
+      # ***
       pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
     end
     if !pub_info_field.nil?
@@ -620,8 +624,10 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def setup_pub_date(record)
+    # ***
     pub_date = record.find{|f| f.tag == '260'}
     if pub_date.nil?
+      # ***
       pub_date = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
     end
     if !pub_date.nil?
@@ -643,6 +649,7 @@ module Blacklight::Solr::Document::MarcExport
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     contributors = ["100","110","111","700","710","711" ]
     relators = {}
+    # ***
     record.find_all{|f| contributors.include?(f.tag) }.each do |field|
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
       if field["a"]
@@ -682,25 +689,31 @@ Rails.logger.level = save_level
     primary_authors = []; translators = []; editors = []; compilers = []
     corporate_authors = []; meeting_authors = []; secondary_authors = []
     primary_corporate_authors = []; secondary_corporate_authors = [];
+    # ***
     record.find_all{|f| f.tag === "100" }.each do |field|
       primary_authors << field["a"] if field["a"]
     end
+    # ***
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
       corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
                            (field['b'] ? ' ' + field['b'] : '')
     end
+    # ***
     record.find_all{|f| f.tag === '110'}.each do |field|
       primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
                            (field['b'] ? ' ' + field['b'] : '')
     end
+    # ***
     record.find_all{|f| f.tag === '710'}.each do |field|
       secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
                            (field['b'] ? ' ' + field['b'] : '')
     end
+    # ***
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
       meeting_authors << (field['a'] ? field['a'] : '') +
                            (field['q'] ? ' ' + field['q'] : '')
     end
+    # ***
     record.find_all{|f| f.tag === "700" }.each do |field|
       #if field["a"] && field['t'].blank?
       if field["a"] && field.indicator2 != '2'
@@ -779,6 +792,7 @@ Rails.logger.level = save_level
 
   # I hope this can guide the interpretation of 700 when no role is encoded.
   def setup_editors_flag(record)
+    # ***
     title_info_field = record.find{|f| f.tag == '245'}
     edited = false
     if title_info_field
@@ -928,9 +942,11 @@ Rails.logger.level = save_level
   def old_get_all_authors(record)
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
     primary_authors = []; translators = []; editors = []; compilers = []
+    # ***
     record.find_all{|f| f.tag === "100" }.each do |field|
       primary_authors << field["a"] if field["a"]
     end
+    # ***
     record.find_all{|f| f.tag === "700" }.each do |field|
       if field["a"]
         relators = []
@@ -991,12 +1007,14 @@ Rails.logger.level = save_level
     medium = ""
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
     if ['motion_picture','song','video'].include?(ty)
+      # ***
       field = record.find{|f| f.tag == '347'}
       code = field.find{|s| s.code == 'b'} unless field.nil?
       data = code.value unless code.nil?
       medium = data.nil? ?  "" : data
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       if medium.blank?
+        # ***
         field = record.find{|f| f.tag == '300'}
         if !field.nil?
 	          medium =  case
