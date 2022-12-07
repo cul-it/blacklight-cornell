@@ -272,6 +272,7 @@ Feature: Book Bags for logged in users
 		And I press 'search'
 		Then I should get results
         Then I select the first 3 catalog results
+        And I clear transactions
         And I sleep 5 seconds
         Then navigation should show 3 items in the BookBag
         And navigation should not show '%'
