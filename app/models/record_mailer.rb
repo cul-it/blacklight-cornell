@@ -72,9 +72,14 @@ class RecordMailer < ActionMailer::Base
       address: ENV["SMTP_ADDRESS"]
     }
 
+    # mail(:to => to, :subject => subject,
+    #   delivery_method_options: delivery_options)
     mail(:to => to, :subject => subject,
-      delivery_method_options: delivery_options)
-  end
+      user_name: ENV["SMTP_USERNAME"],
+      password: ENV["SMTP_PASSWORD"],
+      address: ENV["SMTP_ADDRESS"]
+    )
+    end
 
   protected
 
