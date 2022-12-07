@@ -71,15 +71,21 @@ class RecordMailer < ActionMailer::Base
       password: ENV["SMTP_PASSWORD"],
       address: ENV["SMTP_ADDRESS"]
     }
-
-    # mail(:to => to, :subject => subject,
-    #   delivery_method_options: delivery_options)
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "delivery_options: " + delivery_options.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
     mail(:to => to, :subject => subject,
-      user_name: ENV["SMTP_USERNAME"],
-      password: ENV["SMTP_PASSWORD"],
-      address: ENV["SMTP_ADDRESS"]
-    )
-    end
+      delivery_method_options: delivery_options)
+  end
 
   protected
 
