@@ -652,26 +652,27 @@ module Blacklight::Solr::Document::MarcExport
     # ***
     record.find_all{|f| contributors.include?(f.tag) }.each do |field|
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
-      if field["a"]
+      as_field = alternate_script(record, field.tag)
+      if as_field["a"]
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 jgr25_context = "#{__FILE__}:#{__LINE__}"
 Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
 msg = [" #{__method__} ".center(60,'Z')]
 msg << jgr25_context
-msg << "field: " + field.inspect
+msg << "as_field: " + as_field.inspect
 msg << 'Z' * 60
 msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 #binding.pry
 #*******************
-        contributor = clean_end_punctuation(field["a"])
+        contributor = clean_end_punctuation(as_field["a"])
         relators[contributor] = [] if relators[contributor].nil?
-        field.find_all{|sf| sf.code == 'e' }.each do |sfe|
+        as_field.find_all{|sf| sf.code == 'e' }.each do |sfe|
           code = code_for_relation(clean_end_punctuation(sfe.value))  if sfe
           relators[contributor] << code if code
         end
-        field.find_all{|sf| sf.code == '4' }.each do |sf4|
+        as_field.find_all{|sf| sf.code == '4' }.each do |sf4|
           relators[contributor] << clean_end_punctuation(sf4.value) if sf4
         end
       end
@@ -691,17 +692,20 @@ Rails.logger.level = save_level
     primary_corporate_authors = []; secondary_corporate_authors = [];
     # ***
     record.find_all{|f| f.tag === "100" }.each do |field|
-      primary_authors << field["a"] if field["a"]
+      as_field = alternate_script(record, field.tag)
+      primary_authors << as_field["a"] if as_field["a"]
     end
     # ***
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
-      corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-                           (field['b'] ? ' ' + field['b'] : '')
+      as_field = alternate_script(record, field.tag)
+      corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
+                           (as_field['b'] ? ' ' + as_field['b'] : '')
     end
     # ***
     record.find_all{|f| f.tag === '110'}.each do |field|
-      primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-                           (field['b'] ? ' ' + field['b'] : '')
+      as_field = alternate_script(record, field.tag)
+      primary_corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
+                           (as_field['b'] ? ' ' + as_field['b'] : '')
     end
     # ***
     record.find_all{|f| f.tag === '710'}.each do |field|
@@ -710,27 +714,29 @@ Rails.logger.level = save_level
     end
     # ***
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
-      meeting_authors << (field['a'] ? field['a'] : '') +
-                           (field['q'] ? ' ' + field['q'] : '')
+      as_field = alternate_script(record, field.tag)
+      meeting_authors << (as_field['a'] ? as_field['a'] : '') +
+                           (as_field['q'] ? ' ' + as_field['q'] : '')
     end
     # ***
     record.find_all{|f| f.tag === "700" }.each do |field|
+      as_field = alternate_script(record, field.tag)
       #if field["a"] && field['t'].blank?
-      if field["a"] && field.indicator2 != '2'
+      if as_field["a"] && as_field.indicator2 != '2'
         relators = []
-        relators << clean_end_punctuation(field["e"]) if field["e"]
-        relators << clean_end_punctuation(field["4"]) if field["4"]
+        relators << clean_end_punctuation(as_field["e"]) if as_field["e"]
+        relators << clean_end_punctuation(as_field["4"]) if as_field["4"]
         if relators.include?(translator_code)
-          translators << field["a"]
+          translators << as_field["a"]
         elsif relators.include?(editor_code)
-          editors << field["a"]
+          editors << as_field["a"]
         elsif relators.include?(compiler_code)
-          compilers << field["a"]
+          compilers << as_field["a"]
         else
           if setup_editors_flag(record)
-            editors << field["a"]
+            editors << as_field["a"]
           else
-            secondary_authors << field["a"]
+            secondary_authors << as_field["a"]
           end
         end
       end
@@ -944,22 +950,24 @@ Rails.logger.level = save_level
     primary_authors = []; translators = []; editors = []; compilers = []
     # ***
     record.find_all{|f| f.tag === "100" }.each do |field|
-      primary_authors << field["a"] if field["a"]
+      as_field = alternate_script(record, field.tag)
+      primary_authors << as_field["a"] if as_field["a"]
     end
     # ***
     record.find_all{|f| f.tag === "700" }.each do |field|
-      if field["a"]
+      as_field = alternate_script(record, field.tag)
+      if as_field["a"]
         relators = []
-        relators << clean_end_punctuation(field["e"]) if field["e"]
-        relators << clean_end_punctuation(field["4"]) if field["4"]
+        relators << clean_end_punctuation(as_field["e"]) if as_field["e"]
+        relators << clean_end_punctuation(as_field["4"]) if as_field["4"]
         if relators.include?(translator_code)
-          translators << field["a"]
+          translators << as_field["a"]
         elsif relators.include?(editor_code)
-          editors << field["a"]
+          editors << as_field["a"]
         elsif relators.include?(compiler_code)
-          compilers << field["a"]
+          compilers << as_field["a"]
         else
-          primary_authors << field["a"]
+          primary_authors << as_field["a"]
         end
       end
     end
