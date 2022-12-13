@@ -580,7 +580,7 @@ module Blacklight::Solr::Document::MarcExport
   def setup_pub_info_mla8(record)
     text = ''
     # ***
-    pub_info_field = record.find{|f| f.tag == '260'}
+    pub_info_field = alternate_script(record, '260')
     if pub_info_field.nil?
       # ***
       pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
@@ -602,7 +602,7 @@ module Blacklight::Solr::Document::MarcExport
   def setup_pub_info(record)
     text = ''
     # ***
-    pub_info_field = record.find{|f| f.tag == '260'}
+    pub_info_field = alternate_script(record, '260')
     if pub_info_field.nil?
       # ***
       pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
@@ -625,7 +625,7 @@ module Blacklight::Solr::Document::MarcExport
 
   def setup_pub_date(record)
     # ***
-    pub_date = record.find{|f| f.tag == '260'}
+    pub_date = alternate_script(record, '260')
     if pub_date.nil?
       # ***
       pub_date = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
@@ -793,7 +793,7 @@ Rails.logger.level = save_level
   # I hope this can guide the interpretation of 700 when no role is encoded.
   def setup_editors_flag(record)
     # ***
-    title_info_field = record.find{|f| f.tag == '245'}
+    title_info_field = alternate_script(record, '245')
     edited = false
     if title_info_field
       c_title_info = title_info_field.find{|s| s.code == 'c'}
@@ -1008,14 +1008,14 @@ Rails.logger.level = save_level
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
     if ['motion_picture','song','video'].include?(ty)
       # ***
-      field = record.find{|f| f.tag == '347'}
+      field = alternate_script(record, '347')
       code = field.find{|s| s.code == 'b'} unless field.nil?
       data = code.value unless code.nil?
       medium = data.nil? ?  "" : data
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       if medium.blank?
         # ***
-        field = record.find{|f| f.tag == '300'}
+        field = alternate_script(record, '300')
         if !field.nil?
 	          medium =  case
                         when  field['a'].present? && field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
