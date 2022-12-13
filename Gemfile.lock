@@ -1,12 +1,11 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 0ca5159b4fda91a0cd93b9fd806928c96422adc8
+  revision: c58539073902014af213085ad865378fd65a420b
   branch: dev
   specs:
-    blacklight_cornell_requests (4.2.7)
+    blacklight_cornell_requests (4.3)
       activerecord-oracle_enhanced-adapter
       blacklight
-      borrow_direct
       cul-folio-edge (~> 2.0)
       dotenv
       dotenv-deployment
@@ -49,10 +48,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: a8750fe5b0ffee728cac342b311b05d6acf92e64
-  branch: DISCOVERYACCESS-7627
+  revision: 30bedf611ababcfe6c50ec2f9a5857c9ff132135
+  branch: master
   specs:
-    my_account (2.1.6)
+    my_account (2.2.0)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge (>= 1.2.1)
@@ -304,6 +303,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
+    date (3.3.1)
     deprecation (1.1.0)
       activesupport
     devise (4.8.1)
@@ -315,7 +315,6 @@ GEM
     devise-guests (0.8.1)
       devise
     diff-lcs (1.5.0)
-    digest (3.1.0)
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -403,7 +402,7 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    haml (6.0.10)
+    haml (6.1.1)
       temple (>= 0.8.2)
       thor
       tilt
@@ -471,8 +470,11 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
-    mail (2.7.1)
+    mail (2.8.0)
       mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
     marc (1.2.0)
       rexml
       scrub_rb (>= 1.0.1, < 2)
@@ -502,17 +504,20 @@ GEM
     nenv (0.3.0)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
+    net-imap (0.3.2)
+      date
+      net-protocol
     net-ldap (0.17.1)
-    net-protocol (0.1.3)
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.1)
       timeout
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
     net-sftp (4.0.0)
       net-ssh (>= 5.0.0, < 8.0.0)
-    net-smtp (0.3.1)
-      digest
+    net-smtp (0.3.3)
       net-protocol
-      timeout
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.5.8)
@@ -725,7 +730,7 @@ GEM
       plist (>= 3.0.1)
     thor (1.2.1)
     tilt (2.0.11)
-    timeout (0.3.0)
+    timeout (0.3.1)
     timers (4.3.4)
     traject (3.7.0)
       concurrent-ruby (>= 0.8.0)
