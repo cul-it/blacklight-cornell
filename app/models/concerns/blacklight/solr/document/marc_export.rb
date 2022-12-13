@@ -810,7 +810,7 @@ Rails.logger.level = save_level
   edited
   end
 
-  def alternate_script(record, tag = '245')
+  def alternate_script(record, tag = '245', indicator2 = nil)
     # translated tags refer to their 880 record
     # 880 has same fields as the raw except the 6 subfield
     # 880 6 subfield shows tag of referrer
@@ -820,7 +820,11 @@ Rails.logger.level = save_level
     # 250  ‡6 880-03 ‡a Di 1 ban.
     # 880  ‡6 250-03/$1 ‡a 第1版.
     trans = nil
-    raw = record.find{ |f| f.tag === tag }
+    if indicator2.nil?
+      raw = record.find{ |f| f.tag === tag }
+    else
+      raw = record.find{ |f| f.tag === tag && f.indicator2 == indicator2 }
+    end
     if raw.present? && raw['6'].present?
       alternate = raw['6']
       if alternate.present? && alternate.start_with?('880')
