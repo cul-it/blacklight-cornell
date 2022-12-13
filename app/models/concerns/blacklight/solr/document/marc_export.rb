@@ -875,7 +875,6 @@ Rails.logger.level = save_level
 
   def setup_series(record)
     field = alternate_script(record, '490')
-    code = native_language_data(record, '490', 'a')
     code ||= field.find{|s| s.code == 'a'} unless field.nil?
     data = code.value unless code.nil?
   end
