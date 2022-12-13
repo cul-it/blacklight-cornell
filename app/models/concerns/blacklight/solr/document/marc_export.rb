@@ -583,7 +583,7 @@ module Blacklight::Solr::Document::MarcExport
     pub_info_field = alternate_script(record, '260')
     if pub_info_field.nil?
       # ***
-      pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
+      pub_info_field = alternate_script(record, '264', '1')
     end
     if !pub_info_field.nil?
       b_pub_info = pub_info_field.find{|s| s.code == 'b'}
@@ -605,7 +605,7 @@ module Blacklight::Solr::Document::MarcExport
     pub_info_field = alternate_script(record, '260')
     if pub_info_field.nil?
       # ***
-      pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
+      pub_info_field = alternate_script(record, '264', '1')
     end
     if !pub_info_field.nil?
       a_pub_info = pub_info_field.find{|s| s.code == 'a'}
@@ -628,7 +628,7 @@ module Blacklight::Solr::Document::MarcExport
     pub_date = alternate_script(record, '260')
     if pub_date.nil?
       # ***
-      pub_date = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
+      pub_date = alternate_script(record, '264', '1')
     end
     if !pub_date.nil?
       if pub_date.find{|s| s.code == 'c'}
