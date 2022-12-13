@@ -245,18 +245,20 @@ Feature: Select and export items from the result set
 @DISCOVERYACCESS-1670
 @DISCOVERYACCESS-1777
 @select_and_email
+@DISCOVERYACCESS-7882-b
 @javascript
 @popup
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
+    Given PENDING
     Given I request the item view for 7981095
     And I text the first available item
     And I sleep 15 seconds
     And I fill in "to" with "6072213597"
     And I select 'Verizon' from the 'carrier' drop-down
     And I press "Send"
-    And I sleep 12 seconds
+    # And I sleep 12 seconds
     #Then "6072213597@vtext.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
     #Then I should see "Shelter medicine for veterinarian..." in the email body
     #Then I should see "Veterinary Library Core Resource (5 hour loan)" in the email body
-    And I sleep 8 seconds
+    # And I sleep 8 seconds
 
