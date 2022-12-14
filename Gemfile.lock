@@ -466,7 +466,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    loofah (2.3.1)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
@@ -848,7 +848,7 @@ DEPENDENCIES
   kaminari (>= 0.15)
   libnotify
   libv8-node
-  loofah (= 2.3.1)
+  loofah (= 2.19.1)
   marc
   meta_request
   mini_racer (= 0.6.2)
