@@ -856,7 +856,6 @@ DEPENDENCIES
   marc
   meta_request
   mini_racer (= 0.6.2)
-  minitest (~> 5.16)
   mollom
   my_account!
   mysql2 (= 0.5.3)
@@ -881,8 +880,6 @@ DEPENDENCIES
   pry-byebug
   psych (~> 4.0)
   rails (~> 6.1)
-  rails-html-sanitizer (~> 1.4)
-  rake (~> 13.0)
   rb-inotify
   rb-readline (~> 0.5.x)
   redis-session-store
@@ -913,7 +910,6 @@ DEPENDENCIES
   webrat
   xmlrpc
   yaml_db
-  zeitwerk (~> 2.6)
 
 RUBY VERSION
    ruby 3.1.2p20
