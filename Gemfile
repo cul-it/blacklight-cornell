@@ -3,7 +3,7 @@ ruby "3.1.2"
 #another try
 gem 'rails', '~> 6.1'
 gem "dotenv-rails"
-# gem 'appsignal', '3.1.4' #, '2.11.10'
+gem 'appsignal', '~> 3.2.2' #, '2.11.10'
 gem "sprockets"#, '~> 3.7.2'
 gem "actionview"#, ">= 5.2.7.1"
 gem "byebug"
