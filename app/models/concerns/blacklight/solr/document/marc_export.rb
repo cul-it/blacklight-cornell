@@ -654,18 +654,6 @@ module Blacklight::Solr::Document::MarcExport
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
       as_field = alternate_script(record, field.tag)
       if as_field["a"]
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "as_field: " + as_field.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
         contributor = clean_end_punctuation(as_field["a"])
         relators[contributor] = [] if relators[contributor].nil?
         as_field.find_all{|sf| sf.code == 'e' }.each do |sfe|
