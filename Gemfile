@@ -3,7 +3,7 @@ ruby "3.1.2"
 #another try
 gem 'rails', '~> 6.1'
 gem "dotenv-rails"
-gem 'appsignal'#, '2.11.10'
+gem 'appsignal', '~> 3.2.2' #, '2.11.10'
 gem "sprockets"#, '~> 3.7.2'
 gem "actionview"#, ">= 5.2.7.1"
 gem "byebug"
@@ -147,5 +147,4 @@ gem 'google-analytics-rails', '1.1.1'
 gem 'ebsco-eds'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.19.1'
-
-
+gem 'psych', '~> 4.0'

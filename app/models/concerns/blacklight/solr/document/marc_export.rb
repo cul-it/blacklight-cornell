@@ -579,9 +579,11 @@ module Blacklight::Solr::Document::MarcExport
 
   def setup_pub_info_mla8(record)
     text = ''
-    pub_info_field = record.find{|f| f.tag == '260'}
+    # ***
+    pub_info_field = alternate_script(record, '260')
     if pub_info_field.nil?
-      pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
+      # ***
+      pub_info_field = alternate_script(record, '264', '1')
     end
     if !pub_info_field.nil?
       b_pub_info = pub_info_field.find{|s| s.code == 'b'}
@@ -599,9 +601,11 @@ module Blacklight::Solr::Document::MarcExport
   end
   def setup_pub_info(record)
     text = ''
-    pub_info_field = record.find{|f| f.tag == '260'}
+    # ***
+    pub_info_field = alternate_script(record, '260')
     if pub_info_field.nil?
-      pub_info_field = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
+      # ***
+      pub_info_field = alternate_script(record, '264', '1')
     end
     if !pub_info_field.nil?
       a_pub_info = pub_info_field.find{|s| s.code == 'a'}
@@ -620,9 +624,11 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def setup_pub_date(record)
-    pub_date = record.find{|f| f.tag == '260'}
+    # ***
+    pub_date = alternate_script(record, '260')
     if pub_date.nil?
-      pub_date = record.find{|f| f.tag == '264' && f.indicator2 == '1'}
+      # ***
+      pub_date = alternate_script(record, '264', '1')
     end
     if !pub_date.nil?
       if pub_date.find{|s| s.code == 'c'}
@@ -643,16 +649,30 @@ module Blacklight::Solr::Document::MarcExport
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     contributors = ["100","110","111","700","710","711" ]
     relators = {}
+    # ***
     record.find_all{|f| contributors.include?(f.tag) }.each do |field|
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
-      if field["a"]
-        contributor = clean_end_punctuation(field["a"])
+      as_field = alternate_script(record, field.tag)
+      if as_field["a"]
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "as_field: " + as_field.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
+        contributor = clean_end_punctuation(as_field["a"])
         relators[contributor] = [] if relators[contributor].nil?
-        field.find_all{|sf| sf.code == 'e' }.each do |sfe|
+        as_field.find_all{|sf| sf.code == 'e' }.each do |sfe|
           code = code_for_relation(clean_end_punctuation(sfe.value))  if sfe
           relators[contributor] << code if code
         end
-        field.find_all{|sf| sf.code == '4' }.each do |sf4|
+        as_field.find_all{|sf| sf.code == '4' }.each do |sf4|
           relators[contributor] << clean_end_punctuation(sf4.value) if sf4
         end
       end
@@ -670,42 +690,53 @@ module Blacklight::Solr::Document::MarcExport
     primary_authors = []; translators = []; editors = []; compilers = []
     corporate_authors = []; meeting_authors = []; secondary_authors = []
     primary_corporate_authors = []; secondary_corporate_authors = [];
+    # ***
     record.find_all{|f| f.tag === "100" }.each do |field|
-      primary_authors << field["a"] if field["a"]
+      as_field = alternate_script(record, field.tag)
+      primary_authors << as_field["a"] if as_field["a"]
     end
+    # ***
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
-      corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-                           (field['b'] ? ' ' + field['b'] : '')
+      as_field = alternate_script(record, field.tag)
+      corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
+                           (as_field['b'] ? ' ' + as_field['b'] : '')
     end
+    # ***
     record.find_all{|f| f.tag === '110'}.each do |field|
-      primary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-                           (field['b'] ? ' ' + field['b'] : '')
+      as_field = alternate_script(record, field.tag)
+      primary_corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
+                           (as_field['b'] ? ' ' + as_field['b'] : '')
     end
+    # ***
     record.find_all{|f| f.tag === '710'}.each do |field|
       secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
                            (field['b'] ? ' ' + field['b'] : '')
     end
+    # ***
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
-      meeting_authors << (field['a'] ? field['a'] : '') +
-                           (field['q'] ? ' ' + field['q'] : '')
+      as_field = alternate_script(record, field.tag)
+      meeting_authors << (as_field['a'] ? as_field['a'] : '') +
+                           (as_field['q'] ? ' ' + as_field['q'] : '')
     end
+    # ***
     record.find_all{|f| f.tag === "700" }.each do |field|
+      as_field = alternate_script(record, field.tag)
       #if field["a"] && field['t'].blank?
-      if field["a"] && field.indicator2 != '2'
+      if as_field["a"] && as_field.indicator2 != '2'
         relators = []
-        relators << clean_end_punctuation(field["e"]) if field["e"]
-        relators << clean_end_punctuation(field["4"]) if field["4"]
+        relators << clean_end_punctuation(as_field["e"]) if as_field["e"]
+        relators << clean_end_punctuation(as_field["4"]) if as_field["4"]
         if relators.include?(translator_code)
-          translators << field["a"]
+          translators << as_field["a"]
         elsif relators.include?(editor_code)
-          editors << field["a"]
+          editors << as_field["a"]
         elsif relators.include?(compiler_code)
-          compilers << field["a"]
+          compilers << as_field["a"]
         else
           if setup_editors_flag(record)
-            editors << field["a"]
+            editors << as_field["a"]
           else
-            secondary_authors << field["a"]
+            secondary_authors << as_field["a"]
           end
         end
       end
@@ -767,7 +798,8 @@ module Blacklight::Solr::Document::MarcExport
 
   # I hope this can guide the interpretation of 700 when no role is encoded.
   def setup_editors_flag(record)
-    title_info_field = record.find{|f| f.tag == '245'}
+    # ***
+    title_info_field = alternate_script(record, '245')
     edited = false
     if title_info_field
       c_title_info = title_info_field.find{|s| s.code == 'c'}
@@ -778,11 +810,42 @@ module Blacklight::Solr::Document::MarcExport
   edited
   end
 
+  def alternate_script(record, tag = '245', indicator2 = nil)
+    # translated tags refer to their 880 record
+    # 880 has same fields as the raw except the 6 subfield
+    # 880 6 subfield shows tag of referrer
+    # this returns the original or it's corresponding 880
+    # or nil if the tag doesn't exist
+    # example:
+    # 250  ‡6 880-03 ‡a Di 1 ban.
+    # 880  ‡6 250-03/$1 ‡a 第1版.
+    trans = nil
+    if indicator2.nil?
+      raw = record.find{ |f| f.tag === tag }
+    else
+      raw = record.find{ |f| f.tag === tag && f.indicator2 == indicator2 }
+    end
+    if raw.present? && raw['6'].present?
+      alternate = raw['6']
+      if alternate.present? && alternate.start_with?('880')
+        trans6 = alternate.gsub("880", tag)
+        alt = record.find_all { |f| f.tag === '880' }
+        alt.each do |a|
+          if a['6'].present? && a['6'].start_with?(trans6)
+            trans = a
+            break
+          end
+        end
+      end
+    end
+    trans ||= raw
+  end
+
   def setup_title_info(record)
     text = ''
-    title_info_field = record.find{|f| f.tag == '245'}
+    title_info_field = alternate_script(record, '245')
     if !title_info_field.nil?
-      a_title_info = title_info_field.find{|s| s.code == 'a'}
+      a_title_info ||= title_info_field.find{|s| s.code == 'a'}
       b_title_info = title_info_field.find{|s| s.code == 'b'}
       a_title_info = clean_end_punctuation(a_title_info.value.strip) unless a_title_info.nil? || a_title_info.value.nil?
       b_title_info = clean_end_punctuation(b_title_info.value.strip) unless b_title_info.nil? || b_title_info.value.nil?
@@ -795,6 +858,7 @@ module Blacklight::Solr::Document::MarcExport
 
     return nil if text.strip.blank?
     text.gsub!(' : ' ,': ')
+
     clean_end_punctuation(text.strip) + "."
   end
 
@@ -814,13 +878,13 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def setup_series(record)
-    field = record.find{|f| f.tag == '490'}
-    code = field.find{|s| s.code == 'a'} unless field.nil?
+    field = alternate_script(record, '490')
+    code ||= field.find{|s| s.code == 'a'} unless field.nil?
     data = code.value unless code.nil?
   end
 
   def setup_doi(record)
-    field = record.find{|f| f.tag == '024'}
+    field = alternate_script(record, '024')
     code = field.find{|s| s.code == 'a'} unless field.nil?
     is_doi = field.find{|s| s.code == '2' and s.value == 'doi'} unless field.nil?
     data = if  !code.nil? and !is_doi.nil?
@@ -831,7 +895,7 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def setup_edition(record)
-    field = record.find{|f| f.tag == '250'}
+    field = alternate_script(record, '250')
     code = field.find{|s| s.code == 'a'} unless field.nil?
     data = code.value unless code.nil?
     if data.nil? or data == '1st ed.'
@@ -844,18 +908,20 @@ module Blacklight::Solr::Document::MarcExport
 
   def apa_get_author_list(record)
     author_list = []
-    authors_primary = record.find{|f| f.tag == '100'}
+    authors_primary = alternate_script(record, '100')
     author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
     author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
     authors_secondary = record.find_all{|f| ('700') === f.tag}
     if !authors_secondary.nil?
       authors_secondary.each do |l|
-        author_list.push(apa_clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+        asl = alternate_script(record, l.tag)
+        auth = asl.find{|s| s.code == 'a'}.value
+        author_list.push(apa_clean_end_punctuation(auth)) unless auth.nil?
       end
     end
     author_list.uniq!
     if author_list.blank?
-      authors_primary = record.find{|f| f.tag == '110'}
+      authors_primary = alternate_script(record, '110')
       author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
       author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
       author_list.uniq!
@@ -865,13 +931,15 @@ module Blacklight::Solr::Document::MarcExport
 
   def get_author_list(record)
     author_list = []
-    authors_primary = record.find{|f| f.tag == '100'}
+    authors_primary = alternate_script(record, '100')
     author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
     author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
     authors_secondary = record.find_all{|f| ('700') === f.tag}
     if !authors_secondary.nil?
       authors_secondary.each do |l|
-        author_list.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
+        asl = alternate_script(record, l.tag)
+        auth = asl.find{|s| s.code == 'a'}.value
+        author_list.push(clean_end_punctuation(auth)) unless auth.nil?
       end
     end
 
@@ -883,22 +951,26 @@ module Blacklight::Solr::Document::MarcExport
   def old_get_all_authors(record)
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
     primary_authors = []; translators = []; editors = []; compilers = []
+    # ***
     record.find_all{|f| f.tag === "100" }.each do |field|
-      primary_authors << field["a"] if field["a"]
+      as_field = alternate_script(record, field.tag)
+      primary_authors << as_field["a"] if as_field["a"]
     end
+    # ***
     record.find_all{|f| f.tag === "700" }.each do |field|
-      if field["a"]
+      as_field = alternate_script(record, field.tag)
+      if as_field["a"]
         relators = []
-        relators << clean_end_punctuation(field["e"]) if field["e"]
-        relators << clean_end_punctuation(field["4"]) if field["4"]
+        relators << clean_end_punctuation(as_field["e"]) if as_field["e"]
+        relators << clean_end_punctuation(as_field["4"]) if as_field["4"]
         if relators.include?(translator_code)
-          translators << field["a"]
+          translators << as_field["a"]
         elsif relators.include?(editor_code)
-          editors << field["a"]
+          editors << as_field["a"]
         elsif relators.include?(compiler_code)
-          compilers << field["a"]
+          compilers << as_field["a"]
         else
-          primary_authors << field["a"]
+          primary_authors << as_field["a"]
         end
       end
     end
@@ -946,13 +1018,15 @@ module Blacklight::Solr::Document::MarcExport
     medium = ""
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
     if ['motion_picture','song','video'].include?(ty)
-      field = record.find{|f| f.tag == '347'}
+      # ***
+      field = alternate_script(record, '347')
       code = field.find{|s| s.code == 'b'} unless field.nil?
       data = code.value unless code.nil?
       medium = data.nil? ?  "" : data
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       if medium.blank?
-        field = record.find{|f| f.tag == '300'}
+        # ***
+        field = alternate_script(record, '300')
         if !field.nil?
 	          medium =  case
                         when  field['a'].present? && field['a'].include?('sound disc') && (field['b']) && field['b'].include?('digital')
@@ -986,7 +1060,7 @@ module Blacklight::Solr::Document::MarcExport
     citeas = ''
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty = #{ty.inspect}")
     if (ty == 'manuscript')
-        field = record.find{|f| f.tag == '524'}
+        field = alternate_script(record, '524')
         citeas = field['a'] unless field.nil?
     end
   citeas.to_s
@@ -1004,7 +1078,7 @@ module Blacklight::Solr::Document::MarcExport
 
   def setup_thesis_info(record)
     thesis = {type: "", inst: "", date: ""}
-    field = record.find{|f| f.tag == '502'}
+    field = alternate_script(record, '502')
     if field['a'].to_s.blank?
       thesis[:type]  = field['b'].to_s unless field.nil?
       thesis[:inst]  = field['c'].to_s unless field.nil?

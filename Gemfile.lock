@@ -153,7 +153,7 @@ GEM
     akami (1.3.1)
       gyoku (>= 0.4.0)
       nokogiri
-    appsignal (3.1.4)
+    appsignal (3.2.2)
       rack
     autoprefixer-rails (10.4.7.0)
       execjs (~> 2)
@@ -582,6 +582,8 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
+    psych (4.0.6)
+      stringio
     public_suffix (4.0.7)
     raabro (1.4.0)
     racc (1.6.1)
@@ -610,8 +612,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.3)
-      loofah (~> 2.3)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     railties (6.1.7)
       actionpack (= 6.1.7)
       activesupport (= 6.1.7)
@@ -723,6 +725,7 @@ GEM
     sshkit (1.21.3)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stringio (3.0.4)
     summon (2.0.5)
       json
     temple (0.9.1)
@@ -793,6 +796,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-22
   x86_64-darwin-21
   x86_64-linux
 
@@ -800,7 +804,7 @@ DEPENDENCIES
   actionview
   activerecord-session_store (>= 2.0.0)
   addressable (>= 2.8.0)
-  appsignal
+  appsignal (~> 3.2.2)
   awesome_print
   bento_search (~> 2.0.0.rc1)
   blacklight (= 7.29.0)
@@ -874,6 +878,7 @@ DEPENDENCIES
   protected_attributes_continued
   pry
   pry-byebug
+  psych (~> 4.0)
   rails (~> 6.1)
   rb-inotify
   rb-readline (~> 0.5.x)
