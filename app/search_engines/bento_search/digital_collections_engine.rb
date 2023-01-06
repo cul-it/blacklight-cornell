@@ -33,13 +33,28 @@ class BentoSearch::DigitalCollectionsEngine
     portal_response = JSON.load(URI.open(url.to_s))
 
     Rails.logger.debug "mjc12test: #{portal_response}"
-    if portal_response.nil? || portal_response['response'].nil? || portal_response['response']['docs'].nil?
+    if portal_response.nil? || portal_response['data'].nil?
       results = []
     else
-      results = portal_response['response']['docs']
+      results = portal_response['data']
     end
 
-    results.each do |i|
+    results.each do |item|
+      i = item['attributes']
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "i.keys: " + i.keys.inspect
+msg << "i: " + i.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+# binding.pry
+#*******************
+
       item = BentoSearch::ResultItem.new
       item.title = i['title_tesim'][0].to_s
       [i['creator_facet_tesim']].each do |a|
@@ -63,6 +78,20 @@ class BentoSearch::DigitalCollectionsEngine
       else
       item.link = "http://digital.library.cornell.edu/catalog/#{i['id']}"
     end
+
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "i: " + i.inspect
+msg << "item: " + item.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
       bento_results << item
     end
 
