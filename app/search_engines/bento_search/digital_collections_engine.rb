@@ -19,15 +19,25 @@ class BentoSearch::DigitalCollectionsEngine
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
-    q = URI::encode(args[:oq].gsub(" ","+"))
-    uri = "https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"
+    uri = URI("https://digital.library.cornell.edu/catalog.json")
+    params = {
+      :q => args[:oq],
+      :utf8 => "✓",
+      :search_field => "all_fields",
+      :rows => 3
+    }
+    uri.query = URI.encode_www_form(params)
     url = Addressable::URI.parse(uri)
     url.normalize
 
-    portal_response = JSON.load(open(url.to_s))
+    portal_response = JSON.load(URI.open(url.to_s))
 
     Rails.logger.debug "mjc12test: #{portal_response}"
-    results = portal_response['response']['docs']
+    if portal_response.nil? || portal_response['response'].nil? || portal_response['response']['docs'].nil?
+      results = []
+    else
+      results = portal_response['response']['docs']
+    end
 
     results.each do |i|
       item = BentoSearch::ResultItem.new
@@ -55,7 +65,12 @@ class BentoSearch::DigitalCollectionsEngine
     end
       bento_results << item
     end
-    bento_results.total_items = portal_response['response']['pages']['total_count']
+
+    if portal_response.nil? || portal_response['response'].nil? || portal_response['response']['pages'].nil? || portal_response['response']['pages']['total_count'].nil?
+      bento_results.total_items = 0
+    else
+      bento_results.total_items = portal_response['response']['pages']['total_count']
+    end
 
     return bento_results
 

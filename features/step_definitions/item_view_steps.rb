@@ -117,3 +117,11 @@ Then(/^in modal ['"](.*?)['"] I should see label ['"](.*?)['"]$/) do |modal,labe
   end
 
 end
+
+Then("it should have title {string}") do |string|
+  expect(page.find("div.document-header > h2")).to have_content(string)
+end
+
+Then("it should have a discogs disclaimer") do
+  expect(page).to have_css("#discogs_disclaimer")
+end

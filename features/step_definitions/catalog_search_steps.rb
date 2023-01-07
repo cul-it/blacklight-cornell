@@ -145,6 +145,8 @@ When("I sign in to BookBag") do
   within "#main-container" do
     click_button "Sign in to email items or save them to Book Bag"
   end
+  # wait for the redirect to happen
+  expect(page).not_to have_content("Sign in to email items or save them to Book Bag")
 end
 
 Given("we are in the development environment") do

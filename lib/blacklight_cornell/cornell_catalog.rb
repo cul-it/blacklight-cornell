@@ -123,6 +123,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # get search results from the solr index
   def index
+    begin
+      # for returning to the same page on exceptions
+      session[:return_to] ||= request.referer
+
     # check to see if the search limit has been exceeded
     session["search_limit_exceeded"] = false
     search_limit = Rails.configuration.search_limit
@@ -283,6 +287,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       search_session[:q] = params[:q]
       # params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
+  rescue ArgumentError => e
+    logger.error e
+    flash[:notice] = e.message
+    redirect_to session.delete(:return_to)
+  end
   end
 
   # get single document from the solr index
@@ -304,7 +313,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     respond_to do |format|
       format.endnote_xml { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-      format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html        {setup_next_and_previous_documents}
       format.rss         { render :layout => false }
       format.ris         { render 'ris', :layout => false }
@@ -465,15 +473,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     flash[:error].blank?
   end
 
- def librarian_view
-   @response, @document = search_service.fetch params[:id]
-
-   respond_to do |format|
-     format.html
-     format.js { render :layout => false }
-   end
- end
-
 protected
 
   # sets up the session[:history] hash if it doesn't already exist.
@@ -615,21 +614,23 @@ private
   end
 
   def check_dates(params)
+    # check for Publication Year 'Unknown' - handled ok
+    if params[:range][:pub_date_facet][:missing].present?
+      return
+    end
+    # crashes later on if begin > end so raise exception here
     begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
     end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
-    if begin_test.nil? or begin_test < 0
-      begin_test = 800
+    min_year = 0
+    unless begin_test.present? && begin_test >= min_year
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.begin'))
     end
-    if end_test.nil? or end_test < 0
-      end_test = Time.now.year + 2
+    unless end_test.present? && end_test >= min_year
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.end'))
     end
-    if begin_test > end_test
-      swap = end_test
-      end_test = begin_test
-      begin_test = swap
+    unless begin_test <= end_test
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.order'))
     end
-    params[:range][:pub_date_facet][:begin] = begin_test
-    params[:range][:pub_date_facet][:end] = end_test
   end
 
   def check_params(params)

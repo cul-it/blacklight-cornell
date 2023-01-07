@@ -72,11 +72,10 @@ en:
         warning: 'You may save up to %{max_count} selected items.'
       email:
         title: 'Email this'
-        warning: 'Emailing is currently limited to Cornell only.'
+        warning: 'Email is limited to Cornell only.'
         action:
           item_view:
-            text: 'Please %{href} with your Cornell ID, then click the Email button again.'
-            link_text: 'sign in'
+            text: 'Please sign in with your NetID, then click the Email button again.'
           bookmarks_view: 'Add items to Book Bag for email and saving options'
       list_title: 'Your selected items'
       delete: 'Remove'
@@ -210,8 +209,11 @@ en:
       errors:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
+        publication_year_range:
+          begin: "Publication Year facet out of range: beginning of range should be 0 or greater"
+          end: "Publication Year facet out of range: end of range should be 0 or greater"
+          order: "Publication Year facet out of range: end of range should be the beginning of range or greater"
       per_page:
-        label: '%{count}<span class="hide-text"> per page</span>'
         button_label: '%{count} per page'
         title: 'Number of results to display per page'
         submit: 'Update'

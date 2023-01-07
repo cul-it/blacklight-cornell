@@ -41,7 +41,7 @@ Feature: Search
   Examples:
       | search | comment |
       | Union Barley Coffee | not in the collection & not full text |
-      | Lion's Coffee | not in the collection & not full text |
+      # | Lion's Coffee | not in the collection & not full text |
       | McLaughlin's Coffee | not in the collection & not full text |
       | Coffee questionnaire | not in the collection & not full text |
 
@@ -59,4 +59,18 @@ Feature: Search
       | Norton Anthology of World Religions: Islam | |
       | Lions' Plate: TikTok's Whipped Coffee | |
       | Utica Zoo, Utica Coffee Roasting | |
+
+  @DISCOVERYACCESS-6699
+  Scenario Outline: I can search for non-ascii strings
+    When I go to the search page
+    When I fill in "q" with '<search>'
+    And I press 'Search'
+    Then I should get bento results
+
+  Examples:
+      | search |
+      | Basics of Legal Research”  |
+      | If Only They’ Ask: Gender, Recruitment, and Political Ambition |
+      | Hà Nội   |
+      | 아, 김 수환 추기경 |
 

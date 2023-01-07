@@ -76,7 +76,6 @@ class AeonController < ApplicationController
 	holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
 	if !@document["items_json"].nil?
 	  itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
-#	  Rails.logger.info("POOKY = #{itemsJsonHash}")
 	else
            itemsJsonHash = {}
         end
@@ -443,9 +442,9 @@ class AeonController < ApplicationController
   def loginurl
 #  	return "/aeon/aeon_login"
 #	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon_test-login.php"  	
-# 	return "http://newcatalog-login.library.cornell.edu/aeon511/aeon-login.php" 
- 	return "http://newcatalog-login.library.cornell.edu/aeon511_test/aeon-login.php" 
+# 	return "http://dev-jac2445.library.cornell.edu/aeon511/aeon-login.php" 
  # 	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
+    return "http://newcatalog-login.library.cornell.edu/aeon511_test/aeon-login.php" 
   end
  
   def warning(title)
@@ -911,10 +910,10 @@ class AeonController < ApplicationController
   end
 
   def redirect_shib
-        #@user = User.new()
-        #@session = Session.new()
-        #@session.user = "jac244"
-        Rails.logger.info("SHIB = #{params}")
+        @user = User.new()
+  #     @session = Session.new()
+        #session.user = "jac244"
+#        Rails.logger.info("SHIB = #{params}")
         uri = URI('https://rmc-aeon.library.cornell.edu/aeon/aeon.dll')
         res = Net::HTTP.get_response(uri)
  #       Rails.logger.info("COOOKIE = #{cookies.inspect}")
