@@ -47,3 +47,7 @@
 //= require catalog/discogs.js
 //= require author_browse.js
 //= require retrieve_lcsh.js
+
+//For BAMWOW tests
+//=require bamwow/work.js
+//=require bamwow/author_title_browse.js

@@ -1,4 +1,13 @@
 <%# default partial to display solr document fields in catalog show view -%>
+<%
+  # Get author title facet value if it exists
+	authortitle_facet_value = @document['authortitle_facet'] || ""
+  included_works = @document['included_work_display'] || ""
+  #browse_index_authortitle = ENV['BROWSE_INDEX_AUTHORTITLE'].nil? ? 'authortitle' : ENV['BROWSE_INDEX_AUTHORTITLE'] 
+  #base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
+  #authortitle_url = base_solr + '/' + browse_index_authortitle + '/browse?wt=json&q='
+  authortitle_url = root_url + "authortitleinfo?q="
+%>
 <dl class="row" id="itemDetails">
   <% document_show_fields(document).each do |solr_fname, field| -%>
     <% if document.has? solr_fname  -%>
@@ -38,3 +47,4 @@
   <% end -%>
 </dl>
 
+<input type="hidden" id="work" heading="<%= authortitle_facet_value%>" included="<%=included_works%>" base-url="<%= root_url %>" authortitle-url="<%= authortitle_url %>">
