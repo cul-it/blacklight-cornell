@@ -73,7 +73,7 @@ class work {
             this.handleQueryHeading(queryHeadings[0]["parsedHeading"]);
         }
         else if(queryHeadings.length > 1 && includedWorks.length > 0) {
-            this.handleQueryWorks(includedWorks, queryHeadings);
+            this.handleQueryWorks(queryHeadings);
         }
 
     }
@@ -118,10 +118,6 @@ class work {
                         }
                     } else {
                         //We should have at MOST one
-                        //Iterate through mapped data to generate display
-                        //htmlForField += eThis.generateMultiEntityDisplay(mappedDataArray);
-                        //sourceLinks += eThis.generateMultiWikidataSourceLinks(mappedDataArray);
-                    
                     }   
                     //eThis.attachPopover(htmlForPopover);
                     eThis.attachFieldHTML(htmlForField);
@@ -132,7 +128,7 @@ class work {
     }
 
     //attach popovers for each included work, using a request to the author title browse index
-    handleQueryWorks(includedWorks, queryHeadings) {
+    handleQueryWorks(queryHeadings) {
         var eThis = this;
         var browsePromises = [];
         $.each(queryHeadings, function(i, h) {
@@ -390,16 +386,6 @@ class work {
                 })
                 //We can have different handling for multi-entity display versus single entity
                 eThis.displayWorkPopovers(mappedDataArray);
-                /*
-                //Iterate through mapped data to generate display
-                htmlForField += eThis.generateMultiEntityDisplay(mappedDataArray);
-                sourceLinks += eThis.generateMultiWikidataSourceLinks(mappedDataArray);
-                   
-                  
-                //eThis.attachPopover(htmlForPopover);
-                eThis.attachFieldHTML(htmlForField);
-                $("#wikidata_source").append(sourceLinks);*/
-                
             });
         });
     }
@@ -432,14 +418,8 @@ class work {
                     //We may need a different way to do this
                     //Query the browse index to get works and works about to display in the popover
                 });
-                
-               
-
             } 
            });
-
-            //str = str.replace(/\.$/, "");
-
         }
     }
 
@@ -452,15 +432,7 @@ class work {
         var parsedHeading = heading["parsedHeading"];
         var originalHeading = heading["originalHeading"];
         var headingBrowseLink = this.baseUrl + "browse/info?browse_type=Author-Title&authq=" + originalHeading;
-        /*
-        var fieldMapping = {"date": "First performance date", 
-        "locationLabel": "First performance location", 
-        "opus": "Opus", 
-        "dedicatedLabel": "Dedicated to", 
-        "commissionedByLabel": "Commissioned by",
-        "tonalityLabel": "Tonality",
-        "librettistLabel": "Librettist", 
-        "instrumentationLabel": "Instrumentation"};*/
+        
         //We're not representing all the info in the popover
         var fieldMapping = {"opus": "Opus", 
         "tonalityLabel": "Tonality",
@@ -488,22 +460,12 @@ class work {
             html += "<div class='dt " + fieldClassName + "'>Codes</div><div class='dd " + fieldClassName + "'>" + codesArray.join("<br>") + "</div>";
             rowCount += 1;
         }
-        /*
-        if("createdFor" in mappedData) {
-            fieldClassName = (rowCount % 2 == 0)? evenClassName: oddClassName;
-            var createdFor = mappedData["createdFor"];
-            html += "<div class='dt " + fieldClassName + "' loc='" + createdFor["loc"] + "'>Created for: </div><div class='dd " + fieldClassName + "'>" + createdFor["label"] + "</div>";
-            rowCount += 1;
-        }*/
+       
         $.each(fieldMapping, function(prop, label) {
             var label = fieldMapping[prop];
             if(prop in mappedData) {
                 fieldClassName = (rowCount % 2 == 0)? evenClassName: oddClassName;
                 var value = mappedData[prop];
-                /*
-                if(prop == "date") {
-                    value = eThis.formatDate(value);
-                }*/
                 //if value is array
                 value = $.isArray(value) ? value.join(", "): value;
                 html += "<div class='dt " + fieldClassName + "'>" + label + ": </div><div class='dd " + fieldClassName + "'>" + value + "</div>";
@@ -584,18 +546,7 @@ class work {
             }
         });
     }
-
-    /*
-    transformWikidataResponse(data) {
- 
-                console.log(data);
-                var mappedData = this.parseQueryResults(data);
-                console.log(mappedData);
-                eThis.attachPopover(mappedData);
-            
-    }*/
     //Generate popup knowledge panel using plain Bootstrap
-
 
     generateSPARQLQuery(localName) {
         var sparqlQuery = "SELECT ?entity ?codeval ?catalog ?catalogLabel ?music_created_for ?music_created_forLabel ?created_for_loc ?date ?location ?locationLabel ?opus ?dedicated ?dedicatedLabel ?commissionedBy ?commissionedByLabel ?tonality ?tonalityLabel ?librettist ?librettistLabel ?instrumentation ?instrumentationLabel " 
@@ -688,57 +639,6 @@ class work {
         return mappedData;
     }
 
-    
-
-    //Changing from popover to fields
-    /*
-    generatePopverHTML(mappedData, heading) {
-        var fieldMapping = {"date": "Date of first performance", 
-        "locationLabel": "Location of first performance", 
-        "opus": "Opus", 
-        "dedicatedLabel": "Dedicated to", 
-        "commissionedByLabel": "Commissioned by",
-        "tonalityLabel": "Tonality",
-        "librettistLabel": "Librettist", 
-        "instrumentationLabel": "Instrumentation"};
-
-        var html = "<div><b>" + heading + "</b></div>";
-        if("entity" in mappedData) {
-            var entity = mappedData["entity"];
-            html+= "<div>Wikidata: <a href='" + entity + "'>" + entity + "</a></div>";
-        }
-        if("codes" in mappedData && mappedData["codes"].length > 0) {
-            var codes = mappedData["codes"];
-            var codesArray = $.map(codes, function(code, i) {
-                return "<li>" + code["catalogLabel"] + " : " + code["code"] + "</li>";
-            });
-            html += "<div><ul>" + codesArray.join(" ") + "</ul></div>";
-        }
-
-        if("createdFor" in mappedData) {
-            var createdFor = mappedData["createdFor"];
-            html += "<div id='workcreated' loc='" + createdFor["loc"] + "'>Created for: " + createdFor["label"] + "</div>";
-        }
-
-        $.each(fieldMapping, function(prop, label) {
-            var label = fieldMapping[prop];
-            if(prop in mappedData) {
-                var value = mappedData[prop];
-                //if value is array
-                value = $.isArray(value) ? value.join(", "): value;
-                html += "<div>" + label + ": " + value + "</div>";
-            }
-        });
-
-       
-        return "<div class='m-2'>" + html + "</div>";
-    }
-    attachPopover(popoverHTML) {
-        //var popoverHTML = this.generatePopverHTML(mappedData);
-        var options = {"title": "More info", "html": true, "content": popoverHTML, "placement":"right"};
-        $("#workpopover").popover(options);
-    }
-    */
 
     //Generate fields
     generateFieldHTML(mappedData, heading) {
@@ -754,16 +654,6 @@ class work {
         "librettistLabel": "Librettist", 
         "instrumentationLabel": "Instrumentation"};
 
-        //var html = "<div><b>" + heading + "</b></div>";
-        /*
-        var link = "";
-        if("entity" in mappedData) {
-            var entity = mappedData["entity"];
-            link+= "<span class='ld-acknowledge'>* <a href='" + entity + "'> From Wikidata " + link + "<i class='fa fa-external-link' aria-hidden='true'></i></a></span>";
-        }*/
-        //var html = "<dt class='blacklight-wd col-sm-3'>" + link + " information for " + heading;
-       
-        //html += "</dt>";
         var html = "";
         if("codes" in mappedData && mappedData["codes"].length > 0) {
             var codes = mappedData["codes"];
@@ -799,92 +689,6 @@ class work {
         return html;
     }
 
-    //generate multi entity display
-    generateMultiEntityDisplay(mappedDataArray) {
-        var html = "";
-        var eThis = this;
-        $.each(mappedDataArray, function(i, md) {
-            var generatedHTML = eThis.generateMultiFieldHTML(md["mappedData"], md["heading"]);
-            html += generatedHTML;
-        });
-        if(html != "") {
-            html = "<dt class='blacklight-wd-multi col-sm-3'>Wikidata info:</dt><dd class='blacklight-wd-multi col-sm-9'>" + html + "</dd>";
-        }
-        return html;
-    }
-
-    generateMultiFieldHTML(mappedData, heading) {
-        var eThis = this;
-        //<dt class="blacklight-test col-sm-3">Name</dt>
-        //<dd class="blacklight-test  col-sm-9">Info</dd>
-        var fieldMapping = {"date": "Date of first performance", 
-        "locationLabel": "Location of first performance", 
-        "opus": "Opus", 
-        "dedicatedLabel": "Dedicated to", 
-        "commissionedByLabel": "Commissioned by",
-        "tonalityLabel": "Tonality",
-        "librettistLabel": "Librettist", 
-        "instrumentationLabel": "Instrumentation"};
-
-        //var html = "<div><b>" + heading + "</b></div>";
-        /*
-        var link = "";
-        if("entity" in mappedData) {
-            var entity = mappedData["entity"];
-            link+= "<span class='ld-acknowledge'>* <a href='" + entity + "'> From Wikidata " + link + "<i class='fa fa-external-link' aria-hidden='true'></i></a></span>";
-        }*/
-        //var html = "<dt class='blacklight-wd col-sm-3'>" + link + " information for " + heading;
-       
-        //html += "</dt>";
-        var html = "<div class='mb-2'><div>For \"" + heading + "\"</div>";
-        if("codes" in mappedData && mappedData["codes"].length > 0) {
-            var codes = mappedData["codes"];
-            var codesArray = $.map(codes, function(code, i) {
-                return code["catalogLabel"] + " : " + code["code"];
-            });
-            html += "<div>Codes: " + codesArray.join(" ") + " *</div>";
-        
-        }
-        if("createdFor" in mappedData) {
-            var createdFor = mappedData["createdFor"];
-            html += "<div loc='" + createdFor["loc"] + "'>Created for: " +  createdFor["label"] + " *</div>";
-        }
-
-        $.each(fieldMapping, function(prop, label) {
-            var label = fieldMapping[prop];
-            if(prop in mappedData) {
-                var value = mappedData[prop];
-                if(prop == "date") {
-                    console.log("dates");
-
-                    value = eThis.formatDate(value);
-                }
-                //if value is array
-                value = $.isArray(value) ? value.join(", "): value;
-                var className = "blacklight-wd-" + label.replace(/\s+/g, '');
-                html += "<div>" + label + ": " + value + " *</div>";
-            }
-        });
-        html += "</div>";
-       //html += "<dd class='col-sm-12 float-sm--right'>" + link + "</dd>";
-        return html;
-    }
-
-    generateMultiWikidataSourceLinks(mappedDataArray) {
-        var sourceLinks = "";
-        var eThis = this;
-        $.each(mappedDataArray, function(i, md) {           
-            //only show source links if there is something to display
-            if("entity" in md["mappedData"]) {
-                var entity = md["mappedData"]["entity"];
-                sourceLinks += "<a href='" + entity + "'> <i class='fa fa-external-link' aria-hidden='true'></i></a>";
-            }
-        });
-        if(sourceLinks != "") {
-            sourceLinks = "<div><span>* Some information for this item comes from Wikidata entities: " +  sourceLinks + "</div>";         
-        }
-        return sourceLinks;
-    }
     //is an array tpp
     formatDate(date) {
         var eThis = this;    
