@@ -37,11 +37,9 @@ class BentoSearch::DigitalCollectionsEngine
     if portal_response.nil? || portal_response['data'].nil?
       results = []
     else
-      results = portal_response['data']
+      results = portal_response['response']['docs']
     end
 
-    results.each do |item|
-      i = item['attributes']
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 jgr25_context = "#{__FILE__}:#{__LINE__}"
@@ -55,6 +53,7 @@ msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 # binding.pry
 #*******************
+    results.each do |i|
 
       item = BentoSearch::ResultItem.new
       item.title = i['title_tesim'][0].to_s
