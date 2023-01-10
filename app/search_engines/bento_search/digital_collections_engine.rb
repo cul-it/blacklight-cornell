@@ -19,7 +19,8 @@ class BentoSearch::DigitalCollectionsEngine
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
-    uri = URI("https://digital.library.cornell.edu/catalog.json")
+    base = Addressable::URI.parse("https://digital.library.cornell.edu")
+    uri = URI( base + "catalog.bento")
     params = {
       :q => args[:oq],
       :utf8 => "✓",
@@ -92,6 +93,10 @@ msg.each { |x| puts 'ZZZ ' + x.to_yaml }
 Rails.logger.level = save_level
 #binding.pry
 #*******************
+        url = URI(base + "catalog/#{i['id']}")
+        url.normalize
+        item.link = url.to_s
+      end
       bento_results << item
     end
 
