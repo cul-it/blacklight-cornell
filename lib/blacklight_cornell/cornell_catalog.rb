@@ -365,7 +365,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     #search_session[:per_page] = params[:per_page]
 
     path =
-      if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)
+      if params[:redirect] and (params[:redirect].start_with?('/') or params[:redirect] =~ URI::regexp)
         URI.parse(params[:redirect]).path
       else
         { action: 'show' }

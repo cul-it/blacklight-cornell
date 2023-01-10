@@ -127,7 +127,7 @@ module InstitutionalRepositoriesHelper
             parts = []
             if s['repository_tesim'].present?
                 parts << s['repository_tesim'].shift
-            elsif s['id'].starts_with?("ec:")
+            elsif s['id'].start_with?("ec:")
                 parts << "eCommons"
             end
             r.source_title = parts.join(" ")
@@ -138,7 +138,7 @@ module InstitutionalRepositoriesHelper
             end
 
             # Find the link to the item
-            if s['id'].starts_with?("ec:")
+            if s['id'].start_with?("ec:")
                 # ecommons handle
                 r.link = 'https://hdl.handle.net/' + s['id'].split(':')[1]
             elsif s['r1_identifier_tesim'].present?
