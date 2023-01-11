@@ -57,7 +57,7 @@ Feature: Search
       | search | comment |
       # PENDING | Hunting, Gathering, and Stone Age Cooking | |
       | Norton Anthology of World Religions: Islam | |
-      | Lions' Plate: TikTok's Whipped Coffee | |
+      | Concretions as sources of exceptional preservation | |
       | Utica Zoo, Utica Coffee Roasting | |
 
   @DISCOVERYACCESS-6699
