@@ -20,6 +20,7 @@ class BentoSearch::DigitalCollectionsEngine
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
     base = Addressable::URI.parse("https://digital.library.cornell.edu")
+    base = Addressable::URI.parse("https://digital-stg.library.cornell.edu")
     uri = URI( base + "catalog.bento")
     params = {
       :q => args[:oq],
