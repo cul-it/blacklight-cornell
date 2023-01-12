@@ -31,7 +31,21 @@ class BentoSearch::DigitalCollectionsEngine
     uri.query = URI.encode_www_form(params)
     url = Addressable::URI.parse(uri)
     url.normalize
-    portal_response = JSON.load(URI.open(url.to_s))
+    portal_response = JSON.load(URI.open(url))
+
+  #******************
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    jgr25_context = "#{__FILE__}:#{__LINE__}"
+    Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+    msg = [" #{__method__} ".center(60,'Z')]
+    msg << jgr25_context
+    msg << "url: " + url.inspect
+    msg << "portal_response: " + portal_response.inspect
+    msg << 'Z' * 60
+    msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+    Rails.logger.level = save_level
+    #binding.pry
+#*******************
 
     # Rails.logger.debug "mjc12test: #{portal_response}"
     if portal_response.nil? || portal_response['response'].nil? || portal_response['response']['docs'].nil?
