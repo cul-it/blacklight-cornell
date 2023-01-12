@@ -1406,7 +1406,7 @@ end
       false
     else
       #(url.include?("/catalog/") && !url.include?( "library.cornell.edu"))
-      url.starts_with?("/catalog/")
+      url.start_with?("/catalog/")
     end
   end
 
