@@ -725,7 +725,7 @@ GEM
     sshkit (1.21.3)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    stringio (3.0.4)
+    stringio (3.0.1)
     summon (2.0.5)
       json
     temple (0.9.1)
@@ -899,6 +899,7 @@ DEPENDENCIES
   spreewald!
   sprockets
   sqlite3 (~> 1.5.1)
+  stringio (= 3.0.1)
   uglifier (>= 1.0.3)
   ultraviolet
   unicode
