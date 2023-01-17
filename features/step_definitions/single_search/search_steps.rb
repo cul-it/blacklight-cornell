@@ -43,6 +43,15 @@ Then("Articles & Full Text should not list {string}") do |string|
 end
 
 
+Then("Digital Collections should list {string}") do |string|
+  # don't require "Articles & Full Text" to be in second column
+  dc_bento = page.find("div#digitalCollections").first(:xpath,".//..")
+  within(dc_bento) do
+    expect(page.first("h3.bento_item_title", :text => string))
+  end
+end
+
+
 Then("I should get Institutional Repository results") do
   page.should have_selector("div#institutionalRepositories")
 end
