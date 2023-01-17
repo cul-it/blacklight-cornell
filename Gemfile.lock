@@ -48,10 +48,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 30bedf611ababcfe6c50ec2f9a5857c9ff132135
+  revision: e5746ea2b01ad757bc6870c47087b1551ae4e9b7
   branch: master
   specs:
-    my_account (2.2.0)
+    my_account (2.2.1)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge (>= 1.2.1)
@@ -303,7 +303,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    date (3.3.1)
+    date (3.3.3)
     deprecation (1.1.0)
       activesupport
     devise (4.8.1)
@@ -337,7 +337,7 @@ GEM
       faraday_middleware (~> 1.0)
       net-http-persistent (>= 3.1, < 5)
       public_suffix (~> 4.0)
-    erubi (1.11.0)
+    erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
     exception_notification (4.5.0)
@@ -470,7 +470,7 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
-    mail (2.8.0)
+    mail (2.8.0.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -493,7 +493,7 @@ GEM
     mini_mime (1.1.2)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
-    minitest (5.16.3)
+    minitest (5.17.0)
     mollom (0.2.3)
     multi_json (1.15.0)
     multi_test (1.1.0)
@@ -504,7 +504,7 @@ GEM
     nenv (0.3.0)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
-    net-imap (0.3.2)
+    net-imap (0.3.4)
       date
       net-protocol
     net-ldap (0.17.1)
@@ -521,11 +521,11 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.10-arm64-darwin)
+    nokogiri (1.14.0-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.10-x86_64-darwin)
+    nokogiri (1.14.0-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.10-x86_64-linux)
+    nokogiri (1.14.0-x86_64-linux)
       racc (~> 1.4)
     nori (2.6.0)
     notiffany (0.1.3)
@@ -586,8 +586,8 @@ GEM
       stringio
     public_suffix (4.0.7)
     raabro (1.4.0)
-    racc (1.6.1)
-    rack (2.2.4)
+    racc (1.6.2)
+    rack (2.2.6)
     rack-contrib (2.3.0)
       rack (~> 2.0)
     rack-protection (2.2.2)
