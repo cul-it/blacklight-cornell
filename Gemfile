@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby "3.1.2"
 #another try
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 6.1.7'
 gem "dotenv-rails"
 gem 'appsignal', '~> 3.3.2' #, '2.11.10'
 gem "sprockets"#, '~> 3.7.2'
