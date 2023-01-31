@@ -44,7 +44,7 @@
         Your search returned 0 results. Try searching
         <%= link_to 'Libraries Worldwide', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
         or
-        <%= link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend" %>
+        <%= link_to 'recommend a purchase.', "https://www.library.cornell.edu/collections/recommend-a-purchase/" %>
       </p>
       <%= render 'single_search/search_options' %>
     <% end %>
@@ -84,7 +84,7 @@
                       </li>
                       <li>
                         <i class="fa fa-arrow-right"></i>
-                        <%= link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend" %>
+                        <%= link_to 'Recommend a Purchase', "https://www.library.cornell.edu/collections/recommend-a-purchase/" %>
                       </li>
                     </ul>
                   </div>
