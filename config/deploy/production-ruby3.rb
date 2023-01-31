@@ -9,7 +9,8 @@ set :migration_servers, -> { release_roles(fetch(:migration_role)) }
 
 set :deploy_to, "/cul/web/newcatalog.library.cornell.edu/rails-app"
 
-set :branch, ENV['BRANCH'].gsub("origin/","") if ENV['BRANCH']
+#set :branch, ENV['BRANCH'].gsub("origin/","") if ENV['BRANCH']
+set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
 
 set :rails_env, 'production'
 
