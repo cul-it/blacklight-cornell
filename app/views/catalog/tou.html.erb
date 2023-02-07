@@ -4,7 +4,7 @@
 
 <%#= @dbResponse.inspect %>
 <%#= @ermDBResult[0].inspect %>
-<%#= @db.inspect %>
+<%#= @db2['summary_display'].inspect %>
 
 
 <!-- get params. compare to codes in bib. display code that matches by calling tou helper -->
@@ -59,8 +59,16 @@
             </tbody>
           </table>
      <% end %>
-      Terms of use
+   <%= @db2['title_display'] %>
     </h2>
+
+        <div class="description">
+          <p>
+            <% if @db2["summary_display"].present? %>
+              <%= @db2["summary_display"][0] %>
+            <% end %>
+          </p>
+        </div>
   </div>
 </div>
 <div class="resources">
@@ -87,6 +95,7 @@
         </div>
         <% if @ermDBResult.present? %>
             <%#= @ermDBResult.inspect %>
+            <%#= @db2.inspect %>
           <% data = @ermDBResult[0] %>
             <% if data.present? %>
               <table class="table table-bordered table-striped">
