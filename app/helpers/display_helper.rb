@@ -1278,11 +1278,11 @@ end
     field = args.shift || options[:field]
     field_config = blacklight_config.index_fields[field]
     # the field presenter is needed for oclc requests.
-    if presenter(document).nil?
+    if document_presenter(document).nil?
       fp = Blacklight::FieldPresenter.new(self, document, field_config, options.except(:document, :field))
       fp.render
     else
-      presenter(document).field_value field_config, options.except(:document, :field)
+      document_presenter(document).field_value field_config, options.except(:document, :field)
     end
   end
 
