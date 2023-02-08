@@ -1,7 +1,6 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: c58539073902014af213085ad865378fd65a420b
-  branch: dev
+  revision: 7ef98057b69a047487cd339113bf194372e23a6d
   specs:
     blacklight_cornell_requests (4.3)
       activerecord-oracle_enhanced-adapter
@@ -48,10 +47,9 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 30bedf611ababcfe6c50ec2f9a5857c9ff132135
-  branch: master
+  revision: e5746ea2b01ad757bc6870c47087b1551ae4e9b7
   specs:
-    my_account (2.2.0)
+    my_account (2.2.1)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge (>= 1.2.1)
@@ -382,7 +380,7 @@ GEM
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
     gherkin (5.1.0)
-    globalid (1.0.1)
+    globalid (1.1.0)
       activesupport (>= 5.0)
     google-analytics-rails (1.1.1)
     guard (2.18.0)
@@ -470,7 +468,7 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
-    mail (2.8.0.1)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -494,7 +492,6 @@ GEM
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
     minitest (5.17.0)
-    mollom (0.2.3)
     multi_json (1.15.0)
     multi_test (1.1.0)
     multi_xml (0.6.0)
@@ -521,11 +518,11 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.14.0-arm64-darwin)
+    nokogiri (1.14.1-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.0-x86_64-darwin)
+    nokogiri (1.14.1-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.0-x86_64-linux)
+    nokogiri (1.14.1-x86_64-linux)
       racc (~> 1.4)
     nori (2.6.0)
     notiffany (0.1.3)
@@ -725,7 +722,7 @@ GEM
       net-ssh (>= 2.8.0)
     summon (2.0.5)
       json
-    temple (0.9.1)
+    temple (0.10.0)
     textpow (1.4.0)
       plist (>= 3.0.1)
     thor (1.2.1)
@@ -743,7 +740,7 @@ GEM
       nokogiri (~> 1.9)
       slop (~> 4.0)
       yell
-    tzinfo (2.0.5)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -853,7 +850,6 @@ DEPENDENCIES
   marc
   meta_request
   mini_racer (= 0.6.2)
-  mollom
   my_account!
   mysql2 (= 0.5.3)
   net-ldap
