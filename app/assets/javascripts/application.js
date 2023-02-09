@@ -26,7 +26,7 @@
 
 //= require 'blacklight/hierarchy/hierarchy'
 //= require jquery_ujs
-//= require jquery-ui/autocomplete
+//= require jquery-ui/widgets/autocomplete
 //
 //= require_tree .
 //
