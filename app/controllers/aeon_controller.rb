@@ -281,11 +281,11 @@ class AeonController < ApplicationController
 #<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
 #<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 #<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-#<script type="text/javascript" src="https://catalog-login.library.cornell.edu/aeon511/js/request.js"></script>
-#<link rel="stylesheet" type="text/css" href="https://catalog-login.library.cornell.edu/aeon/css/request.css" >
-#<link rel="stylesheet" type="text/css" href="https://catalog-login.library.cornell.edu/aeon511/css/aeon.css" >
-#<link rel="stylesheet" type="text/css" href="https://catalog-login.library.cornell.edu/aeon511/css/custom.css" >
-#<script type="text/javascript" src="https://catalog-login.library.cornell.edu/aeon511/js/rmc_scripts.js"></script>
+#<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/request.js"></script>
+#<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
+#<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon511/css/aeon.css" >
+#<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon511/css/custom.css" >
+#<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/rmc_scripts.js"></script>
 #	</head>
 #	<body>
 #    <header class="head">
@@ -371,11 +371,11 @@ class AeonController < ApplicationController
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
 <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<script type="text/javascript" src="https://catalog-login.library.cornell.edu/aeon511/js/request.js"></script>
-<link rel="stylesheet" type="text/css" href="https://catalog-login.library.cornell.edu/aeon/css/request.css" >
-<link rel="stylesheet" type="text/css" href="https://catalog-login.library.cornell.edu/aeon511/css/aeon.css" >
-<link rel="stylesheet" type="text/css" href="https://catalog-login.library.cornell.edu/aeon511/css/custom.css" >
-<script type="text/javascript" src="https://catalog-login.library.cornell.edu/aeon511/js/rmc_scripts.js"></script>
+<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/request.js"></script>
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon/css/request.css" >
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon511/css/aeon.css" >
+<link rel="stylesheet" type="text/css" href="https://newcatalog-login.library.cornell.edu/aeon511/css/custom.css" >
+<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/rmc_scripts.js"></script>
 	</head>
 	<body>
 
@@ -441,10 +441,10 @@ class AeonController < ApplicationController
 
   def loginurl
 #  	return "/aeon/aeon_login"
-#	return "https://catalog-login.library.cornell.edu/aeon511/aeon_test-login.php"
+#	return "https://newcatalog-login.library.cornell.edu/aeon511/aeon_test-login.php"
 # 	return "http://dev-jac2445.library.cornell.edu/aeon511/aeon-login.php"
  # 	return "http://voy-api.library.cornell.edu/aeon/aeon_test-login.php"
-    return "http://catalog-login.library.cornell.edu/aeon511_test/aeon-login.php"
+    return "http://newcatalog-login.library.cornell.edu/aeon511_test/aeon-login.php"
   end
 
   def warning(title)
