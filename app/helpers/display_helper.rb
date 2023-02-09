@@ -1168,7 +1168,7 @@ end
 
   # Display the Solr core for everything but production instance
   def render_solr_core
-    unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
+    unless request.host == 'search.library.cornell.edu' or request.host == 'catalog.library.cornell.edu'
       core = Blacklight.connection_config[:url]
       # Remove http protocol string
       start = core.rindex(/:\/\//) + 3
