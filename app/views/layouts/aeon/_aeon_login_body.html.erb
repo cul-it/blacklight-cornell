@@ -38,14 +38,14 @@
 
      <form action="/aeon/redirect_shib" >
 
-<!--    <input type="hidden" name="target" value="https://newcatalog-folio-int.library.cornell.edu/aeon/reading_room_request/8300797/?libid=rmc|rmc,anx" />  
+<!--    <input type="hidden" name="target" value="https://catalog-folio-int.library.cornell.edu/aeon/reading_room_request/8300797/?libid=rmc|rmc,anx" />
        <input type="hidden" name="target" value="www.google.com" >  -->
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 
          <form action="/aeon/redirect_nonshib" method="GET" style="margin-top: 30px;">
            <input type="hidden" name='newParams' value='<%= @paramsString %>'>
-      
+
         <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
     <%#= @paramsString.inspect %>
@@ -54,4 +54,4 @@
 </div>
 
 
-				
+
