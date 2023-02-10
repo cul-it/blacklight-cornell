@@ -10,6 +10,5 @@ Before do |scenario|
 end
 
 def do_visit(path)
-    target = "#{@url}#{path}"
-	visit target
+    visit "#{@url}#{path}"
 end
