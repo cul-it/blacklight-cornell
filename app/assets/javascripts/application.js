@@ -17,6 +17,9 @@
 //= require popper
 //= require bootstrap
 //= require blacklight/blacklight
+//= require aeon/date
+//= require aeon/repro_request
+//= require aeon/rmc_scripts
 
 
 // For blacklight_range_limit built-in JS, if you don't want it you don't need
