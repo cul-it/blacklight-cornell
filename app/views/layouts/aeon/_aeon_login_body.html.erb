@@ -19,32 +19,33 @@
   </div>
 </header>
 <%#= params.inspect %>
+<% paramsHash = params.to_h %>
+
 <div class="container">
     <% @paramsString = "" %>
-    <% params.each do |key, value| %>
-    <% if value.class != Array %>
-      <% if value.include? "&" %>
-        <% value = CGI.escape(value) %>
+    <% paramsHash.each do |key, value| %>
+      <% if value.class != Array %>
+        <% if value.include? "&" %>
+          <% value = CGI.escape(value) %>
+        <% end %>
+        <%  @paramsString = @paramsString + "aeon_Param_" + key + '=' + value + '&' %>
       <% end %>
-     <%  @paramsString = @paramsString + key + '=' + value + '&' %>
-     <% end %>
+      
     <% end %>
     <%#= params.inspect %>
       <% newParams = params %>
       <% newParams['AeonParams'] = @paramsString %>
       <% params = newParams %>
-      <%#= params.inspect %>
-      <%= session[:user_id] %>
-
-     <form action="/aeon/redirect_shib" >
-
-<!--    <input type="hidden" name="target" value="https://newcatalog-folio-int.library.cornell.edu/aeon/reading_room_request/8300797/?libid=rmc|rmc,anx" />  
-       <input type="hidden" name="target" value="www.google.com" >  -->
+     
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="GET">
+      <input type="hidden" name="authenticated" value="true" />
+      <input type="hidden" name="aeonParams" value="<%= params %>" />
+      <input type="hidden" name="target" value="<%= ENV['AEON_RETURN_TARGET'] %>/aeon/redirect_shib" />
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 
-         <form action="/aeon/redirect_nonshib" method="GET" style="margin-top: 30px;">
-           <input type="hidden" name='newParams' value='<%= @paramsString %>'>
+         <form action="/aeon/redirect_nonshib" method="POST" style="margin-top: 30px;">
+           <input type="hidden" name='newParams' value='<%= params %>'>
       
         <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>

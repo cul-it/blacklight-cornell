@@ -6,7 +6,7 @@
 
 /* CUL logo */
 .cornell-logo {
-    background: url("images/CULibraryRed.svg") no-repeat;
+    background: url("img/CULibraryRed.svg") no-repeat;
 }
 .insignia {
     float: left;
@@ -25,7 +25,7 @@
 
 /* CUL mobile logo */
 .mobile-cornell-logo {
-    background: url("images/cornell-reduced-red.svg") no-repeat;
+    background: url("img/cornell-reduced-red.svg") no-repeat;
     width: 200px;
     height: 45px;
     display: block;
@@ -33,7 +33,7 @@
 }
 .library-brand-mobile {
     display: block;
-    background: url("images/CULWordmark.svg") no-repeat;
+    background: url("img/CULWordmark.svg") no-repeat;
     text-indent: -99999em;
     width: 120px;
     height: 45px;
