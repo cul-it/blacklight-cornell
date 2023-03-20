@@ -81,7 +81,7 @@ class work {
     handleQueryHeading(parsedQueryHeading) {
         var eThis = this;
        
-        var lookupURL = "http://id.loc.gov/authorities/names/suggest/?q=" + parsedQueryHeading + "&rdftype=NameTitle&count=1";
+        var lookupURL = "https://id.loc.gov/authorities/names/suggest/?q=" + parsedQueryHeading + "&rdftype=NameTitle&count=1";
         var promise = eThis.requestDataForHeading(lookupURL);
        
         //Assumption: promises are returned below in the order in which they were added
@@ -210,7 +210,7 @@ class work {
 
     getExternalPopoverData(lookupHeading) {
         var eThis = this;
-        var lookupURL = "http://id.loc.gov/authorities/names/suggest/?q=" + lookupHeading + "&rdftype=NameTitle&count=1";
+        var lookupURL = "https://id.loc.gov/authorities/names/suggest/?q=" + lookupHeading + "&rdftype=NameTitle&count=1";
         var lookupPromise = this.requestDataForHeading(lookupURL);
         //Assumption: promises are returned below in the order in which they were added
         $.when(lookupPromise).then(function() {
@@ -339,7 +339,7 @@ class work {
         var promises = [];
         $.each(queryHeadings, function(i, h) {
             var lookupHeading = h["parsedHeading"];
-            var lookupURL = "http://id.loc.gov/authorities/names/suggest/?q=" + lookupHeading + "&rdftype=NameTitle&count=1";
+            var lookupURL = "https://id.loc.gov/authorities/names/suggest/?q=" + lookupHeading + "&rdftype=NameTitle&count=1";
             promises.push(eThis.requestDataForHeading(lookupURL));
         });
        
