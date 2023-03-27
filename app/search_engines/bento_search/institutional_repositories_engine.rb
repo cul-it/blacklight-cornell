@@ -39,7 +39,8 @@ class BentoSearch::InstitutionalRepositoriesEngine
                                         :fq => fq,
                                         :start => start * per_page,
                                         :rows => per_page,
-                                        :fl => '*'
+                                        :fl => '*',
+                                        :defType => 'edismax'
                                        }
 
 
