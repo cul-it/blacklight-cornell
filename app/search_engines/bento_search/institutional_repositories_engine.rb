@@ -59,6 +59,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
   end
 
   def get_solr_url(args)
+    # see config/initializers/solr_connect.rb
     solr_url = ENV['IR_SOLR_URL']
     return solr_url
   end
