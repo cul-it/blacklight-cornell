@@ -150,24 +150,24 @@ Feature: Book Bags for logged in users
 
 
     @book_bags_export_selected
-    # Scenario: I should be able to export selected bookmarks
-    #     Given we are in any development or test environment
-    #     And I clear the SQLite transactions
-    #     And the test user is available
-    #     And I sign in to BookBag
-    #     And I empty the BookBag
-	# 	When I fill in the search box with 'the'
-	# 	And I press 'search'
-	# 	Then I should get results
-    #     Then I select the first 3 catalog results
-    #     And I clear transactions
-    #     And I sleep 3 seconds
-    #     Then navigation should show Book Bag contains 3
-    #     When I go to BookBag
-    #     And there should be 3 items in the BookBag
-    #     Then click on link "Export"
-    #     And the url of link "EndNote" should contain "endnote.endnote"
-    #     And the url of link "RIS" should contain "endnote.ris"
+    Scenario: I should be able to export selected bookmarks
+        Given we are in any development or test environment
+        And I clear the SQLite transactions
+        And the test user is available
+        And I sign in to BookBag
+        And I empty the BookBag
+		When I fill in the search box with 'the'
+		And I press 'search'
+		Then I should get results
+        Then I select the first 3 catalog results
+        And I clear transactions
+        And I sleep 3 seconds
+        Then navigation should show Book Bag contains 3
+        When I go to BookBag
+        And there should be 3 items in the BookBag
+        Then click on link "Export"
+        And the url of link "EndNote" should contain "endnote.endnote"
+        And the url of link "RIS" should contain "endnote.ris"
 
     @book_bags_print_selected
     Scenario: I should be able to print selected items

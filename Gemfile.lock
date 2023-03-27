@@ -582,7 +582,7 @@ GEM
     public_suffix (4.0.7)
     raabro (1.4.0)
     racc (1.6.2)
-    rack (2.2.6.3)
+    rack (2.2.6.4)
     rack-contrib (2.3.0)
       rack (~> 2.0)
     rack-protection (2.2.2)
@@ -666,6 +666,7 @@ GEM
       nokogiri (>= 1.10.5)
       rexml
     ruby2_keywords (0.0.5)
+    rubyzip (2.3.2)
     rufus-scheduler (3.8.2)
       fugit (~> 1.1, >= 1.1.6)
     sass (3.7.4)
@@ -696,6 +697,10 @@ GEM
       nori (~> 2.4)
       wasabi (~> 3.4)
     scrub_rb (1.0.1)
+    selenium-webdriver (4.8.0)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2, < 3.0)
+      websocket (~> 1.0)
     shellany (0.0.1)
     simplecov (0.21.2)
       docile (~> 1.1)
@@ -773,6 +778,7 @@ GEM
       rack (>= 1.0)
       rack-test (>= 0.5.3)
     webrick (1.7.0)
+    websocket (1.2.9)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -886,6 +892,7 @@ DEPENDENCIES
   sassc (~> 2.4)
   sassc-rails (>= 2.1.0)
   savon (~> 2.11.1)
+  selenium-webdriver
   simplecov
   simplecov-rcov
   spreewald!

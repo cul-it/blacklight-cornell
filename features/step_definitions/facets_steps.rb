@@ -81,5 +81,5 @@ end
 
 
 Given("I visit the facet page for {string}") do |string|
-	visit "/catalog/facet/#{string}"
+	do_visit "/catalog/facet/#{string}"
 end

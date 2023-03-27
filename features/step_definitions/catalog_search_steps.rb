@@ -139,7 +139,7 @@ end
 
 # this step requires .env to include DEBUG_USER and the development environment
 When("I sign in to BookBag") do
-  visit 'book_bags/index'
+	do_visit 'book_bags/index'
   # 'Sign In' blacklight-nav link is not available on Jenkins since
   # ENV['SAML_IDP_TARGET_URL’] is undefined there
   within "#main-container" do
