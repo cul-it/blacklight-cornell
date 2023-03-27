@@ -75,6 +75,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'meta_request'
   gem 'awesome_print'
+  gem 'selenium-webdriver'
 end
 
 group :test do
