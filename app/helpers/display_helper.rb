@@ -1044,7 +1044,7 @@ end
       field = field[:label]
     end
     #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
-    presenter(doc).label field, opts
+    document_presenter(doc).label field, opts
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
@@ -1168,7 +1168,7 @@ end
 
   # Display the Solr core for everything but production instance
   def render_solr_core
-    unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
+    unless request.host == 'search.library.cornell.edu' or request.host == 'catalog.library.cornell.edu'
       core = Blacklight.connection_config[:url]
       # Remove http protocol string
       start = core.rindex(/:\/\//) + 3
@@ -1278,11 +1278,11 @@ end
     field = args.shift || options[:field]
     field_config = blacklight_config.index_fields[field]
     # the field presenter is needed for oclc requests.
-    if presenter(document).nil?
+    if document_presenter(document).nil?
       fp = Blacklight::FieldPresenter.new(self, document, field_config, options.except(:document, :field))
       fp.render
     else
-      presenter(document).field_value field_config, options.except(:document, :field)
+      document_presenter(document).field_value field_config, options.except(:document, :field)
     end
   end
 
