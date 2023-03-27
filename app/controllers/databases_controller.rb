@@ -61,7 +61,7 @@ class DatabasesController < ApplicationController
    def searchdb
        Appsignal.increment_counter('db_search_db', 1)
       if params[:q].nil? or params[:q] == "" or params[:q] == "+" or params[:q] == "-"
-        flash.now[:error] = "Pleased enter a query."
+        flash.now[:error] = "Please enter a query."
         render "index"
       else
       if !params[:q].nil? and params[:q] != ""

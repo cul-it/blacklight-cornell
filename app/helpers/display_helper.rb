@@ -1044,7 +1044,7 @@ end
       field = field[:label]
     end
     #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} presenter =  #{presenter(doc).inspect}")
-    presenter(doc).label field, opts
+    document_presenter(doc).label field, opts
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
@@ -1168,7 +1168,7 @@ end
 
   # Display the Solr core for everything but production instance
   def render_solr_core
-    unless request.host == 'search.library.cornell.edu' or request.host == 'newcatalog.library.cornell.edu'
+    unless request.host == 'search.library.cornell.edu' or request.host == 'catalog.library.cornell.edu'
       core = Blacklight.connection_config[:url]
       # Remove http protocol string
       start = core.rindex(/:\/\//) + 3

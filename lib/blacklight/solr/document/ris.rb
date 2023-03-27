@@ -123,8 +123,8 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     if ul.present?
       output += "UR  - #{ul}\n"
     end
-    output += "M2  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
-    output += "N1  - http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    output += "M2  - http://catalog.library.cornell.edu/catalog/#{id}\n"
+    output += "N1  - http://catalog.library.cornell.edu/catalog/#{id}\n"
     output += (setup_doi(to_marc).blank? ? "" : "DO  - #{setup_doi(to_marc)}\n"  )
     kw =   setup_kw_info(to_marc)
     kw.each do |k|

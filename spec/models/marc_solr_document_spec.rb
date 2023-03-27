@@ -606,8 +606,8 @@ CITE_MATCH
       expect(ris_entries["PY"]).to eq(Set.new(["2001"]))
       expect(ris_entries["PB"]).to eq(Set.new([" Harmonia Mundi USA"]))
       expect(ris_entries["CY"]).to eq(Set.new(["[United States]"]))
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"]))
-      expect(ris_entries["N1"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/"]))
+      expect(ris_entries["N1"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/"]))
       expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
 #SN  - 091316710X :
@@ -622,7 +622,7 @@ CITE_MATCH
       end
       expect(ris_entries["TY"]).to eq(Set.new(["BOOK"]))
       expect(ris_entries["TI"]).to eq(Set.new(["Reflections: the anthropological muse"]))
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/1001"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/1001"]))
       expect(ris_entries["PY"]).to eq(Set.new(["1985"]))
       expect(ris_entries["KW"]).to eq(Set.new(["Anthropologists' writings, American. ", "Anthropology Poetry. ", "American poetry 20th century. ", "Anthropologists' writings, English. ", "English poetry 20th century. "]))
       expect(ris_entries["PB"]).to eq(Set.new([" American Anthropological Association"]))
@@ -651,7 +651,7 @@ CITE_MATCH
       expect(ris_entries["LA"]).to eq(Set.new(["Algonquian (Other)"]))
       expect(ris_entries["CY"]).to eq(Set.new(["Cambridge [Mass.]."]))
       expect(ris_entries["UR"]).to eq(Set.new(["http://opac.newsbank.com/select/evans/385"]))
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/#{id}"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/#{id}"]))
       expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
   end
