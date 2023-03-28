@@ -260,4 +260,4 @@ Examples:
   | barley | Agricultural Experiment Station |
   | Jurisprudence of Enron | Scholarship@Cornell Law |
   | Lessons from Guangdong Province | Charles H. Dyson School of Applied Economics |
-  | Frederic Neyrat questions | è®e numérique |
+  | Frederic Neyrat questions | la philosophie d'Alain Badiou |
