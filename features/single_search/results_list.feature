@@ -214,7 +214,7 @@ Feature: Results list
     Then I should get bento results
     And I should see the text "Combinatorial algorithms"
 
-# bent search result digital collections thumbnails
+# bento search result digital collections thumbnails
 @all_results_list
   Scenario: Search results should contain thumbnails
     Given I literally go to search
@@ -222,9 +222,28 @@ Feature: Results list
     And I press 'search'
     Then I should get bento results
 
+# Digital Collections Portal search
+@all_results_list @dcp_search
+Scenario Outline: Search within Portal results for each collection
+  Given PENDING
+  Given I literally go to search
+  When I fill in "q" with '<query>'
+  And I press 'Search'
+  Then I should get Digital Collections results
+  And when I view all Digital Collections Items
+  And I sleep 2 seconds
+  Then I should see the text "<item>"
+
+Examples:
+  | query | item |
+  | iceland highest trees | The highest trees in Iceland. Birch 29 feet high |
+  | wooden nutmeg | blasphemy of abolitionism exposed |
+  | work bench | Tompkins County Work Bench in Cellar |
+  | penitentiary | Society for the Alleviation of the Miseries |
+
 # Institutional Repository search
 @all_results_list @ir_search
-Scenario Outline: Search with institutional repository results for each IR
+Scenario Outline: Search within institutional repository results for each IR
   Given I literally go to search
   When I fill in "q" with '<query>'
   And I press 'Search'
@@ -239,3 +258,6 @@ Examples:
   | labor unrest | eCommons |
   | torts | Scholarship@Cornell Law |
   | barley | Agricultural Experiment Station |
+  | Jurisprudence of Enron | Scholarship@Cornell Law |
+  | Lessons from Guangdong Province | Charles H. Dyson School of Applied Economics |
+  | Frederic Neyrat questions | la philosophie d'Alain Badiou |

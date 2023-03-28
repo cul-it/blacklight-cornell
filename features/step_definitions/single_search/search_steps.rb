@@ -60,6 +60,14 @@ Then("when I view all Repositories Items") do
   click_link("link_top_institutional_repositories")
 end
 
+Then("I should get Digital Collections results") do
+  page.should have_selector("div#digitalCollections")
+end
+
+Then("when I view all Digital Collections Items") do
+  click_link("#digcoll")
+end
+
 
 Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) do |label,nth,nstr,type,divtag|
      total = all('.view-all')[nth.to_i]
