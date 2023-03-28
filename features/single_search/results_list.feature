@@ -257,3 +257,6 @@ Examples:
   | labor unrest | eCommons |
   | torts | Scholarship@Cornell Law |
   | barley | Agricultural Experiment Station |
+  | Jurisprudence of Enron | Scholarship@Cornell Law |
+  | Lessons from Guangdong Province | Charles H. Dyson School of Applied Economics |
+  | Frederic Neyrat questions | è®e numérique |
