@@ -280,37 +280,44 @@ end
    return true if results["response"]["numFound"] == 1
    return false if results["response"]["numFound"] != 1
  end
- def get_author_loc_url
-   @has_wiki_data = params[:hasWD].nil? ? false : true
-   heading = @headingsResponse[0]["heading"].gsub(/\.$/, '')
-   path = 'https://id.loc.gov/authorities/names/suggest'
-   escaped = {q: heading, rdftype: params[:headingtype].gsub(" ", ""), count: 1}.to_param
-   search_url_escaped = path + '?' + escaped
-  #  search_url = "https://id.loc.gov/authorities/names/suggest?q=" + heading + "&rdftype=" + params[:headingtype].gsub(" ", "") + "&count=1"
-  #  url = URI.parse(URI.escape(search_url))
-   url = URI.parse(search_url_escaped)
-   resp = Net::HTTP.get_response(url)
-   data = resp.body
-   result = JSON.parse(data)
-   return result[3][0]
- end
 
- def get_subject_loc_url
-   loc_path = "subjects"
-   rdf_type = "(Topic OR rdftype:ComplexSubject OR rdftype:Geographic OR rdftype:GenreForm OR rdftype:CorporateName)"
-   query = params[:authq].gsub(/\s>\s/, "--")
-   path = "https://id.loc.gov/authorities/" + loc_path + "/suggest"
-   escaped = {q: query, rdftype: rdf_type, count: 1}.to_param
-   search_url_escaped = path + '?' + escaped
-  #  search_url = "https://id.loc.gov/authorities/" + loc_path + "/suggest?q=" + query + "&rdftype=" + rdf_type + "&count=1"
-  #  url = URI.parse(URI.escape(search_url))
-   url = URI.parse(search_url_escaped)
-   resp = Net::HTTP.get_response(url)
-   data = resp.body
-   result = JSON.parse(data)
-   return result[3][0] if query == result[1][0]
-   return ""
- end
+  def get_author_loc_url
+    @has_wiki_data = params[:hasWD].nil? ? false : true
+    heading = @headingsResponse[0]["heading"].gsub(/\.$/, '')
+    path = 'https://id.loc.gov/authorities/names/suggest'
+    escaped = {q: heading, rdftype: params[:headingtype].gsub(" ", ""), count: 1}.to_param
+    search_url_escaped = path + '?' + escaped
+    #  search_url = "https://id.loc.gov/authorities/names/suggest?q=" + heading + "&rdftype=" + params[:headingtype].gsub(" ", "") + "&count=1"
+    #  url = URI.parse(URI.escape(search_url))
+    url = URI.parse(search_url_escaped)
+    resp = Net::HTTP.get_response(url)
+    data = resp.body
+    # There's no guarantee that the response will be valid JSON (handle possible error with rescue below)
+    result = JSON.parse(data)
+    result[3][0]
+  rescue JSON::ParserError
+    ''
+  end
+
+  def get_subject_loc_url
+    loc_path = "subjects"
+    rdf_type = "(Topic OR rdftype:ComplexSubject OR rdftype:Geographic OR rdftype:GenreForm OR rdftype:CorporateName)"
+    query = params[:authq].gsub(/\s>\s/, "--")
+    path = "https://id.loc.gov/authorities/" + loc_path + "/suggest"
+    escaped = {q: query, rdftype: rdf_type, count: 1}.to_param
+    search_url_escaped = path + '?' + escaped
+    #  search_url = "https://id.loc.gov/authorities/" + loc_path + "/suggest?q=" + query + "&rdftype=" + rdf_type + "&count=1"
+    #  url = URI.parse(URI.escape(search_url))
+    url = URI.parse(search_url_escaped)
+    resp = Net::HTTP.get_response(url)
+    data = resp.body
+    # There's no guarantee that the response will be valid JSON (handle possible error with rescue below)
+    result = JSON.parse(data)
+    return result[3][0] if query == result[1][0]
+    return ""
+  rescue JSON::ParserError
+    ''
+  end
 
  def get_formats(query,htype)
     qparam_hash = define_search_fields(query,htype)
