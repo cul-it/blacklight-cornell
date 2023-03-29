@@ -225,7 +225,6 @@ Feature: Results list
 # Digital Collections Portal search
 @all_results_list @dcp_search
 Scenario Outline: Search within Portal results for each collection
-  Given PENDING
   Given I literally go to search
   When I fill in "q" with '<query>'
   And I press 'Search'

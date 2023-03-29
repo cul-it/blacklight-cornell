@@ -65,7 +65,9 @@ Then("I should get Digital Collections results") do
 end
 
 Then("when I view all Digital Collections Items") do
-  click_link("#digcoll")
+  within(page.find('#jumpbar')) do
+    click_link("Digital Collections")
+  end
 end
 
 
