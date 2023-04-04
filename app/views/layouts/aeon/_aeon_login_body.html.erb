@@ -18,7 +18,7 @@
     <h1>Division of Rare and Manuscript Collections</h1>
   </div>
 </header>
-<%#= params.inspect %>
+<%= params.inspect %>
 <% paramsHash = params.to_h %>
  
 <div class="container">
@@ -43,12 +43,13 @@
       <% paramsHash[:Request] = paramsHash[:Request].to_h %>
    <% end %>
    
-    <%#= paramsHash.inspect %>
+    <%= paramsHash.inspect %>
 
      
-  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html" method="GET">
-      <input type="hidden" name="authenticated" value="true" />
-      <input type="hidden" name="target" value="<%= ENV['AEON_RETURN_TARGET'] %>/aeon/redirect_shib" />
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html" method="GET"> 
+  <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
+     <input type="hidden" name="authenticated" value="true" />
+      <input type="hidden" name="target" value="<%= ENV['AEON_RETURN_TARGET'] %>/aeon/redirect_shib/" method="POST" style="margin-top: 30px;">
       <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>

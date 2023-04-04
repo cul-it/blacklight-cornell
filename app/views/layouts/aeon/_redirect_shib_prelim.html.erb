@@ -2,7 +2,7 @@
 <html>
 
 
-<%#= params.inspect %>
+<%= params.inspect %>
 <% if params["aeonParams"].nil? %>
   <% aeonStuff = params %>
 <% else %>
@@ -22,13 +22,15 @@
  <% itemNumbers = [] %> 
  <%#= aeonStuff.inspect %>
   <% if !aeonStuff.nil? %>
-            <% if aeonStuff.include?('%3D') %>
-                  <% JSON.parse(aeonStuff.gsub("%3D", ":").gsub(/\bnil\b/, "null")).each do | key, value| %>
-                     <% if key.scan(/\D/).empty? %>
-                        <% key.start_with?("ItemNumber_") %>
-                      <% end %>
-                      <input type="hidden" name="<%= "Request" %>" value="<%= value %>" >
+            <% if aeonStuff.include?('=>') %>
+                  <% JSON.parse(aeonStuff.gsub("=>", ":").gsub(/\bnil\b/, "null")).each do | key, value| %>
+                  <% unless key == "Request" %>
+                    <% if key.scan(/\D/).empty? %>
+                  		<% key = "Request" %>
                    <% end %>
+                   <input type="hidden" name="<%= key %>" value="<%= value %>">
+                <% end %>
+            <% end %>
         <% else %>
             <% JSON.parse(aeonStuff.gsub("=>", ":").gsub(/\bnil\b/, "null")).each do | key, value| %>
                   <% unless key == "Request" %>

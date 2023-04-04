@@ -1,6 +1,6 @@
 <% require 'uri' %>
 <html>
-<%#= params["newParams"].inspect %>
+<%= params["newParams"].inspect %>
 <% aeonStuff = params["newParams"] %> 
 <meta http-equiv='content-type' content='text/html; charset=utf-8' />
 <link href='aeon.css' rel='stylesheet' type='text/css' />
@@ -16,12 +16,14 @@
   <% itemNumbers = [] %> 
   <% if !aeonStuff.nil? %>
         <% JSON.parse(aeonStuff.gsub("=>", ":").gsub(/\bnil\b/, "null")).each do | key, value| %>
-
-         
-             <input type="hidden" name="<%= key %>" value="<%= value %>" >
-
-       <% end %>
-    <% else %>
+                  <% unless key == "Request" %>
+                    <% if key.scan(/\D/).empty? %>
+                  		<% key = "Request" %>
+                   <% end %>
+                   <input type="hidden" name="<%= key %>" value="<%= value %>">
+                <% end %>
+            <% end %>
+   <% else %>
       Report this error
     <%end %> 
    
