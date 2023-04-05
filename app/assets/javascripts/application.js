@@ -45,5 +45,5 @@
 
 //= require linked_data/discogs.js
 //= require linked_data/pops.js
-//= require author_browse.js
+//= require linked_data/author_browse.js
 //= require retrieve_lcsh.js
