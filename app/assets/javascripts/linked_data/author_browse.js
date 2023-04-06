@@ -12,11 +12,18 @@ var authorBrowse = {
         if (authorBrowse.hasWikiData(parsedWikidata)) {
           authorBrowse.renderWikidata(parsedWikidata);
 
+          // We only connect to dbpedia to get description, so don't bother if description should be excluded
           if (!authorBrowse.isPropertyExcluded('description')) {
-            // If we have a wiki image or metadata, see if there's a dbpedia description
-            const { wikiQid, wikiLabel } = authorBrowse.wikiQidAndLabel(parsedWikidata);
-            const dbpediaResults = await authorBrowse.getDbpediaDescription(wikiQid, wikiLabel);
-            authorBrowse.renderDbpediaDescription(dbpediaResults);
+            try {
+              const { wikiQid, wikiLabel } = authorBrowse.wikiQidAndLabel(parsedWikidata);
+              const dbpediaResults = await authorBrowse.getDbpediaDescription(wikiQid, wikiLabel);
+              const parsedDbpedia = authorBrowse.parseDbpediaResults(dbpediaResults);
+              authorBrowse.renderDescription(parsedWikidata, parsedDbpedia);
+            } catch (err) {
+              console.log(err);
+              // If dbpedia connect fails, just render description from wikidata
+              authorBrowse.renderDescription(parsedWikidata);
+            }
           }
         } else {
           authorBrowse.displayCatalogMetadata();
@@ -137,8 +144,8 @@ var authorBrowse = {
         output.pseudonyms = output.pseudonyms.filter(pseud => pseud != label?.value);
       }
 
-      if (entity?.value) output.entity = entity.value;
-      if (label?.value) output.label = label.value;
+      output.entity = entity?.value;
+      output.label = label?.value;
     }
 
     return output;
@@ -153,13 +160,9 @@ var authorBrowse = {
 
   renderWikidata: function(parsedWikidata) {
     const {
-      citizenship, description, education, entity, image, pseudonyms
+      citizenship, education, entity, image, pseudonyms
     } = parsedWikidata;
 
-    if (description) {
-      $('#dbp-comment').text(description);
-      $('#dbp-comment').show();
-    }
     if (image) {
       $("#agent-image").attr("src", image.url);
       $("#img-container").show();
@@ -215,16 +218,32 @@ var authorBrowse = {
     });
 	},
 
-  renderDbpediaDescription: function(data) {
+  parseDbpediaResults: function(data) {
+    const dbOutput = {};
     const bindings = data?.results?.bindings;
     if (bindings && bindings.length) {
       const { comment, uri } = bindings[0];
       if (authorBrowse.canRender('description', comment?.value)) {
-        const dbpLink = uri?.value ? `<a href="${uri.value}">From DBPedia<i class="fa fa-external-link" aria-hidden="true"></i></a>` : 'From DBPedia';
-        const dbpAcknowledgementHtml = `  <span class="ld-acknowledge">(${dbpLink}.)</span>`;
-        $('#dbp-comment').text(comment.value);
-        $('#dbp-comment').append(dbpAcknowledgementHtml);
+        dbOutput.description = comment.value;
+        dbOutput.uri = uri?.value;
       }
+    }
+    return dbOutput;
+  },
+
+  renderDescription: function(parsedWikidata, parsedDbpedia={}) {
+    const wdDescription = parsedWikidata.description;
+    const { description: dbpDescription, uri: dbpLink } = parsedDbpedia;
+
+    if (dbpDescription) {
+      const dbpLinkHtml = dbpLink ? `<a href="${dbpLink}">From DBPedia<i class="fa fa-external-link" aria-hidden="true"></i></a>` : 'From DBPedia';
+      const dbpAcknowledgementHtml = `  <span class="ld-acknowledge">(${dbpLinkHtml}.)</span>`;
+      $('#dbp-comment').text(dbpDescription);
+      $('#dbp-comment').append(dbpAcknowledgementHtml);
+      $('#dbp-comment').show();
+    } else if (wdDescription) {
+      $('#dbp-comment').text(wdDescription);
+      $('#dbp-comment').show();
     }
   },
     
