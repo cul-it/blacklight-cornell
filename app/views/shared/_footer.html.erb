@@ -11,7 +11,7 @@
           <ul class="nav footer-nav">
             <li><a href="http://www.library.cornell.edu">Library Website</a></li>
             <li><a href="/search">Search</a></li>
-            <li><a href="http://newcatalog.library.cornell.edu">Catalog</a></li>
+            <li><a href="http://catalog.library.cornell.edu">Catalog</a></li>
             <li><%= render :partial => 'shared/link_articles_fulltext' %></li>
             <li><a href="/databases">Databases</a></li>
             <li><a href="http://erms.library.cornell.edu/">E-journal Titles</a></li>
@@ -19,8 +19,8 @@
           </ul>
         </nav>
     	</div>
-    	<div class="col-sm-4 feedback-link"> 
-    		<a href="https://cornell.libwizard.com/f/feedback?&4589755=https%3A%2F%2Fnewcatalog.library.cornell.edu<%= CGI.escape request.original_fullpath %>" class="btn btn-cul" title="Link opens in new window" target="_blank">Feedback</a>
+    	<div class="col-sm-4 feedback-link">
+    		<a href="https://cornell.libwizard.com/f/feedback?&4589755=https%3A%2F%2Fcatalog.library.cornell.edu<%= CGI.escape request.original_fullpath %>" class="btn btn-cul" title="Link opens in new window" target="_blank">Feedback</a>
             <p class="release_credits"><a href="http://blogs.cornell.edu/discoveryandaccess/" title="Supported features and known bugs">Release Notes</a></p>
             <p class="release_credits"><%= link_to 'Credits', '/credits' %></p>
     	</div>
@@ -28,9 +28,6 @@
     <div class="row footer-copyright">
       <div class="col-sm-8">
         <p>&#169; <%= Time.now.strftime("%Y") %> Cornell University Library | <a href="http://www.library.cornell.edu/privacy">Privacy</a> | <a href="https://www.library.cornell.edu/web-accessibility">Web Accessibility Assistance</a></p>
-      </div>
-      <div class="col-sm-4">
-        <%= render_solr_core %>
       </div>
     </div>
     <div id="libchat_93c39d16c29840b40a8efdeaef81707f"></div>

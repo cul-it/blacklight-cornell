@@ -35,11 +35,11 @@
 			action=" <%= @the_loginurl %> "
 		              method="GET" class="form-horizontal">
 				<h2><%= @title %></h2>
-				
+
 				<% if !@finding_aid.nil? %>
 			  		<p><a href='<%= @finding_aid %>' target='_blank'>  Finding Aid</a></p>
-		  		<% end %>	
-			
+		  		<% end %>
+
 				<strong><%= @re506 %></strong>
 				<div id="shoppingcart">
 					<span id="numitems">Number of items selected:</span>
@@ -59,7 +59,7 @@
 				<%= render :partial => 'layouts/aeon/holdings' %>
 				<%= render :partial => 'layouts/aeon/aeon_body' %>
 				<%= render :partial => 'layouts/aeon/warning' %>
-				<%= render :partial => 'layouts/aeon/clearer' %>		
+				<%= render :partial => 'layouts/aeon/clearer' %>
 	        </form>
 	    </div>
 	</body>

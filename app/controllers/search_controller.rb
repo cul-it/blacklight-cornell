@@ -300,7 +300,7 @@ class SearchController < ApplicationController
   #   ch  = Rails.configuration.cornell_catalog
   #   # for hosts like "es287-dev"
   #   if (/.*-dev/).match(req_host)
-  #      ch  = req_host.gsub(/.*-dev/,"newcatalog-int");
+  #      ch  = req_host.gsub(/.*-dev/,"catalog-int");
   #   end
   #   if (/search.*/).match(req_host)
   #      ch  = req_host.gsub(/search/,"newcatalog");

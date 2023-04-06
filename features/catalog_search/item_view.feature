@@ -147,9 +147,9 @@ Feature: Item view
     Then I should see the label 'Library Annex'
 
   # The Kroch copy of this book has been checked out since July 1992.
-  # https://newcatalog.library.cornell.edu/catalog/1208939
+  # https://catalog.library.cornell.edu/catalog/1208939
   # As a backup, I think this is a different patron who has had this book since October 1992:
-  # https://newcatalog.library.cornell.edu/catalog/473013
+  # https://catalog.library.cornell.edu/catalog/473013
   @all_item_view
   @availability @due
   Scenario: As a user I can see the availability for an item
