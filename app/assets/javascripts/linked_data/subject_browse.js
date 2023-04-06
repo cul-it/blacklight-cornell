@@ -1,234 +1,235 @@
-var hasWikiImage = false;
-var hasWikiData = false;
-var hasDbpediaDesc = false;
-var wikiDescription;
-var wikiAcknowledge;
-var wikiQid;
-var wikiLabel;
-var subjectBrowse = {
+const subjectBrowse = {
   onLoad: function() {
     this.bindCrossRefsToggle();  
   },
   
+  // TODO: This is broken because the views are rendering multiple #cr-refs-toggles and letting the js determine which one to display
+  // https://culibrary.atlassian.net/browse/DISCOVERYACCESS-8035
   bindCrossRefsToggle: function() {
-    $("#cr-refs-toggle").click(function() {
-      if ( $(".toggled-cr-refs").first().is(":visible") ) {
-          $(".toggled-cr-refs").hide();
-          $("#cr-refs-toggle").html("more &raquo;");
+    $('#cr-refs-toggle').click(function() {
+      if ( $('.toggled-cr-refs').first().is(':visible') ) {
+        $('.toggled-cr-refs').hide();
+        $('#cr-refs-toggle').html('more &raquo;');
       }
       else {
-          $(".toggled-cr-refs").show();
-          $("#cr-refs-toggle").html("&laquo; less");
+        $('.toggled-cr-refs').show();
+        $('#cr-refs-toggle').html('&laquo; less');
       }
       return false;
     });
   },
 };
-var subjectDataBrowse = {
-    onLoad: function() {
-      var localname = $("#subj_loc_localname").val();
-      // console.log("local name = " + localname);
-      subjectDataBrowse.init();
-     
-      if (subjectDataBrowse.displayAnyExternalData) {
-        if ( localname.length > 0 ) {
-            this.getWikiImage(localname);
-        }
-        else {
-            this.getDbpediaDescription("x", $("h2").text().replaceAll(">","").trim());
+const subjectDataBrowse = {
+  onLoad: async function() {
+    const localname = $('#subj_loc_localname').val();
+    this.init();
+    
+    let dbpedia = {};
+    let wikidata = {};
+    if (this.displayAnyExternalData) {
+      if (localname.length) {
+        // Fetch and render image from wikidata and description from dbpedia
+        const wdResults = await this.getWikidata(localname);
+        wikidata = this.parseWikidata(wdResults);
+        this.renderWikiImage(wikidata.image);
+
+        // We only connect to dbpedia to get description, so don't bother if description should be excluded
+        if (!this.isPropertyExcluded('description')) {
+          const dbpediaResults = await this.getDbpediaDescription(wikidata);
+          dbpedia = this.parseDbpediaResults(dbpediaResults);
+          this.renderDescription({ wikidata, dbpedia });
         }
       }
       else {
-          $('#bio-desc').removeClass("d-none");
-          $('#no-wiki-ref-info').removeClass("d-none");
+        // Fetch description from dbpedia only
+        if (!this.isPropertyExcluded('description')) {
+          const dbpediaResults = await this.getDbpediaDescription();
+          dbpedia = this.parseDbpediaResults(dbpediaResults);
+          this.renderDescription({ dbpedia });
+        }
       }
+    }
+
+    // Either display linked data or default catalog metadata
+    this.showDetails({ wikidata, dbpedia });
   },
     
   init: function() {
-  	subjectDataBrowse.exclusionsJSON = subjectDataBrowse.getExclusions();
-  	subjectDataBrowse.exclusionPropertiesHash = subjectDataBrowse.createExclusionHash();
+  	this.exclusionsJSON = this.getExclusions();
+  	this.exclusionPropertiesHash = this.createExclusionHash();
   	//false if external data should not be displayed at all for this authority
-  	subjectDataBrowse.displayAnyExternalData = subjectDataBrowse.displayAuthExternalData();
+  	this.displayAnyExternalData = this.displayAuthExternalData();
+    this.wikidataConnector = WikidataConnector();
   },
   
   // Get Image country = P17; territory P131; location P276
-  getWikiImage: function(localname) {
-    var wikidataEndpoint = "https://query.wikidata.org/sparql";
-    var sparqlQuery = "SELECT ?entity ?image ?label ?description "
-                  + " WHERE { ?entity wdt:P244 '" + localname + "' . "
-                  + " ?entity rdfs:label ?label . FILTER (langMatches( lang(?label), \"EN\" ) ) "
-                  + " OPTIONAL {?entity wdt:P18 ?image . }"
-                  + " OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = \"en\")}"
-                  + " } LIMIT 1";
-    $.ajax({
-      url : wikidataEndpoint,
-      headers : {
-        Accept : 'application/sparql-results+json'
-      },
-      data : {
-        query : sparqlQuery
-      },
-      success : function (data) {
-          if ( data && "results" in data && "bindings" in data["results"] ) {
-            var bindings = data["results"]["bindings"];
-            if ( bindings['length'] > 0 ) {
-              var binding = bindings[0];
-              if ( subjectDataBrowse.displayProperty("image", binding) ) {
-                imageUrl = bindings[0]["image"]["value"];
-                if ( subjectDataBrowse.isSupportedImageType(imageUrl) ) {
-                  hasWikiImage = true;
-                  $("#subject-image").attr("src",imageUrl);
-                  $("#img-container").show();
-                  $("#wiki-image").attr("href", bindings[0]['entity']['value']);
-                }
-              }
-  		      if ( bindings[0]["description"] != undefined ) {
-                var tempString = bindings[0]["description"]["value"]
-  		        wikiDescription = tempString.charAt(0).toUpperCase() + tempString.slice(1) + ".";
-  		      }
-  		      if ( bindings[0]["label"] != undefined ) {
-  		        wikiLabel = bindings[0]["label"]["value"]
-  			    // get the QID so we can use DBpedia to get a decent description
-  			    wikiQid = bindings[0]['entity']['value'].split("/")[4];
-                hasWikiData = true;
-  		      }
-            }
-          }
-      },
-      complete : function() {
-  	      // Arguments differ depending on whether we have wiki metadata
-          if ( !hasWikiData ) {
-            subjectDataBrowse.getDbpediaDescription("x", $("h2").text().replaceAll(">","").trim());
-          }
-          else {
-            subjectDataBrowse.getDbpediaDescription(wikiQid, wikiLabel);  
-          }
+  getWikidata: async function(localname) {
+    const sparqlQuery = (
+      `SELECT ?entity ?label ?description ${this.wikidataConnector.imageSparqlSelect}
+      WHERE {
+        ?entity wdt:P244 "${localname}" .
+        ?entity rdfs:label ?label . FILTER (langMatches( lang(?label), "EN" ) )
+        OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = "en")}
+        ${this.wikidataConnector.imageSparqlWhere}
+      } LIMIT 1`
+    );
+    return this.wikidataConnector.getData(sparqlQuery);
+  },
+  parseWikidata: function(data) {
+    const output = {};
+    const bindings = data?.results?.bindings;
+
+    if (bindings && bindings.length) {
+      const {
+        description,
+        entity,
+        image: imageUrl,
+        imageLicense,
+        imageLicenseShortName,
+        imageLicenseUrl,
+        imageArtist,
+        imageName,
+        imageTitle,
+        label,
+      } = bindings[0];
+
+      if (this.canRender('description', description?.value)) {
+        output.description = description.value.charAt(0).toUpperCase() + description.value.slice(1) + '.';
       }
-    });
+      if (this.canRender('image', imageUrl?.value)) {
+        const image = {
+          url: imageUrl.value,
+          license: imageLicense?.value,
+          licenseShortName: imageLicenseShortName?.value,
+          licenseUrl: imageLicenseUrl?.value,
+          artist: imageArtist?.value,
+          name: imageName?.value,
+          title: imageTitle?.value
+        };
+        if (this.wikidataConnector.isSupportedImage(image)) output.image = image;
+      };
+      output.entity = entity?.value;
+      output.label = label?.value;
+    }
+    return output;
+  },
+  renderWikiImage: function(image) {
+    if (image) {
+      $('#subject-image').attr('src', image.url);
+      $('#img-container').show();
+      $('#wiki-image-acknowledge').html(`<br/>Image: ${this.wikidataConnector.imageAttributionHtml(image)}`);
+    } else {
+      $('#comment-container').removeClass();
+      $('#comment-container').addClass('col-sm-12').addClass('col-md-12').addClass('col-lg-12');
+    }
+  },
+  qidAndLabel: function(data) {
+    return {
+      wikiLabel: data.label || $('h2').text().replaceAll('>','').trim(),
+      wikiQid: data.entity?.split('/')[4] || 'x'
+    }
   },
   
   // we can use the wikidata QID to get an entity description from DBpedia
-  getDbpediaDescription: function(qid, label) {
-      // console.log("QID: " + qid);
-      // console.log("label: " + label);
-      var dbpediaUrl = "https://dbpedia.org/sparql";
-      var sparqlQuery = " SELECT distinct ?uri ?comment WHERE {"
-                        + " { SELECT (?e1) AS ?uri ?comment WHERE { ?e1 dbp:d '" + qid + "'@en . ?e1 rdfs:comment ?comment . FILTER (langMatches(lang(?comment),\"en\")) }} UNION "
-                        + " { SELECT (?e2) AS ?uri ?comment WHERE { ?e2 rdfs:label '" + label + "'@en . ?e2 rdfs:comment ?comment . FILTER (langMatches(lang(?comment),\"en\"))}}} "
-      var fullQuery = dbpediaUrl + "?query=" +  escape(sparqlQuery) + "&format=json";
-      $.ajax({
-        url : fullQuery,
-        headers : {
-          Accept : 'application/sparql-results+json'
-        },
-        dataType: "jsonp",
-        "jsonp": "callback",
-        success : function (data) {
-            console.log("dbpedia success");
-          if ( data && "results" in data && "bindings" in data["results"] ) {
-            var bindings = data["results"]["bindings"];
-  	        var comment = "";
-            var dbpLink = "<span class='ld-acknowledge'>(From DBPedia.)</span>";
-            if ( bindings['length'] > 0 ) {
-    		  	  if ( bindings[0]["uri"] != undefined ) {
-    		  	    uri = bindings[0]["uri"]["value"]
-    				dbpLink = "  <span class='ld-acknowledge'>(<a href='" + uri + "'>From DBPedia<i class='fa fa-external-link' aria-hidden='true'></i></a>.)</span>"
-    		  	  }
-  	  	      if ( bindings[0]["comment"] != undefined ) {
-  	  	        comment = bindings[0]["comment"]["value"]
-                if ( !hasWikiImage ) {
-                    $("#comment-container").removeClass();
-                    $("#comment-container").addClass("col-sm-12").addClass("col-md-12").addClass("col-lg-12");
-                }
-                if ( !subjectDataBrowse.isPropertyExcluded("description") ) {
-                    console.log("show description");
-                  wikiDescription = comment;
-                  hasDbpediaDesc = true;
-                  $('#dbp-comment').text(wikiDescription);
-                  $('#dbp-comment').append(dbpLink);
-                  // we include all of these because of a timing issue
-                  $('#dbp-comment').show();
-                  $("#bio-desc").addClass("d-none");
-                  $('#no-wiki-ref-info').addClass("d-none");
-                  $('#info-details').removeClass("d-none");
-                  $('#has-wiki-ref-info').removeClass("d-none");
-                }
-  	  	      }
-  	        }
-          }
-        }
-    });	
-    if ( hasWikiImage || hasDbpediaDesc ) {
-        if ( !authorBrowse.isPropertyExcluded("description") ) {
-          $('#dbp-comment').text(wikiDescription);
-          $('#dbp-comment').show();
-        }
-        // $("div#wiki-acknowledge").append(wikiAcknowledge);
-        $('#info-details').removeClass("d-none");
-        $('#has-wiki-ref-info').removeClass("d-none");
+  getDbpediaDescription: async function(data = {}) {
+    const { qid, label } = this.qidAndLabel(data);
+    const dbpediaUrl = 'https://dbpedia.org/sparql';
+    const sparqlQuery = " SELECT distinct ?uri ?comment WHERE {"
+                      + " { SELECT (?e1) AS ?uri ?comment WHERE { ?e1 dbp:d '" + qid + "'@en . ?e1 rdfs:comment ?comment . FILTER (langMatches(lang(?comment),\"en\")) }} UNION "
+                      + " { SELECT (?e2) AS ?uri ?comment WHERE { ?e2 rdfs:label '" + label + "'@en . ?e2 rdfs:comment ?comment . FILTER (langMatches(lang(?comment),\"en\"))}}} "
+    const fullQuery = `${dbpediaUrl}?query=${encodeURIComponent(sparqlQuery)}&format=json`;
+    return $.ajax({
+      url: fullQuery,
+      headers: { Accept: 'application/sparql-results+json' },
+      dataType: 'jsonp',
+      'jsonp': 'callback',
+    });
+  },
+  parseDbpediaResults: function(data) {
+    const dbpOutput = {};
+    const bindings = data?.results?.bindings;
+    if (bindings && bindings.length) {
+      const { comment, uri } = bindings[0];
+      if (this.canRender('description', comment?.value)) {
+        dbpOutput.description = comment.value;
+        dbpOutput.uri = uri?.value;
+      }
     }
-    else {
-        $("#bio-desc").removeClass("d-none");
-        $('#no-wiki-ref-info').removeClass("d-none"); 
+    return dbpOutput;
+  },
+  renderDescription: function({ wikidata = {}, dbpedia = {} }) {
+    const wdDescription = wikidata.description;
+    const { description: dbpDescription, uri: dbpLink } = dbpedia;
+
+    if (dbpDescription) {
+      const dbpLinkHtml = dbpLink ? `<a href="${dbpLink}">From DBPedia<i class="fa fa-external-link" aria-hidden="true"></i></a>` : 'From DBPedia';
+      const dbpAcknowledgementHtml = `  <span class="ld-acknowledge">(${dbpLinkHtml}.)</span>`;
+      $('#dbp-comment').text(dbpDescription);
+      $('#dbp-comment').append(dbpAcknowledgementHtml);
+      $('#dbp-comment').show();
+    } else if (wdDescription) {
+      $('#dbp-comment').text(wdDescription);
+      $('#dbp-comment').show();
     }
+  },
+  showDetails: function({ dbpedia, wikidata }) {
+    if (wikidata.image || dbpedia.description) {
+      this.displayLinkedData();
+    } else {
+      this.displayCatalogMetadata();
+    }
+  },
+  displayCatalogMetadata: function() {
+    $('#bio-desc').removeClass('d-none');
+    $('#no-wiki-ref-info').removeClass('d-none');
+  },
+  displayLinkedData: function() {
+    $('#info-details').removeClass('d-none');
+    $('#has-wiki-ref-info').removeClass('d-none');
   },
   
   //Method for reading exclusion information i.e whether Wikdiata/DbPedia info will be allowed for this heading
   getExclusions: function() {
-	var exclusionsInput = $("#exclusions");
-	if(exclusionsInput.length && exclusionsInput.val() != "") {
-		// console.log(exclusionsInput.val());
-		var exclusionsJSON = JSON.parse(exclusionsInput.val());
-		return exclusionsJSON;
-	}
-	return null;
+    const exclusionsInput = $('#exclusions');
+    if (exclusionsInput.length && exclusionsInput.val() != '') {
+      return JSON.parse(exclusionsInput.val());
+    }
+    return null;
   },
  
   //Is all external data not to be displayed for authority? If authority is present in the list and has no properties
   displayAuthExternalData: function() {
-	var exclusionsJSON = subjectDataBrowse.exclusionsJSON;
-	//no exclusions, or exclusion = false, or exclusion is true but there are properties
-	return (exclusionsJSON == null || $.isEmptyObject(exclusionsJSON) ||
-		("exclusion" in exclusionsJSON && (exclusionsJSON["exclusion"] == false) ) ||
-		("exclusion" in exclusionsJSON && exclusionsJSON["exclusion"] == true && "properties" in exclusionsJSON && exclusionsJSON["properties"].length)) ;
-			
+    const exclusionsJSON = this.exclusionsJSON;
+    //no exclusions, or exclusion = false, or exclusion is true but there are properties
+    return (exclusionsJSON == null || $.isEmptyObject(exclusionsJSON) ||
+      ('exclusion' in exclusionsJSON && (exclusionsJSON['exclusion'] == false) ) ||
+      ('exclusion' in exclusionsJSON && exclusionsJSON['exclusion'] == true && 'properties' in exclusionsJSON && exclusionsJSON['properties'].length));
   },
   isPropertyExcluded: function(propertyName) {
-	// if this property exists in our hash, then that means it is one of the properties the yaml 
-      // file indicates should not be displayed
-	return ("exclusionPropertiesHash" in subjectDataBrowse && propertyName in subjectDataBrowse.exclusionPropertiesHash);
+    // if this property exists in our hash, then that means it is one of the properties the yaml 
+        // file indicates should not be displayed
+    return ('exclusionPropertiesHash' in this && propertyName in this.exclusionPropertiesHash);
   },
   //relies on both presence of value and ability to display this data
-  displayProperty: function(propertyName, binding) {
-	if(subjectDataBrowse.isPropertyExcluded(propertyName)) {
-		return false;
-	}
-	return (binding[propertyName] != undefined && binding[propertyName]["value"].length > 0);
+  canRender: function(propertyName, value) {
+    return !!value && !this.isPropertyExcluded(propertyName);
   },
   createExclusionHash: function() {
-	var exclusionHash = {};
-	if("properties" in subjectDataBrowse.exclusionsJSON && subjectDataBrowse.exclusionsJSON["properties"].length) {
-		$.each(subjectDataBrowse.exclusionsJSON.properties, function(i, v) {
-			exclusionHash[v] = true;
-		});
-		
-	}
-	return exclusionHash;
+    const exclusionHash = {};
+    if('properties' in this.exclusionsJSON && this.exclusionsJSON['properties'].length) {
+      $.each(this.exclusionsJSON.properties, function(i, v) {
+        exclusionHash[v] = true;
+      });
+	  }
+    return exclusionHash;
   },
-  //Check image type supported
-  isSupportedImageType(image) {
-  	//Supported html display types = jpg, jpeg, gift, png, svg
-  	//Wikidata query may return other types.  Not displaying currently
-  	var fileExtension = image.substr( (image.lastIndexOf('.') +1) ).toLowerCase();
-  	return (fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "gif" || fileExtension == "png" || fileExtension == "svg");
-  }  
 };
 
 Blacklight.onLoad(function() {
-    if ( $('body').prop('className').indexOf("browse-info") >= 0 ) {
-        subjectBrowse.onLoad();  
-    }
-    if ( $("#subj_loc_localname").length ) {
-        subjectDataBrowse.onLoad();
-    }
+  if ( $('body').prop('className').indexOf('browse-info') >= 0 ) {
+    subjectBrowse.onLoad();
+  }
+  if ( $('#subj_loc_localname').length ) {
+    subjectDataBrowse.onLoad();
+  }
 });  

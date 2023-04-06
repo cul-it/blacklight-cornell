@@ -16,7 +16,7 @@ class kPanel {
       event.preventDefault();
       const e = $(this);
       const auth = e.attr('data-auth');
-      const fullRecordLink = e.data("poload");
+      const fullRecordLink = e.data('poload');
       const catalogAuthURL = `/panel?type=${eThis.authType}&authq="${encodeURIComponent(auth)}"`;
       $.get(catalogAuthURL, function(d) {
         const displayHTML = $(d).find('div#kpanelContent').html();

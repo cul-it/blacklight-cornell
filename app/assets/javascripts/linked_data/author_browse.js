@@ -3,48 +3,48 @@
 const authorBrowse = {
   onLoad: async function() {
     const localname = $('#auth_loc_localname').val();
-    authorBrowse.init();
+    this.init();
     
-    if (authorBrowse.displayAnyExternalData) {
+    if (this.displayAnyExternalData) {
       try {
-        const wdResults = await authorBrowse.getWikiData(localname);
-        const parsedWikidata = authorBrowse.parseWikidataResults(wdResults);
-        if (authorBrowse.hasWikiData(parsedWikidata)) {
-          authorBrowse.renderWikidata(parsedWikidata);
+        const wdResults = await this.getWikidata(localname);
+        const parsedWikidata = this.parseWikidataResults(wdResults);
+        if (this.hasWikiData(parsedWikidata)) {
+          this.renderWikidata(parsedWikidata);
 
           // We only connect to dbpedia to get description, so don't bother if description should be excluded
-          if (!authorBrowse.isPropertyExcluded('description')) {
+          if (!this.isPropertyExcluded('description')) {
             try {
-              const { wikiQid, wikiLabel } = authorBrowse.wikiQidAndLabel(parsedWikidata);
-              const dbpediaResults = await authorBrowse.getDbpediaDescription(wikiQid, wikiLabel);
-              const parsedDbpedia = authorBrowse.parseDbpediaResults(dbpediaResults);
-              authorBrowse.renderDescription(parsedWikidata, parsedDbpedia);
+              const { wikiQid, wikiLabel } = this.wikiQidAndLabel(parsedWikidata);
+              const dbpediaResults = await this.getDbpediaDescription(wikiQid, wikiLabel);
+              const parsedDbpedia = this.parseDbpediaResults(dbpediaResults);
+              this.renderDescription(parsedWikidata, parsedDbpedia);
             } catch (err) {
               console.log(err);
               // If dbpedia connect fails, just render description from wikidata
-              authorBrowse.renderDescription(parsedWikidata);
+              this.renderDescription(parsedWikidata);
             }
           }
         } else {
-          authorBrowse.displayCatalogMetadata();
+          this.displayCatalogMetadata();
         }
       } catch(err) {
         console.log(err);
-        authorBrowse.displayCatalogMetadata();
+        this.displayCatalogMetadata();
       }
     }
     else {
-      authorBrowse.displayCatalogMetadata();
+      this.displayCatalogMetadata();
     }
-    authorBrowse.bindEventHandlers();
+    this.bindEventHandlers();
   },
   
   init: function() {
-    authorBrowse.exclusionsJSON = authorBrowse.getExclusions();
-    authorBrowse.exclusionPropertiesHash = authorBrowse.createExclusionHash();
+    this.exclusionsJSON = this.getExclusions();
+    this.exclusionPropertiesHash = this.createExclusionHash();
     //false if external data should not be displayed at all for this authority
-    authorBrowse.displayAnyExternalData = authorBrowse.displayAuthExternalData();
-    authorBrowse.wikidataConnector = WikidataConnector();
+    this.displayAnyExternalData = this.displayAuthExternalData();
+    this.wikidataConnector = WikidataConnector();
   },
   
   // TODO: what is this doing? there doesn't seem to be a 'a[data-toggle="tab"]' in the dom??
@@ -64,14 +64,14 @@ const authorBrowse = {
   },
 
   // Get image and metadata
-  getWikiData: async function(localname) {
+  getWikidata: async function(localname) {
     const sparqlQuery = (
       `SELECT
         ?entity
         ?citizenship
         ?label
         ?description
-        ${authorBrowse.wikidataConnector.imageSparqlSelect}
+        ${this.wikidataConnector.imageSparqlSelect}
         (group_concat(DISTINCT ?educated_at; separator = ", ") as ?education)
         (group_concat(DISTINCT ?pseudos; separator = ", ") as ?pseudonyms)
       WHERE {
@@ -87,10 +87,10 @@ const authorBrowse = {
         }
         OPTIONAL { ?entity wdt:P742 ?pseudos. }
         OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") }
-        ${authorBrowse.wikidataConnector.imageSparqlWhere}
-      } GROUP BY ?entity ?citizenship ?label ?description ${authorBrowse.wikidataConnector.imageSparqlSelect} LIMIT 1`
+        ${this.wikidataConnector.imageSparqlWhere}
+      } GROUP BY ?entity ?citizenship ?label ?description ${this.wikidataConnector.imageSparqlSelect} LIMIT 1`
     );
-    return authorBrowse.wikidataConnector.getData(sparqlQuery);
+    return this.wikidataConnector.getData(sparqlQuery);
   },
 
   parseWikidataResults: function(data) {
@@ -98,8 +98,6 @@ const authorBrowse = {
     const bindings = data?.results?.bindings;
 
     if (bindings && bindings.length) {
-      // Parse everything and add to output
-      // Then when rendering, check if it should be excluded
       const {
         citizenship,
         description,
@@ -115,10 +113,10 @@ const authorBrowse = {
         label,
         pseudonyms,
       } = bindings[0];
-      if (authorBrowse.canRender('description', description?.value)) {
+      if (this.canRender('description', description?.value)) {
         output.description = description.value.charAt(0).toUpperCase() + description.value.slice(1) + '.';
       }
-      if (authorBrowse.canRender('image', imageUrl?.value)) {
+      if (this.canRender('image', imageUrl?.value)) {
         const image = {
           url: imageUrl.value,
           license: imageLicense?.value,
@@ -128,18 +126,18 @@ const authorBrowse = {
           name: imageName?.value,
           title: imageTitle?.value
         };
-        if (authorBrowse.wikidataConnector.isSupportedImage(image)) output.image = image;
+        if (this.wikidataConnector.isSupportedImage(image)) output.image = image;
       };
-      if (authorBrowse.canRender('citizenship', citizenship?.value)) {
+      if (this.canRender('citizenship', citizenship?.value)) {
         output.citizenship = citizenship.value;
       }
-      if (authorBrowse.canRender('education', education?.value)) {
+      if (this.canRender('education', education?.value)) {
         output.education = $.unique(education.value.split(', '));
       }
 
       // Remove any duplicate pseuds and primary name
       // Shouldn't really be dependent on dom, but wanted to retain previous render logic
-      if (authorBrowse.canRender('pseudonyms', pseudonyms?.value) && $('.agent-notes').length === 0) {
+      if (this.canRender('pseudonyms', pseudonyms?.value) && $('.agent-notes').length === 0) {
         output.pseudonyms = $.unique(pseudonyms.value.split(', '));
         output.pseudonyms = output.pseudonyms.filter(pseud => pseud != label?.value);
       }
@@ -154,30 +152,28 @@ const authorBrowse = {
   wikiQidAndLabel: function(data) {
     return {
       wikiLabel: data.label,
-      wikiQid: data.entity?.split("/")[4]
+      wikiQid: data.entity?.split('/')[4]
     }
   },
 
   renderWikidata: function(parsedWikidata) {
-    const {
-      citizenship, education, entity, image, pseudonyms
-    } = parsedWikidata;
+    const { citizenship, education, entity, image, pseudonyms } = parsedWikidata;
 
     if (image) {
-      $("#agent-image").attr("src", image.url);
-      $("#img-container").show();
-      $("#wiki-image-acknowledge").html(`<br/>Image: ${authorBrowse.wikidataConnector.imageAttributionHtml(image)}`);
+      $('#agent-image').attr('src', image.url);
+      $('#img-container').show();
+      $('#wiki-image-acknowledge').html(`<br/>Image: ${this.wikidataConnector.imageAttributionHtml(image)}`);
     } else {
-      $("#comment-container").removeClass();
-      $("#comment-container").addClass("col-sm-12").addClass("col-md-12").addClass("col-lg-12");
+      $('#comment-container').removeClass();
+      $('#comment-container').addClass('col-sm-12').addClass('col-md-12').addClass('col-lg-12');
     }
     if (citizenship) {
-      $("dd.citizenship").text(citizenship + "*");
-      $(".citizenship").removeClass("citizenship");
+      $('dd.citizenship').text(citizenship + '*');
+      $('.citizenship').removeClass('citizenship');
     }
     if (education) {
-      $("dd.education").text(education.join(", ") + "*");
-      $(".education").removeClass("education");
+      $('dd.education').text(education.join(', ') + '*');
+      $('.education').removeClass('education');
     }
 
     // TODO: I don't think this ever renders? - dl#itemDetails is only in _show_default, not in author browse
@@ -189,7 +185,7 @@ const authorBrowse = {
         });
         the_html += '</ul></dd>';
         if ( the_html.indexOf('<li>') > 0 ) {
-          $("dl#itemDetails").append(the_html + "*");
+          $('dl#itemDetails').append(the_html + '*');
         }
       }
     }
@@ -219,16 +215,16 @@ const authorBrowse = {
 	},
 
   parseDbpediaResults: function(data) {
-    const dbOutput = {};
+    const dbpOutput = {};
     const bindings = data?.results?.bindings;
     if (bindings && bindings.length) {
       const { comment, uri } = bindings[0];
-      if (authorBrowse.canRender('description', comment?.value)) {
-        dbOutput.description = comment.value;
-        dbOutput.uri = uri?.value;
+      if (this.canRender('description', comment?.value)) {
+        dbpOutput.description = comment.value;
+        dbpOutput.uri = uri?.value;
       }
     }
-    return dbOutput;
+    return dbpOutput;
   },
 
   renderDescription: function(parsedWikidata, parsedDbpedia={}) {
@@ -249,14 +245,14 @@ const authorBrowse = {
     
   // when there's no wikidata or an error occurs in one of the ajax calls
   displayCatalogMetadata: function() {
-    $("#bio-desc").removeClass("d-none");
-    $('#no-wiki-ref-info').removeClass("d-none");
+    $('#bio-desc').removeClass('d-none');
+    $('#no-wiki-ref-info').removeClass('d-none');
   },
 	
 	//Method for reading exclusion information i.e whether Wikdiata/DbPedia info will be allowed for this heading
 	getExclusions: function() {
-		const exclusionsInput = $("#exclusions");
-		if(exclusionsInput.length && exclusionsInput.val() != "") {
+		const exclusionsInput = $('#exclusions');
+		if(exclusionsInput.length && exclusionsInput.val() != '') {
 			const exclusionsJSON = JSON.parse(exclusionsInput.val());
 			return exclusionsJSON;
 		}
@@ -264,26 +260,26 @@ const authorBrowse = {
 	},
 	//Is all external data not to be displayed for authority? If authority is present in the list and has no properties
 	displayAuthExternalData: function() {
-		const exclusionsJSON = authorBrowse.exclusionsJSON;
+		const exclusionsJSON = this.exclusionsJSON;
 		//no exclusions, or exclusion = false, or exclusion is true but there are properties
 		return (exclusionsJSON == null || $.isEmptyObject(exclusionsJSON) ||
-			("exclusion" in exclusionsJSON && (exclusionsJSON["exclusion"] == false) ) ||
-			("exclusion" in exclusionsJSON && exclusionsJSON["exclusion"] == true && "properties" in exclusionsJSON && exclusionsJSON["properties"].length)) ;
+			('exclusion' in exclusionsJSON && (exclusionsJSON['exclusion'] == false) ) ||
+			('exclusion' in exclusionsJSON && exclusionsJSON['exclusion'] == true && 'properties' in exclusionsJSON && exclusionsJSON['properties'].length));
 				
 	},
 	isPropertyExcluded: function(propertyName) {
 		// if this property exists in our hash, then that means it is one of the properties the yaml 
         // file indicates should not be displayed
-		return ("exclusionPropertiesHash" in authorBrowse && propertyName in authorBrowse.exclusionPropertiesHash);
+		return ('exclusionPropertiesHash' in this && propertyName in this.exclusionPropertiesHash);
 	},
 	//relies on both presence of value and ability to display this data
   canRender: function(propertyName, value) {
-    return !!value && !authorBrowse.isPropertyExcluded(propertyName);
+    return !!value && !this.isPropertyExcluded(propertyName);
   },
 	createExclusionHash: function() {
 		const exclusionHash = {};
-		if("properties" in authorBrowse.exclusionsJSON && authorBrowse.exclusionsJSON["properties"].length) {
-			$.each(authorBrowse.exclusionsJSON.properties, function(i, v) {
+		if('properties' in this.exclusionsJSON && this.exclusionsJSON['properties'].length) {
+			$.each(this.exclusionsJSON.properties, function(i, v) {
 				exclusionHash[v] = true;
 			});
 			
@@ -293,7 +289,7 @@ const authorBrowse = {
 };
 
 Blacklight.onLoad(function() {
-  if ( $('body').prop('className').indexOf("browse-info") >= 0 && $("#auth_loc_localname").length ) {
+  if ( $('body').prop('className').indexOf('browse-info') >= 0 && $('#auth_loc_localname').length ) {
     authorBrowse.onLoad();
   }
 });
