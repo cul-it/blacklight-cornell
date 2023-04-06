@@ -1,54 +1,37 @@
 // https://id.loc.gov/authorities/names/suggest/?q=Twain,+Mark,+1835-1910
 // id.loc.gov/authorities/names/label/[label]
-const authorBrowse = {
-  onLoad: async function() {
-    const localname = $('#auth_loc_localname').val();
-    this.init();
-    
-    if (this.displayAnyExternalData) {
-      try {
-        const wdResults = await this.getWikidata(localname);
-        const parsedWikidata = this.parseWikidataResults(wdResults);
-        if (this.hasWikiData(parsedWikidata)) {
-          this.renderWikidata(parsedWikidata);
+function AuthorBrowse() {
+  const ldExcluder = LDExcluder();
+  const displayAnyExternalData = ldExcluder.displayAnyExternalData;
+  const wikidataConnector = WikidataConnector();
+  const dbpediaConnector = DbpediaConnector();
 
+  async function onLoad() {
+    let wikidata = {};
+    let dbpedia = {};
+    try {
+      if (displayAnyExternalData) {
+        const localname = $('#auth_loc_localname').val();
+        wikidata = await getWikidata(localname);
+        if (hasWikiData(wikidata)) {
           // We only connect to dbpedia to get description, so don't bother if description should be excluded
-          if (!this.isPropertyExcluded('description')) {
-            try {
-              const { wikiQid, wikiLabel } = this.wikiQidAndLabel(parsedWikidata);
-              const dbpediaResults = await this.getDbpediaDescription(wikiQid, wikiLabel);
-              const parsedDbpedia = this.parseDbpediaResults(dbpediaResults);
-              this.renderDescription(parsedWikidata, parsedDbpedia);
-            } catch (err) {
-              console.log(err);
-              // If dbpedia connect fails, just render description from wikidata
-              this.renderDescription(parsedWikidata);
-            }
+          if (!ldExcluder.isPropertyExcluded('description')) {
+            dbpedia = await getDbpediaDescription(wikidata);
           }
-        } else {
-          this.displayCatalogMetadata();
         }
-      } catch(err) {
-        console.log(err);
-        this.displayCatalogMetadata();
       }
+    } catch(err) {
+      console.log(err);
+    } finally {
+      // Either display linked data or default catalog metadata
+      renderDetails({ wikidata, dbpedia });
     }
-    else {
-      this.displayCatalogMetadata();
-    }
-    this.bindEventHandlers();
-  },
-  
-  init: function() {
-    this.exclusionsJSON = this.getExclusions();
-    this.exclusionPropertiesHash = this.createExclusionHash();
-    //false if external data should not be displayed at all for this authority
-    this.displayAnyExternalData = this.displayAuthExternalData();
-    this.wikidataConnector = WikidataConnector();
-  },
+
+    bindEventHandlers();
+  };
   
   // TODO: what is this doing? there doesn't seem to be a 'a[data-toggle="tab"]' in the dom??
-  bindEventHandlers: function() {
+  function bindEventHandlers() {
     $('a[data-toggle="tab"]').click(function() {
       const clicked = this;
       $('li.nav-link').each(function() {
@@ -56,22 +39,22 @@ const authorBrowse = {
       });
       $(clicked).parent('li').addClass('active');
     });
-  },
+  };
 
-  hasWikiData: function(data) {
+  function hasWikiData(data) {
     const wdProps = ['image', 'education', 'citizenship', 'pseudonyms'];
     return wdProps.some(k => k in data);
-  },
+  };
 
   // Get image and metadata
-  getWikidata: async function(localname) {
+  async function getWikidata(localname) {
     const sparqlQuery = (
       `SELECT
         ?entity
         ?citizenship
         ?label
         ?description
-        ${this.wikidataConnector.imageSparqlSelect}
+        ${wikidataConnector.imageSparqlSelect}
         (group_concat(DISTINCT ?educated_at; separator = ", ") as ?education)
         (group_concat(DISTINCT ?pseudos; separator = ", ") as ?pseudonyms)
       WHERE {
@@ -87,13 +70,14 @@ const authorBrowse = {
         }
         OPTIONAL { ?entity wdt:P742 ?pseudos. }
         OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") }
-        ${this.wikidataConnector.imageSparqlWhere}
-      } GROUP BY ?entity ?citizenship ?label ?description ${this.wikidataConnector.imageSparqlSelect} LIMIT 1`
+        ${wikidataConnector.imageSparqlWhere}
+      } GROUP BY ?entity ?citizenship ?label ?description ${wikidataConnector.imageSparqlSelect} LIMIT 1`
     );
-    return this.wikidataConnector.getData(sparqlQuery);
-  },
+    const results = await wikidataConnector.getData(sparqlQuery);
+    return parseWikidata(results);
+  };
 
-  parseWikidataResults: function(data) {
+  function parseWikidata(data) {
     const output = {};
     const bindings = data?.results?.bindings;
 
@@ -113,10 +97,10 @@ const authorBrowse = {
         label,
         pseudonyms,
       } = bindings[0];
-      if (this.canRender('description', description?.value)) {
+      if (canRender('description', description?.value)) {
         output.description = description.value.charAt(0).toUpperCase() + description.value.slice(1) + '.';
       }
-      if (this.canRender('image', imageUrl?.value)) {
+      if (canRender('image', imageUrl?.value)) {
         const image = {
           url: imageUrl.value,
           license: imageLicense?.value,
@@ -126,18 +110,18 @@ const authorBrowse = {
           name: imageName?.value,
           title: imageTitle?.value
         };
-        if (this.wikidataConnector.isSupportedImage(image)) output.image = image;
+        if (wikidataConnector.isSupportedImage(image)) output.image = image;
       };
-      if (this.canRender('citizenship', citizenship?.value)) {
+      if (canRender('citizenship', citizenship?.value)) {
         output.citizenship = citizenship.value;
       }
-      if (this.canRender('education', education?.value)) {
+      if (canRender('education', education?.value)) {
         output.education = $.unique(education.value.split(', '));
       }
 
       // Remove any duplicate pseuds and primary name
       // Shouldn't really be dependent on dom, but wanted to retain previous render logic
-      if (this.canRender('pseudonyms', pseudonyms?.value) && $('.agent-notes').length === 0) {
+      if (canRender('pseudonyms', pseudonyms?.value) && $('.agent-notes').length === 0) {
         output.pseudonyms = $.unique(pseudonyms.value.split(', '));
         output.pseudonyms = output.pseudonyms.filter(pseud => pseud != label?.value);
       }
@@ -147,22 +131,22 @@ const authorBrowse = {
     }
 
     return output;
-  },
+  };
 
-  wikiQidAndLabel: function(data) {
+  function qidAndLabel(data) {
     return {
-      wikiLabel: data.label,
-      wikiQid: data.entity?.split('/')[4]
+      label: data.label,
+      qid: data.entity?.split('/')[4]
     }
-  },
+  };
 
-  renderWikidata: function(parsedWikidata) {
+  function renderWikidata(parsedWikidata) {
     const { citizenship, education, entity, image, pseudonyms } = parsedWikidata;
 
     if (image) {
       $('#agent-image').attr('src', image.url);
       $('#img-container').show();
-      $('#wiki-image-acknowledge').html(`<br/>Image: ${this.wikidataConnector.imageAttributionHtml(image)}`);
+      $('#wiki-image-acknowledge').html(`<br/>Image: ${wikidataConnector.imageAttributionHtml(image)}`);
     } else {
       $('#comment-container').removeClass();
       $('#comment-container').addClass('col-sm-12').addClass('col-md-12').addClass('col-lg-12');
@@ -191,13 +175,11 @@ const authorBrowse = {
     }
 
     $('#wiki-acknowledge').append(`* <a href="${entity}">From Wikidata<i class="fa fa-external-link" aria-hidden="true"></i></a>`);
-    $('#info-details').removeClass('d-none');
-    $('#has-wiki-ref-info').removeClass('d-none');
-  },
+  };
     	
 	// we can use the wikidata QID to get an entity description from DBpedia
-	getDbpediaDescription: function(qid, label) {
-	  const dbpediaUrl = 'https://dbpedia.org/sparql';
+	async function getDbpediaDescription(wikidata) {
+    const { qid, label } = qidAndLabel(wikidata);
     const sparqlQuery = " SELECT distinct ?uri ?comment WHERE {"
                         + " { SELECT (?e1) AS ?uri ?comment WHERE { ?e1 dbp:d '" + qid + "'@en . ?e1 rdfs:comment ?comment . "
                         + " ?e1 rdf:type dbo:Person . FILTER (langMatches(lang(?comment),\"en\")) } } UNION "
@@ -205,31 +187,12 @@ const authorBrowse = {
                         + " ?e2 rdf:type dbo:Person . FILTER (langMatches(lang(?comment),\"en\"))} } UNION "
                         + " { SELECT (?e3) AS ?uri ?comment WHERE { ?e3 rdfs:label '" + label + "'@en . ?e3 rdfs:comment ?comment . "
                         + " ?e3 rdf:type yago:Person100007846 . FILTER (langMatches(lang(?comment),\"en\"))} }} ";
-    const fullQuery = `${dbpediaUrl}?query=${encodeURIComponent(sparqlQuery)}&format=json`;
-    return $.ajax({
-      url: fullQuery,
-      headers: { Accept: 'application/sparql-results+json' },
-      dataType: 'jsonp',
-      'jsonp': 'callback',
-    });
-	},
+    return await dbpediaConnector.getData(sparqlQuery);
+	};
 
-  parseDbpediaResults: function(data) {
-    const dbpOutput = {};
-    const bindings = data?.results?.bindings;
-    if (bindings && bindings.length) {
-      const { comment, uri } = bindings[0];
-      if (this.canRender('description', comment?.value)) {
-        dbpOutput.description = comment.value;
-        dbpOutput.uri = uri?.value;
-      }
-    }
-    return dbpOutput;
-  },
-
-  renderDescription: function(parsedWikidata, parsedDbpedia={}) {
-    const wdDescription = parsedWikidata.description;
-    const { description: dbpDescription, uri: dbpLink } = parsedDbpedia;
+  function renderDescription({ wikidata = {}, dbpedia = {} }) {
+    const wdDescription = wikidata.description;
+    const { description: dbpDescription, uri: dbpLink } = dbpedia;
 
     if (dbpDescription) {
       const dbpLinkHtml = dbpLink ? `<a href="${dbpLink}">From DBPedia<i class="fa fa-external-link" aria-hidden="true"></i></a>` : 'From DBPedia';
@@ -241,55 +204,39 @@ const authorBrowse = {
       $('#dbp-comment').text(wdDescription);
       $('#dbp-comment').show();
     }
-  },
+  };
+
+  function renderDetails({ dbpedia, wikidata }) {
+    if (hasWikiData(wikidata)) {
+      renderWikidata(wikidata);
+      renderDescription({ wikidata, dbpedia });
+      displayLinkedData();
+    } else {
+      displayCatalogMetadata();
+    }
+  };
     
   // when there's no wikidata or an error occurs in one of the ajax calls
-  displayCatalogMetadata: function() {
+  function displayCatalogMetadata() {
     $('#bio-desc').removeClass('d-none');
     $('#no-wiki-ref-info').removeClass('d-none');
-  },
-	
-	//Method for reading exclusion information i.e whether Wikdiata/DbPedia info will be allowed for this heading
-	getExclusions: function() {
-		const exclusionsInput = $('#exclusions');
-		if(exclusionsInput.length && exclusionsInput.val() != '') {
-			const exclusionsJSON = JSON.parse(exclusionsInput.val());
-			return exclusionsJSON;
-		}
-		return null;
-	},
-	//Is all external data not to be displayed for authority? If authority is present in the list and has no properties
-	displayAuthExternalData: function() {
-		const exclusionsJSON = this.exclusionsJSON;
-		//no exclusions, or exclusion = false, or exclusion is true but there are properties
-		return (exclusionsJSON == null || $.isEmptyObject(exclusionsJSON) ||
-			('exclusion' in exclusionsJSON && (exclusionsJSON['exclusion'] == false) ) ||
-			('exclusion' in exclusionsJSON && exclusionsJSON['exclusion'] == true && 'properties' in exclusionsJSON && exclusionsJSON['properties'].length));
-				
-	},
-	isPropertyExcluded: function(propertyName) {
-		// if this property exists in our hash, then that means it is one of the properties the yaml 
-        // file indicates should not be displayed
-		return ('exclusionPropertiesHash' in this && propertyName in this.exclusionPropertiesHash);
-	},
-	//relies on both presence of value and ability to display this data
-  canRender: function(propertyName, value) {
-    return !!value && !this.isPropertyExcluded(propertyName);
-  },
-	createExclusionHash: function() {
-		const exclusionHash = {};
-		if('properties' in this.exclusionsJSON && this.exclusionsJSON['properties'].length) {
-			$.each(this.exclusionsJSON.properties, function(i, v) {
-				exclusionHash[v] = true;
-			});
-			
-		}
-		return exclusionHash;
-	},
+  };
+
+  function displayLinkedData() {
+    $('#info-details').removeClass('d-none');
+    $('#has-wiki-ref-info').removeClass('d-none');
+  };
+
+	// Relies on both presence of value and ability to display this data
+  function canRender(propertyName, value) {
+    return !!value && !ldExcluder.isPropertyExcluded(propertyName);
+  };
+
+  return { onLoad };
 };
 
 Blacklight.onLoad(function() {
   if ( $('body').prop('className').indexOf('browse-info') >= 0 && $('#auth_loc_localname').length ) {
-    authorBrowse.onLoad();
+    AuthorBrowse().onLoad();
   }
 });
