@@ -168,7 +168,7 @@ Blacklight.onLoad(function() {
   // Currently, only one primary author for each item view page
   // This can be extended to include separate code if multiple knowledge panels are possible
   if ( $('*[data-auth]').length ) {
-    var kPanelObj = new kPanel();
+    const kPanelObj = new kPanel();
     kPanelObj.init();
   }
 });

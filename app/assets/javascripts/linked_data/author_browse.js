@@ -1,6 +1,6 @@
 // https://id.loc.gov/authorities/names/suggest/?q=Twain,+Mark,+1835-1910
 // id.loc.gov/authorities/names/label/[label]
-var authorBrowse = {
+const authorBrowse = {
   onLoad: async function() {
     const localname = $('#auth_loc_localname').val();
     authorBrowse.init();
@@ -47,15 +47,15 @@ var authorBrowse = {
     authorBrowse.wikidataConnector = WikidataConnector();
   },
   
+  // TODO: what is this doing? there doesn't seem to be a 'a[data-toggle="tab"]' in the dom??
   bindEventHandlers: function() {
-      $('a[data-toggle="tab"]').click(function() {
-          var clicked = this;
-          $('li.nav-link').each(function() {
-              $(this).removeClass('active');
-          });
-          $(clicked).parent('li').addClass('active'); 
+    $('a[data-toggle="tab"]').click(function() {
+      const clicked = this;
+      $('li.nav-link').each(function() {
+        $(this).removeClass('active');
       });
-      
+      $(clicked).parent('li').addClass('active');
+    });
   },
 
   hasWikiData: function(data) {
@@ -201,20 +201,20 @@ var authorBrowse = {
     	
 	// we can use the wikidata QID to get an entity description from DBpedia
 	getDbpediaDescription: function(qid, label) {
-	  var dbpediaUrl = "https://dbpedia.org/sparql";
-    var sparqlQuery = " SELECT distinct ?uri ?comment WHERE {"
+	  const dbpediaUrl = 'https://dbpedia.org/sparql';
+    const sparqlQuery = " SELECT distinct ?uri ?comment WHERE {"
                         + " { SELECT (?e1) AS ?uri ?comment WHERE { ?e1 dbp:d '" + qid + "'@en . ?e1 rdfs:comment ?comment . "
                         + " ?e1 rdf:type dbo:Person . FILTER (langMatches(lang(?comment),\"en\")) } } UNION "
                         + " { SELECT (?e2) AS ?uri ?comment WHERE { ?e2 rdfs:label '" + label + "'@en . ?e2 rdfs:comment ?comment . "
                         + " ?e2 rdf:type dbo:Person . FILTER (langMatches(lang(?comment),\"en\"))} } UNION "
                         + " { SELECT (?e3) AS ?uri ?comment WHERE { ?e3 rdfs:label '" + label + "'@en . ?e3 rdfs:comment ?comment . "
                         + " ?e3 rdf:type yago:Person100007846 . FILTER (langMatches(lang(?comment),\"en\"))} }} ";
-    var fullQuery = dbpediaUrl + "?query=" +  encodeURIComponent(sparqlQuery) + "&format=json";
+    const fullQuery = `${dbpediaUrl}?query=${encodeURIComponent(sparqlQuery)}&format=json`;
     return $.ajax({
-      url : fullQuery,
-      headers : { Accept : 'application/sparql-results+json' },
-      dataType: "jsonp",
-      "jsonp": "callback",
+      url: fullQuery,
+      headers: { Accept: 'application/sparql-results+json' },
+      dataType: 'jsonp',
+      'jsonp': 'callback',
     });
 	},
 
@@ -255,16 +255,16 @@ var authorBrowse = {
 	
 	//Method for reading exclusion information i.e whether Wikdiata/DbPedia info will be allowed for this heading
 	getExclusions: function() {
-		var exclusionsInput = $("#exclusions");
+		const exclusionsInput = $("#exclusions");
 		if(exclusionsInput.length && exclusionsInput.val() != "") {
-			var exclusionsJSON = JSON.parse(exclusionsInput.val());
+			const exclusionsJSON = JSON.parse(exclusionsInput.val());
 			return exclusionsJSON;
 		}
 		return null;
 	},
 	//Is all external data not to be displayed for authority? If authority is present in the list and has no properties
 	displayAuthExternalData: function() {
-		var exclusionsJSON = authorBrowse.exclusionsJSON;
+		const exclusionsJSON = authorBrowse.exclusionsJSON;
 		//no exclusions, or exclusion = false, or exclusion is true but there are properties
 		return (exclusionsJSON == null || $.isEmptyObject(exclusionsJSON) ||
 			("exclusion" in exclusionsJSON && (exclusionsJSON["exclusion"] == false) ) ||
@@ -281,7 +281,7 @@ var authorBrowse = {
     return !!value && !authorBrowse.isPropertyExcluded(propertyName);
   },
 	createExclusionHash: function() {
-		var exclusionHash = {};
+		const exclusionHash = {};
 		if("properties" in authorBrowse.exclusionsJSON && authorBrowse.exclusionsJSON["properties"].length) {
 			$.each(authorBrowse.exclusionsJSON.properties, function(i, v) {
 				exclusionHash[v] = true;
