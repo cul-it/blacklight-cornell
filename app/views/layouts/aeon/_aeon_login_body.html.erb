@@ -46,10 +46,10 @@
     <%= paramsHash.inspect %>
 
      
-  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html" method="GET"> 
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html" method="POST"> 
   <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
      <input type="hidden" name="authenticated" value="true" />
-      <input type="hidden" name="target" value="<%= ENV['AEON_RETURN_TARGET'] %>/aeon/redirect_shib/" method="POST" style="margin-top: 30px;">
+      <input type="hidden" name="target" value="<%= ENV['AEON_RETURN_TARGET'] %>/aeon/redirect_shib" method="POST" style="margin-top: 30px;">
       <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
