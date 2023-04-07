@@ -1,7 +1,7 @@
 function WikidataConnector() {
   const allowedLicenses = [
     'pd',
-    'cc',
+    'cc0',
     'cc-by-1.0',
     'cc-by-3.0',
     'cc-by-4.0',
@@ -49,7 +49,7 @@ function WikidataConnector() {
 
   // Don't display images licensed by cc2
   function isSupportedLicense(imageLicense) {
-    return allowedLicenses.includes(imageLicense);
+    return allowedLicenses.includes(imageLicense?.toLowerCase());
   }
   
   async function getData(sparqlQuery) {
