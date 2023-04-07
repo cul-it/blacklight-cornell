@@ -1,4 +1,5 @@
 function WikidataConnector() {
+  // Does not allow cc2 or cc2.5
   const allowedLicenses = [
     'pd',
     'cc0',
@@ -11,6 +12,10 @@ function WikidataConnector() {
   ];
   const supportedImageTypes = ['jpg', 'jpeg', 'gif', 'png', 'svg'];
   const imageSparqlSelect = '?image ?imageLicense ?imageLicenseShortName ?imageLicenseUrl ?imageArtist ?imageName ?imageTitle';
+
+  // Fetches optional image and image license information for attribution display and filtering by license type
+  // Uses MediaWiki API service to query wikimedia for image file license data
+  // https://www.mediawiki.org/wiki/Wikidata_Query_Service/User_Manual/MWAPI
   const imageSparqlWhere = (
     `OPTIONAL {
       ?entity wdt:P18 ?image.
@@ -43,7 +48,7 @@ function WikidataConnector() {
   function isSupportedImageType(imageUrl) {
     if (!imageUrl) return false;
 
-    const fileExtension = imageUrl.substr( (imageUrl.lastIndexOf('.') +1) ).toLowerCase();
+    const fileExtension = imageUrl.substr(imageUrl.lastIndexOf('.') + 1).toLowerCase();
     return supportedImageTypes.includes(fileExtension);
   }
 

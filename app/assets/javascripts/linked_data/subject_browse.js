@@ -23,7 +23,6 @@ function SubjectBrowse() {
 };
 function SubjectDataBrowse() {
   const ldExcluder = LDExcluder();
-  const displayAnyExternalData = ldExcluder.displayAnyExternalData;
   const wikidataConnector = WikidataConnector();
   const dbpediaConnector = DbpediaConnector();
 
@@ -31,30 +30,21 @@ function SubjectDataBrowse() {
     let dbpedia = {};
     let wikidata = {};
     try {
-      if (displayAnyExternalData) {
+      if (ldExcluder.entityIsNotExcluded) {
+        // Fetch and render image from wikidata and description from dbpedia
         const localname = $('#subj_loc_localname').val();
+        if (localname.length) wikidata = await getWikidata(localname);
 
-        if (localname.length) {
-          // Fetch and render image from wikidata and description from dbpedia
-          wikidata = await getWikidata(localname);
-  
-          // We only connect to dbpedia to get description, so don't bother if description should be excluded
-          if (!ldExcluder.isPropertyExcluded('description')) {
-            dbpedia = await getDbpediaDescription(wikidata);
-          }
-        }
-        else {
-          // Fetch description from dbpedia only
-          if (!ldExcluder.isPropertyExcluded('description')) {
-            dbpedia = await getDbpediaDescription(wikidata);
-          }
+        // We only connect to dbpedia to get description, so don't bother if description should be excluded
+        if (!ldExcluder.isPropertyExcluded('description')) {
+          dbpedia = await getDbpediaDescription(wikidata);
         }
       }
     } catch(err) {
       console.log(err);
     } finally {
       // Either display linked data or default catalog metadata
-      renderDetails({ wikidata, dbpedia });
+      showDetails({ wikidata, dbpedia });
     }
   };
   
@@ -155,7 +145,7 @@ function SubjectDataBrowse() {
     }
   };
 
-  function renderDetails({ dbpedia, wikidata }) {
+  function showDetails({ dbpedia, wikidata }) {
     if (wikidata.image || dbpedia.description) {
       renderWikiImage(wikidata.image);
       renderDescription({ dbpedia, wikidata })

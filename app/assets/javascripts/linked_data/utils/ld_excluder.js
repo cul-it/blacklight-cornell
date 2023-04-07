@@ -1,7 +1,7 @@
 function LDExcluder() {
   const exclusionsJSON = getExclusions();
   const exclusionPropertiesHash = createExclusionHash();
-  const displayAnyExternalData = displayAuthExternalData();
+  const entityIsNotExcluded = displayAuthExternalData();
 
   // Method for reading exclusion information i.e whether Wikdiata/DbPedia info will be allowed for this heading
   function getExclusions() {
@@ -38,7 +38,7 @@ function LDExcluder() {
   };
 
   return {
-    displayAnyExternalData,
+    entityIsNotExcluded,
     isPropertyExcluded,
   }
 }

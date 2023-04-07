@@ -2,7 +2,6 @@
 // id.loc.gov/authorities/names/label/[label]
 function AuthorBrowse() {
   const ldExcluder = LDExcluder();
-  const displayAnyExternalData = ldExcluder.displayAnyExternalData;
   const wikidataConnector = WikidataConnector();
   const dbpediaConnector = DbpediaConnector();
 
@@ -10,7 +9,7 @@ function AuthorBrowse() {
     let wikidata = {};
     let dbpedia = {};
     try {
-      if (displayAnyExternalData) {
+      if (ldExcluder.entityIsNotExcluded) {
         const localname = $('#auth_loc_localname').val();
         wikidata = await getWikidata(localname);
         if (hasWikiData(wikidata)) {
@@ -24,7 +23,7 @@ function AuthorBrowse() {
       console.log(err);
     } finally {
       // Either display linked data or default catalog metadata
-      renderDetails({ wikidata, dbpedia });
+      showDetails({ wikidata, dbpedia });
     }
 
     bindEventHandlers();
@@ -206,7 +205,7 @@ function AuthorBrowse() {
     }
   };
 
-  function renderDetails({ dbpedia, wikidata }) {
+  function showDetails({ dbpedia, wikidata }) {
     if (hasWikiData(wikidata)) {
       renderWikidata(wikidata);
       renderDescription({ wikidata, dbpedia });

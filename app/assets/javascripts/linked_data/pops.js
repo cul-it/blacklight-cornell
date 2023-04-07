@@ -1,7 +1,5 @@
 // Represents author knowledge panel
 function KPanel() {
-  const imageSize = 100
-  const authType = 'author';
   const wikidataConnector = WikidataConnector();
 
   function init() {
@@ -12,9 +10,9 @@ function KPanel() {
     $('*[data-poload]').click(function(event) {
       event.preventDefault();
       const e = $(this);
-      const auth = e.attr('data-auth');
+      const authority = e.data('auth');
       const fullRecordLink = e.data('poload');
-      const catalogAuthURL = `/panel?type=${authType}&authq="${encodeURIComponent(auth)}"`;
+      const catalogAuthURL = `/panel?type=author&authq="${encodeURIComponent(authority)}"`;
       $.get(catalogAuthURL, function(d) {
         const displayHTML = $(d).find('div#kpanelContent').html();
         // Change trigger to focus for prod- click for debugging
@@ -22,7 +20,7 @@ function KPanel() {
         // Can drop additional info type parameter if author page defaults to that view
         $('#fullRecordLink').attr('href', fullRecordLink);
         // Now get additional data
-        getAdditionalData(auth);
+        renderKPanelContent(authority);
       });
     });
 
@@ -36,22 +34,19 @@ function KPanel() {
   };
 
   // Get other data from LOC and Wikidata
-  async function getAdditionalData(auth) {
-    const locPath = 'names';
-    const rdfType = 'PersonalName';
-    const locQuery = processAuthName(auth);
+  async function renderKPanelContent(authority) {
+    const locQuery = processAuthorityName(authority);
+
     // Incorporate when so loc suggestion and auth check occur together
     // and then wikidata is queried only if info can be displayed
     try {
-      const locResults = await queryLOCSuggestions(locPath, locQuery, rdfType);
-      const locURI = parseLOCResults(locResults);
-      if (locURI) {
+      const localname = await getLocLocalName(locQuery);
+      if (localname) {
         try {
-          const wdResults = await queryWikidata(locURI);
-          const parsedWikidata = parseWikidataResults(wdResults);
-          renderWikidata(parsedWikidata);
+          const wikidata = await getWikidata(localname);
+          renderWikidata(wikidata);
         } catch(err) {
-          console.log(`Error occurred retrieving Wikidata info for ${locURI}`);
+          console.log(`Error occurred retrieving Wikidata info for ${localname}`);
           console.log(err);
         }
       }
@@ -60,36 +55,41 @@ function KPanel() {
       console.log(`Error occurred retrieving LOC suggestion for ${locQuery}`);
       console.log(err);
     } finally {
-      renderPopover();
+      showPopoverContent();
     }
   };
 
   // Remove any extra periods or commas when looking up LOC
-  function processAuthName(auth) {
-    return auth.replace(/[,.]\s*$/, '');
+  function processAuthorityName(authority) {
+    return authority?.replace(/[,.]\s*$/, '');
   };
   
   // Lookup suggestions in LOC for this name specifically
-  async function queryLOCSuggestions(locPath, locQuery, rdfType) {
-    const lookupURL = `https://id.loc.gov/authorities/${locPath}/suggest?q=${encodeURIComponent(locQuery)}&rdftype=${rdfType}&count=1`;    
+  async function getLocLocalName(locQuery) {
+    const lookupURL = `https://id.loc.gov/authorities/names/suggest?q=${encodeURIComponent(locQuery)}&rdftype=PersonalName&count=1`;
     // Using timeout to handle query that doesn't return in 3 seconds for jsonp request
-    return $.ajax({
+    const results = await $.ajax({
       url: lookupURL,
       dataType: 'jsonp',
       timeout: 3000,
       crossDomain: true
     });
+    return parseLocResults(results);
   };
   
-  function parseLOCResults(suggestions) {
+  // Example LOC results:
+  // ["Vivaldi, Antonio, 1678-1741",['Vivaldi, Antonio, 1678-1741'],['1 result'],['http://id.loc.gov/authorities/names/n79021280']]
+  function parseLocResults(suggestions) {
     if (suggestions && suggestions[1] !== undefined) {
-      return suggestions[3][0];
+      const locURI = suggestions[3][0];
+      // Get string right after last slash if it's present
+      // TODO: deal with hashes later
+      return locURI?.split('/')?.pop();
     }
   };
   
   // Given an LOC URI, query if equivalent wikidata entity exists and get image and/or description
-  async function queryWikidata(locURI) {
-    const localname = getLocalName(locURI);
+  async function getWikidata(localname) {
     const sparqlQuery = (
       `SELECT *
       WHERE {
@@ -100,10 +100,11 @@ function KPanel() {
         }
       }`
     );
-    return wikidataConnector.getData(sparqlQuery);
+    const results = await wikidataConnector.getData(sparqlQuery);
+    return parseWikidata(results);
   };
    
-  function parseWikidataResults(data) {
+  function parseWikidata(data) {
     const output = {};
     const bindings = data?.results?.bindings;
     if (bindings && bindings.length) {
@@ -134,7 +135,7 @@ function KPanel() {
   function renderWikidata(parsedWikidata) {
     const { image, description } = parsedWikidata;
     if (wikidataConnector.isSupportedImage(image)) {
-      const resizedImage = `${image.url}?width=${imageSize}`;
+      const resizedImage = `${image.url}?width=100`;
       const attributionHtml = wikidataConnector.imageAttributionHtml(image);
       const imageHtml = (
         `<figure class="kp-entity-image float-left">
@@ -147,16 +148,9 @@ function KPanel() {
     if(description) $('#wikidataDescription').html(description);
   };
 
-  function renderPopover() {
+  function showPopoverContent() {
     $('#time-indicator').hide();
     $('#popoverContent').removeClass('d-none');
-  };
-
-  // Get localname from LOC URI
-  function getLocalName(uri) {
-    // Get string right after last slash if it's present
-    // TODO: deal with hashes later
-    return uri.split('/').pop();
   };
 
   return { init }
