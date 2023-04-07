@@ -14,7 +14,3 @@ set :branch, ENV['GIT_BRANCH'].gsub("origin/","")
 
 set :rails_env, 'production'
 
-#task :install_env, :roles => [ :app, :db, :web ] do
-#  run "cp #{deploy_to}/../conf/latest-integration.env  #{shared_path}/.env"
-#  run "cat #{shared_path}/.env"
-#end
