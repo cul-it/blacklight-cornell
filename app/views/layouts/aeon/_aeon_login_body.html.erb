@@ -30,12 +30,9 @@
 
      
   <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/aeon/aeon.dll' method='POST'>
-  <!-- form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html" method="GET" --> 
-  <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
      <input type="hidden" name="authenticated" value="true" />
       <input type="hidden" name="target" value="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll" method="POST" style="margin-top: 30px;" >
        <input type="hidden" name="aeonControl_usertype" value="shib" >
-      <!-- input type="hidden" name="aeonParams" value="<%= paramsHash %>" / -->
              <% paramsHash.each do |key, value| %>
                   <% if key == "Request" %>
                     <% value.each do |val| %>
