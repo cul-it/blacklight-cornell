@@ -1,5 +1,5 @@
 
- <header class="head">
+    <header class="head">
  <div>
     <a href="#content" accesskey="S" onclick="$('#content').focus();" class="offscreen">Skip to Main Content</a>
   </div>
@@ -21,33 +21,19 @@
 <%#= params.inspect %>
 <% paramsHash = params.to_h %>
  
-<div class="container">
-    <% requestsString = "" %>
-    <% requestsArray = [] %>
 
-   
-    <%# paramsHash.inspect %>
+    <%#= paramsHash.inspect %>
 
      
-  <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/aeon/aeon.dll' method='POST'>
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=<%= params['target'] %>" method="POST"> 
+  <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
      <input type="hidden" name="authenticated" value="true" />
-      <input type="hidden" name="target" value="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll" method="POST" style="margin-top: 30px;" >
-       <input type="hidden" name="aeonControl_usertype" value="shib" >
-             <% paramsHash.each do |key, value| %>
-                  <% if key == "Request" %>
-                    <% value.each do |val| %>
-                  	       <input type="hidden" name="<%= key %>" value="<%= val %>" >
-                    <% end %>
-                 <% else %>
-                   <input type="hidden" name="<%= key %>" value="<%= value %>">
-                 <% end %>
-               
-            <% end %>
-  
+      <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" style="margin-top: 30px;">
+      <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 
-         <form action="/https://rmc-aeon.library.cornell.edu/aeon/nonshib/aeon.dll" method="POST" style="margin-top: 30px;">
+         <form action="/aeon/redirect_nonshib" method="POST" style="margin-top: 30px;">
            <input type="hidden" name='newParams' value='<%= paramsHash %>'>
       
         <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
