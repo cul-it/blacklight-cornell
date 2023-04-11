@@ -1,5 +1,5 @@
 
-    <header class="head">
+ <header class="head">
  <div>
     <a href="#content" accesskey="S" onclick="$('#content').focus();" class="offscreen">Skip to Main Content</a>
   </div>
@@ -18,20 +18,20 @@
     <h1>Division of Rare and Manuscript Collections</h1>
   </div>
 </header>
-<%#= params.inspect %>
+<%= params.inspect %>
 <% paramsHash = params.to_h %>
  
 <div class="container">
     <% requestsString = "" %>
     <% requestsArray = [] %>
 
-   
+    
     <%# paramsHash.inspect %>
 
      
-  <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/aeon/aeon.dll' method='POST'>
+  <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=<%= params['target'] %>' method='POST'>
      <input type="hidden" name="authenticated" value="true" />
-      <input type="hidden" name="target" value="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll" method="POST" style="margin-top: 30px;" >
+      <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" style="margin-top: 30px;" >
        <input type="hidden" name="aeonControl_usertype" value="shib" >
              <% paramsHash.each do |key, value| %>
                   <% if key == "Request" %>
@@ -47,7 +47,8 @@
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 
-         <form action="/aeon/redirect_nonshib" method="POST" style="margin-top: 30px;">
+         <form action="https://rmc-aeon.library.cornell.edu/nonshib/boom.html?target=<%= params['target'] %>" method="GET" style="margin-top: 30px;">
+      <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" style="margin-top: 30px;" >
            <input type="hidden" name='newParams' value='<%= paramsHash %>'>
       
         <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
