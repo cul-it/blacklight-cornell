@@ -24,33 +24,29 @@
 <div class="container">
     <% requestsString = "" %>
     <% requestsArray = [] %>
-    <% paramsHash.each do |key, value| %>
-       <% if key == "Request" %>
-           <% value.each do | val | %>
-               <% requestsString = requestsString + " || " + "Request" + "=" + val %>
-           <% end %>
-           <%  requestsArray = requestsString.split(" || ") %>
-       <% end %>
-    <% end %>
-    <%#= requestsArray.inspect %>
-    <% requestsArray.each do | request | %>
-       <% if !request.blank? %>
-        <% requestOne = request.split('=') %>
-        <% paramsHash[requestOne[0]] = requestOne[1] %>
-      <% end %>
-    <% end %>
-    <% if paramsHash[:Request].kind_of?(Array) %>
-      <% paramsHash[:Request] = paramsHash[:Request].to_h %>
-   <% end %>
+
    
-    <%#= paramsHash.inspect %>
+    <%# paramsHash.inspect %>
 
      
-  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html" method="GET"> 
+  <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/aeon/aeon.dll' method='POST'>
+  <!-- form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html" method="GET" --> 
   <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
      <input type="hidden" name="authenticated" value="true" />
-      <input type="hidden" name="target" value="<%= ENV['AEON_RETURN_TARGET'] %>/aeon/redirect_shib" method="POST" style="margin-top: 30px;">
-      <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />
+      <input type="hidden" name="target" value="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll" method="POST" style="margin-top: 30px;" >
+       <input type="hidden" name="aeonControl_usertype" value="shib" >
+      <!-- input type="hidden" name="aeonParams" value="<%= paramsHash %>" / -->
+             <% paramsHash.each do |key, value| %>
+                  <% if key == "Request" %>
+                    <% value.each do |val| %>
+                  	       <input type="hidden" name="<%= key %>" value="<%= val %>" >
+                    <% end %>
+                 <% else %>
+                   <input type="hidden" name="<%= key %>" value="<%= value %>">
+                 <% end %>
+               
+            <% end %>
+  
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 
