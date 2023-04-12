@@ -1,24 +1,4 @@
 <% if @results %>
-<%
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "@results: " + @results.inspect
-msg << "@top_4_results: " + @top_4_results.inspect
-msg << "@institutionalRepositories: " + @institutionalRepositories.inspect
-msg << "@results.blank?: " + @results.blank?.inspect
-msg << "@results.blank?: " + @results.blank?.inspect
-msg << "@websites.blank?: " + @websites.blank?.inspect
-msg << "@query.nil?: " + @query.nil?.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
-%>
   <div class="row">
     <div class="col-sm-12">
       <div class="card card-well">
@@ -296,20 +276,6 @@ Rails.logger.level = save_level
               </div>
             <% end %>
           </div>
-<%
-#******************
-save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-jgr25_context = "#{__FILE__}:#{__LINE__}"
-Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-msg = [" #{__method__} ".center(60,'Z')]
-msg << jgr25_context
-msg << "@institutionalRepositories: " + @institutionalRepositories.inspect
-msg << 'Z' * 60
-msg.each { |x| puts 'ZZZ ' + x.to_yaml }
-Rails.logger.level = save_level
-#binding.pry
-#*******************
-%>
           <% if 'institutionalRepositories bento box output'.present? %>
           <div class="bento7" id="instrepos">
             <% if @institutionalRepositories.present? %>
