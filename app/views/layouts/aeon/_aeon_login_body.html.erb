@@ -24,11 +24,11 @@
     <%#= paramsHash.inspect %>
 
      
-  <form action="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll method="POST"> 
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll" method="POST"> 
   <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
      <input type="hidden" name="authenticated" value="true" />
       <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" style="margin-top: 30px;">
-<!--      <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />  -->
+      <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />  
 
  <% paramsHash.each do |key, value| %>
      <% if key != "Request" %> 
