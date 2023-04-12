@@ -47,14 +47,51 @@ class SearchController < ApplicationController
 
           # In order to treat multiple formats separately but only run one Solr query to retrieve
           # them all, we have to store the query result in the custom_data object ...
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "@results.keys: " + @results.keys.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
           if  !@results['solr'][0].nil? && @results['solr'][0].custom_data
             facet_results = @results['solr'][0].custom_data
           else
             facet_results = {}
           end
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "@results.keys 2: " + @results.keys.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
 
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "@results.keys 3: " + @results.keys.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
+
 
           # if !@results['summon_bento'].nil?
           #   @results['summon_bento'].each do |result|
@@ -75,6 +112,18 @@ class SearchController < ApplicationController
           # Merge the newly generated, format-specific results with any other results (e.g., from
           # Summon or web search), then remove the original single-query result.
           @results.merge!(faceted_results).except! 'solr'
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "@results.keys 4: " + @results.keys.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
 
           unless @results['bestbet'].nil? or @results['bestbet'][0].nil?
             @best_bets = [{'title' => @results['bestbet'][0].title, 'link' => @results['bestbet'][0].link}]
@@ -82,7 +131,34 @@ class SearchController < ApplicationController
 
           display_type = params['fixedPanes'].nil? ? 'dynamic' : 'fixed'
           @fixed_panes = display_type == 'fixed' ? true : false
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "@results.keys 5: " + @results.keys.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
           @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet') , display_type, @scores
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "@results.keys 6: " + @results.keys.inspect
+msg << "@top_4_results: " + @top_4_results.inspect
+msg << "@secondary_results: " + @secondary_results.inspect
+msg << "@more_results: " + @more_results.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
       end
       if session[:search].nil?
 	      session[:search] = {}
@@ -158,6 +234,19 @@ class SearchController < ApplicationController
     @summonArticles = results.delete('summonArticles')
     @digitalCollections = results.delete('digitalCollections')
     @institutionalRepositories = results.delete('institutionalRepositories')
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "results: " + results.inspect
+msg << "@institutionalRepositories: " + @institutionalRepositories.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
+#*******************
     @libguides = results.delete('libguides')
     # Top 2 are books and articles, regardless of display_type
     #jgr25 top1 << ['summon_bento', results.delete('summon_bento')]
