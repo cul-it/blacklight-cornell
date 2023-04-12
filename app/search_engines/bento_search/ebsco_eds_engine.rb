@@ -73,10 +73,10 @@ class BentoSearch::EbscoEdsEngine
                     links = rec.eds_fulltext_links()
                     next unless links.present?
 
-                    # inaccessible items creap in unless we require a 'Get it! Cornell' link
+                    # inaccessible items creap in unless we require a 'Full Text' link
                     found_get_it = false
                     links.each do | link |
-                        if link[:label].include? "Get it! Cornell"
+                        if link[:label].downcase.include? "full text"
                             found_get_it = true
                             break
                         end
