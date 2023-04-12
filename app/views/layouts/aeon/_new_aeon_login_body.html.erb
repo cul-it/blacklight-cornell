@@ -25,7 +25,7 @@
     <%#= paramsHash.inspect %>
 
      
-  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=<%= ENV['AEON_RETURN_TARGET'] %><%= params['target'] %>" method="POST"> 
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html?target=<%= ENV['AEON_RETURN_TARGET'] %><%= params['target'] %>" method="POST"> 
   <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
      <input type="hidden" name="authenticated" value="true" />
       <input type="hidden" name="target" value="<%= ENV['AEON_RETURN_TARGET'] %><%= params['target'] %>" method="POST" style="margin-top: 30px;">
