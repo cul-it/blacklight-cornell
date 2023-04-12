@@ -20,15 +20,23 @@
 </header>
 <%#= params.inspect %>
 <% paramsHash = params.to_h %>
- 
+ <% paramsHash.each do |key, value| %>
+     <% unless key == "Request" %> 
+       <input type="hidden" name="<%= key %>" value="<%= value %>" />
+     <% else %>
+        <% value.each do |val| %>
+            <input type="hidden" name="Request" value="<%= value %>" />
+        <% end %>
+     <% end %>
+ <% end %>
 
     <%#= paramsHash.inspect %>
 
      
-  <form action="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll" method="POST"> 
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/aeon.dl?target=<%= params['target'] %>" method="POST"> 
   <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
      <input type="hidden" name="authenticated" value="true" />
-   <!--   <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" style="margin-top: 30px;"> -->
+      <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" style="margin-top: 30px;">
       <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
