@@ -51,6 +51,11 @@ class AeonController < ApplicationController
 	
  end
 
+ def new_aeon_login
+ 	return params
+ 	
+ end 
+
  def reading_room_request  #rewrite of monograph.php from voy-api.library.cornell.edu
  	@title
  	@reading_room_request
