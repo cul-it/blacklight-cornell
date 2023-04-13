@@ -18,7 +18,7 @@
     <h1>Division of Rare and Manuscript Collections</h1>
   </div>
 </header>
-<%= params.inspect %>
+<%#= params.inspect %>
 <% target_good = params['target'] %>
 <% if !params['finding'].nil? %>
 <% target_good = target_good + '&finding=' + params['finding'] %>
@@ -26,15 +26,15 @@
 <% paramsHash = params.to_h %>
  
 
-    <%= paramsHash.inspect %>
-   <%= target_good.inspect %>
+    <%#= paramsHash.inspect %>
+   <%#= target_good.inspect %> 
 
-     
-  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html?target=<%= ENV['AEON_RETURN_TARGET'] %><%= target_good %>" method="GET"> 
+ <div class="container">     
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/boom_login.html" method="GET"> 
   <!-- form action="/aeon/redirect_shib" method="POST" style="margin-top: 30px;"> -->
      <input type="hidden" name="authenticated" value="true" />
-      <input type="hidden" name="target" value="<%= ENV['AEON_RETURN_TARGET'] %><%= target_good %>" >
-      <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />
+      <input type="hidden" name="target" value="<%= target_good %>" >
+  <!--    <input type="hidden" name="aeonParams" value="<%= paramsHash %>" /> -->
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 
