@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 0326faf9f7a1a1725c02e8e6cd34910f19b0ff2e
+  revision: 9f4de9716e1959fb018932ee4994d76f6b5d51f5
   specs:
-    blacklight_cornell_requests (4.3.2)
+    blacklight_cornell_requests (4.3.3)
       activerecord-oracle_enhanced-adapter
       blacklight
       cul-folio-edge (~> 2.0)
@@ -518,11 +518,11 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.5.9)
-    nokogiri (1.14.2-arm64-darwin)
+    nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.2-x86_64-darwin)
+    nokogiri (1.14.3-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.2-x86_64-linux)
+    nokogiri (1.14.3-x86_64-linux)
       racc (~> 1.4)
     nori (2.6.0)
     notiffany (0.1.3)
