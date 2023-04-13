@@ -1,5 +1,5 @@
 # Configuration:
-# 
+#
 # disabled
 #   false if tracking tag should be shown
 # use_async
@@ -21,9 +21,9 @@ development:
   piwik:
     id_site: 2
     url: webstats.library.cornell.edu
-    disabled: true 
+    disabled: true
     use_async: false
-    hostname: newcatalog.library.cornell.edu 
+    hostname: catalog.library.cornell.edu
 
 test:
   piwik:
@@ -31,15 +31,15 @@ test:
     url: webstats.library.cornell.edu
     disabled: true
     use_async: false
-    hostname: localhost 
+    hostname: localhost
 
 integration:
   piwik:
     id_site: 2
     url: webstats.library.cornell.edu
-    disabled: true 
+    disabled: true
     use_async: false
-    hostname:  newcatalog.library.cornell.edu 
+    hostname:  catalog.library.cornell.edu
 
 staging:
   piwik:

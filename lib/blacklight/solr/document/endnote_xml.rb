@@ -123,7 +123,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
 #
   def generate_enx_notes(bld,ty)
     nt =   setup_notes_info(to_marc)
-    nt <<  "http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    nt <<  "http://catalog.library.cornell.edu/catalog/#{id}\n"
     bld.notes(nt.join(" ")) unless nt.blank? or nt.join("").blank?
   end
 

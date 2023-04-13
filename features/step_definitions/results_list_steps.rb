@@ -83,5 +83,5 @@ end
 
 Then (/^I visit Books page '(.*)' with '(.*)' per page$/) do |page, perpage|
   href = "/?f[format][]=Book&page=#{page}&per_page=#{perpage}"
-  visit(href)
+	do_visit(href)
 end

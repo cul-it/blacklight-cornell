@@ -60,7 +60,7 @@ gem 'libv8-node'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 
-  gem 'uglifier', '>= 1.0.3'
+  gem "terser", "~> 1.1"
 
 group :development, :test do
   gem 'rspec'
@@ -75,6 +75,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'meta_request'
   gem 'awesome_print'
+  gem 'selenium-webdriver'
 end
 
 group :test do
