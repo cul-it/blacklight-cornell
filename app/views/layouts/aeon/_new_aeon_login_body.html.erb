@@ -38,9 +38,9 @@
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 
-         <form action="/aeon/redirect_nonshib" method="POST" style="margin-top: 30px;">
-           <input type="hidden" name='newParams' value='<%= paramsHash %>'>
-      
+         <form action="https://rmc-aeon.library.cornell.edu/nonshib/boom.html" method="GET" style="margin-top: 30px;">
+         
+            <input type="hidden" name="target" value="<%= target_good %>" >
         <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
     <%#= @paramsString.inspect %>
