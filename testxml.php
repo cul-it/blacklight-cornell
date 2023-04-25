@@ -1,4 +1,5 @@
 <?php
+# another trivial edit
 #last build hung up remove a comment
 $filename = "./licenseDataAug192014.xml";
 if (file_exists($filename)) {
