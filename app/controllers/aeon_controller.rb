@@ -6,7 +6,6 @@ class AeonController < ApplicationController
   require 'net/sftp'
   require 'net/scp'
   require 'net/ssh'
-
   @ic = 0
   @bcc = 0
   @bibid = ""
@@ -48,6 +47,11 @@ class AeonController < ApplicationController
    @review_text = "Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment."
 
  end
+
+ def new_aeon_login
+ 	return params
+ 	
+ end 
 
  def reading_room_request  #rewrite of monograph.php from voy-api.library.cornell.edu
  	@title
@@ -239,8 +243,8 @@ class AeonController < ApplicationController
 #	global finding_aid;
 #	delivery_time = ""
 #	disclaimer = "Once your order is reviewed by our staff you will then be sent an invoice. Your invoice will include information on how to pay for your order. You must pre-pay, staff cannot fulfill your request until you pay the charges."
-#    #re506 = ""
-#    #webreq = ""
+    #re506 = ""
+    #webreq = ""
 #	fa = '';
 #	if (!@@finding_aid.empty? and @@finding_aid != '?')
 # 		fa = "
@@ -253,11 +257,12 @@ class AeonController < ApplicationController
 #    end
 #	prelim = '
 #	<!DOCTYPE html>
-#	<html lang="en-US">
+#	<html lang="en">
 #	<head>
-#	<title>Request for ' + title + '</title>
+#	<title>Scanning Request for ' + title + '</title>
+	
 #	<script>var itemdata = {};</script>
-#    <meta data-name="aeon_wpv" data-bn="v5.1.14" data-bid="17648" data-cid="5169011a1c864ea61424ec386d248ba1398a6730" />
+#   <meta data-name="aeon_wpv" data-bn="v5.1.14" data-bid="17648" data-cid="5169011a1c864ea61424ec386d248ba1398a6730" />
 #	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 #	<meta name="apple-mobile-web-app-capable" content="yes">
 #	<meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -288,6 +293,7 @@ class AeonController < ApplicationController
 #<script type="text/javascript" src="https://newcatalog-login.library.cornell.edu/aeon511/js/rmc_scripts.js"></script>
 #	</head>
 #	<body>
+
 #    <header class="head">
 #  <div>
 #    <a href="#content" accesskey="S" onclick="$(\'#content\').focus();" class="offscreen">Skip to Main Content</a>
@@ -306,16 +312,21 @@ class AeonController < ApplicationController
 #    <h1>Division of Rare and Manuscript Collections</h1>
 #  </div>
 #</header>
-
-#	<div id="main-content" class="container-fluid">
-#	<form id="EADRequest" name="EADRequest"
+#    <h1>RMC Scanning Request</h1>
+    
+#    <div>' + disclaimer + '</div> 
+#	<div id="main-content">
+#	<form id="RequestForm" 
 #	action="' + loginurl + '"
 #              method="GET" class="form-horizontal">
 #	<h4>' + title + '</h4>' + fa +
 #	'<strong> ' + re506 + '</strong>' +
 #	cart + '
+#	<input type="hidden" name="AeonForm" value="PhotoduplicationRequest">
+#	<input type="hidden" name="SkipOrderEstimate" value="Yes">
 #	<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="' + bibid + '"/>
 #	<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
+#	<input type="hidden" name="RequestType" value="Copy"/>
 #	<input type="hidden" id="DocumentType" name="DocumentType" value="' + doctype + '"/>
 #	<input type="hidden" name="WebRequestForm" value="' + webreq + '"/> '
 
@@ -906,16 +917,18 @@ class AeonController < ApplicationController
   end
 
   def redirect_nonshib
- #   Rails.logger.info("BEEGER = #{params}")
+     @outbount_params = params
   end
 
+  def boom
+    
+  end
   def redirect_shib
-        @user = User.new()
-  #     @session = Session.new()
-        #session.user = "jac244"
-#        Rails.logger.info("SHIB = #{params}")
-        uri = URI('https://rmc-aeon.library.cornell.edu/aeon/aeon.dll')
-        res = Net::HTTP.get_response(uri)
+   #     @user = User.new()
+   #    @session = Session.new()
+   #     session.user = "jac244"
+#        uri = URI('https://rmc-aeon.library.cornell.edu/aeon/aeon.dll')
+#        res = Net::HTTP.get_response(uri)
  #       Rails.logger.info("COOOKIE = #{cookies.inspect}")
  #       Rails.logger.info("RESBODY= #{res.body if res.is_a?(Net::HTTPSuccess)}")
 #        response = HTTParty.get('https://rmc-aeon.library.cornell.edu/aeon/boom.html?target=https://catalog-folio-int.library.cornell.edu')

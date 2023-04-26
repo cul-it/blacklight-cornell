@@ -33,7 +33,7 @@
 		<div id="main-content">
 			<h2>RMC Scanning Request</h2>
 			<p><%= @disclaimer %></p>
-			<form id="RequestForm" action="<%= @the_loginurl %>" method="GET" class="form-horizontal">
+			<form id="RequestForm" action="/aeon/aeon_login" method="GET" class="form-horizontal">
 				<h3><%= @title %></h3>
 				<% if !@finding_aid.nil? %>
 				  <p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
