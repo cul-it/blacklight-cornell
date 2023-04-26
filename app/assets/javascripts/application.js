@@ -27,6 +27,7 @@
 //= require 'blacklight/hierarchy/hierarchy'
 //= require jquery_ujs
 //= require jquery-ui/widgets/autocomplete
+//= require print_button.js
 //
 //= require_tree .
 //
@@ -35,7 +36,6 @@
 //= require spin.min.js
 //= require jquery.spin.js
 
-//= require print_button.js
 //= require jquery.anchorscroll.js
 //= require browse_placeholder.js
 //= require jquery.waypointz.js
