@@ -98,7 +98,7 @@
 
     $(document).ready(function () {
         var scheduledDate = $('#ScheduledDate');
-        if (scheduledDate != null) {
+        if (scheduledDate.length > 0) {
         scheduledDate.datepicker({
             minDate: minDate,
             maxDate: maxDate,
