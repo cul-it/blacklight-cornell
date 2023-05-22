@@ -140,7 +140,6 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
 gem 'citeproc-ruby'
 gem 'unicode_utils'
-gem 'google-analytics-rails', '1.1.1'
 gem 'ebsco-eds'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.19.1'

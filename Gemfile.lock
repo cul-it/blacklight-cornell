@@ -382,7 +382,6 @@ GEM
     gherkin (5.1.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    google-analytics-rails (1.1.1)
     guard (2.18.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -840,7 +839,6 @@ DEPENDENCIES
   exception_notification
   ffi
   font-awesome-rails
-  google-analytics-rails (= 1.1.1)
   guard-rspec
   haml
   haml-rails
