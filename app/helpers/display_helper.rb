@@ -1574,7 +1574,7 @@ end
     nil
   end
 
-  # This helper checks for the presence of an alerts.yaml file in the root directory with one or more
+  # This helper checks for the presence of an alerts.yml file in the root directory with one or more
   # messages to display in the layout. Messages may include HTML tags, and there may be multiple messages
   # to display. Only messages where the 'pages' array matches the url param will be returned.
   #
@@ -1585,7 +1585,7 @@ end
   # Return value: An array of message strings, or []
   def alert_messages(path)
     begin
-      alert_messages = YAML.load_file("#{Rails.root}/alerts.yaml")
+      alert_messages = YAML.load_file("#{Rails.root}/alerts.yml")
       messages_to_show = []
       # Each message in the YAML file should have a pages array that lists which pages (e.g., MyAccount, Requests)
       # should show the alert, and a message property that contains the actual message text/HTML. Only show
