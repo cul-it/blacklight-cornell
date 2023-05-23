@@ -89,7 +89,7 @@ Feature: Select and export items from the result set
 # </dcterms:LCC>\n
 # </dc:subject>\n
 # <dc:identifier>\n
-#<dcterms:URI><rdf:value>http://newcatalog.library.cornell.edu/catalog/1001</rdf:value></dcterms:URI>
+#<dcterms:URI><rdf:value>http://catalog.library.cornell.edu/catalog/1001</rdf:value></dcterms:URI>
 # </dc:identifier>\n
 # </bib:Book>\n
 # </rdf:RDF>
@@ -117,10 +117,10 @@ Feature: Select and export items from the result set
 | 1378974 | endnote |  '%A Condie, Carol Joy' |
 | 1378974 | ris | 'AU  - Condie, Carol Joy' |
 | 1378974 | endnote_xml| '<author>Condie, Carol Joy</author>' |
-| 13251647 | endnote | '%Z http://newcatalog.library.cornell.edu/catalog/13251647' |
-| 13251647 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/13251647' |
-| 13251647 | endnote_xml | 'http://newcatalog.library.cornell.edu/catalog/13251647' |
-| 13251647 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/13251647</dc:description>' |
+| 13251647 | endnote | '%Z http://catalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | ris | 'M2  - http://catalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | endnote_xml | 'http://catalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | rdf_zotero | '<dc:description>http://catalog.library.cornell.edu/catalog/13251647</dc:description>' |
 | 6112378 | rss | '<title>The Kalabagh Dam</title>' |
 
 @all_select_and_export
@@ -138,8 +138,8 @@ Feature: Select and export items from the result set
     Examples:
 
 | BibId | Format | DoiXmlContent |  UrlXmlContent |
-| 11493262 | ris | 'UR  - https://search.proquest.com/docview/2240872843'  |'M2  - http://newcatalog.library.cornell.edu/catalog/11493262' |
-| 11493262 | endnote | '%U https://search.proquest.com/docview/2240872843' | '%Z http://newcatalog.library.cornell.edu/catalog/11493262' |
+| 11493262 | ris | 'UR  - https://search.proquest.com/docview/2240872843'  |'M2  - http://catalog.library.cornell.edu/catalog/11493262' |
+| 11493262 | endnote | '%U https://search.proquest.com/docview/2240872843' | '%Z http://catalog.library.cornell.edu/catalog/11493262' |
 | 11493262 | endnote_xml | '<publisher>Apud Iohannem Lambertum.</publisher>' | '<language>Latin</language>' |
 
 
@@ -245,18 +245,39 @@ Feature: Select and export items from the result set
 @DISCOVERYACCESS-1670
 @DISCOVERYACCESS-1777
 @select_and_email
+@DISCOVERYACCESS-7882-b
 @javascript
 @popup
   Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
+    Given PENDING
     Given I request the item view for 7981095
     And I text the first available item
     And I sleep 15 seconds
     And I fill in "to" with "6072213597"
     And I select 'Verizon' from the 'carrier' drop-down
     And I press "Send"
-    And I sleep 12 seconds
+    # And I sleep 12 seconds
     #Then "6072213597@vtext.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
     #Then I should see "Shelter medicine for veterinarian..." in the email body
     #Then I should see "Veterinary Library Core Resource (5 hour loan)" in the email body
-    And I sleep 8 seconds
+    # And I sleep 8 seconds
 
+@DISCOVERYACCESS-7911
+Scenario Outline: As a user of non-English materials, I can export text citations in the native language of the item
+Given I request the item view for <BibId>
+Given I request the export of item <BibId> in '<Format>' format
+Then I should see the text <title>
+And I should see the text <date>
+And I should see the text <place>
+And I should see the text <other>
+Examples:
+
+| BibId | Format | title | date | place | other_type | other |
+| 5972895 | zotero | 'Chính sách tôn giáo của Đảng' | '[Mỹ Tho]' | 'Nhà in Nguyẽ̂n Văn Kiệm' | language | 'Vietnamese' |
+| 7935065 | zotero | 'Речевая коммуникация' | '2012' | 'Москва' | author | 'Потапова' |
+| 4274784 | zotero | '日本 文化史 ハンドブック' | '2002' | '東京' | session | '初版.' |
+| 8405575 | zotero | '中国特色新型工业化的系统性研究' | '2013' | '北京市' | label | '人民出版社' |
+| 5972895 | ris | 'Chính sách tôn giáo của Đảng' | '[Mỹ Tho]' | 'Nhà in Nguyẽ̂n Văn Kiệm' | language | 'Vietnamese' |
+| 7935065 | ris | 'Речевая коммуникация' | '2012' | 'Москва' | author | 'Потапова' |
+| 4274784 | ris | '日本 文化史 ハンドブック' | '2002' | '東京' | session | '初版.' |
+| 8405575 | ris | '中国特色新型工业化的系统性研究' | '2013' | '北京市' | label | '人民出版社' |

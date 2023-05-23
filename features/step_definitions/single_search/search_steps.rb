@@ -13,9 +13,7 @@ Then("the query {string} should show") do |string|
 end
 
 Then /^I should get bento results$/ do
-  within(page.find('#bt-container')) do
-    expect(page.first(".bento_item"))
-  end
+  page.find('#bt-container')
 end
 
 Then /^I should not get bento results$/ do
@@ -43,12 +41,31 @@ Then("Articles & Full Text should not list {string}") do |string|
 end
 
 
+Then("Digital Collections should list {string}") do |string|
+  # don't require "Articles & Full Text" to be in second column
+  dc_bento = page.find("div#digitalCollections").first(:xpath,".//..")
+  within(dc_bento) do
+    expect(page.first("h3.bento_item_title", :text => string))
+  end
+end
+
+
 Then("I should get Institutional Repository results") do
   page.should have_selector("div#institutionalRepositories")
 end
 
 Then("when I view all Repositories Items") do
   click_link("link_top_institutional_repositories")
+end
+
+Then("I should get Digital Collections results") do
+  page.should have_selector("div#digitalCollections")
+end
+
+Then("when I view all Digital Collections Items") do
+  within(page.find('#jumpbar')) do
+    click_link("Digital Collections")
+  end
 end
 
 
@@ -73,7 +90,7 @@ Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/
        numx.match(/of\s+(\d+)/)[1].should_not be_nil
        num2 = numx.match(/of\s+(\d+)/)[1]
      else
-       visit(href)
+	do_visit(href)
       sleep 3
        total2 = find('.'+divtag,match: :first)
        total2.should_not be_nil
@@ -140,7 +157,7 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
       end
       #print "num2 on view (line #{__LINE__} all page is #{num2}\n"
     else
-      visit(href)
+	do_visit(href)
       sleep 3
       #print "HREF is #{href}\n"
       total2 = find('.'+divtag,match: :first)

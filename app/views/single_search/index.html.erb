@@ -1,4 +1,5 @@
-<% if @results %>
+<% additional_results = @digitalCollections.present? or @libguides.present? or @institutionalRepositories.present? %>
+<% if @results or additional_results %>
   <div class="row">
     <div class="col-sm-12">
       <div class="card card-well">
@@ -22,7 +23,7 @@
       <div class="card card-well">
         <div class="card-body">
           <div class="search-info">
-            <a href="#" class="d-none d-sm-block float-right" data-placement="bottom" data-toggle="tooltip" title="Search the new Library Catalog, Articles & Full Text and more. WorldCat is available through the Libraries Worldwide link on the search results page.">
+            <a href="#" class="d-none d-sm-block float-right" data-placement="bottom" data-toggle="tooltip" title="Search the Library Catalog, Articles and Full Text, and more. WorldCat is available through the Libraries Worldwide link in the search results.">
               <i class="fa fa-info-circle" aria-hidden="true"></i>
               About this search
             </a>
@@ -37,20 +38,20 @@
 <% end %>
 <% if @top_4_results.present? %>
   <% @top_4_results.from(0).to(0).each do |key, result| %>
-    <% if !@query.nil? && @results.empty? && @websites.blank? && result.blank? %>
+    <% if !@query.nil? && @results.empty? && @websites.blank? && result.blank? && !additional_results %>
       <% query = params[:q] || params[:query] %>
       <% query = query.gsub('&', '%26') %>
       <p class="mt-4">
         Your search returned 0 results. Try searching
         <%= link_to 'Libraries Worldwide', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
         or
-        <%= link_to 'recommend a purchase.', "http://www.library.cornell.edu/services/request/recommend" %>
+        <%= link_to 'recommend a purchase.', "https://www.library.cornell.edu/collections/recommend-a-purchase/" %>
       </p>
       <%= render 'single_search/search_options' %>
     <% end %>
-    <% if !@results.blank? or !result.blank? or !@websites.blank? %>
+    <% if !@results.blank? or !result.blank? or !@websites.blank? or additional_results %>
       <div class="bento_box row">
-        <% if @results %>
+        <% if @results or additional_results %>
           <div class="col-md-3 ">
             <div class="navbar sidenav facets-toggleable-sm">
               <h2 class="all-results-header">All results</h2>
@@ -84,7 +85,7 @@
                       </li>
                       <li>
                         <i class="fa fa-arrow-right"></i>
-                        <%= link_to 'Recommend a Purchase', "http://www.library.cornell.edu/services/request/recommend" %>
+                        <%= link_to 'Recommend a Purchase', "https://www.library.cornell.edu/collections/recommend-a-purchase/" %>
                       </li>
                     </ul>
                   </div>
@@ -233,7 +234,7 @@
                     <div class="card card-body">
                       <p>
                         No results from the
-                        <%= link_to 'Catalog.', "https://newcatalog.library.cornell.edu" %>
+                        <%= link_to 'Catalog.', "https://catalog.library.cornell.edu" %>
                         Try searching
                         <%= link_to 'Libraries Worldwide.', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
                       </p>

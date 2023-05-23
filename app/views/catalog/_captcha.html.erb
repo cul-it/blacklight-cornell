@@ -24,7 +24,6 @@
       <% @tempLocationsArray.push(getTempLocations(doc))%>
       <% @callNosArray.push(getCallNos(doc))%>
       <% @statusArray.push(getItemStatus(doc))%>
-      <%=hidden_field_tag "mollom_session", @captcha['session_id']%>
       <%=hidden_field_tag "id[]", doc.id %>
       <%=hidden_field_tag "location", @locationNameArray %>
       <%=hidden_field_tag "templocation", @tempLocationsArray %>

@@ -107,6 +107,9 @@
 	.card-header {
 		background: $concrete !important;
 		color: white;
+		.btn {
+			color: white;
+		} 
 	}
 }
 

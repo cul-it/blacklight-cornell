@@ -35,7 +35,7 @@
           <% else %>
             <a href="<%= ENV['WORLDCAT_URL'] %>">
           <%end%>
-          Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/services/request/recommend"> recommend a purchase</a>.</p>
+          Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/collections/recommend-a-purchase/"> recommend a purchase</a>.</p>
         <%else%>
           <%= content_tag :span,  @response.total_count.to_s, id: 'total-search-results' %>
           <% r = 'catalog result'.pluralize(@response.total_count) %>

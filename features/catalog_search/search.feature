@@ -216,6 +216,21 @@ Feature: Search
   #  Then I should see the text 'No MARC data found.'
 
   @all_search
+  @DISCOVERYACCESS-7889
+  Scenario Outline: Confirm that the librarian view is working
+  Given I attempt the item view for <asset_id>
+    And click on link "Librarian View"
+    Then I should see "LEADER"
+    And I should see "<marc>"
+
+  Examples:
+      | asset_id | marc |
+      | 10635622  | LEADER 03494cam a2200517 i 4500 |
+      | 10294079 | ‡a Beethoven, Ludwig van, ‡d 1770-1827, ‡e composer. |
+      | 9330651 | ‡6 880-04 ‡a Kyŏnggi-do P'aju-si : ‡b Kimyŏngsa, ‡c 2016. |
+
+
+  @all_search
   @DISCOVERYACCESS-5826
   Scenario Outline: The catalog should not return suppressed records
     Given I enable the "production" environment

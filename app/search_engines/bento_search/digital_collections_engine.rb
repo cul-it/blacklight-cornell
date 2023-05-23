@@ -19,14 +19,20 @@ class BentoSearch::DigitalCollectionsEngine
     # Format is passed to the engine using the configuration set up in the bento_search initializer
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Digital Collections'
-    q = URI::encode(args[:oq].gsub(" ","+"))
-    uri = "https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{q}&search_field=all_fields&rows=3"
+    base = Addressable::URI.parse("https://digital.library.cornell.edu")
+    uri = URI( base + "catalog.bento")
+    params = {
+      :q => args[:oq],
+      :utf8 => "✓",
+      :search_field => "all_fields",
+      :rows => 3
+    }
+    uri.query = URI.encode_www_form(params)
     url = Addressable::URI.parse(uri)
     url.normalize
+    portal_response = JSON.load(URI.open(url))
 
-    portal_response = JSON.load(URI.open(url.to_s))
-
-    Rails.logger.debug "mjc12test: #{portal_response}"
+    # Rails.logger.debug "mjc12test: #{portal_response}"
     if portal_response.nil? || portal_response['response'].nil? || portal_response['response']['docs'].nil?
       results = []
     else
@@ -34,6 +40,7 @@ class BentoSearch::DigitalCollectionsEngine
     end
 
     results.each do |i|
+
       item = BentoSearch::ResultItem.new
       item.title = i['title_tesim'][0].to_s
       [i['creator_facet_tesim']].each do |a|
@@ -55,8 +62,10 @@ class BentoSearch::DigitalCollectionsEngine
       if i['solr_loader_tesim'].present? && i['solr_loader_tesim'][0] == "eCommons"
         item.link =i['handle_tesim'][0]
       else
-      item.link = "http://digital.library.cornell.edu/catalog/#{i['id']}"
-    end
+        url = URI(base + "catalog/#{i['id']}")
+        url.normalize
+        item.link = url.to_s
+      end
       bento_results << item
     end
 

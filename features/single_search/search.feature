@@ -57,6 +57,35 @@ Feature: Search
       | search | comment |
       # PENDING | Hunting, Gathering, and Stone Age Cooking | |
       | Norton Anthology of World Religions: Islam | |
-      | Lions' Plate: TikTok's Whipped Coffee | |
+      | Concretions as sources of exceptional preservation | |
       | Utica Zoo, Utica Coffee Roasting | |
 
+  @DISCOVERYACCESS-6699
+  Scenario Outline: I can search for non-ascii strings
+    When I go to the search page
+    When I fill in "q" with '<search>'
+    And I press 'Search'
+    Then I should get bento results
+
+  Examples:
+      | search |
+      | Basics of Legal Research”  |
+      | If Only They’ Ask: Gender, Recruitment, and Political Ambition |
+      | Hà Nội   |
+      | 아, 김 수환 추기경 |
+
+  @DIGCOLL-2228
+  Scenario Outline: I can see Digital Collections search results in a Bento search
+    When I go to the search page
+    When I fill in "q" with '<search>'
+    And I press 'Search'
+    Then Digital Collections should list '<result>'
+
+  Examples:
+      | search | result |
+      | wooden nutmeg  | The blasphemy of abolitionism exposed  |
+      | Hastingues | House with Red Shutters |
+      | Geryon | account of the pastoral life of the ancients |
+      | 100% Beef | operations of the Cincinnati Branch |
+      | crazy legs | Roxy, June 18, 1983 |
+      | yard of pump water | manual of water supply in country homes |

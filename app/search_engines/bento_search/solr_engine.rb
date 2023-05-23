@@ -42,7 +42,7 @@ class BentoSearch::SolrEngine
         item.authors << BentoSearch::Author.new({:display => a.split('|')[1][0..-2]})
       end
       item.year = i['pub_date_facet'].to_s
-      item.link = "http://newcatalog.library.cornell.edu/catalog/#{i['id']}"
+      item.link = "http://catalog.library.cornell.edu/catalog/#{i['id']}"
       bento_results << item
     end
     bento_results.total_items = solr_response['response']['numFound']

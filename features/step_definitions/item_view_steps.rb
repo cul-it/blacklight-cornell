@@ -1,18 +1,18 @@
 # encoding: utf-8
 Given /^I request the item view for (.*?)$/ do |bibid|
   patiently do
-    visit "/catalog/#{bibid}"
+	do_visit "/catalog/#{bibid}"
     page.find("#doc_#{bibid}", visible: :all)
   end
 end
 
 Given /^I attempt the item view for (.*?)$/ do |bibid|
   # this version does not check for bibid exists
-  visit "/catalog/#{bibid}"
+	do_visit "/catalog/#{bibid}"
 end
 
 Given("I request the export of item {int} in {string} format") do |int, string|
-  visit "/catalog/#{int}.#{string}"
+	do_visit "/catalog/#{int}.#{string}"
 end
 
 When /^(.*) within a cassette named "([^"]*)"$/ do |step, cassette_name|
@@ -21,7 +21,7 @@ end
 
 
 Given /^I request the item holdings view for (.*?)$/ do |bibid|
-  visit "/backend/holdings/#{bibid}"
+	do_visit "/backend/holdings/#{bibid}"
 end
 
 Given("I request the item") do
@@ -116,4 +116,12 @@ Then(/^in modal ['"](.*?)['"] I should see label ['"](.*?)['"]$/) do |modal,labe
     page.should have_content(label) # async
   end
 
+end
+
+Then("it should have title {string}") do |string|
+  expect(page.find("div.document-header > h2")).to have_content(string)
+end
+
+Then("it should have a discogs disclaimer") do
+  expect(page).to have_css("#discogs_disclaimer")
 end

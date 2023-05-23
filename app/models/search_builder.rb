@@ -25,7 +25,9 @@ class SearchBuilder < Blacklight::SearchBuilder
   # The check for the q parameter ensures that searches, including empty searches, and
   # advanced searches are not affected.
   def homepage_default user_parameters
-    if user_parameters['q'].nil? && user_parameters['fq'].blank?
+    if !user_parameters['facet.field'].kind_of?(Array) || user_parameters['facet.field'].count == 1
+      # this is a request for a facet page, like /catalog/facet/author_facet
+    elsif user_parameters['q'].nil? && user_parameters['fq'].blank?
       user_parameters = streamline_query(user_parameters)
     end
   end
@@ -90,7 +92,35 @@ class SearchBuilder < Blacklight::SearchBuilder
     else # simple search code below
       if blacklight_params[:q].nil?
         blacklight_params[:q] = ''
+        if !blacklight_params[:f].nil?
+          	user_parameters[:fq] = []
+          	fq_string = ""
+          	blacklight_params[:f].each do |key, value|
+
+          	  	value.each do |val|
+                   if (val == 'last_1_week' or val == 'last_1_month' or val == 'last_1_years')
+						if val == 'last_1_week'
+          	    			fq_string = 'acquired_dt:[NOW-14DAY TO NOW-7DAY ]'
+                    	else 
+                      		if val == 'last_1_month'
+                      			fq_string = 'acquired_dt:[NOW-30DAY TO NOW-7DAY ]'
+                      		else
+                      			if value[0] == 'last_1_years'
+                      				fq_string = 'acquired_dt:[NOW-1YEAR TO NOW-7DAY]'
+                        		end
+                      		end
+                    	end                   
+                    else
+				      fq_string = '{!term f=' + key + '}' + val
+				    end
+				  	user_parameters[:fq] << fq_string
+          	    	blacklight_params[:fq] = user_parameters[:fq]
+          	  	end
+          	 # end
+          	end
+        end
       end
+
       if !blacklight_params[:advanced_query].nil?
         blacklight_params.delete("advanced_query")
         blacklight_params.delete("search_field_row")

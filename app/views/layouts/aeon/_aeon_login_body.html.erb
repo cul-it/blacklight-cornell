@@ -19,34 +19,49 @@
   </div>
 </header>
 <%#= params.inspect %>
-<div class="container">
-    <% @paramsString = "" %>
-    <% params.each do |key, value| %>
-    <% if value.class != Array %>
-      <% if value.include? "&" %>
-        <% value = CGI.escape(value) %>
-      <% end %>
-     <%  @paramsString = @paramsString + key + '=' + value + '&' %>
+
+<% paramsHash = params.to_h %>
+    <%#= paramsHash.inspect %>
+ <% paramsHash.each do |key, value| %>
+     <% if key != "Request" %> 
+       <input type="hidden" name="<%= key %>" value="<%= value %>" />
+     <% else %>
+        <% value.each do |val| %>
+            <input type="hidden" name="Request" value="<%= val %>" />
+        <% end %>
      <% end %>
     <% end %>
-    <%#= params.inspect %>
-      <% newParams = params %>
-      <% newParams['AeonParams'] = @paramsString %>
-      <% params = newParams %>
-      <%#= params.inspect %>
-      <%= session[:user_id] %>
+<div class="container">     
+  <form action="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll" method="POST"> 
+     <input type="hidden" name="authenticated" value="true" />
+      <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" style="margin-top: 30px;">
+      <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />  
 
-     <form action="/aeon/redirect_shib" >
-
-<!--    <input type="hidden" name="target" value="https://newcatalog-folio-int.library.cornell.edu/aeon/reading_room_request/8300797/?libid=rmc|rmc,anx" />  
-       <input type="hidden" name="target" value="www.google.com" >  -->
+			 <% paramsHash.each do |key, value| %>
+			     <% if key != "Request" %> 
+			       <input type="hidden" name="<%= key %>" value="<%= value %>" />
+			     <% else %>
+			        <% value.each do |val| %>
+			            <input type="hidden" name="Request" value="<%= val %>" />
+			        <% end %>
+			     <% end %>
+			 <% end %>    
       <input type="submit" value="Cornell Affiliates With a NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
 
-         <form action="/aeon/redirect_nonshib" method="GET" style="margin-top: 30px;">
-           <input type="hidden" name='newParams' value='<%= @paramsString %>'>
-      
-        <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
+    <form id="aeonPoster" action="https://rmc-aeon.library.cornell.edu/nonshib/aeon.dll" method="POST" style="margin-top: 30px;">
+      <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" style="margin-top: 30px;">
+      <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />  
+			 <% paramsHash.each do |key, value| %>
+			     <% if key != "Request" %> 
+			       <input type="hidden" name="<%= key %>" value="<%= value %>" />
+			     <% else %>
+			        <% value.each do |val| %>
+			            <input type="hidden" name="Request" value="<%= val %>" />
+			        <% end %>
+			     <% end %>
+			<% end %>
+      <input type="submit" value="Public Users Without a Cornell NetID Enter Here" style="font-size: 13px; width: 300px;" />
     </form>
     <%#= @paramsString.inspect %>
 </div>
@@ -54,4 +69,4 @@
 </div>
 
 
-				
+

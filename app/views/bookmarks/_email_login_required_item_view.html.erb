@@ -6,12 +6,12 @@
           <span aria-hidden="true">×</span>
         </button>
       </div>
-  
+
       <div class="modal-body">
         <h2><%= t('blacklight.bookmarks.email.warning') %></h2>
-        <%= t('blacklight.bookmarks.email.action.item_view.text', :href => link_to(t("blacklight.bookmarks.email.action.item_view.link_text"), login_path, :id => document_id)).html_safe %>
+        <p><%= t('blacklight.bookmarks.email.action.item_view.text') %></p>
+        <%= button_to 'Sign in with your NetID', login_path, class: "btn btn-cul", :data => {:toggle => 'tooltip', :placement => 'bottom'}, :title => 'Sign in to email items or save them to Book Bag', :onclick => "javascript:_paq.push(['trackEvent', 'email_modal', 'Sign in']);" %>
       </div>
-
 
       <div class="modal-footer">
         <%= link_to "Cancel", 'bookmarks', :class => "submit button dialog-close", :data => {:dismiss => "modal"} %>

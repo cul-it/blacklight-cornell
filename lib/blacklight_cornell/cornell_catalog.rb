@@ -123,6 +123,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # get search results from the solr index
   def index
+    begin
+      # for returning to the same page on exceptions
+      session[:return_to] ||= request.referer
+
     # check to see if the search limit has been exceeded
     session["search_limit_exceeded"] = false
     search_limit = Rails.configuration.search_limit
@@ -283,6 +287,11 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       search_session[:q] = params[:q]
       # params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
     end
+  rescue ArgumentError => e
+    logger.error e
+    flash[:notice] = e.message
+    redirect_to session.delete(:return_to)
+  end
   end
 
   # get single document from the solr index
@@ -356,7 +365,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     #search_session[:per_page] = params[:per_page]
 
     path =
-      if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)
+      if params[:redirect] and (params[:redirect].start_with?('/') or params[:redirect] =~ URI::regexp)
         URI.parse(params[:redirect]).path
       else
         { action: 'show' }
@@ -464,15 +473,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     flash[:error].blank?
   end
 
- def librarian_view
-   @response, @document = search_service.fetch params[:id]
-
-   respond_to do |format|
-     format.html
-     format.js { render :layout => false }
-   end
- end
-
 protected
 
   # sets up the session[:history] hash if it doesn't already exist.
@@ -557,12 +557,14 @@ protected
     Blacklight.solr_config
   end
 
-  def tiny_url(uri, options = {})
-    defaults = { :validate_uri => false }
-    options = defaults.merge options
-    return validate_uri(uri) if options[:validate_uri]
-    return generate_uri(uri)
-  end
+  # This is a weird function -- it has two different return types, depending on an option that is apparently
+  # never used! Commenting this version out and redefining generate_uri below....
+  # def tiny_url(uri, options = {})
+  #   defaults = { :validate_uri => false }
+  #   options = defaults.merge options
+  #   return validate_uri(uri) if options[:validate_uri]
+  #   return generate_uri(uri)
+  # end
 
   def credits
     respond_to do |format|
@@ -573,33 +575,37 @@ protected
 
 private
 
-  def validate_uri(uri)
-    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
-                    uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix]
-    if confirmed_uri.blank?
-      return false
-    else
-      return true
-    end
+  def uri_valid?(uri)
+    !!(uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
+    uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix])
   end
 
-  def generate_uri(uri)
+  # def validate_uri(uri)
+  #   confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
+  #                   uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix]
+  #   if confirmed_uri.blank?
+  #     return false
+  #   else
+  #     return true
+  #   end
+  # end
+
+ # def generate_uri(uri)
+  def tiny_url(uri)
     Appsignal.increment_counter('item_sms', 1)
-    confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
-                    uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix]
-    if !confirmed_uri.blank?
-      uri_parsed = confirmed_uri
+    if uri_valid?(uri)
       shorten = Rails.application.config.url_shorten
       logger.info "URL shortener:  #{__FILE__}:#{__LINE__}:#{__method__} #{shorten.pretty_inspect}"
-      if !shorten.empty?
-        escaped_uri = URI.escape("#{shorten}#{confirmed_uri}")
+      if shorten.present?
+        escaped_uri = CGI::escape(uri)
+        url = "#{shorten}#{escaped_uri}"
         begin
-          uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri)).body
+          uri_parsed = Net::HTTP.get_response(URI.parse(url)).body
           #uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri),{:read_timeout => 10}).body
         rescue StandardError  => e
           logger.error "URL shortener error:  #{__FILE__}:#{__LINE__}:#{__method__} #{e} #{shorten}"
           Appsignal.send_error(e)
-          uri_parsed = confirmed_uri
+          uri_parsed = uri
          end
       end
       return uri_parsed
@@ -614,21 +620,23 @@ private
   end
 
   def check_dates(params)
+    # check for Publication Year 'Unknown' - handled ok
+    if params[:range][:pub_date_facet][:missing].present?
+      return
+    end
+    # crashes later on if begin > end so raise exception here
     begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
     end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
-    if begin_test.nil? or begin_test < 0
-      begin_test = 800
+    min_year = 0
+    unless begin_test.present? && begin_test >= min_year
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.begin'))
     end
-    if end_test.nil? or end_test < 0
-      end_test = Time.now.year + 2
+    unless end_test.present? && end_test >= min_year
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.end'))
     end
-    if begin_test > end_test
-      swap = end_test
-      end_test = begin_test
-      begin_test = swap
+    unless begin_test <= end_test
+      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.order'))
     end
-    params[:range][:pub_date_facet][:begin] = begin_test
-    params[:range][:pub_date_facet][:end] = end_test
   end
 
   def check_params(params)

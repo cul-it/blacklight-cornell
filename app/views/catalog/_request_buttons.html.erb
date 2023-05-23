@@ -48,7 +48,7 @@
 
   <% # only display request scan button for items not at RMC %>
   <% if (group == "Circulating" && !reserve_item) %>
-    <% ill_link = ENV['ILLIAD_URL'] + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fnewcatalog.library.cornell.edu' %>
+    <% ill_link = ENV['ILLIAD_URL'] + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fcatalog.library.cornell.edu' %>
     <% ill_title = "#{@title}" + (@subtitle.present? ? ": #{@subtitle}" : '') %>
     <% ill_isbn = @document[:isbn_display] ? @document[:isbn_display][0] : '' %>
     <% if ill_isbn == '' %>

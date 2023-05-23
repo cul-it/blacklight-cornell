@@ -485,7 +485,7 @@ module BlacklightMarcHelper
   end
 end
 
-# need not to fail when uri contains | 
+# need not to fail when uri contains |
 # This overrides the DEFAULT_PARSER with the UNRESERVED key, including '|'
 # # DEFAULT_PARSER is used everywhere, so its better to override it once
  module URI
@@ -511,9 +511,9 @@ module PiwikAnalytics
         var _paq = _paq || [];
         (function(){
             var u=(("https:" == document.location.protocol) ? "https://#{config.url}/" : "http://#{config.url}/");
-            _paq.push(["setDocumentTitle", document.domain + "/" + document.title]); 
-            _paq.push(["setCookieDomain", "*.library.cornell.edu"]); 
-             _paq.push(["setDomains", ["*.library.cornell.edu","*.newcatalog.library.cornell.edu","*.search.library.cornell.edu"]]);
+            _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+            _paq.push(["setCookieDomain", "*.library.cornell.edu"]);
+             _paq.push(["setDomains", ["*.library.cornell.edu","*.catalog.library.cornell.edu","*.search.library.cornell.edu"]]);
             _paq.push(['setSiteId', #{config.id_site}]);
             _paq.push(['setTrackerUrl', u+'piwik.php']);
             _paq.push(['trackPageView']);
