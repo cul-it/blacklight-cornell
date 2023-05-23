@@ -30,7 +30,6 @@
 	  <div id="info-details" class="row info-row ml-0 d-none">
 	    <div id="img-container" class="col-sm-5 col-md-4 col-lg-3 text-center" style="display:none">
 	    	<img id="agent-image" src="" title="author image" width="120px"/><br/>
-            <span class="kp-source text-nowrap" style="font-size:12px">Image: <a id="wiki-image" href="" target="_target">Wikidata <i class='fa fa-external-link'></i></a></span>
 	    </div>
 	    <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
 			<div id="dbp-comment"></div>
@@ -81,7 +80,10 @@
 	    	    <% end %>
 	    	</dl>
             <%# filled in by javascript when needed %>
-            <div id="wiki-acknowledge" class="float-right"></div>
+            <div class="text-right ld-acknowledge">
+              <span id="wiki-acknowledge"></span>
+              <span id="wiki-image-acknowledge"></span>
+            </div>
 	    </div>
 	  </div>
       <div id="has-wiki-ref-info" class="row d-none mt-4">

@@ -1086,9 +1086,10 @@ def tou
     @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
     @dbResponse = JSON.parse(@dbString)
     @db = @dbResponse['response']['docs'][0]
+    @dbString2 = clnt.get_content("#{solr}/select?qt=search&fl=*&q=id:#{params[:id]}")
+    @dbResponse2 = JSON.parse(@dbString2)
+    @db2 = @dbResponse2['response']['docs'][0]
     @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
-    #Rails.logger.info("DB = #{@dbResponse.inspect}")
-
     if @dbResponse['response']['numFound'] == 0
         @defaultRightsText = ''
         return @defaultRightsText
