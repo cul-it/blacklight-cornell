@@ -70,7 +70,6 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
-  gem 'poltergeist'
   gem 'pry'
   gem 'pry-byebug'
   gem 'meta_request'
