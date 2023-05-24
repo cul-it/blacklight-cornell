@@ -31,15 +31,6 @@ GIT
       rails
 
 GIT
-  remote: https://github.com/cul-it/csl-styles
-  revision: c7b50754fc907247c7533deed09d69478a9669c9
-  branch: master
-  submodules: true
-  specs:
-    csl-styles (1.0.1.9)
-      csl (~> 1.0)
-
-GIT
   remote: https://github.com/cul-it/cul-folio-edge
   revision: 7808059d6b60a9ba7551e64a19b912fddf239e0c
   specs:
@@ -283,12 +274,14 @@ GEM
     concurrent-ruby (1.2.2)
     confstruct (1.1.0)
       hashie (>= 3.3, < 5)
-    connection_pool (2.4.0)
+    connection_pool (2.4.1)
     crack (0.4.5)
       rexml
     crass (1.0.6)
     csl (1.5.2)
       namae (~> 1.0)
+    csl-styles (1.0.1.11)
+      csl (~> 1.0)
     cucumber (3.1.2)
       builder (>= 2.1.2)
       cucumber-core (~> 3.2.0)
@@ -431,7 +424,7 @@ GEM
     httpi (2.5.0)
       rack
       socksify
-    i18n (1.12.0)
+    i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
@@ -805,7 +798,7 @@ GEM
       rails (>= 3.0)
       rake (>= 0.8.7)
     yell (2.2.2)
-    zeitwerk (2.6.7)
+    zeitwerk (2.6.8)
 
 PLATFORMS
   arm64-darwin-21
@@ -839,9 +832,9 @@ DEPENDENCIES
   capybara-email
   celluloid (= 0.17.4)
   citeproc
-  citeproc-ruby
+  citeproc-ruby (~> 1.0)
   coffee-rails (~> 4.0)
-  csl-styles!
+  csl-styles
   cucumber (= 3.1.2)
   cucumber-rails
   cul-folio-edge!
@@ -879,7 +872,7 @@ DEPENDENCIES
   nokogiri (>= 1.13.9)
   omniauth (~> 2.0)
   omniauth-facebook (~> 5.0)
-  omniauth-google-oauth2 (~> 0.8)
+  omniauth-google-oauth2
   omniauth-oauth2
   omniauth-rails_csrf_protection
   omniauth-saml (~> 2.0)

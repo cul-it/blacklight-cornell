@@ -113,7 +113,7 @@ gem 'omniauth-oauth2'
 gem 'omniauth-rails_csrf_protection'
 #gem 'omniauth-google-oauth2'
 # Use Omniauth Google plugin
-gem 'omniauth-google-oauth2', '~> 0.8'
+gem 'omniauth-google-oauth2'
 # Use Omniauth Facebook plugin
 gem 'omniauth-facebook', '~> 5.0'
 gem 'repost'
@@ -137,12 +137,12 @@ gem 'celluloid', '0.17.4' # Required for bento_search multisearcher
 gem 'exception_notification'
 gem 'piwik_analytics', '~> 1.0.1'
 gem 'citeproc'
-gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
-# gem 'csl-styles', '~> 2.0', '>= 2.0.1'
+# gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
+gem 'csl-styles', '~> 2.0', '>= 2.0.1'
 # gem 'ebsco-eds', :git => 'https://github.com/ebsco/edsapi-ruby', :branch => 'adding-citation-support'
 gem 'ebsco-eds', :git => 'https://github.com/ebsco/edsapi-ruby', :branch => 'master'
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
-gem 'citeproc-ruby'
+gem 'citeproc-ruby', '~> 1.0'
 gem 'unicode_utils'
 gem 'google-analytics-rails', '1.1.1'
 #gem 'loofah', '~> 2.0', '>= 2.3'
