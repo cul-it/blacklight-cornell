@@ -14,7 +14,7 @@ require 'capybara/rspec'
 # # by default, uses selenium for javascript, but using poltergeist allows using phantomjs
 require 'capybara/poltergeist'
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, timeout: 2.minute)
+  Capybara::Poltergeist::Driver.new(app, timeout: 2.minute)
 end
 Capybara.javascript_driver = :poltergeist
 Capybara.server = :webrick
