@@ -31,7 +31,8 @@
           <%= render 'subject_info', :response => @headingsResponse %>
         <% end %>
         <% if params[:browse_type] == "Author-Title"  %>
-          <div class="author-works">
+          <%= render 'author_title_info', :response => @headingsResponse %>
+          <!--div class="author-works">
             Works:
             <%= link_to '/?q="' + encoded_heading + '"&search_field=authortitle_browse' do %>
               <%= data["count"] %>
@@ -44,10 +45,11 @@
               <%= works["worksAbout"]  %>
               Title(s)
             <% end %>
-          </div>
+          </div-->
         <% end %>
       <% end %>
-      <%if params[:browse_type] != "Author" && params[:browse_type] != "Subject"  %>
+      <!--Adding Author Title to custom rendering options-->
+      <%if params[:browse_type] != "Author" && params[:browse_type] != "Subject"  && params[:browse_type] !="Author-Title" %>
         <% if (!data["notes"].nil? || data["seeAlso"].present? || data["alternateForm"].present? || data["headingTypeDesc"].present?) && !request.xhr?  %>
           <h3>Reference Info</h3>
         <% end %>
