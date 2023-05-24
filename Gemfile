@@ -60,7 +60,7 @@ gem 'libv8-node'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 
-  gem 'uglifier', '>= 1.0.3'
+  gem "terser", "~> 1.1"
 
 group :development, :test do
   gem 'rspec'

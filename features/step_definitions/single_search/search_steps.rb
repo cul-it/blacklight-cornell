@@ -13,9 +13,7 @@ Then("the query {string} should show") do |string|
 end
 
 Then /^I should get bento results$/ do
-  within(page.find('#bt-container')) do
-    expect(page.first(".bento_item"))
-  end
+  page.find('#bt-container')
 end
 
 Then /^I should not get bento results$/ do

@@ -21,7 +21,7 @@
 
 <% items.each do |i| %>
 <div class="holding">
-  <%#= i.inspect %>
+  <%# <%= i.inspect %>
   <% if group == "Rare" %>
     <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
   <% end %>
@@ -53,7 +53,7 @@
         </br>
         <%= 'Request item for rush purchase (typically within a week).' %>
       </div>
-    <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' and !@document['url_pda_display'].present? %>
+    <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' && @document['callnum_sort'] != 'Available for the Library to Purchase' %>
       <div class="location">
         <%= i["location"]["name"] %>
         <span class="map-it">

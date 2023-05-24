@@ -1,68 +1,52 @@
 <% require 'uri' %>
 <html>
-<%#= params["newParams"].inspect %>
-<%# aeonStuff = params["newParams"] %> 
-<%#= aeonStuff.inspect %>
-<% aeonStuff = cookies.request.env['HTTP_REFERER'].split('login?')[1] %>
-<% aeonStuff = aeonStuff.split('&') %>
+
+
+<%#= params.inspect %>
+<% if params["aeonParams"].nil? %>
+  <% aeonStuff = params %>
+<% else %>
+  <% aeonStuff = params["aeonParams"] %>
+<% end %> 
+
 <meta http-equiv='content-type' content='text/html; charset=utf-8' />
 <link href='aeon.css' rel='stylesheet' type='text/css' />
 <title>Login to Aeon at Cornell University Library</title>
 <body onload='window.focus();'>
   Redirecting...
   <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/aeon/aeon.dll' method='POST'>
-   <input type="hidden" name='AeonForm' value='EADRequest'>
+   <!-- <input type="hidden" name='AeonForm' value='EADRequest'> -->
   <!-- // I think we need a param with this name/value.  Doesn't need to be a button. -->
   <input type='hidden' name='SubmitButton' value='Submit Request'>
        <input type="hidden" name="aeonControl_usertype" value="shib" >
-<pre></pre> 
-  <% itemNumbers = [] %> 
+ <% itemNumbers = [] %> 
+ <%#= aeonStuff.inspect %>
   <% if !aeonStuff.nil? %>
-  <% aeonStuff.each do | param | %>
-    <% name_value = param.split('=') %>
-     
-     <% if name_value.length() > 2 %>
-        <% name_value[1] = name_value[1] + ' = ' + name_value[2] %>
-      <% end %>
-       <% name = name_value[0] %>
-       <% value = name_value[1] %>
-       <% if name.start_with?('ItemNumber') %>
-         <% itemNumbers << value %>
-       <% end %>
-       <% if name != 'controller' and name != 'action' %>
-       <%#= "#{name} = #{value}" %>
-       </br>
-       <% if !value.nil? and value.include?('+') %>
-         <% value = value.gsub!('+', ' ') %>
-         <% value = URI.unescape value %>
-       <% end %>
-         
-       <input type="hidden" name="<%= name %>" value="<%= value %>" >
-       <% end %>
-   <% end%>
-     <% itemNumbers = itemNumbers.uniq %>
-     <% itemNumbers.each do | itemNum | %>
-      <input type="hidden" name="Request" value="<%= itemNum %>" > 
-       <%#= "aeonParam_Request_#{itemNum} = #{itemNum}" %>
-     <% end %>
+            <% if aeonStuff.include?('=>') %>
+                  <% JSON.parse(aeonStuff.gsub("=>", ":").gsub(/\bnil\b/, "null")).each do | key, value| %>
+                  <% unless key == "Request" %>
+                    <% if key.scan(/\D/).empty? %>
+                  		<% key = "Request" %>
+                   <% end %>
+                   <input type="hidden" name="<%= key %>" value="<%= value %>">
+                <% end %>
+            <% end %>
+        <% else %>
+            <% JSON.parse(aeonStuff.gsub("=>", ":").gsub(/\bnil\b/, "null")).each do | key, value| %>
+                  <% unless key == "Request" %>
+                    <% if key.scan(/\D/).empty? %>
+                  		<% key = "Request" %>
+                   <% end %>
+                   <input type="hidden" name="<%= key %>" value="<%= value %>">
+                <% end %>
+            <% end %>
+       <% end %>    
+    <% else %>
+      Report this error
     <%end %> 
   <input type='submit' name='Button' value='Login to Aeon' />
   </form>
- <br><%#= itemNumbers.inspect %><br> 
-<!--  SESSION = --><%#= session %> 
-<!--    SESSION_LOADED = --><%#= session.loaded? %>
-<!--     SESSION_HASH = --><%#= session.keys.inspect %>
-    <%# session.each do | name, val| %>
-       <%#= name %>  <%#= val %>
-    <%# end %>
-    <%#= request.env.inspect %>
-    <%#= cookies.request.env.inspect %>
-    <br>
-    <%#= cookies.request.env['HTTP_REFERER'] %>
-    <br>
-   <%# cookies.request.env.each do | cookie | %>
-      <%#= cookie[0].inspect %><%#= cookie[1].inspect %> </br>
-   <%# end %>
+ <br>
   <script>
     // submits the form right after it is parsed
     window.focus(); document.forms['aeonPoster'].submit();  

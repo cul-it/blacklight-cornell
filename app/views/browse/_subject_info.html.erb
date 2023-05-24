@@ -22,8 +22,7 @@
   </div>
 	  <div id="info-details" class="row info-row d-none">
 	    <div id="img-container" class="col-sm-5 col-md-4 col-lg-3 text-center" style="display:none">
-	    	<img id="subject-image" src="" title="subject image" width="120px"/><br/>
-            <span class="kp-source text-nowrap" style="font-size:12px">Image: <a id="wiki-image" href="" target="_target">Wikidata <i class='fa fa-external-link'></i></a></span>
+        <img id="subject-image" src="" title="subject image" width="120px"/>
 	    </div>
 	    <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
 			<div id="dbp-comment"></div>
@@ -32,6 +31,8 @@
                   <%= render_bio_data(bio_data) %>
               </dl>
             <% end %>
+            <%# filled in by javascript when needed %>
+            <div class="ld-acknowledge" id="wiki-image-acknowledge"></div>
 	    </div>
 	  </div>
         <div id="has-wiki-ref-info" class="row mt-4 d-none">

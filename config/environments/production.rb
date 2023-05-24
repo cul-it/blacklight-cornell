@@ -16,7 +16,7 @@ BlacklightCornell::Application.configure do
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
-  config.assets.js_compressor = Uglifier.new(harmony: true)
+  config.assets.js_compressor = :terser
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
@@ -93,8 +93,5 @@ BlacklightCornell::Application.configure do
   #  :api_version => 'v2',
   #  :room_name => ENV['HIPCHAT_ROOM_NAME']
   #}
-
-  # replace this with your tracker code
-  GA.tracker = "UA-8097093-12"
 
 end

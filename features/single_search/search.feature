@@ -76,7 +76,6 @@ Feature: Search
 
   @DIGCOLL-2228
   Scenario Outline: I can see Digital Collections search results in a Bento search
-    Given PENDING
     When I go to the search page
     When I fill in "q" with '<search>'
     And I press 'Search'

@@ -510,7 +510,7 @@ GEM
     net-imap (0.3.4)
       date
       net-protocol
-    net-ldap (0.17.1)
+    net-ldap (0.18.0)
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.1)
@@ -740,6 +740,8 @@ GEM
     summon (2.0.5)
       json
     temple (0.10.0)
+    terser (1.1.14)
+      execjs (>= 0.3.0, < 3)
     textpow (1.4.0)
       plist (>= 3.0.1)
     thor (1.2.1)
@@ -759,8 +761,6 @@ GEM
       yell
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     ultraviolet (1.0.1)
       textpow (>= 1.3.0)
     unf (0.1.4)
@@ -912,7 +912,7 @@ DEPENDENCIES
   spreewald!
   sprockets
   sqlite3 (~> 1.5.1)
-  uglifier (>= 1.0.3)
+  terser (~> 1.1)
   ultraviolet
   unicode
   unicode_utils
