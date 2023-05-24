@@ -559,7 +559,6 @@ GEM
     orm_adapter (0.5.0)
     ostruct (0.5.5)
     parslet (2.0.0)
-    phantomjs (2.1.1.0)
     piwik_analytics (1.0.2)
       actionpack
       activesupport
@@ -869,7 +868,6 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth-saml (~> 2.0)
   parslet
-  phantomjs
   piwik_analytics (~> 1.0.1)
   poltergeist
   protected_attributes_continued
