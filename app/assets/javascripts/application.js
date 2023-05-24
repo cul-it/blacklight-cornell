@@ -48,10 +48,10 @@
 //= require linked_data/subject_browse.js
 //= require retrieve_lcsh.js
 
+// TODO: Move to linked_data directory
+//= require bamwow/work.js
+//= require bamwow/author_title_browse.js
+
 //= require aeon/date
 //= require aeon/repro_request
 //= require aeon/rmc_scripts
-
-//For BAMWOW tests
-//=require bamwow/work.js
-//=require bamwow/author_title_browse.js
