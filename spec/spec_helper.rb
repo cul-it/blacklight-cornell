@@ -11,10 +11,9 @@ require 'capybara/rspec'
 # # prefer to use XPath just remove this line and adjust any selectors in your
 # # steps to use the XPath syntax.
  Capybara.default_selector = :css
-# # by default, uses selenium for javascript, but using poltergeist allows using phantomjs
 require 'capybara/poltergeist'
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path, timeout: 2.minute)
+  Capybara::Poltergeist::Driver.new(app, timeout: 2.minute)
 end
 Capybara.javascript_driver = :poltergeist
 Capybara.server = :webrick
