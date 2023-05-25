@@ -424,3 +424,8 @@ end
 Given("I visit the Cite page for {int}") do |int|
 	do_visit("/catalog/#{int}/citation")
 end
+
+Then("all javascript has loaded") do
+  execute_script("jQuery(window).on('load', function () { document.getElementById('page_load_check').checked = true; });")
+  expect(find('#page_load_label', visible: false)).to have_checked_field('page_load_check', visible: false);
+end
