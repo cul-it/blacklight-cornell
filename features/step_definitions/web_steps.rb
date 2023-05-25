@@ -426,6 +426,14 @@ Given("I visit the Cite page for {int}") do |int|
 end
 
 Then("all javascript has loaded") do
-  execute_script("jQuery(window).on('load', function () { document.getElementById('page_load_check').checked = true; });")
+  # execute_script("jQuery(window).on('load', function () { document.getElementById('page_load_check').checked = true; });")
+  execute_script("let stateCheck = setInterval(() => {
+    if (document.readyState === 'complete') {
+      clearInterval(stateCheck);
+      // document ready
+      document.getElementById('page_load_check').checked = true;
+    }
+  }, 100);
+  ")
   expect(find('#page_load_label', visible: false)).to have_checked_field('page_load_check', visible: false);
 end
