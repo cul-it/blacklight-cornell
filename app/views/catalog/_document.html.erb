@@ -1,7 +1,6 @@
 <% # container for a single doc -%>
 <%- online_data = ( (is_online? document) ? "data-online='no'" : "data-online='no'") %>
 <%- atl_data = ( (is_at_the_library? document) ? "data-atl='yes'" : "data-atl='no'") %>
-<%- atl_data = ( (is_at_the_library? document) ? "data-atl='yes'" : "data-atl='no'") %>
 <div class="document <%= render_document_class document %> row" data-bibid="<%= document.id %>" <%= online_data.html_safe %> <%= atl_data.html_safe %> >
   <div class="document-data col-sm-10">
 	<%= render :partial => 'microformat_index', :locals => {:document => document } %>
