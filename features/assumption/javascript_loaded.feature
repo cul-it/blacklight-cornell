@@ -6,8 +6,10 @@ Feature: Javascript
 
 @javascript
 Scenario Outline: Page has loaded all javascript
+    Given I enable ajax activity completion
     When I go to <page>
     Then all javascript has loaded
+    Then I disable ajax activity completion
 
 Examples:
     | page |
@@ -23,8 +25,10 @@ Examples:
 
 @javascript
 Scenario Outline: Page at path has loaded all javascript
+    Given I enable ajax activity completion
     When I literally go to <path>
     Then all javascript has loaded
+    Then I disable ajax activity completion
 
 Examples:
     | path |
@@ -35,8 +39,10 @@ Examples:
 
 @javascript
 Scenario: Perform a search and see call number facet
-    Given I am on the home page
+    Given I enable ajax activity completion
+    And I am on the home page
     And I fill in the search box with 'ocean'
     And I press 'search'
     Then I should get results
     And all javascript has loaded
+    Then I disable ajax activity completion
