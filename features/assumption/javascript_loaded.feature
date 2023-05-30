@@ -8,7 +8,7 @@ Feature: Javascript
 Scenario Outline: Page has loaded all javascript
     Given I enable ajax activity completion
     When I go to <page>
-    Then all javascript has loaded
+    Then I did not catch any javascript errors
     Then I disable ajax activity completion
 
 Examples:
@@ -27,7 +27,7 @@ Examples:
 Scenario Outline: Page at path has loaded all javascript
     Given I enable ajax activity completion
     When I literally go to <path>
-    Then all javascript has loaded
+    Then I did not catch any javascript errors
     Then I disable ajax activity completion
 
 Examples:
@@ -36,6 +36,7 @@ Examples:
     | databases/subject/History |
     | credits |
     | myaccount/login |
+    | catalog/6417953 |
 
 @javascript
 Scenario: Perform a search and see call number facet
@@ -44,5 +45,5 @@ Scenario: Perform a search and see call number facet
     And I fill in the search box with 'ocean'
     And I press 'search'
     Then I should get results
-    And all javascript has loaded
+    And I did not catch any javascript errors
     Then I disable ajax activity completion
