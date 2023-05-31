@@ -5,7 +5,7 @@ function AuthorBrowse() {
   const wikidataConnector = WikidataConnector();
   const dbpediaConnector = DbpediaConnector();
 
-  async function onLoad() {
+  async function renderLinkedData() {
     let wikidata = {};
     let dbpedia = {};
     try {
@@ -48,29 +48,26 @@ function AuthorBrowse() {
   // Get image and metadata
   async function getWikidata(localname) {
     const sparqlQuery = (
-      `SELECT
-        ?entity
-        ?citizenship
-        ?label
-        ?description
-        ${wikidataConnector.imageSparqlSelect}
-        (group_concat(DISTINCT ?educated_at; separator = ", ") as ?education)
-        (group_concat(DISTINCT ?pseudos; separator = ", ") as ?pseudonyms)
-      WHERE {
-        ?entity wdt:P244 "${localname}".
-        ?entity rdfs:label ?label. FILTER (langMatches( lang(?label), "EN" ) )
-        OPTIONAL {
-          ?entity wdt:P27 ?citizenshipRoot.
-          ?citizenshipRoot rdfs:label ?citizenship. FILTER (langMatches( lang(?citizenship), "EN" ) )
-        }
-        OPTIONAL {
-          ?entity wdt:P69 ?educationRoot.
-          ?educationRoot rdfs:label ?educated_at. FILTER (langMatches( lang(?educated_at), "EN" ) )
-        }
-        OPTIONAL { ?entity wdt:P742 ?pseudos. }
-        OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") }
-        ${wikidataConnector.imageSparqlWhere}
-      } GROUP BY ?entity ?citizenship ?label ?description ${wikidataConnector.imageSparqlSelect} LIMIT 1`
+      'SELECT'
+        + '?entity ?citizenship ?label ?description'
+        + wikidataConnector.imageSparqlSelect
+        + '(group_concat(DISTINCT ?educated_at; separator = ", ") as ?education)'
+        + '(group_concat(DISTINCT ?pseudos; separator = ", ") as ?pseudonyms)'
+      + 'WHERE {'
+        + `?entity wdt:P244 "${localname}".`
+        + '?entity rdfs:label ?label. FILTER (langMatches( lang(?label), "EN" ) )'
+        + 'OPTIONAL {'
+          + '?entity wdt:P27 ?citizenshipRoot.'
+          + '?citizenshipRoot rdfs:label ?citizenship. FILTER (langMatches( lang(?citizenship), "EN" ) )'
+        + '}'
+        + 'OPTIONAL {'
+          + '?entity wdt:P69 ?educationRoot.'
+          + '?educationRoot rdfs:label ?educated_at. FILTER (langMatches( lang(?educated_at), "EN" ) )'
+        + '}'
+        + 'OPTIONAL { ?entity wdt:P742 ?pseudos. }'
+        + 'OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") }'
+        + wikidataConnector.imageSparqlWhere
+      + `} GROUP BY ?entity ?citizenship ?label ?description ${wikidataConnector.imageSparqlSelect} LIMIT 1`
     );
     const results = await wikidataConnector.getData(sparqlQuery);
     return parseWikidata(results);
@@ -231,11 +228,11 @@ function AuthorBrowse() {
     return !!value && !ldExcluder.isPropertyExcluded(propertyName);
   };
 
-  return { onLoad };
+  return { renderLinkedData };
 };
 
 Blacklight.onLoad(function() {
   if ( $('body').prop('className').indexOf('browse-info') >= 0 && $('#auth_loc_localname').length ) {
-    AuthorBrowse().onLoad();
+    AuthorBrowse().renderLinkedData();
   }
 });

@@ -26,7 +26,7 @@ function SubjectDataBrowse() {
   const wikidataConnector = WikidataConnector();
   const dbpediaConnector = DbpediaConnector();
 
-  async function onLoad() {
+  async function renderLinkedData() {
     let dbpedia = {};
     let wikidata = {};
     try {
@@ -51,13 +51,13 @@ function SubjectDataBrowse() {
   // Get Image country = P17; territory P131; location P276
   async function getWikidata(localname) {
     const sparqlQuery = (
-      `SELECT ?entity ?label ?description ${wikidataConnector.imageSparqlSelect}
-      WHERE {
-        ?entity wdt:P244 "${localname}" .
-        ?entity rdfs:label ?label . FILTER (langMatches( lang(?label), "EN" ) )
-        OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = "en")}
-        ${wikidataConnector.imageSparqlWhere}
-      } LIMIT 1`
+      `SELECT ?entity ?label ?description ${wikidataConnector.imageSparqlSelect}`
+      + 'WHERE {'
+        + `?entity wdt:P244 "${localname}" .`
+        + '?entity rdfs:label ?label . FILTER (langMatches( lang(?label), "EN" ) )'
+        + 'OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = "en")}'
+        + wikidataConnector.imageSparqlWhere
+      + '} LIMIT 1'
     );
     const results = await wikidataConnector.getData(sparqlQuery);
     return parseWikidata(results);
@@ -170,7 +170,7 @@ function SubjectDataBrowse() {
     return !!value && !ldExcluder.isPropertyExcluded(propertyName);
   };
 
-  return { onLoad };
+  return { renderLinkedData };
 };
 
 Blacklight.onLoad(function() {
@@ -178,6 +178,6 @@ Blacklight.onLoad(function() {
     SubjectBrowse().onLoad();
   }
   if ( $('#subj_loc_localname').length ) {
-    SubjectDataBrowse().onLoad();
+    SubjectDataBrowse().renderLinkedData();
   }
 });  

@@ -128,7 +128,7 @@ function KPanel() {
     $('#popoverContent').removeClass('d-none');
   };
 
-  return { init }
+  return { init };
 }
 
 Blacklight.onLoad(function() {
