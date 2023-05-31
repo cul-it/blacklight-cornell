@@ -1,6 +1,7 @@
 // Represents author knowledge panel
 function KPanel() {
   const wikidataConnector = WikidataConnector();
+  const locConnector = LOCConnector();
 
   function init() {
     bindEventListeners();
@@ -40,13 +41,13 @@ function KPanel() {
     // Incorporate when so loc suggestion and auth check occur together
     // and then wikidata is queried only if info can be displayed
     try {
-      const localname = await getLocLocalName(locQuery);
-      if (localname) {
+      const localName = await locConnector.getLocalName(locQuery, 'PersonalName');;
+      if (localName) {
         try {
-          const wikidata = await getWikidata(localname);
+          const wikidata = await getWikidata(localName);
           renderWikidata(wikidata);
         } catch(err) {
-          console.log(`Error occurred retrieving Wikidata info for ${localname}`);
+          console.log(`Error occurred retrieving Wikidata info for ${localName}`);
           console.log(err);
         }
       }
@@ -64,41 +65,15 @@ function KPanel() {
     return authority?.replace(/[,.]\s*$/, '');
   };
   
-  // Lookup suggestions in LOC for this name specifically
-  async function getLocLocalName(locQuery) {
-    const lookupURL = `https://id.loc.gov/authorities/names/suggest?q=${encodeURIComponent(locQuery)}&rdftype=PersonalName&count=1`;
-    // Using timeout to handle query that doesn't return in 3 seconds for jsonp request
-    const results = await $.ajax({
-      url: lookupURL,
-      dataType: 'jsonp',
-      timeout: 3000,
-      crossDomain: true
-    });
-    return parseLocResults(results);
-  };
-  
-  // Example LOC results:
-  // ["Vivaldi, Antonio, 1678-1741",['Vivaldi, Antonio, 1678-1741'],['1 result'],['http://id.loc.gov/authorities/names/n79021280']]
-  function parseLocResults(suggestions) {
-    if (suggestions && suggestions[1] !== undefined) {
-      const locURI = suggestions[3][0];
-      // Get string right after last slash if it's present
-      // TODO: deal with hashes later
-      return locURI?.split('/')?.pop();
-    }
-  };
-  
   // Given an LOC URI, query if equivalent wikidata entity exists and get image and/or description
-  async function getWikidata(localname) {
+  async function getWikidata(localName) {
     const sparqlQuery = (
-      `SELECT *
-      WHERE {
-        ?entity wdt:P244 "${localname}".
-        ${wikidataConnector.imageSparqlWhere}
-        OPTIONAL {
-          ?entity schema:description ?description . FILTER(lang(?description) = "en")
-        }
-      }`
+      'SELECT *'
+      + 'WHERE {'
+        + `?entity wdt:P244 "${localName}".`
+        + wikidataConnector.imageSparqlWhere
+        + 'OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") }'
+      + '}'
     );
     const results = await wikidataConnector.getData(sparqlQuery);
     return parseWikidata(results);

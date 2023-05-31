@@ -2,6 +2,7 @@
 // https://wiki.lyrasis.org/display/LD4P3/WP3%3A+Discovery#WP3:Discovery-BAMWOW!(BrowsingAcrossMusicWithObtainableWikidata)
 function AuthorTitleBrowse() {
   const wikidataConnector = WikidataConnector();
+  const locConnector = LOCConnector();
   // TODO: Add ability to exclude excludeEntities.yml?
 
   // Order in mapping determines display order
@@ -20,8 +21,9 @@ function AuthorTitleBrowse() {
     try {
       // Query Library of Congress for localName that can be used to fetch Wikidata results
       const headingAttr = $('#author-title-heading').attr('heading');
-      const heading = parseHeadingAttr(headingAttr);
-      const localName = await getLocLocalName(heading);
+      const locQuery = parseHeadingAttr(headingAttr);
+      const localName = await locConnector.getLocalName(locQuery, 'NameTitle');
+
       if (localName) {
         // If LOC name found for heading, query Wikidata for additional data to display
         const wikidata = await getWikidata(localName);
@@ -73,30 +75,6 @@ function AuthorTitleBrowse() {
   function canRender(data) {
     return propertyNames().some(prop => prop in data)
   };
-
-  // TODO: Move to utils/loc_connector.js
-  async function getLocLocalName(heading) {
-    const results = await $.ajax({
-      url: `https://id.loc.gov/authorities/names/suggest/?q=${encodeURIComponent(heading)}&rdftype=NameTitle&count=1`,
-      dataType: 'jsonp'
-    });
-    return parseLocResults(results);
-  };
-
-  // Example LOC results:
-  // [
-  //   "Vivaldi, Antonio, 1678-1741. Sonatas, op. 5. No. 1",
-  //   ["Vivaldi, Antonio, 1678-1741. Sonatas, op. 5. No. 1"],
-  //   ["1 result"],
-  //   ["http://id.loc.gov/authorities/names/no2003085675"]
-  // ]
-  function parseLocResults(suggestions) {
-    if (suggestions && suggestions.length > 3 && suggestions[1] !== undefined) {
-      const locURI = suggestions[3][0];
-      // Get string right after last slash if it's present
-      return locURI?.split('/')?.pop();
-    }
-  }
 
   function parseWikidata(data) {
     const output = {};
