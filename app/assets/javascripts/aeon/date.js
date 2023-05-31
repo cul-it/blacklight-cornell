@@ -7,7 +7,7 @@
 
     var allowWeekends, minDate, maxDate, yearlyHolidays, floatingHolidays,floatingOpendays;
 
-    /*
+    /* 
     * Defines whether weekends will be enabled by default
     */
     allowWeekends = true;
@@ -38,7 +38,7 @@
 
     /*
     * Floating holidays or other days that should be disabled
-    *
+    * 
     * An array of 2 elements where the first is the date of the holiday and the second is the name of the
     * holiday which will be displayed in the tooltip for the date
     *
@@ -65,7 +65,7 @@
 
     /*
     * Floating open days.
-    * An array of 2 elements where the first is the date of the Open day and the second is the
+    * An array of 2 elements where the first is the date of the Open day and the second is the 
     * special reason for being open which will be displayed in the tooltip for the date
     * Format of first element is 4-digit year followed by 2-digit month followed by 2-digit day (i.e. yyyymmdd)
     */
@@ -98,9 +98,8 @@
 
     $(document).ready(function () {
         var scheduledDate = $('#ScheduledDate');
-        //good version: if (scheduledDate.length > 0) {
-        if (scheduledDate.length != null) {
-            scheduledDate.datepicker({
+        if (scheduledDate.length > 0) {
+        scheduledDate.datepicker({
             minDate: minDate,
             maxDate: maxDate,
             beforeShowDay: function (date) {
