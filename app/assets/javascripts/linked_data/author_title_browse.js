@@ -1,3 +1,5 @@
+// Display enhanced music metadata from Wikidata (BAMWOW!) in Author-Title Browse
+// https://wiki.lyrasis.org/display/LD4P3/WP3%3A+Discovery#WP3:Discovery-BAMWOW!(BrowsingAcrossMusicWithObtainableWikidata)
 function AuthorTitleBrowse() {
   const wikidataConnector = WikidataConnector();
   // TODO: Add ability to exclude excludeEntities.yml?
@@ -16,10 +18,12 @@ function AuthorTitleBrowse() {
 
   async function renderLinkedData() {
     try {
+      // Query Library of Congress for localName that can be used to fetch Wikidata results
       const headingAttr = $('#author-title-heading').attr('heading');
       const heading = parseHeadingAttr(headingAttr);
       const localName = await getLocLocalName(heading);
       if (localName) {
+        // If LOC name found for heading, query Wikidata for additional data to display
         const wikidata = await getWikidata(localName);
         renderWikidata(wikidata);
       }
