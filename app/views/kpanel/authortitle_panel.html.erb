@@ -1,0 +1,39 @@
+<% 
+  heading = @data['heading']
+	encoded_heading = heading.gsub('&', '%26').gsub('"', '\'')
+  if @data['counts_json']
+    counts = JSON.parse(@data['counts_json'])
+    worksAboutCount = counts['worksAbout']
+    worksCount = counts['works']
+  end
+  rda = JSON.parse(@data['rda_json']) if @data['rda_json']
+%>
+<div id='kpanelContent'>
+  <div id='popoverContent' class='kp-content'>
+    <div id='panelMainContent' class='mt-2 float-none clearfix'>
+      <h2><%= heading %></h2>
+      <div class='author-works float-none'>
+        Works: <%= link_to worksCount, "/?q=\"#{encoded_heading}\"&search_field=authortitle_browse" %>
+      </div>
+      <div class='author-works float-none'>
+        Works about: <%= link_to worksAboutCount, "/?q=\"#{encoded_heading}\"&search_field=subjectwork_browse" %>
+      </div>
+      <div id='authorTitleDescription'>
+        <div class='dl dl-horizontal' id='authorTitleDescriptionContainer'>
+          <% if rda.is_a?(Array) %>
+            <% rda.each_with_index do |(label, val), i| %>
+              <% fieldClass = i % 2 ? 'field2-bg' : 'field1-bg' %>
+              <div class='dt <%= fieldClass %>'><%= label %> : </div>
+              <div class='dd <%= fieldClass %>'><%= value %></div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class='mt-2 w-100 text-right'>
+      <%= link_to "/browse/info?browse_type=Author-Title&authq=#{encoded_heading}", id: 'fullRecordLink' do %>
+        <span class='info-button d-sm-inline-block btn btn-sm btn-outline-secondary'>View full info &raquo;</span>
+      <% end %>
+    </div>
+  </div>
+</div>

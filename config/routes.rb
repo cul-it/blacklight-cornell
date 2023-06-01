@@ -131,8 +131,6 @@ devise_for :users, controllers: {
   get 'kpanel/index'
   # Permissions for showing certain external info
   get '/check_permissions' => 'handle_external_data#check_permissions', as: 'check_permissions'
-  # author title browse info
-  get '/authortitleinfo' => 'bamwow#get_browse_info'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

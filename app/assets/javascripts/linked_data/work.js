@@ -70,64 +70,23 @@ function Work() {
 
   // Display metadata from Author-Title browse and Wikidata as a popover for each included work
   async function displayDataInPopovers(headings) {
-    // Get data from Author-Title browse endpoint
-    const authorTitleBrowseData = await getAuthorTitleBrowseData(headings);
+    // Format headings for faster lookup by parsedHeading
+    const headingsData = {}
+    headings.forEach(h => headingsData[h.parsedHeading] = h);
 
-    // Attach popovers for each included work
-    attachWorkPopovers(authorTitleBrowseData);
-  };
-
-  async function getAuthorTitleBrowseData(headings) {
-    const authorTitleBrowseData = {};
-
-    await Promise.all(headings.map(async h => {
-      // Get json from author-title browse endpoint
-      const results = await $.getJSON(
-        `/browse/info?browse_type=Author-Title&authq=${encodeURIComponent(h.originalHeading)}`
-      );
-      const parsedData = parseAuthorTitleBrowseResults(results);
-
-      // We want the parsed heading, i.e. without the pipe, because we need to
-      // match against the included work title from the html
-      if (parsedData) authorTitleBrowseData[parsedData.parsedHeading] = parsedData;
-    }));
-
-    return authorTitleBrowseData;
-  };
-
-  function parseAuthorTitleBrowseResults(results) {
-    if (results?.length && results[0]['authority']) {
-      const { heading, counts_json, rda_json } = results[0];
-
-      const parsedData = {};
-      parsedData.originalHeading = heading;
-      parsedData.parsedHeading = bamwowHelper.reformatHeading(heading);
-      if (counts_json) parsedData.counts = JSON.parse(counts_json);
-      if (rda_json) parsedData.rda = JSON.parse(rda_json);
-
-      // Example parsedData:
-      // {
-      //   "originalHeading": "Vivaldi, Antonio, 1678-1741. | Sonatas, violin, continuo. Selections",
-      //   "parsedHeading": "Vivaldi, Antonio, 1678-1741. Sonatas, violin, continuo. Selections",
-      //   "counts": {
-      //       "worksAbout": 0,
-      //       "works": 5
-      //   }
-      // }
-      return parsedData;
-    }
-  };
-
-  function attachWorkPopovers(authorTitleBrowseData) {
+    // For each included work in list, add popover
     const includedWorksHtml = $('dd.blacklight-included_work_display a');
     includedWorksHtml.each(function() {
       const linkText = $(this).text();
       // Get rid of ending punctuation
       const strippedLinkText = linkText.replace(/\.$/, '').trim();
-      if (strippedLinkText in authorTitleBrowseData) {
-        const dataForIncludedWork = authorTitleBrowseData[strippedLinkText];
+      if (strippedLinkText in headingsData) {
+        const dataForIncludedWork = headingsData[strippedLinkText];
         const { originalHeading, parsedHeading } = dataForIncludedWork;
 
+        // (Possible) TODO: Render button at page load in view instead of when data fetches are done, like Author Info?
+        //    Add matomo tracking on button click?
+        //    Direct link to author-title browse page if mobile? (currently button doesn't show at all on mobile)
         // Render buttons for each included work
         const buttonHtml = (
           `<a
@@ -145,14 +104,20 @@ function Work() {
         $(this).after(buttonHtml);
 
         // Clicking included work button triggers popover
-        const content = generateAuthorTitlePopoverHtml(dataForIncludedWork);
         $(`a[heading='${parsedHeading}']`).click(function(e) {
           e.preventDefault();
+          const eThis = $(this);
 
-          // TODO: Call to rails and render a knowledge panel view, instead of rendering all the html in js?
-          $(this).popover({ content, html: true, trigger: 'focus' }).popover('show');
-          // Get info from LOC + Wikidata
-          renderPopoverContent(parsedHeading);
+          // Render kpanel view with data from solr browse index
+          const catalogAuthURL = `/panel?type=authortitle&authq="${encodeURIComponent(originalHeading)}"`;
+          $.get(catalogAuthURL, function(d) {
+            const content = $(d).find('div#kpanelContent').html();
+            // TODO: Investigate more accessible options for popover focus navigation
+            // Change trigger to focus for prod- click for debugging
+            eThis.popover({ content, html: true, trigger: 'focus' }).popover('show');
+            // Get info from LOC + Wikidata
+            renderPopoverContent(parsedHeading);
+          });
         });
       }
     });
@@ -199,53 +164,6 @@ function Work() {
     });
 
     $('#authorTitleDescriptionContainer').append(html);
-  };
-
-  function generateAuthorTitlePopoverHtml(data) {
-    const { originalHeading, parsedHeading, counts, rda } = data;
-    const headingBrowseLink = `/browse/info?browse_type=Author-Title&authq=${encodeURIComponent(originalHeading)}`;
-    const workSearchLink = `/?q=${encodeURIComponent(`"${originalHeading}"`)}&search_field=`;
-    let html = `<h2>${parsedHeading}</h2>`;
-
-    // works & worksAbout catalog links
-    html += (
-      `<div class="author-works float-none">
-        Works: <a href="${workSearchLink}authortitle_browse" id="worksForHeading">${counts.works}</a>
-      </div>
-      <div class="author-works float-none">
-        Works about: <a href="${workSearchLink}subjectwork_browse" id="worksAboutHeading">${counts.worksAbout}</a>
-      </div>`
-    );
-
-    // Start divs for Author-Title browse data
-    html += '<div id="authorTitleDescription"><div class="dl dl-horizontal" id="authorTitleDescriptionContainer">';
-    let rowCount = 1;
-    $.each(rda, function(label, value) {
-      if ($.isArray(value)) value = value.join(', ');
-      fieldClass = rowCount % 2 ? 'field1-bg' : 'field2-bg';
-      html += (
-        `<div class="dt ${fieldClass}">${label}: </div>
-        <div class="dd ${fieldClass}">${value}</div>`
-      );
-      rowCount += 1;
-    });
-    // End divs for Author-Title browse data
-    html += '</div></div>';
-
-    // Link to Author-Title browse page for work
-    const fullLink = (
-      `<div class="mt-2 w-100 text-right">
-        <a id="fullRecordLink" href="${headingBrowseLink}">
-          <span class="info-button d-sm-inline-block btn btn-sm btn-outline-secondary">View full info &raquo;</span>
-        </a>
-      </div>`
-    );
-    return (
-      `<div id="popoverContent" class="kp-content">
-        <div id="panelMainContent" class="mt-2 float-none clearfix">${html}</div>
-        ${fullLink}
-      </div>`
-    );
   };
 
   // Generate fields
