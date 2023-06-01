@@ -47,10 +47,8 @@
 //= require linked_data/author_browse.js
 //= require linked_data/subject_browse.js
 //= require linked_data/author_title_browse.js
+//= require linked_data/work.js
 //= require retrieve_lcsh.js
-
-// TODO: Move to linked_data directory
-//= require bamwow/work.js
 
 //= require aeon/date
 //= require aeon/repro_request
