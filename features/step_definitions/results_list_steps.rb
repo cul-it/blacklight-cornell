@@ -94,12 +94,14 @@ Then("I should see a thumbnail image for {string}") do |string|
   end
 end
 
-Then("the thumbnail image ID for {string} should be {string}") do |string, string2|
-  within ('div#documents.documents-list') do
-    # link = find(:xpath, '//h2/a', :text => string).first(:xpath, ".//../../..").find(:xpath, ".//div/img")
-    link = find(:xpath, '//h2/a', :text => string)
-    document = link.first(:xpath, ".//../../..")
-    expect(document).to have_selector('img.img-thumbnail', :id => string2)
+Then("all ids are unique") do
+  ids = []
+  page.all("*", :id => /.+/).each do |el|
+    id = el[:id]
+    if ids.include? id
+        fail('not unique')
+    else
+      ids << id
+    end
   end
 end
-

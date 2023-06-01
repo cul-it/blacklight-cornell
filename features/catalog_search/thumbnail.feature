@@ -17,3 +17,11 @@ Examples:
     | title | id |
     | Stravinsky : a family chronicle : 1906-1940  | Value 2  |
     | Carly Simon's Romulus Hunt : a family opera ; vocal score | xx |
+
+@DISCOVERYACCESS-7501
+Scenario: Confirm eradication of an old bug with duplicate image ids
+  Given I am on the home page
+  And I fill in the search box with 'music'
+  And I press 'search'
+  Then I should get results
+  And all ids are unique
