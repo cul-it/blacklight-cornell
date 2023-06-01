@@ -17,9 +17,6 @@
     other_availability_json = @document['other_availability_json']
     workid_display = @document['workid_display']
     workid_facet = @document['workid_facet']
-
-	# Get author title facet value if it exists
-	authortitle_facet_value = @document['authortitle_facet'] || ""
   %>
 
   <% # bookmark/folder functions -%>
@@ -37,13 +34,6 @@
   <% if responsibility.present? %>
     <h3 class="responsibility"><%= responsibility.map(&:inspect).join('; ').gsub('\\"', '') %></h3>
   <% end %>
-
- <!--Add section for work info -->
- 	<!--div id="work" heading="<%= authortitle_facet_value%>" base-url="<%= root_url %>">
-		<button id="workpopover" type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="">
-			Info
-		</button>
-	</div-->
   </div>
   <div class="row">
     <div class="col-md-4 order-md-8">
