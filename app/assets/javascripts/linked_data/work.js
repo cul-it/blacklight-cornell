@@ -1,25 +1,13 @@
 // Display enhanced music metadata from Wikidata (BAMWOW!) in work display
 // https://wiki.lyrasis.org/display/LD4P3/WP3%3A+Discovery#WP3:Discovery-BAMWOW!(BrowsingAcrossMusicWithObtainableWikidata)
 function Work() {
-  const wikidataConnector = WikidataConnector();
   const locConnector = LOCConnector();
+  const bamwowHelper = BamwowHelper();
   // TODO: Add ability to exclude excludeEntities.yml?
 
   // Data from html attributes
   const headingAttr = $('#work').attr('heading');
   const includedWorksAttr = $('#work').attr('included');
-
-  // Order in mapping determines display order
-  const fieldMapping = {
-    'date': 'First performance date',
-    'locationLabel': 'First performance location',
-    'opus': 'Opus',
-    'dedicatedLabel': 'Dedicated to',
-    'commissionedByLabel': 'Commissioned by',
-    'tonalityLabel': 'Tonality',
-    'librettistLabel': 'Librettist',
-    'instrumentationLabel': 'Instrumentation',
-  };
 
   // Only fetch and display music data from wikidata in 2 scenarios:
   // 1. Only one author title facet: display wikidata directly on work
@@ -32,10 +20,10 @@ function Work() {
       // If more than one query heading, check included works if they exist
       if (headings.length === 1) {
         // This only requires the parsed heading
-        handleQueryHeading(headings[0]['parsedHeading']);
+        displayDataOnWork(headings[0]['parsedHeading']);
       }
       else if (headings.length > 1 && includedWorks.length) {
-        handleQueryWorks(headings);
+        displayDataInPopovers(headings);
       }
     } catch(err) {
       console.log(err);
@@ -47,14 +35,10 @@ function Work() {
 
     const headings = JSON.parse(attr);
     return headings.map(originalHeading => {
-      const parsedHeading = reformatHeading(originalHeading);
+      // Remove pipe value from heading attr in catalog
+      const parsedHeading = bamwowHelper.reformatHeading(originalHeading);
       return { originalHeading, parsedHeading };
     });
-  };
-
-  // Remove pipe value from heading attr in catalog
-  function reformatHeading(heading) {
-    return heading.split('|').map(v => v.trim()).join(' ');
   };
 
   // Just return first part of work attr (before first pipe value, if any)
@@ -65,18 +49,17 @@ function Work() {
     return works.map(work => work.split('|').map(v => v.trim())[0]);
   };
 
-  async function handleQueryHeading(heading) {
-    const locQuery = heading;
-    const localName = await locConnector.getLocalName(locQuery, 'NameTitle');
+  async function displayDataOnWork(heading) {
+    const localName = await locConnector.getLocalName(heading, 'NameTitle');
     if (localName) {
       // If LOC name found for heading, query Wikidata for additional data to display
-      const wikidata = await getWikidata(localName);
+      const wikidata = await bamwowHelper.getWikidata(localName);
       renderWikidata(wikidata);
     }
   };
 
   function renderWikidata(data) {
-    if (canRender(data)) {
+    if (bamwowHelper.canRender(data)) {
       const fieldHtml = generateFieldHTML(data);
       $('#itemDetails').append(fieldHtml);
 
@@ -85,35 +68,13 @@ function Work() {
     }
   }
 
-  // TODO: DRY up duplicate code across work.js and author_title_browse.js
-  async function getWikidata(localName) {
-    const sparqlQuery = (
-      'SELECT ?entity ?codeval ?catalog ?catalogLabel ?music_created_for ?music_created_forLabel ?created_for_loc '
-        + '?date ?location ?locationLabel ?opus ?dedicated ?dedicatedLabel ?commissionedBy ?commissionedByLabel '
-        + '?tonality ?tonalityLabel ?librettist ?librettistLabel ?instrumentation ?instrumentationLabel '
-      + 'WHERE {'
-        + `?entity wdt:P244 "${localName}".`
-        + 'OPTIONAL { ?entity p:P528 ?code. ?code ps:P528 ?codeval. ?code pq:P972 ?catalog. }'
-        + 'OPTIONAL { ?entity wdt:P9899 ?music_created_for. ?music_created_for wdt:P244 ?created_for_loc. }'
-        + 'OPTIONAL { ?entity wdt:P1191 ?date. }'
-        + 'OPTIONAL { ?entity wdt:P4647 ?location. }'
-        + 'OPTIONAL { ?entity wdt:P10855 ?opus. }'
-        + 'OPTIONAL { ?entity wdt:P825 ?dedicated . }'
-        + 'OPTIONAL { ?entity wdt:P88 ?commissionedBy. }'
-        + 'OPTIONAL { ?entity wdt:P826 ?tonality. }'
-        + 'OPTIONAL { ?entity wdt:P87 ?librettist. }'
-        + 'OPTIONAL { ?entity wdt:P870 ?instrumentation. }'
-        + 'SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }'
-      + '}'
-    );
-    const results = await wikidataConnector.getData(sparqlQuery);
-    return parseWikidata(results);
-  };
-
-  // Attach popovers for each included work, using a request to the author title browse index
-  async function handleQueryWorks(headings) {
+  // Display metadata from Author-Title browse and Wikidata as a popover for each included work
+  async function displayDataInPopovers(headings) {
+    // Get data from Author-Title browse endpoint
     const authorTitleBrowseData = await getAuthorTitleBrowseData(headings);
-    addWorkPopovers(authorTitleBrowseData);
+
+    // Attach popovers for each included work
+    attachWorkPopovers(authorTitleBrowseData);
   };
 
   async function getAuthorTitleBrowseData(headings) {
@@ -131,7 +92,6 @@ function Work() {
       if (parsedData) authorTitleBrowseData[parsedData.parsedHeading] = parsedData;
     }));
 
-    console.log('authorTitleBrowseData', authorTitleBrowseData);
     return authorTitleBrowseData;
   };
 
@@ -141,7 +101,7 @@ function Work() {
 
       const parsedData = {};
       parsedData.originalHeading = heading;
-      parsedData.parsedHeading = reformatHeading(heading);
+      parsedData.parsedHeading = bamwowHelper.reformatHeading(heading);
       if (counts_json) parsedData.counts = JSON.parse(counts_json);
       if (rda_json) parsedData.rda = JSON.parse(rda_json);
 
@@ -158,7 +118,7 @@ function Work() {
     }
   };
 
-  function addWorkPopovers(authorTitleBrowseData) {
+  function attachWorkPopovers(authorTitleBrowseData) {
     const includedWorksHtml = $('dd.blacklight-included_work_display a');
     includedWorksHtml.each(function() {
       const linkText = $(this).text();
@@ -199,21 +159,20 @@ function Work() {
   };
 
   // Generate popup knowledge panel using plain Bootstrap
-  async function renderPopoverContent(lookupHeading) {
-    const locQuery = lookupHeading;
-    const localName = await locConnector.getLocalName(locQuery, 'NameTitle');
+  async function renderPopoverContent(heading) {
+    const localName = await locConnector.getLocalName(heading, 'NameTitle');
     if (localName) {
       // If LOC name found for heading, query Wikidata for additional data to display
-      const wikidata = await getWikidata(localName);
+      const wikidata = await bamwowHelper.getWikidata(localName);
       renderWikidataSubset(wikidata);
     }
   };
     
   function renderWikidataSubset(data) {
     const fieldMappingSubset = {
-      opus: fieldMapping.opus,
-      tonalityLabel: fieldMapping.tonalityLabel,
-      instrumentationLabel: fieldMapping.instrumentationLabel,
+      opus: bamwowHelper.fieldMapping.opus,
+      tonalityLabel: bamwowHelper.fieldMapping.tonalityLabel,
+      instrumentationLabel: bamwowHelper.fieldMapping.instrumentationLabel,
     };
     let html = '';
 
@@ -289,64 +248,6 @@ function Work() {
     );
   };
 
-  // Are there properties available to display the information in the data from the query results
-  function canRender(data) {
-    return propertyNames().some(prop => prop in data);
-  };
-
-  function propertyNames() {
-    return Object.keys(fieldMapping);
-  };
-
-  function parseWikidata(data) {
-    const output = {};
-    const bindings = data?.results?.bindings;
-
-    if (bindings && bindings.length) {
-      const catalogCodes = {};
-      $.each(bindings, function(_i, binding) {
-        const {
-          entity,
-          catalogLabel,
-          codeval,
-          music_created_forLabel,
-          created_for_loc
-        } = binding;
-        output.entity ||= entity?.value;
-
-        // catalog label and code value pairs, as nested objects, and multiple possible
-        // Assume the pairing of catalog and code will always be unique, and there is only one code per catalog
-        if (catalogLabel && codeval) catalogCodes[catalogLabel.value] = codeval.value;;
-        
-        // music created for label and accompanying LCCN
-        if (music_created_forLabel && created_for_loc) {
-          output.createdFor ||= { 'label': music_created_forLabel.value, 'loc': created_for_loc.value };
-        }
-
-        $.each(propertyNames(), function(i, prop) {
-          if (prop in binding) {
-            output[prop] ||= [];
-            output[prop].push(binding[prop]['value']);
-          }
-        });
-      });
-
-      // Remove duplicates
-      $.each(output, function(key, value) {
-        if ($.isArray(value) && (value.length > 1)) {
-          output[key] = [...new Set(value)];
-        }
-      });
-
-      // Set unique catalog codes
-      $.each(catalogCodes, function (c, cval) {
-        output.codes ||= [];
-        output.codes.push({ 'catalogLabel': c, 'code': cval });
-      });
-    }
-    return output;
-  };
-
   // Generate fields
   function generateFieldHTML(data) {
     let html = "";
@@ -365,10 +266,10 @@ function Work() {
       );
     }
 
-    $.each(fieldMapping, function(prop, label) {
+    $.each(bamwowHelper.fieldMapping, function(prop, label) {
       if (prop in data) {
         let value = data[prop];
-        if (prop === 'date') value = formatDates(value);
+        if (prop === 'date') value = bamwowHelper.formatDates(value);
         if ($.isArray(value)) value = value.join(', ');
         const className = `blacklight-wd-${label.replace(/\s+/g, '')}`;
         html += (
@@ -379,15 +280,6 @@ function Work() {
     });
 
     return html;
-  };
-
-  function formatDates(dates) {
-    return dates.map(date => {
-      // Adding the UTC is important, otherwise it returns the date in the local time zone and the day can be off by one
-      const formattedDate = new Date(date);
-      const month = formattedDate.toLocaleDateString('default', { month: 'short' });
-      return `${formattedDate.getUTCDate()} ${month}, ${formattedDate.getUTCFullYear()}`;
-    });
   };
 
   function generateWikidataSourceLinks(data) {
