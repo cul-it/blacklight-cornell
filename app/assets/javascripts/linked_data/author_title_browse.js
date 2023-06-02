@@ -34,6 +34,9 @@ function AuthorTitleBrowse() {
 
       const sourceLinkHtml = generateWikidataSourceLinks(data);
       $('#wiki-acknowledge').html(sourceLinkHtml);
+
+      // Show details
+      $('#info-details').removeClass('d-none');
     }
   }
 

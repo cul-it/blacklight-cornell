@@ -34,7 +34,7 @@ class KpanelController < ApplicationController
   # Get info to display in knowledge panel
   # Arguments: base url, authority type (author or subject), query string 
   def panel
-    return unless ['author', 'subject', 'authortitle'].include?(params[:authq])
+    return unless ['author', 'subject', 'authortitle'].include?(params[:type])
 
     @authq = params[:authq] || ''
     @auth_type = params[:type] || ''

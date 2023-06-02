@@ -17,13 +17,14 @@ function Work() {
       // There may be multiple author title facets possible
       const headings = parseHeadingAttr(headingAttr);
       const includedWorks = parseIncludedWorksAttr(includedWorksAttr);
-      // If more than one query heading, check included works if they exist
       if (headings.length === 1) {
         // This only requires the parsed heading
         displayDataOnWork(headings[0]['parsedHeading']);
       }
-      else if (headings.length > 1 && includedWorks.length) {
-        displayDataInPopovers(headings);
+      else if (headings.length > 1 && Object.keys(includedWorks).length) {
+        // If more than one query heading, check included works if they exist
+        // Popovers display if parsed included work matches an authortitle facet
+        displayDataInPopovers(headings, includedWorks);
       }
     } catch(err) {
       console.log(err);
@@ -41,12 +42,27 @@ function Work() {
     });
   };
 
-  // Just return first part of work attr (before first pipe value, if any)
+  // Attr Example #1:
+  //   ["Vivaldi, Antonio, 1678-1741. Sonatas, op. 5. No. 1.|Sonatas, op. 5. No. 1.|Vivaldi, Antonio, 1678-1741.",
+  //    "Vivaldi, Antonio, 1678-1741. Sonatas, op. 5. No. 2.|Sonatas, op. 5. No. 2.|Vivaldi, Antonio, 1678-1741."]
+  // Attr Example #2:
+  //   ["Container of (work): McAuley, Paul J. Winning peace.|Winning peace.|McAuley, Paul J.",
+  //    "Container of (work): Leckie, Ann. Night's slow poison.|Night's slow poison.|Leckie, Ann."]
+  // Returns list: [{ linkTextDisplay: 'Author Work' }]
   function parseIncludedWorksAttr(attr) {
-    if (!attr) return [];
+    const parsedWorks = {};
+    if (attr) {
+      const works = JSON.parse(attr);
+      works.forEach(work => {
+        const components = work.split('|').map(c => c.trim());
+        if (components.length === 3) {
+          // Parse includedWorks to match heading
+          parsedWorks[components[0]] = `${components[2]} ${components[1].replace(/\.$/, '')}`;
+        }
+      });
+    }
 
-    const works = JSON.parse(attr);
-    return works.map(work => work.split('|').map(v => v.trim())[0]);
+    return parsedWorks;
   };
 
   async function displayDataOnWork(heading) {
@@ -69,7 +85,7 @@ function Work() {
   }
 
   // Display metadata from Author-Title browse and Wikidata as a popover for each included work
-  async function displayDataInPopovers(headings) {
+  async function displayDataInPopovers(headings, includedWorks) {
     // Format headings for faster lookup by parsedHeading
     const headingsData = {}
     headings.forEach(h => headingsData[h.parsedHeading] = h);
@@ -79,19 +95,18 @@ function Work() {
     includedWorksHtml.each(function() {
       const linkText = $(this).text();
       // Get rid of ending punctuation
-      const strippedLinkText = linkText.replace(/\.$/, '').trim();
-      if (strippedLinkText in headingsData) {
-        const dataForIncludedWork = headingsData[strippedLinkText];
+      const strippedLinkText = linkText.trim();
+      if (includedWorks[strippedLinkText] in headingsData) {
+        const dataForIncludedWork = headingsData[includedWorks[strippedLinkText]];
         const { originalHeading, parsedHeading } = dataForIncludedWork;
 
-        // (Possible) TODO: Render button at page load in view instead of when data fetches are done, like Author Info?
-        //    Add matomo tracking on button click?
+        // (Possible) TODO: Add matomo tracking on button click?
         //    Direct link to author-title browse page if mobile? (currently button doesn't show at all on mobile)
         // Render buttons for each included work
+        const strippedHeadingForHtml = parsedHeading.replace(/[^a-zA-Z0-9]/g, '');
         const buttonHtml = (
           `<a
-            originalHeading="${originalHeading}"
-            heading="${parsedHeading}"
+            heading="${strippedHeadingForHtml}"
             href="#"
             role="button"
             tabindex="0"
@@ -101,23 +116,23 @@ function Work() {
             Work info »
           </a>`
         );
+        // TODO: Styling when link text wraps with button? (e.g. /catalog/9769908)
+        // $(this).css({ 'display': 'inline-block', 'max-width': '80%' });
         $(this).after(buttonHtml);
 
         // Clicking included work button triggers popover
-        $(`a[heading='${parsedHeading}']`).click(function(e) {
+        $(`a[heading="${strippedHeadingForHtml}"]`).click(async function(e) {
           e.preventDefault();
-          const eThis = $(this);
 
           // Render kpanel view with data from solr browse index
           const catalogAuthURL = `/panel?type=authortitle&authq="${encodeURIComponent(originalHeading)}"`;
-          $.get(catalogAuthURL, function(d) {
-            const content = $(d).find('div#kpanelContent').html();
-            // TODO: Investigate more accessible options for popover focus navigation
-            // Change trigger to focus for prod- click for debugging
-            eThis.popover({ content, html: true, trigger: 'focus' }).popover('show');
-            // Get info from LOC + Wikidata
-            renderPopoverContent(parsedHeading);
-          });
+          const kpanelTemplate = await $.get(catalogAuthURL);
+          const content = $(kpanelTemplate).find('#kpanelContent').html();
+          // TODO: Investigate more accessible options for popover focus navigation
+          // Change trigger to focus for prod- click for debugging
+          $(this).popover({ content, html: true, trigger: 'focus' }).popover('show');
+          // Get info from LOC + Wikidata
+          renderPopoverContent(parsedHeading);
         });
       }
     });
@@ -125,11 +140,17 @@ function Work() {
 
   // Generate popup knowledge panel using plain Bootstrap
   async function renderPopoverContent(heading) {
-    const localName = await locConnector.getLocalName(heading, 'NameTitle');
-    if (localName) {
-      // If LOC name found for heading, query Wikidata for additional data to display
-      const wikidata = await bamwowHelper.getWikidata(localName);
-      renderWikidataSubset(wikidata);
+    try {
+      const localName = await locConnector.getLocalName(heading, 'NameTitle');
+      if (localName) {
+        // If LOC name found for heading, query Wikidata for additional data to display
+        const wikidata = await bamwowHelper.getWikidata(localName);
+        renderWikidataSubset(wikidata);
+      }
+    } catch (err) {
+      console.log(err)
+    } finally {
+      hideSpinner();
     }
   };
     
@@ -164,6 +185,10 @@ function Work() {
     });
 
     $('#authorTitleDescriptionContainer').append(html);
+  };
+
+  function hideSpinner() {
+    $('#time-indicator').hide();
   };
 
   // Generate fields

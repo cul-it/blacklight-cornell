@@ -16,11 +16,9 @@
        </dl>
      </div>
     <% end %>
-  <div id="no-wiki-ref-info" class="d-none">
-      <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
-  </div>
-   
-	  <div id="info-details" class="row info-row ml-0">
+
+    <% displayInfoDetails = bio_data.present? || @headingsResponse[0]['notes'].present? %>
+    <div id="info-details" class="row info-row ml-0 <%= 'd-none' unless displayInfoDetails %>">
 	    <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
 			<div id="dbp-comment"></div>
 	    	<dl class="row" id="item-details">
@@ -56,7 +54,7 @@
             <div id="wiki-acknowledge" class="float-right"></div>
 	    </div>
 	  </div>
-      <div id="has-wiki-ref-info" class="row mt-4">
+      <div class="row mt-4">
         <div id='reference-info' class='col-sm-12 col-md-12 col-lg-12'>
           <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
         </div>
@@ -72,14 +70,12 @@
 			  <% works=JSON.parse(@headingsResponse[0]["counts_json"]) %>
 		      <li>
 				Total Works: <%= link_to '/?q="' + encoded_heading + '"&search_field=authortitle_browse' do %>
-					<%= number_with_delimiter(works["works"], :delimiter => ',') %>
-					<% if works["works"] > 1 %>Titles<%else%>Title<%end%>
+					<%= pluralize(number_with_delimiter(works['works']), 'Title') %>
 				<% end %>
 			  </li>
 		      <li>
 			    Total Works About: <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_work_browse' do %>
-	              <%= number_with_delimiter(works["worksAbout"], :delimiter => ',') %>
-	              <% if works["worksAbout"] > 1 %>Titles<%else%>Title<%end%>
+	              <%= pluralize(number_with_delimiter(works['worksAbout']), 'Title') %>
 	            <% end %>
 			  </li>
 		      <li style="text-align center">
