@@ -5,23 +5,22 @@ function Work() {
   const bamwowHelper = BamwowHelper();
   // TODO: Add ability to exclude excludeEntities.yml?
 
-  // Data from html attributes
-  const headingAttr = $('#work').attr('heading');
-  const includedWorksAttr = $('#work').attr('included');
-
   // Only fetch and display music data from wikidata in 2 scenarios:
   // 1. Only one author title facet: display wikidata directly on work
-  // 2. Multiple included works: display wikidata in popover for each included work
+  // 2. Multiple author title facets and at least 1 included work: display wikidata in popover for each included work
   function renderLinkedData() {
     try {
-      // There may be multiple author title facets possible
+      // Data from html attributes
+      const headingAttr = $('#work').data('heading');
+      const includedWorksAttr = $('#work').data('included');
       const headings = parseHeadingAttr(headingAttr);
       const includedWorks = parseIncludedWorksAttr(includedWorksAttr);
-      if (headings.length === 1) {
+
+      if (Object.keys(headings).length === 1) {
         // This only requires the parsed heading
-        displayDataOnWork(headings[0]['parsedHeading']);
+        displayDataOnWork(Object.values(headings)[0]['parsedHeading']);
       }
-      else if (headings.length > 1 && Object.keys(includedWorks).length) {
+      else if (Object.keys(headings).length && Object.keys(includedWorks).length) {
         // If more than one query heading, check included works if they exist
         // Popovers display if parsed included work matches an authortitle facet
         displayDataInPopovers(headings, includedWorks);
@@ -31,15 +30,17 @@ function Work() {
     }
   };
 
-  function parseHeadingAttr(attr) {
-    if (!attr) return [];
+  function parseHeadingAttr(headings) {
+    if (!headings) return {};
 
-    const headings = JSON.parse(attr);
-    return headings.map(originalHeading => {
+    const headingsData = {}
+    headings.forEach(originalHeading => {
       // Remove pipe value from heading attr in catalog
       const parsedHeading = bamwowHelper.reformatHeading(originalHeading);
-      return { originalHeading, parsedHeading };
+      // Format headings for faster lookup by parsedHeading
+      headingsData[parsedHeading] = { originalHeading, parsedHeading };
     });
+    return headingsData;
   };
 
   // Attr Example #1:
@@ -49,10 +50,9 @@ function Work() {
   //   ["Container of (work): McAuley, Paul J. Winning peace.|Winning peace.|McAuley, Paul J.",
   //    "Container of (work): Leckie, Ann. Night's slow poison.|Night's slow poison.|Leckie, Ann."]
   // Returns list: [{ linkTextDisplay: 'Author Work' }]
-  function parseIncludedWorksAttr(attr) {
+  function parseIncludedWorksAttr(works) {
     const parsedWorks = {};
-    if (attr) {
-      const works = JSON.parse(attr);
+    if (works) {
       works.forEach(work => {
         const components = work.split('|').map(c => c.trim());
         if (components.length === 3) {
@@ -86,56 +86,54 @@ function Work() {
 
   // Display metadata from Author-Title browse and Wikidata as a popover for each included work
   async function displayDataInPopovers(headings, includedWorks) {
-    // Format headings for faster lookup by parsedHeading
-    const headingsData = {}
-    headings.forEach(h => headingsData[h.parsedHeading] = h);
-
     // For each included work in list, add popover
     const includedWorksHtml = $('dd.blacklight-included_work_display a');
     includedWorksHtml.each(function() {
-      const linkText = $(this).text();
-      // Get rid of ending punctuation
-      const strippedLinkText = linkText.trim();
-      if (includedWorks[strippedLinkText] in headingsData) {
-        const dataForIncludedWork = headingsData[includedWorks[strippedLinkText]];
-        const { originalHeading, parsedHeading } = dataForIncludedWork;
+      const linkText = $(this).text().trim();
+      if (includedWorks[linkText] in headings) {
+        // Match heading formed from included_work_display to heading from authortitle_facet
+        const dataForIncludedWork = headings[includedWorks[linkText]];
+        if (dataForIncludedWork) {
+          const { originalHeading, parsedHeading } = dataForIncludedWork;
 
-        // (Possible) TODO: Add matomo tracking on button click?
-        //    Direct link to author-title browse page if mobile? (currently button doesn't show at all on mobile)
-        // Render buttons for each included work
-        const strippedHeadingForHtml = parsedHeading.replace(/[^a-zA-Z0-9]/g, '');
-        const buttonHtml = (
-          `<a
-            heading="${strippedHeadingForHtml}"
-            href="#"
-            role="button"
-            tabindex="0"
-            data-trigger="focus"
-            class="info-button d-none d-sm-inline-block btn btn-sm btn-outline-secondary"
-          >
-            Work info »
-          </a>`
-        );
-        // TODO: Styling when link text wraps with button? (e.g. /catalog/9769908)
-        // $(this).css({ 'display': 'inline-block', 'max-width': '80%' });
-        $(this).after(buttonHtml);
+          // Clicking included work button triggers popover
+          const buttonEl = renderPopoverButton($(this));
+          buttonEl.click(async function(e) {
+            e.preventDefault();
 
-        // Clicking included work button triggers popover
-        $(`a[heading="${strippedHeadingForHtml}"]`).click(async function(e) {
-          e.preventDefault();
-
-          // Render kpanel view with data from solr browse index
-          const catalogAuthURL = `/panel?type=authortitle&authq="${encodeURIComponent(originalHeading)}"`;
-          const kpanelTemplate = await $.get(catalogAuthURL);
-          const content = $(kpanelTemplate).find('#kpanelContent').html();
-          // TODO: Investigate more accessible options for popover focus navigation
-          // Change trigger to focus for prod- click for debugging
-          $(this).popover({ content, html: true, trigger: 'focus' }).popover('show');
-          // Get info from LOC + Wikidata
-          renderPopoverContent(parsedHeading);
-        });
+            // Render kpanel view with data from solr browse index
+            const catalogAuthURL = `/panel?type=authortitle&authq="${encodeURIComponent(originalHeading)}"`;
+            const kpanelTemplate = await $.get(catalogAuthURL);
+            const content = $(kpanelTemplate).find('#kpanelContent').html();
+            // TODO: Investigate more accessible options for popover focus navigation
+            // Change trigger to focus for prod- click for debugging
+            $(this).popover({ content, html: true, trigger: 'focus' }).popover('show');
+            // Get info from LOC + Wikidata
+            renderPopoverContent(parsedHeading);
+          });
+        }
       }
     });
+  };
+
+  // Render popover button for included work
+  function renderPopoverButton(includedWork) {
+    // (Possible) TODO: Add matomo tracking on button click?
+    //    Direct link to author-title browse page if mobile? (currently button doesn't show at all on mobile)
+    const buttonHtml = (
+      `<a
+        href="#"
+        role="button"
+        tabindex="0"
+        data-trigger="focus"
+        class="info-button d-none d-sm-inline-block btn btn-sm btn-outline-secondary"
+      >
+        Work info »
+      </a>`
+    );
+    // TODO: Styling when link text wraps with button? (e.g. /catalog/9769908)
+    // $(this).css({ 'display': 'inline-block', 'max-width': '80%' });
+    return $(buttonHtml).insertAfter(includedWork);
   };
 
   // Generate popup knowledge panel using plain Bootstrap
@@ -228,6 +226,8 @@ function Work() {
   function generateWikidataSourceLinks(data) {
     if (!('entity' in data)) return '';
 
+    // TODO: Change copy to "This information comes from Wikidata" per usability results?
+    //       Or reuse discogs highlighting functionality?
     return (
       `<div>
         <span>

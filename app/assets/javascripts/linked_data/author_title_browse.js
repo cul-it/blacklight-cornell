@@ -44,6 +44,7 @@ function AuthorTitleBrowse() {
   function generateFieldHtml(data) {
     let html = '';
     if (data.codes?.length) {
+      // TODO: Rename "Codes" to "Catalog number" per usability results?
       const codesArr = data.codes.map(code => `<dt>${code.catalogLabel} : ${code.code} *</dt>`);
       html += (
         `<dt class="col-sm-4">Codes:</dt>
