@@ -23,22 +23,22 @@ function BamwowHelper() {
   async function getWikidata(localName) {
     const sparqlQuery = (
       'SELECT ?entity ?codeval ?catalog ?catalogLabel ?music_created_for ?music_created_forLabel ?created_for_loc '
-        + '?date ?location ?locationLabel ?opus ?dedicated ?dedicatedLabel ?commissionedBy ?commissionedByLabel '
-        + '?tonality ?tonalityLabel ?librettist ?librettistLabel ?instrumentation ?instrumentationLabel '
-      + 'WHERE {'
-        + `?entity wdt:P244 "${localName}".`
-        + 'OPTIONAL { ?entity p:P528 ?code. ?code ps:P528 ?codeval. ?code pq:P972 ?catalog. }'
-        + 'OPTIONAL { ?entity wdt:P9899 ?music_created_for. ?music_created_for wdt:P244 ?created_for_loc. }'
-        + 'OPTIONAL { ?entity wdt:P1191 ?date. }'
-        + 'OPTIONAL { ?entity wdt:P4647 ?location. }'
-        + 'OPTIONAL { ?entity wdt:P10855 ?opus. }'
-        + 'OPTIONAL { ?entity wdt:P825 ?dedicated . }'
-        + 'OPTIONAL { ?entity wdt:P88 ?commissionedBy. }'
-        + 'OPTIONAL { ?entity wdt:P826 ?tonality. }'
-        + 'OPTIONAL { ?entity wdt:P87 ?librettist. }'
-        + 'OPTIONAL { ?entity wdt:P870 ?instrumentation. }'
-        + 'SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }'
-      + '}'
+        + ' ?date ?location ?locationLabel ?opus ?dedicated ?dedicatedLabel ?commissionedBy ?commissionedByLabel '
+        + ' ?tonality ?tonalityLabel ?librettist ?librettistLabel ?instrumentation ?instrumentationLabel '
+      + ' WHERE { '
+        + ` ?entity wdt:P244 "${localName}". `
+        + ' OPTIONAL { ?entity p:P528 ?code. ?code ps:P528 ?codeval. ?code pq:P972 ?catalog. } '
+        + ' OPTIONAL { ?entity wdt:P9899 ?music_created_for. ?music_created_for wdt:P244 ?created_for_loc. } '
+        + ' OPTIONAL { ?entity wdt:P1191 ?date. } '
+        + ' OPTIONAL { ?entity wdt:P4647 ?location. } '
+        + ' OPTIONAL { ?entity wdt:P10855 ?opus. } '
+        + ' OPTIONAL { ?entity wdt:P825 ?dedicated . } '
+        + ' OPTIONAL { ?entity wdt:P88 ?commissionedBy. } '
+        + ' OPTIONAL { ?entity wdt:P826 ?tonality. } '
+        + ' OPTIONAL { ?entity wdt:P87 ?librettist. } '
+        + ' OPTIONAL { ?entity wdt:P870 ?instrumentation. } '
+        + ' SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } '
+      + ' }'
     );
     const results = await wikidataConnector.getData(sparqlQuery);
     return parseWikidata(results);

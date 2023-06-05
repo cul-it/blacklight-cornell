@@ -51,13 +51,13 @@ function SubjectDataBrowse() {
   // Get Image country = P17; territory P131; location P276
   async function getWikidata(localname) {
     const sparqlQuery = (
-      `SELECT ?entity ?label ?description ${wikidataConnector.imageSparqlSelect}`
-      + 'WHERE {'
-        + `?entity wdt:P244 "${localname}" .`
-        + '?entity rdfs:label ?label . FILTER (langMatches( lang(?label), "EN" ) )'
-        + 'OPTIONAL {?entity schema:description ?description . FILTER(lang(?description) = "en")}'
+      `SELECT ?entity ?label ?description ${wikidataConnector.imageSparqlSelect} `
+      + ' WHERE { '
+        + ` ?entity wdt:P244 "${localname}" . `
+        + ' ?entity rdfs:label ?label . FILTER (langMatches(lang(?label), "EN")) '
+        + ' OPTIONAL {?entity schema:description ?description . FILTER (lang(?description) = "en")} '
         + wikidataConnector.imageSparqlWhere
-      + '} LIMIT 1'
+      + ' } LIMIT 1'
     );
     const results = await wikidataConnector.getData(sparqlQuery);
     return parseWikidata(results);

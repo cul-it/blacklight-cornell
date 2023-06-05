@@ -68,12 +68,12 @@ function KPanel() {
   // Given an LOC URI, query if equivalent wikidata entity exists and get image and/or description
   async function getWikidata(localName) {
     const sparqlQuery = (
-      'SELECT *'
-      + 'WHERE {'
-        + `?entity wdt:P244 "${localName}".`
+      'SELECT * '
+      + ' WHERE { '
+        + ` ?entity wdt:P244 "${localName}". `
         + wikidataConnector.imageSparqlWhere
-        + 'OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") }'
-      + '}'
+        + ' OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") } '
+      + ' } '
     );
     const results = await wikidataConnector.getData(sparqlQuery);
     return parseWikidata(results);
