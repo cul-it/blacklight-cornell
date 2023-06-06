@@ -2,16 +2,19 @@
 <%- online_data = ( (is_online? document) ? "data-online='no'" : "data-online='no'") %>
 <%- atl_data = ( (is_at_the_library? document) ? "data-atl='yes'" : "data-atl='no'") %>
 <div class="document <%= render_document_class document %> row" data-bibid="<%= document.id %>" <%= online_data.html_safe %> <%= atl_data.html_safe %> >
-  <div class="document-data col-sm-10">
-	<%= render :partial => 'microformat_index', :locals => {:document => document } %>
-    <%= render :partial => 'document_header', :locals => { :document => document, :document_counter => document_counter } %>
-    <% # main container for doc partial view -%>
-    <%= render_document_partial document, :index %>
-  </div>
-  <div class="col-sm-2">
-  	  <%# bookmark functions for items/docs -%>
-	  <%= render_index_doc_actions document, :wrapping_class => "select-item" %>
-	  <div class="bookcover" id="OCLC:<%= bookcover_oclc(document) %>" data-oclc="<%= bookcover_oclc(document) %>">
-	  </div>
-  </div>
+	<div class="document-data col-sm-10">
+		<%= render :partial => 'microformat_index', :locals => {:document => document } %>
+		<%= render :partial => 'document_header', :locals => { :document => document, :document_counter => document_counter } %>
+		<% # main container for doc partial view -%>
+		<%= render_document_partial document, :index %>
+	</div>
+	<div class="col-sm-2">
+		<%# bookmark functions for items/docs -%>
+		<%= render_index_doc_actions document, :wrapping_class => "select-item" %>
+		<% oclc_num = bookcover_oclc(document) %>
+		<% if oclc_num.present? %>
+		<div class="bookcover" id="OCLC:<%= oclc_num %>" data-oclc="<%= oclc_num %>">
+		</div>
+		<% end %>
+	</div>
 </div>

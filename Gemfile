@@ -70,7 +70,6 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
-  gem 'poltergeist'
   gem 'pry'
   gem 'pry-byebug'
   gem 'meta_request'
@@ -90,7 +89,6 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'capybara-email'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
 end

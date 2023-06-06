@@ -1177,35 +1177,22 @@ end
     end
   end
 
+  # TODO: no longer needed? commented out 5/31/23 to see if it breaks anything - mhk33, DISCOVERYACCESS-7501
   # Clean up isbn in prep for bookcovers via Google Books API
-  def bookcover_isbn(document)
-    isbn = document['isbn_display']
-    unless isbn.blank?
-      isbn = isbn.first
-      # Find first occurence of a space (remove non integer chars)
-      space = isbn.index(' ')
-      unless space.blank?
-        stop = space - 1
-        isbn[0..stop]
-      else
-        isbn
-      end
-    end
-  end
-
-  # Parse other_id_display field for OCLC numbers
-  def bookcover_oclc(document)
-    #Rails.logger.info("CONGAME = #{document.inspect}")
-#    Rails.logger.info("CONGAME = #{document['oclc_id_display']}")
-#    oclc_id = document['oclc_id_display'][0]
-    other_ids = document['other_id_display']
-    oclc_id = document['oclc_id_display'][0] #other_ids.find { |e| /^\(OCoLC\)/ =~ e } unless other_ids.blank?
-    unless oclc_id.blank?
-      # Remove '(OCLC)' prefix
-      # -- really need to ask Frances about making OCLC# its own field
-      oclc_id.gsub(/^\(OCoLC\)/, '')
-    end
-  end
+  # def bookcover_isbn(document)
+  #   isbn = document['isbn_display']
+  #   unless isbn.blank?
+  #     isbn = isbn.first
+  #     # Find first occurence of a space (remove non integer chars)
+  #     space = isbn.index(' ')
+  #     unless space.blank?
+  #       stop = space - 1
+  #       isbn[0..stop]
+  #     else
+  #       isbn
+  #     end
+  #   end
+  # end
 
   def bookcover_oclc(document)
     if document['oclc_id_display'].nil?
