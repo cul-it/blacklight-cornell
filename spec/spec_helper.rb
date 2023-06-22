@@ -11,7 +11,7 @@ require 'capybara/rspec'
 # # prefer to use XPath just remove this line and adjust any selectors in your
 # # steps to use the XPath syntax.
 Capybara.default_selector = :css
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :remote_selenium
 Capybara.server = :webrick
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
