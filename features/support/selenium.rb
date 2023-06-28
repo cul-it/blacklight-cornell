@@ -10,8 +10,9 @@ if ENV['USE_TEST_CONTAINER']
     config.server_host = webapp_host
     config.server_port = webapp_port
     config.app_host = "http://#{webapp_host}:#{webapp_port}"
+    config.default_max_wait_time = 5
+    config.always_include_port = true
   end
-  # Capybara.app_host = "http://#{webapp_host}:#{webapp_port}"
 
   require 'selenium/webdriver'
 
@@ -35,11 +36,10 @@ if ENV['USE_TEST_CONTAINER']
 
   Capybara.javascript_driver = :remote_selenium
   Capybara.default_driver = :remote_selenium
-  Capybara.always_include_port = true
 
   RSpec.configure do |config|
     config.before(:each, type: :system) do
-      driven_by :remote_selenium
+      driven_by :remote_selenium, options: { timeout: 120 }
     end
   end
 else
