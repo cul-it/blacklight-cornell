@@ -6,12 +6,10 @@ if ENV['USE_TEST_CONTAINER']
   selenium_host = 'chrome'
 
   Capybara.configure do |config|
-    config.server = :puma, { Silent: true, Threads: '1:1', queue_requests: true }
+    config.server = :webrick # :puma, { Silent: true }
     config.server_host = webapp_host
     config.server_port = webapp_port
-    config.app_host = "http://#{webapp_host}:#{webapp_port}"
-    config.default_max_wait_time = 5
-    config.always_include_port = true
+    config.default_max_wait_time = 10
   end
 
   require 'selenium/webdriver'
@@ -19,18 +17,24 @@ if ENV['USE_TEST_CONTAINER']
   Capybara.register_driver :remote_selenium do |app|
     # Pass our arguments to run headless
     # Does it need any other options?
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--window-size=1400,1400')
+    chrome_options = Selenium::WebDriver::Chrome::Options.new
+    chrome_options.add_argument('--headless=new')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--window-size=1400,1400')
+    chrome_options.add_argument('--disable-gpu')
 
+    long_client = Selenium::WebDriver::Remote::Http::Default.new
+    long_client.read_timeout = 120
+    long_client.open_timeout = 120
     # and point capybara at our chromium docker container
     Capybara::Selenium::Driver.new(
       app,
       browser: :remote,
       url: "http://#{selenium_host}:4444/wd/hub",
-      options: options
+      http_client: long_client,
+      # url: "http://#{selenium_host}:4444/webdriver",
+      options: chrome_options
     )
   end
 
