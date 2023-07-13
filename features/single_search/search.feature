@@ -88,4 +88,4 @@ Feature: Search
       | Geryon | account of the pastoral life of the ancients |
       | 100% Beef | operations of the Cincinnati Branch |
       | crazy legs | Roxy, June 18, 1983 |
-      | yard of pump water | manual of water supply in country homes |
+      | yard of pump water | Farm buildings and economical agricultural appliances |
