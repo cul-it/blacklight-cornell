@@ -51,7 +51,7 @@ class KpanelController < ApplicationController
       @exclusions = check_permissions(permissions_key)
       render 'default_panel'
     elsif @auth_type == 'authortitle'
-      render 'authortitle_panel'
+      render 'author_title_panel'
     end
   end
   def index
