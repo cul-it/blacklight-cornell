@@ -8,7 +8,7 @@ function AuthorTitleBrowse() {
   async function renderLinkedData() {
     try {
       // Query Library of Congress for localName that can be used to fetch Wikidata results
-      const headingAttr = $('#author-title-heading').attr('heading');
+      const headingAttr = $('#author-title-heading').data('heading');
       const locQuery = parseHeadingAttr(headingAttr);
       const localName = await locConnector.getLocalName(locQuery, 'NameTitle');
 

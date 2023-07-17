@@ -1,11 +1,9 @@
-<% encoded_heading = (@headingsResponse[0]["heading"]).gsub('&', '%26').gsub("\"", "'") %>
-<!--Input id with local name can go here?-->
-<input id="author-title-heading" heading="<%= encoded_heading%>" type="hidden" base-url="<%= root_url %>">
-<% 
- bio_data = @headingsResponse[0]["rda_json"].present? ? JSON.parse(@headingsResponse[0]["rda_json"]) : {} 
+<%
+  encoded_heading = (@headingsResponse[0]["heading"]).gsub('&', '%26').gsub("\"", "'")
+  bio_data = @headingsResponse[0]["rda_json"].present? ? JSON.parse(@headingsResponse[0]["rda_json"]) : {}
 %>
 
-<div class="row info-row mb-4 mt-4">
+<div id="author-title-heading" class="row info-row mb-4 mt-4" data-heading="<%=encoded_heading%>" >
   <div id="left-container" class="col-sm-8 col-md-8 col-lg-8">
     <% if bio_data.present? %>
      <div id="bio-desc" class="d-none">

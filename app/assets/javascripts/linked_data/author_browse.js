@@ -28,7 +28,7 @@ function AuthorBrowse() {
 
     bindEventHandlers();
   };
-  
+
   // TODO: what is this doing? there doesn't seem to be a 'a[data-toggle="tab"]' in the dom??
   function bindEventHandlers() {
     $('a[data-toggle="tab"]').click(function() {
@@ -54,16 +54,10 @@ function AuthorBrowse() {
         + ' (group_concat(DISTINCT ?educated_at; separator = ", ") as ?education) '
         + ' (group_concat(DISTINCT ?pseudos; separator = ", ") as ?pseudonyms) '
       + ' WHERE { '
-        + ` ?entity wdt:P244 "${localname}". `
-        + ' ?entity rdfs:label ?label. FILTER (langMatches( lang(?label), "EN" ) ) '
-        + ' OPTIONAL { '
-          + ' ?entity wdt:P27 ?citizenshipRoot. '
-          + ' ?citizenshipRoot rdfs:label ?citizenship. FILTER (langMatches( lang(?citizenship), "EN" ) ) '
-        + ' } '
-        + ' OPTIONAL { '
-          + ' ?entity wdt:P69 ?educationRoot. '
-          + ' ?educationRoot rdfs:label ?educated_at. FILTER (langMatches( lang(?educated_at), "EN" ) ) '
-        + ' } '
+        + ` ?entity wdt:P244 "${localname}"; `
+                + ' rdfs:label ?label. FILTER (langMatches( lang(?label), "EN" ) ) '
+        + ' OPTIONAL { ?entity wdt:P27/rdfs:label ?citizenship. FILTER (langMatches( lang(?citizenship), "EN" ) ) } '
+        + ' OPTIONAL { ?entity wdt:P69/rdfs:label ?educated_at. FILTER (langMatches( lang(?educated_at), "EN" ) ) } '
         + ' OPTIONAL { ?entity wdt:P742 ?pseudos. } '
         + ' OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") } '
         + wikidataConnector.imageSparqlWhere
@@ -172,7 +166,7 @@ function AuthorBrowse() {
 
     $('#wiki-acknowledge').append(`* <a href="${entity}">From Wikidata<i class="fa fa-external-link" aria-hidden="true"></i></a>`);
   };
-    	
+
 	// we can use the wikidata QID to get an entity description from DBpedia
 	async function getDbpediaDescription(wikidata) {
     const { qid, label } = qidAndLabel(wikidata);
@@ -211,7 +205,7 @@ function AuthorBrowse() {
       displayCatalogMetadata();
     }
   };
-    
+
   // when there's no wikidata or an error occurs in one of the ajax calls
   function displayCatalogMetadata() {
     $('#bio-desc').removeClass('d-none');
