@@ -9,7 +9,8 @@ if ENV['USE_TEST_CONTAINER']
     config.server = :webrick # :puma, { Silent: true }
     config.server_host = webapp_host
     config.server_port = webapp_port
-    config.default_max_wait_time = 10
+    # config.default_max_wait_time = 10
+    config.default_max_wait_time = 5
   end
 
   require 'selenium/webdriver'
@@ -18,7 +19,7 @@ if ENV['USE_TEST_CONTAINER']
     # Pass our arguments to run headless
     # Does it need any other options?
     chrome_options = Selenium::WebDriver::Chrome::Options.new
-    chrome_options.add_argument('--headless=new')
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--window-size=1400,1400')
@@ -32,7 +33,7 @@ if ENV['USE_TEST_CONTAINER']
       app,
       browser: :remote,
       url: "http://#{selenium_host}:4444/wd/hub",
-      http_client: long_client,
+#      http_client: long_client,
       # url: "http://#{selenium_host}:4444/webdriver",
       options: chrome_options
     )
@@ -43,7 +44,8 @@ if ENV['USE_TEST_CONTAINER']
 
   RSpec.configure do |config|
     config.before(:each, type: :system) do
-      driven_by :remote_selenium, options: { timeout: 120 }
+#      driven_by :remote_selenium, options: { timeout: 120 }
+      driven_by :remote_selenium
     end
   end
 else
