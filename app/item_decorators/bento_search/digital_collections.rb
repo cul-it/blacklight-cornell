@@ -35,26 +35,26 @@ module BentoSearch
     #
     # Over-ride if you want to format authors names differently, or
     # show more or less than first 3, etc.
-    def render_authors_list
-      parts = []
+    # def render_authors_list
+    #   parts = []
 
-      first_three = self.authors.slice(0,3)
+    #   first_three = self.authors.slice(0,3)
 
-      first_three.each_with_index do |author, index|
-        parts << _h.content_tag("span", :class => "author") do
-          self.author_display(author)
-        end
-        if (index + 1) < first_three.length
-          parts << "; "
-        end
-      end
+    #   first_three.each_with_index do |author, index|
+    #     parts << _h.content_tag("span", :class => "author") do
+    #       self.author_display(author)
+    #     end
+    #     if (index + 1) < first_three.length
+    #       parts << "; "
+    #     end
+    #   end
 
-      if self.authors.length > 3
-        parts << I18n.t("bento_search.authors_et_al")
-      end
+    #   if self.authors.length > 3
+    #     parts << I18n.t("bento_search.authors_et_al")
+    #   end
 
-      return _h.safe_join(parts, "")
-    end
+    #   return _h.safe_join(parts, "")
+    # end
 
     # Returns source publication name OR publisher, along with volume/issue/pages
     # if present, all wrapped in various tags and labels. Returns html_safe
