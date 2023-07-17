@@ -18,7 +18,8 @@ pipeline {
                 echo 'Git Branch: ' + GIT_BRANCH
                 script {
                     if (BRANCH_NAME ==~ /PR-.+/) {
-                        slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                        // slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                        slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started ${CHANGE_BRANCH} --> ${CHANGE_TARGET}"
                     } else {
                         echo "Skipping the slack messages unless it is a Pull Request."
                     }
@@ -74,7 +75,8 @@ pipeline {
             sh 'jenkins/report-status-to-github.sh failure'
             script {
                 if (BRANCH_NAME ==~ /PR-.+/) {
-                    slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                    // slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                    slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed  ${CHANGE_BRANCH} --> ${CHANGE_TARGET}"
                 }
             }
         }
