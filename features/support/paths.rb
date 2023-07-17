@@ -53,6 +53,9 @@ module NavigationHelpers
     when /the browse page/
       '/browse'
 
+    when /the browse info page/
+      '/browse/info'
+
     when /my account/
       '/myaccount'
 
