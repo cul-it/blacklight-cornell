@@ -168,7 +168,7 @@ function Work() {
       );
     }
 
-    let rowCount = 0;
+    let rowCount = $('#authorTitleDescriptionContainer .dt').length - 1;
     $.each(fieldMappingSubset, function(prop, label) {
       if (prop in data) {
         let value = data[prop];

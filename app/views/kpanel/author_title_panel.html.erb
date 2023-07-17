@@ -1,10 +1,10 @@
 <% 
   heading = @data['heading']
-  encoded_heading = heading.gsub('&', '%26').gsub('"', '\'')
+  encoded_heading = heading.gsub(/[&"]/, {'&': '%26', '"': '\''})
   counts = JSON.parse(@data['counts_json'] || '{}')
   worksAboutCount = counts['worksAbout']
   worksCount = counts['works']
-  rda = JSON.parse(@data['rda_json'] || '{}')
+  rda = JSON.parse(@data['rda_json'] || '{}').select { |k, v| v.is_a?(Array) }
 %>
 <div id="kpanelContent">
   <div id="popoverContent" class="kp-content">
@@ -21,11 +21,9 @@
           <!-- TODO: How to handle if rda contains data that is also getting fetched by wikidata, e.g. Instrumentation? Right now, we're just displaying both. -->
           <!-- Example: Beethoven,%20Ludwig%20van,%201770-1827.%20|%20Septet,%20clarinet,%20bassoon,%20horn,%20violin,%20viola,%20cello,%20double%20bass,%20op.%2020,%20E%E2%99%AD%20major -->
           <% rda.each_with_index do |(label, val), i| %>
-            <% if val.is_a?(Array) %>
-              <% fieldClass = i % 2 ? 'field2-bg' : 'field1-bg' %>
-              <div class="dt <%= fieldClass %>"><%= label %> : </div>
-              <div class="dd <%= fieldClass %>"><%= val.join(', ') %></div>
-            <% end %>
+            <% fieldClass = i % 2 == 0 ? 'field1-bg' : 'field2-bg' %>
+            <div class="dt <%= fieldClass %>"><%= label %> : </div>
+            <div class="dd <%= fieldClass %>"><%= val.join(', ') %></div>
           <% end %>
           <div id="time-indicator" class="text-center pt-10 pb-10">
             <%= image_tag('ajax-indicator.gif', alt: 'processing time indicator', id: 'kp-time-indicator') %>
