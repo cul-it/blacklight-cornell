@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 // require bootstrap-sprockets can likely delete this
+//= require error_check.js
 
 // Required by Blacklight
 //= require jquery
