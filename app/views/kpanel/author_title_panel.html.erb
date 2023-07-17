@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="mt-2 w-100 text-right">
-      <%= link_to "/browse/info?browse_type=Author-Title&authq=#{encoded_heading}", id: "fullRecordLink" do %>
+      <%= link_to browse_info_path({browse_type: 'Author-Title', authq: encoded_heading}), id: "fullRecordLink" do %>
         <span class="info-button d-sm-inline-block btn btn-sm btn-outline-secondary">View full info &raquo;</span>
       <% end %>
     </div>
