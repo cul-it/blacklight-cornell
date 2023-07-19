@@ -185,80 +185,60 @@ class BrowseController < ApplicationController
   end
 
   def info
-    if !params[:authq].present? || !params[:browse_type].present?
+    if params[:authq].blank? || params[:browse_type].blank?
       flash.now[:error] = "Please enter a complete query."
       render "index"
     else
       base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
       Appsignal.increment_counter('browse_info', 1)
-      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = " + "#{base_solr}")
-    if !params[:authq].nil? and params[:authq] != ""
-      dbclnt = HTTPClient.new
-      p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-      @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_author + "/browse?wt=json&" + p.to_param )
-      if !@headingsResultString.nil?
-         y = @headingsResultString
-         @headingsResponseFull = JSON.parse(y)
-         #@headingsResponseFull = eval(@headingsResultString)
-      else
-         @headingsResponseFull = eval("Could not find")
+      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{base_solr}")
+
+      if ['Author', 'Subject', 'Author-Title'].include?(params[:browse_type])
+        browse_index = case params[:browse_type]
+                       when 'Author'
+                         @@browse_index_author
+                       when 'Subject'
+                         @@browse_index_subject
+                       when 'Author-Title'
+                         @@browse_index_authortitle
+                       end
+        query =  {'q' => "\"#{params[:authq].gsub("\\"," ")}\""}
+        query['fq'] = "headingTypeDesc:\"#{params[:headingtype]}\"" if params[:headingtype].present?
+        @headingsResultString = HTTPClient.new.get_content("#{base_solr}/#{browse_index}/browse?wt=json&#{query.to_param}")
+        if !@headingsResultString.nil?
+          @headingsResponseFull = JSON.parse(@headingsResultString)
+        else
+          @headingsResponseFull = eval("Could not find")
+        end
+        @headingsResponse = @headingsResponseFull['response']['docs']
+
+        params[:authq].gsub!('%20', ' ')
+
+        # Get Library of Congress localname and format facet
+        if params[:browse_type] == "Author"
+          loc_url = get_author_loc_url
+          @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
+          @formats = get_formats(params[:authq], params[:headingtype])
+        end
+        if params[:browse_type] == "Subject"
+          # Authors can also be subjects, so check. When that's the case, get the correct LOC
+          # local name.
+          @subject_is_author = check_author_status if params[:headingtype] == "Personal Name"
+          @subject_is_author = false unless params[:headingtype] == "Personal Name"
+
+          loc_url = get_subject_loc_url if !@subject_is_author
+          loc_url = get_author_loc_url if @subject_is_author
+
+          @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
+          @formats = get_formats(params[:authq], params[:headingtype])
+        end
       end
-      @headingsResponse = @headingsResponseFull['response']['docs']
-      params[:authq].gsub!('%20', ' ')
-    end
 
-    if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Subject"
-      dbclnt = HTTPClient.new
-      p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-      @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_subject + "/browse?wt=json&" + p.to_param )
-      if !@headingsResultString.nil?
-         y = @headingsResultString
-         @headingsResponseFull = JSON.parse(y)
-         #@headingsResponseFull = eval(@headingsResultString)
-      else
-         @headingsResponseFull = eval("Could not find")
+      respond_to do |format|
+        format.html { render layout: !request.xhr? } #renders naked html if ajax
       end
-      @headingsResponse = @headingsResponseFull['response']['docs']
-      params[:authq].gsub!('%20', ' ')
-    end
-    if !params[:authq].nil? and params[:authq] != "" and params[:browse_type] == "Author-Title"
-      dbclnt = HTTPClient.new
-      p =  {"q" => '"' + params[:authq].gsub("\\"," ") +'"' }
-      @headingsResultString = dbclnt.get_content(base_solr + "/" + @@browse_index_authortitle + "/browse?wt=json&" + p.to_param )
-      if !@headingsResultString.nil?
-         y = @headingsResultString
-         @headingsResponseFull = JSON.parse(y)
-         #@headingsResponseFull = eval(@headingsResultString)
-      else
-         @headingsResponseFull = eval("Could not find")
-      end
-      @headingsResponse = @headingsResponseFull['response']['docs']
-      params[:authq].gsub!('%20', ' ')
-    end
-    # For new functionality
-	  if params[:browse_type] == "Author"
-      loc_url = get_author_loc_url
-	    @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
-      @formats = get_formats(params[:authq], params[:headingtype])
-	  end
- 	  if params[:browse_type] == "Subject"
-      # Authors can also be subjects, so check. When that's the case, get the correct LOC
-      # local name.
-      @subject_is_author = check_author_status if params[:headingtype] == "Personal Name"
-      @subject_is_author = false unless params[:headingtype] == "Personal Name"
-
-   	  loc_url = get_subject_loc_url if !@subject_is_author
-   	  loc_url = get_author_loc_url if @subject_is_author
-
-      @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
-      @formats = get_formats(params[:authq], params[:headingtype])
- 	  end
-
-    respond_to do |format|
-      format.html { render layout: !request.xhr? } #renders naked html if ajax
     end
   end
-end
 
   def redirect_catalog
     if params[:browse_type]
