@@ -185,53 +185,41 @@ class BrowseController < ApplicationController
   end
 
   def info
-    if params[:authq].blank? || params[:browse_type].blank?
-      flash.now[:error] = "Please enter a complete query."
+    # Render error message if invalid params
+    # Subject and Author browse_type require a headingtype param
+    if params[:authq].blank? || ['Author', 'Subject', 'Author-Title'].exclude?(params[:browse_type]) ||
+       (params[:headingtype].blank? && ['Author', 'Subject'].include?(params[:browse_type]))
+      flash.now[:error] = "Please enter a valid query."
       render "index"
     else
       base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
       Appsignal.increment_counter('browse_info', 1)
       Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{base_solr}")
 
-      if ['Author', 'Subject', 'Author-Title'].include?(params[:browse_type])
-        browse_index = case params[:browse_type]
-                       when 'Author'
-                         @@browse_index_author
-                       when 'Subject'
-                         @@browse_index_subject
-                       when 'Author-Title'
-                         @@browse_index_authortitle
-                       end
-        query =  {'q' => "\"#{params[:authq].gsub("\\"," ")}\""}
-        query['fq'] = "headingTypeDesc:\"#{params[:headingtype]}\"" if params[:headingtype].present?
-        @headingsResultString = HTTPClient.new.get_content("#{base_solr}/#{browse_index}/browse?wt=json&#{query.to_param}")
-        if !@headingsResultString.nil?
-          @headingsResponseFull = JSON.parse(@headingsResultString)
-        else
-          @headingsResponseFull = eval("Could not find")
-        end
-        @headingsResponse = @headingsResponseFull['response']['docs']
+      solr_collection = solr_collection(params[:browse_type])
+      solr = RSolr.connect :url => "#{base_solr}/#{solr_collection}"
+      query_params = {
+        :q => "\"#{params[:authq].gsub("\\"," ")}\"",
+        :wt => :ruby
+      }
+      query_params[:fq] = "headingTypeDesc:\"#{params[:headingtype]}\"" if params[:headingtype].present?
+      solr_response = solr.get 'browse', :params => query_params
+      @headingsResponse = solr_response['response']['docs']
 
-        params[:authq].gsub!('%20', ' ')
+      params[:authq].gsub!('%20', ' ')
 
-        # Get Library of Congress localname and format facet
-        if params[:browse_type] == "Author"
+      # Get Library of Congress local name and format facet for Author and Subject heading
+      if @headingsResponse[0].present? && ['Author', 'Subject'].include?(params[:browse_type])
+        if params[:browse_type] == 'Author'
           loc_url = get_author_loc_url
-          @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
-          @formats = get_formats(params[:authq], params[:headingtype])
+        elsif params[:browse_type] == 'Subject'
+          # Authors can also be subjects, so check. When that's the case, get the correct LOC local name.
+          subject_is_author = params[:headingtype] == 'Personal Name' ? check_author_status : false
+          loc_url = subject_is_author ? get_author_loc_url : get_subject_loc_url
         end
-        if params[:browse_type] == "Subject"
-          # Authors can also be subjects, so check. When that's the case, get the correct LOC
-          # local name.
-          @subject_is_author = check_author_status if params[:headingtype] == "Personal Name"
-          @subject_is_author = false unless params[:headingtype] == "Personal Name"
 
-          loc_url = get_subject_loc_url if !@subject_is_author
-          loc_url = get_author_loc_url if @subject_is_author
-
-          @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
-          @formats = get_formats(params[:authq], params[:headingtype])
-        end
+        @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
+        @formats = get_formats(params[:authq], params[:headingtype])
       end
 
       respond_to do |format|
@@ -414,4 +402,16 @@ class BrowseController < ApplicationController
     return temp_hash
   end
 
+  private
+
+  def solr_collection(browseType)
+    case browseType
+    when 'Author'
+      @@browse_index_author
+    when 'Subject'
+      @@browse_index_subject
+    when 'Author-Title'
+      @@browse_index_authortitle
+    end
+  end
 end

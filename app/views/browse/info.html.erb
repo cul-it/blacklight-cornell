@@ -16,6 +16,11 @@
       <% end %>
     </div>
   <% end %>
+  <!--
+  TODO (possible cleanup): Why are we trying to render every possible doc returned from the browse query?
+  Now that we're filtering by headingtype in the BrowseController, we should be able to send only the first doc to views
+  Instead of having to call @headingResponse[0] everywhere
+  -->
   <% @headingsResponse.each do |data| %>
     <% encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'") %>
     <% if data["headingTypeDesc"] == params[:headingtype] || params[:headingtype].nil? %>
