@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+Capybara.default_normalize_ws = true
+
 if ENV['USE_TEST_CONTAINER']
+# if false
   webapp_host = 'webapp'
   webapp_port = 4000
   selenium_host = 'chrome'
