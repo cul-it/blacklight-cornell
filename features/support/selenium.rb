@@ -4,7 +4,11 @@ Capybara.default_normalize_ws = true
 
 if ENV['USE_TEST_CONTAINER']
 # if false
-  webapp_host = 'webapp'
+  begin
+    webapp_host = "#{IPSocket.getaddress(Socket.gethostname)}"
+  rescue
+    webapp_host = 'webapp'
+  end
   webapp_port = 4000
   selenium_host = 'chrome'
 
