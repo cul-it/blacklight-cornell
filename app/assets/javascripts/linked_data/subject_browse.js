@@ -2,9 +2,7 @@ function SubjectBrowse() {
   function onLoad() {
     bindCrossRefsToggle();
   };
-  
-  // TODO: This is broken because the views are rendering multiple #cr-refs-toggles and letting the js determine which one to display
-  // https://culibrary.atlassian.net/browse/DISCOVERYACCESS-8035
+
   function bindCrossRefsToggle() {
     $('#cr-refs-toggle').click(function() {
       if ( $('.toggled-cr-refs').first().is(':visible') ) {
@@ -157,12 +155,11 @@ function SubjectDataBrowse() {
   
   function displayCatalogMetadata() {
     $('#bio-desc').removeClass('d-none');
-    $('#no-wiki-ref-info').removeClass('d-none');
   };
 
   function displayLinkedData() {
     $('#info-details').removeClass('d-none');
-    $('#has-wiki-ref-info').removeClass('d-none');
+    $('#ref-info').addClass('mt-4');
   };
 
   // Relies on both presence of value and ability to display this data

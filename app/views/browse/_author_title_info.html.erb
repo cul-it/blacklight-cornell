@@ -52,11 +52,9 @@
             <div id="wiki-acknowledge" class="float-right"></div>
 	    </div>
 	  </div>
-      <div class="row mt-4">
-        <div id='reference-info' class='col-sm-12 col-md-12 col-lg-12'>
-          <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
-        </div>
-      </div>
+    <div id="ref-info" class="<%= 'mt-4' if displayInfoDetails %>">
+      <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
+    </div>
 	</div>
 	<div class="col-sm-4 col-md-4 col-lg-4">
 		<div class="card" id="formats">

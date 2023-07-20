@@ -37,6 +37,7 @@ function AuthorTitleBrowse() {
 
       // Show details
       $('#info-details').removeClass('d-none');
+      $('#ref-info').addClass('mt-4');
     }
   }
 

@@ -7,38 +7,35 @@
     exclusions_JSON = exclusions.nil? ? {}: exclusions.to_json
 %>
 <input id="exclusions" type="hidden" value="<%= exclusions_JSON %>" />
-<div class="row info-row mt-4" style="margin:0 0 20px">
+<div class="row info-row mt-4" style="margin-bottom:20px">
   <div id="subj-left-col" class="col-sm-8 col-md-8 col-lg-8">
-  <% if bio_data.present? %>
-    <div id="bio-desc" class="d-none">
-    <h3>Description</h3>
-    <dl id="bio-data-dl" class="dl-horizontal ml-3">
-      <%= render_bio_data(bio_data) %>
-    </dl>
-  </div>
-  <% end %>
-  <div id="no-wiki-ref-info" class="d-none">
-      <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
-  </div>
-	  <div id="info-details" class="row info-row d-none">
-	    <div id="img-container" class="col-sm-5 col-md-4 col-lg-3 text-center" style="display:none">
+    <% if bio_data.present? %>
+      <div id="bio-desc" class="d-none">
+        <h3>Description</h3>
+        <dl id="bio-data-dl" class="dl-horizontal ml-3">
+          <%= render_bio_data(bio_data) %>
+        </dl>
+      </div>
+    <% end %>
+    <div id="info-details" class="row info-row d-none">
+      <div id="img-container" class="col-sm-5 col-md-4 col-lg-3 text-center" style="display:none">
         <img id="subject-image" src="" title="subject image" width="120px"/>
-	    </div>
-	    <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
-			<div id="dbp-comment"></div>
-            <% unless bio_data.empty? %>
-              <dl id="bio-data-dl" class="dl-horizontal">
-                  <%= render_bio_data(bio_data) %>
-              </dl>
-            <% end %>
-            <%# filled in by javascript when needed %>
-            <div class="ld-acknowledge" id="wiki-image-acknowledge"></div>
-	    </div>
-	  </div>
-        <div id="has-wiki-ref-info" class="row mt-4 d-none">
-          <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
-        </div>
-	</div>
+      </div>
+      <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
+        <div id="dbp-comment"></div>
+        <% unless bio_data.empty? %>
+          <dl id="bio-data-dl" class="dl-horizontal">
+            <%= render_bio_data(bio_data) %>
+          </dl>
+        <% end %>
+        <%# filled in by javascript when needed %>
+        <div class="ld-acknowledge" id="wiki-image-acknowledge"></div>
+      </div>
+    </div>
+    <div id="ref-info">
+      <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
+    </div>
+  </div>
 	<div class="col-sm-4 col-md-4 col-lg-4">
 		<div class="card" id="formats">
 		  <div class="card-header">
