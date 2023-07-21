@@ -160,17 +160,19 @@ function Work() {
     };
     let html = '';
 
+    const rdaLabels = $('.rda-label').map(function(){ return $(this).text() }).get();
+    let rowCount = $('#authorTitleDescriptionContainer .dt').length - 1;
     if (data.codes?.length > 0) {
       const codesArr = data.codes.map(code => `${code.catalogLabel} : ${code.code}`);
       html += (
-        `<div class="dt field1-bg">Codes</div>
+        `<div class="dt field1-bg">Catalog numbers:</div>
         <div class="dd field1-bg">${codesArr.join('<br>')}</div>`
       );
+      rowCount++;
     }
 
-    let rowCount = $('#authorTitleDescriptionContainer .dt').length - 1;
     $.each(fieldMappingSubset, function(prop, label) {
-      if (prop in data) {
+      if (prop in data && !rdaLabels.includes(label)) {
         let value = data[prop];
         if ($.isArray(value)) value = value.join(', ');
         const fieldClass = rowCount % 2 ? 'field1-bg' : 'field2-bg';

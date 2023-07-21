@@ -45,10 +45,9 @@ function AuthorTitleBrowse() {
   function generateFieldHtml(data) {
     let html = '';
     if (data.codes?.length) {
-      // TODO: Rename "Codes" to "Catalog number" per usability results?
       const codesArr = data.codes.map(code => `<dt>${code.catalogLabel} : ${code.code} *</dt>`);
       html += (
-        `<dt class="col-sm-4">Codes:</dt>
+        `<dt class="col-sm-4">Catalog numbers:</dt>
         <dd class="col-sm-8">
           <dl class="dl-horizontal">${codesArr.join(' ')}</dl>
         </dd>`
@@ -62,8 +61,9 @@ function AuthorTitleBrowse() {
       );
     }
 
+    const rdaLabels = $('[data-rda-label]').map(function() { return $(this).data('rda-label') }).get();
     $.each(bamwowHelper.fieldMapping, function(prop, label) {
-      if (prop in data) {
+      if (prop in data && !rdaLabels.includes(label)) {
         let value = data[prop];
         if (prop === 'date') value = bamwowHelper.formatDates(value);
         if ($.isArray(value)) value = value.join(', ');

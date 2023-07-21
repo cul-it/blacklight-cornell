@@ -5,16 +5,6 @@
 
 <div id="author-title-heading" class="row info-row mb-4 mt-4" data-heading="<%=encoded_heading%>" >
   <div id="left-container" class="col-sm-8 col-md-8 col-lg-8">
-    <% if bio_data.present? %>
-     <div id="bio-desc" class="d-none">
-       <h3>Description</h3>
-       <dl id="bio-data-dl" class="dl-horizontal ml-3">
-	   	<%= render_bio_data(bio_data) %>
-
-       </dl>
-     </div>
-    <% end %>
-
     <% displayInfoDetails = bio_data.present? || @headingsResponse[0]['notes'].present? %>
     <div id="info-details" class="row info-row ml-0 <%= 'd-none' unless displayInfoDetails %>">
 	    <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
@@ -25,7 +15,7 @@
 					bio_data.each do |title, value|
 						display_value = value.kind_of?(Array) ? value.join(", ") : value
 				  %>
-						<dt class="col-sm-4"><%=title%>:</dt>
+						<dt class="col-sm-4" data-rda-label=<%=title%>><%=title%>:</dt>
 						<dd class="col-sm-8"><%=display_value.capitalize%></dd>
 				  <%	
 					end

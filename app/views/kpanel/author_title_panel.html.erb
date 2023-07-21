@@ -4,7 +4,7 @@
   counts = JSON.parse(@data['counts_json'] || '{}')
   worksAboutCount = counts['worksAbout']
   worksCount = counts['works']
-  rda = JSON.parse(@data['rda_json'] || '{}').select { |k, v| v.is_a?(Array) }
+  rda = JSON.parse(@data['rda_json'] || '{}')
 %>
 <div id="kpanelContent">
   <div id="popoverContent" class="kp-content">
@@ -22,8 +22,8 @@
           <!-- Example: Beethoven,%20Ludwig%20van,%201770-1827.%20|%20Septet,%20clarinet,%20bassoon,%20horn,%20violin,%20viola,%20cello,%20double%20bass,%20op.%2020,%20E%E2%99%AD%20major -->
           <% rda.each_with_index do |(label, val), i| %>
             <% fieldClass = i % 2 == 0 ? 'field1-bg' : 'field2-bg' %>
-            <div class="dt <%= fieldClass %>"><%= label %> : </div>
-            <div class="dd <%= fieldClass %>"><%= val.join(', ') %></div>
+            <div class="dt <%= fieldClass %>"><span class="rda-label"><%= label %></span> : </div>
+            <div class="dd <%= fieldClass %>"><%= val.is_a?(Array) ? val.join(', ') : val %></div>
           <% end %>
           <div id="time-indicator" class="text-center pt-10 pb-10">
             <%= image_tag('ajax-indicator.gif', alt: 'processing time indicator', id: 'kp-time-indicator') %>
