@@ -8,7 +8,7 @@ function Work() {
   // Only fetch and display music data from wikidata in 2 scenarios:
   // 1. Only one author title facet: display wikidata directly on work
   // 2. Multiple author title facets and at least 1 included work: display wikidata in popover for each included work
-  function renderLinkedData() {
+  async function renderLinkedData() {
     try {
       // Data from html attributes
       const headingAttr = $('#work').data('heading');
@@ -18,7 +18,24 @@ function Work() {
 
       if (Object.keys(headings).length === 1) {
         // This only requires the parsed heading
-        displayDataOnWork(Object.values(headings)[0]['parsedHeading']);
+        await displayDataOnWork(Object.values(headings)[0]['parsedHeading']);
+
+        // Highlight data from wikidata on click
+        $('#wikidata_highlight').on('click', function() {
+          if ($('#wikidata_highlight').text().indexOf('Highlight') > -1) {
+            $('.wd-highlight').each(function() {
+              $(this).addClass('wikidata-bgc');
+            });
+            $('#wikidata_highlight').text('Remove the Wikidata highlighting.')
+          }
+          else {
+            $('.wd-highlight').each(function() {
+              $(this).removeClass('wikidata-bgc');
+            });
+            $('#wikidata_highlight').text('Highlight the Wikidata data.')
+          }
+          return false;
+        });
       }
       else if (Object.keys(headings).length && Object.keys(includedWorks).length) {
         // If more than one query heading, check included works if they exist
@@ -198,17 +215,17 @@ function Work() {
   function generateFieldHTML(data) {
     let html = "";
     if (data.codes?.length) {
-      const codesArr = data.codes.map(code => `${code.catalogLabel} : ${code.code} *`);
+      const codesArr = data.codes.map(code => `${code.catalogLabel} : ${code.code}`);
       html += (
-        `<dt class="blacklight-wd-codes col-sm-3">Codes:</dt>
-        <dd class="blacklight-wd-codes col-sm-9">${codesArr.join('<br>')}</dd>`
+        `<dt class="blacklight-wd-codes col-sm-3"><div class="wd-highlight">Codes:</div></dt>
+        <dd class="blacklight-wd-codes wd-highlight-off col-sm-9">${codesArr.join('<br>')}</dd>`
       );
     }
     if ('createdFor' in data) {
       const { loc: createdForLoc, label: createdForLabel } = data.createdFor;
       html += (
-        `<dt class="blacklight-wd-created col-sm-3">Created for:</dt>
-        <dd class="blacklight-wd-created col-sm-9" loc="${createdForLoc}">${createdForLabel} *</dd>`
+        `<dt class="blacklight-wd-created col-sm-3"><div class="wd-highlight">Created for:</div></dt>
+        <dd class="blacklight-wd-created wd-highlight col-sm-9" loc="${createdForLoc}">${createdForLabel}</dd>`
       );
     }
 
@@ -219,8 +236,8 @@ function Work() {
         if ($.isArray(value)) value = value.join(', ');
         const className = `blacklight-wd-${label.replace(/\s+/g, '')}`;
         html += (
-          `<dt class="${className} col-sm-3">${label}:</dt>
-          <dd class="${className} col-sm-9">${value} *</dd>`
+          `<dt class="${className} col-sm-3"><div class="wd-highlight">${label}:</div></dt>
+          <dd class="${className} wd-highlight col-sm-9">${value}</dd>`
         );
       }
     });
@@ -231,13 +248,13 @@ function Work() {
   function generateWikidataSourceLinks(data) {
     if (!('entity' in data)) return '';
 
-    // TODO: Change copy to "This information comes from Wikidata" per usability results?
-    //       Or reuse discogs highlighting functionality?
     return (
       `<div>
         <span>
-          * Some information for this item comes from
+          Some of this information comes from
           <a href="${data.entity}">Wikidata <i class="fa fa-external-link" aria-hidden="true"></i></a>
+          <br/>
+          <a id="wikidata_highlight" href="#">Highlight the Wikidata data.</a>
         </span>
       </div>`
     );
