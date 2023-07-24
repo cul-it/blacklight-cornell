@@ -18,8 +18,6 @@
       </div>
       <div id="authorTitleDescription">
         <div class="dl dl-horizontal" id="authorTitleDescriptionContainer">
-          <!-- TODO: How to handle if rda contains data that is also getting fetched by wikidata, e.g. Instrumentation? Right now, we're just displaying both. -->
-          <!-- Example: Beethoven,%20Ludwig%20van,%201770-1827.%20|%20Septet,%20clarinet,%20bassoon,%20horn,%20violin,%20viola,%20cello,%20double%20bass,%20op.%2020,%20E%E2%99%AD%20major -->
           <% rda.each_with_index do |(label, val), i| %>
             <% fieldClass = i % 2 == 0 ? 'field1-bg' : 'field2-bg' %>
             <div class="dt <%= fieldClass %>"><span class="rda-label"><%= label %></span> : </div>

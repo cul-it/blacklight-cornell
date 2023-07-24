@@ -61,6 +61,7 @@ function AuthorTitleBrowse() {
       );
     }
 
+    // Don't display prop from Wikidata if we are already displaying from solr
     const rdaLabels = $('[data-rda-label]').map(function() { return $(this).data('rda-label') }).get();
     $.each(bamwowHelper.fieldMapping, function(prop, label) {
       if (prop in data && !rdaLabels.includes(label)) {
@@ -88,7 +89,6 @@ function AuthorTitleBrowse() {
 
 Blacklight.onLoad(function() {
   // Only load this code on Author-Title Browse entity page
-  // TODO: Do we want to run a music sparql query for EVERY author-title browse record? Or just those with a certain format (e.g. Musical Score/Recordings?
   if ($('#author-title-heading').length) {
     AuthorTitleBrowse().renderLinkedData();
   }

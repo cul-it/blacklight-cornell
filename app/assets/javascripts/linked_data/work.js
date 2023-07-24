@@ -160,6 +160,8 @@ function Work() {
     };
     let html = '';
 
+    // Some data may already be displaying from solr
+    // Reset alternating line styling based on existing # of rows
     const rdaLabels = $('.rda-label').map(function(){ return $(this).text() }).get();
     let rowCount = $('#authorTitleDescriptionContainer .dt').length - 1;
     if (data.codes?.length > 0) {
@@ -172,6 +174,7 @@ function Work() {
     }
 
     $.each(fieldMappingSubset, function(prop, label) {
+      // Don't display prop from Wikidata if we are already displaying from solr
       if (prop in data && !rdaLabels.includes(label)) {
         let value = data[prop];
         if ($.isArray(value)) value = value.join(', ');
