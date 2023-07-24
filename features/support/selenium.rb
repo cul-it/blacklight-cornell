@@ -47,11 +47,10 @@ if ENV['USE_TEST_CONTAINER']
   end
 
   Capybara.javascript_driver = :remote_selenium
-  Capybara.default_driver = :remote_selenium
+  # Capybara.default_driver = :remote_selenium
 
   RSpec.configure do |config|
     config.before(:each, type: :system) do
-#      driven_by :remote_selenium, options: { timeout: 120 }
       driven_by :remote_selenium
     end
   end
