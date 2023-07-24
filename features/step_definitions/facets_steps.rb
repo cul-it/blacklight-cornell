@@ -63,6 +63,10 @@ Then("I choose category {string} facet {string}") do |category, facet|
 	end
 end
 
+Then("I open facet category {string}") do |category|
+  click_button("div.#{facet_to(category)} button")
+end
+
 Then("I choose category {string} link {string}") do |category, facet|
 	category.downcase!
 	category = facet_to(category)
@@ -72,6 +76,7 @@ Then("I choose category {string} link {string}") do |category, facet|
 end
 
 Then("I limit the publcation year from {int} to {int}") do |int, int2|
+  click_button 'Publication Year'
 	within (find("form.range_pub_date_facet")) do
 		fill_in 'range_pub_date_facet_begin', :with => int
 		fill_in 'range_pub_date_facet_end', :with => int2

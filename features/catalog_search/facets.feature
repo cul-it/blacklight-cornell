@@ -57,10 +57,11 @@ Feature: Facets
 		#| Date Acquired | Since last year | 4 |
 
 
-	@DISCOVERYACCESS-7221
+	@DISCOVERYACCESS-7221 @javascript
 	Scenario Outline: Facet counts in search for everything special
 		Given I am on the home page
 		And I search for everything
+		And I open facet category <category>
 		And I choose category '<category>' link '<facet>'
 		Then I should get <count> results
 
@@ -70,7 +71,7 @@ Feature: Facets
 		| Library Location | Adelson Library | 2 |
 		| Call Number | A - General | 8 |
 
-	@DISCOVERYACCESS-7855
+	@DISCOVERYACCESS-7855 @javascript
 	Scenario Outline: Handling valid Publication Year date ranges
 		Given I am on the home page
 		And I search for everything
@@ -83,7 +84,7 @@ Feature: Facets
 		| 1600 | 2010 | 187 |
 		| 1910 | 1950 | 24 |
 
-	@DISCOVERYACCESS-7855
+	@DISCOVERYACCESS-7855 @javascript
 	Scenario Outline: Handling invalid Publication Year date ranges
 		Given I am on the home page
 		And I search for everything

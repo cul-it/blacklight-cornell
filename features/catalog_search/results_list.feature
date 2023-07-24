@@ -55,6 +55,7 @@ Feature: Results list
     And I press 'search'
     Then I should get results
 
+  @javascript
   Scenario: Search with results
     Given I am on the home page
     When I fill in the search box with 'the /'

@@ -45,7 +45,7 @@ end
 
 Then /^results should have a select checkbox$/ do
   within('#documents') do
-    page.should have_selector('.bookmark-add')
+    page.should have_field('Select', type: 'checkbox')
   end
 end
 
