@@ -217,8 +217,8 @@ function Work() {
     if (data.codes?.length) {
       const codesArr = data.codes.map(code => `${code.catalogLabel} : ${code.code}`);
       html += (
-        `<dt class="blacklight-wd-codes col-sm-3"><div class="wd-highlight">Codes:</div></dt>
-        <dd class="blacklight-wd-codes wd-highlight-off col-sm-9">${codesArr.join('<br>')}</dd>`
+        `<dt class="blacklight-wd-codes col-sm-3"><div class="wd-highlight">Catalog numbers:</div></dt>
+        <dd class="blacklight-wd-codes wd-highlight col-sm-9">${codesArr.join('<br>')}</dd>`
       );
     }
     if ('createdFor' in data) {
