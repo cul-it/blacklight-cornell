@@ -4,6 +4,7 @@ function Work() {
   const locConnector = LOCConnector();
   const bamwowHelper = BamwowHelper();
   // TODO: Add ability to exclude excludeEntities.yml?
+  const smMinMedia = window.matchMedia('(min-width: 576px)')
 
   // Only fetch and display music data from wikidata in 2 scenarios:
   // 1. Only one author title facet: display wikidata directly on work
@@ -18,28 +19,15 @@ function Work() {
       const includedWorks = parseIncludedWorksAttr(includedWorksAttr);
 
       if (Object.keys(headings).length === 1) {
+        // If only one authortitle heading, display data on work
         // This only requires the parsed heading
         await displayDataOnWork(Object.values(headings)[0]['parsedHeading']);
 
-        // Highlight data from wikidata on click
-        $('#wikidata_highlight').on('click', function() {
-          if ($('#wikidata_highlight').text().indexOf('Highlight') > -1) {
-            $('.wd-highlight').each(function() {
-              $(this).addClass('wikidata-bgc');
-            });
-            $('#wikidata_highlight').text('Remove the Wikidata highlighting.')
-          }
-          else {
-            $('.wd-highlight').each(function() {
-              $(this).removeClass('wikidata-bgc');
-            });
-            $('#wikidata_highlight').text('Highlight the Wikidata data.')
-          }
-          return false;
-        });
+        // Highlight data from wikidata in item details on click
+        $('#wikidata_highlight').on('click', addWdHighlightHandler);
       }
       else if (Object.keys(headings).length && Object.keys(includedWorks).length) {
-        // If more than one query heading, check included works if they exist
+        // If more than one authortitle heading, check included works if they exist
         // Popovers display if parsed included work matches an authortitle facet
         displayDataInPopovers(headings, includedWorks, bibId);
       }
@@ -47,6 +35,22 @@ function Work() {
       console.log(err);
     }
   };
+
+  function addWdHighlightHandler() {
+    if ($('#wikidata_highlight').text().indexOf('Highlight') > -1) {
+      $('.wd-highlight').each(function() {
+        $(this).addClass('wikidata-bgc');
+      });
+      $('#wikidata_highlight').text('Remove the Wikidata highlighting.')
+    }
+    else {
+      $('.wd-highlight').each(function() {
+        $(this).removeClass('wikidata-bgc');
+      });
+      $('#wikidata_highlight').text('Highlight the Wikidata data.')
+    }
+    return false;
+  }
 
   function parseHeadingAttr(headings) {
     if (!headings) return {};
@@ -113,38 +117,44 @@ function Work() {
         const dataForIncludedWork = headings[includedWorks[linkText]];
         if (dataForIncludedWork) {
           const { originalHeading, parsedHeading } = dataForIncludedWork;
+          const encodedOriginalHeading = encodeURIComponent(originalHeading);
 
-          // Clicking included work button triggers popover
-          const buttonEl = renderPopoverButton($(this));
-          buttonEl.click(async function(e) {
-            e.preventDefault();
+          // Render "Work info" buttons next to each included work
+          const buttonEl = renderWorkInfoButton($(this), encodedOriginalHeading, bibId);
 
-            // Render kpanel view with data from solr browse index
-            const catalogAuthURL = `/panel?type=authortitle&authq="${encodeURIComponent(originalHeading)}"&bib=${encodeURIComponent(bibId)}`;
-            const kpanelTemplate = await $.get(catalogAuthURL);
-            const content = $(kpanelTemplate).find('#kpanelContent').html();
-            // TODO: Investigate more accessible options for popover focus navigation
-            // Change trigger to focus for prod- click for debugging
-            $(this).popover({ content, html: true, trigger: 'focus' }).popover('show');
-            // Get info from LOC + Wikidata
-            renderPopoverContent(parsedHeading);
-          });
+          // Only display included work popover on small or larger devices (not xs phones)
+          // Otherwise, button is a direct link to Author-Title browse page
+          if (smMinMedia.matches) {
+            buttonEl.click(async function(e) {
+              e.preventDefault();
+
+              // Render kpanel view with data from solr browse index
+              const catalogAuthURL = `/panel?type=authortitle&authq="${encodedOriginalHeading}"&bib=${bibId}`;
+              const kpanelTemplate = await $.get(catalogAuthURL);
+              const content = $(kpanelTemplate).find('#kpanelContent').html();
+              // TODO: Investigate more accessible options for popover focus navigation
+              // Change trigger to focus for prod- click for debugging
+              $(this).popover({ content, html: true, trigger: 'focus' }).popover('show');
+              // Get info from LOC + Wikidata
+              renderPopoverContent(parsedHeading);
+            });
+          }
         }
       }
     });
   };
 
-  // Render popover button for included work
-  function renderPopoverButton(includedWork) {
+  // Render "Work info" button for included work
+  function renderWorkInfoButton(includedWork, encodedHeading, bibId) {
     // (Possible) TODO: Add matomo tracking on button click?
-    //    Direct link to author-title browse page if mobile? (currently button doesn't show at all on mobile)
+    const authorTitleBrowseUrl = `/browse/info?authq=${encodedHeading}&bib=${bibId}&browse_type=Author-Title`
     const buttonHtml = (
       `<a
-        href="#"
+        href="${authorTitleBrowseUrl}"
         role="button"
         tabindex="0"
         data-trigger="focus"
-        class="info-button d-none d-sm-inline-block btn btn-sm btn-outline-secondary"
+        class="info-button d-inline-block btn btn-sm btn-outline-secondary"
       >
         Work info »
       </a>`

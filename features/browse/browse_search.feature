@@ -60,6 +60,18 @@ Feature: Browse search
         Then I should see the label '3 catalog results'
 
   @browse
+  Scenario: Browse author-title combinations and view heading details
+    Given I literally go to browse
+      And I fill in the authorities search box with 'McKenna, Maryn'
+      And I select 'Author (A-Z) Sorted By Title' from the 'browse_type' drop-down
+      And I press 'search'
+    Then I should see the label 'McKenna, Maryn. | Big chicken'
+    Then click on first link "Author-Title info"
+    Then I should see the label 'McKenna, Maryn. | Big chicken'
+      And I should see the label 'Library Holdings'
+      And it should have link "Back to list" with value "/browse?authq=McKenna%2C+Maryn.+%7C+Big+chicken&browse_type=Author-Title&start=0"
+
+  @browse
   @call-number-browse
   @DISCOVERYACCESS-4659
   Scenario: Search for LPs
