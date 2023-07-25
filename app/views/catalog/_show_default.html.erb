@@ -44,4 +44,4 @@
 
 <%# Empty div with data-attributes for javascript %>
 <%= content_tag :div, nil, id: 'work', class: 'd-none',
-                data: { heading: authortitle_facet_value, included: included_works } %>
+                data: { heading: authortitle_facet_value, included: included_works, bib: document['id'] } %>

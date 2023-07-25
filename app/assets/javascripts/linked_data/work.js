@@ -13,6 +13,7 @@ function Work() {
       // Data from html attributes
       const headingAttr = $('#work').data('heading');
       const includedWorksAttr = $('#work').data('included');
+      const bibId = $('#work').data('bib')
       const headings = parseHeadingAttr(headingAttr);
       const includedWorks = parseIncludedWorksAttr(includedWorksAttr);
 
@@ -40,7 +41,7 @@ function Work() {
       else if (Object.keys(headings).length && Object.keys(includedWorks).length) {
         // If more than one query heading, check included works if they exist
         // Popovers display if parsed included work matches an authortitle facet
-        displayDataInPopovers(headings, includedWorks);
+        displayDataInPopovers(headings, includedWorks, bibId);
       }
     } catch(err) {
       console.log(err);
@@ -102,7 +103,7 @@ function Work() {
   }
 
   // Display metadata from Author-Title browse and Wikidata as a popover for each included work
-  async function displayDataInPopovers(headings, includedWorks) {
+  async function displayDataInPopovers(headings, includedWorks, bibId) {
     // For each included work in list, add popover
     const includedWorksHtml = $('dd.blacklight-included_work_display a');
     includedWorksHtml.each(function() {
@@ -119,7 +120,7 @@ function Work() {
             e.preventDefault();
 
             // Render kpanel view with data from solr browse index
-            const catalogAuthURL = `/panel?type=authortitle&authq="${encodeURIComponent(originalHeading)}"`;
+            const catalogAuthURL = `/panel?type=authortitle&authq="${encodeURIComponent(originalHeading)}"&bib=${encodeURIComponent(bibId)}`;
             const kpanelTemplate = await $.get(catalogAuthURL);
             const content = $(kpanelTemplate).find('#kpanelContent').html();
             // TODO: Investigate more accessible options for popover focus navigation

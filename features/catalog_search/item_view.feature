@@ -748,3 +748,4 @@ Feature: Item view
   When I click on link "View full info"
   Then I should be on the browse info page
   And it should have the heading "Beethoven, Ludwig van, 1770-1827. | Septet, clarinet, bassoon, horn, violin, viola, cello, double bass, op. 20, E♭ major"
+  And I should see the label 'Back to item'

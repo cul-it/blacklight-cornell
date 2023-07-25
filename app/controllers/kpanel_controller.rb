@@ -38,6 +38,7 @@ class KpanelController < ApplicationController
 
     @authq = params[:authq] || ''
     @auth_type = params[:type] || ''
+    @bib = params[:bib] || ''
     # This should return the JSON for solr documents
     results = get_browse_info(@authq, @auth_type)
     @data = results[0]
