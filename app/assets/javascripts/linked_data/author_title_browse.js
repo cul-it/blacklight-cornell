@@ -56,7 +56,7 @@ function AuthorTitleBrowse() {
     if ('createdFor' in data) {
       const { loc: createdForLoc, label: createdForLabel } = data.createdFor;
       html += (
-        `<dt class="blacklight-wd-created col-sm-3">Created for:</dt>
+        `<dt class="blacklight-wd-created col-sm-4">Created for:</dt>
         <dd class="col-sm-8" loc="${createdForLoc}">${createdForLabel} *</dd>`
       );
     }
