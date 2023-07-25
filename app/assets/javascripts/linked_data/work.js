@@ -181,14 +181,12 @@ function Work() {
     // Some data may already be displaying from solr
     // Reset alternating line styling based on existing # of rows
     const rdaLabels = $('.rda-label').map(function(){ return $(this).text() }).get();
-    let rowCount = $('#authorTitleDescriptionContainer .dt').length - 1;
     if (data.codes?.length > 0) {
       const codesArr = data.codes.map(code => `${code.catalogLabel} : ${code.code}`);
       html += (
-        `<div class="dt field1-bg">Catalog numbers:</div>
-        <div class="dd field1-bg">${codesArr.join('<br>')}</div>`
+        `<div class="dt">Catalog numbers:</div>
+        <div class="dd">${codesArr.join('<br>')}</div>`
       );
-      rowCount++;
     }
 
     $.each(fieldMappingSubset, function(prop, label) {
@@ -196,12 +194,10 @@ function Work() {
       if (prop in data && !rdaLabels.includes(label)) {
         let value = data[prop];
         if ($.isArray(value)) value = value.join(', ');
-        const fieldClass = rowCount % 2 ? 'field1-bg' : 'field2-bg';
         html += (
-          `<div class="dt ${fieldClass}">${label}: </div>
-          <div class="dd ${fieldClass}">${value}</div>`
+          `<div class="dt">${label}: </div>
+          <div class="dd">${value}</div>`
         );
-        rowCount += 1;
       }
     });
 

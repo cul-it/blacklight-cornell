@@ -19,9 +19,8 @@
       <div id="authorTitleDescription">
         <div class="dl dl-horizontal" id="authorTitleDescriptionContainer">
           <% rda.each_with_index do |(label, val), i| %>
-            <% fieldClass = i % 2 == 0 ? 'field1-bg' : 'field2-bg' %>
-            <div class="dt <%= fieldClass %>"><span class="rda-label"><%= label %></span> : </div>
-            <div class="dd <%= fieldClass %>"><%= val.is_a?(Array) ? val.join(', ') : val %></div>
+            <div class="dt"><span class="rda-label"><%= label %></span> : </div>
+            <div class="dd"><%= val.is_a?(Array) ? val.join(', ') : val %></div>
           <% end %>
           <div id="time-indicator" class="text-center pt-10 pb-10">
             <%= image_tag('ajax-indicator.gif', alt: 'processing time indicator', id: 'kp-time-indicator') %>
