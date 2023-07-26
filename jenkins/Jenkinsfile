@@ -8,8 +8,8 @@ pipeline {
         COLLECTIONS = "development"
         CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
         IR_SOLR_URL = "http://aws-108-118.internal.library.cornell.edu:8983/solr/repositories"
-        IR_SOLR_USER = credentials('IR_SOLR_USER')
-        IR_SOLR_PAW = credentials('IR_SOLR_PAW')
+        IR_SOLR_USER = credentials('622231e0-352f-431f-9847-a109f3795d97')
+        IR_SOLR_PAW = credentials('f6e43070-a7b0-44ef-9a72-8767cc8ee968')
     }
     stages {
         stage('Set up and run bundler') {
