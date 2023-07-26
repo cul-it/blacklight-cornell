@@ -66,7 +66,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'cucumber-rails', :require => false # Set require = false to get rid of a warning message
-  gem 'cucumber', '3.1.2'
+  gem 'cucumber', '~> 3.1'
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
@@ -78,7 +78,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara','>= 2.3', '< 4'
+  gem 'capybara','3.39.2'
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
   gem 'rb-inotify', :require => false
