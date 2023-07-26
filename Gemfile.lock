@@ -862,7 +862,6 @@ DEPENDENCIES
   protected_attributes_continued
   pry
   pry-byebug
-  racc (= 1.7.1)
   rails (~> 6.1.7)
   rb-inotify
   rb-readline (~> 0.5.x)
