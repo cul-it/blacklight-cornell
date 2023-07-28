@@ -39,8 +39,8 @@ Then /^click on first link "(.*?)"$/ do |link|
 end
 
 Given("I text the first available item") do
-  within(page.first(".holding")) do
-    page.find('#smsLink').trigger('click')
+  within(page.first(".text-it")) do
+    page.click_link("smsLink")
   end
 end
 
