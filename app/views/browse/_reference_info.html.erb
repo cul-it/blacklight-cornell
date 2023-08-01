@@ -1,5 +1,9 @@
-<%# used with the _author_info and _subject_info templates %>
+<%# used with the _author_info, _subject_info, and _author_title_info templates %>
 
+<% if @headingsResponse[0]['seeAlso'].present? ||
+      @headingsResponse[0]['alternateForm'].present? ||
+      @headingsResponse[0]['headingTypeDesc'].present? ||
+      !@loc_localname.blank? %>
 <h3>Reference Information</h3>
 <div id='reference-info' class='col-sm-12 col-md-12 col-lg-12'>
   <%# display any seeAlso info first %>
@@ -55,7 +59,4 @@
   <%# now render the rest of the reference info ( heading type, alternate forms )%>
   <%= render_reference_info("subject", @headingsResponse,@loc_localname) %>
 </div>
-
-
-
-
+<% end %>
