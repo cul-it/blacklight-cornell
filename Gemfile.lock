@@ -855,7 +855,7 @@ DEPENDENCIES
   net-sftp
   net-smtp
   net-ssh (= 5.2.0)
-  nokogiri (>= 1.13.9)
+  nokogiri (>= 1.14.3)
   omniauth (~> 2.0)
   omniauth-facebook (~> 5.0)
   omniauth-google-oauth2 (~> 0.8)
