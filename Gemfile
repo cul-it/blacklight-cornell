@@ -45,7 +45,7 @@ gem 'marc'
 gem 'blacklight-marc', '~> 6.3'
 gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
-gem 'nokogiri', '>= 1.13.9'
+gem 'nokogiri', '>= 1.14.3'
 gem 'rufus-scheduler'
 gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
@@ -66,7 +66,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'cucumber-rails', :require => false # Set require = false to get rid of a warning message
-  gem 'cucumber', '3.1.2'
+  gem 'cucumber', '~> 3.1'
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
@@ -78,7 +78,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara','>= 2.3', '< 4'
+  gem 'capybara','3.39.2'
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
   gem 'rb-inotify', :require => false

@@ -5,7 +5,7 @@ function AuthorBrowse() {
   const wikidataConnector = WikidataConnector();
   const dbpediaConnector = DbpediaConnector();
 
-  async function onLoad() {
+  async function renderLinkedData() {
     let wikidata = {};
     let dbpedia = {};
     try {
@@ -28,7 +28,7 @@ function AuthorBrowse() {
 
     bindEventHandlers();
   };
-  
+
   // TODO: what is this doing? there doesn't seem to be a 'a[data-toggle="tab"]' in the dom??
   function bindEventHandlers() {
     $('a[data-toggle="tab"]').click(function() {
@@ -48,29 +48,20 @@ function AuthorBrowse() {
   // Get image and metadata
   async function getWikidata(localname) {
     const sparqlQuery = (
-      `SELECT
-        ?entity
-        ?citizenship
-        ?label
-        ?description
-        ${wikidataConnector.imageSparqlSelect}
-        (group_concat(DISTINCT ?educated_at; separator = ", ") as ?education)
-        (group_concat(DISTINCT ?pseudos; separator = ", ") as ?pseudonyms)
-      WHERE {
-        ?entity wdt:P244 "${localname}".
-        ?entity rdfs:label ?label. FILTER (langMatches( lang(?label), "EN" ) )
-        OPTIONAL {
-          ?entity wdt:P27 ?citizenshipRoot.
-          ?citizenshipRoot rdfs:label ?citizenship. FILTER (langMatches( lang(?citizenship), "EN" ) )
-        }
-        OPTIONAL {
-          ?entity wdt:P69 ?educationRoot.
-          ?educationRoot rdfs:label ?educated_at. FILTER (langMatches( lang(?educated_at), "EN" ) )
-        }
-        OPTIONAL { ?entity wdt:P742 ?pseudos. }
-        OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") }
-        ${wikidataConnector.imageSparqlWhere}
-      } GROUP BY ?entity ?citizenship ?label ?description ${wikidataConnector.imageSparqlSelect} LIMIT 1`
+      'SELECT '
+        + ' ?entity ?citizenship ?label ?description '
+        + wikidataConnector.imageSparqlSelect
+        + ' (group_concat(DISTINCT ?educated_at; separator = ", ") as ?education) '
+        + ' (group_concat(DISTINCT ?pseudos; separator = ", ") as ?pseudonyms) '
+      + ' WHERE { '
+        + ` ?entity wdt:P244 "${localname}"; `
+                + ' rdfs:label ?label. FILTER (langMatches( lang(?label), "EN" ) ) '
+        + ' OPTIONAL { ?entity wdt:P27/rdfs:label ?citizenship. FILTER (langMatches( lang(?citizenship), "EN" ) ) } '
+        + ' OPTIONAL { ?entity wdt:P69/rdfs:label ?educated_at. FILTER (langMatches( lang(?educated_at), "EN" ) ) } '
+        + ' OPTIONAL { ?entity wdt:P742 ?pseudos. } '
+        + ' OPTIONAL { ?entity schema:description ?description. FILTER(lang(?description) = "en") } '
+        + wikidataConnector.imageSparqlWhere
+      + ` } GROUP BY ?entity ?citizenship ?label ?description ${wikidataConnector.imageSparqlSelect} LIMIT 1`
     );
     const results = await wikidataConnector.getData(sparqlQuery);
     return parseWikidata(results);
@@ -175,7 +166,7 @@ function AuthorBrowse() {
 
     $('#wiki-acknowledge').append(`* <a href="${entity}">From Wikidata<i class="fa fa-external-link" aria-hidden="true"></i></a>`);
   };
-    	
+
 	// we can use the wikidata QID to get an entity description from DBpedia
 	async function getDbpediaDescription(wikidata) {
     const { qid, label } = qidAndLabel(wikidata);
@@ -214,16 +205,15 @@ function AuthorBrowse() {
       displayCatalogMetadata();
     }
   };
-    
+
   // when there's no wikidata or an error occurs in one of the ajax calls
   function displayCatalogMetadata() {
     $('#bio-desc').removeClass('d-none');
-    $('#no-wiki-ref-info').removeClass('d-none');
   };
 
   function displayLinkedData() {
     $('#info-details').removeClass('d-none');
-    $('#has-wiki-ref-info').removeClass('d-none');
+    $('#ref-info').addClass('mt-4');
   };
 
 	// Relies on both presence of value and ability to display this data
@@ -231,11 +221,11 @@ function AuthorBrowse() {
     return !!value && !ldExcluder.isPropertyExcluded(propertyName);
   };
 
-  return { onLoad };
+  return { renderLinkedData };
 };
 
 Blacklight.onLoad(function() {
   if ( $('body').prop('className').indexOf('browse-info') >= 0 && $('#auth_loc_localname').length ) {
-    AuthorBrowse().onLoad();
+    AuthorBrowse().renderLinkedData();
   }
 });
