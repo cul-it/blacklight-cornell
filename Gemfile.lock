@@ -630,7 +630,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rexml (3.2.5)
+    rexml (3.2.6)
     rsolr (2.5.0)
       builder (>= 2.1.2)
       faraday (>= 0.9, < 3, != 2.0.0)
@@ -693,7 +693,7 @@ GEM
       nori (~> 2.4)
       wasabi (~> 3.4)
     scrub_rb (1.0.1)
-    selenium-webdriver (4.10.0)
+    selenium-webdriver (4.11.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -855,7 +855,7 @@ DEPENDENCIES
   net-sftp
   net-smtp
   net-ssh (= 5.2.0)
-  nokogiri (>= 1.13.9)
+  nokogiri (>= 1.14.3)
   omniauth (~> 2.0)
   omniauth-facebook (~> 5.0)
   omniauth-google-oauth2 (~> 0.8)
