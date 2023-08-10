@@ -9,8 +9,7 @@ class CatalogController < ApplicationController
   include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
   include Blacklight::Marc::Catalog
-  require 'net/http'
-  require 'uri'
+  require 'rest-client'
   require 'cul/folio/edge'
 
   if   ENV['SAML_IDP_TARGET_URL']
@@ -1143,14 +1142,13 @@ def new_tou
   id = params[:id]
   @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
   okapi_url = ENV['OKAPI_URL']
-  uri = URI(okapi_url + '/eholdings/titles/' + title_id + '?include=resources' )
-  req = folio_http_request(uri)
+  response = folio_request("#{okapi_url}/eholdings/titles/#{title_id}?include=resources")
   begin
-    res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-    outtxt = res.body
+    #res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+   # outtxt = res.body
 #  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + okapi_url + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + okapi_tenant + "\" -H \"X-Okapi-Token: " + okapi_token + "\""
 #  outtxt = `curl #{command}`
-    parsed = JSON.parse(outtxt)
+    parsed = JSON.parse(response.body)
     recordTitle = parsed["data"]["attributes"]["name"]
 
     parsed["included"].each do |p|
@@ -1160,27 +1158,22 @@ def new_tou
         packageName = attrs["packageName"]
         packageUrl = attrs["url"]
         package_providerID = attrs["providerName"]
-        uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
-        req = folio_http_request(uri)
         begin
-          res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-          outtxt2 = res.body
+          response2 = folio_request("#{okapi_url}/erm/sas?filters=items.reference=#{packageID}&sort=startDate:desc")
+          outtxt2 = response2.body
  #   command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #   outtxt2 = `curl #{command2}`
           if outtxt2 != '[]'
             parsed2 = JSON.parse(outtxt2)
             if !parsed2[0]["linkedLicenses"][0].nil?
               remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
-              uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
-              req = folio_http_request(uri)
               begin
-                res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-                outtxt3 = res.body
+                response3 = folio_request("#{okapi_url}/licenses/licenses/#{remoteID}")
 
  #       command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #       outtxt3 = `curl #{command3}`
 
-                parsed3 = JSON.parse(outtxt3)
+                parsed3 = JSON.parse(response3.body)
 
                 parsed3['packageName'] = packageName
 
@@ -1203,15 +1196,20 @@ def new_tou
   end
 end
 
-# Given a URI, return a valid Net::HTTP request with appropriate FOLIO headers
-def folio_http_request(uri)
-  if uri
-    req = Net::HTTP::Get.new(uri)
-    req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-    req['x-okapi-token'] = folio_token
-    req['Accept'] = 'application/vnd.api+json'
-    req
+# Given a URL, make a FOLIO request and return the results
+def folio_request(url)
+  if url
+    headers = {
+      'X-Okapi-Tenant' => ENV['TENANT_ID'],
+      'x-okapi-token' => folio_token,
+      :accept => 'application/vnd.api+json'
+    }
+    RestClient.get(url, headers)
   end
+
+rescue RestClient::ExceptionWithResponse => err
+  Rails.logger.error "TOU: Error making FOLIO request (#{err})"
+  nil
 end
 
   # Return a FOLIO authentication token for API calls -- either from the session if a token
