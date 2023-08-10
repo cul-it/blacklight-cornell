@@ -11,6 +11,7 @@ class CatalogController < ApplicationController
   include Blacklight::Marc::Catalog
   require 'net/http'
   require 'uri'
+  require 'cul/folio/edge'
 
   if   ENV['SAML_IDP_TARGET_URL']
     before_action :authenticate_user!, only: [  :email, :oclc_request ]
@@ -1152,12 +1153,13 @@ def new_tou
     parsed = JSON.parse(outtxt)
     recordTitle = parsed["data"]["attributes"]["name"]
 
-    parsley = parsed["included"].each do | parsley |
-      if parsley["attributes"]["isSelected"] == true
-        packageID = parsley["attributes"]["packageId"]
-        packageName = parsley["attributes"]["packageName"]
-        packageUrl = parsley["attributes"]["url"]
-        package_providerID = parsley["attributes"]["providerName"]
+    parsed["included"].each do |p|
+      attrs = p['attributes']
+      if attrs["isSelected"] == true
+        packageID = attrs["packageId"]
+        packageName = attrs["packageName"]
+        packageUrl = attrs["url"]
+        package_providerID = attrs["providerName"]
         uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
         req = folio_http_request(uri)
         begin
@@ -1186,20 +1188,17 @@ def new_tou
                   @newTouResult << parsed3
                 end
               rescue          
-                Rails.logger.debug "mjc12a: rescue 1"
                 return params
               end
             end
           end
         rescue
-          Rails.logger.debug "mjc12a: rescue 2"
           return params
         end
       end
     end
     return params, @newTouResult
   rescue
-    Rails.logger.debug "mjc12a: rescue 3"
     return params
   end
 end
@@ -1209,11 +1208,27 @@ def folio_http_request(uri)
   if uri
     req = Net::HTTP::Get.new(uri)
     req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-    req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+    req['x-okapi-token'] = folio_token
     req['Accept'] = 'application/vnd.api+json'
     req
   end
 end
+
+  # Return a FOLIO authentication token for API calls -- either from the session if a token
+  # was prevoiusly created, or directly from FOLIO otherwise.
+  def folio_token
+    if session[:folio_token].nil?
+      url = ENV['OKAPI_URL']
+      tenant = ENV['OKAPI_TENANT']
+      response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
+      if response[:code] >= 300
+        Rails.logger.error "TOU error: Could not create a FOLIO token for #{user}"
+      else
+        session[:folio_token] = response[:token]
+      end
+    end
+    session[:folio_token]
+  end
 
   #def oclc_request
   #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
