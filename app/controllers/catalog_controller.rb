@@ -1133,34 +1133,17 @@ def tou
 
   end
 
-
+# TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
+# Solr, the latter from FOLIO. Why do we have two sources of metadata?
 def new_tou
 
   packageName = ""
   title_id = params[:title_id]
   id = params[:id]
-
   @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
-  # if !ENV['OKAPI_URL'].nil?
-  #   Rails.logger.info("SWEETARTS = #{ENV['OKAPI_URL']}")
-  #  # ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
-  # end
-  # if !ENV['TENANT_ID'].nil?
-  #   Rails.logger.info("TENANTID = #{ENV['TENANT_ID']}")
-  #  # ENV['TENANT_ID'] = 'fs00001034'
-  # end
-  # if !ENV['X_OKAPI_TOKEN'].nil?
-  #   Rails.logger.info("TENANTID = #{ENV['X_OKAPI_TOKEN']}")
-    # ENV['X_OKAPI_TOKEN'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWMyNDQiLCJ1c2VyX2lkIjoiYWVjMjBiMzctODRlMy00Nzk2LTkzMTQtOTdlMDdlMGE2NzI2IiwiaWF0IjoxNTk3MTU5MzcwLCJ0ZW5hbnQiOiJmczAwMDAxMDM0In0.p5tU1dNnkRYFMRcHleD5p112kUxoYYnyP2IeM0J25Q0'
-  # end
   okapi_url = ENV['OKAPI_URL']
-  okapi_tenant = ENV['TENANT_ID']
-  okapi_token = ENV['X_OKAPI_TOKEN']
   uri = URI(okapi_url + '/eholdings/titles/' + title_id + '?include=resources' )
-  req = Net::HTTP::Get.new(uri)
-  req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-  req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-  req['Accept'] = 'application/vnd.api+json'
+  req = folio_http_request(uri)
   begin
     res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
     outtxt = res.body
@@ -1176,54 +1159,60 @@ def new_tou
         packageUrl = parsley["attributes"]["url"]
         package_providerID = parsley["attributes"]["providerName"]
         uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
-        req = Net::HTTP::Get.new(uri)
-        req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-        req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-        req['Accept'] = 'application/json'
-      begin
-        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-        outtxt2 = res.body
-
+        req = folio_http_request(uri)
+        begin
+          res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+          outtxt2 = res.body
  #   command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #   outtxt2 = `curl #{command2}`
-        if outtxt2 != '[]'
-          parsed2 = JSON.parse(outtxt2)
-          if !parsed2[0]["linkedLicenses"][0].nil?
-            remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
-            uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
-            req = Net::HTTP::Get.new(uri)
-            req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-            req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-            req['Accept'] = 'application/json'
-          begin
-            res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-            outtxt3 = res.body
+          if outtxt2 != '[]'
+            parsed2 = JSON.parse(outtxt2)
+            if !parsed2[0]["linkedLicenses"][0].nil?
+              remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
+              uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
+              req = folio_http_request(uri)
+              begin
+                res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
+                outtxt3 = res.body
 
  #       command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
  #       outtxt3 = `curl #{command3}`
 
-            parsed3 = JSON.parse(outtxt3)
+                parsed3 = JSON.parse(outtxt3)
 
-            parsed3['packageName'] = packageName
+                parsed3['packageName'] = packageName
 
-            unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
-              @newTouResult << parsed3
+                unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
+                  @newTouResult << parsed3
+                end
+              rescue          
+                Rails.logger.debug "mjc12a: rescue 1"
+                return params
+              end
             end
-          rescue
-            return params
           end
-          end
+        rescue
+          Rails.logger.debug "mjc12a: rescue 2"
+          return params
         end
-    rescue
-      return params
-    end
       end
     end
-  return params, @newTouResult
+    return params, @newTouResult
   rescue
-      return params
+    Rails.logger.debug "mjc12a: rescue 3"
+    return params
   end
+end
 
+# Given a URI, return a valid Net::HTTP request with appropriate FOLIO headers
+def folio_http_request(uri)
+  if uri
+    req = Net::HTTP::Get.new(uri)
+    req['X-Okapi_Tenant'] = ENV['TENANT_ID']
+    req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
+    req['Accept'] = 'application/vnd.api+json'
+    req
+  end
 end
 
   #def oclc_request
