@@ -1141,41 +1141,49 @@ def tou
     id = params[:id]
     @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
     okapi_url = ENV['OKAPI_URL']
-    response = folio_request("#{okapi_url}/eholdings/titles/#{title_id}?include=resources")
-    if response && response.code == 200
-      parsed = JSON.parse(response.body)
-      recordTitle = parsed["data"]["attributes"]["name"]
-
-      parsed["included"].each do |p|
-        attrs = p['attributes']
+    record = eholdings_record(title_id)
+    if record
+      recordTitle = record["data"]["attributes"]["name"]
+      record["included"].each do |package|
+        attrs = package['attributes']
         if attrs["isSelected"] == true
           packageID = attrs["packageId"]
           packageName = attrs["packageName"]
           # packageUrl = attrs["url"]
           # package_providerID = attrs["providerName"]
-          response = folio_request("#{okapi_url}/erm/sas?filters=items.reference=#{packageID}&sort=startDate:desc")
-          if response && response.code == 200
-            outtxt2 = response.body
-            if outtxt2 != '[]'
-              parsed2 = JSON.parse(outtxt2)
-              if parsed2[0]["linkedLicenses"][0]
-                remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
-                response = folio_request("#{okapi_url}/licenses/licenses/#{remoteID}")
-                if response && response.code == 200
-                  parsed3 = JSON.parse(response.body)
-                  parsed3['packageName'] = packageName
-                  @newTouResult << parsed3 unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
-                end
+          second = second_call(packageID)
+          if second.present?
+            if second[0]["linkedLicenses"][0]
+              remoteID = second[0]["linkedLicenses"][0]["remoteId"]
+              licenses = linked_licenses(remoteID)
+              if licenses
+                licenses['packageName'] = packageName
+                @newTouResult << licenses unless @newTouResult.any? {|h| h["id"] == licenses['id']}
               end
             end
           end
+          
         end
       end
     end
 
     return params, @newTouResult
-  rescue
-    return params
+  # rescue
+  #   return params
+  end
+
+  def eholdings_record(id)
+    # eholdings title JSON response described here:
+    # https://s3.amazonaws.com/foliodocs/api/mod-kb-ebsco-java/r/titles.html#eholdings_titles_get
+    folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources")
+  end
+
+  def second_call(id)
+    folio_request("#{ENV['OKAPI_URL']}/erm/sas?filters=items.reference=#{id}&sort=startDate:desc")
+  end
+
+  def linked_licenses(id)
+    folio_request("#{ENV['OKAPI_URL']}/licenses/licenses/#{id}")
   end
 
   # Given a URL, make a FOLIO request and return the results (or nil in case of a RestClient exception).
@@ -1187,7 +1195,8 @@ def tou
         'x-okapi-token' => token,
         :accept => 'application/vnd.api+json'
       }
-      RestClient.get(url, headers)
+      response = RestClient.get(url, headers)
+      JSON.parse(response.body) if response && response.code == 200
     end
   rescue RestClient::ExceptionWithResponse => err
     Rails.logger.error "TOU: Error making FOLIO request (#{err})"
