@@ -1140,10 +1140,10 @@ def tou
     title_id = params[:title_id]
     id = params[:id]
     @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
-    okapi_url = ENV['OKAPI_URL']
-    record = eholdings_record(title_id)
+    # okapi_url = ENV['OKAPI_URL']
+    record = eholdings_record(title_id) || []
     if record
-      recordTitle = record["data"]["attributes"]["name"]
+      # recordTitle = record["data"]["attributes"]["name"]
       record["included"].each do |package|
         attrs = package['attributes']
         if attrs["isSelected"] == true
@@ -1151,25 +1151,22 @@ def tou
           packageName = attrs["packageName"]
           # packageUrl = attrs["url"]
           # package_providerID = attrs["providerName"]
-          second = second_call(packageID)
-          if second.present?
-            if second[0]["linkedLicenses"][0]
-              remoteID = second[0]["linkedLicenses"][0]["remoteId"]
-              licenses = linked_licenses(remoteID)
-              if licenses
-                licenses['packageName'] = packageName
-                @newTouResult << licenses unless @newTouResult.any? {|h| h["id"] == licenses['id']}
+          subscription = subscription_agreements(packageID)
+          if subscription.present?
+            if subscription[0]["linkedLicenses"][0]
+              remoteID = subscription[0]["linkedLicenses"][0]["remoteId"]
+              license = license(remoteID)
+              if license
+                license['packageName'] = packageName
+                @newTouResult << license unless @newTouResult.any? {|h| h["id"] == license['id']}
               end
             end
           end
-          
         end
       end
     end
 
-    return params, @newTouResult
-  # rescue
-  #   return params
+    @newTouResult
   end
 
   def eholdings_record(id)
@@ -1178,11 +1175,15 @@ def tou
     folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources")
   end
 
-  def second_call(id)
+  # Make a FOLIO request to retrieve an array of subscription agreements linked to an e-holdings record
+  # specified by id.
+  def subscription_agreements(id)
     folio_request("#{ENV['OKAPI_URL']}/erm/sas?filters=items.reference=#{id}&sort=startDate:desc")
   end
 
-  def linked_licenses(id)
+  # Make a FOLIO request to retrieve a license object linked to an e-holdings record
+  # specified by id ('remoteId' in the JSON).
+  def license(id)
     folio_request("#{ENV['OKAPI_URL']}/licenses/licenses/#{id}")
   end
 
