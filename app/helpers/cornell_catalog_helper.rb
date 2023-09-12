@@ -1432,31 +1432,27 @@ end
   end
 
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
-  def request_path(group,id,aeon_codes,document,scan)
-	id_scan = scan == "yes" ? "#{id}.scan" : "#{id}"
+  def request_path(group, id, aeon_codes, document, scan)
+		id_scan = scan ? "#{id}.scan" : "#{id}"
     magic_path  = blacklight_cornell_request.magic_request_path("#{id_scan}")
+
     if ENV['SAML_IDP_TARGET_URL'].present?
-    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id_scan}")
+			magic_path = blacklight_cornell_request.auth_magic_request_path("#{id_scan}")
     end
+
     if ENV['AEON_REQUEST'].blank? and group != 'AEON_SCAN_REQUEST'
-      aeon_req = '/aeon/~id~'
-      aeon_req = aeon_req.sub!('~id~',id.to_s)
-      aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
+			aeon_req = "/aeon/#{id.to_s}"
     else
-      if group == 'AEON_SCAN_REQUEST'
-        aeon_req = ENV['AEON_SCAN_REQUEST'].gsub('~id~', id.to_s)
-        aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
-      else
-        aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
-        aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
-      end
+			url = group == 'AEON_SCAN_REQUEST' ? ENV['AEON_SCAN_REQUEST'] : ENV['AEON_REQUEST']
+			aeon_req = url.gsub('~id~', id.to_s).gsub('~libid~',aeon_codes.join('|'))
     end
-    if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
+
+    if document['url_findingaid_display'] && document['url_findingaid_display'].size > 0
       finding_a = (document['url_findingaid_display'][0]).split('|')[0]
-      ##Rails.logger.info("es287_debug@@ #{__FILE__} #{__LINE__}  = #{finding_a.inspect}")
     end
     aeon_req = aeon_req.gsub('~fa~',"#{finding_a}")
-    (group == "Circulating" ) ? magic_path: aeon_req
+
+    (group == "Circulating" ) ? magic_path : aeon_req
   end
 
   def has_tou?(id)
