@@ -1,0 +1,20 @@
+<%# if search results, skip to the results (not the facets) %>
+<% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
+  <div id="skip-link">
+    <a href="#documents">skip to main content</a>
+  </div>
+<% end %>
+
+<%# show the regular skip to main content link everywhere except the item record %>
+<% unless params['controller'] == 'catalog' && params['action'] == 'show' %>
+  <div id="skip-link" aria-label="Skip link" role="complementary">
+    <a href="#maincontent">skip to main content</a>
+  </div>
+<% end %>
+
+<%# on the item view, skip to the document per DISCOVERYACCESS-8005 %>
+<% if params['controller'] == 'catalog' && params['action'] == 'show' %>
+  <div id="skip-link" aria-label="Skip link" role="complementary">
+    <a href="#document">skip to main content</a>
+  </div>
+<% end %>
