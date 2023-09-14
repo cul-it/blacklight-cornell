@@ -1,10 +1,5 @@
-<div id="skiptocontent" aria-label="Skip link" role="complementary"><a href="#maincontent">skip to main content</a></div>
-</div>
+<%= render :partial=>'/shared/skip_to' %>
 <div class="cornell-identity" aria-label="Cornell" role="banner">
-  <%# if search results, add a link to skip facets for screen readers %>
-  <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
-    <div id="skiptoresults"><a href="#results">skip to search results</a></div>
-  <% end %>
   <div class="mobile-cornell-wrapper d-block d-sm-none">
     <div class="container">
       <a class="mobile-cornell-logo" href="http://www.cornell.edu">Cornell University</a>
