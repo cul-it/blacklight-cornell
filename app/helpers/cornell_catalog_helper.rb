@@ -1440,7 +1440,7 @@ end
       magic_path = blacklight_cornell_request.auth_magic_request_path("#{id_scan}")
     end
 
-    if ENV['AEON_REQUEST'].blank? and group != 'AEON_SCAN_REQUEST'
+    if ENV['AEON_REQUEST'].blank? && group != 'AEON_SCAN_REQUEST'
       aeon_req = "/aeon/#{id.to_s}"
     else
       url = group == 'AEON_SCAN_REQUEST' ? ENV['AEON_SCAN_REQUEST'] : ENV['AEON_REQUEST']
