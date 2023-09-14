@@ -21,7 +21,8 @@ Feature: Search
     Then the 'search_field_advanced' drop-down should have an option for 'Publisher'
     Then the 'search_field_advanced' drop-down should have an option for 'Subject'
     Then the 'search_field_advanced' drop-down should have an option for 'Series'
-    Then the 'search_field_advanced' drop-down should have an option for 'Donor'
+    Then the 'search_field_advanced' drop-down should have an option for 'Place of Publication'
+    Then the 'search_field_advanced' drop-down should have an option for 'Donor Name'
     #Then the 'boolean_row[1]' radio should have an option for 'or'
 
   @adv_search
@@ -260,8 +261,10 @@ Feature: Search
     And I select 'Donor Name' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get 2 results
-    #And I should see the label '1 result'
-    #And I should not see the label 'Modify advanced'
+    And click on first link "The annual of the British school at Athens"
+    Then I should see the label 'The annual of the British school at Athens'
+    Then click on first link "Back to catalog results"
+    And I should get 2 results
 
 #
  @adv_search
@@ -380,6 +383,23 @@ Feature: Search
     Then I should get results
     And I should see the label '1 result'
     And I should see the label 'Modify advanced'
+
+  @adv_search
+  @all_search
+  @adv_place
+  @javascript
+  Scenario: Perform an advanced search by place of publication
+    When I literally go to advanced
+    And I sleep 4 seconds
+    And I fill in "q_row1" with 'New York'
+    And I select 'all' from the 'op_row' drop-down
+    And I select 'Place of Publication' from the 'search_field_advanced' drop-down
+    And I press 'advanced_search'
+    Then I should get 41 results
+    And click on first link "The basic practice of statistics"
+    Then I should see the label 'The basic practice of statistics'
+    Then click on first link "Back to catalog results"
+    And I should get 41 results
 
  @begins_with
  @adv_search
