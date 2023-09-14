@@ -509,7 +509,7 @@ end
 #        :pf => '$publisher_pf'
       }
     end
-    config.add_search_field('place of publication') do |field|
+    config.add_search_field('pubplace', :label => 'Place of Publication') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$pubplace_qf',
@@ -538,7 +538,7 @@ end
        }
     end
 
-    config.add_search_field('donor name') do |field|
+    config.add_search_field('donor', :label => 'Donor Name') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$donor_qf',
@@ -625,7 +625,7 @@ end
       }
     end
 
-    config.add_search_field('place of publication_starts',:include_in_advanced_search => false) do |field|
+    config.add_search_field('pubplace_starts', :include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$pubplace_starts_qf',
@@ -655,7 +655,7 @@ end
 #         :pf => '$notes_starts_pf'
        }
     end
-    config.add_search_field('donor name_starts',:include_in_advanced_search => false) do |field|
+    config.add_search_field('donor_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$donor_starts_qf',
@@ -731,7 +731,7 @@ end
        }
     end
 
-    config.add_search_field('place of publication_quote',:include_in_advanced_search => false) do |field|
+    config.add_search_field('pubplace_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$pubplace_quot_qf',
@@ -761,7 +761,7 @@ end
 #         :pf => '$notes_quot_pf'
        }
     end
-    config.add_search_field('donor name_quote',:include_in_advanced_search => false) do |field|
+    config.add_search_field('donor_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$donor_quot_qf',
