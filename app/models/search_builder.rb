@@ -1557,6 +1557,10 @@ class SearchBuilder < Blacklight::SearchBuilder
 
   end
 
+  # Default any missing booleans to "AND"
+  # Shouldn't happen unless directly tampering with search params
+  DEFAULT_BOOL = 'AND'
+
   def groupBools(my_params)
      for a in 0..my_params[:q_row].size - 1 do
        if my_params[:q_row][a].include?('journaltitle:') or my_params[:q_row][a].include?('journaltitle_starts')
@@ -1571,23 +1575,21 @@ class SearchBuilder < Blacklight::SearchBuilder
        index = 0
        newstring = ""
        if my_params[:q_row].size > 1
-         #newstring = my_params[:q_row][0]
          for a in 0..my_params[:q_row].size - 1 do
           if a == 0
-                 if my_params[:boolean_row][a] == "NOT"
-                 	newstring = "(" + newstring + my_params[:q_row][a] + ' ' + "-" + my_params[:q_row][a + 1] + ") "
-                 else
-                 	newstring = "(" + newstring + my_params[:q_row][a] + ' ' + my_params[:boolean_row][a] + " " + my_params[:q_row][a + 1] + ") "
-                 end
+            if my_params[:boolean_row][a] == "NOT"
+              newstring = "(" + newstring + my_params[:q_row][a] + ' ' + "-" + my_params[:q_row][a + 1] + ") "
+            else
+              newstring = "(" + newstring + my_params[:q_row][a] + ' ' + (my_params[:boolean_row][a] || DEFAULT_BOOL) + " " + my_params[:q_row][a + 1] + ") "
+            end
           else
             if a < my_params[:q_row].size  and a > 1
-                 if my_params[:boolean_row][a - 1] == "NOT"
-                         newstring = '( ' + newstring + ' ' + '-' + my_params[:q_row][a] + ')'
-                 else
-                         newstring = '( ' + newstring + ' ' + my_params[:boolean_row][a - 1 ] + ' ' + my_params[:q_row][a] + ')'
-                 end
-                a = a + 1
-             #newstring = '(' + my_params[:q_row][index] + ' )' + bool + '( ' + my_params[:q_row][index + 1] + ')'
+              if my_params[:boolean_row][a - 1] == "NOT"
+                newstring = '( ' + newstring + ' ' + '-' + my_params[:q_row][a] + ')'
+              else
+                newstring = '( ' + newstring + ' ' + (my_params[:boolean_row][a - 1] || DEFAULT_BOOL) + ' ' + my_params[:q_row][a] + ')'
+              end
+              a = a + 1
             end
            end
            a = 1
