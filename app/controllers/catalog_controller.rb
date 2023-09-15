@@ -538,7 +538,7 @@ end
        }
     end
 
-    config.add_search_field('donor', :label => 'Donor Name') do |field|
+    config.add_search_field('donor', :label => 'Donor/Provenance') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$donor_qf',

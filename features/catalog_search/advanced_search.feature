@@ -22,7 +22,7 @@ Feature: Search
     Then the 'search_field_advanced' drop-down should have an option for 'Subject'
     Then the 'search_field_advanced' drop-down should have an option for 'Series'
     Then the 'search_field_advanced' drop-down should have an option for 'Place of Publication'
-    Then the 'search_field_advanced' drop-down should have an option for 'Donor Name'
+    Then the 'search_field_advanced' drop-down should have an option for 'Donor/Provenance'
     #Then the 'boolean_row[1]' radio should have an option for 'or'
 
   @adv_search
@@ -258,7 +258,7 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'Class of 1957'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Donor Name' from the 'search_field_advanced' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get 2 results
     And click on first link "The annual of the British school at Athens"
@@ -275,10 +275,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with '1957'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Donor Name' from the 'search_field_advanced' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Pumpelly'
     And I select 'all' from the 'op_row2' drop-down
-    And I select 'Donor Name' from the 'search_field_advanced2' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'

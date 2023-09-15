@@ -79,7 +79,7 @@ module AdvancedHelper
     subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author, etc."], ["subject", "Subject"],
                       ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["pubplace", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
-                      ["donor", "Donor Name"]]
+                      ["donor", "Donor/Provenance"]]
     boolean_values = [["AND", "all"], ["OR", "any"], ["phrase", "phrase"],["begins_with", "begins with"]]
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
     word = ""

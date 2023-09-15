@@ -1212,17 +1212,11 @@ class SearchBuilder < Blacklight::SearchBuilder
       if sfr == "call number"
         sfr = "lc_callnum"
       end
-      if sfr == "place of publication"
-        sfr = "pubplace"
-      end
       if sfr == "publisher number/other identifier"
         sfr = "number"
       end
       if sfr == "isbn/issn"
         sfr = "isbnissn"
-      end
-      if sfr == "donor name"
-        sfr = "donor"
       end
       if sfr == "journal title"
         sfr = "journaltitle"
@@ -1276,17 +1270,11 @@ class SearchBuilder < Blacklight::SearchBuilder
                 if solr_stuff == "call number"
                   solr_stuff = "lc_callnum"
                 end
-                if solr_stuff == "place of publication"
-                  solr_stuff = "pubplace"
-                end
                 if solr_stuff == "publisher number/other identifier"
                   solr_stuff = "number"
                 end
                 if solr_stuff == "isbn/issn"
                   solr_stuff = "isbnissn"
-                end
-                if solr_stuff == "donor name"
-                  solr_stuff = "donor"
                 end
                 if solr_stuff == "journal title"
                   my_params[:f] = {}
