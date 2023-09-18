@@ -75,7 +75,7 @@ Then /I should see "(.*)" (at least|at most|exactly) (.*) times?$/i do |target, 
 end
 
 Then /I should select checkbox "(.*)"$/i do |target|
-  find(:css, "\##{target}").trigger('click')
+  find(:css, "\##{target}").set(true)
 end
 
 Then /I should select radio "(.*)"$/i do |target|

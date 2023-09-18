@@ -15,6 +15,9 @@ Feature: Browse search
         And I fill in the authorities search box with 'Heaney, Seamus'
         And I press 'search'
     Then I should see the label 'Heaney, Seamus, 1939-2013'
+    Then click on first link "Author info"
+    Then I should see the label 'Heaney, Seamus, 1939-2013'
+    Then I should see the label 'Library Holdings'
 
   @browse
   Scenario: Search for a subject
@@ -23,6 +26,9 @@ Feature: Browse search
         And I select 'Subject Browse (A-Z)' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'Wizards > Juvenile fiction'
+    Then click on first link "Subject info"
+    Then I should see the label 'Wizards > Juvenile fiction'
+    Then I should see the label 'Library Holdings'
 
   @browse
   @browse_search_switch
@@ -58,6 +64,18 @@ Feature: Browse search
         Then click on first link "Martin, Courtney E."
         And I should get results
         Then I should see the label '3 catalog results'
+
+  @browse
+  Scenario: Browse author-title combinations and view heading details
+    Given I literally go to browse
+      And I fill in the authorities search box with 'McKenna, Maryn'
+      And I select 'Author (A-Z) Sorted By Title' from the 'browse_type' drop-down
+      And I press 'search'
+    Then I should see the label 'McKenna, Maryn. | Big chicken'
+    Then click on first link "Author-Title info"
+    Then I should see the label 'McKenna, Maryn. | Big chicken'
+      And I should see the label 'Library Holdings'
+      And it should have link "Back to list" with value "/browse?authq=McKenna%2C+Maryn.+%7C+Big+chicken&browse_type=Author-Title&start=0"
 
   @browse
   @call-number-browse

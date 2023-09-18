@@ -150,7 +150,7 @@ if ( ("<%=raw escape_javascript(notes_html) %>").length > 0 ) {
   show_discogs_data = true;
 }
 if ( show_discogs_data ) {
-  var disclaimer = 'Some information for this item comes from the <a href="' + "<%=raw escape_javascript(resource_uri) %>" + '" onclick="javascript:_paq.push([\'trackEvent\', \'itemView\', \'Discogs database\']);">';
+  var disclaimer = 'Some of this information comes from the <a href="' + "<%=raw escape_javascript(resource_uri) %>" + '" onclick="javascript:_paq.push([\'trackEvent\', \'itemView\', \'Discogs database\']);">';
   disclaimer += ' Discogs database <i class="fa fa-external-link"></i></a>.<br/>';
   disclaimer += '<a id="discogs_highlight" href="javascript:void(0)" onclick="javascript:_paq.push([\'trackEvent\', \'itemView\', \'Discogs highlight\']);">Highlight the Discogs data.</a>';
   $('#discogs_disclaimer').html(disclaimer);

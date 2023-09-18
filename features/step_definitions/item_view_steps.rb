@@ -28,7 +28,7 @@ Given("I request the item") do
   page.find("#id_request").click
 end
 
-Then /^click on link "(.*?)"$/ do |link|
+Then /^(?:|I )click on link "(.*?)"$/ do |link|
   # click <a> text that contains link
   click_link link
 end
@@ -39,20 +39,20 @@ Then /^click on first link "(.*?)"$/ do |link|
 end
 
 Given("I text the first available item") do
-  within(page.first(".holding")) do
-    page.find('#smsLink').trigger('click')
+  within(page.first(".text-it")) do
+    page.click_link("smsLink")
   end
 end
 
 Then("I click and confirm {string}") do |string|
   accept_confirm do
-    page.find('a', :text => string).trigger('click')
+    click_link(string)
   end
 end
 
 Then("I click and cancel {string}") do |string|
   dismiss_confirm do
-    page.find('a', :text => string).trigger('click')
+    click_link(string)
   end
 end
 
@@ -120,6 +120,10 @@ end
 
 Then("it should have title {string}") do |string|
   expect(page.find("div.document-header > h2")).to have_content(string)
+end
+
+Then("it should have the heading {string}") do |string|
+  expect(page.find("h2")).to have_content(string)
 end
 
 Then("it should have a discogs disclaimer") do

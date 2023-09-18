@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 // require bootstrap-sprockets can likely delete this
+//= require error_check.js
 
 // Required by Blacklight
 //= require jquery
@@ -27,6 +28,7 @@
 //= require 'blacklight/hierarchy/hierarchy'
 //= require jquery_ujs
 //= require jquery-ui/widgets/autocomplete
+//= require print_button.js
 //
 //= require_tree .
 //
@@ -35,7 +37,6 @@
 //= require spin.min.js
 //= require jquery.spin.js
 
-//= require print_button.js
 //= require jquery.anchorscroll.js
 //= require browse_placeholder.js
 //= require jquery.waypointz.js
@@ -43,7 +44,13 @@
 //= require tooltip.js
 
 //= require linked_data/discogs.js
-//= require linked_data/pops.js
+//= require linked_data/author_kpanel.js
 //= require linked_data/author_browse.js
 //= require linked_data/subject_browse.js
+//= require linked_data/author_title_browse.js
+//= require linked_data/work.js
 //= require retrieve_lcsh.js
+
+//= require aeon/date
+//= require aeon/repro_request
+//= require aeon/rmc_scripts

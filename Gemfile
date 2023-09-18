@@ -45,7 +45,7 @@ gem 'marc'
 gem 'blacklight-marc', '~> 6.3'
 gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
-gem 'nokogiri', '>= 1.13.9'
+gem 'nokogiri', '>= 1.14.3'
 gem 'rufus-scheduler'
 gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
@@ -66,11 +66,10 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'cucumber-rails', :require => false # Set require = false to get rid of a warning message
-  gem 'cucumber', '3.1.2'
+  gem 'cucumber', '~> 3.1'
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
-  gem 'poltergeist'
   gem 'pry'
   gem 'pry-byebug'
   gem 'meta_request'
@@ -79,7 +78,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara','>= 2.3', '< 4'
+  gem 'capybara','3.39.2'
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
   gem 'rb-inotify', :require => false
@@ -90,7 +89,6 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'capybara-email'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
 end
@@ -124,9 +122,8 @@ gem 'sassc-rails', '>= 2.1.0'
 gem 'sassc', '~> 2.4'
 gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests'
-# gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/local_requests'
 # gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
-#gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
+# gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
 gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge'
 gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
@@ -140,7 +137,6 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
 gem 'citeproc-ruby'
 gem 'unicode_utils'
-gem 'google-analytics-rails', '1.1.1'
 gem 'ebsco-eds'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.19.1'
