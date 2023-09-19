@@ -201,8 +201,12 @@ Feature: Search
     And I select 'phrase' from the 'op_row' drop-down
     And I select 'Notes' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
-    Then I should get results
-    And I should see the label '1 result'
+    Then I should get 1 results
+    And I should see the "Notes" facet constraint
+    And click on first link "Annulus wall boundary layers in turbomachines"
+    Then I should see the label 'Annulus wall boundary layers in turbomachines'
+    And click on first link "Back to catalog results"
+    Then I should get 1 results
 
 # purple rain: music
  @adv_search
@@ -261,10 +265,11 @@ Feature: Search
     And I select 'Donor/Provenance' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get 2 results
+    And I should see the "Donor/Provenance" facet constraint
     And click on first link "The annual of the British school at Athens"
     Then I should see the label 'The annual of the British school at Athens'
-    Then click on first link "Back to catalog results"
-    And I should get 2 results
+    And click on first link "Back to catalog results"
+    Then I should get 2 results
 
 #
  @adv_search
@@ -396,6 +401,7 @@ Feature: Search
     And I select 'Place of Publication' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get 41 results
+    And I should see the "Place of Publication" facet constraint
     And click on first link "The basic practice of statistics"
     Then I should see the label 'The basic practice of statistics'
     Then click on first link "Back to catalog results"
