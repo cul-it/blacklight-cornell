@@ -14,6 +14,14 @@
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+if ( ENV['COVERAGE'] == 'on' )
+  require 'simplecov'
+  require 'simplecov-rcov'
+  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+  SimpleCov.start 'rails' do
+    add_filter '/vendor/'
+  end
+end
 require 'webmock/rspec'
 
 RSpec.configure do |config|
