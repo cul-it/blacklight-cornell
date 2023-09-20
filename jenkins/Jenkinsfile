@@ -28,6 +28,12 @@ pipeline {
             }
         }
 
+        stage("Rspec tests") {
+            steps {
+                sh 'jenkins/rspec.sh'
+            }
+        }
+
         // use this version for quick turnaround while testing pull request validation
         // stage("cucumber all tests") {
         //     steps {
