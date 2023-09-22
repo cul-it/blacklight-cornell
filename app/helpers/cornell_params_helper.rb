@@ -487,9 +487,9 @@ def deep_copy(o)
 end
 
 
-def render_advanced_constraints_query(my_params = params)
-#    if (@advanced_query.nil? || @advanced_query.keyword_queries.empty? )
-
+def render_advanced_constraints_query(params)
+  # Create deep copy of params to not alter original search params hash
+  my_params = params.present? ? params.deep_dup : {}
   if !my_params[:q_row].nil?
      my_params = removeBlanks(my_params)
 
