@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
-#require 'stringio'
-#require 'solr_document'
+require 'rails_helper'
 
 describe "SolrDocument" do
     class MockDocument 

@@ -28,6 +28,12 @@ pipeline {
             }
         }
 
+        stage("Rspec tests") {
+            steps {
+                sh 'jenkins/rspec.sh'
+            }
+        }
+
         // use this version for quick turnaround while testing pull request validation
         // stage("cucumber all tests") {
         //     steps {
@@ -42,7 +48,7 @@ pipeline {
         // use this version for normal situations
         stage("cucumber all tests") {
             steps {
-                timeout(60) {
+                timeout(90) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
                         sh 'jenkins/cucumber-features.sh'
                     }
