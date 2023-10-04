@@ -9,8 +9,8 @@ class CatalogController < ApplicationController
   include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
   include Blacklight::Marc::Catalog
-  require 'net/http'
-  require 'uri'
+  require 'rest-client'
+  require 'cul/folio/edge'
 
   if   ENV['SAML_IDP_TARGET_URL']
     before_action :authenticate_user!, only: [  :email, :oclc_request ]
@@ -350,13 +350,14 @@ class CatalogController < ApplicationController
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
+    config.add_show_field 'former_owner_display', :label => 'Former Owner'
     config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
     config.add_show_field 'works_about_display', :label => 'Works about'
     config.add_show_field 'awards_display', :label => 'Awards'
   #  config.add_show_field 'holdings_json', :label => 'Holdings'
 
-
+ 
 
     # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
 
@@ -508,7 +509,7 @@ end
 #        :pf => '$publisher_pf'
       }
     end
-    config.add_search_field('place of publication') do |field|
+    config.add_search_field('pubplace', :label => 'Place of Publication') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$pubplace_qf',
@@ -537,7 +538,7 @@ end
        }
     end
 
-    config.add_search_field('donor name') do |field|
+    config.add_search_field('donor', :label => 'Donor/Provenance') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$donor_qf',
@@ -624,7 +625,7 @@ end
       }
     end
 
-    config.add_search_field('place of publication_starts',:include_in_advanced_search => false) do |field|
+    config.add_search_field('pubplace_starts', :include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$pubplace_starts_qf',
@@ -654,7 +655,7 @@ end
 #         :pf => '$notes_starts_pf'
        }
     end
-    config.add_search_field('donor name_starts',:include_in_advanced_search => false) do |field|
+    config.add_search_field('donor_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$donor_starts_qf',
@@ -730,7 +731,7 @@ end
        }
     end
 
-    config.add_search_field('place of publication_quote',:include_in_advanced_search => false) do |field|
+    config.add_search_field('pubplace_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$pubplace_quot_qf',
@@ -760,7 +761,7 @@ end
 #         :pf => '$notes_quot_pf'
        }
     end
-    config.add_search_field('donor name_quote',:include_in_advanced_search => false) do |field|
+    config.add_search_field('donor_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$donor_quot_qf',
@@ -1133,126 +1134,120 @@ def tou
 
   end
 
-
-def new_tou
-
-  packageName = ""
-  title_id = params[:title_id]
-  id = params[:id]
-
-  @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
-  # if !ENV['OKAPI_URL'].nil?
-  #   Rails.logger.info("SWEETARTS = #{ENV['OKAPI_URL']}")
-  #  # ENV['OKAPI_URL'] = "https://okapi-cornell.folio.ebsco.com"
-  # end
-  # if !ENV['TENANT_ID'].nil?
-  #   Rails.logger.info("TENANTID = #{ENV['TENANT_ID']}")
-  #  # ENV['TENANT_ID'] = 'fs00001034'
-  # end
-  # if !ENV['X_OKAPI_TOKEN'].nil?
-  #   Rails.logger.info("TENANTID = #{ENV['X_OKAPI_TOKEN']}")
-    # ENV['X_OKAPI_TOKEN'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWMyNDQiLCJ1c2VyX2lkIjoiYWVjMjBiMzctODRlMy00Nzk2LTkzMTQtOTdlMDdlMGE2NzI2IiwiaWF0IjoxNTk3MTU5MzcwLCJ0ZW5hbnQiOiJmczAwMDAxMDM0In0.p5tU1dNnkRYFMRcHleD5p112kUxoYYnyP2IeM0J25Q0'
-  # end
-  okapi_url = ENV['OKAPI_URL']
-  okapi_tenant = ENV['TENANT_ID']
-  okapi_token = ENV['X_OKAPI_TOKEN']
-  uri = URI(okapi_url + '/eholdings/titles/' + title_id + '?include=resources' )
-  req = Net::HTTP::Get.new(uri)
-  req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-  req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-  req['Accept'] = 'application/vnd.api+json'
-  begin
-    res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-    outtxt = res.body
-#  command = "-sSl -H 'Accept:application/vnd.api+json' -X GET \"" + okapi_url + "/eholdings/titles/" + title_id + "?include=resources\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + okapi_tenant + "\" -H \"X-Okapi-Token: " + okapi_token + "\""
-#  outtxt = `curl #{command}`
-    parsed = JSON.parse(outtxt)
-    recordTitle = parsed["data"]["attributes"]["name"]
-
-    parsley = parsed["included"].each do | parsley |
-      if parsley["attributes"]["isSelected"] == true
-        packageID = parsley["attributes"]["packageId"]
-        packageName = parsley["attributes"]["packageName"]
-        packageUrl = parsley["attributes"]["url"]
-        package_providerID = parsley["attributes"]["providerName"]
-        uri = URI(okapi_url + '/erm/sas?filters=items.reference=' + packageID + '&sort=startDate:desc')
-        req = Net::HTTP::Get.new(uri)
-        req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-        req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-        req['Accept'] = 'application/json'
-      begin
-        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-        outtxt2 = res.body
-
- #   command2 = "-sSl -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/erm/sas?filters=items.reference=" + packageID + "&sort=startDate:desc\" -H 'Content-type: application/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
- #   outtxt2 = `curl #{command2}`
-        if outtxt2 != '[]'
-          parsed2 = JSON.parse(outtxt2)
-          if !parsed2[0]["linkedLicenses"][0].nil?
-            remoteID = parsed2[0]["linkedLicenses"][0]["remoteId"]
-            uri = URI(okapi_url + '/licenses/licenses/' + remoteID)
-            req = Net::HTTP::Get.new(uri)
-            req['X-Okapi_Tenant'] = ENV['TENANT_ID']
-            req['x-okapi-token'] = ENV['X_OKAPI_TOKEN']
-            req['Accept'] = 'application/json'
-          begin
-            res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) { | http | http.request(req) }
-            outtxt3 = res.body
-
- #       command3 = "-sSL -H 'Accept:application/json' -X GET \"" + ENV['OKAPI_URL'] + "/licenses/licenses/" + remoteID + "\" -H 'Content-type: applicaton/json' -H \"X-OKAPI-TENANT: " + ENV['TENANT_ID'] + "\" -H \"X-Okapi-Token: " + ENV['X_OKAPI_TOKEN'] + "\""
- #       outtxt3 = `curl #{command3}`
-
-            parsed3 = JSON.parse(outtxt3)
-
-            parsed3['packageName'] = packageName
-
-            unless @newTouResult.any? {|h| h["id"] == parsed3['id']}
-              @newTouResult << parsed3
+  # TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
+  # Solr, the latter from FOLIO. Why do we have two sources of metadata?
+  def new_tou
+    packageName = ""
+    title_id = params[:title_id]
+    id = params[:id]
+    @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
+    # okapi_url = ENV['OKAPI_URL']
+    record = eholdings_record(title_id) || []
+    if record
+      # recordTitle = record["data"]["attributes"]["name"]
+      record["included"].each do |package|
+        attrs = package['attributes']
+        if attrs["isSelected"] == true
+          packageID = attrs["packageId"]
+          packageName = attrs["packageName"]
+          # packageUrl = attrs["url"]
+          # package_providerID = attrs["providerName"]
+          subscription = subscription_agreements(packageID)
+          if subscription.present?
+            if subscription[0]["linkedLicenses"][0]
+              remoteID = subscription[0]["linkedLicenses"][0]["remoteId"]
+              license = license(remoteID)
+              if license
+                license['packageName'] = packageName
+                @newTouResult << license unless @newTouResult.any? {|h| h["id"] == license['id']}
+              end
             end
-          rescue
-            return params
-          end
           end
         end
-    rescue
-      return params
-    end
       end
     end
-  return params, @newTouResult
-  rescue
-      return params
+
+    @newTouResult
   end
 
-end
+  def eholdings_record(id)
+    # eholdings title JSON response described here:
+    # https://s3.amazonaws.com/foliodocs/api/mod-kb-ebsco-java/r/titles.html#eholdings_titles_get
+    folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources")
+  end
+
+  # Make a FOLIO request to retrieve an array of subscription agreements linked to an e-holdings record
+  # specified by id.
+  def subscription_agreements(id)
+    folio_request("#{ENV['OKAPI_URL']}/erm/sas?filters=items.reference=#{id}&sort=startDate:desc")
+  end
+
+  # Make a FOLIO request to retrieve a license object linked to an e-holdings record
+  # specified by id ('remoteId' in the JSON).
+  def license(id)
+    folio_request("#{ENV['OKAPI_URL']}/licenses/licenses/#{id}")
+  end
+
+  # Given a URL, make a FOLIO request and return the results (or nil in case of a RestClient exception).
+  def folio_request(url)
+    token = folio_token
+    if url && token
+      headers = {
+        'X-Okapi-Tenant' => ENV['TENANT_ID'],
+        'x-okapi-token' => token,
+        :accept => 'application/vnd.api+json'
+      }
+      response = RestClient.get(url, headers)
+      JSON.parse(response.body) if response && response.code == 200
+    end
+  rescue RestClient::ExceptionWithResponse => err
+    Rails.logger.error "TOU: Error making FOLIO request (#{err})"
+    nil
+  end
+
+  # Return a FOLIO authentication token for API calls -- either from the session if a token
+  # was prevoiusly created, or directly from FOLIO otherwise.
+  def folio_token
+    if session[:folio_token].nil?
+      url = ENV['OKAPI_URL']
+      tenant = ENV['OKAPI_TENANT']
+      response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
+      if response[:code] >= 300
+        Rails.logger.error "TOU error: Could not create a FOLIO token for #{user}"
+      else
+        session[:folio_token] = response[:token]
+      end
+    end
+    session[:folio_token]
+  end
 
   #def oclc_request
   #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
   #end
 
   def redirect_browse
-       if params[:search_field] && params[:controller] != 'advanced'
-         if params[:search_field] == 'subject_browse' && !params[:id]
-           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Subject"
-         elsif params[:search_field] == 'author_browse' && !params[:id]
-           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
-         elsif params[:search_field] == 'at_browse' && !params[:id]
-           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
-         elsif params[:search_field] == 'callnumber_browse' && !params[:id]
-           redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Call-Number"
-         end
-       end
-     end
+    if params[:search_field] && params[:controller] != 'advanced'
+      if params[:search_field] == 'subject_browse' && !params[:id]
+        redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Subject"
+      elsif params[:search_field] == 'author_browse' && !params[:id]
+        redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author"
+      elsif params[:search_field] == 'at_browse' && !params[:id]
+        redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Author-Title"
+      elsif params[:search_field] == 'callnumber_browse' && !params[:id]
+        redirect_to "/browse?authq=#{CGI.escape params[:q]}&start=0&browse_type=Call-Number"
+      end
+    end
+  end
 
 #  def range_limit
 #    redirect_to "/"
 #  end
 
-# https://bibwild.wordpress.com/2019/04/30/blacklight-7-current_user-or-other-request-context-in-searchbuilder-solr-query-builder/
-def search_service_context
-  {
-    current_user: current_user
-  }
-end
+  # https://bibwild.wordpress.com/2019/04/30/blacklight-7-current_user-or-other-request-context-in-searchbuilder-solr-query-builder/
+  def search_service_context
+    {
+      current_user: current_user
+    }
+  end
 
 end

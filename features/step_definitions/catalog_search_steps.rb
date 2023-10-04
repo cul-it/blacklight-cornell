@@ -173,6 +173,10 @@ Then("I remove facet constraint {string}") do |string|
   page.find(".selected-facets .filter-value", text: string).click
 end
 
+Then("I should see the {string} facet constraint") do |facet_label|
+  page.should have_selector(".selected-facets .filter-label", text: facet_label)
+end
+
 Then("I should see only the first {int} Format facets") do |int|
   items = page.all('div#facet-format ul.facet-values > li')
   if items.count > 10

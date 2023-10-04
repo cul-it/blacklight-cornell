@@ -17,7 +17,7 @@
     </thead>
     <% if response.present? %>
       <% response.each do |data| %>
-        <% encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'") %>
+        <% encoded_heading = CGI.escape(data["heading"].gsub("\"", "'")) %>
         <tr>
           <td>
             <% if data["count"] > 0 %>

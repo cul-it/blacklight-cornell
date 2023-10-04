@@ -915,49 +915,23 @@ end
     end
   end
 
-  # link_back_to_catalog()
   # Overrides original method from blacklight_helper_behavior.rb
   # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
   def link_back_to_catalog(opts={:label=>nil})
-    pageNumber = 1
-    query_params = session[:search] ? session[:search].dup : {}
-    if query_params[:per_page].nil?
-      query_params[:per_page] = "20"
+    # Create deep copy of search_session to not alter search_session hash
+    query_params = search_session.present? ? search_session.deep_dup : {}
+
+    if search_session['counter']
+      per_page = (search_session['per_page'] || blacklight_config.default_per_page).to_i
+      counter = search_session['counter'].to_i
+
+      query_params[:per_page] = per_page unless search_session['per_page'].to_i == blacklight_config.default_per_page
+      query_params[:page] = ((counter - 1) / per_page) + 1
     end
-    test = (query_params[:counter].to_i % query_params[:per_page].to_i)
-      if (query_params[:counter].to_i % query_params[:per_page].to_i).to_s  == '0'
-         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i)
-      else
-         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i) + 1
-      end
 
-      query_params[:page] = pageNumber.to_s
-
-
-    if !query_params[:q_row].nil?
-        if (!query_params[:q_row].nil? && query_params[:q_row].size == 2)
-            if query_params[:q_row][1] == ''
-              query_params[:q] = query_params[:q_row][0]
-              query_params.delete(:q_row)
-              query_params[:search_field] = query_params[:search_field_row][0]
-              query_params.delete(:search_field_row)
-              query_params.delete(:op_row)
-              query_params.delete(:boolean_row)
-              query_params.delete(:advanced_query)
-              #query_params.delete(:total)
-            end
-            session[:search] = query_params
-        end
-    end
-    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} search =  #{session[:search].inspect}")
-    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} query_params =  #{query_params.inspect}")
-    query_params.delete :counter
-   # query_params.delete(:total)
     if params[:controller] == 'search_history'
       link_url = url_for(action: 'index', controller: 'search', only_path: false, protocol: 'https')
-      #link_url = url_for(query_params)
     else
-      Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} qp =  #{query_params.inspect}")
       link_url = url_for(query_params)
     end
 
@@ -968,11 +942,10 @@ end
 
     opts[:label] ||= t('blacklight.back_to_search')
 
-    link = {}
-    link[:url] = link_url
-    link[:label] = opts[:label]
-
-    return link
+    {
+      url: link_url,
+      label: opts[:label]
+    }
   end
 
   # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks

@@ -16,9 +16,6 @@
        </dl>
      </div>
     <% end %>
-  <div id="no-wiki-ref-info" class="d-none">
-      <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
-  </div>
   <%# put this in a helper %>
   <%  occ_array = []
       if !bio_data["Occupation"].nil? && !bio_data["Occupation"].empty? 
@@ -86,11 +83,9 @@
             </div>
 	    </div>
 	  </div>
-      <div id="has-wiki-ref-info" class="row d-none mt-4">
-        <div id='reference-info' class='col-sm-12 col-md-12 col-lg-12'>
-          <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
-        </div>
-      </div>
+    <div id="ref-info">
+      <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
+    </div>
 	</div>
 	<div class="col-sm-4 col-md-4 col-lg-4">
 		<div class="card" id="formats">

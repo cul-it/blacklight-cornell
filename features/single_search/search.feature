@@ -84,8 +84,8 @@ Feature: Search
   Examples:
       | search | result |
       | wooden nutmeg  | The blasphemy of abolitionism exposed  |
-      | Hastingues | House with Red Shutters |
+      | Hastingues | Council House with Three Filled Arches End Elevation |
       | Geryon | account of the pastoral life of the ancients |
       | 100% Beef | operations of the Cincinnati Branch |
       | crazy legs | Roxy, June 18, 1983 |
-      | yard of pump water | manual of water supply in country homes |
+      | yard of pump water | Home waterworks: a manual of water supply in country homes |

@@ -3,11 +3,7 @@
   # Need a parameter to pass to requests that determines whether to add
   # text on the "Ask a librarian page" that the item can be scanned and
   # to return to the item view page for that.
-  if (group == "Circulating" && !reserve_item) || !reading.empty?
-  scan = "yes"
-  else
-  scan = "no"
-  end
+  scan = (group == "Circulating" && !reserve_item) || !reading.empty?
 %>
 <% # request_context_path = ( group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{params[:id]}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{aeon_codes.join('|')}" %>
 <% request_context_path = request_path(group,params[:id],aeon_codes,@document,scan) %>

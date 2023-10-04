@@ -66,7 +66,6 @@
 				    <div class="dl dl-horizontal">
 				      <% rda=JSON.parse(data["rda_json"]) 
 				        # We will only display certain fields for now
-				        counter= 0
 				        # Field and Occupation seem redundant, so using just occupation to be consistent with author page
 				        fields_display = ["Occupation", "Birth Place"]
 				        fields_display.each do |t|
@@ -80,13 +79,11 @@
 				              	d_display_array.map! { |dv| dv.gsub(/s$/, '') }
 				              end
 				              d_display = d_display_array.join("<br>")
-				              counter = counter + 1
-				              field_class= counter.even? ? "field2-bg": "field1-bg"
 				      %>
-				              <div class="dt <%#field_class%>">
+				              <div class="dt">
 				                <%= t + ':' %>
 				              </div>
-				              <div class="dd <%#field_class%>"><%= sanitize d_display%></div>
+				              <div class="dd"><%= sanitize d_display%></div>
 				           
 				      <%    end   
 				          end
