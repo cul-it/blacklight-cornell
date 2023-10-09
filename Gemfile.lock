@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: c81f19a7d1c85b6214d0fbdb756aa69c80a41c95
+  revision: 9e416ce6c57757e0cea04541f18445e7a1e7bf6f
   specs:
-    blacklight_cornell_requests (4.3.4)
+    blacklight_cornell_requests (4.4)
       activerecord-oracle_enhanced-adapter
       blacklight
       cul-folio-edge (~> 2.0)
@@ -400,7 +400,7 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    haml (6.1.1)
+    haml (6.2.3)
       temple (>= 0.8.2)
       thor
       tilt
@@ -726,13 +726,13 @@ GEM
       net-ssh (>= 2.8.0)
     summon (2.0.5)
       json
-    temple (0.10.2)
+    temple (0.10.3)
     terser (1.1.17)
       execjs (>= 0.3.0, < 3)
     textpow (1.4.0)
       plist (>= 3.0.1)
     thor (1.2.2)
-    tilt (2.2.0)
+    tilt (2.3.0)
     timeout (0.4.0)
     timers (4.3.5)
     traject (3.8.1)
