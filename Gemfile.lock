@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 9e416ce6c57757e0cea04541f18445e7a1e7bf6f
+  revision: 5d45319d53745e2cb629c2f957f8b2301f050e7d
   specs:
     blacklight_cornell_requests (4.4)
       activerecord-oracle_enhanced-adapter
@@ -501,7 +501,7 @@ GEM
     nenv (0.3.0)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.0)
+    net-imap (0.4.1)
       date
       net-protocol
     net-ldap (0.18.0)
