@@ -55,11 +55,12 @@ module AdvancedHelper
     end
   end
 
+  DEFAULT_BOOL = 'AND'
   def render_edited_advanced_search(params)
     query = ""
     if params[:boolean_row].nil?
       params[:boolean_row] = [] #{"1"=>"AND"}
-      params[:boolean_row] << "AND"
+      params[:boolean_row] << DEFAULT_BOOL
     end
 
     if params[:q_row].nil?
@@ -75,10 +76,11 @@ module AdvancedHelper
       params[:search_field_row][0] = 'all_fields'
     end
 
+    # TODO: Set field labels in CatalogController and grab label from search_fields_for_advanced_search?
     subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author, etc."], ["subject", "Subject"],
-                      ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["place of publication", "Place Of Publication"],
+                      ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["pubplace", "Place Of Publication"],
                       ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
-                      ["donor name", "Donor Name"]]
+                      ["donor", "Donor/Provenance"]]
     boolean_values = [["AND", "all"], ["OR", "any"], ["phrase", "phrase"],["begins_with", "begins with"]]
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
     word = ""
@@ -120,19 +122,15 @@ module AdvancedHelper
     unless params[:q_row].count <= 1
       next2rows = ""
       for i in 1..params[:q_row].count - 1
-        if params[:q_row][i].include? ' '
-          params[:q_row][i] = "\'" + params[:q_row][i] + "\'"
-        #  query = params[:q_row][0]
-        else
-          params[:q_row][i] = params[:q_row][i]
-        end
+        params[:q_row][i] = "\'" + params[:q_row][i] + "\'"
         # DISCOVERYACCESS-7882 - adv search html injection
         query = ActionView::Base.full_sanitizer.sanitize(params[:q_row][i])
 
          next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
          boolean_row_values.each do |key, value|
            n = i - 1 #= i.to_s
-           if key == params[:boolean_row][n]
+           #  Default to "AND" when missing booleans in search params
+           if key == params[:boolean_row][n] || (params[:boolean_row][n].blank? && key == DEFAULT_BOOL)
              next2rows << "<div class=\"form-check form-check-inline\">"
              next2rows << "<label>"
              next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "

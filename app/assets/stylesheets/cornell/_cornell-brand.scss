@@ -66,8 +66,7 @@
 // https://webaim.org/techniques/css/invisiblecontent/#skipnavlinks
 // ---------------------------------------
 
-#skiptocontent,
-#skiptoresults {
+#skip-link {
 	a {
 		position:absolute;
 		left:-10000px;
@@ -77,10 +76,6 @@
 		overflow:hidden;
 		color: black;
 	}
-} 
- 
-#skiptocontent,
-#skiptoresults {
 	a:focus {
 		position:static;
 		width:auto;
