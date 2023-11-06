@@ -162,13 +162,13 @@ describe Blacklight::Solr::Document::MarcExport do
   end
 
   describe "export_as_cse_citation_txt" do
-    xit "should handle a typical record correctly" do
+    it "should handle a typical record correctly" do
       expect(@typical_record.export_as_cse_citation_txt()[1]).to eq("Ferree DC, Warrington IJ, editors. Apples: botany, production, and uses. Oxon, U.K.: CABI Pub.; 2003.")
     end
   end
 
   describe "export_as_chicago_citation_txt" do
-    xit "should handle a typical record correctly" do
+    it "should handle a typical record correctly" do
       expect(@typical_record.export_as_chicago_citation_txt()[1]).to eq("Ferree,  David C., and I. J. Warrington, eds. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
     it "should format a record w/o authors correctly" do
@@ -177,7 +177,7 @@ describe Blacklight::Solr::Document::MarcExport do
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_chicago_citation_txt[1]).to eq("Janetzky,  Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
     end
-    xit "should format a citation with 4+ authors correctly" do
+    it "should format a citation with 4+ authors correctly" do
       chicago_text = @record_with_10plus_authors.export_as_chicago_citation_txt()[1]
       expect(chicago_text).to eq("Greer,  Lowell, Steven Lubin, Stephanie Chase, Stephanie Chaste, Stephanie Waste, Stephanie Paste, John Doe, et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
       expect(chicago_text).to match(/John Doe, et al\./)
@@ -186,7 +186,7 @@ describe Blacklight::Solr::Document::MarcExport do
     it "should handle dissertation data correctly" do
       expect(@dissertation_record.export_as_chicago_citation_txt()[1]).to match('The Worm Has Turned')
     end
-    xit "should handle 3 authors correctly" do
+    it "should handle 3 authors correctly" do
       expect(@three_authors_record.export_as_chicago_citation_txt()[1]).to match(/^Doe,  John, Joe Schmoe, and Bill Schmoe\./)
     end
     it "should handle editors, translators, and compilers correctly" do
@@ -213,7 +213,7 @@ describe Blacklight::Solr::Document::MarcExport do
   end
 
   describe "export_as_apa_citation_txt" do
-    xit "should format a standard citation correctly" do
+    it "should format a standard citation correctly" do
       expect(@typical_record.export_as_apa_citation_txt()[1]).to eq("Ferree, D. C., &amp; Warrington, I. J. (Eds.). (2003). <i>Apples: botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
 
@@ -236,7 +236,7 @@ describe Blacklight::Solr::Document::MarcExport do
   end
 
   describe "export_as_mla_citation_txt" do
-    xit "should format a standard MLA citation correctly" do
+    it "should format a standard MLA citation correctly" do
       expect(@typical_record.export_as_mla_citation_txt()[1]).to eq("Ferree,  David C., and I. J. Warrington, eds. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003. Print.")
     end
 
@@ -326,7 +326,7 @@ CITE_MATCH
     end
 
  #@DISCOVERYACCESS-3175
-    xit "should format an an edited book book correctly for chicago" do
+    it "should format an an edited book book correctly for chicago" do
       id = "9448862"
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
       cite_style = cite_info[0]
@@ -533,7 +533,7 @@ CITE_MATCH
       expect(@record_without_authors.export_as_mla_citation_txt()[1]).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971. Print.")
     end
 
-    xit "should format a citation with 4+ authors correctly" do
+    it "should format a citation with 4+ authors correctly" do
       expect(@record_with_10plus_authors.export_as_mla_citation_txt()[1]).to eq("Greer,  Lowell et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001. Print.")
     end
 
