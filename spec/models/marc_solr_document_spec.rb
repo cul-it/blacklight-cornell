@@ -820,7 +820,7 @@ CITE_MATCH
        end
     end
 
-    xit "should export the author,publisher,date,place in multiple formats correctly" do
+    it "should export the author,publisher,date,place in multiple formats correctly" do
       ti_ids = [ "1378974","3261564","5494906","6788245","9496646","9939352" ]
       ti_data = {}
       ti_output = {}
