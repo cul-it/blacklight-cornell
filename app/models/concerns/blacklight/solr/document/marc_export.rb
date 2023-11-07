@@ -140,7 +140,7 @@ module Blacklight::Solr::Document::MarcExport
     # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
     # it seems to want C form normalization, although RefWorks support
     # couldn't tell me that. -jrochkind
-    text = ActiveSupport::Multibyte::Unicode.normalize(text, :c)
+    text = text.unicode_normalize
 
     return text
   end
