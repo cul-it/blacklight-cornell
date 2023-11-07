@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "3.1.2"
+ruby "3.1.4"
 #another try
 gem 'rails', '~> 6.1.7'
 gem "dotenv-rails"
@@ -141,4 +141,4 @@ gem 'ebsco-eds'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.19.1'
 
-gem 'puma', '6.2.0'
+gem 'puma', '6.3.1'
