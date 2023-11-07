@@ -7,6 +7,7 @@
 require 'rails_helper'
 require 'bl_monkeys'
 require 'stringio'
+require 'json'
 
 # NOTE: most of these functions and tests are copied directly from
 # # the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
@@ -397,7 +398,7 @@ CITE_MATCH
       match_style['cse'] = @cse_match_style
       match_style['chicago'] = @chicago_match_style
       match_style['apa'] = @apa_match_style
-      @book_recs[id]['url_access_json'] = [url => "http://opac.newsbank.com/select/evans/385"].to_json
+      @book_recs[id]['url_access_json'] = {url: "http://opac.newsbank.com/select/evans/385"}.to_json
       ["mla","mla8","cse","chicago","apa"].each   do |fmt|
         cite_info[fmt] = @book_recs[id].send("export_as_#{fmt}_citation_txt")
       end
