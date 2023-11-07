@@ -260,7 +260,7 @@ CITE_MATCH
 # DISCOVERYACCESS-1677
 # roman numerals need to be properly eliminated from the date field.
 # DISCOVERYACCESS-1677
-    xit "should format an old time book correctly for mla (7)" do
+    it "should format an old time book correctly for mla (7)" do
       id = "8125253"
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       cite_style = cite_info[0]
@@ -277,7 +277,7 @@ CITE_MATCH
  #Chicago 17th ed. format.
  # Official documentation: http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html
  #DISCOVERYACCESS-1677
-    xit "should format an ebook correctly for chicago" do
+    it "should format an ebook correctly for chicago" do
       id = "8696757"
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
       cite_style = cite_info[0]
@@ -360,7 +360,7 @@ CITE_MATCH
       expect(cite_style).to match(match_style)
     end
 
-    xit "should format use citation date information properly for MLA" do
+    it "should format use citation date information properly for MLA" do
       id = "8867518"
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       match_style = @mla_match_style
@@ -638,10 +638,10 @@ CITE_MATCH
       expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
 
-    xit "should export a typical ebook record correctly" do
+    it "should export a typical ebook record correctly" do
       id = "5558811"
       @book_recs[id]["online"]= ["Online"]
-      @book_recs[id]['url_access_json'] = ['url' => "http://opac.newsbank.com/select/evans/385"].to_json
+      @book_recs[id]['url_access_json'] = {url: "http://opac.newsbank.com/select/evans/385"}.to_json
       @book_recs[id]['language_facet'] = ["Algonquian (Other)"]
       ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
