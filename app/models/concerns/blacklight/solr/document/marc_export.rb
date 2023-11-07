@@ -655,7 +655,7 @@ module Blacklight::Solr::Document::MarcExport
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
       as_field = alternate_script(record, field.tag, nil , offset)
       offset += 1
-      if as_field["a"]
+      if as_field.present? && as_field["a"].present?
         contributor = clean_end_punctuation(as_field["a"])
         relators[contributor] = [] if relators[contributor].nil?
         as_field.find_all{|sf| sf.code == 'e' }.each do |sfe|
