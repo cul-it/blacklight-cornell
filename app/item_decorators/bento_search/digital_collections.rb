@@ -14,19 +14,6 @@ module BentoSearch
       return false
     end
 
-    # How to display a BentoSearch::Author object as a name
-    def not_author_display(author)
-      if author.present?
-      if author.display.present?
-        author.display
-      elsif author.last.present?
-        author.last
-      else
-        nil
-      end
-    end
-    end
-
     # display multiple authors, with HTML markup, returns html_safe string.
     # experimentally trying this as a decorator helper method rather
     # than a view partial, not sure which is best.
