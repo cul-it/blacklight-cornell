@@ -15,7 +15,7 @@ module BentoSearch
     end
 
     # How to display a BentoSearch::Author object as a name
-    def author_display(author)
+    def not_author_display(author)
       if author.present?
       if author.display.present?
         author.display
@@ -35,7 +35,7 @@ module BentoSearch
     #
     # Over-ride if you want to format authors names differently, or
     # show more or less than first 3, etc.
-    def render_authors_list
+    def not_render_authors_list
       parts = []
 
       first_three = self.authors.slice(0,3)
