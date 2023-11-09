@@ -9,13 +9,18 @@
           Back to item
         <% end %>        
       <% else %>
-        <%= link_to "/browse?authq=" + params[:authq] + "&browse_type=" + params[:browse_type] + "&start=0" do %>
+        <%= link_to "/browse?authq=#{CGI.escape(params[:authq])}&browse_type=#{params[:browse_type]}&start=0" do %>
           <i class="fa fa-arrow-circle-left"></i>
           Back to list
         <% end %>
       <% end %>
     </div>
   <% end %>
+  <!--
+  TODO (possible cleanup): Why are we trying to render every possible doc returned from the browse query?
+  Now that we're filtering by headingtype in the BrowseController, we should be able to send only the first doc to views
+  Instead of having to call @headingResponse[0] everywhere
+  -->
   <% @headingsResponse.each do |data| %>
     <% encoded_heading = (data["heading"]).gsub('&', '%26').gsub("\"", "'") %>
     <% if data["headingTypeDesc"] == params[:headingtype] || params[:headingtype].nil? %>
@@ -31,23 +36,10 @@
           <%= render 'subject_info', :response => @headingsResponse %>
         <% end %>
         <% if params[:browse_type] == "Author-Title"  %>
-          <div class="author-works">
-            Works:
-            <%= link_to '/?q="' + encoded_heading + '"&search_field=authortitle_browse' do %>
-              <%= data["count"] %>
-              Title(s)
-            <% end %>
-          </div>
-          <div class="author-works">
-            Works About:
-            <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_work_browse' do %>
-              <%= works["worksAbout"]  %>
-              Title(s)
-            <% end %>
-          </div>
+          <%= render 'author_title_info', :response => @headingsResponse %>
         <% end %>
       <% end %>
-      <%if params[:browse_type] != "Author" && params[:browse_type] != "Subject"  %>
+      <% if !['Author', 'Subject', 'Author-Title'].include?(params[:browse_type]) %>
         <% if (!data["notes"].nil? || data["seeAlso"].present? || data["alternateForm"].present? || data["headingTypeDesc"].present?) && !request.xhr?  %>
           <h3>Reference Info</h3>
         <% end %>

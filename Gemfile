@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 ruby "3.1.2"
 #another try
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 6.1.7'
 gem "dotenv-rails"
-gem 'appsignal', '~> 3.2.2' #, '2.11.10'
+gem 'appsignal', '~> 3.3.2' #, '2.11.10'
 gem "sprockets"#, '~> 3.7.2'
 gem "actionview"#, ">= 5.2.7.1"
 gem "byebug"
@@ -45,7 +45,7 @@ gem 'marc'
 gem 'blacklight-marc', '~> 6.3'
 gem 'rb-readline', '~> 0.5.x'
 gem 'net-ldap'
-gem 'nokogiri', '>= 1.13.9'
+gem 'nokogiri', '>= 1.14.3'
 gem 'rufus-scheduler'
 gem 'addressable', ">= 2.8.0"
 gem 'redis-session-store'
@@ -60,25 +60,25 @@ gem 'libv8-node'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 
-  gem 'uglifier', '>= 1.0.3'
+  gem "terser", "~> 1.1"
 
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'cucumber-rails', :require => false # Set require = false to get rid of a warning message
-  gem 'cucumber', '3.1.2'
+  gem 'cucumber', '~> 3.1'
   gem 'database_cleaner'
   gem 'webrat'
   gem 'guard-rspec'
-  gem 'poltergeist'
   gem 'pry'
   gem 'pry-byebug'
   gem 'meta_request'
   gem 'awesome_print'
+  gem 'selenium-webdriver'
 end
 
 group :test do
-  gem 'capybara','>= 2.3', '< 4'
+  gem 'capybara','3.39.2'
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
   gem 'rb-inotify', :require => false
@@ -89,13 +89,12 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'capybara-email'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
 end
 
 gem 'jquery-rails'
-gem 'jquery-ui-rails', '5.0.5'
+gem 'jquery-ui-rails', '6.0.0'
 gem "capistrano", "~> 3.10"
 gem "capistrano-rails", "~> 1.6"
 gem 'capistrano-rvm'
@@ -122,20 +121,15 @@ gem 'bootstrap-sass', '~> 3.4.1'
 gem 'sassc-rails', '>= 2.1.0'
 gem 'sassc', '~> 2.4'
 gem 'font-awesome-rails'
-# gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'dev'
-gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests', :branch => 'dev'
-#gem 'blacklight_cornell_requests', :path => '/Users/tlw72/dev/bc-requests'
-#gem 'blacklight_cornell_requests', :path => '/users/jac244/workspace/local_requests'
-#gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
+gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests'
+# gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
 gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge'
-gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'master'
-#gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account', :branch => 'DISCOVERYACCESS-7627'
+gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 gem 'ruby-saml', '>= 1.12.1'
 gem 'bento_search', '~> 2.0.0.rc1'
 gem 'celluloid', '0.17.4' # Required for bento_search multisearcher
-gem 'mollom'
 gem 'exception_notification'
 gem 'piwik_analytics', '~> 1.0.1'
 gem 'citeproc'
@@ -143,8 +137,6 @@ gem 'csl-styles', :git => 'https://github.com/cul-it/csl-styles', :branch => 'ma
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
 gem 'citeproc-ruby'
 gem 'unicode_utils'
-gem 'google-analytics-rails', '1.1.1'
 gem 'ebsco-eds'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.19.1'
-gem 'psych', '~> 4.0'

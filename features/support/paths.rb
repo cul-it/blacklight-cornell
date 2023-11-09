@@ -53,6 +53,9 @@ module NavigationHelpers
     when /the browse page/
       '/browse'
 
+    when /the browse info page/
+      '/browse/info'
+
     when /my account/
       '/myaccount'
 
@@ -166,12 +169,6 @@ end
 class Capybara::RackTest::Node
   def submit_form!
     Capybara::RackTest::Form.new(driver, self.native).submit({})
-  end
-end
-
-class Capybara::Poltergeist::Node
-  def submit_form!
-    Capybara::Poltergeist::Form.new(driver, self.native).submit({})
   end
 end
 

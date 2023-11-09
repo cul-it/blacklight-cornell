@@ -8,8 +8,8 @@ BlacklightCornell::Application.routes.draw do
 
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
-# as option causing invalid route name, already in use error
-#  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
+  # as option causing invalid route name, already in use error
+  #  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
   match 'catalog/unapi', :to => "catalog#unapi", :via => [:get]
 
   Blacklight::Marc.add_routes(self)
@@ -222,14 +222,17 @@ devise_for :users, controllers: {
   get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
   get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
   #  get 'book_bags' => 'book_bags#index'
+  match 'aeon/boom' => 'aeon#boom', :as => 'boom', via: [:get, :post]
   get 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_request', :constraints => { :id => /.+/}
   put 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_prequest', :constraints => { :id => /.+/}
-  get 'aeon/aeon_login' => 'aeon#aeon_login', :as => 'aeon_login'
-  get 'aeon/redirect_shib' => 'aeon#redirect_shib', :via => :post, :as => 'redirect_shib'
-  get 'aeon/redirect_nonshib' => 'aeon#redirect_nonshib', :as => 'redirect_nonshib'
+#  put 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_prequest', :constraints => { :id => /.+/}
+  match 'aeon/aeon_login' => 'aeon#aeon_login', :as => 'aeon_login', via: [:get, :post]
+  match 'aeon/new_aeon_login' => 'aeon#new_aeon_login', :as => 'new_aeon_login', via: [:get, :post, :put]
+  match 'aeon/redirect_shib' => 'aeon#redirect_shib', :as => 'redirect_shib', via: [:get, :post]
+  match 'aeon/redirect_nonshib' => 'aeon#redirect_nonshib', :as => 'redirect_nonshib', via: [:get, :post]
   get 'aeon/request_aeon/:id' => 'aeon#request_aeon', :as => 'request_aeon', :constraints => { :id => /.+/}
   get 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_aeon', :constraints => { :id => /.+/}
-  put 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_paeon', :constraints => { :id => /.+/}
+#  put 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_paeon', :constraints => { :id => /.+/}
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 end

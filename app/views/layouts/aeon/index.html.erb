@@ -9,6 +9,9 @@
 <% if params['action'] == 'aeon_login' %>
 	<%= render :partial => 'layouts/aeon/aeon_login_prelim' %>
 <% end %>
+<% if params['action'] == 'new_aeon_login' %>
+	<%= render :partial => 'layouts/aeon/new_aeon_login_prelim' %>
+<% end %>
 <% if params['action'] == 'redirect_nonshib' %>
    <%= render :partial => 'layouts/aeon/redirect_nonshib_prelim' %>
 <% end %>

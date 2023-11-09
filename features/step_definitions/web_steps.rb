@@ -1,7 +1,7 @@
 require 'spreewald/web_steps'
 
 Given /^(?:|I )am on (.+)$/ do |page_name|
-  visit path_to(page_name)
+	do_visit path_to(page_name)
 end
 
 When /^(?:|I )fill in "([^"]*)" with ['"]([^'"]*)['"]$/ do |field, value|
@@ -36,11 +36,11 @@ When /^(?:|I )select radio "([^"]*)"$/ do |button|
 end
 
 When /^(?:|I )go to (.+)$/ do |page_name|
-  visit path_to(page_name)
+	do_visit path_to(page_name)
 end
 
 When /^(?:|I )literally go to (.+)$/ do |page_name|
-  visit page_name
+	do_visit page_name
 end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
@@ -180,7 +180,7 @@ Then("navigation should show the BookBag with no item count") do
 end
 
 Given("I empty the BookBag") do
-  visit 'book_bags/clear'
+	do_visit 'book_bags/clear'
 end
 
 Then("Sign in should link to the SAML login system") do
@@ -200,11 +200,11 @@ Then("I should see a link to Book Bags") do
 end
 
 When("I view my selected items") do
-  visit '/bookmarks'
+	do_visit '/bookmarks'
 end
 
 When("I view my bookmarks") do
-  visit '/bookmarks'
+	do_visit '/bookmarks'
 end
 
 Then("I disable ajax activity completion") do
@@ -315,7 +315,7 @@ end
 Then("I close the popup") do
   # @popup = find_popup_window
   # @popup.find('button.blacklight-modal-close', :visible => :all).trigger('click')
-  visit current_path
+	do_visit current_path
 end
 
 Then("the url of link {string} should contain {string}") do |string, string2|
@@ -376,11 +376,11 @@ Then("there should be a print bookmarks button") do
 end
 
 Then("I sign in") do
-  visit "/users/auth/saml"
+	do_visit "/users/auth/saml"
 end
 
 Then("I sign out") do
-  visit "/users/sign_out"
+	do_visit "/users/sign_out"
 end
 
 
@@ -422,5 +422,9 @@ Given /^our host is "([^\"]+)"$/ do |host|
 end
 
 Given("I visit the Cite page for {int}") do |int|
-  visit("/catalog/#{int}/citation")
+	do_visit("/catalog/#{int}/citation")
+end
+
+Then("I did not catch any javascript errors") do
+  expect(find('#js_error_report', visible: false, text: /^0$/ ))
 end

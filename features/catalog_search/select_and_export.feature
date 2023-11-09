@@ -89,7 +89,7 @@ Feature: Select and export items from the result set
 # </dcterms:LCC>\n
 # </dc:subject>\n
 # <dc:identifier>\n
-#<dcterms:URI><rdf:value>http://newcatalog.library.cornell.edu/catalog/1001</rdf:value></dcterms:URI>
+#<dcterms:URI><rdf:value>http://catalog.library.cornell.edu/catalog/1001</rdf:value></dcterms:URI>
 # </dc:identifier>\n
 # </bib:Book>\n
 # </rdf:RDF>
@@ -117,10 +117,10 @@ Feature: Select and export items from the result set
 | 1378974 | endnote |  '%A Condie, Carol Joy' |
 | 1378974 | ris | 'AU  - Condie, Carol Joy' |
 | 1378974 | endnote_xml| '<author>Condie, Carol Joy</author>' |
-| 13251647 | endnote | '%Z http://newcatalog.library.cornell.edu/catalog/13251647' |
-| 13251647 | ris | 'M2  - http://newcatalog.library.cornell.edu/catalog/13251647' |
-| 13251647 | endnote_xml | 'http://newcatalog.library.cornell.edu/catalog/13251647' |
-| 13251647 | rdf_zotero | '<dc:description>http://newcatalog.library.cornell.edu/catalog/13251647</dc:description>' |
+| 13251647 | endnote | '%Z http://catalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | ris | 'M2  - http://catalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | endnote_xml | 'http://catalog.library.cornell.edu/catalog/13251647' |
+| 13251647 | rdf_zotero | '<dc:description>http://catalog.library.cornell.edu/catalog/13251647</dc:description>' |
 | 6112378 | rss | '<title>The Kalabagh Dam</title>' |
 
 @all_select_and_export
@@ -138,8 +138,8 @@ Feature: Select and export items from the result set
     Examples:
 
 | BibId | Format | DoiXmlContent |  UrlXmlContent |
-| 11493262 | ris | 'UR  - https://search.proquest.com/docview/2240872843'  |'M2  - http://newcatalog.library.cornell.edu/catalog/11493262' |
-| 11493262 | endnote | '%U https://search.proquest.com/docview/2240872843' | '%Z http://newcatalog.library.cornell.edu/catalog/11493262' |
+| 11493262 | ris | 'UR  - https://search.proquest.com/docview/2240872843'  |'M2  - http://catalog.library.cornell.edu/catalog/11493262' |
+| 11493262 | endnote | '%U https://search.proquest.com/docview/2240872843' | '%Z http://catalog.library.cornell.edu/catalog/11493262' |
 | 11493262 | endnote_xml | '<publisher>Apud Iohannem Lambertum.</publisher>' | '<language>Latin</language>' |
 
 

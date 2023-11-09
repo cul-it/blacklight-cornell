@@ -83,5 +83,25 @@ end
 
 Then (/^I visit Books page '(.*)' with '(.*)' per page$/) do |page, perpage|
   href = "/?f[format][]=Book&page=#{page}&per_page=#{perpage}"
-  visit(href)
+	do_visit(href)
+end
+
+Then("I should see a thumbnail image for {string}") do |string|
+  within ('div#documents.documents-list') do
+    link = find(:xpath, '//h2/a', :text => string)
+    document = link.first(:xpath, ".//../../..")
+    expect(document).to have_selector('img.img-thumbnail')
+  end
+end
+
+Then("all ids are unique") do
+  ids = []
+  page.all("*", :id => /.+/).each do |el|
+    id = el[:id]
+    if ids.include? id
+        fail('not unique')
+    else
+      ids << id
+    end
+  end
 end

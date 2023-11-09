@@ -139,7 +139,7 @@ end
 
 # this step requires .env to include DEBUG_USER and the development environment
 When("I sign in to BookBag") do
-  visit 'book_bags/index'
+	do_visit 'book_bags/index'
   # 'Sign In' blacklight-nav link is not available on Jenkins since
   # ENV['SAML_IDP_TARGET_URL’] is undefined there
   within "#main-container" do
@@ -171,6 +171,10 @@ end
 
 Then("I remove facet constraint {string}") do |string|
   page.find(".selected-facets .filter-value", text: string).click
+end
+
+Then("I should see the {string} facet constraint") do |facet_label|
+  page.should have_selector(".selected-facets .filter-label", text: facet_label)
 end
 
 Then("I should see only the first {int} Format facets") do |int|

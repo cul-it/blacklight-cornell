@@ -16,7 +16,7 @@ module Blacklight::Solr::Document::Zotero
   end
 
   def generate_rdf_zotero
-    about = "http://newcatalog.library.cornell.edu/catalog/#{id}"
+    about = "http://catalog.library.cornell.edu/catalog/#{id}"
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
@@ -82,7 +82,7 @@ module Blacklight::Solr::Document::Zotero
     k = setup_abst_info(to_marc)
     b.dcterms(:abstract,k.join(' ')) unless k.blank?
   end
-#        <dc:coverage>http://newcatalog.library.cornell.edu/catalog/1001</dc:coverage>
+#        <dc:coverage>http://catalog.library.cornell.edu/catalog/1001</dc:coverage>
 #holdings_record_display"=>
 #    ["{\"id\":\"17239\",\"modified_date\":\"20150710111357\",\"copy_number\":null,\"callnos\":[\"QE285 .A19 no.2\"],\"notes\":[],\"holdings_desc\":[\"text\"],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"engr,anx\",\"number\":21,\"name\":\"Library Annex\",\"library\":\"Library Annex\"}]}",
 #     "{\"id\":\"17240\",\"modified_date\":null,\"copy_number\":null,\"callnos\":[\"G6041s.C5 100 S3 Sheet 11\"],\"notes\":[],\"holdings_desc\":[\"map\"],\"recent_holdings_desc\":[],\"supplemental_holdings_desc\":[],\"index_holdings_desc\":[],\"locations\":[{\"code\":\"maps\",\"number\":80,\"name\":\"Olin Library Maps (Non-Circulating)\",\"library\":\"Olin Library\"}]}"],
@@ -241,7 +241,7 @@ module Blacklight::Solr::Document::Zotero
         }
       }
     end
-    if pa.blank? && editors.blank? && !relators.blank?
+    if editors.blank? && !relators.blank?
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} meeting authors #{meeting_authors.inspect}"
       relators.each { |n,r|
         rel = relator_to_zotero(r[0])
@@ -261,7 +261,7 @@ module Blacklight::Solr::Document::Zotero
   # else
   #  put in url field.
   def generate_rdf_catlink(b,ty)
-    ul =  "http://newcatalog.library.cornell.edu/catalog/#{id}"
+    ul =  "http://catalog.library.cornell.edu/catalog/#{id}"
     # if no elect access data, 'description' field.
     b.dc(:description,ul)
   end
@@ -605,18 +605,18 @@ end
 #            </rdf:Seq>
 #        </bib:authors>
 #        <dcterms:isReferencedBy rdf:resource="#item_4342"/>
-#        <dc:subject>http;//newcatalog.library.cornell.edu/behind_the_blip</dc:subject>
+#        <dc:subject>http;//catalog.library.cornell.edu/behind_the_blip</dc:subject>
 #        <dc:identifier>ISBN 978-1-57027-139-7</dc:identifier>
 #        <dc:date>2003</dc:date>
 #        <dc:subject>
 #           <dcterms:LCC><rdf:value>BF23.11.19</rdf:value></dcterms:LCC>
 #        </dc:subject>
-#        <dc:coverage>http://newcatalog.library.cornell.edu/catalog/1001</dc:coverage>
+#        <dc:coverage>http://catalog.library.cornell.edu/catalog/1001</dc:coverage>
 #        <dc:description>this is extra.</dc:description>
-#        <z:libraryCatalog>http://newcatalog.library.cornell.edu</z:libraryCatalog>
+#        <z:libraryCatalog>http://catalog.library.cornell.edu</z:libraryCatalog>
 #        <dc:title>Behind the blip : essays on the culture of software</dc:title>
 #        <z:shortTitle>Behind the blip</z:shortTitle>
-#        <z:archive>http://newcatalog.library.cornell.edu/catalog/unapi?id=1001</z:archive>
+#        <z:archive>http://catalog.library.cornell.edu/catalog/unapi?id=1001</z:archive>
 #        <dcterms:abstract>Backup of websites is often not considered until </dcterms:abstract>
 #    </bib:Book>
 #    <bib:Memo rdf:about="#item_4342">

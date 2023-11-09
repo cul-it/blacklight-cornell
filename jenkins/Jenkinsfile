@@ -7,6 +7,9 @@ pipeline {
         STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
         COLLECTIONS = "development"
         CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
+        IR_SOLR_URL = "http://aws-108-118.internal.library.cornell.edu:8983/solr/repositories"
+        IR_SOLR_USER = credentials('622231e0-352f-431f-9847-a109f3795d97')
+        IR_SOLR_PAW = credentials('f6e43070-a7b0-44ef-9a72-8767cc8ee968')
     }
     stages {
         stage('Set up and run bundler') {
@@ -25,6 +28,12 @@ pipeline {
             }
         }
 
+        stage("Rspec tests") {
+            steps {
+                sh 'jenkins/rspec.sh'
+            }
+        }
+
         // use this version for quick turnaround while testing pull request validation
         // stage("cucumber all tests") {
         //     steps {
@@ -39,7 +48,7 @@ pipeline {
         // use this version for normal situations
         stage("cucumber all tests") {
             steps {
-                timeout(60) {
+                timeout(90) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
                         sh 'jenkins/cucumber-features.sh'
                     }

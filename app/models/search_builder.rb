@@ -93,10 +93,34 @@ class SearchBuilder < Blacklight::SearchBuilder
       if blacklight_params[:q].nil?
         blacklight_params[:q] = ''
         if !blacklight_params[:f].nil?
-           key, value = blacklight_params[:f].first
-           user_parameters[:fq] = [ "{!term f=" + key + "}" + value[0] ] #blacklight_params[:f]
+          	user_parameters[:fq] = []
+          	fq_string = ""
+          	blacklight_params[:f].each do |key, value|
+
+          	  	value.each do |val|
+                   if (val == 'last_1_week' or val == 'last_1_month' or val == 'last_1_years')
+						if val == 'last_1_week'
+          	    			fq_string = 'acquired_dt:[NOW-14DAY TO NOW-7DAY ]'
+                    	else 
+                      		if val == 'last_1_month'
+                      			fq_string = 'acquired_dt:[NOW-30DAY TO NOW-7DAY ]'
+                      		else
+                      			if value[0] == 'last_1_years'
+                      				fq_string = 'acquired_dt:[NOW-1YEAR TO NOW-7DAY]'
+                        		end
+                      		end
+                    	end                   
+                    else
+				      fq_string = '{!term f=' + key + '}' + val
+				    end
+				  	user_parameters[:fq] << fq_string
+          	    	blacklight_params[:fq] = user_parameters[:fq]
+          	  	end
+          	 # end
+          	end
         end
       end
+
       if !blacklight_params[:advanced_query].nil?
         blacklight_params.delete("advanced_query")
         blacklight_params.delete("search_field_row")
@@ -1188,17 +1212,11 @@ class SearchBuilder < Blacklight::SearchBuilder
       if sfr == "call number"
         sfr = "lc_callnum"
       end
-      if sfr == "place of publication"
-        sfr = "pubplace"
-      end
       if sfr == "publisher number/other identifier"
         sfr = "number"
       end
       if sfr == "isbn/issn"
         sfr = "isbnissn"
-      end
-      if sfr == "donor name"
-        sfr = "donor"
       end
       if sfr == "journal title"
         sfr = "journaltitle"
@@ -1252,17 +1270,11 @@ class SearchBuilder < Blacklight::SearchBuilder
                 if solr_stuff == "call number"
                   solr_stuff = "lc_callnum"
                 end
-                if solr_stuff == "place of publication"
-                  solr_stuff = "pubplace"
-                end
                 if solr_stuff == "publisher number/other identifier"
                   solr_stuff = "number"
                 end
                 if solr_stuff == "isbn/issn"
                   solr_stuff = "isbnissn"
-                end
-                if solr_stuff == "donor name"
-                  solr_stuff = "donor"
                 end
                 if solr_stuff == "journal title"
                   my_params[:f] = {}
@@ -1545,6 +1557,10 @@ class SearchBuilder < Blacklight::SearchBuilder
 
   end
 
+  # Default any missing booleans to "AND"
+  # Shouldn't happen unless directly tampering with search params
+  DEFAULT_BOOL = 'AND'
+
   def groupBools(my_params)
      for a in 0..my_params[:q_row].size - 1 do
        if my_params[:q_row][a].include?('journaltitle:') or my_params[:q_row][a].include?('journaltitle_starts')
@@ -1559,23 +1575,21 @@ class SearchBuilder < Blacklight::SearchBuilder
        index = 0
        newstring = ""
        if my_params[:q_row].size > 1
-         #newstring = my_params[:q_row][0]
          for a in 0..my_params[:q_row].size - 1 do
           if a == 0
-                 if my_params[:boolean_row][a] == "NOT"
-                 	newstring = "(" + newstring + my_params[:q_row][a] + ' ' + "-" + my_params[:q_row][a + 1] + ") "
-                 else
-                 	newstring = "(" + newstring + my_params[:q_row][a] + ' ' + my_params[:boolean_row][a] + " " + my_params[:q_row][a + 1] + ") "
-                 end
+            if my_params[:boolean_row][a] == "NOT"
+              newstring = "(" + newstring + my_params[:q_row][a] + ' ' + "-" + my_params[:q_row][a + 1] + ") "
+            else
+              newstring = "(" + newstring + my_params[:q_row][a] + ' ' + (my_params[:boolean_row][a] || DEFAULT_BOOL) + " " + my_params[:q_row][a + 1] + ") "
+            end
           else
             if a < my_params[:q_row].size  and a > 1
-                 if my_params[:boolean_row][a - 1] == "NOT"
-                         newstring = '( ' + newstring + ' ' + '-' + my_params[:q_row][a] + ')'
-                 else
-                         newstring = '( ' + newstring + ' ' + my_params[:boolean_row][a - 1 ] + ' ' + my_params[:q_row][a] + ')'
-                 end
-                a = a + 1
-             #newstring = '(' + my_params[:q_row][index] + ' )' + bool + '( ' + my_params[:q_row][index + 1] + ')'
+              if my_params[:boolean_row][a - 1] == "NOT"
+                newstring = '( ' + newstring + ' ' + '-' + my_params[:q_row][a] + ')'
+              else
+                newstring = '( ' + newstring + ' ' + (my_params[:boolean_row][a - 1] || DEFAULT_BOOL) + ' ' + my_params[:q_row][a] + ')'
+              end
+              a = a + 1
             end
            end
            a = 1

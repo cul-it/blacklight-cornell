@@ -122,7 +122,7 @@ module Blacklight::Solr::Document::Endnote
     text << "%U #{ul}\n"  unless ul.blank?
     where = setup_holdings_info(to_marc)
     text << "%L  #{where.join('//')}\n"  unless where.blank? or where.join("").blank?
-    text += "%Z http://newcatalog.library.cornell.edu/catalog/#{id}\n"
+    text += "%Z http://catalog.library.cornell.edu/catalog/#{id}\n"
     text = generate_en_keywords(text,ty)
     # add a blank line to separate from possible next.
     text << "\n"

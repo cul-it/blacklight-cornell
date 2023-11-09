@@ -1,10 +1,5 @@
-<div id="skiptocontent" aria-label="Skip link" role="complementary"><a href="#maincontent">skip to main content</a></div>
-</div>
+<%= render :partial=>'/shared/skip_to' %>
 <div class="cornell-identity" aria-label="Cornell" role="banner">
-  <%# if search results, add a link to skip facets for screen readers %>
-  <% if params[:controller]=='catalog' && params[:action]=='index' && has_search_parameters? %>
-    <div id="skiptoresults"><a href="#results">skip to search results</a></div>
-  <% end %>
   <div class="mobile-cornell-wrapper d-block d-sm-none">
     <div class="container">
       <a class="mobile-cornell-logo" href="http://www.cornell.edu">Cornell University</a>
@@ -36,7 +31,7 @@
               <h6 class="dropdown-header">If we don't have it</h6>
               <a class="dropdown-item" href="http://resolver.library.cornell.edu/NET/parsebd?redirect=yes" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Borrow Direct']);">Borrow Direct</a>
               <a class="dropdown-item" href="https://cornell.hosts.atlas-sys.com/illiad/" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Interlibrary Loan']);">Interlibrary Loan</a>
-              <a class="dropdown-item" href="http://www.library.cornell.edu/services/request/recommend" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Recommend a Purchase']);">Recommend a Purchase</a>
+              <a class="dropdown-item" href="https://www.library.cornell.edu/collections/recommend-a-purchase/" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Recommend a Purchase']);">Recommend a Purchase</a>
             </div>
           </div>
         </div>
@@ -80,7 +75,10 @@
         <%= render :partial=>'/shared/user_util_links' %>
       <% else %>
         <div class="col-sm-4 col-lg-8 d-none d-sm-block">
-          <p><a href="<%=root_path%>" class="secondary-catalog-link">Library Catalog &raquo;</a></p>
+          <ul class="blacklight-nav noncatalog-nav nav">
+            <li><a href="<%=root_path%>">Library Catalog</a></li>
+            <li><a href="/myaccount/login"><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>
+          </ul>
         </div>
       <% end %>
     </div>

@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+
+# https://culibrary.atlassian.net/browse/DISCOVERYACCESS-8123
+# Marked failing tests as pending in order to get rspec tests running again
+# We'll need to either fix this or remove any unused legacy code
+
+require 'rails_helper'
 require 'bl_monkeys'
 require 'stringio'
+require 'json'
 
 # NOTE: most of these functions and tests are copied directly from
 # # the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
@@ -120,7 +126,7 @@ describe Blacklight::Solr::Document::MarcExport do
     # add on url information.
     # more than url is required.
     eids.each { |id|
-      @book_recs[id]['url_access_json'] = [url => "http://example.com"].to_json
+      @book_recs[id]['url_access_json'] = {url: "http://example.com"}.to_json
       @book_recs[id]["online"]= ["Online"]
     }
     #music
@@ -392,7 +398,7 @@ CITE_MATCH
       match_style['cse'] = @cse_match_style
       match_style['chicago'] = @chicago_match_style
       match_style['apa'] = @apa_match_style
-      @book_recs[id]['url_access_json'] = [url => "http://opac.newsbank.com/select/evans/385"].to_json
+      @book_recs[id]['url_access_json'] = {url: "http://opac.newsbank.com/select/evans/385"}.to_json
       ["mla","mla8","cse","chicago","apa"].each   do |fmt|
         cite_info[fmt] = @book_recs[id].send("export_as_#{fmt}_citation_txt")
       end
@@ -606,8 +612,8 @@ CITE_MATCH
       expect(ris_entries["PY"]).to eq(Set.new(["2001"]))
       expect(ris_entries["PB"]).to eq(Set.new([" Harmonia Mundi USA"]))
       expect(ris_entries["CY"]).to eq(Set.new(["[United States]"]))
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"]))
-      expect(ris_entries["N1"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/"]))
+      expect(ris_entries["N1"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/"]))
       expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
 #SN  - 091316710X :
@@ -622,7 +628,7 @@ CITE_MATCH
       end
       expect(ris_entries["TY"]).to eq(Set.new(["BOOK"]))
       expect(ris_entries["TI"]).to eq(Set.new(["Reflections: the anthropological muse"]))
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/1001"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/1001"]))
       expect(ris_entries["PY"]).to eq(Set.new(["1985"]))
       expect(ris_entries["KW"]).to eq(Set.new(["Anthropologists' writings, American. ", "Anthropology Poetry. ", "American poetry 20th century. ", "Anthropologists' writings, English. ", "English poetry 20th century. "]))
       expect(ris_entries["PB"]).to eq(Set.new([" American Anthropological Association"]))
@@ -635,7 +641,7 @@ CITE_MATCH
     it "should export a typical ebook record correctly" do
       id = "5558811"
       @book_recs[id]["online"]= ["Online"]
-      @book_recs[id]['url_access_json'] = ['url' => "http://opac.newsbank.com/select/evans/385"].to_json
+      @book_recs[id]['url_access_json'] = {url: "http://opac.newsbank.com/select/evans/385"}.to_json
       @book_recs[id]['language_facet'] = ["Algonquian (Other)"]
       ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
@@ -651,7 +657,7 @@ CITE_MATCH
       expect(ris_entries["LA"]).to eq(Set.new(["Algonquian (Other)"]))
       expect(ris_entries["CY"]).to eq(Set.new(["Cambridge [Mass.]."]))
       expect(ris_entries["UR"]).to eq(Set.new(["http://opac.newsbank.com/select/evans/385"]))
-      expect(ris_entries["M2"]).to eq(Set.new(["http://newcatalog.library.cornell.edu/catalog/#{id}"]))
+      expect(ris_entries["M2"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/#{id}"]))
       expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
   end

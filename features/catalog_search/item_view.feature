@@ -147,9 +147,9 @@ Feature: Item view
     Then I should see the label 'Library Annex'
 
   # The Kroch copy of this book has been checked out since July 1992.
-  # https://newcatalog.library.cornell.edu/catalog/1208939
+  # https://catalog.library.cornell.edu/catalog/1208939
   # As a backup, I think this is a different patron who has had this book since October 1992:
-  # https://newcatalog.library.cornell.edu/catalog/473013
+  # https://catalog.library.cornell.edu/catalog/473013
   @all_item_view
   @availability @due
   Scenario: As a user I can see the availability for an item
@@ -739,3 +739,13 @@ Feature: Item view
 #  | 2557798 | PK2197.D43 T3 | T̤ālib Dihlavī, 1910- Yah thī Dillī. 1975. |
 #  | 8338813 | LD1357.5 .C67 2014 | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
 #  | 8338813 | Archives ARP 1164a | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
+
+  @all_item_view @javascript
+  Scenario: Item has included works that display metadata from Wikidata
+  Given I request the item view for 8297109
+  And click on first link "Work info"
+  Then I should see the labels 'Works about,Instrumentation,Tonality'
+  When I click on link "View full info"
+  Then I should be on the browse info page
+  And it should have the heading "Beethoven, Ludwig van, 1770-1827. | Septet, clarinet, bassoon, horn, violin, viola, cello, double bass, op. 20, E♭ major"
+  And it should have link "Back to item" with value "/catalog/8297109"

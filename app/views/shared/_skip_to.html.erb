@@ -1,0 +1,21 @@
+<%# if search results, skip to the results (not the facets) %>
+<% target = "#maincontent" %>
+<% if params[:controller]=='catalog' %>
+  <% if params[:action] == 'index' %>
+    <% if has_search_parameters? %>
+      <% target = "#documents" %>
+    <% end %>
+  <% elsif params[:action] == 'show' %>
+      <% target = "#document" %>
+  <% end %>
+<% elsif params[:controller]=='search' %>
+  <% if params[:q].present? %>
+      <% target = "#top" %>
+  <% else %>
+    <% target = "#search" %>
+  <% end %>
+<% end %>
+
+<div id="skip-link" aria-label="Skip link" role="complementary">
+  <a href="<%=target%>">skip to main content</a>
+</div>
