@@ -491,12 +491,7 @@ GEM
     mini_mime (1.1.5)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
-<<<<<<< HEAD
-    minitest (5.17.0)
-    mollom (0.2.3)
-=======
     minitest (5.20.0)
->>>>>>> b0692466395c2c23b3fe37c25a2b74ebab390694
     multi_json (1.15.0)
     multi_test (1.1.0)
     multi_xml (0.6.0)
@@ -506,11 +501,7 @@ GEM
     nenv (0.3.0)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-<<<<<<< HEAD
-    net-imap (0.3.4)
-=======
     net-imap (0.4.1)
->>>>>>> b0692466395c2c23b3fe37c25a2b74ebab390694
       date
       net-protocol
     net-ldap (0.18.0)
@@ -585,13 +576,8 @@ GEM
       pry (>= 0.13, < 0.15)
     public_suffix (4.0.7)
     raabro (1.4.0)
-<<<<<<< HEAD
-    racc (1.6.2)
-    rack (2.2.5)
-=======
     racc (1.7.1)
     rack (2.2.8)
->>>>>>> b0692466395c2c23b3fe37c25a2b74ebab390694
     rack-contrib (2.3.0)
       rack (~> 2.0)
     rack-protection (3.0.6)
