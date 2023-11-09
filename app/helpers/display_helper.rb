@@ -1503,8 +1503,12 @@ end
   end
 
   def access_url_first(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
+    if args['url_access_json'].present? 
+      if access_url_is_list?(args)
+        url_access = JSON.parse(args['url_access_json'].first)
+      else
+        url_access = JSON.parse(args['url_access_json'])
+      end
       if url_access['url'].present?
         return url_access['url']
       end
@@ -1513,8 +1517,12 @@ end
   end
 
   def access_url_first_description(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
+    if args['url_access_json'].present?
+      if access_url_is_list?(args)
+        url_access = JSON.parse(args['url_access_json'].first)
+      else
+        url_access = JSON.parse(args['url_access_json'])
+      end
       if url_access['description'].present?
         return url_access['description']
       end
@@ -1525,11 +1533,15 @@ end
   def access_url_all(args)
     if args['url_access_json'].present?
       all = []
-      args['url_access_json'].each do |json|
-        url_access = JSON.parse(json)
-        if url_access['url'].present?
-          all << url_access['url']
+      if access_url_is_list?(args)
+        args['url_access_json'].each do |json|
+          url_access = JSON.parse(json)
+          if url_access['url'].present?
+            all << url_access['url']
+          end
         end
+      else
+        all << JSON.parse(args['url_access_json'])
       end
       return all.size > 0 ? all : nil
     end
