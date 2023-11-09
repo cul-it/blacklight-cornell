@@ -140,7 +140,7 @@ module Blacklight::Solr::Document::MarcExport
     # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
     # it seems to want C form normalization, although RefWorks support
     # couldn't tell me that. -jrochkind
-    text = ActiveSupport::Multibyte::Unicode.normalize(text, :c)
+    text = text.unicode_normalize
 
     return text
   end
@@ -650,10 +650,12 @@ module Blacklight::Solr::Document::MarcExport
     contributors = ["100","110","111","700","710","711" ]
     relators = {}
     # ***
+    offset = 0
     record.find_all{|f| contributors.include?(f.tag) }.each do |field|
       Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
-      as_field = alternate_script(record, field.tag)
-      if as_field["a"]
+      as_field = alternate_script(record, field.tag, nil , offset)
+      offset += 1
+      if as_field.present? && as_field["a"].present?
         contributor = clean_end_punctuation(as_field["a"])
         relators[contributor] = [] if relators[contributor].nil?
         as_field.find_all{|sf| sf.code == 'e' }.each do |sfe|
@@ -679,19 +681,25 @@ module Blacklight::Solr::Document::MarcExport
     corporate_authors = []; meeting_authors = []; secondary_authors = []
     primary_corporate_authors = []; secondary_corporate_authors = [];
     # ***
+    offset = 0
     record.find_all{|f| f.tag === "100" }.each do |field|
-      as_field = alternate_script(record, field.tag)
+      as_field = alternate_script(record, field.tag, nil, offset)
+      offset += 1
       primary_authors << as_field["a"] if as_field["a"]
     end
     # ***
+    offset = 0
     record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
-      as_field = alternate_script(record, field.tag)
+      as_field = alternate_script(record, field.tag, nil, offset)
+      offset += 1
       corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
                            (as_field['b'] ? ' ' + as_field['b'] : '')
     end
     # ***
+    offset = 0
     record.find_all{|f| f.tag === '110'}.each do |field|
-      as_field = alternate_script(record, field.tag)
+      as_field = alternate_script(record, field.tag, nil, offset)
+      offset += 1
       primary_corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
                            (as_field['b'] ? ' ' + as_field['b'] : '')
     end
@@ -701,14 +709,18 @@ module Blacklight::Solr::Document::MarcExport
                            (field['b'] ? ' ' + field['b'] : '')
     end
     # ***
+    offset = 0
     record.find_all{|f| f.tag === '111' || f.tag === '711' }.each do |field|
-      as_field = alternate_script(record, field.tag)
+      as_field = alternate_script(record, field.tag, nil, offset)
+      offset += 1
       meeting_authors << (as_field['a'] ? as_field['a'] : '') +
                            (as_field['q'] ? ' ' + as_field['q'] : '')
     end
     # ***
+    offset = 0
     record.find_all{|f| f.tag === "700" }.each do |field|
-      as_field = alternate_script(record, field.tag)
+      as_field = alternate_script(record, field.tag, nil, offset)
+      offset += 1
       #if field["a"] && field['t'].blank?
       if as_field["a"] && as_field.indicator2 != '2'
         relators = []
@@ -798,7 +810,7 @@ module Blacklight::Solr::Document::MarcExport
   edited
   end
 
-  def alternate_script(record, tag = '245', indicator2 = nil)
+  def alternate_script(record, tag = '245', indicator2 = nil, offset = 0)
     # translated tags refer to their 880 record
     # 880 has same fields as the raw except the 6 subfield
     # 880 6 subfield shows tag of referrer
@@ -807,12 +819,15 @@ module Blacklight::Solr::Document::MarcExport
     # example:
     # 250  ‡6 880-03 ‡a Di 1 ban.
     # 880  ‡6 250-03/$1 ‡a 第1版.
+
     trans = nil
     if indicator2.nil?
-      raw = record.find{ |f| f.tag === tag }
+      raws = record.find_all{ |f| f.tag === tag }
     else
-      raw = record.find{ |f| f.tag === tag && f.indicator2 == indicator2 }
+      raws = record.find_all{ |f| f.tag === tag && f.indicator2 == indicator2 }
     end
+    # allow multiple occurances
+    raw = raws[offset] unless raws.nil?
     if raw.present? && raw['6'].present?
       alternate = raw['6']
       if alternate.present? && alternate.start_with?('880')
