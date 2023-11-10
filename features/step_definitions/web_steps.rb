@@ -114,9 +114,9 @@ end
 Then("I should see the CUWebLogin page") do
   patiently do
     page.should have_content("CUWebLogin")
-    page.find("input.input-submit")
-    page.find("a", :text => "IT Service Desk")
-    page.find("a", :text => "I don't have a NetID, now what?")
+    page.should have_content("Cornell University")
+    page.should have_content("IT Service Desk")
+    page.find("a", :text => "web-accessibility@cornell.edu")
   end
 end
 
