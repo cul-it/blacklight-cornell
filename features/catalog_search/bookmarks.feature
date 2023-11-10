@@ -105,4 +105,16 @@ Feature: Bookmarks for anonymous users
         And I should not see the text "You have no selected items."
         And there should be a print bookmarks button
 
+    @DISCOVERYACCESS-7443
+    Scenario: The Email button on bookmarks should go direct to login
+        Given I am on the home page
+        When I fill in the search box with 'Harry'
+        And I press 'search'
+        Then I should get results
+        Then I select the first 3 catalog results
+        And I sleep 2 seconds
+        When I view my selected items
+        And I click on link "Email"
+        Then show me the page
+        Then I should see the CUWebLogin page
 
