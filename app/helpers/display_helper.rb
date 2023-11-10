@@ -1585,10 +1585,12 @@ end
   # puts together a collection of documents into one endnote export string
   def render_endnote_texts(documents)
     val = ''
-    documents.each do |doc|
-      if doc.exports_as? :endnote
-        endnote = doc.export_as(:endnote)
-        val += "#{endnote}\n" if endnote
+    if documents.present?
+      documents.each do |doc|
+        if doc.exports_as? :endnote
+          endnote = doc.export_as(:endnote)
+          val += "#{endnote}\n" if endnote
+        end
       end
     end
     val
