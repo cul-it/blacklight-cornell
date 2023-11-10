@@ -115,6 +115,5 @@ Feature: Bookmarks for anonymous users
         And I sleep 2 seconds
         When I view my selected items
         And I click on link "Email"
-        Then show me the page
         Then I should see the CUWebLogin page
 
