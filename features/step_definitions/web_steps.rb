@@ -113,9 +113,9 @@ end
 
 Then("I should see the CUWebLogin page") do
   patiently do
+    expect(page).to have_title "Cornell University Web Login"
     page.should have_content("CUWebLogin")
     page.should have_content("Cornell University")
-    page.should have_content("IT Service Desk")
     page.find("a", :text => "web-accessibility@cornell.edu")
   end
 end
