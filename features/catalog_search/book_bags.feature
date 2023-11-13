@@ -51,6 +51,7 @@ Feature: Book Bags for logged in users
 #    | 20 | 9 |
 
     @book_bags_bookmarks_redirect
+    @javascript
     Scenario: Bookmarks redirect logged in users to Book Bags
         Given we are in any development or test environment
         And I clear the SQLite transactions
