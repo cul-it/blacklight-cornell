@@ -104,7 +104,7 @@ match = <<'MATCH_XML'
   <datafield ind1="4" ind2="0" tag="856">
     <subfield code="3">Full text available from Wiley Online Library UBCM All Obooks</subfield>
     <subfield code="i">ssid=ssj0000119406; dbcode=ZEEST; providercode=PRVWIB</subfield>
-    <subfield code="u">http://proxy.library.cornell.edu/login?url=http://onlinelibrary.wiley.com/book/10.1002/9780470995310</subfield>
+    <subfield code="u">http://onlinelibrary.wiley.com/book/10.1002/9780470995310</subfield>
     <subfield code="z">Connect to text.</subfield>
   </datafield>
   <datafield ind1="2" ind2=" " tag="899">

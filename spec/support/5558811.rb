@@ -126,7 +126,7 @@ match = <<'MATCH_XML'
     <subfield code="v">no. 385.</subfield>
   </datafield>
   <datafield ind1="4" ind2="0" tag="856">
-    <subfield code="u">https://proxy.library.cornell.edu/login?url=http://opac.newsbank.com/select/evans/385</subfield>
+    <subfield code="u">http://opac.newsbank.com/select/evans/385</subfield>
     <subfield code="y">Evans Digital Edition</subfield>
     <subfield code="z">Connect to full text:</subfield>
   </datafield>

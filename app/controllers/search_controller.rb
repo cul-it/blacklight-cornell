@@ -202,10 +202,10 @@ class SearchController < ApplicationController
 
     if engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
-      "https://proxy.library.cornell.edu/login?url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
+      "http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
     elsif engine_id == 'summonArticles'
       query = query.gsub('&', '%26')
-      "https://proxy.library.cornell.edu/login?url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
+      "http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
     elsif engine_id == 'digitalCollections'
       query = query.gsub('&', '%26')
       "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
@@ -217,7 +217,7 @@ class SearchController < ApplicationController
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
     elsif engine_id == 'ebsco_eds'
       query = query.gsub('&', '%26')
-      query = "https://proxy.library.cornell.edu/login?url=https://discovery.ebsco.com/c/u2yil2/results?q=#{query}"
+      query = "https://discovery.ebsco.com/c/u2yil2/results?q=#{query}"
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.
