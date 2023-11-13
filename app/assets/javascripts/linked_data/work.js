@@ -26,11 +26,11 @@ function Work() {
         // Highlight data from wikidata in item details on click
         $('#wikidata_highlight').on('click', addWdHighlightHandler);
       }
-      else if (Object.keys(headings).length && Object.keys(includedWorks).length) {
-        // If more than one authortitle heading, check included works if they exist
-        // Popovers display if parsed included work matches an authortitle facet
-        displayDataInPopovers(headings, includedWorks, bibId);
-      }
+      // else if (Object.keys(headings).length && Object.keys(includedWorks).length) {
+      //   // If more than one authortitle heading, check included works if they exist
+      //   // Popovers display if parsed included work matches an authortitle facet
+      //   displayDataInPopovers(headings, includedWorks, bibId);
+      // }
     } catch(err) {
       console.log(err);
     }
@@ -144,25 +144,25 @@ function Work() {
     });
   };
 
-  // Render "Work info" button for included work
-  function renderWorkInfoButton(includedWork, encodedHeading, bibId) {
-    // (Possible) TODO: Add matomo tracking on button click?
-    const authorTitleBrowseUrl = `/browse/info?authq=${encodedHeading}&bib=${bibId}&browse_type=Author-Title`
-    const buttonHtml = (
-      `<a
-        href="${authorTitleBrowseUrl}"
-        role="button"
-        tabindex="0"
-        data-trigger="focus"
-        class="info-button d-inline-block btn btn-sm btn-outline-secondary"
-      >
-        Work info »
-      </a>`
-    );
-    // TODO: Styling when link text wraps with button? (e.g. /catalog/9769908)
-    // $(this).css({ 'display': 'inline-block', 'max-width': '80%' });
-    return $(buttonHtml).insertAfter(includedWork);
-  };
+  // // Render "Work info" button for included work
+  // function renderWorkInfoButton(includedWork, encodedHeading, bibId) {
+  //   // (Possible) TODO: Add matomo tracking on button click?
+  //   const authorTitleBrowseUrl = `/browse/info?authq=${encodedHeading}&bib=${bibId}&browse_type=Author-Title`
+  //   const buttonHtml = (
+  //     `<a
+  //       href="${authorTitleBrowseUrl}"
+  //       role="button"
+  //       tabindex="0"
+  //       data-trigger="focus"
+  //       class="info-button d-inline-block btn btn-sm btn-outline-secondary"
+  //     >
+  //       Work info »
+  //     </a>`
+  //   );
+  //   // TODO: Styling when link text wraps with button? (e.g. /catalog/9769908)
+  //   // $(this).css({ 'display': 'inline-block', 'max-width': '80%' });
+  //   return $(buttonHtml).insertAfter(includedWork);
+  // };
 
   // Generate popup knowledge panel using plain Bootstrap
   async function renderPopoverContent(heading) {

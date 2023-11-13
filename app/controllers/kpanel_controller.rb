@@ -31,30 +31,7 @@ class KpanelController < ApplicationController
     end
     return result
   end
-  # Get info to display in knowledge panel
-  # Arguments: base url, authority type (author or subject), query string 
-  def panel
-    return unless ['author', 'subject', 'authortitle'].include?(params[:type])
-
-    @authq = params[:authq] || ''
-    @auth_type = params[:type] || ''
-    @bib = params[:bib] || ''
-    # This should return the JSON for solr documents
-    results = get_browse_info(@authq, @auth_type)
-    @data = results[0]
-
-    if ['author', 'subject'].include?(@auth_type)
-      heading = @data['heading']
-      #Call helper method to see whether external data should or should not be included within panel
-      #This used to be @authq but changing it because the parameter from the link may have different
-      #ending punctuation than the heading in the browse.  Relying entirely on heading now
-      permissions_key = heading.delete_prefix('"').delete_suffix('"')
-      @exclusions = check_permissions(permissions_key)
-      render 'default_panel'
-    elsif @auth_type == 'authortitle'
-      render 'author_title_panel'
-    end
-  end
+  
   def index
   	
   end
