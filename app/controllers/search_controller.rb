@@ -56,22 +56,6 @@ class SearchController < ApplicationController
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
 
-          # if !@results['summon_bento'].nil?
-          #   @results['summon_bento'].each do |result|
-          #     result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-          #   end
-          # end
-          # if !@results['summonArticles'].nil?
-          #   @results['summonArticles'].each do |result|
-          #     result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-          #   end
-          # end
-          # if !@results['ebsco_ds'].nil?
-          #   @results['ebsco_ds'].each do |result|
-          #     result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-          #   end
-          # end
-
           # Merge the newly generated, format-specific results with any other results (e.g., from
           # Summon or web search), then remove the original single-query result.
           @results.merge!(faceted_results).except! 'solr'
