@@ -66,14 +66,30 @@ class RecordMailer < ActionMailer::Base
     @url_gen_params = url_gen_params
     subject = ""
     # @message        = details[:message]
-    delivery_options = {
-      user_name: ENV["SMTP_USERNAME"],
-      password: ENV["SMTP_PASSWORD"],
-      address: ENV["SMTP_ADDRESS"]
-    }
+    # delivery_options = {
+    #   user_name: ENV["SMTP_USERNAME"],
+    #   password: ENV["SMTP_PASSWORD"],
+    #   address: ENV["SMTP_ADDRESS"]
+    # }
 
-    mail(:to => to, :subject => subject,
-      delivery_method_options: delivery_options)
+    # mail(:to => to, :subject => subject,
+    #   delivery_method_options: delivery_options)
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "details: " + details.inspect
+msg << "to: " + to.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+binding.pry
+#*******************
+    # 'to: "6072213597@vtext.com"'
+    arg = ["123"]
+    mail(:to => [details[:to]], :subject => subject, :content_type => 'text')
   end
 
   protected

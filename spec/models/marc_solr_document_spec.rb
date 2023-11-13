@@ -7,6 +7,7 @@
 require 'rails_helper'
 require 'bl_monkeys'
 require 'stringio'
+require 'json'
 
 # NOTE: most of these functions and tests are copied directly from
 # # the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
@@ -162,13 +163,13 @@ describe Blacklight::Solr::Document::MarcExport do
   end
 
   describe "export_as_cse_citation_txt" do
-    xit "should handle a typical record correctly" do
+    it "should handle a typical record correctly" do
       expect(@typical_record.export_as_cse_citation_txt()[1]).to eq("Ferree DC, Warrington IJ, editors. Apples: botany, production, and uses. Oxon, U.K.: CABI Pub.; 2003.")
     end
   end
 
   describe "export_as_chicago_citation_txt" do
-    xit "should handle a typical record correctly" do
+    it "should handle a typical record correctly" do
       expect(@typical_record.export_as_chicago_citation_txt()[1]).to eq("Ferree,  David C., and I. J. Warrington, eds. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
     it "should format a record w/o authors correctly" do
@@ -177,7 +178,7 @@ describe Blacklight::Solr::Document::MarcExport do
     it "should format a citation without a 245b field correctly" do
       expect(@record_without_245b.export_as_chicago_citation_txt[1]).to eq("Janetzky,  Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
     end
-    xit "should format a citation with 4+ authors correctly" do
+    it "should format a citation with 4+ authors correctly" do
       chicago_text = @record_with_10plus_authors.export_as_chicago_citation_txt()[1]
       expect(chicago_text).to eq("Greer,  Lowell, Steven Lubin, Stephanie Chase, Stephanie Chaste, Stephanie Waste, Stephanie Paste, John Doe, et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
       expect(chicago_text).to match(/John Doe, et al\./)
@@ -186,7 +187,7 @@ describe Blacklight::Solr::Document::MarcExport do
     it "should handle dissertation data correctly" do
       expect(@dissertation_record.export_as_chicago_citation_txt()[1]).to match('The Worm Has Turned')
     end
-    xit "should handle 3 authors correctly" do
+    it "should handle 3 authors correctly" do
       expect(@three_authors_record.export_as_chicago_citation_txt()[1]).to match(/^Doe,  John, Joe Schmoe, and Bill Schmoe\./)
     end
     it "should handle editors, translators, and compilers correctly" do
@@ -213,7 +214,7 @@ describe Blacklight::Solr::Document::MarcExport do
   end
 
   describe "export_as_apa_citation_txt" do
-    xit "should format a standard citation correctly" do
+    it "should format a standard citation correctly" do
       expect(@typical_record.export_as_apa_citation_txt()[1]).to eq("Ferree, D. C., &amp; Warrington, I. J. (Eds.). (2003). <i>Apples: botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
 
@@ -236,7 +237,7 @@ describe Blacklight::Solr::Document::MarcExport do
   end
 
   describe "export_as_mla_citation_txt" do
-    xit "should format a standard MLA citation correctly" do
+    it "should format a standard MLA citation correctly" do
       expect(@typical_record.export_as_mla_citation_txt()[1]).to eq("Ferree,  David C., and I. J. Warrington, eds. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003. Print.")
     end
 
@@ -259,7 +260,7 @@ CITE_MATCH
 # DISCOVERYACCESS-1677
 # roman numerals need to be properly eliminated from the date field.
 # DISCOVERYACCESS-1677
-    xit "should format an old time book correctly for mla (7)" do
+    it "should format an old time book correctly for mla (7)" do
       id = "8125253"
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       cite_style = cite_info[0]
@@ -276,7 +277,7 @@ CITE_MATCH
  #Chicago 17th ed. format.
  # Official documentation: http://www.chicagomanualofstyle.org/16/ch14/ch14_sec018.html
  #DISCOVERYACCESS-1677
-    xit "should format an ebook correctly for chicago" do
+    it "should format an ebook correctly for chicago" do
       id = "8696757"
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
       cite_style = cite_info[0]
@@ -326,7 +327,7 @@ CITE_MATCH
     end
 
  #@DISCOVERYACCESS-3175
-    xit "should format an an edited book book correctly for chicago" do
+    it "should format an an edited book book correctly for chicago" do
       id = "9448862"
       cite_info = @book_recs[id].export_as_chicago_citation_txt()
       cite_style = cite_info[0]
@@ -359,7 +360,7 @@ CITE_MATCH
       expect(cite_style).to match(match_style)
     end
 
-    xit "should format use citation date information properly for MLA" do
+    it "should format use citation date information properly for MLA" do
       id = "8867518"
       cite_info = @book_recs[id].export_as_mla_citation_txt()
       match_style = @mla_match_style
@@ -387,7 +388,7 @@ CITE_MATCH
     end
 ###
 #
-    xit "should format mla7,8, and cse citation information properly for ebook" do
+    it "should format mla7,8, and cse citation information properly for ebook" do
       id = "5558811"
       cite_info={}
       match_str={}
@@ -397,7 +398,7 @@ CITE_MATCH
       match_style['cse'] = @cse_match_style
       match_style['chicago'] = @chicago_match_style
       match_style['apa'] = @apa_match_style
-      @book_recs[id]['url_access_json'] = [url => "http://opac.newsbank.com/select/evans/385"].to_json
+      @book_recs[id]['url_access_json'] = {url: "http://opac.newsbank.com/select/evans/385"}.to_json
       ["mla","mla8","cse","chicago","apa"].each   do |fmt|
         cite_info[fmt] = @book_recs[id].send("export_as_#{fmt}_citation_txt")
       end
@@ -533,7 +534,7 @@ CITE_MATCH
       expect(@record_without_authors.export_as_mla_citation_txt()[1]).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971. Print.")
     end
 
-    xit "should format a citation with 4+ authors correctly" do
+    it "should format a citation with 4+ authors correctly" do
       expect(@record_with_10plus_authors.export_as_mla_citation_txt()[1]).to eq("Greer,  Lowell et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001. Print.")
     end
 
@@ -582,12 +583,12 @@ CITE_MATCH
   end
 
   describe "export_as_refworks_marc_txt" do
-    xit "should export correctly" do
+    it "should export correctly" do
       expect(@music_record.export_as_refworks_marc_txt).to match("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n")
     end
 
     describe "for UTF-8 record" do
-      xit "should export in Unicode normalized C form" do
+      it "should export in Unicode normalized C form" do
         @utf8_exported = @record_utf8_decomposed.export_as_refworks_marc_txt
 
         if defined? Unicode
@@ -637,10 +638,10 @@ CITE_MATCH
       expect(ris_entries["ER"]).to eq(Set.new([""]))
     end
 
-    xit "should export a typical ebook record correctly" do
+    it "should export a typical ebook record correctly" do
       id = "5558811"
       @book_recs[id]["online"]= ["Online"]
-      @book_recs[id]['url_access_json'] = ['url' => "http://opac.newsbank.com/select/evans/385"].to_json
+      @book_recs[id]['url_access_json'] = {url: "http://opac.newsbank.com/select/evans/385"}.to_json
       @book_recs[id]['language_facet'] = ["Algonquian (Other)"]
       ris_file = @book_recs[id].export_as_ris
       ris_entries = Hash.new {|hash, key| hash[key] = Set.new }
@@ -711,7 +712,7 @@ CITE_MATCH
 
 
   describe "Format exports" do
-    xit "should export the title and type in multiple formats correctly" do
+    it "should export the title and type in multiple formats correctly" do
       ti_ids = ["1001", "1676023", "3261564", "5494906", "5558811", "6788245"]
       ti_data = {}
       ti_output = {}
@@ -819,7 +820,7 @@ CITE_MATCH
        end
     end
 
-    xit "should export the author,publisher,date,place in multiple formats correctly" do
+    it "should export the author,publisher,date,place in multiple formats correctly" do
       ti_ids = [ "1378974","3261564","5494906","6788245","9496646","9939352" ]
       ti_data = {}
       ti_output = {}
