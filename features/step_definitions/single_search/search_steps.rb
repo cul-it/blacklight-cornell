@@ -178,10 +178,24 @@ Then("I should get Articles & Full Text results") do
   page.should have_selector("div#ebsco_eds-Bento1")
 end
 
-
-Then("the Articles View All link url should containt {string} but not {string}") do |string, string2|
+Then("the Articles View All link url should contain {string} but not {string}") do |string, string2|
   view_all = find("div#ebsco_eds-Bento1 > div.view-all a")
   url = view_all[:href]
   expect(url).to match(string)
   expect(url).not_to match(string2)
 end
+
+Then("the Articles heading link url should contain {string} but not {string}") do |string, string2|
+  heading = find("div#ebsco_eds > h2 > a")
+  url = heading[:href]
+  expect(url).to match(string)
+  expect(url).not_to match(string2)
+end
+
+Then("the Articles format link url should contain {string} but not {string}") do |string, string2|
+  link = find("a#facet_link_ebsco_eds")
+  url = link[:href]
+  expect(url).to match(string)
+  expect(url).not_to match(string2)
+end
+

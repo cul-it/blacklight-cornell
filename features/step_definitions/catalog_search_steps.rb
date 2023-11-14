@@ -189,3 +189,13 @@ Given("I search for everything") do
   fill_in('q', :with => '', fill_options: { clear: :backspace })
   page.find(:css, 'button#search-btn').click
 end
+
+Then("the Search Articles & Full Text link url should contain {string} but not {string}") do |string, string2|
+  looking_for_more = find("#facets .expand-search")
+  within looking_for_more do
+    articles = find("a", :text => "Search Articles & Full Text")
+    url = articles[:href]
+    expect(url).to match(string)
+    expect(url).not_to match(string2)
+  end
+end
