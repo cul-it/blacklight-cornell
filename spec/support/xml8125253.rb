@@ -163,7 +163,7 @@ def rec8125253
   <datafield ind1="4" ind2="0" tag="856">
     <subfield code="3">Available from Early English Books Online</subfield>
     <subfield code="i">dbcode=BHS; providercode=PRVCDH</subfield>
-    <subfield code="u">http://gateway.proquest.com/openurl?ctx_ver=Z39.88-2003&amp;res_id=xri:eebo&amp;rft_val_fmt=&amp;rft_id=xri:eebo:image:35810</subfield>
+    <subfield code="u">https://proxy.library.cornell.edu/login?url=http://gateway.proquest.com/openurl?ctx_ver=Z39.88-2003&amp;res_id=xri:eebo&amp;rft_val_fmt=&amp;rft_id=xri:eebo:image:35810</subfield>
     <subfield code="z">Connect to full text. Access limited to authorized subscribers.</subfield>
   </datafield>
   <datafield ind1="2" ind2=" " tag="899">

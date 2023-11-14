@@ -111,7 +111,7 @@ match = <<'MATCH_XML'
   <datafield ind1="4" ind2="0" tag="856">
     <subfield code="3">Full text available from SpringerLink ebooks - Business and Economics (Contemporary)</subfield>
     <subfield code="i">ssid=ssj0001174395; dbcode=0D3; providercode=PRVAVX</subfield>
-    <subfield code="u">https://link.springer.com/openurl?genre=book&amp;isbn=978-1-4302-4407-3</subfield>
+    <subfield code="u">https://proxy.library.cornell.edu/login?url=https://link.springer.com/openurl?genre=book&amp;isbn=978-1-4302-4407-3</subfield>
     <subfield code="z">Connect to text.</subfield>
   </datafield>
   <datafield ind1="2" ind2=" " tag="899">
