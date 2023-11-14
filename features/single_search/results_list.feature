@@ -260,3 +260,11 @@ Examples:
   | Jurisprudence of Enron | Scholarship@Cornell Law |
   | Lessons from Guangdong Province | Charles H. Dyson School of Applied Economics |
   | Frederic Neyrat questions | la philosophie d'Alain Badiou |
+
+@DISCOVERYACCESS-8225
+Scenario: Articles & Full Text View all link should not have proxy
+  Given I literally go to search
+  When I fill in "q" with 'coffee'
+  And I press 'Search'
+  Then I should get Articles & Full Text results
+  And the Articles View All link url should containt 'u2yil2' but not 'proxy.library' 

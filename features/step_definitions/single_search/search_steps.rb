@@ -173,3 +173,15 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
     diff = (num2.to_i - num.to_i).abs
     diff.should <=(20)
 end
+
+Then("I should get Articles & Full Text results") do
+  page.should have_selector("div#ebsco_eds-Bento1")
+end
+
+
+Then("the Articles View All link url should containt {string} but not {string}") do |string, string2|
+  view_all = find("div#ebsco_eds-Bento1 > div.view-all a")
+  url = view_all[:href]
+  expect(url).to match(string)
+  expect(url).not_to match(string2)
+end
