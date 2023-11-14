@@ -245,3 +245,13 @@ Feature: Search
   | 2940172 | Boletim de integração latino-americana |
   | 3828983 | International Series in Heating, Ventilation and Refrigeration |
   | 7588266 | Satan is real |
+
+  @DISCOVERYACCESS-8225
+  @javascript
+  Scenario: Perform a search and see no avail icon
+    Given I am on the home page
+    And I fill in the search box with 'harry'
+    And I press 'search'
+    Then I should get results
+    And the Search Articles & Full Text link url should contain 'u2yil2' but not 'proxy.library'
+

@@ -607,3 +607,12 @@ Feature: Search
     Then click on first link "Book"
     Then click on first link "Modify advanced search"
     And I should see the label 'Add a row'
+
+@DISCOVERYACCESS-8225
+Scenario: Looking for more? link for Articles & Full Text should not have proxy
+    When I literally go to advanced
+    And I fill in "q_row1" with 'harry'
+    And I press 'advanced_search'
+    Then I should get results
+    And the Search Articles & Full Text link url should contain 'u2yil2' but not 'proxy.library'
+
