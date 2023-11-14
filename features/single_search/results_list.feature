@@ -267,4 +267,6 @@ Scenario: Articles & Full Text View all link should not have proxy
   When I fill in "q" with 'coffee'
   And I press 'Search'
   Then I should get Articles & Full Text results
-  And the Articles View All link url should containt 'u2yil2' but not 'proxy.library' 
+  And the Articles View All link url should contain 'u2yil2' but not 'proxy.library' 
+  And the Articles heading link url should contain 'u2yil2' but not 'proxy.library' 
+  And the Articles format link url should contain 'u2yil2' but not 'proxy.library' 
