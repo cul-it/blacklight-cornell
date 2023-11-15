@@ -53,3 +53,6 @@ config/initializers/renderer.rb
 
 # brakeman test results
 brakeman-output.*
+
+# byebug
+.byebug_history
