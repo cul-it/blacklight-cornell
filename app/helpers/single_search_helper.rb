@@ -54,8 +54,6 @@ module SingleSearchHelper
       else
         link = "https://discovery.ebsco.com/c/u2yil2"
       end
-    when "summon_bento"
-      link = "#"
     when "digitalCollections"
       link = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
     else

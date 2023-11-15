@@ -140,7 +140,6 @@ class SearchController < ApplicationController
     @institutionalRepositories = results.delete('institutionalRepositories')
     @libguides = results.delete('libguides')
     # Top 2 are books and articles, regardless of display_type
-    #jgr25 top1 << ['summon_bento', results.delete('summon_bento')]
     top1 << ['ebsco_eds', results.delete('ebsco_eds')]
     top4 = top1
 
@@ -180,10 +179,7 @@ class SearchController < ApplicationController
   def all_items_url engine_id, query, format
 
 
-    if engine_id == 'summon_bento'
-      query = query.gsub('&', '%26')
-      "http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
-    elsif engine_id == 'digitalCollections'
+    if engine_id == 'digitalCollections'
       query = query.gsub('&', '%26')
       "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
     elsif engine_id == 'institutionalRepositories'
