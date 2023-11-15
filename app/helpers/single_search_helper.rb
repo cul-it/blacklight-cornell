@@ -50,9 +50,9 @@ module SingleSearchHelper
     when "ebsco_eds"
       bq = ss_encode(params[:q] || params[:query])
       if bq.present?
-        link = "https://proxy.library.cornell.edu/login?url=https://discovery.ebsco.com/c/u2yil2/results?q=#{bq}"
+        link = "https://discovery.ebsco.com/c/u2yil2/results?q=#{bq}"
       else
-        link = "https://proxy.library.cornell.edu/login?url=https://discovery.ebsco.com/c/u2yil2"
+        link = "https://discovery.ebsco.com/c/u2yil2"
       end
     when "summon_bento"
       link = "#"

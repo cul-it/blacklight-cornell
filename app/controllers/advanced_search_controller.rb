@@ -51,43 +51,7 @@ class AdvancedSearchController < ApplicationController
             @query = @query
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-          #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-#          searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-#          searcher.search(@query, :oq =>original_query,:per_page => 3)
-#          @results = searcher.results
 
-          # Reset query to make it show up properly for the user on the results page
-#          @query = original_query
-
-          # In order to treat multiple formats separately but only run one Solr query to retrieve
-          # them all, we have to store the query result in the custom_data object ...
-#          facet_results = @results['solr'][0].custom_data
-          # ... which then needs some extra massaging to get the data into the proper form
-#          faceted_results, @scores = facet_solr_results facet_results
-
-#          if !@results['summon_bento'].nil?
-#            @results['summon_bento'].each do |result|
-#              result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-#            end
-#          end
-#          if !@results['summonArticles'].nil?
-#            @results['summonArticles'].each do |result|
-#              result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-#            end
-#          end
-
-          # Merge the newly generated, format-specific results with any other results (e.g., from
-          # Summon or web search), then remove the original single-query result.
-#          @results.merge!(faceted_results).except! 'solr'
-
-#          unless @results['bestbet'].nil? or @results['bestbet'][0].nil?
-#            @best_bets = [{'title' => @results['bestbet'][0].title, 'link' => @results['bestbet'][0].link}]
-#          end
-
-#          display_type = params['fixedPanes'].nil? ? 'dynamic' : 'fixed'
-#          @fixed_panes = display_type == 'fixed' ? true : false
-#          @top_4_results, @secondary_results, @more_results = sort_panes @results.except!('bestbet') , display_type, @scores
-#      end
       if session[:search].nil?
   session[:search] = {}
       end
