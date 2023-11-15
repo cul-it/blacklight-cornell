@@ -625,11 +625,6 @@ end
     "Book" => "book"
   }
 
-  SUMMON_FORMAT_LIST = {
-    "Book" => "ebooks",
-    "Journal Article" => "article"
-  }
-
 # Following line needed for determin_formats method, replace with removed clio array element. See https://issues.library.cornell.edu/browse/DISCOVERYACCESS-310
   FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "lweb"]
 
@@ -660,11 +655,6 @@ end
 
       document["format"].listify.each do |format|
         formats << SOLR_FORMAT_LIST[format] if SOLR_FORMAT_LIST[format]
-      end
-    when Summon::Document
-      formats << "summon"
-      document.content_types.each do |format|
-        formats << SUMMON_FORMAT_LIST[format] if SUMMON_FORMAT_LIST[format]
       end
     when SerialSolutions::Link360
       formats << "summon"
