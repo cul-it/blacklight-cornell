@@ -34,9 +34,6 @@ class SearchController < ApplicationController
           end
           Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
           titem = BentoSearch::ResultItem.new
-          #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :summon_bento, :web, :bestbet, :summonArticles)
-          #searcher = BentoSearch::MultiSearcher.new(:worldcat, :solr, :ebsco_ds, :web, :bestbet, :summonArticles)
-          #searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebscohost, :summon_bento, :bestbet, :digitalCollections, :libguides, :summonArticles)
           searcher = BentoSearch::ConcurrentSearcher.new(:worldcat, :solr, :ebsco_eds, :bestbet, :digitalCollections, :libguides, :institutionalRepositories)
           searcher.search(@query, :oq =>original_query,:per_page => 3)
           @results = searcher.results.dup
@@ -139,7 +136,6 @@ class SearchController < ApplicationController
     more = results.sort_by { |key, result| BentoSearch.get_engine(key).configuration.title }
 
     # Remove articles and digital collections from top 4 logic
-    @summonArticles = results.delete('summonArticles')
     @digitalCollections = results.delete('digitalCollections')
     @institutionalRepositories = results.delete('institutionalRepositories')
     @libguides = results.delete('libguides')
@@ -187,9 +183,6 @@ class SearchController < ApplicationController
     if engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
       "http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
-    elsif engine_id == 'summonArticles'
-      query = query.gsub('&', '%26')
-      "http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
     elsif engine_id == 'digitalCollections'
       query = query.gsub('&', '%26')
       "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
