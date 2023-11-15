@@ -56,22 +56,6 @@ class SearchController < ApplicationController
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
 
-          # if !@results['summon_bento'].nil?
-          #   @results['summon_bento'].each do |result|
-          #     result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-          #   end
-          # end
-          # if !@results['summonArticles'].nil?
-          #   @results['summonArticles'].each do |result|
-          #     result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-          #   end
-          # end
-          # if !@results['ebsco_ds'].nil?
-          #   @results['ebsco_ds'].each do |result|
-          #     result.link = 'https://proxy.library.cornell.edu/login?url=' + result.link unless result.link.nil?
-          #   end
-          # end
-
           # Merge the newly generated, format-specific results with any other results (e.g., from
           # Summon or web search), then remove the original single-query result.
           @results.merge!(faceted_results).except! 'solr'
@@ -202,10 +186,10 @@ class SearchController < ApplicationController
 
     if engine_id == 'summon_bento'
       query = query.gsub('&', '%26')
-      "https://proxy.library.cornell.edu/login?url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
+      "http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article,t&s.q=#{query}"
     elsif engine_id == 'summonArticles'
       query = query.gsub('&', '%26')
-      "https://proxy.library.cornell.edu/login?url=http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
+      "http://cornell.summon.serialssolutions.com/search?s.fvf=ContentType,Newspaper+Article&s.q=#{query}"
     elsif engine_id == 'digitalCollections'
       query = query.gsub('&', '%26')
       "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
@@ -217,7 +201,7 @@ class SearchController < ApplicationController
       "http://guides.library.cornell.edu/srch.php?q=#{query}"
     elsif engine_id == 'ebsco_eds'
       query = query.gsub('&', '%26')
-      query = "https://proxy.library.cornell.edu/login?url=https://discovery.ebsco.com/c/u2yil2/results?q=#{query}"
+      query = "https://discovery.ebsco.com/c/u2yil2/results?q=#{query}"
     else
       # Need to pass pluses through as urlencoded characters in order to preserve
       # the Solr query format.

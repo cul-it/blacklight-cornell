@@ -241,7 +241,7 @@ module Blacklight::Solr::Document::Zotero
         }
       }
     end
-    if pa.blank? && editors.blank? && !relators.blank?
+    if editors.blank? && !relators.blank?
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} meeting authors #{meeting_authors.inspect}"
       relators.each { |n,r|
         rel = relator_to_zotero(r[0])

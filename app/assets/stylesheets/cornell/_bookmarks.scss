@@ -64,17 +64,16 @@
   background: none;
   border: none;
   text-decoration: underline;
-  padding: 0;
   .fa {
   	margin-right: .25rem;
   }
-  // padding: 0!important;
-  // /*optional*/
-  // font-family: arial, sans-serif;
-  // /*input has OS specific font-family*/
-  // color: #069;
-  // text-decoration: underline;
-  // cursor: pointer;
+}
+
+// DISCOVERYACCESS-8206: be more explicit about where to remove the padding from btn-link because it messes up the alignment of previous/next buttons in modal facets
+.blacklight-nav {
+	.btn-link {
+		padding: 0;
+	}
 }
 
 // MEDIA QUERIES
