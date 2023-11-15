@@ -13,3 +13,8 @@ Examples:
   | variable | value |
   | RAILS_ENV  | test  |
   | COVERAGE | on |
+
+@assumption
+Scenario: Check for testing user
+  Given I am on the home page
+  Then the test user is available
