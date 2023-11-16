@@ -1,11 +1,25 @@
 Feature: Login in is required before access to certain pages
 
-Scenario Outline: Check pages that should require login
-
-Given I am on <path_to>
-	And I click on link <login_required>
+@javascript
+Scenario: Check home page Sign in button that looks like a link
+Given I am on the home page
+	And I press "Sign in"
 	Then I should see the CUWebLogin page
 
-Examples:
-| path_to | login_required |
-| the home page | Sign in |
+@javascript
+Scenario: Check home page My Account
+Given I am on the home page
+	And I click on link "My Account"
+	Then I click on link "Log in with your NetID or GuestID"
+	Then I should see the CUWebLogin page
+
+@javascript
+Scenario: Check bookmarks sign in to email link
+Given I am on the bookmarks page
+	Then I press "Sign in to email items or save them to Book Bag" 
+	Then I should see the CUWebLogin page
+
+@javascript
+Scenario: Check navigating directly to my account
+Given I am on my account
+	Then I should see the CUWebLogin page
