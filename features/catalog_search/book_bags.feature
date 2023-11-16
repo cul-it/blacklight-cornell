@@ -51,9 +51,8 @@ Feature: Book Bags for logged in users
 #    | 20 | 9 |
 
     @book_bags_bookmarks_redirect
+    @javascript
     Scenario: Bookmarks redirect logged in users to Book Bags
-        Given PENDING
-        # this does not work in Pipeline blacklight-cornell-validate-pull-request
         Given we are in any development or test environment
         And I clear the SQLite transactions
         And I sign in to BookBag
@@ -61,7 +60,7 @@ Feature: Book Bags for logged in users
         And navigation should show 'Book Bag'
         And I view my bookmarks
         # I should be redirected back to /book_bags/index
-        And I sleep 2 seconds
+        And I sleep 3 seconds
         Then navigation should show 'Book Bag'
         Then I should see "Please use Book Bag while you are signed in." in the flash message
         And navigation should show 'Book Bag'
