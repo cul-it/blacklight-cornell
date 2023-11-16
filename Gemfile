@@ -77,8 +77,6 @@ group :development, :test do
   gem 'selenium-webdriver'
 end
 
-gem "spring", group: :development
-
 group :test do
   gem 'capybara','3.39.2'
   # Following two gems are following the setup proposed in the RoR tutorial
