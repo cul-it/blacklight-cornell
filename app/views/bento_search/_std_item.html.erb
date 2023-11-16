@@ -68,12 +68,6 @@
           <i class="fa fa-check" title="Full text" aria-hidden="true"></i> Full text <%= item.format_str.downcase %>
         </span>
       </p>
-      <% elsif !item.link_is_fulltext?.present? && item.format_str.present? && item.engine_id=="summon_bento"%>
-      <p class="bento_item_other_links">
-    <span class="format">
-      <i class="fa fa-pencil" title="Citation only" aria-hidden="true"></i> Citation only
-    </span>
-  </p>
       <% end %>
     </div>
     <% if is_cataloged(item.link) %>
