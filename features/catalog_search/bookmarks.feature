@@ -106,6 +106,7 @@ Feature: Bookmarks for anonymous users
         And there should be a print bookmarks button
 
     @DISCOVERYACCESS-7443
+    @javascript
     Scenario: The Email button on bookmarks should go direct to login
         Given I am on the home page
         When I fill in the search box with 'Harry'
@@ -115,6 +116,6 @@ Feature: Bookmarks for anonymous users
         And I sleep 2 seconds
         When I view my selected items
         And I click on link "Email"
-        And I sleep 2 seconds
+        And I sleep 1 second
         Then I should see the CUWebLogin page
 
