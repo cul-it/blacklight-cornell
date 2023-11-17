@@ -201,28 +201,30 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     callnumber.gsub("Oversize ","").gsub("Rare Books ","").gsub("ONLINE ","").gsub("Human Sexuality ","").gsub("Ellis ","").gsub("New & Noteworthy Books ","").gsub("A.D. White Oversize ","").sub("+ ","")
   end
 
-  def get_googlebooks_image(oclc, isbn, format)
-    uri = URI("https://books.google.com/books")
-    if oclc.present? and !oclc.include?("not found")
-      params = { :bibkeys => "OCLC:#{oclc}", :jscmd => "viewapi", "callback" => "?"}
-      uri.query = URI.encode_www_form(params)
-      result = Net::HTTP.get(uri)
+def get_googlebooks_image(oclc, isbn, format)
+  uri = URI("https://books.google.com/books")
+  book_id = nil
+  # use oclc if present, otherwise use isbn
+  book_id = oclc if oclc.present? and !oclc.include?("not found")
+  book_id = isbn if book_id.nil? and isbn.present? and !isbn.include?("not found")
+  unless book_id.nil?
+    params = { :bibkeys => "OCLC:#{book_id}", :jscmd => "viewapi", "callback" => "?"}
+    uri.query = URI.encode_www_form(params)
+    response = Net::HTTP.get_response(uri)
+    # sometimes googlebooks returns a 502 bad gateway, so we need to check for that
+    if response.kind_of? Net::HTTPSuccess
+      result = response.body
       result = eval(result.gsub("var _GBSBookInfo = ",""))
+      # if there's a thumbnail_url, return it
       if result.present? && result.values[0].present? && result.values[0][:thumbnail_url].present?
         return result.values[0][:thumbnail_url]
       end
+    else
+      return set_cover_image(format)
     end
-    if isbn.present? and !isbn.include?("not found")
-      params = { :bibkeys => "OCLC:#{isbn}", :jscmd => "viewapi", "callback" => "?"}
-      uri.query = URI.encode_www_form(params)
-      result = Net::HTTP.get(uri)
-      result = eval(result.gsub("var _GBSBookInfo = ",""))
-      if result.present? && result.values[0].present? && result.values[0][:thumbnail_url].present?
-        return result.values[0][:thumbnail_url]
-      end
-    end
-    return set_cover_image(format)
   end
+  return set_cover_image(format)
+end
 
   # When there's no image from google books
   def set_cover_image(format)
