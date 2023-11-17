@@ -894,10 +894,10 @@ end
   def link_to_document(doc, field_or_opts = nil, opts={:label=>nil, :counter => nil, :results_view => true})
     # opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
     # label = _cornell_render_document_index_label doc, opts
-    if params[:controller] == 'bookmarks'
+    if ['bookmarks', 'book_bags'].include? params[:controller] 
       label = field_or_opts
       docID = doc.id
-      link_to label, '/bookmarks/' + docID
+      link_to label, '/' + params[:controller] + '/' + docID
     else
       # link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
       super
