@@ -929,6 +929,11 @@ end
       link_url = bookmarks_path
     end
 
+    if link_url =~ /book_bags/ || params[:controller] == 'book_bags'
+      opts[:label] ||= t('blacklight.back_to_book_bags')
+      link_url = book_bags_path
+    end
+
     opts[:label] ||= t('blacklight.back_to_search')
 
     {
