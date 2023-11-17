@@ -1,8 +1,4 @@
 <%# default partial to display solr document fields in catalog show view -%>
-<%
-  authortitle_facet_value = @document['authortitle_facet']
-  included_works = @document['included_work_display']
-%>
 <dl class="row" id="itemDetails">
   <% document_show_fields(document).each do |solr_fname, field| -%>
     <% if document.has? solr_fname  -%>
@@ -40,5 +36,4 @@
 </dl>
 
 <%# Empty div with data-attributes for javascript %>
-<%= content_tag :div, nil, id: 'work', class: 'd-none',
-                data: { heading: authortitle_facet_value, included: included_works, bib: document['id'] } %>
+<%= content_tag :div, nil, id: 'work', class: 'd-none', data: { heading: document['authortitle_facet'] } %>

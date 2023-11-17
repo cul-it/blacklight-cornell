@@ -94,7 +94,8 @@ class CatalogController < ApplicationController
            :search_field => 'title',
            :related_search_field => 'author/creator',
            :sep => '|',
-           :key_value => true
+           :key_value => true,
+           :related_browse_type => 'Author-Title'
         },
         'related_work_display' => {
             :search_field => 'title',
