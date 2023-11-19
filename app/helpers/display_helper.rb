@@ -297,13 +297,17 @@ end
             # has optional link attributes
             # e.g. uniform title is searched in conjunction with author for more targeted results
             if !clickable_setting[:related_search_field].blank?
+              search_link = link_to(displayv_searchv[0],add_advanced_search_params(args[:field], displayv_searchv[1], clickable_setting[:related_search_field], displayv_searchv[2]))
+
               # include optional link to authority browse info
-              search_link = link_to(displayv_searchv[0], add_advanced_search_params(args[:field], displayv_searchv[1], clickable_setting[:related_search_field], displayv_searchv[2]))
-              if clickable_setting[:related_browse_type].present?
-                browse_link = link_to(t("blacklight.related_browse.#{args[:field]}"),
-                                      browse_info_path(authq: [displayv_searchv[2], displayv_searchv[1]].join(clickable_setting[:sep]),
+              related_auth_val = args[:document][clickable_setting[:related_auth_field]]
+              authq = [displayv_searchv[2], displayv_searchv[1]].join(" #{clickable_setting[:sep]} ").gsub(/\.$/, '')
+              if clickable_setting[:related_auth_field].present? && related_auth_val.present? && related_auth_val.include?(authq)
+                related_auth_label = blacklight_config.facet_fields[clickable_setting[:related_auth_field]].try(:label)
+                browse_link = link_to(t("blacklight.related_auth.#{args[:field]}"),
+                                      browse_info_path(authq: authq,
                                                        bib: args[:document]['id'],
-                                                       browse_type: clickable_setting[:related_browse_type]),
+                                                       browse_type: related_auth_label),
                                       class: 'info-button d-inline-block btn btn-sm btn-outline-secondary')
                 search_link + browse_link
               else
