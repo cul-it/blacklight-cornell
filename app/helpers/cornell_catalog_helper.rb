@@ -1646,7 +1646,7 @@ end
 
   # For musical recordings, renders the image returned by Discogs when available.
   def format_discogs_image url
-    image_html = "<div id='discogs-image'><img src='" + url + "' width='150px'/></div>"
+    image_html = "<div id='discogs-image'><img src='" + url + "' alt='' class='img-thumbnail'></div>"
     return image_html.html_safe
   end
   

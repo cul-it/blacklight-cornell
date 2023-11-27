@@ -105,52 +105,17 @@ Feature: Bookmarks for anonymous users
         And I should not see the text "You have no selected items."
         And there should be a print bookmarks button
 
-#    @bookmarks_select_limit
-#    @javascript
-#    Scenario: I should be limited to 500 selected items
-#        Given PENDING
-        # after many attempts to adjust timing and selection count, this just does not work reliably
-#        Given I am on the home page
-#		When I fill in the search box with 'shirt'
-#		And I press 'search'
-#        And I select 100 items per page
-#        And I sleep 5 seconds
-#        And I check Select all
-#        And I sleep 5 seconds
-#        Then I should see 100 selected items
-#        And click on first link "Next »"
-#        And I check Select all
-#        And I sleep 5 seconds
-#        Then I should see 200 selected items
-#        And click on first link "Next »"
-#        And I check Select all
-#        And I sleep 5 seconds
-#        Then I should see 300 selected items
-#        And click on first link "Next »"
-#        And I check Select all
-#        And I sleep 10 seconds
-#        Then I should see 400 selected items
-#        And click on first link "Next »"
-#        And I check Select all
-#        And I sleep 5 seconds
-#        Then I should see 500 selected items
-#        And click on first link "Next »"
-#        Then I select the first 1 catalog results
-#        Then I should see 500 selected items
+    @DISCOVERYACCESS-7443
+    @javascript
+    Scenario: The Email button on bookmarks should go direct to login
+        Given I am on the home page
+        When I fill in the search box with 'Harry'
+        And I press 'search'
+        Then I should get results
+        Then I select the first 3 catalog results
+        And I sleep 2 seconds
+        When I view my selected items
+        And I click on link "Email"
+        And I sleep 1 second
+        Then I should see the CUWebLogin page
 
-#    @bookmarks_book_select_limit
-#    @javascript
-#    Scenario Outline: My bookbag should be limited to 500 selected books
-#        Given PENDING
-        # after many attempts to adjust timing and selection count, this just does not work reliably
-#        Given I visit Books page '<page>' with '50' per page
-#        And I check Select all
-#        And I sleep 3 seconds
-#        Then I should see <count> selected items
-
-
-#    Examples:
-#    | page | count |
-#    | 2 | 50 |
-#    | 3 | 100 |
-#    | 4 | 150 |
