@@ -344,11 +344,11 @@ end
 		if record[:bibid].to_s == bibid
 		  record[:holdings].each do |holding|
 		      locnames_by_lid[holding[:LOCATION_ID].to_s] = {:display_name=>holding[:LOCATION_DISPLAY_NAME],
-			:location_code =>holding[:LOCATION_CODE]} unless holding[:LOCATION_ID].to_s.blank?
+      :location_code =>holding[:LOCATION_CODE]} unless holding[:LOCATION_ID].to_s.blank?
 		      locnames_by_lid[holding[:TEMP_LOCATION_ID].to_s]= {:display_name=>holding[:TEMP_LOCATION_DISPLAY_NAME],
-			:location_code =>holding[:TEMP_LOCATION_CODE]}unless holding[:TEMP_LOCATION_ID].to_s.blank?
+      :location_code =>holding[:TEMP_LOCATION_CODE]}unless holding[:TEMP_LOCATION_ID].to_s.blank?
 		      locnames_by_lid[holding[:PERM_LOCATION].to_s]= {:display_name=>holding[:PERM_LOCATION_DISPLAY_NAME],
-			:location_code =>holding[:PERM_LOCATION_CODE]}unless holding[:PERM_LOCATION].to_s.blank?
+      :location_code =>holding[:PERM_LOCATION_CODE]}unless holding[:PERM_LOCATION].to_s.blank?
 		    #end
 		  end
 		end
@@ -576,12 +576,12 @@ end
 		      statuses_as_text[holding[:ITEM_ID].to_s] = make_substitute(holding,items_solr)
 		      ##Rails.logger.debug "\nes287_debug line #{__LINE__} is there an item id  = " + holding.inspect
 		      if holding[:ITEM_ID].nil? and !(holding[:ODATE].nil?)  and holding[:PO_TYPE] != 5 and holding[:DISPLAY_CALL_NO].blank?
-			 ##Rails.logger.debug "\nes287_debug line #{__FILE__} #{__LINE__} there no item id, there is an order date so treat as order  = " + holding.inspect
-			 orders_by_hid[hk.to_s] = "1 Copy Ordered as of " + holding[:ODATE].to_s[0,10]
+       ##Rails.logger.debug "\nes287_debug line #{__FILE__} #{__LINE__} there no item id, there is an order date so treat as order  = " + holding.inspect
+       orders_by_hid[hk.to_s] = "1 Copy Ordered as of " + holding[:ODATE].to_s[0,10]
 		      end
 		      if holding[:ITEM_ID].nil? and !(holding[:ODATE].nil?) and holding[:PO_TYPE] != 5 and holding[:LINE_ITEM_STATUS]== 1
-			 ##Rails.logger.debug "\nes287_debug line #{__FILE__} #{__LINE__} there no item id, there is an order date status is 1 = " + holding.inspect
-			 orders_by_hid[hk.to_s] = "1 Copy Received."
+       ##Rails.logger.debug "\nes287_debug line #{__FILE__} #{__LINE__} there no item id, there is an order date status is 1 = " + holding.inspect
+       orders_by_hid[hk.to_s] = "1 Copy Received."
                       end
 
 		  end
@@ -694,16 +694,16 @@ end
 	      grouph.each_key do | sk |
 		status =
 		      case some_not_avail + some_available
-			   when 0
-				"none"
-			   when 1
-				"available"
-			   when 2
-				 "not_available"
-			   when 3
-				 "some_available"
-			   else
-			      "not_available"
+         when 0
+      	"none"
+         when 1
+      	"available"
+         when 2
+      	 "not_available"
+         when 3
+      	 "some_available"
+         else
+            "not_available"
 		      end
 		if  ['Available','Returned'].any? {|code| sk.include?(code) }
 		  status = "available" ;
@@ -920,11 +920,11 @@ end
 		      hso['perm_location']['name'] = hdb['PERM_LOCATION_DISPLAY_NAME']
 		      hso['perm_location']['library'] = hdb['PERM_LOCATION_DISPLAY_NAME']
 		if hdb['TEMP_LOCATION_ID'] != 0
-			   hso['temp_location'] = {}
-			   hso['temp_location']['code'] = hdb['TEMP_LOCATION_CODE']
-			   hso['temp_location']['number'] = hdb['TEMP_LOCATION_ID']
-			   hso['temp_location']['name'] = hdb['TEMP_LOCATION_DISPLAY_NAME']
-			   hso['temp_location']['library'] = hdb['TEMP_LOCATION_DISPLAY_NAME']
+         hso['temp_location'] = {}
+         hso['temp_location']['code'] = hdb['TEMP_LOCATION_CODE']
+         hso['temp_location']['number'] = hdb['TEMP_LOCATION_ID']
+         hso['temp_location']['name'] = hdb['TEMP_LOCATION_DISPLAY_NAME']
+         hso['temp_location']['library'] = hdb['TEMP_LOCATION_DISPLAY_NAME']
 		      end
 		      items_db << hso
 		end
@@ -1058,44 +1058,44 @@ end
 		    end
 		    if !loc['holdings'][i][type].blank? && !cond2[cond2.size-1]['copies'][0][type].blank?
 		      if type == 'current_issues'
-			##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
+      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
 		      end
 		      if type == 'summary_holdings'
-			div = ';'
+      div = ';'
 		      else
-			div = ';'
+      div = ';'
 		      end
 		      if !cond2[cond2.size-1]['copies'][0][type].include?(loc['holdings'][i][type])
-			cond2[cond2.size-1]['copies'][0][type]  << div + loc['holdings'][i][type]
-			if type == 'indexes'
-			  ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying #{type} " + cond2[cond2.size-1]['copies'][0][type].inspect
-			  t1str = (cond2[cond2.size-1]['copies'][0][type]).gsub('Indexes: ','')
-			  t1str.gsub!('; ',';')
-			  t2str = t1str.split(';')
-			  ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
-			  t2str.sort!
-			  ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
-			  cond2[cond2.size-1]['copies'][0][type] = 'Indexes: ' + t2str.join(';')
-			end
-			if type == 'summary_holdings'
-			  ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying #{type} " + cond2[cond2.size-1]['copies'][0][type].inspect
-			  t1str = (cond2[cond2.size-1]['copies'][0][type]).gsub('Library has: ','')
-			  t1str.gsub!('<br/>','')
-			  t1str.gsub!('&nbsp;','')
-			  t1str.gsub!('; ',';')
-			  #t2str = t1str.split(';')
-			  t2str = t1str.split(div)
-			  ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
-			  t2str.sort!
-			  ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
-			  #cond2[cond2.size-1]['copies'][0][type] = ('Library has: ' + t2str.join(';')).html_safe
-			  cond2[cond2.size-1]['copies'][0][type] = ('Library has: ' + t2str.join(';<br/>&nbsp;&nbsp;&nbsp;&nbsp;')).html_safe
-			end
+      cond2[cond2.size-1]['copies'][0][type]  << div + loc['holdings'][i][type]
+      if type == 'indexes'
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying #{type} " + cond2[cond2.size-1]['copies'][0][type].inspect
+        t1str = (cond2[cond2.size-1]['copies'][0][type]).gsub('Indexes: ','')
+        t1str.gsub!('; ',';')
+        t2str = t1str.split(';')
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
+        t2str.sort!
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
+        cond2[cond2.size-1]['copies'][0][type] = 'Indexes: ' + t2str.join(';')
+      end
+      if type == 'summary_holdings'
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying #{type} " + cond2[cond2.size-1]['copies'][0][type].inspect
+        t1str = (cond2[cond2.size-1]['copies'][0][type]).gsub('Library has: ','')
+        t1str.gsub!('<br/>','')
+        t1str.gsub!('&nbsp;','')
+        t1str.gsub!('; ',';')
+        #t2str = t1str.split(';')
+        t2str = t1str.split(div)
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
+        t2str.sort!
+        ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ t2str =  " + t2str.inspect
+        #cond2[cond2.size-1]['copies'][0][type] = ('Library has: ' + t2str.join(';')).html_safe
+        cond2[cond2.size-1]['copies'][0][type] = ('Library has: ' + t2str.join(';<br/>&nbsp;&nbsp;&nbsp;&nbsp;')).html_safe
+      end
 		      end
 		    end
 		    if !loc['holdings'][i][type].blank? && cond2[cond2.size-1]['copies'][0][type].blank?
 		      if type == 'current_issues'
-			##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
+      ##Rails.logger.debug "\nes287_debug #{__FILE__} line(#{__LINE__}) @@@@ copying current issues  to " + cond2[cond2.size-1]['copies'][0][type].inspect
 		      end
 		      cond2[cond2.size-1]['copies'][0][type]  = loc['holdings'][i][type]
 		    end
@@ -1432,31 +1432,27 @@ end
   end
 
 # (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
-  def request_path(group,id,aeon_codes,document,scan)
-	id_scan = scan == "yes" ? "#{id}.scan" : "#{id}"
+  def request_path(group, id, aeon_codes, document, scan)
+    id_scan = scan ? "#{id}.scan" : "#{id}"
     magic_path  = blacklight_cornell_request.magic_request_path("#{id_scan}")
+
     if ENV['SAML_IDP_TARGET_URL'].present?
-    magic_path = blacklight_cornell_request.auth_magic_request_path("#{id_scan}")
+      magic_path = blacklight_cornell_request.auth_magic_request_path("#{id_scan}")
     end
-    if ENV['AEON_REQUEST'].blank? and group != 'AEON_SCAN_REQUEST'
-      aeon_req = '/aeon/~id~'
-      aeon_req = aeon_req.sub!('~id~',id.to_s)
-      aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
+
+    if ENV['AEON_REQUEST'].blank? && group != 'AEON_SCAN_REQUEST'
+      aeon_req = "/aeon/#{id.to_s}"
     else
-      if group == 'AEON_SCAN_REQUEST'
-        aeon_req = ENV['AEON_SCAN_REQUEST'].gsub('~id~', id.to_s)
-        aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
-      else
-        aeon_req = ENV['AEON_REQUEST'].gsub('~id~',id.to_s)
-        aeon_req = aeon_req.gsub('~libid~',aeon_codes.join('|'))
-      end
+      url = group == 'AEON_SCAN_REQUEST' ? ENV['AEON_SCAN_REQUEST'] : ENV['AEON_REQUEST']
+      aeon_req = url.gsub('~id~', id.to_s).gsub('~libid~',aeon_codes.join('|'))
     end
-    if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
+
+    if document['url_findingaid_display'] && document['url_findingaid_display'].size > 0
       finding_a = (document['url_findingaid_display'][0]).split('|')[0]
-      ##Rails.logger.info("es287_debug@@ #{__FILE__} #{__LINE__}  = #{finding_a.inspect}")
     end
     aeon_req = aeon_req.gsub('~fa~',"#{finding_a}")
-    (group == "Circulating" ) ? magic_path: aeon_req
+
+    (group == "Circulating" ) ? magic_path : aeon_req
   end
 
   def has_tou?(id)
@@ -1622,10 +1618,10 @@ end
 	col_loc = []
 	holdings_condensed.each do |k,v|
 		if v["call"].present?
-			col_loc << v["call"]
+      col_loc << v["call"]
 		end
 		if v["location"].present? && v["location"]["name"].present?
-			col_loc << v["location"]["name"]
+      col_loc << v["location"]["name"]
 		end
 	end
 
@@ -1650,7 +1646,7 @@ end
 
   # For musical recordings, renders the image returned by Discogs when available.
   def format_discogs_image url
-    image_html = "<div id='discogs-image'><img src='" + url + "' width='150px'/></div>"
+    image_html = "<div id='discogs-image'><img src='" + url + "' alt='' class='img-thumbnail'></div>"
     return image_html.html_safe
   end
   

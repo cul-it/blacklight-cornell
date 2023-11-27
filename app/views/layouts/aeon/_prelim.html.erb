@@ -54,6 +54,7 @@
 						</ol>
 					</div>
 				</div>
+				<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
 				<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
 				<input type="hidden" id="DocumentType" name="DocumentType" value="<%= @doctype %>"/>

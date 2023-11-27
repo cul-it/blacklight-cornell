@@ -21,7 +21,8 @@ Feature: Search
     Then the 'search_field_advanced' drop-down should have an option for 'Publisher'
     Then the 'search_field_advanced' drop-down should have an option for 'Subject'
     Then the 'search_field_advanced' drop-down should have an option for 'Series'
-    Then the 'search_field_advanced' drop-down should have an option for 'Donor'
+    Then the 'search_field_advanced' drop-down should have an option for 'Place of Publication'
+    Then the 'search_field_advanced' drop-down should have an option for 'Donor/Provenance'
     #Then the 'boolean_row[1]' radio should have an option for 'or'
 
   @adv_search
@@ -200,8 +201,12 @@ Feature: Search
     And I select 'phrase' from the 'op_row' drop-down
     And I select 'Notes' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
-    Then I should get results
-    And I should see the label '1 result'
+    Then I should get 1 results
+    And I should see the "Notes" facet constraint
+    And click on first link "Annulus wall boundary layers in turbomachines"
+    Then I should see the label 'Annulus wall boundary layers in turbomachines'
+    And click on first link "Back to catalog results"
+    Then I should get 1 results
 
 # purple rain: music
  @adv_search
@@ -257,11 +262,14 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with 'Class of 1957'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Donor Name' from the 'search_field_advanced' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_advanced' drop-down
     And I press 'advanced_search'
     Then I should get 2 results
-    #And I should see the label '1 result'
-    #And I should not see the label 'Modify advanced'
+    And I should see the "Donor/Provenance" facet constraint
+    And click on first link "The annual of the British school at Athens"
+    Then I should see the label 'The annual of the British school at Athens'
+    And click on first link "Back to catalog results"
+    Then I should get 2 results
 
 #
  @adv_search
@@ -272,10 +280,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row1" with '1957'
     And I select 'all' from the 'op_row' drop-down
-    And I select 'Donor Name' from the 'search_field_advanced' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_advanced' drop-down
     And I fill in "q_row2" with 'Pumpelly'
     And I select 'all' from the 'op_row2' drop-down
-    And I select 'Donor Name' from the 'search_field_advanced2' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_advanced2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -380,6 +388,24 @@ Feature: Search
     Then I should get results
     And I should see the label '1 result'
     And I should see the label 'Modify advanced'
+
+  @adv_search
+  @all_search
+  @adv_place
+  @javascript
+  Scenario: Perform an advanced search by place of publication
+    When I literally go to advanced
+    And I sleep 4 seconds
+    And I fill in "q_row1" with 'New York'
+    And I select 'all' from the 'op_row' drop-down
+    And I select 'Place of Publication' from the 'search_field_advanced' drop-down
+    And I press 'advanced_search'
+    Then I should get 41 results
+    And I should see the "Place of Publication" facet constraint
+    And click on first link "The basic practice of statistics"
+    Then I should see the label 'The basic practice of statistics'
+    Then click on first link "Back to catalog results"
+    And I should get 41 results
 
  @begins_with
  @adv_search
@@ -581,3 +607,12 @@ Feature: Search
     Then click on first link "Book"
     Then click on first link "Modify advanced search"
     And I should see the label 'Add a row'
+
+@DISCOVERYACCESS-8225
+Scenario: Looking for more? link for Articles & Full Text should not have proxy
+    When I literally go to advanced
+    And I fill in "q_row1" with 'harry'
+    And I press 'advanced_search'
+    Then I should get results
+    And the Search Articles & Full Text link url should contain 'u2yil2' but not 'proxy.library'
+

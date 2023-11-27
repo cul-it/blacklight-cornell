@@ -84,8 +84,10 @@ Feature: Search
   Examples:
       | search | result |
       | wooden nutmeg  | The blasphemy of abolitionism exposed  |
-      | Hastingues | House with Red Shutters |
+      | Hastingues | Council House with Three Filled Arches End Elevation |
       | Geryon | account of the pastoral life of the ancients |
       | 100% Beef | operations of the Cincinnati Branch |
       | crazy legs | Roxy, June 18, 1983 |
-      | yard of pump water | Farm buildings and economical agricultural appliances |
+      | yard of pump water |  Principles and practice of plumbing |
+      | purple | Color Applied to Dress Design |
+      | Jazzbo | The Modern farmer |

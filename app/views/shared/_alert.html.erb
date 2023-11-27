@@ -1,13 +1,11 @@
 <div class="service-alert" role="complementary" aria-label="service alert">
   <div class="container">
     <div class="alert alert-warning">
-       	<span class="fa fa-exclamation-circle" aria-hidden="true"></span>
-      <% if ENV['SERVICE_ALERT_LINK_URL'].present? %>
-        <%= ENV['SERVICE_ALERT_MESSAGE'] %><a href="<%= ENV['SERVICE_ALERT_LINK_URL'] %>"><%= ENV['SERVICE_ALERT_LINK_TEXT'] %></a><%= ENV['SERVICE_ALERT_LAST_PART'] %>.<br>
-      <% end %>
-      <% if ENV['FOLIO_ALERT_LINK_URL'].present? %>     
-            <a href="<%= ENV['FOLIO_ALERT_LINK_URL'] %>"><%= ENV['FOLIO_ALERT_LINK_TEXT'] %></a><%= ENV['FOLIO_ALERT_MESSAGE'] %>.
-         <% end %>
+        <% @alerts.each do |alert| %>
+          <span class="fa fa-exclamation-circle" aria-hidden="true"></span> <%= alert.try(:html_safe) %>
+          <br/>
+        <% end %>
     </div>
   </div>
 </div>
+

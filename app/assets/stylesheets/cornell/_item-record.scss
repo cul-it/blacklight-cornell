@@ -33,7 +33,11 @@ h3.responsibility {
 .item-cover {
 	margin: 0 0 2em 2em;
 	text-align: center;
-	
+}
+#discogs-image {
+	img {
+		max-width: 200px;
+	}
 }
 // Availability anchor button
 // ----------------------------- //
@@ -287,6 +291,12 @@ padding-left: 6em;
 		border-bottom: 0;
 		margin-bottom: .75em;
 	}
+}
+
+// Linked data
+// -------------------------
+.wikidata-bgc {
+	background-color: #D1F2EB;
 }
 
 // MEDIA QUERIES

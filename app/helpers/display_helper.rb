@@ -625,14 +625,8 @@ end
     "Book" => "book"
   }
 
-  SUMMON_FORMAT_LIST = {
-    "Book" => "ebooks",
-    "Journal Article" => "article"
-  }
-
 # Following line needed for determin_formats method, replace with removed clio array element. See https://issues.library.cornell.edu/browse/DISCOVERYACCESS-310
-#  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "clio", "ebooks", "article", "summon", "lweb"]
-  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "summon", "lweb"]
+  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "lweb"]
 
   def format_online_results(urls)
     non_circ = image_tag("icons/noncirc.png", :class => :availability)
@@ -661,11 +655,6 @@ end
 
       document["format"].listify.each do |format|
         formats << SOLR_FORMAT_LIST[format] if SOLR_FORMAT_LIST[format]
-      end
-    when Summon::Document
-      formats << "summon"
-      document.content_types.each do |format|
-        formats << SUMMON_FORMAT_LIST[format] if SUMMON_FORMAT_LIST[format]
       end
     when SerialSolutions::Link360
       formats << "summon"
@@ -915,49 +904,23 @@ end
     end
   end
 
-  # link_back_to_catalog()
   # Overrides original method from blacklight_helper_behavior.rb
   # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
   def link_back_to_catalog(opts={:label=>nil})
-    pageNumber = 1
-    query_params = session[:search] ? session[:search].dup : {}
-    if query_params[:per_page].nil?
-      query_params[:per_page] = "20"
+    # Create deep copy of search_session to not alter search_session hash
+    query_params = search_session.present? ? search_session.deep_dup : {}
+
+    if search_session['counter']
+      per_page = (search_session['per_page'] || blacklight_config.default_per_page).to_i
+      counter = search_session['counter'].to_i
+
+      query_params[:per_page] = per_page unless search_session['per_page'].to_i == blacklight_config.default_per_page
+      query_params[:page] = ((counter - 1) / per_page) + 1
     end
-    test = (query_params[:counter].to_i % query_params[:per_page].to_i)
-      if (query_params[:counter].to_i % query_params[:per_page].to_i).to_s  == '0'
-         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i)
-      else
-         pageNumber = (query_params[:counter].to_i / query_params[:per_page].to_i) + 1
-      end
 
-      query_params[:page] = pageNumber.to_s
-
-
-    if !query_params[:q_row].nil?
-        if (!query_params[:q_row].nil? && query_params[:q_row].size == 2)
-            if query_params[:q_row][1] == ''
-              query_params[:q] = query_params[:q_row][0]
-              query_params.delete(:q_row)
-              query_params[:search_field] = query_params[:search_field_row][0]
-              query_params.delete(:search_field_row)
-              query_params.delete(:op_row)
-              query_params.delete(:boolean_row)
-              query_params.delete(:advanced_query)
-              #query_params.delete(:total)
-            end
-            session[:search] = query_params
-        end
-    end
-    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} search =  #{session[:search].inspect}")
-    Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} query_params =  #{query_params.inspect}")
-    query_params.delete :counter
-   # query_params.delete(:total)
     if params[:controller] == 'search_history'
       link_url = url_for(action: 'index', controller: 'search', only_path: false, protocol: 'https')
-      #link_url = url_for(query_params)
     else
-      Rails.logger.debug("es287_debug !!!!!!#{__FILE__}:#{__LINE__} qp =  #{query_params.inspect}")
       link_url = url_for(query_params)
     end
 
@@ -968,11 +931,10 @@ end
 
     opts[:label] ||= t('blacklight.back_to_search')
 
-    link = {}
-    link[:url] = link_url
-    link[:label] = opts[:label]
-
-    return link
+    {
+      url: link_url,
+      label: opts[:label]
+    }
   end
 
   # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks
@@ -989,8 +951,10 @@ end
   end
 
   def is_exportable document
-    if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
-      return true
+    if document.present? && document.export_formats.present?
+      if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
+        return true
+      end
     end
   end
 
@@ -1528,8 +1492,12 @@ end
   end
 
   def access_url_first(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
+    if args['url_access_json'].present? 
+      if access_url_is_list?(args)
+        url_access = JSON.parse(args['url_access_json'].first)
+      else
+        url_access = JSON.parse(args['url_access_json'])
+      end
       if url_access['url'].present?
         return url_access['url']
       end
@@ -1538,8 +1506,12 @@ end
   end
 
   def access_url_first_description(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
+    if args['url_access_json'].present?
+      if access_url_is_list?(args)
+        url_access = JSON.parse(args['url_access_json'].first)
+      else
+        url_access = JSON.parse(args['url_access_json'])
+      end
       if url_access['description'].present?
         return url_access['description']
       end
@@ -1550,27 +1522,66 @@ end
   def access_url_all(args)
     if args['url_access_json'].present?
       all = []
-      args['url_access_json'].each do |json|
-        url_access = JSON.parse(json)
-        if url_access['url'].present?
-          all << url_access['url']
+      if access_url_is_list?(args)
+        args['url_access_json'].each do |json|
+          url_access = JSON.parse(json)
+          if url_access['url'].present?
+            all << url_access['url']
+          end
         end
+      else
+        all << JSON.parse(args['url_access_json'])
       end
       return all.size > 0 ? all : nil
     end
     nil
   end
 
+  # This helper checks for the presence of an alerts.yml file in the root directory with one or more
+  # messages to display in the layout. Messages may include HTML tags, and there may be multiple messages
+  # to display. Only messages where the 'pages' array matches the url param will be returned.
+  #
+  # Params:
+  # path <String>: A URL path component (request.path) to be used for pattern matching.
+  # If the message 'pages' value includes a URL substring that matches path, it will be returned as part of the message array.
+  #
+  # Return value: An array of message strings, or []
+  def alert_messages(path)
+    begin
+      alert_messages = YAML.load_file("#{Rails.root}/alerts.yml")
+      messages_to_show = []
+      # Each message in the YAML file should have a pages array that lists which pages (e.g., MyAccount, Requests)
+      # should show the alert, and a message property that contains the actual message text/HTML. Only show
+      # the messages for the proper page.
+      alert_messages.each do |m|
+        # If the message includes a 'pages' array of URL paths, join them into a single regex. If pages is empty or missing,
+        # default to matching anything.
+        regex = m['pages'].present? && m['pages'] != [] ?
+          Regexp.union(m['pages']) :
+          Regexp.new('.*')
+        messages_to_show << m['message'] if path =~ regex
+      end
+      messages_to_show
+    rescue Errno::ENOENT, Psych::SyntaxError
+      # Nothing to do here; the alerts file is optional, and its absence (Errno::ENOENT) just means that there
+      # are no alert messages to show today. Psych::SyntaxError means there was an error in the syntax
+      # (most likely the indentation) of the YAML file. That's not good, but crashing with an ugly
+      # error message is worse than not showing the alerts.
+      []
+    end
+  end
+
   # puts together a collection of documents into one endnote export string
   def render_endnote_texts(documents)
     val = ''
-    documents.each do |doc|
-      if doc.exports_as? :endnote
-        endnote = doc.export_as(:endnote)
-        val += "#{endnote}\n" if endnote
+    if documents.present?
+      documents.each do |doc|
+        if doc.exports_as? :endnote
+          endnote = doc.export_as(:endnote)
+          val += "#{endnote}\n" if endnote
+        end
       end
     end
     val
   end
-
 end

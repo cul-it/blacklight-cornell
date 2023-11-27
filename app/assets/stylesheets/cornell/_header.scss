@@ -99,6 +99,11 @@ ul.blacklight-nav {
       }
     }
 }
+ul.blacklight-nav.noncatalog-nav {
+  li {
+    padding: 0 8px;
+  }
+}
 .separator {
   border-top: 1px solid $medium-gray;
   margin-top: .5em;
@@ -152,12 +157,6 @@ ul.blacklight-nav {
 .btn-library:active,
 .btn-library:focus {
   color: black;
-}
-
-// Library Catalog link on non-catalog interfaces (Databases, Digital Collections, My Account, Single Search)
-.secondary-catalog-link {
-  font-size: 1.1rem;
-  margin-top: .25em;
 }
 
 // Chat widget - override header border rule

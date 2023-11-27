@@ -173,6 +173,10 @@ Then("I remove facet constraint {string}") do |string|
   page.find(".selected-facets .filter-value", text: string).click
 end
 
+Then("I should see the {string} facet constraint") do |facet_label|
+  page.should have_selector(".selected-facets .filter-label", text: facet_label)
+end
+
 Then("I should see only the first {int} Format facets") do |int|
   items = page.all('div#facet-format ul.facet-values > li')
   if items.count > 10
@@ -184,4 +188,14 @@ end
 Given("I search for everything") do
   fill_in('q', :with => '', fill_options: { clear: :backspace })
   page.find(:css, 'button#search-btn').click
+end
+
+Then("the Search Articles & Full Text link url should contain {string} but not {string}") do |string, string2|
+  looking_for_more = find("#facets .expand-search")
+  within looking_for_more do
+    articles = find("a", :text => "Search Articles & Full Text")
+    url = articles[:href]
+    expect(url).to match(string)
+    expect(url).not_to match(string2)
+  end
 end

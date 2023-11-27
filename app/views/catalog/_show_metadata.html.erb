@@ -37,7 +37,7 @@
   </div>
   <div class="row">
     <div class="col-md-4 order-md-8">
-	  <div class="availability card" style="margin-bottom:10px">
+	  <div class="availability card">
 	    <div class="card-header">
 	      Availability
 	    </div>
@@ -334,6 +334,8 @@
         <% if @document["format_main_facet"] == "Musical Recording" %>
 		  <div id="discogs_disclaimer"></div>
 		<% end %>
+		<!--Adding Wikidata sourcing -->
+		<div id="wikidata_source"></div>
 	    <%# DISCOVERYACCESS-6275 %>
 		<% if ENV['SYNDETICS_UNBOUND_ENABLED'].present? && ENV['SYNDETICS_UNBOUND_ENABLED'] == "1" %>
 		<div id="syndetics_unbound"></div>
