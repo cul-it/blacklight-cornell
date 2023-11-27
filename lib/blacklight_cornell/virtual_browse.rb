@@ -205,8 +205,8 @@ def get_googlebooks_image(oclc, isbn, format)
   uri = URI("https://books.google.com/books")
   book_id = nil
   # use oclc if present, otherwise use isbn
-  book_id = oclc if oclc.present? and !oclc.include?("not found")
-  book_id = isbn if book_id.nil? and isbn.present? and !isbn.include?("not found")
+  book_id = oclc if oclc.present? && !oclc.include?("not found")
+  book_id = isbn if book_id.nil? && isbn.present? && !isbn.include?("not found")
   unless book_id.nil?
     params = { :bibkeys => "OCLC:#{book_id}", :jscmd => "viewapi", "callback" => "?"}
     uri.query = URI.encode_www_form(params)
