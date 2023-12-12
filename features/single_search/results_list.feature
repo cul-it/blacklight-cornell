@@ -161,26 +161,6 @@ Feature: Results list
     And I press 'Search'
     Then I should get bento results
     Then box "link_top_book" should match "0" th "from Catalog" in "page-entries"
-#The following tests that reference link_top_summon_bento are failing because they can not fine .bento1 in the css returned from the search
-#  #  I could not get the checkIP step to pass so i removed the count check step.
-#  @all_results_list @search_with_view_all_article_match_box
-#  Scenario: Search with view all article link should match bento box total
-#    Given I literally go to search
-#    When I fill in "q" with 'stress testing cardio horse insights'
-#    And I press 'Search'
-#    Then I should get bento results
-#    Then box "link_top_summon_bento" should match "0" th "Articles & Full Text" in "summary"
-
-
-#  #  I could not get the checkIP step to pass so i removed the count check step.
-#  @all_results_list @search_with_view_all_article_match_box
-#  Scenario: Search with view all article link should match bento box total
-#    Given I literally go to search
-#    When I fill in "q" with 'photoplethysmography methodological studies arterial stiffness'
-#    And I press 'Search'
-#    Then I should get bento results
-  #  Then box "link_top_summon_bento" should match "0" th "Articles & Full Text" in "summary"
-
 
   @all_results_list @search_with_view_all_top_book_match_box_ampersand_and_others
   Scenario: Search with view all books  (top) link  with ampersand and others
@@ -260,3 +240,13 @@ Examples:
   | Jurisprudence of Enron | Scholarship@Cornell Law |
   | Lessons from Guangdong Province | Charles H. Dyson School of Applied Economics |
   | Frederic Neyrat questions | la philosophie d'Alain Badiou |
+
+@DISCOVERYACCESS-8225
+Scenario: Articles & Full Text View all link should not have proxy
+  Given I literally go to search
+  When I fill in "q" with 'coffee'
+  And I press 'Search'
+  Then I should get Articles & Full Text results
+  And the Articles View All link url should contain 'u2yil2' but not 'proxy.library' 
+  And the Articles heading link url should contain 'u2yil2' but not 'proxy.library' 
+  And the Articles format link url should contain 'u2yil2' but not 'proxy.library' 

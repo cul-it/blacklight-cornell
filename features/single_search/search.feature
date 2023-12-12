@@ -88,4 +88,6 @@ Feature: Search
       | Geryon | account of the pastoral life of the ancients |
       | 100% Beef | operations of the Cincinnati Branch |
       | crazy legs | Roxy, June 18, 1983 |
-      | yard of pump water | Home waterworks: a manual of water supply in country homes |
+      | yard of pump water |  Principles and practice of plumbing |
+      | purple | Color Applied to Dress Design |
+      | Jazzbo | The Modern farmer |

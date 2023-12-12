@@ -625,14 +625,8 @@ end
     "Book" => "book"
   }
 
-  SUMMON_FORMAT_LIST = {
-    "Book" => "ebooks",
-    "Journal Article" => "article"
-  }
-
 # Following line needed for determin_formats method, replace with removed clio array element. See https://issues.library.cornell.edu/browse/DISCOVERYACCESS-310
-#  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "clio", "ebooks", "article", "summon", "lweb"]
-  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "summon", "lweb"]
+  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "lweb"]
 
   def format_online_results(urls)
     non_circ = image_tag("icons/noncirc.png", :class => :availability)
@@ -661,11 +655,6 @@ end
 
       document["format"].listify.each do |format|
         formats << SOLR_FORMAT_LIST[format] if SOLR_FORMAT_LIST[format]
-      end
-    when Summon::Document
-      formats << "summon"
-      document.content_types.each do |format|
-        formats << SUMMON_FORMAT_LIST[format] if SUMMON_FORMAT_LIST[format]
       end
     when SerialSolutions::Link360
       formats << "summon"
@@ -905,10 +894,10 @@ end
   def link_to_document(doc, field_or_opts = nil, opts={:label=>nil, :counter => nil, :results_view => true})
     # opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
     # label = _cornell_render_document_index_label doc, opts
-    if params[:controller] == 'bookmarks'
+    if ['bookmarks', 'book_bags'].include? params[:controller] 
       label = field_or_opts
       docID = doc.id
-      link_to label, '/bookmarks/' + docID
+      link_to label, '/' + params[:controller] + '/' + docID
     else
       # link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
       super
@@ -940,6 +929,11 @@ end
       link_url = bookmarks_path
     end
 
+    if link_url =~ /book_bags/ || params[:controller] == 'book_bags'
+      opts[:label] ||= t('blacklight.back_to_book_bags')
+      link_url = book_bags_path
+    end
+
     opts[:label] ||= t('blacklight.back_to_search')
 
     {
@@ -962,8 +956,10 @@ end
   end
 
   def is_exportable document
-    if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
-      return true
+    if document.present? && document.export_formats.present?
+      if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
+        return true
+      end
     end
   end
 
@@ -1501,8 +1497,12 @@ end
   end
 
   def access_url_first(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
+    if args['url_access_json'].present? 
+      if access_url_is_list?(args)
+        url_access = JSON.parse(args['url_access_json'].first)
+      else
+        url_access = JSON.parse(args['url_access_json'])
+      end
       if url_access['url'].present?
         return url_access['url']
       end
@@ -1511,8 +1511,12 @@ end
   end
 
   def access_url_first_description(args)
-    if args['url_access_json'].present? && args["url_access_json"].first.present?
-      url_access = JSON.parse(args['url_access_json'].first)
+    if args['url_access_json'].present?
+      if access_url_is_list?(args)
+        url_access = JSON.parse(args['url_access_json'].first)
+      else
+        url_access = JSON.parse(args['url_access_json'])
+      end
       if url_access['description'].present?
         return url_access['description']
       end
@@ -1523,11 +1527,15 @@ end
   def access_url_all(args)
     if args['url_access_json'].present?
       all = []
-      args['url_access_json'].each do |json|
-        url_access = JSON.parse(json)
-        if url_access['url'].present?
-          all << url_access['url']
+      if access_url_is_list?(args)
+        args['url_access_json'].each do |json|
+          url_access = JSON.parse(json)
+          if url_access['url'].present?
+            all << url_access['url']
+          end
         end
+      else
+        all << JSON.parse(args['url_access_json'])
       end
       return all.size > 0 ? all : nil
     end
@@ -1571,10 +1579,12 @@ end
   # puts together a collection of documents into one endnote export string
   def render_endnote_texts(documents)
     val = ''
-    documents.each do |doc|
-      if doc.exports_as? :endnote
-        endnote = doc.export_as(:endnote)
-        val += "#{endnote}\n" if endnote
+    if documents.present?
+      documents.each do |doc|
+        if doc.exports_as? :endnote
+          endnote = doc.export_as(:endnote)
+          val += "#{endnote}\n" if endnote
+        end
       end
     end
     val

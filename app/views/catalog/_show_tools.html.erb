@@ -61,7 +61,7 @@
           <%= emaillink_content.html_safe %>
         <% end %>
       <% else %>
-        <%= link_to '/bookmarks/show_email_login_required_bookmarks', {:name => 'Email', :data => {:blacklight_modal => "trigger"}, :class => "lightboxLink btn btn-sm", "data-toggle" => "modal"}  do %>
+        <%= link_to '/bookmarks/book_bags_login', {:name => 'Email', :data => {:blacklight_modal => "trigger"}, :class => "lightboxLink btn btn-sm", "data-toggle" => "modal"}  do %>
           <%= emaillink_content.html_safe %>
         <% end %>
       <% end %>

@@ -417,6 +417,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     else
       @response, @documents = search_service.fetch(params[:id])
     end
+    if @documents.count() < 1
+      return
+    end
     fmt = params[:format]
     Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
     respond_to do |format|

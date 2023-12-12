@@ -135,8 +135,12 @@ class SolrDocument
 
   # code here accessible to endnote_xml.rb, endnote.rb, ris.rb, zotero.rb
   def access_url_first_filtered(record)
-    if record['url_access_json'].present? && record["url_access_json"].first.present?
-      url_access = JSON.parse(record['url_access_json'].first)
+    if record['url_access_json'].present?
+      if record['url_access_json'].kind_of?(Array)
+        url_access = JSON.parse(record['url_access_json'].first)
+      else
+        url_access = JSON.parse(record['url_access_json'])
+      end
       if url_access['url'].present?
         access_url = url_access['url']
         access_url.sub!('http://proxy.library.cornell.edu/login?url=','')

@@ -95,7 +95,7 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '6.0.0'
-gem "capistrano", "~> 3.10"
+gem "capistrano", "~> 3.18"
 gem "capistrano-rails", "~> 1.6"
 gem 'capistrano-rvm'
 gem 'capistrano-ext'
