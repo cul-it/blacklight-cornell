@@ -1648,8 +1648,8 @@ class SearchBuilder < Blacklight::SearchBuilder
     user_params['stats.field'] = []
     user_params['rows'] = 0
     user_params.delete('sort')
-    user_params.delete('f.lc_callnum_facet.facet.limit')
-    user_params.delete('f.lc_callnum_facet.facet.sort')
+    # user_params.delete('f.lc_callnum_facet.facet.limit')
+    # user_params.delete('f.lc_callnum_facet.facet.sort')
     user_params.delete('f.author_facet.facet.limit')
     user_params.delete('f.fast_topic_facet.facet.limit')
     user_params.delete('f.fast_geo_facet.facet.limit')

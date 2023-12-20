@@ -74,8 +74,8 @@ class CatalogController < ApplicationController
       :rows => 20,
 # DISCOVERYACCESS-1472      :fl => '*,score',
 # Look into removing :fl entirely during off sprint
-      :defType => 'edismax',
-      :"f.lc_callnum_facet.facet.limit" => "-1"
+      :defType => 'edismax'
+      # :"f.lc_callnum_facet.facet.limit" => "-1"
     }
 
     ## list of display fields with icon
@@ -219,11 +219,11 @@ class CatalogController < ApplicationController
                           limit: 100
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
-    config.add_facet_field 'lc_callnum_facet',
-                           if: :has_search_parameters?,
-                          label: 'Call Number',
-                          component: Blacklight::Hierarchy::FacetFieldListComponent,
-                          sort: 'count'
+    # config.add_facet_field 'lc_callnum_facet',
+    #                        if: :has_search_parameters?,
+    #                       label: 'Call Number',
+    #                       component: Blacklight::Hierarchy::FacetFieldListComponent,
+    #                       sort: 'count'
 
 
    config.facet_display = {
