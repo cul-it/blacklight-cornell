@@ -187,12 +187,6 @@ devise_for :users, controllers: {
   # match ':controller(/:action(/:id))(.:format)'
 
   # BookBag routes.
-  # resources :book_bags, path: '/book_bags', controller: 'book_bags' do
-  #   concerns :exportable
-  # end
-  #   # concerns :exportable
-    # concerns :searchable
-
   put 'book_bags/add/:id' => 'book_bags#add', :as => 'add_pindex', :constraints => { :id => /.+/}
   get 'book_bags/add/:id' => 'book_bags#add', :as => 'add_index', :constraints => { :id => /.+/}
   get 'book_bags/addbookmarks' => 'book_bags#addbookmarks', :as => 'addbookmarks_index'
@@ -207,6 +201,10 @@ devise_for :users, controllers: {
   get 'book_bags/endnote(.:format)' => 'book_bags#endnote'
   get 'book_bags/ris(.:format)' => 'book_bags#ris'
   get 'book_bags/citation_page' => 'book_bags#show_citation_page', :as => 'show_book_bags_citation_page'
+
+  resources :book_bags, path: '/book_bags', controller: 'book_bags' do
+    concerns :exportable
+  end
 
   # custom error pages
   match "/404", :to => "errors#not_found", :via => :all

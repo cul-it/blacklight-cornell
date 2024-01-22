@@ -14,6 +14,19 @@ module BentoSearch
       return false
     end
 
+    # How to display a BentoSearch::Author object as a name
+    def author_display(author)
+      if author.present?
+        if author.display.present?
+          author.display
+        elsif author.last.present?
+          author.last
+        else
+          nil
+        end
+      end
+    end
+    
     # Returns source publication name OR publisher, along with volume/issue/pages
     # if present, all wrapped in various tags and labels. Returns html_safe
     # with tags.

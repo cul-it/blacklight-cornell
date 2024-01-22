@@ -112,13 +112,21 @@ Then("I should not see a button {string}") do |string|
 end
 
 Then("I should see the CUWebLogin page") do
-  patiently do
+  begin
+    expect(page).to have_title "Cornell University Web Login"
     page.should have_content("CUWebLogin")
-    page.find("input.input-submit")
-    page.find("a", :text => "IT Service Desk")
-    page.find("a", :text => "I don't have a NetID, now what?")
+    page.should have_content("Cornell University")
+    form = page.find("form#login")
+    form.should have_selector("input#username")
+    form.should have_selector("input#password")
+  rescue Capybara::ElementNotFound => e
+    page.should have_content("An error occurred while processing your request.")
+    page.should have_content("Error Message: Message Security Error")
+    puts URI.parse(current_url).path
+    puts "On login page, but CUWebLogin not available"
   end
 end
+
 
 Then("I select the first {int} catalog results") do |int|
   @all_checkboxes = page.all(:css, "input.toggle-bookmark")

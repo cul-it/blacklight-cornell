@@ -640,14 +640,8 @@ end
     "Book" => "book"
   }
 
-  SUMMON_FORMAT_LIST = {
-    "Book" => "ebooks",
-    "Journal Article" => "article"
-  }
-
 # Following line needed for determin_formats method, replace with removed clio array element. See https://issues.library.cornell.edu/browse/DISCOVERYACCESS-310
-#  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "clio", "ebooks", "article", "summon", "lweb"]
-  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "summon", "lweb"]
+  FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "lweb"]
 
   def format_online_results(urls)
     non_circ = image_tag("icons/noncirc.png", :class => :availability)
@@ -676,11 +670,6 @@ end
 
       document["format"].listify.each do |format|
         formats << SOLR_FORMAT_LIST[format] if SOLR_FORMAT_LIST[format]
-      end
-    when Summon::Document
-      formats << "summon"
-      document.content_types.each do |format|
-        formats << SUMMON_FORMAT_LIST[format] if SUMMON_FORMAT_LIST[format]
       end
     when SerialSolutions::Link360
       formats << "summon"
@@ -920,10 +909,10 @@ end
   def link_to_document(doc, field_or_opts = nil, opts={:label=>nil, :counter => nil, :results_view => true})
     # opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
     # label = _cornell_render_document_index_label doc, opts
-    if params[:controller] == 'bookmarks'
+    if ['bookmarks', 'book_bags'].include? params[:controller] 
       label = field_or_opts
       docID = doc.id
-      link_to label, '/bookmarks/' + docID
+      link_to label, '/' + params[:controller] + '/' + docID
     else
       # link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
       super
@@ -953,6 +942,11 @@ end
     if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
       opts[:label] ||= t('blacklight.back_to_bookmarks')
       link_url = bookmarks_path
+    end
+
+    if link_url =~ /book_bags/ || params[:controller] == 'book_bags'
+      opts[:label] ||= t('blacklight.back_to_book_bags')
+      link_url = book_bags_path
     end
 
     opts[:label] ||= t('blacklight.back_to_search')
