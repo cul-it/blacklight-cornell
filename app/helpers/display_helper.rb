@@ -1516,7 +1516,7 @@ end
       if access_url_is_list?(args)
         url_access = JSON.parse(args['url_access_json'].first)
       else
-        url_access = JSON.parse(args['url_access_json'])
+        url_access = JSON.parse(args['url_access_json'].first)["url"]
       end
       if url_access['url'].present?
         return url_access['url']
