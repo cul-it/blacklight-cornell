@@ -203,6 +203,8 @@ en:
         loc: "Location"
         cln: "Call number"
         sta: "Status"
+    related_auth:
+      included_work_display: "Work info »"
     search:
       title: 'Search Results | %{application_name}'
       search_results_header: 'Search'
