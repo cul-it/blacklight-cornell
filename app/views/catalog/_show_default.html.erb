@@ -17,7 +17,15 @@
           <% else search = heading['search1']  %>
           <% end %>
 
-          <a href="/browse/info?authq=<%=  search.gsub("&", "%26") %>&amp;browse_type=Author&amp;headingtype=<%=  type %>" role="button" class="info-button btn btn-sm btn-outline-secondary" aria-label="<%=  search %>"  onclick="javascript:_paq.push(['trackEvent', 'itemView', 'author-info']);">Author info »</a>
+          <%= link_to(t('blacklight.related_auth.author'),
+                      browse_info_path(authq: search.gsub("&", "%26"),
+                                       bib: document.id,
+                                       browse_type: 'Author',
+                                       headingtype: type),
+                      class: 'info-button btn btn-sm btn-outline-secondary',
+                      'aria-label': search,
+                      role: 'button',
+                      onclick: "javascript:_paq.push(['trackEvent', 'itemView', 'author-info']);") %>
           <% end %>
           <% end %>
        

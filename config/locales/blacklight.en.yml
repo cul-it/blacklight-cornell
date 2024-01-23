@@ -205,6 +205,7 @@ en:
         sta: "Status"
     related_auth:
       included_work_display: "Work info »"
+      author: "Author info »"
     search:
       title: 'Search Results | %{application_name}'
       search_results_header: 'Search'
