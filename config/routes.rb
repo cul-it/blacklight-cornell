@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 BlacklightCornell::Application.routes.draw do
   get 'errors/not_found'
 
@@ -217,17 +218,25 @@ devise_for :users, controllers: {
   get 'book_bags/save_bookmarks' => 'book_bags#save_bookmarks'
   get 'book_bags/get_saved_bookmarks' => 'book_bags#get_saved_bookmarks', :as => 'get_saved_bookmarks'
   #  get 'book_bags' => 'book_bags#index'
-  match 'aeon/boom' => 'aeon#boom', :as => 'boom', via: [:get, :post]
-  get 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_request', :constraints => { :id => /.+/}
-  put 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_prequest', :constraints => { :id => /.+/}
-#  put 'aeon/reading_room_request/:id' => 'aeon#reading_room_request', :as => 'reading_room_prequest', :constraints => { :id => /.+/}
-  match 'aeon/aeon_login' => 'aeon#aeon_login', :as => 'aeon_login', via: [:get, :post]
-  match 'aeon/new_aeon_login' => 'aeon#new_aeon_login', :as => 'new_aeon_login', via: [:get, :post, :put]
-  match 'aeon/redirect_shib' => 'aeon#redirect_shib', :as => 'redirect_shib', via: [:get, :post]
-  match 'aeon/redirect_nonshib' => 'aeon#redirect_nonshib', :as => 'redirect_nonshib', via: [:get, :post]
-  get 'aeon/request_aeon/:id' => 'aeon#request_aeon', :as => 'request_aeon', :constraints => { :id => /.+/}
-  get 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_aeon', :constraints => { :id => /.+/}
-#  put 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_paeon', :constraints => { :id => /.+/}
+
+  scope 'aeon', as: 'aeon' do
+    match 'boom' => 'aeon#boom', :as => 'boom', via: [:get, :post]
+    match 'reading_room_request/:id',
+          to: 'aeon#reading_room_request',
+          as: 'reading_room_request',
+          # This looks redundant with the match above, but it's not. It allows the :id to include a slash.
+          # (But do we really need that sort of :id for a reading room request? I'm not sure.)
+          constraints: { id: /.+/ },
+          via: [:get, :put]
+    match 'aeon_login' => 'aeon#aeon_login', :as => 'aeon_login', via: [:get, :post]
+    match 'new_aeon_login' => 'aeon#new_aeon_login', :as => 'new_aeon_login', via: [:get, :post, :put]
+    match 'redirect_shib' => 'aeon#redirect_shib', :as => 'redirect_shib', via: [:get, :post]
+    match 'redirect_nonshib' => 'aeon#redirect_nonshib', :as => 'redirect_nonshib', via: [:get, :post]
+    get 'request_aeon/:id' => 'aeon#request_aeon', :as => 'request_aeon', :constraints => { id: /.+/ }
+    get 'scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_aeon', :constraints => { id: /.+/ }
+  end
+
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 end
+# rubocop:enable Metrics/BlockLength
