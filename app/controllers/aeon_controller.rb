@@ -27,7 +27,7 @@ class AeonController < ApplicationController
   warning = ''
   holdingsHash = {}
   libid_ar = []
-  @@finding_aid = ''
+  @finding_aid = ''
   sortable = []
   datable = []
   delivery_time = ''
@@ -51,131 +51,87 @@ class AeonController < ApplicationController
 
   def new_aeon_login; end
 
-  def reading_room_request  #rewrite of monograph.php from voy-api.library.cornell.edu
-    @title
-    @reading_room_request
-    @re506
-    libid_ar = []
-    @finding_aid = ''
-    holdingsHash = {}
-    @url = 'http://www.googles.com'
-    @bibid = params[:id]
-    libid = params[:libid]
-    if !params[:libid].nil?
-      libid_ar = params[:libid].split('|')
-    end
-    if !params[:finding].nil?
-      @finding_aid = params[:finding]
-    end
-    _, @document = search_service.fetch(params[:id])
-    @bibdata = make_bibdata(@document)
-    @bibdata_string = @bibdata.to_s
-    @title = @document["fulltitle_display"]
-    @author = @document["author_display"]
-    @doctype = "Manuscript"
-    @aeon_type = "GenericRequestManuscript"
-    @webreq = "GenericRequestManuscript"
-    holdingsJsonHash = Hash(JSON.parse(@document["holdings_json"]))
-    if !@document["items_json"].nil?
-      itemsJsonHash = Hash(JSON.parse(@document["items_json"]))
-    else
-      itemsJsonHash = {}
-    end
-    @ho = holdings(holdingsJsonHash, itemsJsonHash )
-    boxtype = "checkbox"
-    # type = "PhotoduplicationRequest"
-    # doctype = "Photoduplication"
-    # webreq = "Copy"
-    submitter = ""
-    @this_sub = submitter
-    @the_loginurl = loginurl
-    if @document["restrictions_display"].nil?
-      @re506 = ""
-    else
-      @re506 = @document["restrictions_display"][0]
-    end
-
-    # @ho = "The printer & the pardoner :an unrecorded indulgence printed by William Caxton for the Hospital of St. Mary Rounceval, Charing Cross /Paul Needham.	Finding Aid" #@holdings
-    @schedule_text = 'Select a date to visit. Materials held on site are available immediately; off site items require scheduling 2 business days in advance, as indicated above. Please be sure that you choose a date when we are <a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
-    @review_text = 'Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.'
-    @quest_text = 'Please email <a href=mailto:rareref@cornell.edu>rareref@cornell.edu</a> if you have any questions.'
-    #	@the_prelim = prelim(@bibid, @title, @doctype, @webreq, @selected, @the_loginurl, @re506)
-    #	@warning = warning(@title)
-    #    @body = aeon_body(@title, @author, @aeon_type, @bibdata, @doctype, @re506)
-    #	the_sub = submitter
-    #	@clear = clearer
-    #	@form = former
-    #	@fo = footer
-    #    @all.html_safe = @the_prelim.html_safe + @warning.html_safe + @ho.html_safe + @body.html_safe + this_sub.html_safe + @clear.html_safe + @form.html_safe + @fo.html_safe
-    #    @all = @this_sub + @clear + @form + @fo
+  # rewrite of monograph.php from voy-api.library.cornell.edu
+  def reading_room_request
+    set_rr_instance_variables
+    set_rr_vars_from_document
+    set_holdings_and_items
+    set_messages
     session[:current_user_id] = 1
-    #    File.write("#{Rails.root}/tmp/form2.html", @all)
-    #    reading
   end
 
   def scan_aeon
-    libid_ar = []
-    @re506 = ''
-    finding_aid = ''
-    holdingsHash = {}
-    url = 'http://www.google.com'
-    @bibid = params[:id]
-    libid = params[:libid]
-    if !params[:libid].nil?
-      libid_ar = params[:libid].split('|')
-    end
-    if !params[:finding].nil?
-      @@finding_aid = params[:finding]
-    end
-    if !params[:finding].nil?
-      @finding_aid = params[:finding]
-    end
+    set_scan_instance_variables
+    set_scan_vars_from_document
+    set_holdings_and_items
+    set_messages
+    session[:current_user_id] = 1
+  end
 
+  def set_rr_instance_variables
+    @finding_aid = params[:finding] || ''
+    @url = 'http://www.googles.com'
+    @bibid = params[:id]
+    @doctype = 'Manuscript'
+    @aeon_type = 'GenericRequestManuscript'
+    @webreq = 'GenericRequestManuscript'
+    @this_sub = '' # this is the submitter, but the 'submitter' variable doesn't seem to be used anywhere else
+    @the_loginurl = loginurl
+  end
+
+  def set_rr_vars_from_document
     _, @document = search_service.fetch(params[:id])
-    bibdata = make_bibdata(@document)
+    # @bibdata = make_bibdata(@document)
+    # @bibdata_string = @bibdata.to_s
     @title = @document['fulltitle_display']
     @author = @document['author_display']
+    @re506 = @document['restrictions_display']&.first || ''
+  end
+
+  def set_holdings_and_items
+    holdings_json_hash = Hash(JSON.parse(@document['holdings_json']))
+    items_json_hash = Hash(JSON.parse(@document['items_json'])) || {}
+    @ho = holdings(holdings_json_hash, items_json_hash)
+  end
+
+  def set_messages
+    @disclaimer = 'Once your order is reviewed by our staff you will then be sent an invoice. ' \
+    'Your invoice will include information on how to pay for your order. You must pre-pay; ' \
+    'staff cannot fulfill your request until you pay the charges.'
+    @schedule_text = 'Select a date to visit. Materials held on site are available immediately; ' \
+    'off-site items require scheduling 2 business days in advance, as indicated above. ' \
+    'Please be sure that you choose a date when we are ' \
+    '<a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
+    @review_text = 'Keep this request saved in your account for later review. ' \
+    'It will not be sent to library staff for fulfillment.'
+    @quest_text = 'Please email <a href=mailto:rareref@cornell.edu>rareref@cornell.edu</a> if you have any questions.'
+  end
+
+  def set_scan_instance_variables
+    @finding_aid = params[:finding] || ''
+    @url = 'http://www.googles.com'
+    @bibid = params[:id]
+    @this_sub = ''
+    @cart = selecter # this is the submitter, but the 'submitter' variable doesn't seem to be used anywhere else
+    @the_loginurl = loginurl
+
+    # TODO: Do we really need 3 instance vars that all say the same thing?
     @doctype = 'Photoduplication'
     @aeon_type = 'PhotoduplicationRequest'
+    @type = 'PhotoduplicationRequest'
     @webreq = 'Copy'
-    holdingsJsonHash = Hash(JSON.parse(@document['holdings_json']))
-    if !@document['items_json'].nil?
-      itemsJsonHash = Hash(JSON.parse(@document['items_json']))
-    else
-     itemsJsonHash = {}
-    end
-    @ho = holdings(holdingsJsonHash, itemsJsonHash )
-    boxtype = "checkbox"
-    @type = "PhotoduplicationRequest"
-    @doctype = "Photoduplication"
-    @webreq = "Copy"
-    submitter = ""
-    this_sub = submitter
-    @cart = selecter
-    @the_loginurl = loginurl
-    if @document["restrictions_display"].nil?
-      @re506 = ""
-    else
-      @re506 = @document["restrictions_display"][0].delete_suffix("'")
-    end
-    @disclaimer = "Once your order is reviewed by our staff you will then be sent an invoice. Your invoice will include information on how to pay for your order. You must pre-pay, staff cannot fulfill your request until you pay the charges."
-    # @ho = "The printer & the pardoner :an unrecorded indulgence printed by William Caxton for the Hospital of St. Mary Rounceval, Charing Cross /Paul Needham.	Finding Aid" #@holdings
-    @schedule_text = 'Select a date to visit. Materials held on site are available immediately; off site items require scheduling 2 business days in advance, as indicated above. Please be sure that you choose a date when we are <a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
-    @review_text = 'Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.'
-    @quest_text = 'Please email <a href=mailto:rareref@cornell.edu>rareref@cornell.edu</a> if you have any questions.'
-    #	@the_prelim = scan_prelim(bibid, @title, @doctype, @webreq, @cart, the_loginurl, @re506)
-    @warning = warning(@title)
-    #    @body = scan_body(@title, @author, @aeon_type, bibdata, @doctype, @re506)
-    #	the_sub = submitter
-    #	@clear = clearer
-    #	@form = former
-    #	@fo = footer
-    #    @all.html_safe = @the_prelim.html_safe + @warning.html_safe + @ho.html_safe + @body.html_safe + this_sub.html_safe + @clear.html_safe + @form.html_safe + @fo.html_safe
-    #    @all = @the_prelim + @warning + @ho + @body + this_sub + @clear + @form + @fo
-    session[:current_user_id] = 1
-    #    File.write("#{Rails.root}/tmp/scan_form.html", @all)
-    #    scanning
   end
+
+  def set_scan_vars_from_document
+    _, @document = search_service.fetch(params[:id])
+    # @bibdata = make_bibdata(@document)
+    @title = @document['fulltitle_display']
+    @author = @document['author_display']
+    @re506 = @document['restrictions_display']&.first&.delete_suffix("'") || ''
+    @warning = warning(@title)
+  end
+
+
 
   def scan_prelim(bibid, title, doctype, webreq, cart, loginurl, re506)
     delivery_time = ""
@@ -183,9 +139,9 @@ class AeonController < ApplicationController
     # re506 = ""
     # webreq = ""
     fa = '';
-    if (!@@finding_aid.empty? and @@finding_aid != '?')
+    if (!@finding_aid.empty? and @finding_aid != '?')
       fa = "
-        <a href='" + @@finding_aid + "' target='_blank'>  Finding Aid</a>
+        <a href='" + @finding_aid + "' target='_blank'>  Finding Aid</a>
         <br/>
       "
     else
@@ -321,20 +277,20 @@ class AeonController < ApplicationController
     '</form>'
   end
 
-  def submitter
-    ''
-  end
+  # def submitter
+  #   ''
+  # end
 
-  def xsubmitter
-    '
-        <div class="control-group">
-        <div class="controls">
-        <label class="control-label sr-only" for="SubmitButton">Submit request</label>
-        <input type="submit" class="btn" id="SubmitButton" name="SubmitButton" value="Submit Request">
-        </div>
-        </div>
-    '
-  end
+  # def xsubmitter
+  #   '
+  #       <div class="control-group">
+  #       <div class="controls">
+  #       <label class="control-label sr-only" for="SubmitButton">Submit request</label>
+  #       <input type="submit" class="btn" id="SubmitButton" name="SubmitButton" value="Submit Request">
+  #       </div>
+  #       </div>
+  #   '
+  # end
 
   def footer
     '
@@ -346,123 +302,72 @@ class AeonController < ApplicationController
   end
 
   def login
-    aeonParams = []
-    aeonParams = cleanupAeonParamsX # (params)
-
     'woops'
-  end
-
-  def cleanupAeonParamsX # (params)
-    aeonParams = []
   end
 
   def redirect_shib
     redirect_to 'https://rmc-aeon.library.cornell.edu'
   end
 
-  def make_bibdata(document)
-    output = ''
-    holdingID = ''
-    pubplace = ''
-    publisher = ''
-    edition = ''
-    bib_format = ''
-    callNumber = ''
-    barcode = ''
-    permLocation = ''
-    permLocationCode = ''
-    status = ''
-    item_id = ''
-    if document['publisher_display'].nil?
-      publisher = ''
-    else
-      publisher = document['publisher_display'][0]
-    end
-    if document['pub_date_display'].nil?
-      pubdate = ''
-    else
-      pubdate = document['pub_date_display'][0]
-    end
-    if document['pubplace_display'].nil?
-      pubplace = ''
-    else
-      pubplace = document['pubplace_display'][0]
-    end
-    holdings_json = Hash(JSON.parse(document['holdings_json']))
-    #	bibdata_hash = Hash(JSON.parse(document['holdings_json']))
-    callnum = '' # holdings_json["call"]
+  # NOTE: This function doesn't seem to do anything useful - it always returns a static string for bibdata_output_hash,
+  # and that string doesn't appear to be used anywhere else in the code.
+  # def make_bibdata(document)
+  #   holdingID = ''
+  #   publisher = document['publisher_display'][0] || ''
+  #   pubdate = document['pub_date_display'][0] || ''
+  #   pubplace = document['pubplace_display'][0] || ''
+  #   holdings_json = Hash(JSON.parse(document['holdings_json']))
 
-    firstkeyout = ''
-    count = 0
-    bibdata_output_hash = '{"items": [{"author":null,"title":null,"pub_place":null,"publisher":null,"publisher_date":null,"edition":null,"bib_format":null,"permlocation":null,"permlocationcode":null,"holdings":[]}]}'
-    if !document['items_json'].nil?
-      bibdata_hash = Hash(JSON.parse(document['items_json']))
-      bibdata_hash.each do | firstKey, value |
-        if count == 0
-          firstkeyout = firstKey
-          count = count + 1
-          valueHash = Hash(value[0])
-          # 	        bibdata_output_hash = bibdata_output_hash + firstkeyout + '":['
-        end
+
+  #   firstkeyout = ''
+  #   count = 0
+  #   bibdata_output_hash = '{"items": [{"author":null,"title":null,"pub_place":null,"publisher":null,"publisher_date":null,"edition":null,"bib_format":null,"permlocation":null,"permlocationcode":null,"holdings":[]}]}'
+  #   if !document['items_json'].nil?
+  #     bibdata_hash = Hash(JSON.parse(document['items_json']))
+  #     bibdata_hash.each do | firstKey, value |
+  #       if count == 0
+  #         firstkeyout = firstKey
+  #         count = count + 1
+  #         valueHash = Hash(value[0])
+  #         # 	        bibdata_output_hash = bibdata_output_hash + firstkeyout + '":['
+  #       end
+  #     end
+  #   end
+  #   if firstkeyout != ''
+  #     callnum = holdings_json[firstkeyout]['call']
+  #   else
+  #     callnum = ''
+  #   end
+
+  #   if !document['items_json'].nil?
+  #     bibdata_hash.each do | key, value |
+  #       #	if count == 0
+  #       holdingID = key
+  #       valueArray = value.to_a
+  #       valueArray.each do | key, hold |
+  #       valueHash = Hash(hold)
+  #       keyout = Hash[key]
+  #     end
+  #   end
+  # end
+
+  # return bibdata_output_hash
+  # end
+
+  def holdings(holdings_json_hash, items_json_hash)
+    items_hash = items_json_hash
+    items_hash.each_value do |value|
+      value.each { |val| val['enum'] ||= '' }
+      begin
+        value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
+      rescue StandardError
+        value.sort_by! { |k| k['enum'] }
       end
     end
-    if firstkeyout != ''
-      callnum = holdings_json[firstkeyout]['call']
-    else
-      callnum = ''
-    end
-
-    if !document['items_json'].nil?
-      bibdata_hash.each do | key, value |
-        #	if count == 0
-        holdingID = key
-        valueArray = value.to_a
-        valueArray.each do | key, hold |
-        valueHash = Hash(hold)
-        keyout = Hash[key]
-      end
-    end
-  end
-
-  return bibdata_output_hash
-  end
-
-  def holdings(holdingsJsonHash, itemsJsonHash)
-    holdingsHash = {}
-    holdingsHash = holdingsJsonHash
-    itemsHash = itemsJsonHash
-    valholding = []
-    count = 0
-    itemsHash.each do | key, value |
-      if count < itemsJsonHash.count
-        if !key.nil?
-          value.each do |val|
-            if !val['enum'].nil?
-              valholding << val # "no date"
-            else
-              val['enum'] = ''
-              valholding << val
-            end
-          end
-          value = valholding
-          begin
-            value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
-          rescue
-            value.sort_by! { |k| k["enum"]}
-          end
-          itemsHash[key]= value
-        end
-        count = count + 1
-      end
-    end
-    return_ho = '<div id="holdings" class="scrollable">' + xholdings(holdingsHash, itemsHash) + '</div>'
-
-    return_ho = xholdings(holdingsHash, itemsHash)
-    return return_ho
+    xholdings(holdings_json_hash, items_hash)
   end
 
   def xholdings(holdingsHash, itemsHash)
-    holdHash = {}
     ret = ''
     holdingID = ''
     count = 0
