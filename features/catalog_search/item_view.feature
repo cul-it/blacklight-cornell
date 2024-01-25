@@ -744,8 +744,6 @@ Feature: Item view
   Scenario: Item has included works that display metadata from Wikidata
   Given I request the item view for 8297109
   And click on first link "Work info"
-  Then I should see the labels 'Works about,Instrumentation,Tonality'
-  When I click on link "View full info"
   Then I should be on the browse info page
   And it should have the heading "Beethoven, Ludwig van, 1770-1827. | Septet, clarinet, bassoon, horn, violin, viola, cello, double bass, op. 20, E♭ major"
   And it should have link "Back to item" with value "/catalog/8297109"
