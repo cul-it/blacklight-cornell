@@ -18,8 +18,8 @@
   <% else %>
     <% bookmarks = session[:bookmarks_for_book_bags] %>
     <% if bookmarks.present? && bookmarks.count > 0 %>
-      <%= link_to addbookmarks_index_path, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm', count: bookmarks.count ) }, :class => 'add-bookmarks' do %>
-            <i class="fa fa-bookmark"></i> <%= t('blacklight.bookmarks.bag.action_confirm', count: bookmarks.count ) %>
+      <%= link_to addbookmarks_index_path, :data => { :confirm => t('blacklight.bookmarks.bag.action_confirm', count: bookmarks.count ) }, :class => 'add-bookmarks btn btn-cul' do %>
+            <i class="fa fa-bookmark" aria-hidden="true"></i> <%= t('blacklight.bookmarks.bag.action_confirm', count: bookmarks.count ) %>
       <% end %>
     <% end %>
   <% end %>
