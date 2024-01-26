@@ -77,9 +77,9 @@ module AdvancedHelper
     end
 
     # TODO: Set field labels in CatalogController and grab label from search_fields_for_advanced_search?
-    subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journal title", "Journal Title"], ["author/creator", "Author, etc."], ["subject", "Subject"],
-                      ["call number", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["pubplace", "Place Of Publication"],
-                      ["publisher number/other identifier", "Publisher Number/Other Identifier"], ["isbn/issn", "ISBN/ISSN"], ["notes", "Notes"],
+    subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journaltitle", "Journal Title"], ["author", "Author, etc."], ["subject", "Subject"],
+                      ["lc_callnum", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["pubplace", "Place Of Publication"],
+                      ["number", "Publisher Number/Other Identifier"], ["isbnissn", "ISBN/ISSN"], ["notes", "Notes"],
                       ["donor", "Donor/Provenance"]]
     boolean_values = [["AND", "all"], ["OR", "any"], ["phrase", "phrase"],["begins_with", "begins with"]]
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]

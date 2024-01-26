@@ -446,9 +446,6 @@ end
     if field == ''
       field = "all_fields"
     end
-    if field == 'lc_callnum'
-      field = 'call number'
-    end
     label = search_field_def_for_key(field)[:label]
     query = params[:y]
     content = ""
