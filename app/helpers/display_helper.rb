@@ -1458,21 +1458,18 @@ end
   end
 
   def access_url_single(args)
-    if !args["url_access_json"].present? || access_url_is_list?(args)
-      nil
-    else
-      url_access = JSON.parse(args["url_access_json"][0])
+    if args["url_access_json"].present? && args["url_access_json"].size == 1
+      url_access = JSON.parse(args["url_access_json"].first)
       if url_access['url'].present?
-        url_access['url']
-      else
-        nil
+        return url_access['url']
       end
     end
+    nil
   end
 
   def access_z_note(args)
-    if args['url_access_json'].present? && !access_url_is_list?(args)
-      single = JSON.parse(args["url_access_json"][0])
+    if args['url_access_json'].present?
+      single = JSON.parse(args["url_access_json"].first)
       if single.present? && single['description'].present?
         excludes = [
           'Connect to resource.',
@@ -1513,11 +1510,7 @@ end
 
   def access_url_first(args)
     if args['url_access_json'].present? 
-      if access_url_is_list?(args)
-        url_access = JSON.parse(args['url_access_json'].first)
-      else
-        url_access = JSON.parse(args['url_access_json'].first)["url"]
-      end
+      url_access = JSON.parse(args['url_access_json'].first)
       if url_access['url'].present?
         return url_access['url']
       end
@@ -1527,11 +1520,7 @@ end
 
   def access_url_first_description(args)
     if args['url_access_json'].present?
-      if access_url_is_list?(args)
-        url_access = JSON.parse(args['url_access_json'].first)
-      else
-        url_access = JSON.parse(args['url_access_json'])
-      end
+      url_access = JSON.parse(args['url_access_json'].first)
       if url_access['description'].present?
         return url_access['description']
       end
@@ -1542,15 +1531,11 @@ end
   def access_url_all(args)
     if args['url_access_json'].present?
       all = []
-      if access_url_is_list?(args)
-        args['url_access_json'].each do |json|
-          url_access = JSON.parse(json)
-          if url_access['url'].present?
-            all << url_access['url']
-          end
+      args['url_access_json'].each do |json|
+        url_access = JSON.parse(json)
+        if url_access['url'].present?
+          all << url_access['url']
         end
-      else
-        all << JSON.parse(args['url_access_json'])
       end
       return all.size > 0 ? all : nil
     end
