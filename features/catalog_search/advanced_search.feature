@@ -616,3 +616,25 @@ Scenario: Looking for more? link for Articles & Full Text should not have proxy
     Then I should get results
     And the Search Articles & Full Text link url should contain 'u2yil2' but not 'proxy.library'
 
+@DACCESS-194
+@javascript
+Scenario: Try and advanced search with and advanced query
+    When I literally go to advanced
+    And click on link "add-row"
+    And I sleep 4 seconds
+    And I fill in "q_row1" with 'Barney Glover'
+    And I select 'phrase' from the term logic drop-down on line 1
+    And I select 'Author' from the fields drop-down on line 1
+    And I select 'or' from the row logic radio before line 2
+    Then I fill in "q_row2" with 'Rachna Mataudul'
+    And I select 'phrase' from the term logic drop-down on line 2
+    And I select 'Author' from the fields drop-down on line 2
+    And I select 'and' from the row logic radio before line 3
+    Then I fill in "q_row3" with 'Kluwer'
+    And I select 'any' from the term logic drop-down on line 3
+    And I select 'Publisher' from the fields drop-down on line 3
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Optimization and related topics'
+    And I should see the label 'Tax Treaty Dispute Resolution : lessons from the Law of the Sea'
+
