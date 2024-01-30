@@ -707,17 +707,6 @@ class SearchBuilder < Blacklight::SearchBuilder
     end
   end
 
-
-  def test_size_param_array(param_array)
-    countit = 0
-    for i in 0..param_array.count - 1
-       unless param_array[i] == "" and !param_array[i].nil?
-        countit = countit + 1
-       end
-    end
-    return countit
-  end
-
   def parse_simple_search_query(blacklight_params)
     return_query = ''
     simp_search_field = blacklight_params[:search_field]
@@ -832,60 +821,6 @@ class SearchBuilder < Blacklight::SearchBuilder
      end
     end
     return returnstring
-  end
-
-
-  def parse_single(params)
-    query_string = ""
-    query_rowArray = params[:q_row]
-    op_rowArray = params[:op_row]
-
-    if params[:op_row][0] == "begins_with"
-      params[:search_field_row][0] = params[:search_field_row][0] + "_starts"
-      search_field_rowArray = params[:search_field_row]
-
-    else
-     search_field_rowArray = params[:search_field_row]
-    end
-      for i in 0..query_rowArray.count - 1
-         if query_rowArray[i] != ""
-           query_string << "q="
-           query_rowSplitArray = query_rowArray[i].split(" ")
-           if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
-             if op_rowArray[i] == 'begins_with'
-
-             query_string << query_rowSplitArray[0] << " "
-             else
-             query_string << query_rowSplitArray[0] << " " #<< op_rowArray[i] << " "
-             end
-             for j in 1..query_rowSplitArray.count - 2
-               if !op_rowArray[i] == 'begins_with'
-                query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
-               else
-                query_string << query_rowSplitArray[j] << " "
-               end
-             end
-             query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
-           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase" )
-             query_rowArray[i].gsub!("\"", "\'")
-             query_string << '"' << query_rowArray[i] << '"&search_field=' << search_field_rowArray[i]
-             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
-           else
-             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
-           end
-         end
-      end
-      return query_string
-  end
-
-  def test_size_param_array(param_array)
-    countit = 0
-    for i in 0..param_array.count - 1
-       unless param_array[i] == "" and !param_array[i].nil?
-        countit = countit + 1
-       end
-    end
-    return countit
   end
 
   # Remove any blank rows from advanced search form
