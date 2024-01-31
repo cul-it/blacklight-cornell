@@ -4,6 +4,12 @@ RSpec.describe AdvancedHelper, type: :helper do
   describe '#render_edited_advanced_search' do
     let(:edited_advanced_search) { helper.render_edited_advanced_search(params) }
 
+    before do
+      without_partial_double_verification do
+        allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
+      end
+    end
+
     context 'non-default operators and booleans selected' do
       let(:params) { {
         q_row: ['Severus', 'Lily', 'Boyface Killah', 'English Breakfast'],

@@ -48,11 +48,7 @@ module AdvancedHelper
       params[:search_field_row][0] = 'all_fields'
     end
 
-    # TODO: Set field labels in CatalogController and grab label from search_fields_for_advanced_search?
-    subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journaltitle", "Journal Title"], ["author", "Author, etc."], ["subject", "Subject"],
-                      ["lc_callnum", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["pubplace", "Place Of Publication"],
-                      ["number", "Publisher Number/Other Identifier"], ["isbnissn", "ISBN/ISSN"], ["notes", "Notes"],
-                      ["donor", "Donor/Provenance"]]
+    subject_values = blacklight_config.search_fields.reject { |k, v| v.include_in_advanced_search == false }
     boolean_values = [["AND", "all"], ["OR", "any"], ["phrase", "phrase"],["begins_with", "begins with"]]
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
     word = ""
@@ -85,9 +81,9 @@ module AdvancedHelper
     row1 << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
     subject_values.each do |key, value|
       if key == params[:search_field_row][0]
-        row1 << "<option value=\"" << key << "\" selected>" << value << "</option>"
+        row1 << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
       else
-        row1 << "<option value=\"" << key << "\">" << value << "</option>"
+        row1 << "<option value=\"" << key << "\">" << value.label << "</option>"
       end
     end
     row1 << "</select>"
@@ -134,9 +130,9 @@ module AdvancedHelper
          next2rows << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row" << "#{i}" << "\" name=\"search_field_row[]\">"
          subject_values.each do |key, value|
            if key == params[:search_field_row][i]
-            next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
+            next2rows << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
            else
-             next2rows << "<option value=\"" << key << "\">" << value << "</option>"
+             next2rows << "<option value=\"" << key << "\">" << value.label << "</option>"
            end
          end
           next2rows << "</select></div></div>"
@@ -178,9 +174,9 @@ module AdvancedHelper
     next2rows << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
     subject_values.each do |key, value|
       if key == params[:search_field_row][0]
-        next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
+        next2rows << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
       else
-        next2rows << "<option value=\"" << key << "\">" << value << "</option>"
+        next2rows << "<option value=\"" << key << "\">" << value.label << "</option>"
       end
     end
 
