@@ -13,7 +13,6 @@ gem 'activerecord-session_store', ">= 2.0.0"
 gem 'protected_attributes_continued'
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 gem 'net-smtp'
-gem 'net-sftp'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
@@ -99,8 +98,6 @@ gem "capistrano", "~> 3.18"
 gem "capistrano-rails", "~> 1.6"
 gem 'capistrano-rvm'
 gem 'capistrano-ext'
-gem 'net-ssh', '5.2.0'
-gem 'net-scp', '2.0.0'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'

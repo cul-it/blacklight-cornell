@@ -5,9 +5,6 @@ class AeonController < ApplicationController
   layout 'aeon/index'
   include Blacklight::Catalog
 
-  require 'net/sftp'
-  require 'net/scp'
-  require 'net/ssh'
   @ic = 0
   @bcc = 0
   @bibid = ''
