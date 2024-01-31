@@ -11,34 +11,8 @@ class AeonController < ApplicationController
   @ic = 0
   @bcc = 0
   @bibid = ''
-  prelim = ''
-  body = ''
-  ho = ''
-  submit_button = ''
-  fo = ''
-  bibdata = {}
   @title = ''
-  author = ''
-  bib_format = ''
-  doctype = ''
-  aeon_type = ''
-  webreq = ''
-  boxtype = 'radio'
-  warning = ''
-  holdingsHash = {}
-  libid_ar = []
-  @finding_aid = ''
-  sortable = []
-  datable = []
-  delivery_time = ''
-  preview_text = 'Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.'
-  schedule_text = 'Select a date to visit. Materials held on site are available immediately; off site items require scheduling 2 business days in advance, as indicated above. Please be sure that you choose a date when we are <a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
-  quest_text = 'Please email <a href=mailto:rareref@cornell.edu>rareref@cornell.edu</a> if you have any questions.'
-
-  bibtext = ''
   @warning = ''
-  @schedule_text = ''
-  @review_text = ''
 
   def reading_room
     @url = 'www.google.com'
@@ -46,7 +20,8 @@ class AeonController < ApplicationController
 
   def index
     @url = 'www.google.com'
-    @review_text = 'Keep this request saved in your account for later review. It will not be sent to library staff for fulfillment.'
+    @review_text = 'Keep this request saved in your account for later review.' \
+    ' It will not be sent to library staff for fulfillment.'
   end
 
   def new_aeon_login; end
@@ -73,9 +48,9 @@ class AeonController < ApplicationController
     @url = 'http://www.googles.com'
     @bibid = params[:id]
     @doctype = 'Manuscript'
-    @aeon_type = 'GenericRequestManuscript'
+    # @aeon_type = 'GenericRequestManuscript'
     @webreq = 'GenericRequestManuscript'
-    @this_sub = '' # this is the submitter, but the 'submitter' variable doesn't seem to be used anywhere else
+    # @this_sub = '' # this is the submitter, but the 'submitter' variable doesn't seem to be used anywhere else
     @the_loginurl = loginurl
   end
 
@@ -111,13 +86,13 @@ class AeonController < ApplicationController
     @finding_aid = params[:finding] || ''
     @url = 'http://www.googles.com'
     @bibid = params[:id]
-    @this_sub = ''
-    @cart = selecter # this is the submitter, but the 'submitter' variable doesn't seem to be used anywhere else
+    # @this_sub = ''
+    # @cart = selecter # this is the submitter, but the 'submitter' variable doesn't seem to be used anywhere else
     @the_loginurl = loginurl
 
     # TODO: Do we really need 3 instance vars that all say the same thing?
     @doctype = 'Photoduplication'
-    @aeon_type = 'PhotoduplicationRequest'
+    # @aeon_type = 'PhotoduplicationRequest'
     @type = 'PhotoduplicationRequest'
     @webreq = 'Copy'
   end
@@ -131,110 +106,22 @@ class AeonController < ApplicationController
     @warning = warning(@title)
   end
 
-  def scan_prelim(bibid, title, doctype, _webreq, cart, loginurl, re506)
-    delivery_time = ''
-    disclaimer = 'Once your order is reviewed by our staff you will then be sent an invoice. Your invoice will include information on how to pay for your order. You must pre-pay, staff cannot fulfill your request until you pay the charges.'
-    # re506 = ""
-    # webreq = ""
-    fa = if !@finding_aid.empty? && @finding_aid != '?'
-      "<a href='#{@finding_aid}' target='_blank'>  Finding Aid</a><br/>"
-    else
-      '<br/>'
-    end
+  # def selecter
+  #   '
+  #     <div id="shoppingcart">
+  #     <span id="numitems">Number of items selected:</span>
+  #     <span id="num-selections-wrapper">
+  #     <span id="num-selections">
+  #     </span>
+  #     </span>
 
-    '
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-  <title>Scanning Request for ' + title + '</title>
-
-  <script>var itemdata = {};</script>
-    <meta data-name="aeon_wpv" data-bn="v5.1.14" data-bid="17648" data-cid="5169011a1c864ea61424ec386d248ba1398a6730" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="rmc-aeon.library.cornell.edu/aeon/css/cookieconsent.min.css" />
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://rmc-aeon.library.cornell.edu/aeon/js/atlasUtility.js"></script>
-<script src="https://rmc-aeon.library.cornell.edu/aeon/js/custom.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js" integrity="sha256-VrmtNHAdGzjNsUNtWYG55xxE9xDTz4gF63x/prKXKH0=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.min.js" integrity="sha256-VX6SyoDzanqBxHY3YQyaYB/R7t5TpgjF4ZvotrViKAY=" crossorigin="anonymous"></script>
-<script src="https://rmc-aeon.library.cornell.edu/aeon/js/webAlerts.js"></script>
-<script src="https://rmc-aeon.library.cornell.edu/aeon/js/cookieconsent.min.js" data-cfasync="false"></script>
-<script src="https://rmc-aeon.library.cornell.edu/aeon/js/atlasCookieConsent.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
-<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-    <%= stylesheet_link_tag "aeon", :media => "all" %>
-    <!-- <link rel="stylesheet" media="all" href="/assets/aeon/_request.scss" > -->
-    <!-- <link rel="stylesheet" media="all" href="/assets/aeon/_aeon.scss" > -->
-    <!-- <link rel="stylesheet" media="all" href="/assets/aeon/_aeon_custom.scss" > -->
-    <!-- <script type="text/javascript" src="/assets/aeon/rmc_scripts.js"></script> -->
-    <%= javascript_include_tag "aeon" %>
-  </head>
-  <body>
-
-    <header class="head">
-  <div>
-    <a href="#content" accesskey="S" onclick="$(\'#content\').focus();" class="offscreen">Skip to Main Content</a>
-  </div>
-  <div class="container">
-    <div class="cornell-logo d-none d-sm-block">
-      <a href="http://www.cornell.edu" class="insignia">Cornell University</a>
-      <div class="library-brand">
-        <a href="https://library.cornell.edu">Library</a>
-      </div>
-    </div>
-    <div class="d-block d-sm-none">
-      <a class="mobile-cornell-logo" href="https://www.cornell.edu">Cornell University</a>
-      <a class="library-brand-mobile" href="https://library.cornell.edu">Library</a>
-    </div>
-    <h1>Division of Rare and Manuscript Collections</h1>
-  </div>
-</header>
-    <h1>RMC Scanning Request</h1>
-    <div>' + disclaimer + '</div>
-  <div id="main-content">
-  <form id="RequestForm"
-  action="' + loginurl + '"
-              method="GET" class="form-horizontal">
-  <h4>' + title + '</h4>' + fa +
-      '<strong> ' + re506 + '</strong>' +
-      cart + '
-  <input type="hidden" name="AeonForm" value="PhotoduplicationRequest">
-  <input type="hidden" name="SkipOrderEstimate" value="Yes">
-  <input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="' + bibid + '"/>
-  <input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
-  <input type="hidden" name="RequestType" value="Copy"/>
-  <input type="hidden" id="DocumentType" name="DocumentType" value="' + doctype + '"/>
-  <input type="hidden" name="FormValidationOverride" value="AllRequests">
-  <input type="hidden" name="SkipFieldLengthValidation" value="yes">'
-  end
-
-  def selecter
-    '
-      <div id="shoppingcart">
-      <span id="numitems">Number of items selected:</span>
-      <span id="num-selections-wrapper">
-      <span id="num-selections">
-      </span>
-      </span>
-
-      <div id="selections-wrapper">
-      <ol><div id="selections"></div>
-      </ol>
-      </div>
-      </div>
-    '
-  end
+  #     <div id="selections-wrapper">
+  #     <ol><div id="selections"></div>
+  #     </ol>
+  #     </div>
+  #     </div>
+  #   '
+  # end
 
   def loginurl
     '/aeon/aeon_login'
@@ -250,21 +137,21 @@ class AeonController < ApplicationController
     end
   end
 
-  def clearer
-    '
-      <div class="control-group">
-      <label class="control-label sr-only" for="SubmitButton">Submit request</label>
-      <input type="submit" class="btn btn-dark" id="SubmitButton" name="SubmitButton" value="Submit Request">
-      <label class="control-label sr-only" for="clear">Clear</label>
-      <input type="button" class="btn btn-secondary" id="clear"  name="clear" value="Clear Form">
-      <br/>' + @quest_text + '<br/>
-      </div>
-    '
-  end
+  # def clearer
+  #   '
+  #     <div class="control-group">
+  #     <label class="control-label sr-only" for="SubmitButton">Submit request</label>
+  #     <input type="submit" class="btn btn-dark" id="SubmitButton" name="SubmitButton" value="Submit Request">
+  #     <label class="control-label sr-only" for="clear">Clear</label>
+  #     <input type="button" class="btn btn-secondary" id="clear"  name="clear" value="Clear Form">
+  #     <br/>' + @quest_text + '<br/>
+  #     </div>
+  #   '
+  # end
 
-  def former
-    '</form>'
-  end
+  # def former
+  #   '</form>'
+  # end
 
   # def submitter
   #   ''
@@ -281,22 +168,14 @@ class AeonController < ApplicationController
   #   '
   # end
 
-  def footer
-    '
-        </div>
-        </form>
-        </body>
-        </html>
-    '
-  end
-
   def login
     'woops'
   end
 
-  def redirect_shib
-    redirect_to 'https://rmc-aeon.library.cornell.edu'
-  end
+  # redirect_shib is redefined later in the class.
+  # def redirect_shib
+  #   redirect_to 'https://rmc-aeon.library.cornell.edu'
+  # end
 
   # NOTE: This function doesn't seem to do anything useful - it always returns a static string for bibdata_output_hash,
   # and that string doesn't appear to be used anywhere else in the code.
@@ -357,8 +236,6 @@ class AeonController < ApplicationController
 
   # TODO: This method is a monster. It definitely needs refactoring and cleanup, but that's a project in itself.
   def xholdings(holdingsHash, itemsHash)
-    Rails.logger.debug('mjc12aaa: itemsHash: ' + itemsHash.inspect)
-    Rails.logger.debug('mjc12aaa: holdingsHash: ' + holdingsHash.inspect)
     ret = ''
     holdingID = ''
     count = 0
