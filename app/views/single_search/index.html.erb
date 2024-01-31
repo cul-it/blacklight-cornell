@@ -167,6 +167,14 @@
                   <% end %>
                 <% end %>
               </li>
+              <li class="nav-item">
+                <% unless @institutionalRepositories.blank? %>
+                  <%= link_to '#institutionalRepositories' do %>
+                    <i class="fa fa-arrow-down"></i>
+                    Repositories
+                  <% end %>
+                <% end %>
+              </li>
             </ul>
           </div>
           <div id="bt-container">

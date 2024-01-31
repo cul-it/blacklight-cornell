@@ -141,4 +141,6 @@ gem 'ebsco-eds'
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem 'loofah', '2.19.1'
 
-gem 'puma', '6.3.1'
+gem 'puma', '~> 6.4', '>= 6.4.2'
+gem 'aws-sdk-s3', '~> 1.143'
+gem 'uri', '0.12.2'
