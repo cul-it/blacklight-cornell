@@ -32,8 +32,7 @@ module AdvancedHelper
   def render_edited_advanced_search(params)
     query = ""
     if params[:boolean_row].nil?
-      params[:boolean_row] = [] #{"1"=>"AND"}
-      params[:boolean_row] << DEFAULT_BOOL
+      params[:boolean_row] = { '1' => DEFAULT_BOOL }
     end
 
     if params[:q_row].nil?
@@ -101,7 +100,7 @@ module AdvancedHelper
 
          next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
          boolean_row_values.each do |key, value|
-           n = i - 1 #= i.to_s
+           n = i.to_s
            #  Default to "AND" when missing booleans in search params
            if key == params[:boolean_row][n] || (params[:boolean_row][n].blank? && key == DEFAULT_BOOL)
              next2rows << "<div class=\"form-check form-check-inline\">"
@@ -146,20 +145,19 @@ module AdvancedHelper
       next2rows = ""
       next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
       boolean_row_values.each do |key, value|
-           if params[:boolean_row][1].blank?
-             params[:boolean_row][1] = "AND"
+           if params[:boolean_row]['1'].blank?
+             params[:boolean_row]['1'] = "AND"
            end
-           n = 1.to_s
-           if key == params[:boolean_row][1]
+           if key == params[:boolean_row]['1']
              next2rows << "<div class=\"form-check form-check-inline\">"
              next2rows << "<label>"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
+             next2rows << "<input type=\"radio\" name=\"boolean_row[1]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
              next2rows << "</label>"
              next2rows << "</div>"
            else
              next2rows << "<div class=\"form-check form-check-inline\">"
              next2rows << "<label>"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\">" << " " << value << " "
+             next2rows << "<input type=\"radio\" name=\"boolean_row[1]\" value=\"" << key << "\">" << " " << value << " "
              next2rows << "</label>"
              next2rows << "</div>"
            end
