@@ -17,7 +17,6 @@ s3_client = Aws::S3::Client.new
 bucket = 'container-discovery'
 key = 'alerts/alerts.yml'
 alerts_path = File.join(File.dirname(__FILE__), '..', 'alerts.yml')
-puts alerts_path
 
 def s3_exists?(s3_client:, bucket:, key:)
   s3_client.head_object(bucket:, key:)
@@ -33,8 +32,9 @@ if s3_exists?(s3_client:, bucket:, key:)
     s3_client.get_object(bucket:, key:) do |chunk|
       file.write(chunk)
     end
+    puts "Downloaded yaml alerts to #{alerts_path}"
   end
-else
-  puts 'No alerts found'
-  FileUtils.rm_rf(alerts_path)
+elsif File.exist?(alerts_path)
+  FileUtils.rm(alerts_path)
+  puts "Deleted yaml alerts at #{alerts_path}"
 end
