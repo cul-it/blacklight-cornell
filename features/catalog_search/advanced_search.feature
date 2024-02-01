@@ -657,9 +657,31 @@ Examples:
   | and | 1 | Author | Simpson | Smith |
   | or | 4 | Author | Simpson | Smith |
   | not | 0 | Author | Simpson | Smith |
+  | not | 3 | Author | Smith | Simpson |
   | and | 1 | All Fields | complete | fire |
-  | or | 5 | All Fields | complete | fire |
   | not | 4 | All Fields | complete | fire |
-  | and | 1 | Title | with | them |
-  | or | 5 | Title | with | them |
-  | not | 4 | Title | with | them |
+  | and | 1 | Title | 100 | match |
+  | or | 6 | Title | 100 | match |
+  | not | 4 | Title | 100 | match |
+  | not | 1 | Title | match | 100 |
+
+@DACCESS-174
+@javascript
+Scenario Outline: Testing And Or Not logic with separate Authors
+    Given PENDING
+    When I literally go to advanced
+    And I fill in "q_row1" with '<q1>'
+    And I select 'all' from the term logic drop-down on line 1
+    And I select '<field>' from the fields drop-down on line 1
+    Then I select '<boolean>' from the row logic radio before line 2
+    And I fill in "q_row2" with '<q2>'
+    And I select 'all' from the term logic drop-down on line 2
+    And I select '<field>' from the fields drop-down on line 2
+    And I press 'advanced_search'
+    Then I should get <results> results
+
+Examples:
+  | boolean | results | field | q1 | q2 |
+  | or | 9 | All Fields | complete | fire |
+  | not | 8 | All fields | fire | complete |
+
