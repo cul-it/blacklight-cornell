@@ -1,25 +1,5 @@
 # Helper methods for the advanced search form
 module AdvancedHelper
-
-  # Fill in default from existing search, if present
-  # -- if you are using same search fields for basic
-  # search and advanced, will even fill in properly if existing
-  # search used basic search on same field present in advanced.
-  def label_tag_default_for(key)
-    if (! params[key].blank?)
-      return params[key]
-    elsif params["search_field"] == key
-      return params["q"]
-    else
-      return nil
-    end
-  end
-
-  # Is facet value in adv facet search results?
-  def facet_value_checked?(field, value)
-    params[:f_inclusive] && params[:f_inclusive][field] && params[:f_inclusive][field][value]
-  end
-
   # Current params without fields that will be over-written by adv. search,
   # or other fields we don't want.
   def advanced_search_context
@@ -48,19 +28,11 @@ module AdvancedHelper
     end
   end
 
-  def render_edited_advanced_search_new(params)
-    if params[:boolean_row].nil?
-      params[:boolean_row] = []
-      params[:boolean_row] << "AND"
-    end
-  end
-
   DEFAULT_BOOL = 'AND'
   def render_edited_advanced_search(params)
     query = ""
     if params[:boolean_row].nil?
-      params[:boolean_row] = [] #{"1"=>"AND"}
-      params[:boolean_row] << DEFAULT_BOOL
+      params[:boolean_row] = { '1' => DEFAULT_BOOL }
     end
 
     if params[:q_row].nil?
@@ -76,11 +48,7 @@ module AdvancedHelper
       params[:search_field_row][0] = 'all_fields'
     end
 
-    # TODO: Set field labels in CatalogController and grab label from search_fields_for_advanced_search?
-    subject_values = [["all_fields", "All Fields"],["title", "Title"], ["journaltitle", "Journal Title"], ["author", "Author, etc."], ["subject", "Subject"],
-                      ["lc_callnum", "Call Number"], ["series", "Series"], ["publisher", "Publisher"], ["pubplace", "Place Of Publication"],
-                      ["number", "Publisher Number/Other Identifier"], ["isbnissn", "ISBN/ISSN"], ["notes", "Notes"],
-                      ["donor", "Donor/Provenance"]]
+    subject_values = blacklight_config.search_fields.reject { |k, v| v.include_in_advanced_search == false }
     boolean_values = [["AND", "all"], ["OR", "any"], ["phrase", "phrase"],["begins_with", "begins with"]]
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
     word = ""
@@ -113,9 +81,9 @@ module AdvancedHelper
     row1 << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
     subject_values.each do |key, value|
       if key == params[:search_field_row][0]
-        row1 << "<option value=\"" << key << "\" selected>" << value << "</option>"
+        row1 << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
       else
-        row1 << "<option value=\"" << key << "\">" << value << "</option>"
+        row1 << "<option value=\"" << key << "\">" << value.label << "</option>"
       end
     end
     row1 << "</select>"
@@ -128,7 +96,7 @@ module AdvancedHelper
 
          next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
          boolean_row_values.each do |key, value|
-           n = i - 1 #= i.to_s
+           n = i.to_s
            #  Default to "AND" when missing booleans in search params
            if key == params[:boolean_row][n] || (params[:boolean_row][n].blank? && key == DEFAULT_BOOL)
              next2rows << "<div class=\"form-check form-check-inline\">"
@@ -162,9 +130,9 @@ module AdvancedHelper
          next2rows << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row" << "#{i}" << "\" name=\"search_field_row[]\">"
          subject_values.each do |key, value|
            if key == params[:search_field_row][i]
-            next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
+            next2rows << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
            else
-             next2rows << "<option value=\"" << key << "\">" << value << "</option>"
+             next2rows << "<option value=\"" << key << "\">" << value.label << "</option>"
            end
          end
           next2rows << "</select></div></div>"
@@ -173,20 +141,19 @@ module AdvancedHelper
       next2rows = ""
       next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
       boolean_row_values.each do |key, value|
-           if params[:boolean_row][1].blank?
-             params[:boolean_row][1] = "AND"
+           if params[:boolean_row]['1'].blank?
+             params[:boolean_row]['1'] = "AND"
            end
-           n = 1.to_s
-           if key == params[:boolean_row][1]
+           if key == params[:boolean_row]['1']
              next2rows << "<div class=\"form-check form-check-inline\">"
              next2rows << "<label>"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
+             next2rows << "<input type=\"radio\" name=\"boolean_row[1]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
              next2rows << "</label>"
              next2rows << "</div>"
            else
              next2rows << "<div class=\"form-check form-check-inline\">"
              next2rows << "<label>"
-             next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{1}" << "]\" value=\"" << key << "\">" << " " << value << " "
+             next2rows << "<input type=\"radio\" name=\"boolean_row[1]\" value=\"" << key << "\">" << " " << value << " "
              next2rows << "</label>"
              next2rows << "</div>"
            end
@@ -207,9 +174,9 @@ module AdvancedHelper
     next2rows << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
     subject_values.each do |key, value|
       if key == params[:search_field_row][0]
-        next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
+        next2rows << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
       else
-        next2rows << "<option value=\"" << key << "\">" << value << "</option>"
+        next2rows << "<option value=\"" << key << "\">" << value.label << "</option>"
       end
     end
 
