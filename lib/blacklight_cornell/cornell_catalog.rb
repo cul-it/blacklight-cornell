@@ -93,7 +93,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
     oid = params[:id]
     ActionController::Parameters.permit_all_parameters = true
-    zparams = ActionController::Parameters.new(utf8: "✓", :boolean_row => {"1"=>"AND"}, q_row: ["(OCoLC)#{oid}", ""], op_row: ["phrase", "phrase"], search_field_row: ["publisher number/other identifier", "publisher number/other identifier"], sort: "score desc, pub_date_sort desc, title_sort asc", search_field: "advanced", advanced_query: "yes", commit: "Search", controller: "catalog", action: "index")
+    zparams = ActionController::Parameters.new(utf8: "✓", :boolean_row => {"1"=>"AND"}, q_row: ["(OCoLC)#{oid}", ""], op_row: ["phrase", "phrase"], search_field_row: ["number", "number"], sort: "score desc, pub_date_sort desc, title_sort asc", search_field: "advanced", advanced_query: "yes", commit: "Search", controller: "catalog", action: "index")
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} zparams = #{zparams.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
@@ -161,15 +161,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         params[:q].gsub!('%2F','')
         params[:q].gsub!('/','')
       end
-      if params[:search_field] == 'isbn%2Fissn' or params[:search_field] == 'isbn/issn'
-        params[:search_field] = 'isbnissn'
-      end
-      if params["search_field"] == "journal title"
-        journal_titleHold = "journal title"
+      if params["search_field"] == "journaltitle"
+        journal_titleHold = "journaltitle"
         # params[:f] = {'format' => ['Journal/Periodical']}
       end
       params[:q] = sanitize(params)
-      if params[:search_field] == 'call number' and !params[:q].include?('"')
+      if params[:search_field] == 'lc_callnum' and !params[:q].include?('"')
         tempQ = params[:q]
       end
       # check_params(params)
@@ -221,7 +218,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       params[:search_field] = journal_titleHold
     end
     if params[:search_field] == 'author_quoted'
-      params[:search_field] = 'author/creator'
+      params[:search_field] = 'author'
     end
     # why keep this block if nothing is being done inside it?
     # commenting it out 5/18/21. Remove July sprint '21.
@@ -251,7 +248,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # Expand search only under certain conditions
     tmp = BentoSearch::Results.new
-    if !(params[:search_field] == 'call number')
+    if !(params[:search_field] == 'lc_callnum')
       if expandable_search?
         # DISCOVERYACCESS-6734 - skip entire worldcat search that was intended to provide a count for worldcat results
         query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
@@ -650,44 +647,29 @@ private
     if params[:search_field].nil?
       params[:search_field] = 'all_fields'
     end
-    if (params[:search_field].present? and params[:search_field] == 'journal title') or (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+    if (params[:search_field].present? and params[:search_field] == 'journaltitle') or (params[:search_field_row].present? and params[:search_field_row].index('journaltitle'))
       if params[:f].nil?
         params[:f] = {'format' => ['Journal/Periodical']}
       end
       params[:f][:format] = ['Journal/Periodical']
       # unless(!params[:q])
       #params[:q] = params[:q]
-      if (params[:search_field_row].present? and params[:search_field_row].index('journal title'))
+      if (params[:search_field_row].present? and params[:search_field_row].index('journaltitle'))
         params[:search_field] = 'advanced'
       else
         params[:search_field] = 'title'
       end
       search_session[:f] = params[:f]
     end
-    fieldname = ''
-    if params[:search_field] == 'call number'
-      fieldname = 'lc_callnum'
+    if params[:search_field] == 'all_fields'
+      fieldname = ''
     else
-      if params[:search_field] == 'author/creator' or params[:search_field] == 'author'
-        fieldname = 'author'
-      else
-        if params[:search_field] == 'all_fields'
-          fieldname = ''
-        else
-          if params[:search_field] == 'publisher number/other identifier'
-            fieldname = 'number'
-            params[:search_field] = 'number'
-          else
-            fieldname = params[:search_field]
-          end
-        end
-      end
+      fieldname = params[:search_field]
     end
     # end of Journal title search hack
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     #quote the call number
-    if params[:search_field] == 'call number'
-      params[:search_field] = 'lc_callnum'
+    if params[:search_field] == 'lc_callnum'
       if !params[:q].nil?
         search_session[:q] = params[:q]
         # params[:qdisplay] = params[:q]
@@ -704,7 +686,7 @@ private
       params[:qdisplay] = params[:q]
       params[:q] = '"' + params[:q] + '"'
     else
-      if (params[:search_field] != 'journal title ' and params[:search_field] != 'call number')# or params[:action] == 'range_limit'
+      if (params[:search_field] != 'journaltitle ' and params[:search_field] != 'lc_callnum')# or params[:action] == 'range_limit'
         qparam_display = params[:q]
         params[:qdisplay] = params[:q]
         # params[:q] = parseQuoted(params[:q])
