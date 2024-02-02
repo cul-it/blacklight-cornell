@@ -618,7 +618,8 @@ Scenario: Looking for more? link for Articles & Full Text should not have proxy
 
 @DACCESS-194
 @javascript
-Scenario: Try and advanced search with and advanced query
+Scenario: Try an advanced search with and advanced query
+    Given PENDING
     When I literally go to advanced
     And click on link "add-row"
     And I sleep 4 seconds
