@@ -47,9 +47,9 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 64dfee9dbb8de147f426e2fed5d7a0ff30dd9d2c
+  revision: cf1a5866a6be40e7244ff16e6641495d4d5bb017
   specs:
-    my_account (2.2.4)
+    my_account (2.2.5)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge (>= 1.2.1)
