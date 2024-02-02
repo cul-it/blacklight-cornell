@@ -643,12 +643,12 @@ Scenario: Try an advanced search with and advanced query
 @javascript
 Scenario Outline: Testing And Or Not logic with separate Authors
     When I literally go to advanced
-    And I fill in "q_row1" with '<q1>'
-    And I select 'all' from the term logic drop-down on line 1
+    And I enter '<q1>' as the query on line 1
+    And I select 'all' from the query logic drop-down on line 1
     And I select '<field>' from the fields drop-down on line 1
     Then I select '<boolean>' from the row logic radio before line 2
-    And I fill in "q_row2" with '<q2>'
-    And I select 'all' from the term logic drop-down on line 2
+    And I enter '<q2>' as the query on line 2
+    And I select 'all' from the query logic drop-down on line 2
     And I select '<field>' from the fields drop-down on line 2
     And I press 'advanced_search'
     Then I should get <results> results
@@ -671,12 +671,12 @@ Examples:
 Scenario Outline: Testing And Or Not logic with separate Authors
     Given PENDING
     When I literally go to advanced
-    And I fill in "q_row1" with '<q1>'
-    And I select 'all' from the term logic drop-down on line 1
+    And I enter '<q1>' as the query on line 1
+    And I select 'all' from the query logic drop-down on line 1
     And I select '<field>' from the fields drop-down on line 1
     Then I select '<boolean>' from the row logic radio before line 2
-    And I fill in "q_row2" with '<q2>'
-    And I select 'all' from the term logic drop-down on line 2
+    And I enter '<q2>' as the query on line 2
+    And I select 'all' from the query logic drop-down on line 2
     And I select '<field>' from the fields drop-down on line 2
     And I press 'advanced_search'
     Then I should get <results> results
