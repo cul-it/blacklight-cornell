@@ -258,8 +258,8 @@ Feature: Search
   @DACCESS-192
   Scenario: Quoted search should select items with adjacent terms
     Given I am on the home page
-    And I fill in the search box with '"Barney Glover"'
+    And I fill in the search box with '"republic and empire"'
     And I press 'search'
     Then I should get results
-    And I should see "Optimization and related topics"
-    And I should not see "IRELAND Music and Ballads from Ireland"
+    And I should see "Roman colonies in republic and empire"
+    And I should not see "Ancient libraries"
