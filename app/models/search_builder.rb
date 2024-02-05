@@ -665,7 +665,6 @@ class SearchBuilder < Blacklight::SearchBuilder
     # params[:q] = '(((+title:"Encyclopedia") OR title_phrase:"Encyclopedia") -springer)'
     params[:q] = group_bools(params).gsub('-+', '-')
 
-<<<<<<< HEAD
 
   def num_cjk_uni(str)
     if str
@@ -939,9 +938,6 @@ Rails.logger.level = save_level
         my_params[:q] = test_q_string2
       return my_params
      end
-=======
-    params
->>>>>>> dev
    end
 
    def parse_QandOp_row(params)
