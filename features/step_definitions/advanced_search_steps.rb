@@ -1,8 +1,5 @@
 When("I select {string} from the row logic radio before line {int}") do |string, int|
   row_offset = int
-  # expect(find(:element, "input", type: "radio", value: "#{string.upcase}")).to have_text(string)
-  # elt = page.find("div.input_row:nth-child(#{row_offset})")
-  # what_is elt
   within("div.input_row:nth-child(#{row_offset}) > fieldset > div.adv-search-control") do 
     find_field(string, :disabled => :all).set(true)
   end
