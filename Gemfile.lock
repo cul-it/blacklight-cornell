@@ -261,7 +261,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.2.2)
+    concurrent-ruby (1.2.3)
     confstruct (1.1.0)
       hashie (>= 3.3, < 5)
     connection_pool (2.4.1)
@@ -491,7 +491,7 @@ GEM
     mini_mime (1.1.5)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
-    minitest (5.20.0)
+    minitest (5.21.2)
     multi_json (1.15.0)
     multi_test (1.1.0)
     multi_xml (0.6.0)
@@ -758,8 +758,8 @@ GEM
     utf8-cleaner (1.0.0)
       activesupport
     vcr (6.2.0)
-    view_component (2.73.0)
-      activesupport (>= 5.0.0, < 8.0)
+    view_component (2.83.0)
+      activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
     warden (1.2.9)
@@ -900,7 +900,7 @@ DEPENDENCIES
   unicode_utils
   utf8-cleaner
   vcr
-  view_component (= 2.73.0)
+  view_component (= 2.83.0)
   webmock
   webrat
   xmlrpc
