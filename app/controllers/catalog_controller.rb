@@ -92,13 +92,14 @@ class CatalogController < ApplicationController
 
         'included_work_display' => {
            :search_field => 'title',
-           :related_search_field => 'author/creator',
+           :related_search_field => 'author',
            :sep => '|',
-           :key_value => true
+           :key_value => true,
+           :related_auth_field => 'authortitle_facet'
         },
         'related_work_display' => {
             :search_field => 'title',
-            :related_search_field => 'author/creator',
+            :related_search_field => 'author',
             :sep => '|',
             :key_value => true
         },
@@ -128,7 +129,7 @@ class CatalogController < ApplicationController
         },
         'title_uniform_display' => {
             :search_field => 'title',
-            :related_search_field => 'author/creator',
+            :related_search_field => 'author',
             :sep => '|',
             :key_value => true
         },
@@ -426,11 +427,11 @@ class CatalogController < ApplicationController
     #      :pf => '$author_pf'
     #    }
     #)
-    config.add_search_field('journal title', :label => "Journal Title") do |field|
+    config.add_search_field('journaltitle', :label => "Journal Title") do |field|
       field.solr_local_parameters = {
 #        :qf => '$title_qf',
 #        :pf => '$title_pf',
-        :search_field => "journal title"
+        :search_field => "journaltitle"
       }
     end
 
@@ -446,7 +447,7 @@ end
 
     config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
 
-    config.add_search_field('author/creator',:label => "Author") do |field|
+    config.add_search_field('author',:label => "Author") do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
 #        :qf => '$author_qf',
@@ -482,7 +483,7 @@ end
 
     config.add_search_field 'separator_4', :label => '---', :include_in_advanced_search => false
 
-    config.add_search_field('call number', :label => 'Call Number') do |field|
+    config.add_search_field('lc_callnum', :label => 'Call Number') do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
       field.include_in_simple_select = true
       field.solr_local_parameters = {
@@ -516,14 +517,14 @@ end
 #         :pf => '$pubplace_pf'
        }
     end
-    config.add_search_field('publisher number/other identifier') do |field|
+    config.add_search_field('number', label: 'Publisher Number/Other Identifier') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$number_qf',
 #         :pf => '$number_pf'
        }
     end
-    config.add_search_field('isbn/issn', :label => 'ISBN/ISSN') do |field|
+    config.add_search_field('isbnissn', :label => 'ISBN/ISSN') do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$isbnissn_qf',
@@ -572,17 +573,17 @@ end
       }
     end
 
-    config.add_search_field('journal title_starts',:include_in_advanced_search => false) do |field|
+    config.add_search_field('journaltitle_starts',:include_in_advanced_search => false) do |field|
       field.solr_parameters = { :'format' => "Journal" }
       field.include_in_simple_select = false
       field.solr_local_parameters = {
 #        :qf => '$title_starts_qf',
 #        :pf => '$title_starts_pf',
-        :search_field => "journal title"
+        :search_field => "journaltitle"
       }
     end
 
-    config.add_search_field('author/creator_starts',:include_in_advanced_search => false) do |field|
+    config.add_search_field('author_starts',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
@@ -599,7 +600,7 @@ end
        }
     end
 
-    config.add_search_field('call number_starts', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
+    config.add_search_field('lc_callnum_starts', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
       field.include_in_simple_select = false
       field.solr_local_parameters = {
@@ -633,7 +634,7 @@ end
        }
     end
 
-    config.add_search_field('publisher number/other identifier_starts',:include_in_advanced_search => false) do |field|
+    config.add_search_field('number_starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$number_starts_qf',
@@ -641,7 +642,7 @@ end
        }
     end
 
-    config.add_search_field('isbn/issn_starts', :label => 'ISBN/ISSN Starts',:include_in_advanced_search => false) do |field|
+    config.add_search_field('isbnissn_starts', :label => 'ISBN/ISSN Starts',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$isbnissn_starts_qf',
@@ -689,17 +690,17 @@ end
       }
     end
 
-    config.add_search_field('journal title_quote',:include_in_advanced_search => false) do |field|
+    config.add_search_field('journaltitle_quote',:include_in_advanced_search => false) do |field|
       field.solr_parameters = { :'format' => "Journal" }
       field.include_in_simple_select = false
       field.solr_local_parameters = {
 #        :qf => '$title_quot_qf',
 #        :pf => '$title_quot_pf',
-        :search_field => "journal title"
+        :search_field => "journaltitle"
       }
     end
 
-    config.add_search_field('author/creator_quote',:include_in_advanced_search => false) do |field|
+    config.add_search_field('author_quote',:include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
 #      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
@@ -715,7 +716,7 @@ end
  #        :pf => '$subject_quot_pf'
        }
     end
-    config.add_search_field('call number_quote', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
+    config.add_search_field('lc_callnum_quote', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
       field.include_in_simple_select = false
       field.solr_local_parameters = {
 #        :qf => '$lc_callnum_quot_qf',
@@ -739,7 +740,7 @@ end
        }
     end
 
-    config.add_search_field('publisher number/other identifier_quote',:include_in_advanced_search => false) do |field|
+    config.add_search_field('number_quote',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$number_quot_qf',
@@ -747,7 +748,7 @@ end
        }
     end
 
-    config.add_search_field('isbn/issn_quote', :label => 'ISBN/ISSN Quoted',:include_in_advanced_search => false) do |field|
+    config.add_search_field('isbnissn_quote', :label => 'ISBN/ISSN Quoted',:include_in_advanced_search => false) do |field|
        field.include_in_simple_select = false
        field.solr_local_parameters = {
 #         :qf => '$isbnissn_quot_qf',

@@ -297,7 +297,22 @@ end
             # has optional link attributes
             # e.g. uniform title is searched in conjunction with author for more targeted results
             if !clickable_setting[:related_search_field].blank?
-              link_to(displayv_searchv[0], add_advanced_search_params(args[:field], displayv_searchv[1], clickable_setting[:related_search_field], displayv_searchv[2]))
+              search_link = link_to(displayv_searchv[0],add_advanced_search_params(args[:field], displayv_searchv[1], clickable_setting[:related_search_field], displayv_searchv[2]))
+
+              # include optional link to authority browse info
+              related_auth_val = args[:document][clickable_setting[:related_auth_field]]
+              authq = [displayv_searchv[2], displayv_searchv[1]].join(" #{clickable_setting[:sep]} ").gsub(/\.$/, '')
+              if clickable_setting[:related_auth_field].present? && related_auth_val.present? && related_auth_val.include?(authq)
+                related_auth_label = blacklight_config.facet_fields[clickable_setting[:related_auth_field]].try(:label)
+                browse_link = link_to(t("blacklight.related_auth.#{args[:field]}"),
+                                      browse_info_path(authq: authq,
+                                                       bib: args[:document]['id'],
+                                                       browse_type: related_auth_label),
+                                      class: 'info-button d-inline-block btn btn-sm btn-outline-secondary')
+                search_link + browse_link
+              else
+                search_link
+              end
             else
               # misconfiguration... no related search field defined
               # ignore related search value
@@ -1443,21 +1458,18 @@ end
   end
 
   def access_url_single(args)
-    if !args["url_access_json"].present? || access_url_is_list?(args)
-      nil
-    else
-      url_access = JSON.parse(args["url_access_json"][0])
+    if args["url_access_json"].present? && args["url_access_json"].size == 1
+      url_access = JSON.parse(args["url_access_json"].first)
       if url_access['url'].present?
-        url_access['url']
-      else
-        nil
+        return url_access['url']
       end
     end
+    nil
   end
 
   def access_z_note(args)
-    if args['url_access_json'].present? && !access_url_is_list?(args)
-      single = JSON.parse(args["url_access_json"][0])
+    if args['url_access_json'].present?
+      single = JSON.parse(args["url_access_json"].first)
       if single.present? && single['description'].present?
         excludes = [
           'Connect to resource.',
@@ -1498,11 +1510,7 @@ end
 
   def access_url_first(args)
     if args['url_access_json'].present? 
-      if access_url_is_list?(args)
-        url_access = JSON.parse(args['url_access_json'].first)
-      else
-        url_access = JSON.parse(args['url_access_json'])
-      end
+      url_access = JSON.parse(args['url_access_json'].first)
       if url_access['url'].present?
         return url_access['url']
       end
@@ -1512,11 +1520,7 @@ end
 
   def access_url_first_description(args)
     if args['url_access_json'].present?
-      if access_url_is_list?(args)
-        url_access = JSON.parse(args['url_access_json'].first)
-      else
-        url_access = JSON.parse(args['url_access_json'])
-      end
+      url_access = JSON.parse(args['url_access_json'].first)
       if url_access['description'].present?
         return url_access['description']
       end
@@ -1527,15 +1531,11 @@ end
   def access_url_all(args)
     if args['url_access_json'].present?
       all = []
-      if access_url_is_list?(args)
-        args['url_access_json'].each do |json|
-          url_access = JSON.parse(json)
-          if url_access['url'].present?
-            all << url_access['url']
-          end
+      args['url_access_json'].each do |json|
+        url_access = JSON.parse(json)
+        if url_access['url'].present?
+          all << url_access['url']
         end
-      else
-        all << JSON.parse(args['url_access_json'])
       end
       return all.size > 0 ? all : nil
     end

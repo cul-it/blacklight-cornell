@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 5d45319d53745e2cb629c2f957f8b2301f050e7d
+  revision: 0d26af47a2ba08032c785b3443e195ab1523e2af
   specs:
-    blacklight_cornell_requests (4.4)
+    blacklight_cornell_requests (4.4.1)
       activerecord-oracle_enhanced-adapter
       blacklight
       cul-folio-edge (~> 2.0)
@@ -47,9 +47,9 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 64dfee9dbb8de147f426e2fed5d7a0ff30dd9d2c
+  revision: cf1a5866a6be40e7244ff16e6641495d4d5bb017
   specs:
-    my_account (2.2.4)
+    my_account (2.2.5)
       blacklight (>= 7.0)
       borrow_direct
       cul-folio-edge (>= 1.2.1)
@@ -795,6 +795,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  arm64-darwin-23
   x86_64-darwin-23
   x86_64-linux
 
