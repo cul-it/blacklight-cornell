@@ -665,7 +665,283 @@ class SearchBuilder < Blacklight::SearchBuilder
     # params[:q] = '(((+title:"Encyclopedia") OR title_phrase:"Encyclopedia") -springer)'
     params[:q] = group_bools(params).gsub('-+', '-')
 
+<<<<<<< HEAD
+
+  def num_cjk_uni(str)
+    if str
+      str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
+    else
+      0
+    end
+  end
+
+
+  def test_size_param_array(param_array)
+    countit = 0
+    for i in 0..param_array.count - 1
+       unless param_array[i] == "" and !param_array[i].nil?
+        countit = countit + 1
+       end
+    end
+    return countit
+  end
+
+  def parse_simple_search_query(blacklight_params)
+    return_query = ''
+    simp_search_field = blacklight_params[:search_field]
+    simp_search_query = blacklight_params[:q]
+ #   if simp_search_field != 'title_starts'
+    qArray = simp_search_query.split(' ')
+    if qArray.size > 1
+      qArray.each do |token|
+        token = '+' + simp_search_field + ':' + token + ' '
+        return_query << token
+      end
+      return_query = return_query[0..-2]
+      if simp_search_field != 'title_starts'
+      return_query = '(' + return_query + ') OR ' + simp_search_field + '_phrase:"' + blacklight_params[:q] + '"'
+      else
+        return_query = simp_search_field + ':"' + blacklight_params[:q] + '"'
+      end
+    else
+      return_query = '(+' + simp_search_field + ':' + qArray[0] + ') OR ' + simp_search_field + '_phrase:"' + qArray[0] + '"'
+    end
+    return return_query
+  end
+
+  def massage_params(params)
+    rowHash = {}
+    opArray = []
+    query_string = ""
+    new_query_string = ""
+    query_rowArray = params[:q_row]
+    op_rowArray = params[:op_row]
+#    if params[:op_row] == "begins_with"
+#      params[:search_field_row] = params[:search_field_row] + "_starts"
+#    end
+    search_field_rowArray = params[:search_field_row]
+    if query_rowArray.count > 1
+#first row
+       if query_rowArray[0] != ""
+         new_query_string = parse_query_row(query_rowArray[0], op_rowArray[0])
+         rowHash[search_field_rowArray[0]] = new_query_string
+         new_query_string = ""
+       end
+
+       for i in 1..query_rowArray.count - 1
+         n = i.to_s
+         if query_rowArray[i] != ""
+           new_query_string = parse_query_row(query_rowArray[i], op_rowArray[i])
+           if rowHash.has_key?(search_field_rowArray[i])
+              current_query = rowHash[search_field_rowArray[i]]
+              if params[:boolean_row][n.to_sym].nil?
+                params[:boolean_row][n.to_sym] = " OR "
+              end
+              new_query = " " << current_query << " " << params[:boolean_row][n.to_sym] << " " << new_query_string << " "
+              rowHash[search_field_rowArray[i]] = new_query
+           else
+              rowHash[search_field_rowArray[i]] = new_query_string
+              if params[:boolean_row][n.to_sym].nil?
+                params[:boolean_row][n.to_sym] = " OR "
+              end
+              opArray << params[:boolean_row][n.to_sym]
+           end
+         end
+       end
+       opcount = 0;
+       query_string_two = ""
+       newArray = rowHash.flatten
+       keywordscount = newArray.count / 2
+       for i in 0..keywordscount -1
+         if i < keywordscount - 1
+          if opArray[i].nil?
+            opArray[i] = ' AND '
+          end
+          if opArray[i] == "begins_with"
+            query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << ""
+          else
+            query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << "&op[]=" << opArray[i] << "&"
+          end
+         else
+          query_string_two << newArray[i*2] << "=" << newArray[(i*2)+1] << ""
+         end
+       end
+       #account for some bozo not selecting different search_fields
+       bozocheck = query_string_two.split("=")
+       if bozocheck.count < 3
+         query_string_two = "q=" + bozocheck[1] + "&search_field=" + bozocheck[0]
+         params["search_field"] = bozocheck[0]
+         params.delete("advanced_query")
+       end
+    end
+   return query_string_two
+  end
+
+  def parse_query_row(query, op)
+    splitArray = []
+    returnstring = ""
+    if !query.nil?
+     if query.include?('%26')
+       query.gsub!('%26','&')
+     end
+     query.gsub!("&","%26")
+     if op == "phrase" or op == "begins_with"
+       query.gsub!("\"", "\'")
+#       returnstring << '"' << query << '"'
+       returnstring = query
+     else
+       splitArray = query.split(" ")
+       if splitArray.count > 1
+         # returnstring = splitArray.join(' ' + op + ' ')
+         return string = '"' + splitArray.join() + '"'
+       else
+          returnstring = query
+       end
+     end
+    end
+    return returnstring
+  end
+
+
+  def parse_single(params)
+    query_string = ""
+    query_rowArray = params[:q_row]
+    op_rowArray = params[:op_row]
+
+    if params[:op_row][0] == "begins_with"
+      params[:search_field_row][0] = params[:search_field_row][0] + "_starts"
+      search_field_rowArray = params[:search_field_row]
+
+    else
+     search_field_rowArray = params[:search_field_row]
+    end
+      for i in 0..query_rowArray.count - 1
+         if query_rowArray[i] != ""
+           query_string << "q="
+           query_rowSplitArray = query_rowArray[i].split(" ")
+           if(query_rowSplitArray.count > 1 && op_rowArray[i] != "phrase")
+             if op_rowArray[i] == 'begins_with'
+
+             query_string << query_rowSplitArray[0] << " "
+             else
+             query_string << query_rowSplitArray[0] << " " #<< op_rowArray[i] << " "
+             end
+             for j in 1..query_rowSplitArray.count - 2
+               if !op_rowArray[i] == 'begins_with'
+                query_string << query_rowSplitArray[j] << " " << op_rowArray[i] << " "
+               else
+                query_string << query_rowSplitArray[j] << " "
+               end
+             end
+             query_string << query_rowSplitArray[query_rowSplitArray.count - 1] << "&search_field=" << search_field_rowArray[i]
+           elsif(query_rowSplitArray.count > 1 && op_rowArray[i] == "phrase" )
+             query_rowArray[i].gsub!("\"", "\'")
+             query_string << '"' << query_rowArray[i] << '"&search_field=' << search_field_rowArray[i]
+             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
+           else
+             query_string << query_rowArray[i] << "&search_field=" << search_field_rowArray[i]
+           end
+         end
+      end
+      return query_string
+  end
+
+  def test_size_param_array(param_array)
+    countit = 0
+    for i in 0..param_array.count - 1
+       unless param_array[i] == "" and !param_array[i].nil?
+        countit = countit + 1
+       end
+    end
+    return countit
+  end
+
+    def removeBlanks(my_params = params || {} )
+       testQRow = [] #my_params[:q_row]
+       testOpRow = []
+       testSFRow = []
+       testBRow = []
+       for i in 0..my_params[:q_row].count - 1
+         if (my_params[:q_row][i] != '' and !my_params[:q_row][i].nil?) and my_params[:q_row][i] != ' '
+             testQRow << my_params[:q_row][i]
+             testOpRow << my_params[:op_row][i]
+             testSFRow << my_params[:search_field_row][i]
+          end
+       end
+       hasNonBlankcount = 0
+       for i in 0..my_params[:q_row].count - 1
+          if my_params[:q_row][i].blank? or my_params[:q_row][i].nil?
+          #  if i == 0
+          #    next
+          #  end
+          #  if i == my_params[:q_row].count - 1
+              next
+          #  end
+          else
+            hasNonBlankcount = hasNonBlankcount + 1
+            if i <= my_params[:q_row].count - 1 #and  hasNonBlankcount > 1
+                if !my_params[:boolean_row].nil? and !my_params[:boolean_row][i.to_s.to_sym].nil?
+                testBRow << my_params[:boolean_row][i.to_s.to_sym]
+                end
+            end
+ #           if i < my_params[:q_row].count - 1 #and (hasNonBlankcount > 1 and my_params[:q_row][i + 1].blank?)
+ #               if !my_params[:boolean_row][i.to_s.to_sym].nil?
+ #               testBRow << my_params[:boolean_row][i.to_s.to_sym]
+ #               end
+ #           end
+          end
+       end
+        my_params[:q_row] = testQRow
+        my_params[:op_row] = testOpRow
+        my_params[:search_field_row] = testSFRow
+        my_params[:boolean_row] = testBRow
+          return my_params
+     end
+
+   def make_adv_query(my_params = params || {})
+#******************
+
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+
+msg = [" #{__method__} ".center(60,'Z')]
+
+msg << jgr25_context
+
+msg << "my_params: " + my_params.inspect
+
+msg << 'Z' * 60
+
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+
+Rails.logger.level = save_level
+
+#binding.pry
+
+#*******************
+     if !my_params[:q_row].nil? and !my_params[:q_row].blank?
+# Remove any blank rows in AS
+
+       my_params = removeBlanks(my_params)
+
+         q_rowArray = parse_Q_row(my_params)
+
+         my_params[:q_row] = q_rowArray
+         my_params[:q_row] = parse_QandOp_row(my_params)
+         test_q_string2 = groupBools(my_params)
+         if test_q_string2.include?('-+')
+         	test_q_string2.gsub!('-+','-')
+         end
+      #   test_q_string2 = '(((+title:"Encyclopedia") OR title_phrase:"Encyclopedia") -springer)'
+        my_params[:q] = test_q_string2
+      return my_params
+     end
+=======
     params
+>>>>>>> dev
    end
 
    def parse_QandOp_row(params)
