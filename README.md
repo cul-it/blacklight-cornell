@@ -13,7 +13,7 @@
 ├── docker
 │   └── bookworm
 │       └── Dockerfile
-├── docker-compose-cred-development.yaml
+├── docker-compose-cred.yaml
 ├── docker-compose-development.yaml
 ├── docker-compose-test-interactive.yaml
 ├── docker-compose-test.yaml
