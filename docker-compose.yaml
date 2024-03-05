@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  webapp:
+    tty: true
+    image: container-discovery:latest
+    build:
+      context: .
+      dockerfile: docker/bookworm/Dockerfile
+      args:
+        - GIT_COMMIT
+    environment:
+      - RAILS_ENV=${RAILS_ENV}
+      - RUN_CRON=false
+    ports:
+      - 9292:9292
+    volumes:
+      - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro

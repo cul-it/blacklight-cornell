@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  webapp:
+    extends:
+      file: docker-compose-test.yaml
+      service: webapp
+    volumes:
+      - ./blacklight-cornell:/workspaces/blacklight-cornell:cached
+      - ${RAILS_ENV_FILE}:/workspaces/blacklight-cornell/.env:ro
+
+    working_dir: /workspaces/blacklight-cornell
