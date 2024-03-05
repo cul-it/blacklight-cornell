@@ -123,7 +123,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # How do we pin versions for build-essential & libvips?
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends vim=2:9.0.1378-2 \
-    curl=7.88.1-10+deb12u4 libfontconfig1=2.14.1-4 && \
+    libcurl4=7.88.1-10+deb12u5 curl=7.88.1-10+deb12u5 libfontconfig1=2.14.1-4 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /src/*.deb && \
