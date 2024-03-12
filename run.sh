@@ -41,10 +41,11 @@ resolve_relative_path() (
     fi
 )
 
-# aws_creds=""
+aws_creds=""
 compose="docker-compose.yaml"
 rails_env="production"
 rails_env_file=""
+image_name="container-discovery"
 interactive=""
 platform=""
 target="container-discovery"
@@ -52,14 +53,16 @@ port="9292:9292"
 feature=""
 development=""
 run_cmd="up"
-run_cron="false"
-while getopts "cdhipt:a:r:" options; do
+# run_cron="false"
+# while getopts "cdhipt:a:r:" options; do
+while getopts "dhipt:a:m:r:" options; do
   case "${options}" in
     a) aws_creds=$(resolve_relative_path "${OPTARG}") ;; # -a aws_creds
       #  aws_creds="-v ${abs_path}:/custom_mnt/credentials:ro" ;;
-    c) run_cron="true" ;; # -c cron
+    # c) run_cron="true" ;; # -c cron
     d) rails_env="development"
        development="-f docker-compose-development.yaml" ;;
+    m) image_name="${OPTARG}" ;; # -m image_name
     r) rails_env_file=$(resolve_relative_path "${OPTARG}") ;;
     i) run_cmd="run --entrypoint=bash webapp" ;;
     p) platform="--platform=linux/amd64" ;;
@@ -87,14 +90,13 @@ if [ "${aws_creds}" != "" ]
     fi
 fi
 
+export IMAGE_NAME=${image_name}
 export RAILS_ENV=${rails_env}
 export RAILS_ENV_FILE=${rails_env_file}
-echo "run cron? $run_cron"
-if [ "${run_cron}" == "true" ]
-  then
-    echo "run cron!"
-    export RUN_CRON="true"
-fi
+# if [ "${run_cron}" == "true" ]
+#   then
+#     export RUN_CRON="true"
+# fi
 
 # img_id=$(git rev-parse head)
 # echo "Running ${target}:${img_id} ${feature}"
@@ -107,6 +109,7 @@ echo "docker compose -f ${compose} ${development} ${run_cmd}"
 docker compose -f ${compose} ${development} ${run_cmd}
 
 unset AWS_CREDENTIALS
+unset IMAGE_NAME
 unset RAILS_ENV
 unset RAILS_ENV_FILE
-unset RUN_CRON
+# unset RUN_CRON

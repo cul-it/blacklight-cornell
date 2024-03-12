@@ -33,9 +33,10 @@ platform=""
 image="container-discovery"
 rails_env_file=""
 commit_hash=""
-while getopts "hpr:c:" options; do
+while getopts "hpr:c:m:" options; do
   case "${options}" in
     c) commit_hash="${OPTARG}" ;;
+    m) image="${OPTARG}" ;;
     p) platform="--platform=linux/amd64"
        image="container-discovery-amd64" ;;
     r) rails_env_file=$(resolve_relative_path "${OPTARG}") ;;
@@ -69,6 +70,7 @@ if [ "${commit_hash}" == "" ]
     commit_hash=$(git rev-parse head)
 fi
 export GIT_COMMIT=${commit_hash}
+export IMAGE_NAME=${image}
 echo "Building ${image}:${commit_hash}"
 
 # echo "docker build -f docker/blacklight/Dockerfile -t ${image}:${img_id} ${platform} --build-arg GIT_COMMIT=${img_id} ${p} ."
@@ -76,11 +78,12 @@ echo "Building ${image}:${commit_hash}"
 
 echo "docker compose build --build-arg GIT_COMMIT=${commit_hash}"
 docker compose build --build-arg GIT_COMMIT=${commit_hash}
-echo "tag container-discovery:latest container-discovery:${commit_hash}"
-docker tag container-discovery:latest container-discovery:${commit_hash}
+echo "tag ${image}:latest ${image}:${commit_hash}"
+docker tag ${image}:latest ${image}:${commit_hash}
 
 unset RAILS_ENV_FILE
 unset GIT_COMMIT
+unset IMAGE_NAME
 if [ "$env_path" == "" ]
   then
     rm "$(dirname "$0")/.env"
