@@ -56,3 +56,6 @@ brakeman-output.*
 
 # byebug
 .byebug_history
+
+# container version - ignore mysql data
+./data
