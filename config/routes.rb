@@ -119,9 +119,10 @@ devise_for :users, controllers: {
 
   # Virtual callnumber browse
   # first three are for ajax calls from the item view page
-  get "/get_previous" => 'catalog#previous_callnumber', as: 'get_previous'
-  get "/get_next" => 'catalog#next_callnumber', as: 'get_next'
-  get "/get_carousel" => 'catalog#build_carousel', as: 'get_carousel'
+  # added xhr constraint to return 404 if X-Requested-With header isn't present for some strange reason
+  get "/get_previous" => 'catalog#previous_callnumber', as: 'get_previous', constraints: lambda { |req| req.xhr? && req.format == :js }
+  get "/get_next" => 'catalog#next_callnumber', as: 'get_next', constraints: lambda { |req| req.xhr? && req.format == :js }
+  get "/get_carousel" => 'catalog#build_carousel', as: 'get_carousel', constraints: lambda { |req| req.xhr? && req.format == :js }
 
   # discogs processing
   get "/get_discogs" => 'catalog#get_discogs', as: 'get_discogs'
