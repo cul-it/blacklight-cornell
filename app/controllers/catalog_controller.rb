@@ -1145,7 +1145,7 @@ def tou
     record = eholdings_record(title_id) || []
     if record
       # recordTitle = record["data"]["attributes"]["name"]
-      record["included"].each do |package|
+      record["included "].each do |package|
         attrs = package['attributes']
         if attrs["isSelected"] == true
           packageID = attrs["packageId"]
