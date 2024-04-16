@@ -1,5 +1,5 @@
 # Make sure it matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.1.4
+ARG RUBY_VERSION=3.2.2
 ARG GIT_COMMIT=0.0
 
 

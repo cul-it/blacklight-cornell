@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "3.1.4"
+ruby "3.2.2"
 #another try
 gem 'rails', '~> 6.1.7'
 gem "dotenv-rails"
@@ -17,7 +17,7 @@ gem 'net-sftp'
 
 group :development,:test, :integration do
   gem "rspec_junit_formatter"
-  gem 'sqlite3', '~> 1.5.1'
+  gem 'sqlite3', '~> 1.7.3'
   gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
   gem 'brakeman'
 end
@@ -144,3 +144,4 @@ gem 'loofah', '2.19.1'
 gem 'puma', '~> 6.4', '>= 6.4.2'
 gem 'aws-sdk-s3', '~> 1.143'
 gem 'uri', '0.12.2'
+# gem 'pkg-config', '1.5.4'
