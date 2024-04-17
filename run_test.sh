@@ -42,6 +42,7 @@ resolve_relative_path() (
 )
 
 aws_creds=""
+compose_file="docker-compose-test.yaml"
 rails_env_file=""
 feature=""
 run_cmd="up --abort-on-container-exit --exit-code-from webapp"
@@ -56,7 +57,8 @@ while getopts "shia:r:f:" options; do
     f) feature=${OPTARG} ;;
     h) usage
       exit 0 ;;
-    i) run_cmd="-f docker-compose-test-interactive.yaml run --entrypoint=bash webapp"
+    i) compose_file="docker-compose-test-interactive.yaml"
+       run_cmd="run --entrypoint=bash webapp"
        manual_compose_down="1" ;;
     s) use_rspec="1"
        profiles="" ;;
@@ -97,13 +99,13 @@ fi
 # Without it, docker will use current directory name and will not allow running both test
 #   and rails container at the same time.
 echo "Running tests with ${feature}"
-echo "docker compose -p container-discovery-test -f docker-compose-test.yaml ${profiles} ${run_cmd}"
-docker compose -p container-discovery-test -f docker-compose-test.yaml down --remove-orphans
+echo "docker compose -p container-discovery-test -f ${compose_file} ${profiles} ${run_cmd}"
+docker compose -p container-discovery-test -f ${compose_file} down --remove-orphans
 # docker system prune -f
-docker compose -p container-discovery-test -f docker-compose-test.yaml ${profiles} ${run_cmd}
+docker compose -p container-discovery-test -f ${compose_file} ${profiles} ${run_cmd}
 if [ "${manual_compose_down}" != "" ]
   then
-    docker compose -p container-discovery-test -f docker-compose-test.yaml down --remove-orphans
+    docker compose -p container-discovery-test -f ${compose_file} down --remove-orphans
 fi
 
 unset FEATURE

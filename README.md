@@ -41,7 +41,10 @@ To run the containerized blacklight-cornell application, you need to have correc
 That information can be found at LastPass shared folder `Sahred-Discovery and Access-Library Systems` -> `container-discovery POC admin`.\
 **PLEASE USE THE CREDENTIALS UNDER THE NOTES SECTION!**\
 If you don't have access to the shared folder, please contact the library systems team.\
-**To build and run the application locally, you will need to be in the library VPN**.
+**To build and run the application locally, you will need to be in the library VPN**.\
+For that, one must use Username as `netid@library.dsremote` when connecting to the VPN.\
+It is recommended to keep all rails env files in `rails_env` directory.\
+For more detailed explanation, refer to [Required fields](https://github.com/cul-it/blacklight-cornell/wiki/Managing-Rails-Env-File#required-fields).
 
     GIT CLONE blacklight-cornell
     cd blacklight-cornell

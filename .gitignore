@@ -6,42 +6,59 @@
 
 # Ignore .env file
 /blacklight-cornell/.env
+/.env
 # Ignore vcr.log file
 /blacklight-cornell/vcr.log
+/vcr.log
 
 # Ignore bundler config
 /blacklight-cornell/.bundle
+/.bundle
 
 # Ignore the default SQLite database.
 /blacklight-cornell/db/*.sqlite3
+/db/*.sqlite3
 
 # Ignore all logfiles and tempfiles.
 /blacklight-cornell/log/*.log
+/log/*.log
 /blacklight-cornell/tmp
+/tmp
 /blacklight-cornell/faraday.log
+/faraday.log
 /blacklight-cornell/eds-connection.log
+/eds-connection.log
 
 # Ignore config files with sensitive data
 /blacklight-cornell/config/newrelic.yml
+/config/newrelic.yml
 # We need this file and no secret information is in this file anymore!
 # /blacklight-cornell/config/database.yml
 # Ignore precompiled assets
 /blacklight-cornell/public/assets
+/public/assets
 # Ignore ENV file.
 #/.env
 # ignore coverage tests
 /blacklight-cornell/coverage
+/coverage
 /blacklight-cornell/db/test.sqlite3-journal
+/db/test.sqlite3-journal
 
 # ignore tests Jenkins blacklight-cornell-merge-pr deletes
 /blacklight-cornell/results/*
+/results/*
 /blacklight-cornell/features/cassettes/cucumber_tags/*
+/features/cassettes/cucumber_tags/*
 
 
 # Elastic Beanstalk Files
 /blacklight-cornell/.elasticbeanstalk/*
+/.elasticbeanstalk/*
 !/blacklight-cornell/.elasticbeanstalk/*.cfg.yml
+/.elasticbeanstalk/*.cfg.yml
 !/blacklight-cornell/.elasticbeanstalk/*.global.yml
+/.elasticbeanstalk/*.global.yml
 
 # Ignore redis binary dump (dump.rdb) files
 *.rdb
@@ -51,6 +68,7 @@
 
 #ignore dev tool
 /blacklight-cornell/config/initializers/renderer.rb
+/config/initializers/renderer.rb
 
 # brakeman test results
 brakeman-output.*
