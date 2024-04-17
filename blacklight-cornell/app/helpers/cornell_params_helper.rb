@@ -827,4 +827,9 @@ end
 
   end
 
+  # DACCESS-215
+  def query_has_pub_date_facet?
+    return params[:range].present? && params[:range].keys.include?('pub_date_facet')
+  end
+
 end
