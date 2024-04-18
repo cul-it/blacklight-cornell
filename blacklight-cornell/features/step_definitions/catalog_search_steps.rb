@@ -94,6 +94,13 @@ Then("I should get {int} results") do |int|
   end
 end
 
+Then("I should have about {int} results") do |int|
+  patiently do
+    actual = page.find(:css, "span#total-search-results").text.to_i
+    expect(actual).to be_within(10).of(int)
+  end
+end
+
 Then /^I should not get results$/ do
   page.should_not have_selector("div.document")
 end
