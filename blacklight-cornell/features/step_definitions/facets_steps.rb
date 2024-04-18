@@ -100,3 +100,7 @@ Then("I also open the {string} facet and choose {string}") do |facet, choice|
 		click_link(choice, :visible => false)
 	end
 end
+
+Given("I visit the facet page for {string}") do |string|
+	do_visit "/catalog/facet/#{string}"
+end
