@@ -222,7 +222,7 @@ Rails.logger.level = save_level
       :assumed_boundaries => [1300, Time.now.year + 1],
       :segments => true,
       :include_in_advanced_search => false
-    }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters? || query_has_pub_date_facet?
+    }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters?
 
     config.add_facet_field 'workid_facet', :label => 'Work', :show => false
     config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
