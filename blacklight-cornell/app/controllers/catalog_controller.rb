@@ -31,6 +31,11 @@ class CatalogController < ApplicationController
     eos
   end
 
+  def index
+    params[:q] ||= '*'
+    super
+  end
+
   def repository_class
     Blacklight::Solr::Repository
   end
