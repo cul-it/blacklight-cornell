@@ -31,9 +31,13 @@ class CatalogController < ApplicationController
     eos
   end
 
+  #  DACCESS-215
   def index
-    params[:q] ||= '*'
-    super
+    if query_has_pub_date_facet? && !params.key?(:q)
+      redirect_to params.merge(q: '')
+    else
+      super
+    end
   end
 
   def repository_class
