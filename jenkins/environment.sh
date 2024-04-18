@@ -24,4 +24,5 @@ DEBUG_USER="ditester${uuid}@example.edu"
 echo "Diligent Tester: $DEBUG_USER"
 echo "DEBUG_USER=${DEBUG_USER}" >>.env
 grep ^SOLR_URL .env
+mv .env blacklight-cornell/.env
 export RAILS_ENV=test
