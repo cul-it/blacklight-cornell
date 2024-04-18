@@ -100,10 +100,12 @@
 
   </div>
 
-  <div class="search-nav col-12 col-lg-5">
-    <ul class="nav nav-pills">
-      <li><a href="/advanced"><i class="fa fa-search" aria-hidden="true"></i>Advanced Search</a></li>
-    </ul>
-  </div>
+  <% if params[:controller] !='advanced_search' %>
+    <div class="search-nav col-12 col-lg-5">
+      <ul class="nav nav-pills">
+        <li><a href="/advanced"><i class="fa fa-search" aria-hidden="true"></i>Advanced Search</a></li>
+      </ul>
+    </div>
+  <% end %>
 
 </div>
