@@ -6,7 +6,7 @@ echo "JENKINS_HOME: $JENKINS_HOME"
 PATH=$PWD/bin:$PATH
 PATH=$GEM_HOME/bin:$PWD/bin:/usr/local/bin:$PATH
 source /etc/profile.d/rvm.sh
-export RUBYVERSION=ruby-3.1.2
+export RUBYVERSION=ruby-3.2.2
 echo "Ruby: $RUBYVERSION"
 export GEM_HOME="/usr/local/rvm/gems/$RUBYVERSION"
 export GEM_PATH="/usr/local/rvm/gems/$RUBYVERSION:/usr/local/rvm/gems/$RUBYVERSION@global"
