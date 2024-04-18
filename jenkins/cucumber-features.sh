@@ -4,6 +4,7 @@ echo ""
 echo "*********************************************************************************"
 echo ""
 source jenkins/environment.sh
+cd blacklight-cornell
 echo "PATH is:$PATH"
 echo "Solr: $SOLR_URL"
 which bundle
