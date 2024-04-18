@@ -34,6 +34,17 @@ class CatalogController < ApplicationController
   #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
+#******************
+save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+jgr25_context = "#{__FILE__}:#{__LINE__}"
+Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+msg = [" #{__method__} ".center(60,'Z')]
+msg << jgr25_context
+msg << "redirecting params: " + params.inspect
+msg << 'Z' * 60
+msg.each { |x| puts 'ZZZ ' + x.to_yaml }
+Rails.logger.level = save_level
+#binding.pry
       redirect_to params.merge(q: '')
     else
       super
