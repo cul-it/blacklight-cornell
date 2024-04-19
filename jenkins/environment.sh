@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "**************** environment ****************"
+echo "starting RUBYVERSION: $RUBYVERSION"
 
 # Define variables
 RUBYVERSION="ruby-3.2.2"
