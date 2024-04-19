@@ -42,4 +42,4 @@ which bundle
 chromedriver --version
 echo "Xvfb DISPLAY value is $DISPLAY"
 echo "Diligent Tester: $DEBUG_USER"
-grep ^SOLR_URL .env
+grep ^SOLR_URL blacklight-cornell/.env
