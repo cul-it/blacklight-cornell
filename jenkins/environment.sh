@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "**************** environment ****************"
-echo "Branch:"
+echo "Branch: $BRANCH_NAME"
 git rev-parse --abbrev-ref HEAD
 echo "JENKINS_HOME: $JENKINS_HOME"
 PATH=$PWD/bin:$PATH
