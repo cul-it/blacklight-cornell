@@ -16,8 +16,8 @@ export RAILS_LOG_TO_STDOUT="1"
 export RAILS_SERVE_STATIC_FILES="true"
 export BUNDLE_WITHOUT="development"
 
-rake db:create
-rake db:migrate
+bundle exec rake db:create
+bundle exec rake db:migrate
 # bundle exec rake assets:precompile
 
 feature=${FEATURE:-}
