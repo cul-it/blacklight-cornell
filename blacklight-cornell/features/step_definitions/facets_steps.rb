@@ -79,6 +79,27 @@ Then("I limit the publcation year from {int} to {int}") do |int, int2|
 	end
 end
 
+def facet_label_to_field_name(label)
+	blacklight_config = CatalogController.new.blacklight_config
+	blacklight_config.facet_fields.find { |_, field_config| field_config.label == label }&.first
+end
+
+Then("I open the {string} facet and choose {string}") do |facet, choice|
+	# choice must be on the first page of /catalog/facet/facet_label_to_field_name(facet)
+	# this does NOT preserve the state of the other facets or the query
+	field = facet_label_to_field_name(facet)
+	visit facet_catalog_path(field)
+	click_link(choice)
+end
+
+Then("I also open the {string} facet and choose {string}") do |facet, choice|
+	# choice must be visible when the facet is openedhasit:
+	tag = facet_to(facet.downcase)
+	within('#facets') do
+		facet = find("div.#{tag}")
+		click_link(choice, :visible => false)
+	end
+end
 
 Given("I visit the facet page for {string}") do |string|
 	do_visit "/catalog/facet/#{string}"

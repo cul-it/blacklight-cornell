@@ -1,5 +1,27 @@
 {
   "ignored_warnings": [
+      {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "017aca09dabea82a8ccbb8725654bf7df63e8908ffaedc5342d7d8d6d89448b7",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/catalog_controller.rb",
+      "line": 37,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CatalogController",
+        "method": "index"
+      },
+      "user_input": "params",
+      "confidence": "High",
+      "cwe_id": [
+        601
+      ]
+    },
     {
       "warning_type": "Unmaintained Dependency",
       "warning_code": 120,

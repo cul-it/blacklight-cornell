@@ -5,7 +5,8 @@ echo ""
 echo "*********************************************************************************"
 echo ""
 source jenkins/environment.sh
-gem install bundler -v 2.3.18
+gem install bundler -v 2.3.26
+cd blacklight-cornell
 bundle update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
 RAILS_ENV=test bin/rake db:migrate

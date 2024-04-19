@@ -31,6 +31,15 @@ class CatalogController < ApplicationController
     eos
   end
 
+  #  DACCESS-215
+  def index
+    if query_has_pub_date_facet? && !params.key?(:q)
+      redirect_to params.merge(q: '')
+    else
+      super
+    end
+  end
+
   def repository_class
     Blacklight::Solr::Repository
   end
@@ -358,7 +367,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'awards_display', :label => 'Awards'
   #  config.add_show_field 'holdings_json', :label => 'Holdings'
 
- 
+
 
     # config.add_show_field 'restrictions_display', :label => 'Restrictions' #called directly in _show_metadata partial
 

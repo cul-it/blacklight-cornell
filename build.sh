@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 usage() {
-  echo "Usage: $0 [-r RAILS_ENV_FILE] [-p (NO ARG, SET PLATFORM TO AMD64)]" 1>&2 
+  echo "Usage: $0 [-r RAILS_ENV_FILE] [-p (NO ARG, SET PLATFORM TO AMD64)]" 1>&2
 }
 exit_abnormal() {
   usage
