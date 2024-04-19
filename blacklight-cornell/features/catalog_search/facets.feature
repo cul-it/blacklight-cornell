@@ -98,11 +98,11 @@ Feature: Facets
 
 	@DACCESS-215
 	Scenario: Publication Year facet should engage when there is no query
-		Given I open the 'Language' facet and choose 'Arabic'
+		Given I open the 'Language' facet and choose 'Chinese'
 		And I also open the 'Format' facet and choose 'Book'
 		And I also open the 'Access' facet and choose 'At the Library'
-		And I limit the publcation year from 2022 to 2025
-		Then I should have about 2108 results
+		And I limit the publcation year from 2012 to 2025
+		Then I should have about 2 results
 
 	@DISCOVERYACCESS-7869
 	Scenario Outline: Each facet should have it's own Facet page
