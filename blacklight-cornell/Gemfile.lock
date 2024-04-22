@@ -187,7 +187,7 @@ GEM
       summon
     bibtex-ruby (6.0.0)
       latex-decode (~> 0.0)
-    blacklight (7.29.0)
+    blacklight (7.37.0)
       deprecation
       globalid
       hashdiff
@@ -195,8 +195,8 @@ GEM
       jbuilder (~> 2.7)
       kaminari (>= 0.15)
       ostruct (>= 0.3.2)
-      rails (>= 5.1, < 7.1)
-      view_component (~> 2.43)
+      rails (>= 5.1, < 7.2)
+      view_component (>= 2.66, < 4)
     blacklight-hierarchy (6.2.2)
       blacklight (>= 7.18, < 9)
       deprecation
@@ -784,7 +784,7 @@ GEM
     utf8-cleaner (1.0.0)
       activesupport
     vcr (6.2.0)
-    view_component (2.83.0)
+    view_component (3.12.1)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -834,7 +834,7 @@ DEPENDENCIES
   awesome_print
   aws-sdk-s3 (~> 1.143)
   bento_search (~> 2.0.0.rc1)
-  blacklight (= 7.29.0)
+  blacklight
   blacklight-hierarchy
   blacklight-marc (~> 6.3)
   blacklight_cornell_requests!
@@ -930,7 +930,7 @@ DEPENDENCIES
   uri (= 0.12.2)
   utf8-cleaner
   vcr
-  view_component (= 2.83.0)
+  view_component
   webmock
   webrat
   xmlrpc
