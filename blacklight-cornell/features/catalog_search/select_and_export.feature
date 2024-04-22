@@ -179,7 +179,14 @@ Feature: Select and export items from the result set
 
 @all_select_and_export @DISCOVERYANDACCESS-3766  @DISCOVERYANDACCESS-3766_basic
   Scenario: User needs to see zombies as a JSON feed
-  When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  # When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
+  When I literally go to advanced
+    And I enter 'Zombies' as the query on line 1
+    And I select 'Title' from the fields drop-down on line 1
+    And I select 'and' from the row logic radio before line 2
+    And I enter 'Charlier' as the query on line 2
+    And I select 'Author' from the fields drop-down on line 2
+    And I do the advanced search
     Then I should see the text 'Zombies : an anthropological investigation of the living dead'
     And I should see the text 'At the Library'
     And I should see the text 'Gainesville : University Press of Florida, [2017]'
