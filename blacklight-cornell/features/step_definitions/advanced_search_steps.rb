@@ -37,7 +37,7 @@ When("I view the {string} version of the search results") do |string|
   current = current_url
 
   # Substitute 'catalog' with 'catalog.json'
-  new_url = current.gsub('/catalog?', '/catalog.json?')
+  new_url = current.gsub('/catalog?', "/catalog.#{string}?")
 
   # Visit the new URL
   visit new_url
