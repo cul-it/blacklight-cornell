@@ -197,10 +197,10 @@ GEM
       ostruct (>= 0.3.2)
       rails (>= 5.1, < 7.1)
       view_component (~> 2.43)
-    blacklight-hierarchy (6.1.2)
+    blacklight-hierarchy (6.2.2)
       blacklight (>= 7.18, < 9)
       deprecation
-      rails (>= 6.1, < 7.1)
+      rails (>= 6.1, < 7.2)
     blacklight-marc (6.3.0)
       blacklight (> 6.1, < 8.a)
       library_stdnums
@@ -426,7 +426,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    hashdiff (1.0.1)
+    hashdiff (1.1.0)
     hashie (4.1.0)
     htmlentities (4.3.4)
     http (5.1.1)
@@ -579,7 +579,7 @@ GEM
       marc
       scrub_rb (~> 1.0)
     orm_adapter (0.5.0)
-    ostruct (0.5.5)
+    ostruct (0.6.0)
     parslet (2.0.0)
     piwik_analytics (1.0.2)
       actionpack
