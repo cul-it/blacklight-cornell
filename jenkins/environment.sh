@@ -4,7 +4,7 @@ echo "starting RUBYVERSION: $RUBYVERSION"
 
 # Define variables
 RUBYVERSION="ruby-3.2.2"
-export RUBYVERSION
+export RUBYVERSION="$RUBYVERSION"
 uuid=$(uuidgen)
 DEBUG_USER="ditester${uuid}@example.edu"
 export OPENSSL_CONF=/dev/null
