@@ -187,6 +187,7 @@ Feature: Select and export items from the result set
     And I enter 'Charlier' as the query on line 2
     And I select 'Author' from the fields drop-down on line 2
     And I do the advanced search
+    And I view the 'json' version of the search results
     Then I should see the text 'Zombies : an anthropological investigation of the living dead'
     And I should see the text 'At the Library'
     And I should see the text 'Gainesville : University Press of Florida, [2017]'

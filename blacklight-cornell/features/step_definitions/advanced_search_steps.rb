@@ -31,3 +31,14 @@ end
 When("I do the advanced search") do
   page.find_by_id("advanced_search").click
 end
+
+When("I view the {string} version of the search results") do |string|
+  # Get the current URL
+  current = current_url
+
+  # Substitute 'catalog' with 'catalog.json'
+  new_url = current.gsub('/catalog?', '/catalog.json?')
+
+  # Visit the new URL
+  visit new_url
+end
