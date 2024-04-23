@@ -19,10 +19,6 @@ When("I use {string} with {string} logic for field {string} on line {int} of adv
   page.find_by_id(fid).select( "#{field}")
 end
 
-When("I do the advanced search") do
-  page.find_by_id("advanced_search").click
-end
-
 When("I view the {string} version of the search results") do |format|
   # Get the current URL
   current = URI.parse(current_url).path

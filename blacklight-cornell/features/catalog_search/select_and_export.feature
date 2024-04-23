@@ -184,7 +184,7 @@ Feature: Select and export items from the result set
     And I use 'Zombies' with 'all' logic for field 'Title' on line 1 of advanced search
     And I select 'and' from the row logic radio before line 2
     And I use 'Charlier' with 'all' logic for field 'Author' on line 2 of advanced search
-    And I do the advanced search
+    And I press 'advanced_search'
     And I view the 'json' version of the search results
     Then I should see the text 'Zombies : an anthropological investigation of the living dead'
     And I should see the text 'At the Library'
@@ -199,7 +199,7 @@ Feature: Select and export items from the result set
   # When I literally go to /catalog.json?q_row[]=Sophisticated+giant&op_row[]=phrase&search_field_row[]=all_fields&boolean_row[1]=AND&q_row[]=&op_row[]=AND&search_field_row[]=all_fields&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&search_field=advanced&advanced_query=yes&commit=Search
   When I literally go to advanced
     And I use 'Sophisticated giant' with 'phrase' logic for field 'All Fields' on line 1 of advanced search
-    And I do the advanced search
+    And I press 'advanced_search'
     And I view the 'json' version of the search results
     Then I should see the text 'Sophisticated giant'
     And I should see the text 'acquired_dt'
@@ -213,7 +213,7 @@ Feature: Select and export items from the result set
     And I use 'Zombies' with 'all' logic for field 'Title' on line 1 of advanced search
     And I select 'and' from the row logic radio before line 2
     And I use 'Charlier' with 'all' logic for field 'Author' on line 2 of advanced search
-    And I do the advanced search
+    And I press 'advanced_search'
     And I view the 'rss' version of the search results
     Then I should see the xml text '<title>Zombies : an anthropological investigation of the living dead</title>'
     And I should see the text 'Gainesville : University Press of Florida, [2017]'
@@ -227,8 +227,7 @@ Feature: Select and export items from the result set
     And I use 'Zombies' with 'all' logic for field 'Title' on line 1 of advanced search
     And I select 'and' from the row logic radio before line 2
     And I use 'Charlier' with 'all' logic for field 'Author' on line 2 of advanced search
-    And I do the advanced search
-    Then where am I
+    And I press 'advanced_search'
     And I view the '<Format>' version of the search results
     Then I should see the xml text '<title>Zombies</title>'
     And I should see the xml text '<XmlContent>'
