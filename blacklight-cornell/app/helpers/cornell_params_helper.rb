@@ -832,4 +832,9 @@ end
     return params[:range].present? && params[:range].keys.include?('pub_date_facet')
   end
 
+  # DACCESS-191
+  def call_number_facet_needed?
+    return true || params[:q].present? && params[:lc_callnum_facet].present?
+  end
+
 end

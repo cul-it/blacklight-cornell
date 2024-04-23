@@ -230,7 +230,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
     config.add_facet_field 'lc_callnum_facet',
-                           if: :has_search_parameters?,
+                           if: call_number_facet_needed?,
                           label: 'Call Number',
                           component: Blacklight::Hierarchy::FacetFieldListComponent,
                           sort: 'count'
