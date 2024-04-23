@@ -26,6 +26,7 @@ end
 When("I view the {string} version of the search results") do |format|
   # Get the current URL
   current = URI.parse(current_url).path
+  puts "Current URL: #{current}"
 
   atom_formats = ['xml', 'dc_xml', 'oai_dc_xml', 'ris', 'zotero', 'rdf_zotero']
 
