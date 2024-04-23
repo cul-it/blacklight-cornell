@@ -23,12 +23,18 @@ When("I do the advanced search") do
   page.find_by_id("advanced_search").click
 end
 
-When("I view the {string} version of the search results") do |string|
+When("I view the {string} version of the search results") do |format|
   # Get the current URL
   current = current_url
 
-  # Substitute 'catalog' with 'catalog.json'
-  new_url = current.gsub('/catalog?', "/catalog.#{string}?")
+  atom_formats = ['xml', 'dc_xml', 'oai_dc_xml', 'ris', 'zotero', 'rdf_zotero']
+
+  if atom_formats.include? format
+    new_url = current.gsub('/catalog?', "/catalog.atom?content_format=#{format}")
+  else
+    # Substitute 'catalog' with 'catalog.json'
+    new_url = current.gsub('/catalog?', "/catalog.#{string}?")
+  end
 
   # Visit the new URL
   visit new_url
