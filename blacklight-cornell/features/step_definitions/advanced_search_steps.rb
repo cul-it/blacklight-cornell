@@ -28,6 +28,20 @@ When("I enter {string} as the query on line {int}") do |string, int|
   page.find_by_id(id).set("#{string}")
 end
 
+When("I use {string} with {string} logic for field {string} on line {int} of advanced search") do |query, logic, field, line|
+  id = "q_row#{line}"
+  if line == 1
+    op = "op_row"
+    fid = "search_field_advanced"
+  else
+    op = "op_row#{line}"
+    fid = "search_field_advanced#{line}"
+  end
+  page.find_by_id(id).set("#{query}")
+  page.find_by_id(op).select( "#{logic}")
+  page.find_by_id(fid).select( "#{field}")
+end
+
 When("I do the advanced search") do
   page.find_by_id("advanced_search").click
 end
