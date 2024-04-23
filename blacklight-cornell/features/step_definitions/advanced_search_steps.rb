@@ -21,17 +21,20 @@ end
 
 When("I view the {string} version of the search results") do |format|
   # Get the current URL
-  current = URI.parse(current_url).path
-  puts "Current URL: #{current}"
+  uri = URI.parse(current_url)
 
-  atom_formats = ['xml', 'dc_xml', 'oai_dc_xml', 'ris', 'zotero', 'rdf_zotero']
+  atom_formats = ['xml', 'dc_xml', 'oai_dc_xml', 'ris', 'mendeley', 'zotero', 'rdf_zotero']
 
   if atom_formats.include? format
-    new_url = current.gsub('/catalog.html?', "/catalog.atom?content_format=#{format}")
+    uri.path = '/catalog.atom'
+    params = CGI.parse(uri.query.to_s)
+    params['content_format'] = format
+    uri.query = URI.encode_www_form(params)
   else
-    # Substitute 'catalog' with 'catalog.json'
-    new_url = current.gsub('/catalog?', "/catalog.#{format}?")
+    # Substitute 'catalog' with 'catalog.<format>'
+    uri.path = '/catalog.' + format
   end
+  new_url = uri.to_s
 
   # Visit the new URL
   visit new_url
