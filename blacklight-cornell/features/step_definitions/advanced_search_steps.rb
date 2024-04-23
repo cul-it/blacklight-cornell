@@ -5,29 +5,6 @@ When("I select {string} from the row logic radio before line {int}") do |string,
   end
 end
 
-When("I select {string} from the query logic drop-down on line {int}") do |string, int|
-  if int == 1
-    id = "op_row"
-  else
-    id = "op_row#{int}"
-  end
-  page.find_by_id(id).select( "#{string}")
-end
-
-When("I select {string} from the fields drop-down on line {int}") do |string, int|
-  if int == 1
-    id = "search_field_advanced"
-  else
-    id = "search_field_advanced#{int}"
-  end
-  page.find_by_id(id).select( "#{string}")
-end
-
-When("I enter {string} as the query on line {int}") do |string, int|
-  id = "q_row#{int}"
-  page.find_by_id(id).set("#{string}")
-end
-
 When("I use {string} with {string} logic for field {string} on line {int} of advanced search") do |query, logic, field, line|
   id = "q_row#{line}"
   if line == 1
