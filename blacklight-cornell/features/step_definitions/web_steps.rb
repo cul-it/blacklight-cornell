@@ -248,7 +248,7 @@ def what_is(element)
   puts "\n"
   puts element.inspect
   puts "\n"
-  puts element['innerHTML']
+  puts element.native.inner_html
   puts "\n"
   puts "\n********************* what is ^\n"
 end
@@ -260,7 +260,7 @@ Then /^show me id "(.*)"$/ do |string|
 end
 
 Then /^show me xpath "(.*)"$/ do |string|
-  @chunk = page.find(:xpath, string)
+  @chunk = page.find(:xpath, "#{string}")
   what_is(@chunk)
 end
 
