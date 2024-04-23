@@ -33,7 +33,7 @@ When("I view the {string} version of the search results") do |format|
     new_url = current.gsub('/catalog?', "/catalog.atom?content_format=#{format}")
   else
     # Substitute 'catalog' with 'catalog.json'
-    new_url = current.gsub('/catalog?', "/catalog.#{string}?")
+    new_url = current.gsub('/catalog?', "/catalog.#{format}?")
   end
 
   # Visit the new URL
