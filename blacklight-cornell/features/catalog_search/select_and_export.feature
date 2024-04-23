@@ -228,7 +228,7 @@ Feature: Select and export items from the result set
     And I select 'and' from the row logic radio before line 2
     And I use 'Charlier' with 'all' logic for field 'Author' on line 2 of advanced search
     And I do the advanced search
-    And I view the '<Format>' version of the search results
+    And I view the <Format> version of the search results
     Then I should see the xml text '<title>Zombies</title>'
     And I should see the xml text '<XmlContent>'
     And I should see the text '<TextContent>'
