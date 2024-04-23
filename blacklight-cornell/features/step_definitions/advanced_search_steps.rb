@@ -25,12 +25,12 @@ end
 
 When("I view the {string} version of the search results") do |format|
   # Get the current URL
-  current = current_url
+  current = URI.parse(current_url).path
 
   atom_formats = ['xml', 'dc_xml', 'oai_dc_xml', 'ris', 'zotero', 'rdf_zotero']
 
   if atom_formats.include? format
-    new_url = current.gsub('/catalog?', "/catalog.atom?content_format=#{format}")
+    new_url = current.gsub('/catalog.html?', "/catalog.atom?content_format=#{format}")
   else
     # Substitute 'catalog' with 'catalog.json'
     new_url = current.gsub('/catalog?', "/catalog.#{format}?")
