@@ -15,9 +15,16 @@ gem 'protected_attributes_continued'
 gem 'net-smtp'
 gem 'net-sftp'
 
-group :development,:test, :integration do
+group :development, :integration do
   gem "rspec_junit_formatter"
   gem 'sqlite3', '~> 1.7.3'
+  gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
+  gem 'brakeman'
+end
+
+group :test do
+  gem "rspec_junit_formatter"
+  gem 'mysql2', '0.5.6'
   gem "spreewald", :git => 'https://github.com/makandra/spreewald.git'
   gem 'brakeman'
 end
