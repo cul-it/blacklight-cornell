@@ -23,6 +23,7 @@ set :default_env, {
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
 
+set :rvm1_ruby_version, '3.2.2'
 set :rvm_ruby_version, '3.2.2'
 
 # Defaults to :db role

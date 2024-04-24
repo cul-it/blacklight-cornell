@@ -691,6 +691,9 @@ GEM
     rubyzip (2.3.2)
     rufus-scheduler (3.9.1)
       fugit (~> 1.1, >= 1.1.6)
+    rvm1-capistrano3 (1.4.0)
+      capistrano (~> 3.0)
+      sshkit (>= 1.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -913,6 +916,7 @@ DEPENDENCIES
   rspec_junit_formatter
   ruby-saml (>= 1.12.1)
   rufus-scheduler
+  rvm1-capistrano3
   sass-rails (~> 5.0)
   sassc (~> 2.4)
   sassc-rails (>= 2.1.0)
