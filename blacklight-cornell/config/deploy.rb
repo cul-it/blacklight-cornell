@@ -15,15 +15,15 @@ set :use_sudo, false
 # todo: set user to jenkins
 set :user, "jenkins"
 set :default_env, {
-  'PATH' => "/usr/local/rvm/gems/ruby-3.1.2/bin:/usr/local/rvm/gems/ruby-3.1.2@global/bin:/usr/local/rvm/rubies/ruby-3.1.2/bin:/usr/local/rvm/bin:/opt/rh/devtoolset-10/root/usr/bin:$PATH",
-  'RUBY_VERSION' => "ruby-3.1.2",
-  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-3.1.2",
-  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-3.1.2:/usr/local/rvm/gems/ruby-3.1.2@global",
-#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-3.1.2/gems/bundler-2.3.9/exe/bundle"  # If you are using bundler.
+  'PATH' => "/usr/local/rvm/gems/ruby-3.2.2/bin:/usr/local/rvm/gems/ruby-3.2.2@global/bin:/usr/local/rvm/rubies/ruby-3.2.2/bin:/usr/local/rvm/bin:/opt/rh/devtoolset-10/root/usr/bin:$PATH",
+  'RUBY_VERSION' => "ruby-3.2.2",
+  'GEM_HOME'     => "/usr/local/rvm/gems/ruby-3.2.2",
+  'GEM_PATH'     => "/usr/local/rvm/gems/ruby-3.2.2:/usr/local/rvm/gems/ruby-3.2.2@global",
+#  'BUNDLE_PATH'  => "/usr/local/rvm/gems/ruby-3.2.2/gems/bundler-2.3.9/exe/bundle"  # If you are using bundler.
 #  'BUNDLE_PATH'  => "/usr/local/rvm/bin/bundle"  # If you are using bundler.
 }
 
-set :rvm_ruby_version, '3.1.2'
+set :rvm_ruby_version, '3.2.2'
 
 # Defaults to :db role
 # While migrations looks like a concern of the database layer, Rails migrations are strictly related to the framework.
