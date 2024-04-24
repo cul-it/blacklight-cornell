@@ -5,6 +5,10 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
 #require "dotenv/deployment/capistrano"
 set :application, "blacklight-cornell"
 set :repo_url,  "git@github.com:cul-it/blacklight-cornell"
+
+#deploy subdirectory
+set :repo_tree, 'blacklight-cornell'
+
 set :use_sudo, false
 #set :scm, :git
 #set :scm_verbose, true
