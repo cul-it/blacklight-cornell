@@ -99,7 +99,6 @@ gem "capistrano", "~> 3.18"
 gem "capistrano-rails", "~> 1.6"
 gem 'capistrano-rvm'
 gem 'capistrano-ext'
-gem 'rvm1-capistrano3', require: false
 gem 'net-ssh', '5.2.0'
 gem 'net-scp', '2.0.0'
 gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
