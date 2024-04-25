@@ -40,6 +40,11 @@ class CatalogController < ApplicationController
     end
   end
 
+  # DACCESS-191
+  def self.call_number_facet_needed?
+    return params[:q].present? && params[:lc_callnum_facet].present?
+  end
+
   def repository_class
     Blacklight::Solr::Repository
   end
@@ -230,7 +235,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
     config.add_facet_field 'lc_callnum_facet',
-                           if: call_number_facet_needed?,
+                          if: call_number_facet_needed?,
                           label: 'Call Number',
                           component: Blacklight::Hierarchy::FacetFieldListComponent,
                           sort: 'count'
