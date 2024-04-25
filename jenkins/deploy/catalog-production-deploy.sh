@@ -28,8 +28,6 @@ bundle exec cap $TARGT deploy:check --trace || exit 1
 echo "******** Running deploy or rollback ***********"
 bundle config unset deployment
 if [ "$ACTION" = "Deploy" ] ; then
-#	bundle exec cap $TARGT -t deploy:migrating || exit 1
-#	bundle exec cap $TARGT -t deploy:assets:precompile || exit 1
 	bundle exec cap $TARGT -t deploy || exit 1
 elif [ "$ACTION" = "Rollback" ] ; then
 	bundle exec cap $TARGT -t 'deploy:rollback' || exit 1
