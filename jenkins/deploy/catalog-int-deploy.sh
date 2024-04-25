@@ -20,7 +20,6 @@ export LD_LIBRARY_PATH="/usr/lib/oracle/11.2/client64/lib"
 printenv
 bundle update blacklight_unapi
 bundle update blacklight_cornell_requests
-#bundle update --source my_account
 bundle update my_account
 bundle update capistrano
 TARGT=integration-ruby3
@@ -33,7 +32,6 @@ echo "******** Running deploy or rollback ***********"
 bundle config unset deployment
 if [ "$ACTION" = "Deploy" ] ; then
 	bundle exec cap $TARGT -t deploy || exit 1
-#	bundle exec cap $TARGT -t deploy:assets:precompile || exit 1
 elif [ "$ACTION" = "Rollback" ] ; then
 	bundle exec cap $TARGT -t 'deploy:rollback' || exit 1
 fi
