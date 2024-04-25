@@ -1,14 +1,14 @@
 #!/bin/bash
 /bin/date
 source /usr/local/rvm/scripts/rvm
-cd .
+cd "${WORKSPACE}/blacklight-cornell"
 echo "BRANCH: ${BRANCH}"
 
-rvm use ruby-3.1.2
+rvm use ruby-3.2.2
 which ruby
 gem install bundler:2.3.9
-export GEM_HOME=/usr/local/rvm/gems/ruby-3.1.2
-export GEM_PATH=/usr/local/rvm/gems/ruby-3.1.2:/usr/local/rvm/gems/ruby-3.1.2@global
+export GEM_HOME=/usr/local/rvm/gems/ruby-3.2.2
+export GEM_PATH=/usr/local/rvm/gems/ruby-3.2.2:/usr/local/rvm/gems/ruby-3.2.2@global
 gem install bootstrap-sass:3.4.1
 echo "Directory now working in:$WORKSPACE"
 echo $PATH
