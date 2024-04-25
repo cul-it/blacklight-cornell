@@ -72,7 +72,7 @@ pipeline {
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: 'coverage',
-                    reportFiles: 'rcov/index.html',
+                    reportFiles: 'index.html',
                     reportName: 'RCov_Report',
                     reportTitles: 'DnACornell'])
             }
