@@ -3,8 +3,7 @@
 source /usr/local/rvm/scripts/rvm
 
 # new for containerized version ...
-cd ./blacklight-cornell
-#cp config/database_jenkins.yml config/database.yml
+cd "${WORKSPACE}/blacklight-cornell"
 # ... end new
 
 echo "BRANCH: ${BRANCH}"
