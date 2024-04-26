@@ -666,6 +666,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     params[:q] = group_bools(params).gsub('-+', '-')
 
     params
+
    end
 
    def parse_QandOp_row(params)

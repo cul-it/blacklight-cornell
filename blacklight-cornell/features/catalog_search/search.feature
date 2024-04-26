@@ -255,3 +255,11 @@ Feature: Search
     Then I should get results
     And the Search Articles & Full Text link url should contain 'u2yil2' but not 'proxy.library'
 
+  @DACCESS-192
+  Scenario: Quoted search should select items with adjacent terms
+    Given I am on the home page
+    And I fill in the search box with '"republic and empire"'
+    And I press 'search'
+    Then I should get results
+    And I should see "Roman colonies in republic and empire"
+    And I should not see "Ancient libraries"

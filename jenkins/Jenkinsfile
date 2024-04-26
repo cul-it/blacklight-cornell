@@ -71,10 +71,10 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'coverage',
-                    reportFiles: 'rcov/index.html',
-                    reportName: 'RCov_Report',
-                    reportTitles: 'DnACornell'])
+                    reportDir: "${WORKSPACE}/blacklight-cornell/coverage/rcov",
+                    reportFiles: 'index.html',
+                    reportName: 'Code Coverage Report',
+                    reportTitles: 'Discovery and Access Team Code Coverage'])
             }
         }
     }

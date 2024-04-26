@@ -76,6 +76,8 @@ brakeman-output.*
 # byebug
 .byebug_history
 
+# container version - ignore mysql data
+./data
 /puma.sh
 /set_env.sh
 /test.sh
