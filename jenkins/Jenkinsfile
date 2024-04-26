@@ -66,7 +66,6 @@ pipeline {
         stage('Publish Coverage') {
             steps {
                 echo "Publishing coverage"
-                sh 'cd "${WORKSPACE}"'
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
                 sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
@@ -74,10 +73,10 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'coverage',
+                    reportDir: 'blacklight-cornell/coverage',
                     reportFiles: 'index.html',
-                    reportName: 'RCov_Report',
-                    reportTitles: 'DnACornell'])
+                    reportName: 'Coverage_Report',
+                    reportTitles: 'Discovery and Access Team Code Coverage'])
             }
         }
     }
