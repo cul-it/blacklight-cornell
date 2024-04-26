@@ -17,8 +17,8 @@ export RAILS_ENV=test
 if [ -z ${CUCUMBER_FEATURE_TESTS+x} ]
     then
         echo "Running all feature tests."
-        bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4
+        COVERAGE=true bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4
     else
         echo "Running feature: ${CUCUMBER_FEATURE_TESTS}"
-        bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4 "${CUCUMBER_FEATURE_TESTS}"
+        COVERAGE=true bundle exec cucumber $OPT1 $OPT2 $OPT3 $OPT4 "${CUCUMBER_FEATURE_TESTS}"
 fi
