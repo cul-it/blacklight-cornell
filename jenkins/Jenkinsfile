@@ -71,7 +71,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'blacklight-cornell/coverage',
+                    reportDir: "#{WORKSPACE}/blacklight-cornell/coverage/rcov",
                     reportFiles: 'index.html',
                     reportName: 'Coverage-Report',
                     reportTitles: 'Discovery and Access Team Code Coverage'])
