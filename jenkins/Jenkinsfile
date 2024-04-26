@@ -11,8 +11,6 @@ pipeline {
         IR_SOLR_USER = credentials('622231e0-352f-431f-9847-a109f3795d97')
         IR_SOLR_PAW = credentials('f6e43070-a7b0-44ef-9a72-8767cc8ee968')
         SAML_IDP_TARGET_URL = credentials('SAML_IDP_TARGET_URL')
-        COVERALLS_REPO_TOKEN=credentials('coveralls-repo-token')
-        COVERALLS_PARALLEL=true
     }
     stages {
         stage('Set up and run bundler') {
@@ -75,7 +73,7 @@ pipeline {
                     keepAll: true,
                     reportDir: 'blacklight-cornell/coverage',
                     reportFiles: 'index.html',
-                    reportName: 'Coverage_Report',
+                    reportName: 'Coverage-Report',
                     reportTitles: 'Discovery and Access Team Code Coverage'])
             }
         }

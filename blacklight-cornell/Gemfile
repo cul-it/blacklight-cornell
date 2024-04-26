@@ -91,7 +91,6 @@ group :test do
   gem 'capybara-email'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
-  gem 'coveralls', require: false
 end
 
 gem 'jquery-rails'
