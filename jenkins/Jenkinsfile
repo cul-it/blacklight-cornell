@@ -73,7 +73,7 @@ pipeline {
                     keepAll: true,
                     reportDir: "${WORKSPACE}/blacklight-cornell/coverage/rcov",
                     reportFiles: 'index.html',
-                    reportName: 'Coverage-Report',
+                    reportName: 'Code Coverage Report',
                     reportTitles: 'Discovery and Access Team Code Coverage'])
             }
         }
