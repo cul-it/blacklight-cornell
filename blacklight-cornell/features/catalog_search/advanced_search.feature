@@ -623,17 +623,11 @@ Scenario: Try an advanced search with and advanced query
     When I literally go to advanced
     And click on link "add-row"
     And I sleep 4 seconds
-    And I fill in "q_row1" with 'Barney Glover'
-    And I select 'phrase' from the term logic drop-down on line 1
-    And I select 'Author' from the fields drop-down on line 1
+    And I use 'Barney Glover' with 'phrase' logic for field 'Author' on line 1 of advanced search
     And I select 'or' from the row logic radio before line 2
-    Then I fill in "q_row2" with 'Rachna Mataudul'
-    And I select 'phrase' from the term logic drop-down on line 2
-    And I select 'Author' from the fields drop-down on line 2
+    And I use 'Rachna Mataudul' with 'phrase' logic for field 'Author' on line 2 of advanced search
     And I select 'and' from the row logic radio before line 3
-    Then I fill in "q_row3" with 'Kluwer'
-    And I select 'any' from the term logic drop-down on line 3
-    And I select 'Publisher' from the fields drop-down on line 3
+    And I use 'Kluwer' with 'any' logic for field 'Publisher' on line 3 of advanced search
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Optimization and related topics'
@@ -643,13 +637,9 @@ Scenario: Try an advanced search with and advanced query
 @javascript
 Scenario Outline: Testing And Or Not logic with separate Authors
     When I literally go to advanced
-    And I enter '<q1>' as the query on line 1
-    And I select 'all' from the query logic drop-down on line 1
-    And I select '<field>' from the fields drop-down on line 1
+    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
     Then I select '<boolean>' from the row logic radio before line 2
-    And I enter '<q2>' as the query on line 2
-    And I select 'all' from the query logic drop-down on line 2
-    And I select '<field>' from the fields drop-down on line 2
+    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
     And I press 'advanced_search'
     Then I should get <results> results
 
@@ -671,13 +661,9 @@ Examples:
 Scenario Outline: Testing And Or Not logic with separate Authors
     Given PENDING
     When I literally go to advanced
-    And I enter '<q1>' as the query on line 1
-    And I select 'all' from the query logic drop-down on line 1
-    And I select '<field>' from the fields drop-down on line 1
+    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
     Then I select '<boolean>' from the row logic radio before line 2
-    And I enter '<q2>' as the query on line 2
-    And I select 'all' from the query logic drop-down on line 2
-    And I select '<field>' from the fields drop-down on line 2
+    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
     And I press 'advanced_search'
     Then I should get <results> results
 
@@ -693,17 +679,11 @@ Scenario: Try an advanced search with and advanced query
     When I literally go to advanced
     And click on link "add-row"
     And I sleep 4 seconds
-    And I fill in "q_row1" with 'Barney Glover'
-    And I select 'phrase' from the term logic drop-down on line 1
-    And I select 'Author' from the fields drop-down on line 1
+    And I use 'Barney Glover' with 'phrase' logic for field 'Author' on line 1 of advanced search
     And I select 'or' from the row logic radio before line 2
-    Then I fill in "q_row2" with 'Rachna Mataudul'
-    And I select 'phrase' from the term logic drop-down on line 2
-    And I select 'Author' from the fields drop-down on line 2
+    And I use 'Rachna Mataudul' with 'phrase' logic for field 'Author' on line 2 of advanced search
     And I select 'and' from the row logic radio before line 3
-    Then I fill in "q_row3" with 'Kluwer'
-    And I select 'any' from the term logic drop-down on line 3
-    And I select 'Publisher' from the fields drop-down on line 3
+    And I use 'Kluwer' with 'any' logic for field 'Publisher' on line 3 of advanced search
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Optimization and related topics'
@@ -713,13 +693,9 @@ Scenario: Try an advanced search with and advanced query
 @javascript
 Scenario Outline: Testing And Or Not logic with separate Authors
     When I literally go to advanced
-    And I enter '<q1>' as the query on line 1
-    And I select 'all' from the query logic drop-down on line 1
-    And I select '<field>' from the fields drop-down on line 1
+    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
     Then I select '<boolean>' from the row logic radio before line 2
-    And I enter '<q2>' as the query on line 2
-    And I select 'all' from the query logic drop-down on line 2
-    And I select '<field>' from the fields drop-down on line 2
+    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
     And I press 'advanced_search'
     Then I should get <results> results
 
@@ -741,13 +717,9 @@ Examples:
 Scenario Outline: Testing And Or Not logic with separate Authors
     Given PENDING
     When I literally go to advanced
-    And I enter '<q1>' as the query on line 1
-    And I select 'all' from the query logic drop-down on line 1
-    And I select '<field>' from the fields drop-down on line 1
+    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
     Then I select '<boolean>' from the row logic radio before line 2
-    And I enter '<q2>' as the query on line 2
-    And I select 'all' from the query logic drop-down on line 2
-    And I select '<field>' from the fields drop-down on line 2
+    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
     And I press 'advanced_search'
     Then I should get <results> results
 
