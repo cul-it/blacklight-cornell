@@ -66,6 +66,7 @@ pipeline {
         stage('Publish Coverage') {
             steps {
                 echo "Publishing coverage"
+                sh 'cd "${WORKSPACE}"'
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
                 sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
