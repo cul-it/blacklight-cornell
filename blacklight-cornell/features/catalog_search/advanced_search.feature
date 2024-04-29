@@ -623,17 +623,11 @@ Scenario: Try an advanced search with and advanced query
     When I literally go to advanced
     And click on link "add-row"
     And I sleep 4 seconds
-    And I fill in "q_row1" with 'Barney Glover'
-    And I select 'phrase' from the term logic drop-down on line 1
-    And I select 'Author' from the fields drop-down on line 1
+    And I use 'Barney Glover' with 'phrase' logic for field 'Author' on line 1 of advanced search
     And I select 'or' from the row logic radio before line 2
-    Then I fill in "q_row2" with 'Rachna Mataudul'
-    And I select 'phrase' from the term logic drop-down on line 2
-    And I select 'Author' from the fields drop-down on line 2
+    And I use 'Rachna Mataudul' with 'phrase' logic for field 'Author' on line 2 of advanced search
     And I select 'and' from the row logic radio before line 3
-    Then I fill in "q_row3" with 'Kluwer'
-    And I select 'any' from the term logic drop-down on line 3
-    And I select 'Publisher' from the fields drop-down on line 3
+    And I use 'Kluwer' with 'any' logic for field 'Publisher' on line 3 of advanced search
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Optimization and related topics'
@@ -643,13 +637,9 @@ Scenario: Try an advanced search with and advanced query
 @javascript
 Scenario Outline: Testing And Or Not logic with separate Authors
     When I literally go to advanced
-    And I enter '<q1>' as the query on line 1
-    And I select 'all' from the query logic drop-down on line 1
-    And I select '<field>' from the fields drop-down on line 1
+    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
     Then I select '<boolean>' from the row logic radio before line 2
-    And I enter '<q2>' as the query on line 2
-    And I select 'all' from the query logic drop-down on line 2
-    And I select '<field>' from the fields drop-down on line 2
+    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
     And I press 'advanced_search'
     Then I should get <results> results
 
@@ -671,13 +661,65 @@ Examples:
 Scenario Outline: Testing And Or Not logic with separate Authors
     Given PENDING
     When I literally go to advanced
-    And I enter '<q1>' as the query on line 1
-    And I select 'all' from the query logic drop-down on line 1
-    And I select '<field>' from the fields drop-down on line 1
+    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
     Then I select '<boolean>' from the row logic radio before line 2
-    And I enter '<q2>' as the query on line 2
-    And I select 'all' from the query logic drop-down on line 2
-    And I select '<field>' from the fields drop-down on line 2
+    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
+    And I press 'advanced_search'
+    Then I should get <results> results
+
+Examples:
+  | boolean | results | field | q1 | q2 |
+  | or | 9 | All Fields | complete | fire |
+  | not | 8 | All fields | fire | complete |
+
+@DACCESS-194
+@javascript
+Scenario: Try an advanced search with and advanced query
+    Given PENDING
+    When I literally go to advanced
+    And click on link "add-row"
+    And I sleep 4 seconds
+    And I use 'Barney Glover' with 'phrase' logic for field 'Author' on line 1 of advanced search
+    And I select 'or' from the row logic radio before line 2
+    And I use 'Rachna Mataudul' with 'phrase' logic for field 'Author' on line 2 of advanced search
+    And I select 'and' from the row logic radio before line 3
+    And I use 'Kluwer' with 'any' logic for field 'Publisher' on line 3 of advanced search
+    And I press 'advanced_search'
+    Then I should get results
+    And I should see the label 'Optimization and related topics'
+    And I should see the label 'Tax Treaty Dispute Resolution : lessons from the Law of the Sea'
+
+@DACCESS-174
+@javascript
+Scenario Outline: Testing And Or Not logic with separate Authors
+    When I literally go to advanced
+    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
+    Then I select '<boolean>' from the row logic radio before line 2
+    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
+    And I press 'advanced_search'
+    Then I should get <results> results
+
+Examples:
+  | boolean | results | field | q1 | q2 |
+  | and | 1 | Author | Simpson | Smith |
+  | or | 4 | Author | Simpson | Smith |
+  | not | 0 | Author | Simpson | Smith |
+  | not | 3 | Author | Smith | Simpson |
+  | and | 1 | All Fields | complete | fire |
+  | not | 4 | All Fields | complete | fire |
+  | and | 1 | Title | 100 | match |
+  | or | 6 | Title | 100 | match |
+  | not | 4 | Title | 100 | match |
+  | not | 1 | Title | match | 100 |
+
+@DACCESS-174
+@javascript
+Scenario Outline: Testing And Or Not logic with separate Authors
+    Given PENDING
+    When I literally go to advanced
+    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
+    Then I select '<boolean>' from the row logic radio before line 2
+    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
     And I press 'advanced_search'
     Then I should get <results> results
 

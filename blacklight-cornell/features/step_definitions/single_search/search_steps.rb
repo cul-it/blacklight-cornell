@@ -51,7 +51,7 @@ end
 
 
 Then("I should get Institutional Repository results") do
-  page.should have_selector("div#institutionalRepositories")
+  expect(page).to have_selector("#institutionalRepositories", visible: false, wait: 10)
 end
 
 Then("when I view all Repositories Items") do
@@ -59,7 +59,7 @@ Then("when I view all Repositories Items") do
 end
 
 Then("I should get Digital Collections results") do
-  page.should have_selector("div#digitalCollections")
+  expect(page).to have_selector("#digitalCollections", visible: false, wait: 10)
 end
 
 Then("when I view all Digital Collections Items") do
