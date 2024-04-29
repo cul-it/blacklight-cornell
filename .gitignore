@@ -5,42 +5,60 @@
 #   git config --global core.excludesfile ~/.gitignore_global
 
 # Ignore .env file
+/blacklight-cornell/.env
 /.env
 # Ignore vcr.log file
+/blacklight-cornell/vcr.log
 /vcr.log
 
 # Ignore bundler config
+/blacklight-cornell/.bundle
 /.bundle
 
 # Ignore the default SQLite database.
+/blacklight-cornell/db/*.sqlite3
 /db/*.sqlite3
 
 # Ignore all logfiles and tempfiles.
+/blacklight-cornell/log/*.log
 /log/*.log
+/blacklight-cornell/tmp
 /tmp
-faraday.log
-eds-connection.log
+/blacklight-cornell/faraday.log
+/faraday.log
+/blacklight-cornell/eds-connection.log
+/eds-connection.log
 
 # Ignore config files with sensitive data
-config/newrelic.yml
-config/database.yml
+/blacklight-cornell/config/newrelic.yml
+/config/newrelic.yml
+# We need this file and no secret information is in this file anymore!
+# /blacklight-cornell/config/database.yml
 # Ignore precompiled assets
-public/assets
+/blacklight-cornell/public/assets
+/public/assets
 # Ignore ENV file.
-/.env
+#/.env
 # ignore coverage tests
-coverage
-db/test.sqlite3-journal
+/blacklight-cornell/coverage
+/coverage
+/blacklight-cornell/db/test.sqlite3-journal
+/db/test.sqlite3-journal
 
 # ignore tests Jenkins blacklight-cornell-merge-pr deletes
-results/*
-features/cassettes/cucumber_tags/*
+/blacklight-cornell/results/*
+/results/*
+/blacklight-cornell/features/cassettes/cucumber_tags/*
+/features/cassettes/cucumber_tags/*
 
 
 # Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+/blacklight-cornell/.elasticbeanstalk/*
+/.elasticbeanstalk/*
+!/blacklight-cornell/.elasticbeanstalk/*.cfg.yml
+/.elasticbeanstalk/*.cfg.yml
+!/blacklight-cornell/.elasticbeanstalk/*.global.yml
+/.elasticbeanstalk/*.global.yml
 
 # Ignore redis binary dump (dump.rdb) files
 *.rdb
@@ -49,10 +67,21 @@ features/cassettes/cucumber_tags/*
 .idea/*
 
 #ignore dev tool
-config/initializers/renderer.rb
+/blacklight-cornell/config/initializers/renderer.rb
+/config/initializers/renderer.rb
 
 # brakeman test results
 brakeman-output.*
 
 # byebug
 .byebug_history
+
+# container version - ignore mysql data
+./data
+/puma.sh
+/set_env.sh
+/test.sh
+.devcontainer/
+*.env
+rails_env/*
+!rails_env/test_env.example

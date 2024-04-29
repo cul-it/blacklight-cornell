@@ -15,6 +15,7 @@ pipeline {
     stages {
         stage('Set up and run bundler') {
             steps {
+                echo 'Setting up bundler'
                 echo 'Branch: ' + BRANCH_NAME
                 echo 'Git Branch: ' + GIT_BRANCH
                 script {
@@ -32,6 +33,7 @@ pipeline {
 
         stage("Rspec tests") {
             steps {
+                echo "Running Rspec tests"
                 sh 'jenkins/rspec.sh'
             }
         }
@@ -50,6 +52,7 @@ pipeline {
         // use this version for normal situations
         stage("cucumber all tests") {
             steps {
+                echo "Running cucumber tests"
                 timeout(90) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
                         sh 'jenkins/cucumber-features.sh'
@@ -60,6 +63,7 @@ pipeline {
 
         stage('Publish Coverage') {
             steps {
+                echo "Publishing coverage"
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
                 sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
@@ -67,10 +71,10 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'coverage',
-                    reportFiles: 'rcov/index.html',
-                    reportName: 'RCov_Report',
-                    reportTitles: 'DnACornell'])
+                    reportDir: "${WORKSPACE}/blacklight-cornell/coverage/rcov",
+                    reportFiles: 'index.html',
+                    reportName: 'Code Coverage Report',
+                    reportTitles: 'Discovery and Access Team Code Coverage'])
             }
         }
     }
