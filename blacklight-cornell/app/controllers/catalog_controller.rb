@@ -1160,6 +1160,7 @@ def tou
         if attrs["isSelected"] == true
           packageID = attrs["packageId"]
           packageName = attrs["packageName"]
+
           # packageUrl = attrs["url"]
           # package_providerID = attrs["providerName"]
           subscription = subscription_agreements(packageID)
@@ -1183,7 +1184,7 @@ def tou
   def eholdings_record(id)
     # eholdings title JSON response described here:
     # https://s3.amazonaws.com/foliodocs/api/mod-kb-ebsco-java/r/titles.html#eholdings_titles_get
-    folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources")
+    folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources", 'application/vnd.api+json')
   end
 
   # Make a FOLIO request to retrieve an array of subscription agreements linked to an e-holdings record
@@ -1199,13 +1200,14 @@ def tou
   end
 
   # Given a URL, make a FOLIO request and return the results (or nil in case of a RestClient exception).
-  def folio_request(url)
+  # For reasons unknown, some API calls require different accept headers for their JSON, so we need to specify it (sometimes).
+  def folio_request(url, accept_header = 'application/json')
     token = folio_token
     if url && token
       headers = {
         'X-Okapi-Tenant' => ENV['TENANT_ID'],
         'x-okapi-token' => token,
-        :accept => 'application/vnd.api+json'
+        :accept => accept_header
       }
       response = RestClient.get(url, headers)
       JSON.parse(response.body) if response && response.code == 200
