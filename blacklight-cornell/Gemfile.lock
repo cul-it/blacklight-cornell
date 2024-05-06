@@ -1,11 +1,10 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 0d26af47a2ba08032c785b3443e195ab1523e2af
+  revision: fa40cd0f3b56d9526cce404bb89d6040586537c4
   specs:
-    blacklight_cornell_requests (4.4.1)
+    blacklight_cornell_requests (5.0)
       activerecord-oracle_enhanced-adapter
       blacklight
-      cul-folio-edge (~> 2.0)
       dotenv
       dotenv-deployment
       dotenv-rails
@@ -41,9 +40,11 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-folio-edge
-  revision: 7808059d6b60a9ba7551e64a19b912fddf239e0c
+  revision: bc7098ba4127604100c909cf4d9a303f5ed0c8fe
+  tag: v3.0
   specs:
-    cul-folio-edge (2.0.0)
+    cul-folio-edge (3.0)
+      rest-client
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
@@ -332,15 +333,14 @@ GEM
       devise
     diff-lcs (1.5.0)
     docile (1.4.0)
-    domain_name (0.5.20190701)
-      unf (>= 0.0.5, < 1.0.0)
+    domain_name (0.6.20240107)
     dot-properties (0.1.4)
       bundler (>= 2.2.33)
-    dotenv (2.8.1)
+    dotenv (3.1.1)
     dotenv-deployment (0.0.2)
-    dotenv-rails (2.8.1)
-      dotenv (= 2.8.1)
-      railties (>= 3.2)
+    dotenv-rails (3.1.1)
+      dotenv (= 3.1.1)
+      railties (>= 6.1)
     ebsco-eds (1.1.5)
       activesupport (>= 5.2)
       bibtex-ruby (>= 5.1.0, < 7.0)
@@ -417,7 +417,7 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    haml (6.2.3)
+    haml (6.3.0)
       temple (>= 0.8.2)
       thor
       tilt
@@ -444,7 +444,7 @@ GEM
       socksify
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.11.5)
+    jbuilder (2.12.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
@@ -504,9 +504,9 @@ GEM
       rack-contrib (>= 1.1, < 3)
       railties (>= 3.0.0, < 7.1)
     method_source (1.1.0)
-    mime-types (3.5.1)
+    mime-types (3.5.2)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2023.1003)
+    mime-types-data (3.2024.0305)
     mini_mime (1.1.5)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
@@ -523,7 +523,7 @@ GEM
     net-imap (0.4.10)
       date
       net-protocol
-    net-ldap (0.18.0)
+    net-ldap (0.19.0)
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.2)
@@ -587,7 +587,7 @@ GEM
       rails (>= 3.0.0)
     plist (3.7.0)
     popper_js (1.16.1)
-    protected_attributes_continued (1.8.2)
+    protected_attributes_continued (1.9.0)
       activemodel (>= 5.0)
     pry (0.14.2)
       coderay (~> 1.1)
@@ -647,7 +647,7 @@ GEM
       actionpack (>= 6, < 8)
       redis (>= 3, < 6)
     regexp_parser (2.8.1)
-    repost (0.4.1)
+    repost (0.4.2)
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -777,7 +777,7 @@ GEM
       textpow (>= 1.3.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.8.2)
+    unf_ext (0.0.9.1)
     unicode (0.4.4.4)
     unicode_utils (1.4.0)
     uri (0.12.2)
