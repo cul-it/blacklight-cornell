@@ -336,11 +336,11 @@ GEM
     domain_name (0.6.20240107)
     dot-properties (0.1.4)
       bundler (>= 2.2.33)
-    dotenv (3.1.1)
+    dotenv (2.8.1)
     dotenv-deployment (0.0.2)
-    dotenv-rails (3.1.1)
-      dotenv (= 3.1.1)
-      railties (>= 6.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     ebsco-eds (1.1.5)
       activesupport (>= 5.2)
       bibtex-ruby (>= 5.1.0, < 7.0)
@@ -862,7 +862,7 @@ DEPENDENCIES
   database_cleaner
   devise (>= 4.7.0)
   devise-guests (~> 0.3)
-  dotenv-rails
+  dotenv-rails (= 2.8.1)
   ebsco-eds
   exception_notification
   ffi
