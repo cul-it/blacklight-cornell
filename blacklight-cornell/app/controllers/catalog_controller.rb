@@ -1205,7 +1205,7 @@ def tou
       headers = {
         'X-Okapi-Tenant' => ENV['TENANT_ID'],
         'x-okapi-token' => token,
-        :accept => 'application/vnd.api+json'
+        :accept => 'application/json, application/vnd.api+json'
       }
       response = RestClient.get(url, headers)
       JSON.parse(response.body) if response && response.code == 200

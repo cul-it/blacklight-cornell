@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby "3.2.2"
 #another try
 gem 'rails', '~> 6.1.7'
-gem "dotenv-rails"
+gem 'dotenv-rails', '2.8.1' # NOTE: unpinning this and letting it drift to latest (v3.x) broke SAML login!
 gem 'appsignal', '~> 3.3.2' #, '2.11.10'
 gem "sprockets"#, '~> 3.7.2'
 gem "actionview"#, ">= 5.2.7.1"
@@ -124,7 +124,7 @@ gem 'font-awesome-rails'
 gem 'blacklight_cornell_requests', :git =>'https://github.com/cul-it/blacklight-cornell-requests'
 # gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
-gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge', tag: 'v3.0'
+gem 'cul-folio-edge', :git => 'https://github.com/cul-it/cul-folio-edge', :tag => 'v3.0'
 gem 'my_account', :git => 'https://github.com/cul-it/cul-my-account'
 gem 'borrow_direct', :git => 'https://github.com/jrochkind/borrow_direct'
 gem 'ruby-saml', '>= 1.12.1'
