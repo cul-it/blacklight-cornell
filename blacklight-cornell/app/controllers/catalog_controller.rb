@@ -13,7 +13,7 @@ class CatalogController < ApplicationController
   require 'cul/folio/edge'
 
   if   ENV['SAML_IDP_TARGET_URL']
-    before_action :authenticate_user!, only: [  :email, :oclc_request ]
+    before_action :authenticate_user!, only: [  :email ]
     #prepend_before_action :set_return_path
   end
 
