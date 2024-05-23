@@ -86,6 +86,10 @@ devise_for :users, controllers: {
   # get 'logins' => 'catalog#logins', :as => 'catalog_logins'
   get 'credits' => 'catalog#credits', :as => 'catalog_credits'
 
+  get '/number/:id', to: 'catalog#worldcat_number', as: 'number_search'
+  get '/oclc/:id', to: 'catalog#worldcat_number', as: 'oclc_search'
+  get '/isbnissn/:id', to: 'catalog#worldcat_isbnissn', as: 'isbnissn_search'
+
   get '/browse/authors' => 'browse#authors', :as => 'browse_authors'
   get '/browse/info' => 'browse#info', :as => 'browse_info'
   get '/browse' => 'browse#index', :as => 'browse_index'
