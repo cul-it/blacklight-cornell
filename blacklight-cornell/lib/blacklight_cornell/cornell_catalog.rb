@@ -441,6 +441,36 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     flash[:error].blank?
   end
 
+  def worldcat_number
+    @id = ActionController::Base.helpers.sanitize(params[:id])
+
+    redirect_to utf8: "✓",
+      q_row: ["#{@id}"],
+      op_row: ["AND"],
+      search_field_row: ["number"],
+      sort: "score desc, pub_date_sort desc, title_sort asc",
+      search_field: "advanced",
+      advanced_query: "yes",
+      commit: "Search",
+      controller: "catalog",
+      action: "index"
+  end
+
+  def worldcat_isbnissn
+    @id = ActionController::Base.helpers.sanitize(params[:id])
+
+    redirect_to utf8: "✓",
+      q_row: ["#{@id}"],
+      op_row: ["AND"],
+      search_field_row: ["isbnissn"],
+      sort: "score desc, pub_date_sort desc, title_sort asc",
+      search_field: "advanced",
+      advanced_query: "yes",
+      commit: "Search",
+      controller: "catalog",
+      action: "index"
+  end
+
 protected
 
   # sets up the session[:history] hash if it doesn't already exist.
