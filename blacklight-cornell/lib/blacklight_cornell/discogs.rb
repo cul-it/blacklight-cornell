@@ -193,6 +193,8 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     result = JSON.parse(data)
     return result if resp.kind_of? Net::HTTPSuccess
     return [] if resp.kind_of? Net::HTTPError
+  rescue StandardError
+    return []
   end
 
   def make_discogs_show_call(id)
@@ -206,6 +208,8 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     result = JSON.parse(data)
     return result if resp.kind_of? Net::HTTPSuccess
     return {} if resp.kind_of? Net::HTTPError
+  rescue StandardError
+    return {}
   end
 
   def deep_clone object
