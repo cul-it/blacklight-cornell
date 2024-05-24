@@ -456,13 +456,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       action: "index"
   end
 
-  def worldcat_isbnissn
+  def worldcat_oclc
     @id = ActionController::Base.helpers.sanitize(params[:id])
 
     redirect_to utf8: "✓",
-      q_row: ["#{@id}"],
-      op_row: ["AND"],
-      search_field_row: ["isbnissn"],
+      q_row: ["OCoLC #{@id}", ""],
+      op_row: ["phrase", "AND"],
+      search_field_row: ["number", "all_fields"],
       sort: "score desc, pub_date_sort desc, title_sort asc",
       search_field: "advanced",
       advanced_query: "yes",
