@@ -445,9 +445,24 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     @id = ActionController::Base.helpers.sanitize(params[:id])
 
     redirect_to utf8: "✓",
-      q_row: ["#{@id}"],
-      op_row: ["AND"],
-      search_field_row: ["number"],
+      q_row: ["#{@id}", ""],
+      op_row: ["AND", "AND"],
+      search_field_row: ["number", "all_fields"],
+      sort: "score desc, pub_date_sort desc, title_sort asc",
+      search_field: "advanced",
+      advanced_query: "yes",
+      commit: "Search",
+      controller: "catalog",
+      action: "index"
+  end
+
+  def worldcat_oclc
+    @id = ActionController::Base.helpers.sanitize(params[:id])
+
+    redirect_to utf8: "✓",
+      q_row: ["OCoLC #{@id}", ""],
+      op_row: ["phrase", "AND"],
+      search_field_row: ["number", "all_fields"],
       sort: "score desc, pub_date_sort desc, title_sort asc",
       search_field: "advanced",
       advanced_query: "yes",
@@ -460,16 +475,16 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     @id = ActionController::Base.helpers.sanitize(params[:id])
 
     redirect_to utf8: "✓",
-      q_row: ["#{@id}"],
-      op_row: ["AND"],
-      search_field_row: ["isbnissn"],
+      q_row: ["#{@id}", ""],
+      op_row: ["AND", "AND"],
+      search_field_row: ["isbnissn", "all_fields"],
       sort: "score desc, pub_date_sort desc, title_sort asc",
       search_field: "advanced",
       advanced_query: "yes",
       commit: "Search",
       controller: "catalog",
       action: "index"
-  end
+    end
 
 protected
 
