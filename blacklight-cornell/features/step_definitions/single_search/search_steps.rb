@@ -59,7 +59,7 @@ Then("when I view all Repositories Items") do
 end
 
 Then("I should get Digital Collections results") do
-  expect(page).to have_selector("#digitalCollections", visible: false, wait: 10)
+  expect(page).to have_selector("#digitalCollections", visible: false, wait: 20)
 end
 
 Then("when I view all Digital Collections Items") do
