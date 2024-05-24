@@ -43,8 +43,9 @@ end
 
 Then("Digital Collections should list {string}") do |string|
   # don't require "Articles & Full Text" to be in second column
-  dc_bento = page.find("div#digitalCollections", visible: false, wait: 80).first(:xpath,".//..")
-  within(dc_bento) do
+  digcoll = page.find("#digcoll")
+  webpane = digcoll.find("div.web-pane")
+  within(webpane) do
     expect(page.first("h3.bento_item_title", :text => string))
   end
 end
