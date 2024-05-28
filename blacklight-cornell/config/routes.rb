@@ -17,6 +17,7 @@ BlacklightCornell::Application.routes.draw do
   root :to => "catalog#index"
 
   mount Blacklight::Engine => '/'
+  mount StatusPage::Engine, at: '/'
 
   concern :searchable, Blacklight::Routes::Searchable.new
   concern :exportable, Blacklight::Routes::Exportable.new
