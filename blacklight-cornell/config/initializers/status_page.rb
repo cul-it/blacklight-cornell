@@ -8,4 +8,5 @@ StatusPage.configure do
     # Custom redis url
     self.use :redis, url: ENV['REDIS_SESSION_HOST']
     # self.use :sidekiq
+    self.add_custom_service(CustomService)
   end
