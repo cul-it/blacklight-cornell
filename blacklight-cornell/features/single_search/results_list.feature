@@ -208,6 +208,7 @@ Scenario Outline: Search within Portal results for each collection
   Given I literally go to search
   When I fill in "q" with '<query>'
   And I press 'Search'
+  And I sleep 2 seconds
   Then I should get Digital Collections results
   And when I view all Digital Collections Items
   And I sleep 2 seconds
@@ -247,6 +248,6 @@ Scenario: Articles & Full Text View all link should not have proxy
   When I fill in "q" with 'coffee'
   And I press 'Search'
   Then I should get Articles & Full Text results
-  And the Articles View All link url should contain 'u2yil2' but not 'proxy.library' 
-  And the Articles heading link url should contain 'u2yil2' but not 'proxy.library' 
-  And the Articles format link url should contain 'u2yil2' but not 'proxy.library' 
+  And the Articles View All link url should contain 'u2yil2' but not 'proxy.library'
+  And the Articles heading link url should contain 'u2yil2' but not 'proxy.library'
+  And the Articles format link url should contain 'u2yil2' but not 'proxy.library'
