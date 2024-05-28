@@ -79,6 +79,7 @@ Feature: Search
     When I go to the search page
     When I fill in "q" with '<search>'
     And I press 'Search'
+    And I sleep 2 seconds
     Then Digital Collections should list '<result>'
 
   Examples:
