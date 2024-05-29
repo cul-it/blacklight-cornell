@@ -74,7 +74,6 @@ end
 BentoSearch.register_engine('solr') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Solr Query'
-  conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"]
 #******************
 save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 jgr25_context = "#{__FILE__}:#{__LINE__}"
@@ -88,6 +87,7 @@ Rails.logger.level = save_level
 #binding.pry
 #*******************
 
+	conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"] unless SOLR_CONFIG.nil? or SOLR_CONFIG[ENV['RAILS_ENV']].nil?
 end
 
 BentoSearch.register_engine('Book') do |conf|
