@@ -9,4 +9,5 @@ StatusPage.configure do
     self.use :redis, url: ENV['REDIS_SESSION_HOST']
     # self.use :sidekiq
     self.add_custom_service(CustomService)
+    self.add_custom_service(CheckSolrService)
   end
