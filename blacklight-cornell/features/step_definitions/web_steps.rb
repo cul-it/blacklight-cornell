@@ -238,7 +238,7 @@ end
 
 Then("where am I") do
   puts "\n********************* where am I V\n"
-  puts URI.parse(current_url).path
+  where_am_i
   puts "\n********************* where am I ^\n"
 end
 
