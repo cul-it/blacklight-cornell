@@ -210,10 +210,7 @@ Scenario Outline: Search within Portal results for each collection
   And I press 'Search'
   And I sleep 2 seconds
   Then I should get Digital Collections results
-  And when I view all Digital Collections Items
-  And I sleep 2 seconds
-  Then where am I
-  Then I should see the text "<item>"
+  Then Digital Collections should list "<item>"
 
 Examples:
   | query | item |
