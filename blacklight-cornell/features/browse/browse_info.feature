@@ -22,6 +22,7 @@ Feature: Browse info
  @browse @javascript
   Scenario: View an author title authority record for a work enhanced by Wikidata
     Given I request the author title item view for Beethoven, Ludwig van, 1770-1827. | Septet, clarinet, bassoon, horn, violin, viola, cello, double bass, op. 20, E♭ major
+    And I sleep 1 second
     Then I should see the text 'Works:'
     And I should see the text 'Instrumentation:'
     And I should see the text 'Opus:'

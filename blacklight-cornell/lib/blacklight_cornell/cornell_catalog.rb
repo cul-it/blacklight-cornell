@@ -89,38 +89,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     self['facet.field'] += Array(values)
   end
 
-  def oclc_request
-    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
-    oid = params[:id]
-    ActionController::Parameters.permit_all_parameters = true
-    zparams = ActionController::Parameters.new(utf8: "✓", :boolean_row => {"1"=>"AND"}, q_row: ["(OCoLC)#{oid}", ""], op_row: ["phrase", "phrase"], search_field_row: ["number", "number"], sort: "score desc, pub_date_sort desc, title_sort asc", search_field: "advanced", advanced_query: "yes", commit: "Search", controller: "catalog", action: "index")
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} zparams = #{zparams.inspect}"
-    extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-    extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-    (@response, deprecated_document_list) = search_service.oclc_search_results(zparams)
-    @document_list = deprecated_document_list
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
-    num = @response["response"]["numFound"]
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} num = #{num.inspect}"
-    if num == 1
-      target = @document_list[0].response["response"]["docs"][0]["id"]
-      logger.debug "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} target = #{target.inspect}"
-      redirect_to(root_url() + "/request/#{target}")
-    elsif num >  1
-      logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id does not map to uniquid  = #{oid.inspect}"
-      flash.now.alert = "The OCLC ID #{oid.inspect} does not map to a unique identifier."
-      respond_to do |format|
-        format.html { render :text => 'OCLCd does not map to unique record', :status => '404' }
-      end
-    else
-      logger.warn  "WARN: #{__FILE__}:#{__LINE__}:#{__method__} oclc id not found = #{oid.inspect}"
-      flash.now.alert = "The OCLC ID #{oid.inspect} was not found."
-      respond_to do |format|
-        format.html { render :text => 'Not Found', :status => '404' }
-      end
-    end
-  end
-
   # get search results from the solr index
   def index
     begin
@@ -472,6 +440,51 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     flash[:error].blank?
   end
+
+  def worldcat_number
+    @id = ActionController::Base.helpers.sanitize(params[:id])
+
+    redirect_to utf8: "✓",
+      q_row: ["#{@id}", ""],
+      op_row: ["AND", "AND"],
+      search_field_row: ["number", "all_fields"],
+      sort: "score desc, pub_date_sort desc, title_sort asc",
+      search_field: "advanced",
+      advanced_query: "yes",
+      commit: "Search",
+      controller: "catalog",
+      action: "index"
+  end
+
+  def worldcat_oclc
+    @id = ActionController::Base.helpers.sanitize(params[:id])
+
+    redirect_to utf8: "✓",
+      q_row: ["OCoLC #{@id}", ""],
+      op_row: ["phrase", "AND"],
+      search_field_row: ["number", "all_fields"],
+      sort: "score desc, pub_date_sort desc, title_sort asc",
+      search_field: "advanced",
+      advanced_query: "yes",
+      commit: "Search",
+      controller: "catalog",
+      action: "index"
+  end
+
+  def worldcat_isbnissn
+    @id = ActionController::Base.helpers.sanitize(params[:id])
+
+    redirect_to utf8: "✓",
+      q_row: ["#{@id}", ""],
+      op_row: ["AND", "AND"],
+      search_field_row: ["isbnissn", "all_fields"],
+      sort: "score desc, pub_date_sort desc, title_sort asc",
+      search_field: "advanced",
+      advanced_query: "yes",
+      commit: "Search",
+      controller: "catalog",
+      action: "index"
+    end
 
 protected
 

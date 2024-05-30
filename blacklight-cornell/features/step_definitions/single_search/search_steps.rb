@@ -42,11 +42,7 @@ end
 
 
 Then("Digital Collections should list {string}") do |string|
-  # don't require "Articles & Full Text" to be in second column
-  dc_bento = page.find("div#digitalCollections").first(:xpath,".//..")
-  within(dc_bento) do
-    expect(page.first("h3.bento_item_title", :text => string))
-  end
+  expect(page.find("#digcoll", visible: false, wait: 30)).to have_content(string)
 end
 
 
@@ -59,15 +55,14 @@ Then("when I view all Repositories Items") do
 end
 
 Then("I should get Digital Collections results") do
-  expect(page).to have_selector("#digitalCollections", visible: false, wait: 10)
+  expect(page).to have_selector("#digitalCollections", visible: false, wait: 30)
 end
 
 Then("when I view all Digital Collections Items") do
-  within(page.find('#jumpbar')) do
-    click_link("Digital Collections")
-  end
+  link = page.find("a#link_top_digital_collections")
+  visit link[:href]
+  where_am_i
 end
-
 
 Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) do |label,nth,nstr,type,divtag|
      total = all('.view-all')[nth.to_i]
