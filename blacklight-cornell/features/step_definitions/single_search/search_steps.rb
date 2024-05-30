@@ -59,11 +59,10 @@ Then("I should get Digital Collections results") do
 end
 
 Then("when I view all Digital Collections Items") do
-  within(page.find('#jumpbar')) do
-    click_link("Digital Collections")
-  end
+  link = page.find("a#link_top_digital_collections")
+  visit link[:href]
+  where_am_i
 end
-
 
 Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) do |label,nth,nstr,type,divtag|
      total = all('.view-all')[nth.to_i]
