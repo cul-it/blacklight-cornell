@@ -772,6 +772,8 @@ GEM
       net-scp (>= 1.1.2)
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
+    status-page (0.1.5)
+      rails (>= 4.2)
     summon (2.0.5)
       json
     temple (0.10.3)
@@ -947,6 +949,7 @@ DEPENDENCIES
   spreewald!
   sprockets
   sqlite3 (~> 1.7.3)
+  status-page
   terser (~> 1.1)
   ultraviolet
   unicode
