@@ -8,7 +8,7 @@ class CheckSolrService < StatusPage::Services::Base
     # Parse the uri and replace the path and query
     uri = URI(uri)
     uri.path = '/solr/admin/cores'
-    uri.query = 'action=STATUS'
+    uri.query = 'action=STATUS&indexInfo=false'
 
     url = URI(uri)
     response = Net::HTTP.get_response(url)
