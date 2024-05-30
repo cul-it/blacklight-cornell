@@ -85,3 +85,8 @@ brakeman-output.*
 *.env
 rails_env/*
 !rails_env/test_env.example
+
+# test timing output
+test_timer_errors.txt
+test_timer_temp.txt
+test_timer_times.csv

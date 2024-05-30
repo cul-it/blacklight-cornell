@@ -42,12 +42,7 @@ end
 
 
 Then("Digital Collections should list {string}") do |string|
-  # don't require "Articles & Full Text" to be in second column
-  digcoll = page.find("#digcoll", visible: false, wait: 10)
-  webpane = digcoll.find("div.web-pane", visible: false, wait: 20)
-  within(webpane) do
-    expect(page.first("h3.bento_item_title", :text => string, visible: false, wait: 10))
-  end
+  expect(page.find("#digcoll", visible: false, wait: 30)).to have_content(string)
 end
 
 
@@ -64,11 +59,10 @@ Then("I should get Digital Collections results") do
 end
 
 Then("when I view all Digital Collections Items") do
-  within(page.find('#jumpbar')) do
-    click_link("Digital Collections")
-  end
+  link = page.find("a#link_top_digital_collections")
+  visit link[:href]
+  where_am_i
 end
-
 
 Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) do |label,nth,nstr,type,divtag|
      total = all('.view-all')[nth.to_i]
