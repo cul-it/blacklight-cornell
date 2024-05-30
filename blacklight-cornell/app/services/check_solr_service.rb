@@ -10,15 +10,26 @@ class CheckSolrService < StatusPage::Services::Base
     uri.path = '/solr/admin/cores'
     uri.query = 'action=STATUS&indexInfo=false'
 
-    url = URI(uri)
-    response = Net::HTTP.get_response(url)
-
-    if response.is_a?(Net::HTTPSuccess)
-      # Solr is running
-      true
+    begin
+      response = Net::HTTP.get_response(url)
+    rescue SocketError => e
+      raise "SocketError occurred"
+    rescue URI::InvalidURIError => e
+      raise "Invalid URL"
+    rescue Net::OpenTimeout, Net::ReadTimeout => e
+      raise "Network timeout occurred"
+    rescue StandardError => e
+      raise "An error occurred while checking Solr"
     else
-      # Solr is not running
-      raise "Solr is not running"
+        begin
+            parsed_response = JSON.parse(response)
+        rescue JSON::ParserError => e
+            raise "Failed to parse JSON response"
+        end
+        if parsed_response.nil? || parsed_response.empty?
+            # Handle empty response
+            raise "Received an empty response"
+        end
     end
   end
 end
