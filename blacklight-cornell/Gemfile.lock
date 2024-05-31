@@ -618,6 +618,8 @@ GEM
     rack (2.2.9)
     rack-contrib (2.4.0)
       rack (< 4)
+    rack-cors (2.0.2)
+      rack (>= 2.0.0)
     rack-protection (3.2.0)
       base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
@@ -928,6 +930,7 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (~> 6.4, >= 6.4.2)
+  rack-cors
   rails (~> 6.1.7)
   rb-inotify
   rb-readline (~> 0.5.x)
