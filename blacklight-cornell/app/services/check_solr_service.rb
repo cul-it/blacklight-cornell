@@ -11,7 +11,7 @@ class CheckSolrService < StatusPage::Services::Base
     uri.query = 'action=STATUS&indexInfo=false'
 
     begin
-      response = Net::HTTP.get_response(url)
+      response = Net::HTTP.get_response(uri)
     rescue SocketError => e
       raise "SocketError occurred"
     rescue URI::InvalidURIError => e
