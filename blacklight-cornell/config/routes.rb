@@ -234,4 +234,6 @@ devise_for :users, controllers: {
 #  put 'aeon/scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_paeon', :constraints => { :id => /.+/}
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
+
+  get "/status", to: "status#index"
 end

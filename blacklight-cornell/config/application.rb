@@ -98,6 +98,14 @@ module BlacklightCornell
 
     # Search results limit, to prevent deep paging issues
     config.search_limit = 20000
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins "https://amplify-pages.d9ohqorlfrbif.amplifyapp.com", "*.library.cornell.edu"
+        resource "/status", headers: :any, methods: [:get]
+        resource '/status.json', headers: :any, methods: [:get]
+      end
+    end
   end
 end
 if true
