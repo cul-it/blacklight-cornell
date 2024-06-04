@@ -22,7 +22,7 @@ class CheckSolrService < StatusPage::Services::Base
       raise "An error occurred while checking Solr"
     else
         begin
-            parsed_response = JSON.parse(response)
+            parsed_response = JSON.parse(response.body)
         rescue JSON::ParserError => e
             raise "Failed to parse JSON response"
         end
