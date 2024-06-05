@@ -1,6 +1,6 @@
 require 'net/http'
 
-class CheckSolrService < StatusPage::Services::Base
+class CatalogSolr < StatusPage::Services::Base
   def check!
     solr_config = YAML.load(ERB.new(File.read("#{::Rails.root}/config/blacklight.yml")).result)
     uri = solr_config[ENV['RAILS_ENV']]["url"] unless SOLR_CONFIG.nil? or SOLR_CONFIG[ENV['RAILS_ENV']].nil?
