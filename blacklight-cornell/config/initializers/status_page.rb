@@ -10,4 +10,5 @@ StatusPage.configure do
     # self.use :sidekiq
     # self.add_custom_service(CustomService)
     self.add_custom_service(CatalogSolr)
+    self.add_custom_service(RepositoriesSolr)
   end
