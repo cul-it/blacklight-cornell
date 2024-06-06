@@ -1153,18 +1153,6 @@ def tou
     @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
     # okapi_url = ENV['OKAPI_URL']
     record = eholdings_record(title_id) || []
-    #******************
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    jgr25_context = "#{__FILE__}:#{__LINE__}"
-    Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
-    msg = [" #{__method__} ".center(60, "Z")]
-    msg << jgr25_context
-    msg << "record: " + record.inspect
-    msg << "Z" * 60
-    msg.each { |x| puts "ZZZ " + x.to_yaml }
-    Rails.logger.level = save_level
-    #binding.pry
-    #*******************
     if record
       # recordTitle = record["data"]["attributes"]["name"]
       record["included"].each do |package|
