@@ -16,11 +16,11 @@ class FolioPatron < StatusPage::Services::Base
     begin
       token = folio_token
       response = CUL::FOLIO::Edge.patron_record(ENV["OKAPI_URL"], ENV["OKAPI_TENANT"], token, ENV["OKAPI_USER"])
-      if response[:code] >= 300
-        raise "Patron record not found"
-      end
     rescue StandardError => e
       raise "Folio Patron: #{e.message}"
+    end
+    if response[:code] >= 300
+      raise "Patron record not found"
     end
   end
 end
