@@ -12,7 +12,7 @@ class FolioPatron < StatusPage::Services::Base
     end
     response = CUL::FOLIO::Edge.authenticate(url, tenant, user, pw)
     if response[:code] >= 300
-      raise "Authentication failed"
+      raise "Authentication failed: #{response[:code]}  #{response[:message]}"
     end
     token = response[:token]
   end
