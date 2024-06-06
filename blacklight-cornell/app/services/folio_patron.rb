@@ -5,7 +5,12 @@ class FolioPatron < StatusPage::Services::Base
   def folio_token
     url = ENV["OKAPI_URL"]
     tenant = ENV["OKAPI_TENANT"]
-    response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV["OKAPI_USER"], ENV["OKAPI_PW"])
+    user = ENV["OKAPI_USER"]
+    pw = ENV["OKAPI_PW"]
+    if url.nil? || tenant.nil? || user.nil? || pw.nil?
+      raise "Folio environment variables not set"
+    end
+    response = CUL::FOLIO::Edge.authenticate(url, tenant, user, pw)
     if response[:code] >= 300
       raise "Authentication failed"
     end
