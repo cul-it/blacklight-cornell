@@ -1,12 +1,47 @@
 require "net/http"
-require "folio_requester"
 
 class FolioHoldings < StatusPage::Services::Base
-  include FolioRequester
+  def folio_request(request)
+    url = ENV["OKAPI_URL"]
+    tenant = ENV["OKAPI_TENANT"]
+    response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV["OKAPI_USER"], ENV["OKAPI_PW"])
+    if response[:code] >= 300
+      raise "Authentication failed"
+    end
+    token = response[:token]
+
+    if request && token
+      headers = {
+        "X-Okapi-Tenant" => ENV["TENANT_ID"],
+        "x-okapi-token" => token,
+        :accept => "application/json, application/vnd.api+json",
+      }
+      response = RestClient.get(request, headers)
+      if response && response.code == 200
+        JSON.parse(response.body)
+      else
+        raise "Failed to get a good response"
+      end
+    end
+  end
 
   def check!
-    title_id = 1720322
-    url = "#{ENV["OKAPI_URL"]}/eholdings/titles/#{title_id}?include=resources"
+    issn = "1050-3331"
+    url = "#{ENV["OKAPI_URL"]}/eholdings/titles/war&include=resources"
+
+    #******************
+    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+    jgr25_context = "#{__FILE__}:#{__LINE__}"
+    Rails.logger.warn "jgr25_log\n#{jgr25_context}:"
+    msg = [" #{__method__} ".center(60, "Z")]
+    msg << jgr25_context
+    msg << "url: " + url.inspect
+    msg << "Z" * 60
+    msg.each { |x| puts "ZZZ " + x.to_yaml }
+    Rails.logger.level = save_level
+    #binding.pry
+    #*******************
+
     response = folio_request(url)
 
     #******************
@@ -21,16 +56,5 @@ class FolioHoldings < StatusPage::Services::Base
     Rails.logger.level = save_level
     #binding.pry
     #*******************
-    if response.present?
-      begin
-        parsed_response = JSON.parse(response.body)
-      rescue JSON::ParserError => e
-        raise "Failed to parse JSON response"
-      end
-      if parsed_response.nil? || parsed_response.empty?
-        # Handle empty response
-        raise "Received an empty response"
-      end
-    end
   end
 end
