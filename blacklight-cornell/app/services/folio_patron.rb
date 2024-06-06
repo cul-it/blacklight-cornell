@@ -2,7 +2,7 @@ require "net/http"
 require "cul/folio/edge"
 
 class FolioPatron < StatusPage::Services::Base
-  def folio_token
+  def folio_patron_token
     url = ENV["OKAPI_URL"]
     tenant = ENV["OKAPI_TENANT"]
     user = ENV["OKAPI_USER"]
@@ -19,7 +19,7 @@ class FolioPatron < StatusPage::Services::Base
 
   def check!
     begin
-      token = folio_token
+      token = folio_patron_token
       response = CUL::FOLIO::Edge.patron_record(ENV["OKAPI_URL"], ENV["OKAPI_TENANT"], token, ENV["OKAPI_USER"])
     rescue StandardError => e
       raise "Folio Patron: #{e.message}"
