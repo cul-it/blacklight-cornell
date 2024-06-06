@@ -1,5 +1,5 @@
 require "net/http"
-require_relative "edge"
+require "cul/folio/edge"
 
 class FolioPatron < StatusPage::Services::Base
   def folio_token
