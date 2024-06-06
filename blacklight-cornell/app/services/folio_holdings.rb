@@ -2,7 +2,7 @@ require "net/http"
 require_relative "edge"
 
 class FolioHoldings < StatusPage::Services::Base
-  def folio_request(request)
+  def folio_token(request)
     url = ENV["OKAPI_URL"]
     tenant = ENV["OKAPI_TENANT"]
     response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV["OKAPI_USER"], ENV["OKAPI_PW"])
@@ -10,8 +10,11 @@ class FolioHoldings < StatusPage::Services::Base
       raise "Authentication failed"
     end
     token = response[:token]
+  end
+
   def check!
-    response = CUL::FOLIO::Edge.patron_record(ENV["OKAPI_URL"], ENV["OKAPI_TENANT"], ENV["OKAPI_USER"], ENV["OKAPI_PW"])
+    token = folio_token(request)
+    response = CUL::FOLIO::Edge.patron_record(ENV["OKAPI_URL"], ENV["OKAPI_TENANT"], token, ENV["OKAPI_USER"])
     #******************
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     jgr25_context = "#{__FILE__}:#{__LINE__}"
