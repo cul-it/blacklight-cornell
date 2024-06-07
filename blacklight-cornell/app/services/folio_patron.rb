@@ -11,9 +11,6 @@ class FolioPatron < StatusPage::Services::Base
       raise "Folio environment variables not set"
     end
     response = CUL::FOLIO::Edge.authenticate(url, tenant, user, pw)
-    if response[:token].nil?
-      raise "No Folio token"
-    end
     if response[:code] >= 300
       raise "Authentication failed: #{response[:code]}  #{response[:message]}"
     end
