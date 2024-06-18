@@ -62,7 +62,7 @@ class AeonController < ApplicationController
 
   def set_holdings_and_items
     holdings_json_hash = Hash(JSON.parse(@document['holdings_json']))
-    items_json_hash = Hash(JSON.parse(@document['items_json'])) || {}
+    items_json_hash = @document['items_json'] ? Hash(JSON.parse(@document['items_json'])) : {}
     @ho = holdings(holdings_json_hash, items_json_hash)
   end
 
@@ -220,21 +220,26 @@ class AeonController < ApplicationController
 
   def holdings(holdings_json_hash, items_json_hash)
     valholding = []
-    items_json_hash.each do |key, value|
-      value.each do |val|
-        val['enum'] ||= ''
-        valholding << val
+    # TODO: This code doesn't make sense to me. Given a hash of the form  { holdings_id1 => [ {item1} ], holdings_id2 => [ {item2} ] },
+    # this produces { holdings_id1 => [ {item1, item2} ], holdings_id2 => [ {item1, item2} ] }.
+    # I see no good reason to combine all the items from all the holdings into a single array for
+    # each holding, and then duplicate that array for each holding. But without doing that, the items are not displayed
+    # correctly in the view. This should be revisited once I understand that cause and effect better.
+    items_json_hash.each do |holding_id, items|
+      items.each do |item|
+        item['enum'] ||= ''
+        valholding << item
       end
-      value = valholding
+      items = valholding
       begin
-        value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
+        items.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
       rescue
-        value.sort_by! { |k| k["enum"]}
+        items.sort_by! { |k| k['enum']}
       end
-      items_json_hash[key]= value
+      items_json_hash[holding_id]= items
     end
     xholdings(holdings_json_hash, items_json_hash)
- end
+  end
 
   # TODO: This method is a monster. It definitely needs refactoring and cleanup, but that's a project in itself.
   def xholdings(holdingsHash, itemsHash)
