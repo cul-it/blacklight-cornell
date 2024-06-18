@@ -20,7 +20,6 @@
      
     function makeRequest(index,ele) {
     var  req = $(ele).attr('name');
-    var  valu = $(ele).text();
     if ( $(ele).is(':checked'))  {
       var enx = itemdata[req].enumeration?itemdata[req].enumeration: ''; 
       var brx = itemdata[req].barcode?itemdata[req].barcode: ''; 
@@ -50,12 +49,6 @@
       $("#EADRequest").
              append('<input type=hidden name="ItemInfo1_' + req + '" value="'
              + crx + '">');
-  /*    $("#EADRequest").
-             append('<input type=hidden name="ItemInfo2_' + req + '" value="'
-             + frx + '">');
-      $("#EADRequest").
-             append('<input type=hidden name="ItemInfo5_' + req + '" value="'
-             + nox + '">'); */
       $("#EADRequest").
              append('<input type=hidden name="ItemNumber_' + req + '" value="'
              + brx + '">');
@@ -79,7 +72,7 @@
         alert("Please select an item or items for your request.");
         return false;
       }
-      
+
       if (dt == 'Manuscript' || v > 1)  {
          $("#AeonForm").val('EADRequest'); 
          $('.ItemNo').each(makeRequest);
@@ -92,16 +85,47 @@
              append('<input type=hidden name="' + fixed[i] + '_FIXED" value="'
              + $('#'+fixed[i]).val() + '">');
           }
-         var fixed2 = ["SpecialRexuest"]; 
+          var fixed2 = ["SpecialRequest"]; 
           for (var i=0;i<fixed2.length;i++) {
-             $("#EADRequest").
-             append('<input type=hidden name="' + 'SpecialRequest' + '_FIXED" value="'
-             + $('#SpecialRexuest').val() + '">');
+              // first check to see if the field exists
+              if ($('#' + fixed2[i]).length) { 
+                  $("#EADRequest").
+                  append('<input type="hidden" name="' + fixed2[i] + '_FIXED" value="'
+                  + $('#' + fixed2[i]).val() + '">');
+              }
+          }
+      }
+      if (dt === 'Photoduplication') {
+        if ($('#SpecialRequest').length) {
+            $("#RequestForm").append('<input type="hidden" name="SpecialRequest" value="' + $('#SpecialRequest').val() + '">');
         }
+        if ($('#ItemCitation').length) {
+            $("#RequestForm").append('<input type="hidden" name="ItemPages" value="' + $('#ItemCitation').val() + '">');
+        }
+        if ($('#Notes').length) {
+            $("#RequestForm").append('<input type="hidden" name="Notes" value="' + $('#Notes').val() + '">');
+        }
+        if ($('#ServiceLevel').length) {
+            $("#RequestForm").append('<input type="hidden" name="ServiceLevel" value="' + $('#ServiceLevel').val() + '">');
+        }
+        if ($('#ShippingOption').length) {
+            // this is the delivery method field (example: Digital file download: $0)
+            $("#RequestForm").append('<input type="hidden" name="ShippingOption" value="' + $('#ShippingOption').val() + '">');
+        }
+        
       }
       return true;
-    //$(this).submit();
     }
+
+    /**
+    * doClick handles the click event on a checkbox
+    * 
+    * When a checkbox is checked or unchecked, the item is moved
+    * to the selected items box.
+    *
+    * This function is binded to the checkbox click event only if
+    * there are more than 1 items that can be selected
+    */
     function doClick (event) {
         var bc= $(this).val();
         var loc= itemdata[bc].location; 
@@ -124,17 +148,16 @@
         $("#ItemEdition").val(ed); 
         $("#ItemIssue").val(co);
         $("#Restrictions").val(res); 
-        if ($(this).is(":checked")) { 
+        if ($(this).is(":checked")) {
            var v = $("#num-selections").text();
            var remid='tremid' + bc;
+           
            var remspan = "<span id='"+remid+"'>&nbsp;<image src='/img/cross-small.png' alt='Remove'>&nbsp;</span>";
-           //var remspan = "<span class='remove' id='"+remid+"'>&nbsp;(remove)&nbsp;</span>";
            v++;
            $("#num-selections").text(v);
-           //$("#selections").append("<div ida='t" + bc+"'> <li>" +loc+" "+cn+" "+co+" "+en+"  "+cr+ remspan +"</li></div>");
            $("#selections").append("<div id='t" + bc+"'> <li>" + cn + " " +co+" "+en+"  "+cr+ remspan +"</li></div>");
            $('#'+remid).click(function () {
-             var v = 100 //$("#num-selections").text();
+             var v = 100;
              v--;
              $("#num-selections").text(v);
              $("#t"+bc).remove();
@@ -168,6 +191,11 @@
       $('#UserDate').prop("checked", true);
      }
 
+    /**
+     * Sets up the click event handlers for the page
+     * and if there is only 1 item to select, it 
+     * will be selected by default.
+    */
     $(document).ready(function () {
       $('#ReviewText').hide();
       showScheduled();

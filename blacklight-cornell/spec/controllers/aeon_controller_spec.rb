@@ -57,7 +57,7 @@ RSpec.describe AeonController, type: :controller do
           "itemdata[\"sample_barcode_val\"] = {",
           "location:\"rmc Rare and Manuscript Collections\",",
           "loc_code:\"rmc Rare and Manuscript Collections\",",
-          "cslocation:\"rmc Rare and Manuscript Collections rmc\","
+          "cslocation:\"rmc Rare and Manuscript Collections\","
         ]
         expected_values.each do |value|
           expect(result).to include(value)

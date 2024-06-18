@@ -605,7 +605,10 @@ class AeonController < ApplicationController
   	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ' + itemHash["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	        	  else
   	        	    # for requests to route into Awaiting Restriction Review, the cslocation needs both the vault and the building 
-  	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["rmc"]["Vault location"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["rmc"]["Vault location"] + ' ' + itemHash["location"]["code"] + '",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	        	    vault_location = itemHash["rmc"]["Vault location"]
+  	        	    location_code = itemHash["location"]["code"]
+  	        	    cslocation = vault_location.include?(location_code) ? vault_location : vault_location + ' ' + location_code
+  	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + vault_location + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + vault_location +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + cslocation + '",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	        	  end
   	            end
   	          else
