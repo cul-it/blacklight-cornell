@@ -219,17 +219,22 @@ class AeonController < ApplicationController
   # end
 
   def holdings(holdings_json_hash, items_json_hash)
-    items_hash = items_json_hash
-    items_hash.each_value do |value|
-      value.each { |val| val['enum'] ||= '' }
+    valholding = []
+    items_json_hash.each do |key, value|
+      value.each do |val|
+        val['enum'] ||= ''
+        valholding << val
+      end
+      value = valholding
       begin
         value.sort_by! { |e| e['enum'].scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x } }
-      rescue StandardError
-        value.sort_by! { |k| k['enum'] }
+      rescue
+        value.sort_by! { |k| k["enum"]}
       end
+      items_json_hash[key]= value
     end
-    xholdings(holdings_json_hash, items_hash)
-  end
+    xholdings(holdings_json_hash, items_json_hash)
+ end
 
   # TODO: This method is a monster. It definitely needs refactoring and cleanup, but that's a project in itself.
   def xholdings(holdingsHash, itemsHash)
