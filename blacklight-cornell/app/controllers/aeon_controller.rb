@@ -486,7 +486,7 @@ class AeonController < ApplicationController
   end
 
   def redirect_nonshib
-    @outbount_params = params
+    @outbound_params = params
   end
 
   def boom; end
