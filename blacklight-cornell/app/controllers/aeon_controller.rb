@@ -562,10 +562,15 @@ class AeonController < ApplicationController
                    itemHash["location"]["library"] = "ANNEX"
                 end
   	  	 	#stuffHash = Hash(JSON.parse(otherstuff))
-  	  	   	if !itemHash["copy"].nil? and !itemHash['enum'].nil?
-  	  	   	  c =  " c. " + itemHash["copy"].to_s + " " + itemHash['enum']
+  	  	   	if !itemHash["copy"].nil?
+  	  	   	  c =  " c. " + itemHash["copy"].to_s
+  	  	   	  if !itemHash['enum'].nil? and !itemHash['enum'].empty?
+  	  	   	      c = c + " " + itemHash['enum']
+  	  	   	  elsif !itemHash['chron'].nil? and !itemHash['chron'].empty?
+  	  	   	      c = c + " " + itemHash['chron']
+  	  	   	  end
   	  	   	  if !itemHash["caption"].nil?
-  	  	   	  	c = c + " " + itemHash["caption"]
+  	  	   	      c = c + " " + itemHash["caption"]
   	  	   	  end
   	  	   	end
   	  	   	if !itemHash["caption"].nil?

@@ -26,7 +26,7 @@ RSpec.describe AeonController, type: :controller do
     context 'when vault location and restrictions are present in the rmc key of itemsHash' do
       before do
         itemsHash["hh_foo"].first["rmc"] = { 
-          "Vault location" => "sample_vault_location_val", 
+          "Vault location" => "K-1-2-3-4-5", 
           "Restrictions" => "sample_restrictions_val" 
         }
       end
@@ -35,9 +35,9 @@ RSpec.describe AeonController, type: :controller do
         result = subject.xholdings(holdingsHash, itemsHash)
         expected_values = [
           "itemdata[\"sample_barcode_val\"] = {",
-          "location:\"sample_vault_location_val\",",
-          "loc_code:\"sample_vault_location_val\",",
-          "cslocation:\"sample_vault_location_val rmc\","
+          "location:\"K-1-2-3-4-5\",",
+          "loc_code:\"K-1-2-3-4-5\",",
+          "cslocation:\"K-1-2-3-4-5 rmc\","
         ]
         expected_values.each do |value|
           expect(result).to include(value)
@@ -45,7 +45,7 @@ RSpec.describe AeonController, type: :controller do
       end
     end
 
-    context 'when the rmc key in itemsHash does not contain a Restrictions key' do
+    context 'when valut location already contains the rmc building code' do
       before do
         itemsHash["hh_foo"].first["rmc"] = {
           "Vault location" => "rmc Rare and Manuscript Collections"
@@ -64,5 +64,22 @@ RSpec.describe AeonController, type: :controller do
         end
       end
     end
+
+    context 'when enum value does not exist but other distinguishing values exist' do
+      before do
+        itemsHash["hh_foo"].first.delete("enum")
+        itemsHash["hh_foo"].first["chron"] = "sample_chron_val"
+        itemsHash["hh_foo"].first["caption"] = "sample_caption_val"
+      end
+
+      it 'displays the chron value, copy value, and caption' do
+        result = subject.xholdings(holdingsHash, itemsHash)
+        expect(result).to include("sample_chron_val")
+        expect(result).not_to include("sample_enum_val")
+        expect(result).to include("sample_copy_val")
+        expect(result).to include("sample_caption_val")
+      end
+    end
+
   end
 end
