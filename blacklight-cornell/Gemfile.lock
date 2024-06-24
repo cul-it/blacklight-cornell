@@ -618,6 +618,8 @@ GEM
     rack (2.2.9)
     rack-contrib (2.4.0)
       rack (< 4)
+    rack-cors (2.0.2)
+      rack (>= 2.0.0)
     rack-protection (3.2.0)
       base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
@@ -772,6 +774,8 @@ GEM
       net-scp (>= 1.1.2)
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
+    status-page (0.1.5)
+      rails (>= 4.2)
     summon (2.0.5)
       json
     temple (0.10.3)
@@ -926,6 +930,7 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (~> 6.4, >= 6.4.2)
+  rack-cors
   rails (~> 6.1.7)
   rb-inotify
   rb-readline (~> 0.5.x)
@@ -947,6 +952,7 @@ DEPENDENCIES
   spreewald!
   sprockets
   sqlite3 (~> 1.7.3)
+  status-page
   terser (~> 1.1)
   ultraviolet
   unicode

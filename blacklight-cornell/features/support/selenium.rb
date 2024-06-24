@@ -16,8 +16,7 @@ if ENV['USE_TEST_CONTAINER']
     config.server = :webrick # :puma, { Silent: true }
     config.server_host = webapp_host
     config.server_port = webapp_port
-    # config.default_max_wait_time = 10
-    config.default_max_wait_time = 5
+    config.default_max_wait_time = 10
   end
 
   require 'selenium/webdriver'

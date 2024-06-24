@@ -74,7 +74,7 @@ end
 BentoSearch.register_engine('solr') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Solr Query'
-  conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"]
+	conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"] unless SOLR_CONFIG.nil? or SOLR_CONFIG[ENV['RAILS_ENV']].nil?
 end
 
 BentoSearch.register_engine('Book') do |conf|
