@@ -562,10 +562,15 @@ class AeonController < ApplicationController
                    itemHash["location"]["library"] = "ANNEX"
                 end
   	  	 	#stuffHash = Hash(JSON.parse(otherstuff))
-  	  	   	if !itemHash["copy"].nil? and !itemHash['enum'].nil?
-  	  	   	  c =  " c. " + itemHash["copy"].to_s + " " + itemHash['enum']
+  	  	   	if !itemHash["copy"].nil?
+  	  	   	  c =  " c. " + itemHash["copy"].to_s
+  	  	   	  if !itemHash['enum'].nil? and !itemHash['enum'].empty?
+  	  	   	      c = c + " " + itemHash['enum']
+  	  	   	  elsif !itemHash['chron'].nil? and !itemHash['chron'].empty?
+  	  	   	      c = c + " " + itemHash['chron']
+  	  	   	  end
   	  	   	  if !itemHash["caption"].nil?
-  	  	   	  	c = c + " " + itemHash["caption"]
+  	  	   	      c = c + " " + itemHash["caption"]
   	  	   	  end
   	  	   	end
   	  	   	if !itemHash["caption"].nil?
@@ -604,7 +609,11 @@ class AeonController < ApplicationController
   	              if itemHash["rmc"]["Vault location"].nil?
   	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["location"]["code"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["location"]["code"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["location"]["code"] + ' ' + itemHash["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	        	  else
-  	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + itemHash["rmc"]["Vault location"] + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + itemHash["rmc"]["Vault location"] +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + itemHash["rmc"]["Vault location"]  + '",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+  	        	    # for requests to route into Awaiting Restriction Review, the cslocation needs both the vault and the building 
+  	        	    vault_location = itemHash["rmc"]["Vault location"]
+  	        	    location_code = itemHash["location"]["code"]
+  	        	    cslocation = vault_location.include?(location_code) ? vault_location : vault_location + ' ' + location_code
+  	        	    ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + itemHash["barcode"] + '"] = { location:"' + vault_location + '",enumeration:"' + itemHash["enum"] + '",barcode:"' + itemHash["barcode"] + '",loc_code:"' + vault_location +'",chron:"",copy:"' + itemHash["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + cslocation + '",code:"rmc' +  '",callnumber:"' + itemHash["call"] + '",Restrictions:"' + restrictions + '"};</script>'
   	        	  end
   	            end
   	          else
