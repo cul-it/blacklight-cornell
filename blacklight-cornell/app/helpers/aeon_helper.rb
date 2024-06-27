@@ -85,24 +85,29 @@ module AeonHelper
                 if item['location']['name'].include?('Non-Circulating')
                   ret += labeled_checkbox(item['barcode'])
                     if item['rmc'].nil?
-                      ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + item["barcode"] + '"] = { location:"' + item['location']["code"] + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['location']["code"] + ' ' + item['location']["library"] + '",code:"rmc' +  '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                      ret += availability_text('now', b, c, restrictions)
+                      ret += '<script> itemdata["' + item["barcode"] + '"] = { location:"' + item['location']["code"] + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['location']["code"] + ' ' + item['location']["library"] + '",code:"rmc' +  '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                     else
                       if item['rmc']['Vault location'].nil?
-                        ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + item["barcode"] + '"] = { location:"' + item['location']["code"] + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['location']["code"] + ' ' + item['location']["library"] + '",code:"rmc' +  '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                        ret += availability_text('now', b, c, restrictions)
+                        ret += '<script> itemdata["' + item["barcode"] + '"] = { location:"' + item['location']["code"] + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['location']["code"] + ' ' + item['location']["library"] + '",code:"rmc' +  '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                       else
                         # for requests to route into Awaiting Restriction Review, the cslocation needs both the vault and the building 
                         vault_location = item['rmc']['Vault location']
                         location_code = item['location']["code"]
                         cslocation = vault_location.include?(location_code) ? vault_location : vault_location + ' ' + location_code
-                        ret = ret + " (Available Immediately) " + b +  c + " " + restrictions + '</div><script> itemdata["' + item["barcode"] + '"] = { location:"' + vault_location + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + vault_location +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + cslocation + '",code:"rmc' +  '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                        ret += availability_text('now', b, c, restrictions)
+                        ret += '<script> itemdata["' + item["barcode"] + '"] = { location:"' + vault_location + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + vault_location +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + cslocation + '",code:"rmc' +  '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                       end
                     end
                   else
                     ret += labeled_checkbox(item['barcode'])
                     if item['rmc']['Vault location'].nil?
-                      ret = ret + " (Request in Advance) " + b + c + "  " + restrictions + '</div><script> itemdata["' + item["barcode"] + '"] = { location:"' + item['location']["code"] + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['location']["code"] + ' ' + item['location']["library"] + '",code:"rmc' +  '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                      ret += availability_text('advance', b, c, restrictions)
+                      ret += '<script> itemdata["' + item["barcode"] + '"] = { location:"' + item['location']["code"] + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['location']["code"] + ' ' + item['location']["library"] + '",code:"rmc' +  '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                     else
-                      ret = ret + " (Request in Advance) " + b + c  + " " + restrictions  +  '</div><script> itemdata["' + item["barcode"] + '"] = { location:"' + item['rmc']['Vault location'] + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"' + item['rmc']['Vault location'] + '",code:"' + item['location']["code"] + '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                      ret += availability_text('advance', b, c, restrictions)
+                      ret += '<script> itemdata["' + item["barcode"] + '"] = { location:"' + item['rmc']['Vault location'] + '",enumeration:"' + item["enum"] + '",barcode:"' + item["barcode"] + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"' + item['rmc']['Vault location'] + '",code:"' + item['location']["code"] + '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                     end
                   end
                 else
@@ -130,12 +135,14 @@ module AeonHelper
                       item["call"] == ""
                     end
                     # THIS IS WHERE THE PROBLEM IS
-                    ret += labeled_checkbox("iid-#{val['id']}")
-                    ret = ret + " (Available Immediately) " + b + c + " " + restrictions + '</div><script> itemdata["iid-' + item["id"].to_s + '"] = { location:"' + item['rmc']['Vault location'] + '",enumeration:"' + item["enum"] + '",barcode:"iid-' + item["id"].to_s + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['location']["code"] + ' ' + item['rmc']['Vault location'] + '",code:"' + item['location']["code"] + '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                    ret += labeled_checkbox("iid-#{item['id']}")
+                    ret += availability_text('now', b, c, restrictions)
+                    ret += '<script> itemdata["iid-' + item["id"].to_s + '"] = { location:"' + item['rmc']['Vault location'] + '",enumeration:"' + item["enum"] + '",barcode:"iid-' + item["id"].to_s + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['location']["code"] + ' ' + item['rmc']['Vault location'] + '",code:"' + item['location']["code"] + '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                   else
                     # ret = ret + item["barcode"]
-                    ret += labeled_checkbox("iid-#{val['id']}")
-                    ret = ret + " (Request in Advance) " + b + c + " " + restrictions + '</div><script> itemdata["iid-' + item["id"].to_s + '"] = { location:"' + item['rmc']['Vault location'] + '",enumeration:"' + item["enum"] + '",barcode:"iid-' + item["id"].to_s + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['rmc']['Vault location'] + '",code:"' + item['location']["code"] + '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                    ret += labeled_checkbox("iid-#{item['id']}")
+                    ret += availability_text('advance', b, c, restrictions)
+                    ret += '<script> itemdata["iid-' + item["id"].to_s + '"] = { location:"' + item['rmc']['Vault location'] + '",enumeration:"' + item["enum"] + '",barcode:"iid-' + item["id"].to_s + '",loc_code:"' + item['location']["code"] +'",chron:"",copy:"' + item["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + item['rmc']['Vault location'] + '",code:"' + item['location']["code"] + '",callnumber:"' + item["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                   end
                   d = ''
                 end #barcode else
@@ -174,20 +181,25 @@ module AeonHelper
                         #		ret = ret + val.inspect
                         ret += labeled_checkbox(val['barcode'])
                         if val["rmc"].nil?
-                          ret = ret + " (Available Immediately) " + val["call"] + " c " +  val["copy"].to_s + " " + restrictions + '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                          ret += availability_text('now', val['call'], val['copy'], restrictions)
+                          ret += '<script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                         else
                           if val["rmc"]['Vault location'].nil?
-                            ret = ret + " (Available Immediately) " + val["call"] + " c" + val["copy"].to_s + " " + restrictions + '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                            ret += availability_text('now', val['call'], val['copy'], restrictions)
+                            ret += '<script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                           else
-                            ret = ret + " (Available Immediately) " + val["call"] + " c " + val["copy"].to_s + " " + restrictions + '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                            ret += availability_text('now', val['call'], val['copy'], restrictions)
+                            ret += '<script> itemdata["' + val["barcode"] + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                           end
                         end
                       else
                         ret += labeled_checkbox(val['barcode'])
                         if val["rmc"]['Vault location'].nil?
-                          ret = ret + " (Request in Advance) " + val["call"] + " c" + val["copy"].to_s + " " + restrictions + '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                          ret += availability_text('advance', val['call'], val['copy'], restrictions)
+                          ret += '<script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                         else
-                          ret = ret + " (Request in Advance) " + val["call"] + " c " + val["copy"].to_s + " " + restrictions  +  '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                          ret += availability_text('advance', val['call'], val['copy'], restrictions)
+                          ret += '<script> itemdata["' + val["barcode"] + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                         end
                       end
                     else
@@ -199,10 +211,12 @@ module AeonHelper
                       end
                       if val["location"]['name'].include?('Non-Circulating')
                         ret += labeled_checkbox("iid-#{val['id']}")
-                        ret = ret + " (Available Immediately) " + val["call"] + " c " + val["copy"].to_s + " " + restrictions + '</div><script> itemdata["iid-' + val["id"].to_s + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"iid-' + val["id"].to_s + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                        ret += availability_text('now', val['call'], val['copy'], restrictions)
+                        ret += '<script> itemdata["iid-' + val["id"].to_s + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"iid-' + val["id"].to_s + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                       else
                         ret += labeled_checkbox("iid-#{val['id']}")
-                        ret = ret + " (Requests in Advance) " + val["call"] + " c " + val["copy"].to_s + " " + restrictions + '</div><script> itemdata["iid-' + val["id"].to_s + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"iid-' + val["id"].to_s + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                        ret += availability_text('advance', val['call'], val['copy'], restrictions)
+                        ret += '<script> itemdata["iid-' + val["id"].to_s + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"iid-' + val["id"].to_s + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                       end
                     end #barcode else
                   end
@@ -247,14 +261,17 @@ module AeonHelper
                   ret = ret + val["location"]['name'] + " (Available Immediately) " + val["call"] + " c " +  val["copy"].to_s + " " + restrictions + '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + enum + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["rmc"]['Vault location'] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                 else
                   if val["rmc"]['Vault location'].nil?
-                    ret = ret + " (Available Immediately) " + val["call"] + " c " + val["copy"].to_s + " " + restrictions + '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + val["enum"] + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                    ret += availability_text('now', val['call'], val['copy'], restrictions)
+                    ret += '<script> itemdata["' + val["barcode"] + '"] = { location:"' + val["location"]["code"] + '",enumeration:"' + val["enum"] + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                   else
-                    ret = ret + " (Available Immediately) " + val["call"] + " c " + val["copy"].to_s + " " + restrictions + '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + val["enum"] + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["rmc"]["Vault loation"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                    ret += availability_text('now', val['call'], val['copy'], restrictions)
+                    ret += '<script> itemdata["' + val["barcode"] + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + val["enum"] + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["rmc"]["Vault loation"] + '",code:"rmc' +  '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
                   end
                 end
               else
                 ret += labeled_checkbox(val['barcode'])
-                ret = ret + " (Request in Advance) " + val["call"] + " c " + val["copy"].to_s + " " + restrictions  +  '</div><script> itemdata["' + val["barcode"] + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + val["enum"] + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                ret += availability_text('advance', val['call'], val['copy'], restrictions)
+                ret += '<script> itemdata["' + val["barcode"] + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + val["enum"] + '",barcode:"' + val["barcode"] + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"' + d + '",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["location"]["library"] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
               end
               # ret = "baby"
             else
@@ -271,12 +288,13 @@ module AeonHelper
               #        ret = ret + val.inspect
               if val["location"]['name'].include?('Non-Circulating')
                 ret += labeled_checkbox("iid-#{val['hrid']}")
-                ret = ret + val["location"]["library"] + " (Available Immediately) " + val["call"] + " c " + val["copy"].to_s + " " + restrictions + '</div><script> itemdata["iid-' + val["hrid"].to_s + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"iid-' + val["hrid"].to_s + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["rmc"]['Vault location'] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
+                ret += val["location"]["library"] + availability_text('now', val['call'], val['copy'], restrictions)
+                ret += '<script> itemdata["iid-' + val["hrid"].to_s + '"] = { location:"' + val["rmc"]['Vault location'] + '",enumeration:"' + enum + '",barcode:"iid-' + val["hrid"].to_s + '",loc_code:"' + val["location"]["code"] +'",chron:"",copy:"' + val["copy"].to_s + '",free:"",caption:"",spine:"",cslocation:"' + val["location"]["code"] + ' ' + val["rmc"]['Vault location'] + '",code:"' + val['location']["code"] + '",callnumber:"' + val["call"] + '",Restrictions:"' + restrictions + '"};</script>'
               else
                 # ret = ret + item["barcode"]
                 ret += labeled_checkbox("iid-#{val['id']}")
+                ret += availability_text('advance', val['call'], val['copy'], restrictions)
                 ret += <<~HTML
-                  (Requests in Advance) #{val["call"]} #{val["copy"].to_s} #{restrictions}</div>
                   <script>
                     itemdata["iid-#{val["id"].to_s}"] = {
                       location: "#{val["rmc"]['Vault location']}",
@@ -317,7 +335,6 @@ module AeonHelper
     end
   end
 
-  
   # Generates an HTML snippet for a labeled checkbox. (Note that the div is not closed in this method.)
   #
   # @param id [String] The ID of the checkbox.
@@ -328,5 +345,18 @@ module AeonHelper
         <label for='#{id}' class='sr-only'>#{id}</label>
         <input class='ItemNo' id='#{id}' name='#{id}' type='checkbox' VALUE='#{id}'>
     HTML
+  end
+
+  # Generates the availability text for a given call number, copy number, and restrictions.
+  # (Note that this method closes the div that was opened in labeled_checkbox().)
+  #
+  # @param availability [String] The availability of the item - 'now' or 'advance'.
+  # @param call_number [String] The call number of the item.
+  # @param copy_number [String] The copy number of the item.
+  # @param restrictions [String] The restrictions on the item.
+  # @return [String] The availability text.
+  def availability_text(availability, call_number, copy_number, restrictions)
+    text = availability == 'now' ? 'Available Immediately' : 'Request in Advance'
+    " (#{text}) #{call_number} c #{copy_number} #{restrictions}</div>"
   end
 end
