@@ -198,6 +198,7 @@
     */
     $(document).ready(function () {
       $('#ReviewText').hide();
+      $("#num-selections").text('0');
       showScheduled();
       $('#UserReview').click(function () {
                 showReview();
