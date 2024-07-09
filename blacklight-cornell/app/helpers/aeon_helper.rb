@@ -77,7 +77,7 @@ module AeonHelper
                 end
                 ret += labeled_checkbox(item['barcode'])
                 if item['location']['name'].include?('Non-Circulating')
-                  if item['rmc'].nil?
+                  if item['rmc'].nil? || item['rmc']['Vault location'].nil?
                     ret += availability_text('now', b, c, restrictions)
                     ret += itemdata_script(
                       id: item['barcode'],
@@ -92,47 +92,31 @@ module AeonHelper
                       restrictions: restrictions
                     )
                   else
-                    if item['rmc']['Vault location'].nil?
-                      ret += availability_text('now', b, c, restrictions)
-                      ret += itemdata_script(
-                        id: item['barcode'],
-                        location: item['location']['code'],
-                        enum: item['enum'],
-                        barcode: item['barcode'],
-                        loc_code: item['location']['code'],
-                        copy: item['copy'],
-                        csloc: "#{item['location']['code']} #{item['location']['library']}",
-                        code: 'rmc',
-                        call: item['call'],
-                        restrictions: restrictions
-                      )
-                    else
-                      # for requests to route into Awaiting Restriction Review,
-                      # the cslocation needs both the vault and the building.
-                      vault_location = item['rmc']['Vault location']
-                      location_code = item['location']['code']
-                      cslocation = vault_location.include?(location_code) ? vault_location : "#{vault_location} #{location_code}"
-                      ret += availability_text('now', b, c, restrictions)
-                      ret += itemdata_script(
-                        id: item['barcode'],
-                        location: vault_location,
-                        enum: item['enum'],
-                        barcode: item['barcode'],
-                        loc_code: vault_location,
-                        copy: item['copy'],
-                        csloc: cslocation,
-                        code: 'rmc',
-                        call: item['call'],
-                        restrictions: restrictions
-                      )
-                    end
+                    # for requests to route into Awaiting Restriction Review,
+                    # the cslocation needs both the vault and the building.
+                    vault_location = item['rmc']['Vault location']
+                    location_code = item['location']['code']
+                    cslocation = vault_location.include?(location_code) ? vault_location : "#{vault_location} #{location_code}"
+                    ret += availability_text('now', b, c, restrictions)
+                    ret += itemdata_script(
+                      id: item['barcode'],
+                      location: vault_location,
+                      enum: item['enum'],
+                      barcode: item['barcode'],
+                      loc_code: vault_location,
+                      copy: item['copy'],
+                      csloc: cslocation,
+                      code: 'rmc',
+                      call: item['call'],
+                      restrictions: restrictions
+                    )
                   end
                 else
                   location = if item['rmc']['Vault location'].nil?
                                item['location']['code']
                              else
                                item['rmc']['Vault location']
-                             end
+                              end
                   csloc = if item['rmc']['Vault location'].nil?
                             "#{item['location']['code']} #{item['location']['library']}"
                           else
@@ -196,18 +180,17 @@ module AeonHelper
                   )
                 end
                 d = ''
-              end # barcode else
-            end # do end
-          else # nil end
+              end
+            end
+          else
             items_hash = {}
-            valArray = []
             enum = ''
             restrictions = ''
             if @document['items_json']
               count = 0
               items_hash = JSON.parse(@document['items_json'])
               # rubocop:disable Style/HashEachMethods
-              items_hash.each do |key, items_array|
+              items_hash.each do |_, items_array|
                 if count < 1
                   items_array.each do |item|
                     item['location']['library'] = 'ANNEX' if item['location']['library'] == 'Library Annex'
@@ -218,38 +201,22 @@ module AeonHelper
                       restrictions = ''
                       enum = item['enum'] || ''
                       ret += labeled_checkbox(item['barcode'])
-                      if item['location']['name'].include?('Non-Circulating') # or item['location']['name'].include?('Olin Library')
+                      location = item.dig('rmc', 'Vault location') || item['location']['code']
+                      if item['location']['name'].include?('Non-Circulating')
                         ret += availability_text('now', item['call'], item['copy'], restrictions)
-                        if item['rmc'].nil?
-                          ret += itemdata_script(
-                            id: item['barcode'],
-                            location: item['location']['code'],
-                            enum: enum,
-                            barcode: item['barcode'],
-                            loc_code: item['location']['code'],
-                            copy: item['copy'].to_s,
-                            csloc: "#{item['location']['code']} #{item['location']['library']}",
-                            code: 'rmc',
-                            call: item['call'],
-                            restrictions: restrictions
-                          )
-                        else
-                          location = item.dig('rmc', 'Vault location') || item['location']['code']
-                          ret += itemdata_script(
-                            id: item['barcode'],
-                            location: location,
-                            enum: enum,
-                            barcode: item['barcode'],
-                            loc_code: item['location']['code'],
-                            copy: item['copy'].to_s,
-                            csloc: "#{item['location']['code']} #{item['location']['library']}",
-                            code: 'rmc',
-                            call: item['call'],
-                            restrictions: restrictions
-                          )
-                        end
+                        ret += itemdata_script(
+                          id: item['barcode'],
+                          location: location,
+                          enum: enum,
+                          barcode: item['barcode'],
+                          loc_code: item['location']['code'],
+                          copy: item['copy'].to_s,
+                          csloc: "#{item['location']['code']} #{item['location']['library']}",
+                          code: 'rmc',
+                          call: item['call'],
+                          restrictions: restrictions
+                        )
                       else
-                        location = item.dig('rmc', 'Vault location') || item['location']['code']
                         code = item.dig('rmc', 'Vault location') ? item['location']['code'] : 'rmc'
                         caption = item.dig('rmc', 'Vault location') ? d : ''
                         ret += availability_text('advance', item['call'], item['copy'], restrictions)
@@ -283,7 +250,7 @@ module AeonHelper
                         call: item['call'],
                         restrictions: restrictions
                       )
-                    end # barcode else
+                    end
                   end
                   count += 1
                 end
@@ -292,153 +259,96 @@ module AeonHelper
           end
           count += 1
         end
-      end # end of  items_hash.each do |key, value|
-    else # if items_hash.empty
+      end
+    else
       items_hash = {}
-      valArray = []
       enum = ''
       restrictions = ''
-      if !holdings_hash.nil?
+      if holdings_hash
         count = 0
-        items_hash = JSON.parse(@document["holdings_json"])
+        items_hash = JSON.parse(@document['holdings_json'])
         #	ret = items_hash.inspect
-        items_hash.each do |key, val|
-        if count < 1
-          #		value.each do |key, val|
-          #		  ret = ret + val.inspect
-          if !val["barcode"].nil?
-            restrictions = ""
-            if !val['rmc'].nil?
-              if !val['rmc']["Restrictions"].nil?
-                restrictions = val['rmc']["Restrictions"]
-              end
-            else
-              val['rmc'] = {}
-              #  val['rmc']['Vault location'].nil?
-              val['rmc']['Vault location'] = "not in record"
-            end
-            if val["enum"].nil?
-              enum = ""
-            end
-            if val["location"]['name'].include?('Non-Circulating')
-              ret += labeled_checkbox(val['barcode'])
-              ret += availability_text('now', val['call'], val['copy'], restrictions)
-              if val['rmc'].nil?
+        items_hash.each do |_, item|
+          if count < 1
+            #		value.each do |key, item|
+            #		  ret = ret + item.inspect
+            restrictions = item.dig('rmc', 'Restrictions') || ''
+            item['rmc'] ||= {}
+            item['rmc']['Vault location'] ||= 'not in record'
+            if item['barcode']
+              item['enum'] ||= ''
+              ret += labeled_checkbox(item['barcode'])
+              if item['location']['name'].include?('Non-Circulating')
+                location = item.dig('rmc', 'Vault location') || item['location']['code']
+                csloc = item.dig('rmc', 'Vault location') ? item['rmc']['Vault location'] : item['location']['library']
+                ret += availability_text('now', item['call'], item['copy'], restrictions)
                 ret += itemdata_script(
-                  id: val['barcode'],
-                  location: val['location']['code'],
+                  id: item['barcode'],
+                  location: location,
                   enum: enum,
-                  barcode: val['barcode'],
-                  loc_code: val["location"]['code'],
-                  copy: val['copy'].to_s,
-                  csloc: val["location"]['code'] + ' ' + val['rmc']['Vault location'],
+                  barcode: item['barcode'],
+                  loc_code: item['location']['code'],
+                  copy: item['copy'].to_s,
+                  csloc: "#{item['location']['code']} #{csloc}",
                   code: 'rmc',
-                  call: val['call'],
+                  call: item['call'],
                   restrictions: restrictions
                 )
               else
-                if val['rmc']['Vault location'].nil?
-                  ret += availability_text('now', val['call'], val['copy'], restrictions)
-                  ret += itemdata_script(
-                    id: val['barcode'],
-                    location: val['location']['code'],
-                    enum: enum,
-                    barcode: val['barcode'],
-                    loc_code: val["location"]['code'],
-                    copy: val['copy'].to_s,
-                    csloc: val["location"]['code'] + ' ' + val['location']['library'],
-                    code: 'rmc',
-                    call: val['call'],
-                    restrictions: restrictions
-                  )
-                else
-                  ret += availability_text('now', val['call'], val['copy'], restrictions)
-                  ret += itemdata_script(
-                    id: val['barcode'],
-                    location: val['rmc']['Vault location'],
-                    enum: enum,
-                    barcode: val['barcode'],
-                    loc_code: val["location"]['code'],
-                    copy: val['copy'].to_s,
-                    csloc: val["location"]['code'] + ' ' + val['rmc']['Vault location'],
-                    code: 'rmc',
-                    call: val['call'],
-                    restrictions: restrictions
-                  )
-                end
+                ret += availability_text('advance', item['call'], item['copy'], restrictions)
+                ret += itemdata_script(
+                  id: item['barcode'],
+                  location: item['rmc']['Vault location'],
+                  enum: enum,
+                  barcode: item['barcode'],
+                  loc_code: item['location']['code'],
+                  copy: item['copy'].to_s,
+                  csloc: "#{item['location']['code']} #{item['location']['library']}",
+                  caption: d,
+                  code: item['location']['code'],
+                  call: item['call'],
+                  restrictions: restrictions
+                )
               end
-            else
-              ret += labeled_checkbox(val['barcode'])
-              ret += availability_text('advance', val['call'], val['copy'], restrictions)
+            elsif item['location']['name'].include?('Non-Circulating')
+              ret += labeled_checkbox("iid-#{item['hrid']}")
+              ret += item['location']['library'] + availability_text('now', item['call'], item['copy'], restrictions)
               ret += itemdata_script(
-                id: val['barcode'],
-                location: val['rmc']['Vault location'],
+                id: "iid-#{item['hrid']}",
+                location: item['rmc']['Vault location'],
                 enum: enum,
-                barcode: val['barcode'],
-                loc_code: val["location"]['code'],
-                copy: val['copy'].to_s,
-                csloc: val["location"]['code'] + ' ' + val['location']['library'],
-                caption: d,
-                code: val['location']['code'],
-                call: val['call'],
-                restrictions: restrictions
-              )
-            end
-            # ret = "baby"
-          else
-            restrictions = ''
-            if !val['rmc'].nil?
-              if !val['rmc']["Restrictions"].nil?
-                restrictions = val['rmc']["Restrictions"]
-              end
-            else
-              val['rmc'] = {}
-              #  val['rmc']['Vault location'].nil?
-              val['rmc']['Vault location'] = "not in record"
-            end
-            #        ret = ret + val.inspect
-            if val["location"]['name'].include?('Non-Circulating')
-              ret += labeled_checkbox("iid-#{val['hrid']}")
-              ret += val["location"]["library"] + availability_text('now', val['call'], val['copy'], restrictions)
-              ret += itemdata_script(
-                id: "iid-#{val['hrid']}",
-                location: val['rmc']['Vault location'],
-                enum: enum,
-                barcode: "iid-#{val['hrid']}",
-                loc_code: val["location"]['code'],
-                copy: val['copy'].to_s,
-                csloc: val["location"]['code'] + ' ' + val['rmc']['Vault location'],
-                code: val['location']['code'],
-                call: val['call'],
+                barcode: "iid-#{item['hrid']}",
+                loc_code: item['location']['code'],
+                copy: item['copy'].to_s,
+                csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
+                code: item['location']['code'],
+                call: item['call'],
                 restrictions: restrictions
               )
             else
               # ret = ret + item["barcode"]
-              ret += labeled_checkbox("iid-#{val['id']}")
-              ret += availability_text('advance', val['call'], val['copy'], restrictions)
+              ret += labeled_checkbox("iid-#{item['id']}")
+              ret += availability_text('advance', item['call'], item['copy'], restrictions)
               ret += itemdata_script(
-                id: "iid-#{val['id']}",
-                location: val['rmc']['Vault location'],
+                id: "iid-#{item['id']}",
+                location: item['rmc']['Vault location'],
                 enum: enum,
-                barcode: "iid-#{val['id']}",
-                loc_code: val["location"]['code'],
-                copy: val['copy'].to_s,
-                csloc: val["location"]['code'] + ' ' + val['rmc']['Vault location'],
-                code: val['location']['code'],
-                call: val['call'],
+                barcode: "iid-#{item['id']}",
+                loc_code: item['location']['code'],
+                copy: item['copy'].to_s,
+                csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
+                code: item['location']['code'],
+                call: item['call'],
                 restrictions: restrictions
               )
             end
-          end #barcode else
-          #		end
-          count = count + 1
+            count += 1
+          end
         end
       end
-  end
-    end #end of if items_hash.empty
+    end
     ret += "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
-    #   ret = @document["items_json"]
-    return ret
+    ret
   end
 
   def sort_items(items)
