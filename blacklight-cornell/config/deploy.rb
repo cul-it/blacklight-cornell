@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.18.0"
+lock "~> 3.19.1"
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
 #require "dotenv/deployment/capistrano"
