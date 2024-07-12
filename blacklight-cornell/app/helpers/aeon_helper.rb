@@ -34,227 +34,204 @@ module AeonHelper
   end
 
   # TODO: This method is a monster. It definitely needs refactoring and cleanup, but that's a project in itself.
-  # rubocop:disable Metrics/BlockNesting
   def xholdings(holdings_hash, items_hash)
-    ret = ''
-    holding_id = ''
+    Rails.logger.debug "mjc12: holdings_hash: #{holdings_hash}"
+    Rails.logger.debug "mjc12:items_hash: #{items_hash}"
+
+    ret = items_hash.present? ? process_items_hash(items_hash) : process_holdings_hash(holdings_hash)
+
+    ret += "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
+    ret
+  end
+
+  def process_items_hash(items_hash)
     count = 0
-    if items_hash.present?
-      items_hash.each_key do |key|
-        if count < 1
-          holding_id = key
-          items = items_hash[holding_id]
+    ret = ''
+    items_hash.each_key do |key|
+      next if count >= 1
 
-          c = ''
-          b = ''
-          d = ''
-          if items.present?
-            items.each do |item|
-              loc_code = item['location']['code']
-              next unless loc_code.include?('rmc') || loc_code.include?('rare')
+      holding_id = key
+      items = items_hash[holding_id]
 
-              b = item['call'].to_s
-              b = b.sub('Archives ', '')
+      copy_string = ''
+      if items.present?
+        items.each do |item|
+          loc_code = item['location']['code']
+          next unless loc_code.include?('rmc') || loc_code.include?('rare')
 
-              item['location']['library'] = 'ANNEX' if item['location']['library'] == 'Library Annex'
+          call_number = item['call'].to_s.sub('Archives ', '')
 
-              if item['copy']
-                c = " c. #{[item['copy'], item['enum'] || item['chron'], item['caption']].compact.join(' ')}"
+          item['location']['library'] = 'ANNEX' if item['location']['library'] == 'Library Annex'
+
+          if item['copy']
+            copy_string = " c. #{[item['copy'], item['enum'] || item['chron'], item['caption']].compact.join(' ')}"
+          end
+
+          if item['barcode']
+            item['rmc'] ||= {}
+            item['rmc']['Vault location'] = item['location'] ? "#{item['location']['code']} #{item['location']['library']}" : 'Not in record'
+
+            ret += labeled_checkbox(item['barcode'])
+            if item['location']['name'].include?('Non-Circulating')
+              ret += availability_text(call_number, copy_string, item)
+              location = item.dig('rmc', 'Vault location') || item['location']['code']
+              if item.dig('rmc', 'Vault location').nil?
+                ret += itemdata_script(
+                  item: item,
+                  location: location,
+                  csloc: "#{item['location']['code']} #{item['location']['library']}",
+                  code: 'rmc'
+                )
+              else
+                # for requests to route into Awaiting Restriction Review,
+                # the cslocation needs both the vault and the building.
+                vault_location = item['rmc']['Vault location']
+                location_code = item['location']['code']
+                cslocation = vault_location.include?(location_code) ? vault_location : "#{vault_location} #{location_code}"
+                ret += itemdata_script(
+                  item: item,
+                  location: location,
+                  csloc: cslocation,
+                  code: 'rmc'
+                )
               end
+            else
+              location = if item['rmc']['Vault location'].nil?
+                            item['location']['code']
+                          else
+                            item['rmc']['Vault location']
+                          end
+              csloc = if item['rmc']['Vault location'].nil?
+                        "#{item['location']['code']} #{item['location']['library']}"
+                      else
+                        item['rmc']['Vault location']
+                      end
+              code = item['rmc']['Vault location'].nil? ? 'rmc' : item['location']['code']
 
-              d = item['caption'].nil? ? '' : " #{item['caption']}"
-
-              holdings_hash[holding_id]['call'] ||= ''
-
-              if item['barcode']
-                if item['rmc'].nil?
-                  item['rmc'] = {}
-                  item['rmc']['Vault location'] = item['location'] ? "#{item['location']['code']} #{item['location']['library']}" : 'Not in record'
-                end
-                ret += labeled_checkbox(item['barcode'])
-                if item['location']['name'].include?('Non-Circulating')
-                  if item['rmc'].nil? || item['rmc']['Vault location'].nil?
-                    ret += availability_text('now', b, c, item)
+              ret += availability_text(call_number, copy_string, item)
+              ret += itemdata_script(
+                item: item,
+                location: location,
+                csloc: csloc,
+                code: code
+              )
+            end
+          else
+            if item['rmc'].nil?
+              item['rmc'] = {}
+              item['rmc']['Vault location'] = item['location']['library'] || 'not in record'
+            end
+            item['rmc']['Vault location'] ||= ''
+            ret += labeled_checkbox("iid-#{item['id']}")
+            ret += availability_text(call_number, copy_string, item)
+            ret += itemdata_script(
+              item: item,
+              location: item['rmc']['Vault location'],
+              csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
+              code: item['location']['code']
+            )
+          end
+        end
+      else
+        items_hash = {}
+        if @document['items_json']
+          count = 0
+          items_hash = JSON.parse(@document['items_json'])
+          # rubocop:disable Style/HashEachMethods
+          items_hash.each do |_, items_array|
+            if count < 1
+              items_array.each do |item|
+                item['location']['library'] = 'ANNEX' if item['location']['library'] == 'Library Annex'
+                if item['barcode']
+                  item['rmc'] ||= {}
+                  item['rmc']['Vault location'] ||= 'not in record'
+                  ret += labeled_checkbox(item['barcode'])
+                  location = item.dig('rmc', 'Vault location') || item['location']['code']
+                  if item['location']['name'].include?('Non-Circulating')
+                    ret += availability_text(item['call'], item['copy'], item)
                     ret += itemdata_script(
                       item: item,
-                      location: item['location']['code'],
+                      location: location,
                       csloc: "#{item['location']['code']} #{item['location']['library']}",
                       code: 'rmc'
                     )
                   else
-                    # for requests to route into Awaiting Restriction Review,
-                    # the cslocation needs both the vault and the building.
-                    vault_location = item['rmc']['Vault location']
-                    location_code = item['location']['code']
-                    cslocation = vault_location.include?(location_code) ? vault_location : "#{vault_location} #{location_code}"
-                    ret += availability_text('now', b, c, item)
+                    code = item.dig('rmc', 'Vault location') ? item['location']['code'] : 'rmc'
+                    ret += availability_text(item['call'], item['copy'], item)
                     ret += itemdata_script(
                       item: item,
-                      location: vault_location,
-                      csloc: cslocation,
-                      code: 'rmc'
+                      location: location,
+                      csloc: "#{item['location']['code']} #{item['location']['library']}",
+                      code: code
                     )
                   end
                 else
-                  location = if item['rmc']['Vault location'].nil?
-                               item['location']['code']
-                             else
-                               item['rmc']['Vault location']
-                              end
-                  csloc = if item['rmc']['Vault location'].nil?
-                            "#{item['location']['code']} #{item['location']['library']}"
-                          else
-                            item['rmc']['Vault location']
-                          end
-                  code = item['rmc']['Vault location'].nil? ? 'rmc' : item['location']['code']
-
-                  ret += availability_text('advance', b, c, item)
-                  ret += itemdata_script(
-                    item: item,
-                    location: location,
-                    csloc: csloc,
-                    code: code
-                  )
-                end
-              else
-                if item['rmc'].nil?
-                  item['rmc'] = {}
-                  item['rmc']['Vault location'] = item['location']['library'] || 'not in record'
-                end
-                item['rmc']['Vault location'] ||= ''
-                ret += labeled_checkbox("iid-#{item['id']}")
-                if item['location']['name'].include?('Non-Circulating')
-                  item['call'] ||= ''
-                  # THIS IS WHERE THE PROBLEM IS
-                  ret += availability_text('now', b, c, item)
+                  ret += labeled_checkbox("iid-#{item['id']}")
+                  ret += availability_text(item['call'], item['copy'], item)
                   ret += itemdata_script(
                     item: item,
                     location: item['rmc']['Vault location'],
-                    csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
-                    code: item['location']['code']
-                  )
-                else
-                  ret += availability_text('advance', b, c, item)
-                  ret += itemdata_script(
-                    item: item,
-                    location: item['rmc']['Vault location'],
-                    csloc: item['rmc']['Vault location'],
+                    csloc: "#{item['location']['code']} #{item['location']['library']}",
                     code: item['location']['code']
                   )
                 end
-                d = ''
               end
-            end
-          else
-            items_hash = {}
-            if @document['items_json']
-              count = 0
-              items_hash = JSON.parse(@document['items_json'])
-              # rubocop:disable Style/HashEachMethods
-              items_hash.each do |_, items_array|
-                if count < 1
-                  items_array.each do |item|
-                    item['location']['library'] = 'ANNEX' if item['location']['library'] == 'Library Annex'
-                    if item['barcode']
-                      item['rmc'] ||= {}
-                      item['rmc']['Vault location'] ||= 'not in record'
-                      ret += labeled_checkbox(item['barcode'])
-                      location = item.dig('rmc', 'Vault location') || item['location']['code']
-                      if item['location']['name'].include?('Non-Circulating')
-                        ret += availability_text('now', item['call'], item['copy'], item)
-                        ret += itemdata_script(
-                          item: item,
-                          location: location,
-                          csloc: "#{item['location']['code']} #{item['location']['library']}",
-                          code: 'rmc'
-                        )
-                      else
-                        code = item.dig('rmc', 'Vault location') ? item['location']['code'] : 'rmc'
-                        ret += availability_text('advance', item['call'], item['copy'], item)
-                        ret += itemdata_script(
-                          item: item,
-                          location: location,
-                          csloc: "#{item['location']['code']} #{item['location']['library']}",
-                          code: code
-                        )
-                      end
-                    else
-                      ret += labeled_checkbox("iid-#{item['id']}")
-                      availability_type = item['location']['name'].include?('Non-Circulating') ? 'now' : 'advance'
-                      ret += availability_text(availability_type, item['call'], item['copy'], item)
-                      ret += itemdata_script(
-                        item: item,
-                        location: item['rmc']['Vault location'],
-                        csloc: "#{item['location']['code']} #{item['location']['library']}",
-                        code: item['location']['code']
-                      )
-                    end
-                  end
-                  count += 1
-                end
-              end
+              count += 1
             end
           end
-          count += 1
         end
+      end
+      count += 1
+    end
+    ret
+  end
+
+  def process_holdings_hash(holdings_hash)
+    return '' unless holdings_hash.present?
+
+    ret = ''
+    items_hash = JSON.parse(@document['holdings_json'])
+    item = items_hash.values.first
+
+    item['rmc'] ||= {}
+    item['rmc']['Vault location'] ||= 'not in record'
+    if item['barcode']
+      ret += labeled_checkbox(item['barcode'])
+      if item['location']['name'].include?('Non-Circulating')
+        location = item.dig('rmc', 'Vault location') || item['location']['code']
+        csloc = item.dig('rmc', 'Vault location') ? item['rmc']['Vault location'] : item['location']['library']
+        ret += availability_text(item['call'], item['copy'], item)
+        ret += itemdata_script(
+          item: item,
+          location: location,
+          csloc: "#{item['location']['code']} #{csloc}",
+          code: 'rmc'
+        )
+      else
+        ret += availability_text(item['call'], item['copy'], item)
+        ret += itemdata_script(
+          item: item,
+          location: location,
+          csloc: "#{item['location']['code']} #{item['location']['library']}",
+          code: item['location']['code']
+        )
       end
     else
-      items_hash = {}
-      if holdings_hash
-        count = 0
-        items_hash = JSON.parse(@document['holdings_json'])
-        #	ret = items_hash.inspect
-        items_hash.each do |_, item|
-          if count < 1
-            item['rmc'] ||= {}
-            item['rmc']['Vault location'] ||= 'not in record'
-            if item['barcode']
-              ret += labeled_checkbox(item['barcode'])
-              if item['location']['name'].include?('Non-Circulating')
-                location = item.dig('rmc', 'Vault location') || item['location']['code']
-                csloc = item.dig('rmc', 'Vault location') ? item['rmc']['Vault location'] : item['location']['library']
-                ret += availability_text('now', item['call'], item['copy'], item)
-                ret += itemdata_script(
-                  item: item,
-                  location: location,
-                  csloc: "#{item['location']['code']} #{csloc}",
-                  code: 'rmc'
-                )
-              else
-                ret += availability_text('advance', item['call'], item['copy'], item)
-                ret += itemdata_script(
-                  item: item,
-                  location: item['rmc']['Vault location'],
-                  csloc: "#{item['location']['code']} #{item['location']['library']}",
-                  code: item['location']['code']
-                )
-              end
-            elsif item['location']['name'].include?('Non-Circulating')
-              ret += labeled_checkbox("iid-#{item['hrid']}")
-              ret += item['location']['library'] + availability_text('now', item['call'], item['copy'], item)
-              ret += itemdata_script(
-                item: item,
-                location: item['rmc']['Vault location'],
-                csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
-                code: item['location']['code']
-              )
-            else
-              # ret = ret + item["barcode"]
-              ret += labeled_checkbox("iid-#{item['id']}")
-              ret += availability_text('advance', item['call'], item['copy'], item)
-              ret += itemdata_script(
-                item: item,
-                location: item['rmc']['Vault location'],
-                csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
-                code: item['location']['code']
-              )
-            end
-            count += 1
-          end
-        end
+      if item['location']['name'].include?('Non-Circulating')
+        ret += labeled_checkbox("iid-#{item['hrid']}")
+        ret += item['location']['library'] + availability_text(item['call'], item['copy'], item)
+      else
+        # ret = ret + item["barcode"]
+        ret += labeled_checkbox("iid-#{item['id']}")
+        ret += availability_text(item['call'], item['copy'], item)
       end
+      ret += itemdata_script(
+        item: item,
+        location: item['rmc']['Vault location'],
+        csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
+        code: item['location']['code']
+      )
     end
-    ret += "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
     ret
   end
 
@@ -282,14 +259,18 @@ module AeonHelper
   # Generates the availability text for a given call number, copy number, and item.
   # (Note that this method closes the div that was opened in labeled_checkbox().)
   #
-  # @param availability [String] The availability of the item - 'now' or 'advance'.
+  # The basic logic for availability is as follows:
+  # - If the item is non-circulating, it is available immediately.
+  # - If the item is circulating, it must be requested in advance.
+  #
   # @param call_number [String] The call number of the item.
   # @param copy_number [String] The copy number of the item.
   # @param restrictions [String] The restrictions on the item.
   # @return [String] The availability text.
-  def availability_text(availability, call_number, copy_number, item)
+  def availability_text(call_number, copy_number, item)
     restrictions = item.dig('rmc', 'Restrictions') || ''
-    text = availability == 'now' ? 'Available Immediately' : 'Request in Advance'
+    location = item.dig('location', 'name')
+    text = location&.include?('Non-Circulating') ? 'Available Immediately' : 'Request in Advance'
     " (#{text}) #{call_number} c #{copy_number} #{restrictions}</div>"
   end
 
