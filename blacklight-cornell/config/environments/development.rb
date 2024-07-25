@@ -32,8 +32,9 @@ BlacklightCornell::Application.configure do
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
   # See everything in the log (default is :info)
- #config.log_level = ENV["LOG_LEVEL"].blank?  ? :debug : ENV["LOG_LEVEL"].to_sym
- config.log_level = ENV["LOG_LEVEL"].blank?  ? :debug : ENV["LOG_LEVEL"].to_sym
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  #config.log_level = ENV["LOG_LEVEL"].blank?  ? :debug : ENV["LOG_LEVEL"].to_sym
+  config.log_level = ENV["LOG_LEVEL"].blank? ? :debug : ENV["LOG_LEVEL"].to_sym
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
