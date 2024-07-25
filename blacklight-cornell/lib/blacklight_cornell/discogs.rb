@@ -1,5 +1,5 @@
 #encoding: UTF-8
-require_relative "/blacklight-cornell/app/helpers/logging_helper"
+require_relative "../../blacklight-cornell/app/helpers/logging_helper"
 
 module BlacklightCornell::Discogs extend Blacklight::Catalog
   include LoggingHelper
