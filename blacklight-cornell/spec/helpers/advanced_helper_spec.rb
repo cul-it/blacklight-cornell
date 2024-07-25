@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe AdvancedHelper, type: :helper do
-  describe '#render_edited_advanced_search' do
+  describe "#render_edited_advanced_search" do
     let(:edited_advanced_search) { helper.render_edited_advanced_search(params) }
 
     before do
@@ -10,18 +10,20 @@ RSpec.describe AdvancedHelper, type: :helper do
       end
     end
 
-    context 'non-default operators and booleans selected' do
-      let(:params) { {
-        q_row: ['Severus', 'Lily', 'Boyface Killah', 'English Breakfast'],
-        op_row: ['AND', 'OR', 'begins_with', 'phrase'],
-        boolean_row: { '1' => 'OR', '2' => 'AND', '3' => 'NOT' },
-        search_field_row: ['author', 'title', 'subject', 'series'],
-        controller: 'advanced_search',
-        action: 'edit',
-        advanced_query: 'yes'
-      } }
+    context "non-default operators and booleans selected" do
+      let(:params) {
+        {
+          q_row: ["Severus", "Lily", "Boyface Killah", "English Breakfast"],
+          op_row: ["AND", "OR", "begins_with", "phrase"],
+          boolean_row: { "1" => "OR", "2" => "AND", "3" => "NOT" },
+          search_field_row: ["author", "title", "subject", "series"],
+          controller: "advanced_search",
+          action: "edit",
+          advanced_query: "yes",
+        }
+      }
 
-      it 'pre-fills previously selected values' do
+      it "pre-fills previously selected values" do
         # boolean_row
         expect(edited_advanced_search).to include('name="boolean_row[1]" value="OR" checked="checked"')
         expect(edited_advanced_search).to include('name="boolean_row[2]" value="AND" checked="checked"')
@@ -47,13 +49,15 @@ RSpec.describe AdvancedHelper, type: :helper do
       end
     end
 
-    context 'boolean_row is missing' do
-      let(:params) { {
-        q_row: ['curly', 'moe', 'larry'],
-        controller: 'advanced_search',
-        action: 'edit',
-        advanced_query: 'yes'
-      } }
+    context "boolean_row is missing" do
+      let(:params) {
+        {
+          q_row: ["curly", "moe", "larry"],
+          controller: "advanced_search",
+          action: "edit",
+          advanced_query: "yes",
+        }
+      }
 
       it 'defaults to selecting the "AND" boolean when boolean_row is missing' do
         expect(edited_advanced_search).to include('name="boolean_row[1]" value="AND" checked="checked"')
