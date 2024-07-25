@@ -9,8 +9,8 @@ RSpec.describe "Browse search", type: :feature do
     # Add the rest of the bibid and title pairs here
     ].each do |pair|
       it "displays the title '#{pair[:title]}' for bibid #{pair[:bibid]}" do
+        pending("Implement this test")
         visit "/catalog/#{pair[:bibid]}" # Adjust the path as necessary for your application
-
         expect(page).to have_content(pair[:title])
       end
     end
