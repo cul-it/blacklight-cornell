@@ -24,7 +24,6 @@ RSpec.describe AdvancedHelper, type: :helper do
       }
 
       it "pre-fills previously selected values" do
-        pending("Implement this test")
         # boolean_row
         expect(edited_advanced_search).to include('name="boolean_row[1]" value="OR" checked="checked"')
         expect(edited_advanced_search).to include('name="boolean_row[2]" value="AND" checked="checked"')
@@ -61,7 +60,6 @@ RSpec.describe AdvancedHelper, type: :helper do
       }
 
       it 'defaults to selecting the "AND" boolean when boolean_row is missing' do
-        pending("Implement this test")
         expect(edited_advanced_search).to include('name="boolean_row[1]" value="AND" checked="checked"')
         expect(edited_advanced_search).to include('name="boolean_row[2]" value="AND" checked="checked"')
       end
