@@ -197,3 +197,44 @@ rescue StandardError
 
   return []
 end
+  def make_discogs_show_call(id)
+  key = ENV["DISCOGS_KEY"].present? ? ENV["DISCOGS_KEY"] : ""
+  secret = ENV["DISCOGS_SECRET"].present? ? ENV["DISCOGS_SECRET"] : ""
+  uri = URI("https://api.discogs.com/releases/" + id)
+  params = { key: key, secret: secret }
+  uri.query = URI.encode_www_form(params)
+  resp = Net::HTTP.get_response(uri)
+  data = resp.body
+  result = JSON.parse(data)
+  return result if resp.kind_of? Net::HTTPSuccess
+  log_debug_info("#{__FILE__}:#{__LINE__}",
+                 "case: Not Net::HTTPSuccess",
+                 ["params:", params],
+                 ["result:", result])
+  return {} if resp.kind_of? Net::HTTPError
+rescue StandardError
+  log_debug_info("#{__FILE__}:#{__LINE__}",
+                 "case: StandardError",
+                 ["params:", params],
+                 ["result:", result])
+  return {}
+end
+  def deep_clone(object)
+  return @deep_cloning_obj if @deep_cloning
+  @deep_cloning_obj = object.clone
+  @deep_cloning_obj.instance_variables.each do |var|
+    val = @deep_cloning_obj.instance_variable_get(var)
+    begin
+      @deep_cloning = true
+      val = val.deep_copy
+    rescue TypeError
+      next
+    ensure
+      @deep_cloning = false
+    end
+    @deep_cloning_obj.instance_variable_set(var, val)
+  end
+  deep_cloning_obj = @deep_cloning_obj
+  @deep_cloning_obj = nil
+  deep_cloning_obj
+end end

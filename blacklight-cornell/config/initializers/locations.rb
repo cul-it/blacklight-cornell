@@ -18,9 +18,7 @@ if ActiveRecord::Base.connection.table_exists? :locations
         nl = Location.new(d)
         nl.save
       end
-
     end
-
   rescue Errno::ENOENT
     puts <<-eos
 
@@ -30,8 +28,5 @@ if ActiveRecord::Base.connection.table_exists? :locations
     ******************************************************************************
 
     eos
-
-
   end
-
 end
