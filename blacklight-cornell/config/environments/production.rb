@@ -8,7 +8,7 @@ BlacklightCornell::Application.configure do
   config.cache_classes = true
 
   # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
@@ -37,7 +37,8 @@ BlacklightCornell::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  config.log_level = :warn
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.log_level = :info
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
@@ -64,7 +65,7 @@ BlacklightCornell::Application.configure do
     user_name: ENV["SMTP_USERNAME"],
     password: ENV["SMTP_PASSWORD"],
     authentication: :login,
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
   }
   # Enable threaded mode
   # config.threadsafe!
@@ -77,9 +78,8 @@ BlacklightCornell::Application.configure do
   config.active_support.deprecation = :notify
 
   config.active_record.yaml_column_permitted_classes = [
-    ActiveSupport::HashWithIndifferentAccess
+    ActiveSupport::HashWithIndifferentAccess,
   ]
-
 
   # Settings for the exception_notification gem
   #Rails.application.config.middleware.use ExceptionNotification::Rack,
