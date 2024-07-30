@@ -51,8 +51,9 @@
         <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
         <%= render_document_index %>
         <%= render 'results_pagination' %>
+        <% end %>
 
-        <%end%>
+        <%= render "solr_query" %>
 
       <% end %>
 
