@@ -728,3 +728,18 @@ Examples:
   | or | 9 | All Fields | complete | fire |
   | not | 8 | All fields | fire | complete |
 
+@DACCESS-313
+@solr_query
+Scenario Outline: Simple advanced search solr query matches regular search
+  Given I am on the home page
+    And I fill in the search box with '<search>'
+    And I press 'search'
+    Then the solr query should be '<solr_query>'
+    When I literally go to advanced
+    And I fill in "q_row1" with '<search>'
+    And I press 'advanced_search'
+    Then the solr query should be '<solr_query>'
+
+Examples:cd v
+    | search | solr_query |
+    | goblet  | ("goblet") OR phrase:"goblet" |
