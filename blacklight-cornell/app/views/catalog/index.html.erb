@@ -28,6 +28,8 @@
         <%= render :partial => "did_you_mean" %>
         <% end %>
 
+        <%= render "solr_query" %>
+
         <% if @response.total_count < 1 && !@expanded_results.nil? %>
         <p>Your search returned <%= content_tag :span, "0", id: "total-search-results" %> results. Try searching
           <% if params[:q_row].nil? && params[:click_to_search].nil? && params[:f].nil? %>
@@ -53,8 +55,6 @@
         <%= render "results_pagination" %>
 
         <% end %>
-
-        <%= render "solr_query" %>
 
       <% end %>
 
