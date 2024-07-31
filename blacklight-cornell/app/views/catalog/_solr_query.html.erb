@@ -1,6 +1,6 @@
 <% if ENV["DISPLAY_SOLR_QUERY"] %>
-    <%= content_tag(:div, :class => "solr-query", :id => "solr-query-display") do %>
-        <%= content_tag(:h3, "Solr Query") %>
-        <%= content_tag(:pre, @response["responseHeader"]["params"]["q"]) %>
+    <%= content_tag(:dl, :class => "solr-query", :id => "solr-query-display") do %>
+        <%= content_tag(:dt, "Solr Query") %>
+        <%= content_tag(:dd, @response["responseHeader"]["params"]["q"]) %>
     <% end %>
 <% end %>
