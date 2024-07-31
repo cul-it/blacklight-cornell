@@ -729,7 +729,7 @@ Examples:
   | not | 8 | All fields | fire | complete |
 
 @DACCESS-313
-@solr_query
+@solr_query_display
 Scenario Outline: Simple advanced search solr query matches regular search
   Given I am on the home page
     And I fill in the search box with '<search>'
@@ -743,3 +743,4 @@ Scenario Outline: Simple advanced search solr query matches regular search
 Examples:cd v
     | search | solr_query |
     | goblet  | ("goblet") OR phrase:"goblet" |
+    | goblet of fire | ("goblet" AND "of" AND "fire") OR phrase:"goblet of fire" |
