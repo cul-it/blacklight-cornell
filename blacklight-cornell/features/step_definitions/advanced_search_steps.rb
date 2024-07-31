@@ -39,3 +39,13 @@ When("I view the {string} version of the search results") do |format|
   # Visit the new URL
   visit new_url
 end
+
+Then("the solr query should be {string}") do |string|
+  sq = page.find("dl#solr-query-display > dd").text
+  expect(sq).to eq(string)
+end
+
+Then("the solr query should contain {string}") do |string|
+  sq = page.find("dl#solr-query-display > dd").text
+  expect(sq).to match(string)
+end
