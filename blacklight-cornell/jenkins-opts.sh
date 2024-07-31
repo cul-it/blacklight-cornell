@@ -12,7 +12,7 @@ OPT5="-t ~@boundwith  -p jenkins_lax --format junit --out results/ "
 OPT3="-t ~@boundwith  -p jenkins_lax "
 OPT2="-t ~@search_availability_title_mission_etrangeres_missing "
 OPT4=" -t ~@saml_off "
-OPT6=""
+OPT6="-t ~@solr_query_display"
 
 # OPT1="--tags 'not @oclc_request'"
 # OPT2="--tags 'not @search_with_view_all_webs_match_box_with_percent'"
