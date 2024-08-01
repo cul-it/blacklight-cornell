@@ -1,6 +1,8 @@
 <% if ENV["DISPLAY_SOLR_QUERY"] %>
     <%= content_tag(:dl, :class => "solr-query", :id => "solr-query-display") do %>
-        <%= content_tag(:dt, "Solr Query") %>
-        <%= content_tag(:dd, @response["responseHeader"]["params"]["q"]) %>
+        <% @response["responseHeader"]["params"].each do |param| %>
+            <%= content_tag(:dt, param.first) %>
+            <%= content_tag(:dd, param.last) %>
+        <% end %>
     <% end %>
 <% end %>
