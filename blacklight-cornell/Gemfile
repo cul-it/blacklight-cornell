@@ -148,3 +148,4 @@ gem 'uri', '0.12.2'
 gem 'status-page'
 gem 'concurrent-ruby', '1.2.3', require: 'concurrent'
 gem "rack-cors", require: "rack/cors"
+gem "rexml", "3.2.6"

@@ -137,29 +137,8 @@ div.view-all {
 
 // Best bet
 // -----------------------------------------------//
-.best-bet {
-  padding: 1em 1em 1.5em 1em;
-  margin-bottom: 2em;
-  border: 5px solid $light-tan;
-  h2 {
-    line-height: 1.2em;
-    margin-bottom: 0.2em;
-    padding-bottom: 0;
-    margin-top: -.15em;
-    font-size: 20px;
-  }
-  .heads-up {
-    font-size: 16px;
-    margin-bottom:.5em;
-    font-weight: bold;
-    padding:0;
-  }
-  i {
-    color: $cornell-primary
-  }
 
-}
-
+// See .highlight-box in _base.scss
 
 .bento-box {
   position:relative;
