@@ -934,6 +934,7 @@ DEPENDENCIES
   rb-readline (~> 0.5.x)
   redis-session-store
   repost
+  rexml (= 3.2.6)
   rsolr
   rspec
   rspec-rails
