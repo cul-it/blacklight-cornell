@@ -259,27 +259,6 @@ Feature: Select and export items from the result set
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml text '<content type="application/x-research-info-systems">'
 
-@all_select_and_export
-@DISCOVERYACCESS-1670
-@DISCOVERYACCESS-1777
-@select_and_email
-@DISCOVERYACCESS-7882-b
-@javascript
-@popup
-  Scenario: User sends a record by sms,which has no "status" -- no circulating copies Shelter medicine
-    # Given PENDING
-    Given I request the item view for 7981095
-    And I text the first available item
-    And I sleep 15 seconds
-    And I fill in "to" with "6072213597"
-    And I select 'Verizon' from the 'carrier' drop-down
-    And I press "Send"
-    # And I sleep 12 seconds
-    #Then "6072213597@vtext.com" receives an email with "Shelter medicine for veterinarians and staff" in the content
-    #Then I should see "Shelter medicine for veterinarian..." in the email body
-    #Then I should see "Veterinary Library Core Resource (5 hour loan)" in the email body
-    # And I sleep 8 seconds
-
 @DISCOVERYACCESS-7911
 Scenario Outline: As a user of non-English materials, I can export text citations in the native language of the item
 Given I request the item view for <BibId>

@@ -38,12 +38,6 @@ Then /^click on first link "(.*?)"$/ do |link|
   page.first(:xpath, "//a[contains(.,'#{link}')]").click
 end
 
-Given("I text the first available item") do
-  within(page.first(".text-it")) do
-    page.click_link("smsLink")
-  end
-end
-
 Then("I click and confirm {string}") do |string|
   accept_confirm do
     click_link(string)
