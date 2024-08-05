@@ -3,6 +3,9 @@ module LoggingHelper
   # log the message,
   # then reset the log level
   # Useage:
+  #  (in a controller)
+  #  include LoggingHelper
+  #
   #   log_debug_info("#{__FILE__}:#{__LINE__}",
   #         ["ok:", ok],
   #         ["shash:", shash],
