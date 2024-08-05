@@ -91,6 +91,7 @@ module AdvancedHelper
     row1 << " value="
     row1 << prep_query(params[:q_row][0])
     row1 << " /> "
+    log_debug_info("#{__FILE__}:#{__LINE__}", ["row1:", row1], "row1: #{row1}")
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t("blacklight.search.form.op_row") << "</label>"
     row1 << "<select class=\"form-control adv-search-control\" id=\"op_row\" name=\"op_row[]\">"
     boolean_values.each do |key, value|
