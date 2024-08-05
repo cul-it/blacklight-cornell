@@ -64,5 +64,20 @@ RSpec.describe AdvancedHelper, type: :helper do
         expect(edited_advanced_search).to include('name="boolean_row[2]" value="AND" checked="checked"')
       end
     end
+
+    context "query with apostropes" do
+      let(:params) {
+        {
+          q_row: ["The O'Brien's House"],
+          controller: "advanced_search",
+          action: "edit",
+          advanced_query: "yes",
+        }
+      }
+
+      it "includes the full string after the apostropes" do
+        expect(edited_advanced_search).to include('value="The O\'Brien\'s House"')
+      end
+    end
   end
 end
