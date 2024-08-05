@@ -2,6 +2,8 @@
 module AdvancedHelper
   # Current params without fields that will be over-written by adv. search,
   # or other fields we don't want.
+  include LoggingHelper
+
   def advanced_search_context
     my_params = params.dup
     [:page, :commit, :f_inclusive, :q, :search_field, :op, :action, :index, :sort, :controller].each do |bad_key|
