@@ -34,6 +34,32 @@ module AdvancedHelper
       end
   end
 
+  def prep_query(raw_query)
+    raw_query_trim = raw_query.strip
+    multi_word = raw_query_trim.include?(" ")
+    quoted = (raw_query_trim.start_with?('"') && raw_query_trim.end_with?('"'))
+    single_quoted = (raw_query_trim.start_with?("'") && raw_query_trim.end_with?("'"))
+    stripped_query = strip_quotes(raw_query_trim)
+    # DISCOVERYACCESS-7882 - adv search html injection
+    query = ActionView::Base.full_sanitizer.sanitize(stripped_query)
+    #  replace double quotes with &quot; to render full string in input field
+    query = query.gsub('"', "&quot;")
+    if (multi_word)
+      if (quoted)
+        query = "\"" + query + "\""
+      elsif (single_quoted)
+        # replace single quotes with &apos; to render full string in input field
+        query = query.gsub("'", "&apos;")
+      else
+        # replace single quotes with &apos; to render full string in input field
+        query = "\'" + query.gsub("'", "&apos;") + "\'"
+      end
+    else
+      # effectively remove quotes from single word queries
+    end
+    query
+  end
+
   DEFAULT_BOOL = "AND"
 
   def render_edited_advanced_search(params)
@@ -60,19 +86,10 @@ module AdvancedHelper
     boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
     word = ""
     row1 = ""
-    if params[:q_row][0].include? " " and !(params[:q_row][0].start_with? '"' and params[:q_row][0].end_with? '"')
-      query = "\'" + params[:q_row][0] + "\'"
-      #  query = params[:q_row][0]
-    else
-      query = params[:q_row][0]
-    end
-    # DISCOVERYACCESS-7882 - adv search html injection
-    query = ActionView::Base.full_sanitizer.sanitize(query)
 
-    #    params[:q_row][0].gsub!('\\\"','')
     row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\""
     row1 << " value="
-    row1 << query #params[:q_row][0]
+    row1 << prep_query(params[:q_row][0])
     row1 << " /> "
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t("blacklight.search.form.op_row") << "</label>"
     row1 << "<select class=\"form-control adv-search-control\" id=\"op_row\" name=\"op_row[]\">"
@@ -97,9 +114,7 @@ module AdvancedHelper
     unless params[:q_row].count <= 1
       next2rows = ""
       for i in 1..params[:q_row].count - 1
-        params[:q_row][i] = "\'" + params[:q_row][i] + "\'"
-        # DISCOVERYACCESS-7882 - adv search html injection
-        query = ActionView::Base.full_sanitizer.sanitize(params[:q_row][i])
+        query = prep_query(params[:q_row][i].to_s)
 
         next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
         boolean_row_values.each do |key, value|
