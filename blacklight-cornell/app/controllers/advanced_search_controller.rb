@@ -4,6 +4,8 @@ class AdvancedSearchController < ApplicationController
   #include Blacklight::Catalog
   #include BlacklightCornell::CornellCatalog
 
+  include LoggingHelper
+
   delegate :blacklight_config, to: :default_catalog_controller
 
   before_action :heading
@@ -54,6 +56,7 @@ class AdvancedSearchController < ApplicationController
       if session[:search].nil?
         session[:search] = {}
       end
+      log_debug_info("#{__FILE__}:#{__LINE__}", ["@query:", @query], ["original_query:", original_query])
       session[:search][:q] = @query
       session[:search][:search_field] = "all_fields"
       session[:search][:controller] = "search"
