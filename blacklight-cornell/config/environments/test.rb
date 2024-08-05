@@ -24,18 +24,18 @@ BlacklightCornell::Application.configure do
     user_name: ENV["SMTP_USERNAME"],
     password: ENV["SMTP_PASSWORD"],
     authentication: :login,
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
   }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
   # See everything in the log (default is :info)
- #config.log_level = ENV["LOG_LEVEL"].blank?  ? :debug : ENV["LOG_LEVEL"].to_sym
- config.log_level = ENV["LOG_LEVEL"].blank?  ? :debug : ENV["LOG_LEVEL"].to_sym
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.log_level = :info
 
- config.active_record.yaml_column_permitted_classes = [
-  ActiveSupport::HashWithIndifferentAccess
-]
+  config.active_record.yaml_column_permitted_classes = [
+    ActiveSupport::HashWithIndifferentAccess,
+  ]
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
