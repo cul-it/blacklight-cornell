@@ -5,6 +5,8 @@
     <%= render "search_sidebar" %>
   </div>
 
+
+
   <div class="col-md-8" id="results">
       <% unless has_search_parameters? %>
         <% # if there are no input/search related params, display the "home" partial -%>
@@ -55,6 +57,8 @@
         <%= render "results_pagination" %>
 
         <% end %>
+
+        <%= render "search_more" %>
 
       <% end %>
 
