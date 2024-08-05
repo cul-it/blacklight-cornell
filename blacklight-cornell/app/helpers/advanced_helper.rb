@@ -13,6 +13,10 @@ module AdvancedHelper
     my_params
   end
 
+  def strip_quotes(str)
+    str.sub(/\A['"]/, "").sub(/['"]\z/, "")
+  end
+
   def search_fields_for_advanced_search
     # If we could count on 1.9.3 with ordered hashes and
     # Hash#select that worked reasonably, this would be trivial.
