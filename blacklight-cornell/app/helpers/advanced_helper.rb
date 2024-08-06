@@ -86,8 +86,10 @@ module AdvancedHelper
     row1 = ""
 
     row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\""
-    row1 << " value="
-    row1 << prep_query(params[:q_row][0])
+    query = prep_query(params[:q_row][0])
+    if query.present?
+      row1 << " value=" << query
+    end
     row1 << " /> "
     log_debug_info("#{__FILE__}:#{__LINE__}", ["row1:", row1], "row1: #{row1}")
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t("blacklight.search.form.op_row") << "</label>"
@@ -113,7 +115,7 @@ module AdvancedHelper
     unless params[:q_row].count <= 1
       next2rows = ""
       for i in 1..params[:q_row].count - 1
-        query = prep_query(params[:q_row][i].to_s)
+        query = prep_query(params[:q_row][i])
 
         next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
         boolean_row_values.each do |key, value|
@@ -136,7 +138,11 @@ module AdvancedHelper
         next2rows << "</div>"
         next2rows << "<div class=\"form-group\">"
         next2rows << "<label for=\"q_row" << "#{i}\"" << " class=\"sr-only\">" << t("blacklight.search.form.q_row") << "</label>"
-        next2rows << "<input autocapitalize=\"off\" class=\"form-control adv-search-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\" value=" << query << " /> "
+        next2rows << "<input autocapitalize=\"off\" class=\"form-control adv-search-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\""
+        if query.present?
+          next2rows << " value=" << query
+        end
+        next2rows << " /> "
         next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t("blacklight.search.form.op_row") << "</label>"
         next2rows << "<select class=\"form-control adv-search-control\" id=\"op_row" << "#{i}" << "\" name=\"op_row[]\">"
         boolean_values.each do |key, value|
