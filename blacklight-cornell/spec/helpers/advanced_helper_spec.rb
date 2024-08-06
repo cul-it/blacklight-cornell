@@ -24,6 +24,8 @@ RSpec.describe AdvancedHelper, type: :helper do
       }
 
       it "pre-fills previously selected values" do
+        edited_advanced_search = helper.render_edited_advanced_search(params)
+
         # boolean_row
         expect(edited_advanced_search).to include('name="boolean_row[1]" value="OR" checked="checked"')
         expect(edited_advanced_search).to include('name="boolean_row[2]" value="AND" checked="checked"')
