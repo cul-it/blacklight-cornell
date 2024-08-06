@@ -33,7 +33,7 @@ RSpec.describe AdvancedHelper, type: :helper do
 
         # q_row
         expect(edited_advanced_search).to match(/input[^>]+id="q_row"[^>]+value=Severus/)
-        expect(edited_advanced_search).to match(/input[^>]+id="q_row1"[^>]+value='Lily'/)
+        expect(edited_advanced_search).to match(/input[^>]+id="q_row1"[^>]+value=Lily/)
         expect(edited_advanced_search).to match(/input[^>]+id="q_row2"[^>]+value='Boyface Killah'/)
         expect(edited_advanced_search).to match(/input[^>]+id="q_row3"[^>]+value='English Breakfast'/)
 
