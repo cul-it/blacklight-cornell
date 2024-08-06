@@ -62,23 +62,28 @@ RSpec.describe AdvancedHelper, type: :helper do
       }
 
       it 'defaults to selecting the "AND" boolean when boolean_row is missing' do
+        edited_advanced_search = helper.render_edited_advanced_search(params)
         expect(edited_advanced_search).to include('name="boolean_row[1]" value="AND" checked="checked"')
         expect(edited_advanced_search).to include('name="boolean_row[2]" value="AND" checked="checked"')
       end
     end
 
-    context "query with apostropes" do
+    context "queries with apostrophes" do
       let(:params) {
         {
-          q_row: ["The O'Brien's House", "America's changing workforce", "Y'all"],
+          q_row: ["The O'Brien's House"],
+          op_row: ["AND"],
+          boolean_row: { "1" => "OR" },
+          search_field_row: ["title"],
           controller: "advanced_search",
           action: "edit",
           advanced_query: "yes",
         }
       }
 
-      it "includes the full string after the apostropes" do
-        expect(edited_advanced_search).to include("value='The O\'Brien\'s House'")
+      it "query with apostrophes includes the full string after the apostrophes" do
+        edited_advanced_search = helper.render_edited_advanced_search(params)
+        expect(edited_advanced_search).to match(/input[^>]+id="q_row"[^>]+value='The O&apos;Brien&apos;s House'/)
       end
     end
   end
