@@ -2,7 +2,6 @@
 module AdvancedHelper
   # Current params without fields that will be over-written by adv. search,
   # or other fields we don't want.
-  include LoggingHelper
 
   def advanced_search_context
     my_params = params.dup
@@ -42,7 +41,6 @@ module AdvancedHelper
     stripped_query = strip_quotes(raw_query_trim)
     # DISCOVERYACCESS-7882 - adv search html injection
     query = ActionView::Base.full_sanitizer.sanitize(stripped_query)
-    log_debug_info("#{__FILE__}:#{__LINE__}", ["stripped_query:", stripped_query], "query: #{query}")
     #  replace double quotes with &quot; to render full string in input field
     query = query.gsub('"', "&quot;")
     if (multi_word)
@@ -91,7 +89,6 @@ module AdvancedHelper
       row1 << " value=" << query
     end
     row1 << " /> "
-    log_debug_info("#{__FILE__}:#{__LINE__}", ["row1:", row1], "row1: #{row1}")
     row1 << "<label for=\"op_row\" class=\"sr-only\">" << t("blacklight.search.form.op_row") << "</label>"
     row1 << "<select class=\"form-control adv-search-control\" id=\"op_row\" name=\"op_row[]\">"
     boolean_values.each do |key, value|
