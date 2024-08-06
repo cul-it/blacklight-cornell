@@ -42,14 +42,12 @@ module AdvancedHelper
     stripped_query = strip_quotes(raw_query_trim)
     # DISCOVERYACCESS-7882 - adv search html injection
     query = ActionView::Base.full_sanitizer.sanitize(stripped_query)
+    log_debug_info("#{__FILE__}:#{__LINE__}", ["stripped_query:", stripped_query], "query: #{query}")
     #  replace double quotes with &quot; to render full string in input field
     query = query.gsub('"', "&quot;")
     if (multi_word)
       if (quoted)
         query = "\"" + query + "\""
-      elsif (single_quoted)
-        # replace single quotes with &apos; to render full string in input field
-        query = query.gsub("'", "&apos;")
       else
         # replace single quotes with &apos; to render full string in input field
         query = "\'" + query.gsub("'", "&apos;") + "\'"
