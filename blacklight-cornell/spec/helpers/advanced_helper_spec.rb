@@ -24,6 +24,8 @@ RSpec.describe AdvancedHelper, type: :helper do
       }
 
       it "pre-fills previously selected values" do
+        edited_advanced_search = helper.render_edited_advanced_search(params)
+
         # boolean_row
         expect(edited_advanced_search).to include('name="boolean_row[1]" value="OR" checked="checked"')
         expect(edited_advanced_search).to include('name="boolean_row[2]" value="AND" checked="checked"')
@@ -31,7 +33,7 @@ RSpec.describe AdvancedHelper, type: :helper do
 
         # q_row
         expect(edited_advanced_search).to match(/input[^>]+id="q_row"[^>]+value=Severus/)
-        expect(edited_advanced_search).to match(/input[^>]+id="q_row1"[^>]+value='Lily'/)
+        expect(edited_advanced_search).to match(/input[^>]+id="q_row1"[^>]+value=Lily/)
         expect(edited_advanced_search).to match(/input[^>]+id="q_row2"[^>]+value='Boyface Killah'/)
         expect(edited_advanced_search).to match(/input[^>]+id="q_row3"[^>]+value='English Breakfast'/)
 
@@ -60,8 +62,28 @@ RSpec.describe AdvancedHelper, type: :helper do
       }
 
       it 'defaults to selecting the "AND" boolean when boolean_row is missing' do
+        edited_advanced_search = helper.render_edited_advanced_search(params)
         expect(edited_advanced_search).to include('name="boolean_row[1]" value="AND" checked="checked"')
         expect(edited_advanced_search).to include('name="boolean_row[2]" value="AND" checked="checked"')
+      end
+    end
+
+    context "queries with apostrophes" do
+      let(:params) {
+        {
+          q_row: ["The O'Brien's House"],
+          op_row: ["AND"],
+          boolean_row: { "1" => "OR" },
+          search_field_row: ["title"],
+          controller: "advanced_search",
+          action: "edit",
+          advanced_query: "yes",
+        }
+      }
+
+      it "query with apostrophes includes the full string after the apostrophes" do
+        edited_advanced_search = helper.render_edited_advanced_search(params)
+        expect(edited_advanced_search).to match(/input[^>]+id="q_row"[^>]+value='The O&apos;Brien&apos;s House'/)
       end
     end
   end
