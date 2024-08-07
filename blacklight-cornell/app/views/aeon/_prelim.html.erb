@@ -22,25 +22,19 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" ></script>
 		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-		<!-- <script type="text/javascript" src="/assets/aeon/request.js"></script> -->
 		<%= stylesheet_link_tag "aeon", :media => "all" %>
-		<!-- <link rel="stylesheet" media="all" href="/assets/aeon/_request.scss" > -->
-		<!-- <link rel="stylesheet" media="all" href="/assets/aeon/_aeon.scss" > -->
-		<!-- <link rel="stylesheet" media="all" href="/assets/aeon/_aeon_custom.scss" > -->
-		<!-- <script type="text/javascript" src="/assets/aeon/rmc_scripts.js"></script> -->
 		<%= javascript_include_tag "aeon" %>
 	</head>
 	<body>
-<%= render :partial => 'aeon/aeon_header' %>
+		<%= render :partial => 'aeon/aeon_header' %>
 		<div id="main-content" class="container-fluid">
 			<form id="EADRequest" name="EADRequest"
-			action=" <%= "/aeon/aeon_login" %> "
-		              method="POST" class="form-horizontal">
+				action=" <%= "/aeon/aeon_login" %> "
+		    method="POST" class="form-horizontal">
 				<h2><%= @title %></h2>
-
 				<% if !@finding_aid.nil? %>
-			  		<p><a href='<%= @finding_aid %>' target='_blank'>  Finding Aid</a></p>
-		  		<% end %>
+			  	<p><a href='<%= @finding_aid %>' target='_blank'>  Finding Aid</a></p>
+		  	<% end %>
 
 				<strong><%= @re506 %></strong>
 				<div id="shoppingcart">
@@ -63,7 +57,7 @@
 				<%= render :partial => 'aeon/aeon_body' %>
 				<%= render :partial => 'aeon/warning' %>
 				<%= render :partial => 'aeon/clearer' %>
-	        </form>
-	    </div>
+	    </form>
+	  </div>
 	</body>
 </html>
