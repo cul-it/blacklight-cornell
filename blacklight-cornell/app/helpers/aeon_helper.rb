@@ -24,7 +24,6 @@ module AeonHelper
     #   items_json_hash[holding_id] = items
     # end
 
-
     valholding = items_json_hash.values.flatten
     items_json_hash.transform_values! { |items| sort_items(valholding.dup) }
 
@@ -285,4 +284,19 @@ module AeonHelper
     HTML
   end
   # rubocop:enable Metrics/MethodLength
+
+  # Generates the hidden inputs for the Aeon request forms. This is modified from
+  # the original  implementations formerly found in redirect_shib.html.erb and
+  # redirect_nonshib.html.erb.
+  def generate_hidden_inputs(content)
+    return 'Report this error' if content.nil?
+
+    parsed_data = JSON.parse(content.gsub('=>', ':').gsub(/\bnil\b/, 'null'))
+    parsed_data.map do |key, value|
+      next if key == 'Request'
+
+      key = 'Request' if key.scan(/\D/).empty?
+      tag.input(type: 'hidden', name: key, value: value)
+    end.join.html_safe
+  end
 end
