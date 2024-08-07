@@ -1,0 +1,11 @@
+.page-item.active .page-link {
+  background: $concrete;
+  border-color: $concrete;
+}
+
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
+  .pagination {
+    float: left;
+  }
+}

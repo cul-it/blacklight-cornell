@@ -1,0 +1,291 @@
+en:
+  active_record:
+    models:
+      feedback: 'Feedback'
+    attributes:
+      feedback:
+        name: 'Your name'
+        email: 'Your email'
+        message: 'Your message'
+  views:
+    pagination:
+      first: '&laquo; First'
+      last: 'Last &raquo;'
+      previous: '&laquo; Previous'
+      next: 'Next &raquo;'
+      truncate: '…'
+
+    pagination_compact:
+      previous: '&laquo; Previous'
+      next: 'Next &raquo;'
+
+  blacklight:
+    application_name: 'Cornell University Library Catalog'
+
+    header_links:
+      login: 'Log in'
+      logout: 'Log out'
+      bookmarks: 'Selected Items'
+      saved_searches: 'Saved searches'
+      search_history: 'Search History'
+
+    welcome: 'Welcome!'
+    and: 'and'
+    or: 'or'
+
+    bookmarks:
+      collection:
+        add:
+          button: 'Add to selected items'
+      title: 'Selected Items'
+      no_bookmarks: 'You have no selected items.'
+      use_book_bag: 'Please use Book Bag while you are signed in.'
+      use_bookmarks: 'Please use Selected Items unless you are signed in.'
+      find_book_bag: 'Sign in to email items or save them to Book Bag'
+      add:
+        button: 'Select'
+        success:
+          one: 'Successfully selected.'
+          other: 'Successfully selected.'
+        failure:  'Sorry, there was a problem selecting this item.'
+      remove:
+        button: 'Deselect'
+        success: 'Successfully deselected.'
+        failure: 'Sorry, there was a problem deselecting this item.'
+        action_confirm: 'Deselect this item?'
+      clear:
+        action_title: 'Clear all items'
+        action_confirm:
+          book_bag: 'Remove all items from your Book Bag?'
+          bookmark: 'Clear all selected items?'
+        success: 'Your items have been cleared.'
+        failure: 'Sorry, there was a problem clearing your items.'
+      bag:
+        action_title: 'Add items to Book Bag for email and saving options'
+        action_confirm: 'Add %{count} Selected Items to your Book Bag?'
+        login_add: 'Sign in and add Selected Items to Book Bag'
+        success: 'Your selected items have been added to your Book Bag.'
+        failure: 'Sorry, there was a problem adding your selected items.'
+      need_login: 'Please log in to manage and view your selected items.'
+      limit:
+        title: 'Too many bookmarks'
+        warning: 'You may save up to %{max_count} selected items.'
+      email:
+        title: 'Email this'
+        warning: 'Email is limited to Cornell only.'
+        action:
+          item_view:
+            text: 'Please sign in with your NetID, then click the Email button again.'
+          bookmarks_view: 'Add items to Book Bag for email and saving options'
+      list_title: 'Your selected items'
+      delete: 'Remove'
+
+    feedback:
+      valid_name: 'A valid name is required.'
+      valid_email: 'A valid email address is required.'
+      need_message: 'A message is required.'
+      submit: 'Send!'
+      errors:
+        title: 'Please fix the following form errors:'
+      complete:
+        title: 'Thank you for your feedback.'
+
+    saved_searches:
+      add:
+        success: 'Your search has been saved.'
+        failure: 'There was a problem saving your search.'
+      remove:
+        success: 'Successfully removed that saved search.'
+        failure: 'There was a problem removing your search.'
+      clear:
+        action_title: 'Clear saved searches'
+        action_confirm: 'Clear your saved searches?'
+        success: 'Cleared your saved searches.'
+        failure: 'There was a problem clearing your searches.'
+      title: 'Saved searches'
+      need_login: 'Please log in to manage and view your saved searches.'
+      no_searches: 'You have no saved searches.'
+      list_title: 'Your saved searches'
+      delete: 'delete'
+
+    search_history:
+      clear:
+        action_title: 'Clear search history'
+        action_confirm: 'Clear your search history?'
+        success: 'Your search history has been cleared.'
+        failure: 'There was a problem clearing your search history.'
+      title: 'Search History'
+      no_history: 'You have no search history.'
+      recent: 'Your recent searches'
+      forget: 'forget'
+      save: 'save'
+
+    tools:
+      title: 'Tools'
+      cite: 'Cite'
+      endnote: 'EndNote'
+      endnote_xml: 'EndNote XML'
+      refworks: 'Refworks'
+      mendeley: 'RIS'
+      zotero: 'Zotero'
+      email: 'Email'
+      sms: 'Text'
+      librarian_view: 'Librarian View'
+      clear: 'Clear'
+
+    citation:
+      apa:  'APA 6th ed.'
+      chicago: 'Chicago 17th ed.'
+      cse:  'Council of Science Editors'
+      mla:  'MLA 7th ed.'
+      mla8: 'MLA 8th ed.'
+
+    email:
+      form:
+        title: 'Email this'
+        to: 'Email:'
+        message: 'Message:'
+        callnumber: 'Call number:'
+        submit: 'Send'
+      text:
+        title: 'Title: %{value}'
+        author: 'Author: %{value}'
+        language: 'Language: %{value}'
+        location: 'Location: %{location}'
+        templocation: 'Temporary Location: %{templocation}'
+        callnumber: 'Call number: %{callnumber}'
+        status: 'Status: %{status}'
+        subject:
+          one: 'Item record: %{title}'
+          other: 'Item records'
+        url: '%{url}'
+        message: '%{message}'
+      errors:
+        to:
+          invalid: 'You must enter a valid email address.'
+          blank: 'You must enter a recipient in order to send this message.'
+    sms:
+      form:
+        title: 'Text this call number'
+        to: 'Phone number:'
+        carrier: 'Carrier:'
+        carrier_prompt: 'Select your carrier'
+        submit: 'Send'
+      text:
+        title: '%{value}'
+        author: ''
+#        url: 'Link: %{url}'
+        url: '%{url}'
+        callnumber: '%{callnumber}'
+        location: '%{location}'
+      errors:
+        to:
+          invalid: 'You must enter a valid 10 digit phone number.'
+          blank: "You must enter a recipient's phone number in order to send this message."
+        carrier:
+          blank: 'You must select a carrier.'
+      success: 'The text has been sent.'
+
+    back_to_search: 'Back to catalog results'
+    back_to_bookmarks: 'Back to selected items'
+    back_to_book_bags: 'Back to Book Bag'
+    btn: 'btn'
+
+    catalog:
+        available: "Available"
+        bound_with: "This item is bound with another item.  Requests must be made to that item."
+        on_order: "On order"
+        on_site: "On-site use"
+        bound_with_status_label: "Bound with:"
+    url:
+        message: "Available online"
+    holdings:
+        loc: "Location"
+        cln: "Call number"
+        sta: "Status"
+    related_auth:
+      included_work_display: "Work info »"
+      author: "Author info »"
+    search:
+      title: 'Search Results | %{application_name}'
+      search_results_header: 'Search'
+      search_results: 'Search results'
+      errors:
+        request_error: "Sorry, I don't understand your search."
+        invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
+        publication_year_range:
+          begin: "Publication Year facet out of range: beginning of range should be 0 or greater"
+          end: "Publication Year facet out of range: end of range should be 0 or greater"
+          order: "Publication Year facet out of range: end of range should be the beginning of range or greater"
+      per_page:
+        button_label: '%{count} per page'
+        title: 'Number of results to display per page'
+        submit: 'Update'
+      sort:
+        label: 'Sort by %{field}'
+        submit: 'sort results'
+      form:
+        search_field:
+          label: 'Search in'
+          title: 'Targeted search options'
+          post_label: 'for'
+        q: 'Search...'
+        q_row: 'Term'
+        search_field_row: 'Field'
+        search_field_advanced: 'Field'
+        op_row: 'Operator'
+        submit: 'Search'
+      pagination:
+        title: 'Results navigation'
+      pagination_info:
+        no_items_found: 'No %{entry_name} found'
+        single_item_found: '<strong>1 result</strong>'
+        pages:
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'
+      entry_pagination_info:
+        one: '<strong>1 of 1</strong>'
+        other: '<strong>%{current}</strong> of <strong>%{total}</strong>'
+      documents:
+        counter: '%{counter}. '
+      facets:
+        title: 'Limit your search'
+        sort:
+          count: 'Numerical sort'
+          index: 'A-Z sort'
+        count: '%{number}'
+        more: 'more »'
+        selected:
+          remove: '[remove]'
+      filters:
+        title: 'You searched for:'
+        label: '%{label}:'
+        remove:
+          value: 'Remove constraint %{value}'
+          label_value: 'Remove constraint %{label}: %{value}'
+      librarian_view:
+        title: 'Librarian View'
+        leader: 'LEADER %{leader}'
+      search_limit_exceeded: 'Search limit exceeded. To view additional results, modify your search using the available filters.'
+      start_over: 'Start over'
+      show:
+        title: '%{document_title} - %{application_name}'
+      rss_feed: 'RSS for results'
+      atom_feed: 'Atom for results'
+      fields:
+        default: 'Advanced Search'
+      bookmarks:
+        present: "Selected"
+        absent: "Select"
+        inprogress: "Saving..."
+
+    entry_name:
+      default: 'entry'
+
+    did_you_mean: 'Did you mean to type: %{options}?'
+
+  support:
+    array:
+      words_connector: " <br /> "
+      two_words_connector: " <br /> "
+      last_word_connector: "<br />"

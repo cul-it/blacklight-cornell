@@ -1,0 +1,220 @@
+body.catalog-index #documents .document,
+body.bookmarks-index #documents .document,
+body.book_bags-index #documents .document {
+	clear: both;
+	border-bottom: 1px solid $light-tan;
+	padding: 1.5em 0;
+	margin-top: 0;
+	// Book cover and icon cover
+	img {
+		float: left;
+		margin-right: 1em;
+		// width: 75px;
+		height: auto;
+	}
+}
+
+// Title
+// ------------------------------------------
+.blacklight-title_display {
+	margin: 0 0 .5em 0;
+	font-weight: normal;
+	line-height: 1.5em;
+	font-size: 20px;
+	a {
+		margin-left: .25em;
+	}
+}
+
+// Document - BL7 adjustment
+// ---------------
+.documents-list {
+	.document {
+		padding-bottom: 1rem;
+	}
+}
+
+// Item data
+// ------------------------------------------
+.document-data {
+	span {
+		font-size: 14px;
+		margin-bottom: .5rem;
+	}
+	.shadow-record {
+		margin-top: .15em;
+		vertical-align: top;
+		color: $white;
+	}
+	.blacklight-pub_date_display {
+		margin-left: .2em;
+	}
+	.blacklight-title_uniform_display {
+		display: block;
+		// color: $dark-gray;
+	}
+	.blacklight-author_display {
+		display: block;
+		font-size: 14px;
+	}
+	.format {
+		margin-right: .5em;
+	}
+	.blacklight-pub_info_display {
+		margin-right: .5em;
+	}
+	.status {
+		font-size: 12px;
+		line-height: 1em;
+		margin-top: 1em;
+	}
+	.preloader {
+		color: $light-gray;
+		font-size: 11px;
+	}
+}
+.data-block {
+	line-height: 1em;
+}
+
+// Availability status
+// ------------------------------------------
+
+// .status-online {
+// 	font-size: 12px;
+// }
+
+.fa-check { color: $available; }
+.fa-clock-o { color: $unavailable; }
+// extra specificity required for question-sign since it's also
+// used for the Unknown format
+.status .fa-question-circle,
+.fa-warning {color: $yellow; }
+.bento_item_other_links .fa-pencil {color: $yellow; }
+
+.fa-rss-square,
+.fa-rss-square:hover {
+	color: $rss;
+}
+
+// Sort and per page options
+// ------------------------------------------
+
+#sort-dropdown,
+#per_page-dropdown {
+	font-size: .9rem;
+	margin-bottom: 5px;
+	.btn {
+		font-size: inherit;
+	}
+}
+#sortAndPerPage {
+	margin-top: 1rem;
+	margin-bottom: 0;
+	padding-bottom: .25em;
+	border-bottom: 5px solid $light-tan;
+}
+.search-widgets {
+	float: left;
+}
+.search-filter {
+	.select_all.btn {
+		padding: 5px 12px 4px 12px;
+		font-size: .9rem;
+		margin-left: .5em;
+		margin-top: 0;
+	}
+	.select_all.checkbox {
+			display: inline-block;
+	}
+}
+
+// Select / bookmarks
+// ------------------------------------------
+
+.select-all {
+	margin-left: 10px;
+	form { margin-bottom: 0; }
+	span {
+		font-size: 12px;
+		color: $light-gray;
+	}
+	input[type="checkbox"] {
+		margin-left: -15px;
+	}
+}
+.form-horizontal {
+	.toggle_bookmark {
+		padding-top: 0;
+	}
+}
+.select-item {
+	margin-top: 1em;
+}
+.document-data {
+	.badge-online {
+		background: $green;
+		font-size: 75%;
+	}
+}
+
+// Search history
+// ------------------------------------------
+.search-history {
+	a:hover { text-decoration: none;}
+	.filter-name { margin-right: 0.25em;}
+	.label {
+		display: inline;
+		color: white;
+		margin: 0 .5em; }
+}
+
+// Did you mean
+// ------------------------------------------
+#spell {
+	background: $light-tan;
+	padding: 5px 15px;
+	margin-bottom: 1.5em;
+}
+h4.suggest {
+	font-size: 14px;
+	line-height: 1.5em;
+	em {
+		font-style: normal;
+	}
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+	#sortAndPerPage {
+		padding-bottom: 0;
+	}
+	.select-item {
+		margin-top: 0;
+	}
+	.search-filter {
+		.select_all.btn {
+			margin-left: 0
+		}
+	}
+}
+
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
+	.search-filter {
+		float: right;
+	}
+}
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }
