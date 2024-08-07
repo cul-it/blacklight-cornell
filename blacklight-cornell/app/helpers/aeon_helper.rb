@@ -24,11 +24,11 @@ module AeonHelper
     #   items_json_hash[holding_id] = items
     # end
 
-    
+
     valholding = items_json_hash.values.flatten
     items_json_hash.transform_values! { |items| sort_items(valholding.dup) }
-    
-    res  = xholdings(holdings_json_hash, items_json_hash)
+
+    res = xholdings(holdings_json_hash, items_json_hash)
     Rails.logger.debug res
     res
   end
@@ -108,14 +108,9 @@ module AeonHelper
           end
         else
           # No barcode
-          if item['rmc'].nil?
-            item['rmc']['Vault location'] = item['location']['library'] || 'not in record'
-          end
-          item['rmc']['Vault location'] ||= ''
-
           ret += itemdata_script(
             item: item,
-            location: item['rmc']['Vault location'],
+            location: item['rmc']['Vault location'] ||= '',
             csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
             code: item['location']['code']
           )
@@ -168,7 +163,7 @@ module AeonHelper
     #         count += 1
     #       end
     #     end
-    #  end
+    # end
     end
     ret
   end
@@ -263,6 +258,8 @@ module AeonHelper
   # @param csloc [String] The CS location of the item.
   # @param code [String] The code of the item.
   # @return [String] The itemdata <script> element.
+  #
+  # rubocop:disable Metrics/MethodLength
   def itemdata_script(item:, location:, csloc:, code:)
     restrictions = item.dig('rmc', 'Restrictions') || ''
     barcode = item['barcode'] || "iid-#{item['id']}" || "iid-#{item['hrid']}"
@@ -287,4 +284,5 @@ module AeonHelper
       </script>
     HTML
   end
+  # rubocop:enable Metrics/MethodLength
 end

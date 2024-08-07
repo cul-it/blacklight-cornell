@@ -2,7 +2,7 @@
 
 # rubocop:disable Metrics/ClassLength
 class AeonController < ApplicationController
-  layout 'aeon/index'
+  layout 'aeon'
   include Blacklight::Catalog
 
   @ic = 0
@@ -27,7 +27,7 @@ class AeonController < ApplicationController
   def reading_room_request
     set_rr_instance_variables
     set_rr_vars_from_document
-    set_holdings_and_items
+    @aeon_request = AeonRequest.new(@document)
     set_messages
     session[:current_user_id] = 1
   end
@@ -35,7 +35,7 @@ class AeonController < ApplicationController
   def scan_aeon
     set_scan_instance_variables
     set_scan_vars_from_document
-    set_holdings_and_items
+    @aeon_request = AeonRequest.new(@document)
     set_messages
     session[:current_user_id] = 1
   end
@@ -58,15 +58,6 @@ class AeonController < ApplicationController
     @title = @document['fulltitle_display']
     @author = @document['author_display']
     @re506 = @document['restrictions_display']&.first || ''
-  end
-
-  def set_holdings_and_items
-    @aeon_request = AeonRequest.new(@document)
-    # holdings_json_hash = Hash(JSON.parse(@document['holdings_json']))
-    # items_json_hash = @document['items_json'] ? Hash(JSON.parse(@document['items_json'])) : {}
-    #holdings_json_hash = aeon_request.holdings
-    #items_json_hash = aeon_request.items
-    #@ho = holdings(holdings_json_hash, items_json_hash)
   end
 
   def set_messages
