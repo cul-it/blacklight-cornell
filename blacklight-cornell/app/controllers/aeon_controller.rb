@@ -2,6 +2,8 @@
 
 # rubocop:disable Metrics/ClassLength
 class AeonController < ApplicationController
+  # NOTE: This layout is redundant at this point. But a layout must be specified, and using the standard Blacklight
+  # layout adds a header and footer that are not present in the current production version.
   layout 'aeon'
   include Blacklight::Catalog
 
@@ -20,6 +22,8 @@ class AeonController < ApplicationController
     @review_text = 'Keep this request saved in your account for later review.' \
     ' It will not be sent to library staff for fulfillment.'
   end
+
+  def aeon_login; end
 
   def new_aeon_login; end
 
@@ -110,10 +114,6 @@ class AeonController < ApplicationController
 
   def login
     'woops'
-  end
-
-  def aeon_login
-    params
   end
 
   def redirect_nonshib

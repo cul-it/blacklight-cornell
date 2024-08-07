@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Scanning Request for <%= @title %> </title>
+		<script>var itemdata = {};</script>
+		<%= render :partial => 'aeon/header_meta' %>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<%= render :partial => 'aeon/header_prelim_scripts' %>
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
+		<%= stylesheet_link_tag "aeon", :media => "all" %>
+		<%= javascript_include_tag "aeon" %>
+	</head>
+	<body>
+		<%= render :partial => 'aeon/aeon_header' %>
+		<div id="main-content">
+			<h2>RMC Scanning Request</h2>
+			<p><%= @disclaimer %></p>
+			<form id="RequestForm" action="/aeon/aeon_login" method="GET" class="form-horizontal">
+				<h3><%= @title %></h3>
+				<% if !@finding_aid.nil? %>
+				  <p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
+			  <% end %>
+				<strong><%= @re506 %></strong>
+				<div id="shoppingcart">
+					<span id="numitems">Number of items selected:</span>
+					<span id="num-selections-wrapper">
+						<span id="num-selections"></span>
+					</span>
+					<div id="selections-wrapper">
+						<ol>
+							<div id="selections"></div>
+						</ol>
+					</div>
+				</div>
+
+				<input type="hidden" name="AeonForm" value="PhotoduplicationRequest">
+				<input type="hidden" name="SkipOrderEstimate" value="Yes">
+				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
+				<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
+				<input type="hidden" name="RequestType" value="Copy"/>
+				<input type="hidden" id="DocumentType" name="DocumentType" value="<%= @doctype %>"/>
+				<input type="hidden" name="FormValidationOverride" value="AllRequests">
+				<input type="hidden" name="SkipFieldLengthValidation" value="yes">
+				<%= render :partial => 'aeon/holdings' %>
+				<%= render :partial => 'aeon/aeon_scan_body' %>
+				<%= render :partial => 'aeon/warning' %>
+				<%= render :partial => 'aeon/clearer' %>
+      </form>
+    </div>
+  </body>
+ </html>

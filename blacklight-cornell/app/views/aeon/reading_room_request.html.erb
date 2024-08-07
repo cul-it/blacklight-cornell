@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<title>Request for <%= @title %></title>
+		<script>var itemdata = {};</script>
+		<%= render :partial => 'aeon/header_meta' %>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<%= render :partial => 'aeon/header_prelim_scripts' %>
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
+		<%= stylesheet_link_tag "aeon", :media => "all" %>
+		<%= javascript_include_tag "aeon" %>
+	</head>
+	<body>
+		<%= render :partial => 'aeon/aeon_header' %>
+		<div id="main-content" class="container-fluid">
+			<form id="EADRequest" name="EADRequest"
+				action=" <%= "/aeon/aeon_login" %> "
+		    method="POST" class="form-horizontal">
+				<h2><%= @title %></h2>
+				<% if !@finding_aid.nil? %>
+			  	<p><a href='<%= @finding_aid %>' target='_blank'>  Finding Aid</a></p>
+		  	<% end %>
+
+				<strong><%= @re506 %></strong>
+				<div id="shoppingcart">
+					<span id="numitems">Number of items selected:</span>
+					<span id="num-selections-wrapper">
+						<span id="num-selections"></span>
+					</span>
+					<div id="selections-wrapper">
+						<ol>
+							<div id="selections"></div>
+						</ol>
+					</div>
+				</div>
+				<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
+				<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
+				<input type="hidden" id="DocumentType" name="DocumentType" value="<%= @doctype %>"/>
+				<input type="hidden" name="WebRequestForm" value="<%= @webreq %>"/>
+				<%= render :partial => 'aeon/holdings' %>
+				<%= render :partial => 'aeon/aeon_body' %>
+				<%= render :partial => 'aeon/warning' %>
+				<%= render :partial => 'aeon/clearer' %>
+	    </form>
+	  </div>
+	</body>
+</html>
