@@ -30,7 +30,7 @@
 		<%= javascript_include_tag "aeon" %>
 	</head>
 	<body>
-		<%= render :partial => 'layouts/aeon/aeon_header' %>
+		<%= render :partial => 'aeon/aeon_header' %>
 		<div id="main-content">
 			<h2>RMC Scanning Request</h2>
 			<p><%= @disclaimer %></p>
@@ -60,10 +60,10 @@
 				<input type="hidden" id="DocumentType" name="DocumentType" value="<%= @doctype %>"/>
 				<input type="hidden" name="FormValidationOverride" value="AllRequests">
 				<input type="hidden" name="SkipFieldLengthValidation" value="yes">
-				<%= render :partial => 'layouts/aeon/scan_holdings' %>
-				<%= render :partial => 'layouts/aeon/aeon_scan_body' %>
-				<%= render :partial => 'layouts/aeon/warning' %>
-				<%= render :partial => 'layouts/aeon/clearer' %>
+				<%= render :partial => 'aeon/scan_holdings' %>
+				<%= render :partial => 'aeon/aeon_scan_body' %>
+				<%= render :partial => 'aeon/warning' %>
+				<%= render :partial => 'aeon/clearer' %>
       </form>
     </div>
   </body>
