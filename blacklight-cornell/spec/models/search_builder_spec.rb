@@ -113,6 +113,7 @@ RSpec.describe SearchBuilder, type: :model do
     end
   end
 
+  # TODO: Test for words with hyphens and apostrophes, with and without quoted terms
   describe '#advsearch' do
     before do
       allow(search_builder).to receive(:blacklight_params) { blacklight_params }
@@ -126,10 +127,23 @@ RSpec.describe SearchBuilder, type: :model do
       context 'all_fields' do
         let(:search_field) { 'all_fields' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          # TODO: What's the difference between phrase and quoted?
-          expect(solr_params[:q]).to eq('("test1" AND "test2"  AND "test3") OR phrase:"test1 test2 test3"')
+        context '1 search term' do
+          let(:q) { 'test'}
+
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            # TODO: What's the difference between phrase and quoted?
+            expect(solr_params[:q]).to eq('("test") OR phrase:"test"')
+          end
+        end
+
+        context 'multiple search terms' do
+          let(:q) { 'test1 test2 test3'}
+
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('("test1" AND "test2"  AND "test3") OR phrase:"test1 test2 test3"')
+          end
         end
       end
 
@@ -354,212 +368,637 @@ RSpec.describe SearchBuilder, type: :model do
     end
 
     context 'advanced search' do
-      let(:blacklight_params) { {
-        q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
-        op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
-        search_field_row: Array.new(7) { search_field },
-        boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"},
+      let(:blacklight_params) { user_params.merge({
         sort: 'score desc, pub_date_sort desc, title_sort asc',
         search_field: 'advanced',
         advanced_query: 'yes'
-      } }
+      }) }
       let(:solr_params) { { sort: 'score desc, pub_date_sort desc, title_sort asc' } }
 
       context 'search_field_row with all_fields' do
         let(:search_field) { 'all_fields' }
 
-        # TODO: Extra space at end of starts query? (starts:"test 7 test8 ")
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+"test1" +"test2" ) OR (phrase:"test1 test2"))' +
-                                        ' AND quoted:"test3 test4") ' +
-                                        ' AND (test5 OR test6))' +
-                                        ' AND starts:"test7 test8 ")' +
-                                        ' AND quoted:"test9 test10")' +
-                                        ' OR ((+"test11" +"test12" ) OR (phrase:"test11 test12")))' +
-                                        ' -((+"test13" +"test14" ) OR (phrase:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: BUG - Search terms should always be wrapped in quotations, i.e. "test"
+          #     Will return much higher # of results if word contains apostrophe or hyphen
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( +test )')
+          end
+        end
+
+        context 'query ALL search terms' do
+          let(:user_params) { {
+            q_row: ['test1 test2'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: BUG - Parentheses with prefix operator (+) with double quotes returns unexpectedly huge result set
+          # This would work fine: ("test1" AND "test2") OR phrase:"test1 test2"
+          # TODO: How to test incorrect search result count with test solr index? (Would need to do via cucumber)
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+"test1" +"test2" ) OR (phrase:"test1 test2")) )')
+          end
+        end
+
+        context 'query ANY search term' do
+          let(:user_params) { {
+            q_row: ['test1 test2'],
+            op_row: ['OR'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: BUG - Search terms should always be wrapped in quotations, i.e. "test1" OR "test2"
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( (test1 OR test2) )')
+          end
+        end
+
+        context 'query for search terms as PHRASE' do
+          let(:user_params) { {
+            q_row: ['test1 test2'],
+            op_row: ['phrase'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( quoted:"test1 test2" )')
+          end
+        end
+
+        # TODO: Extra space at end of starts query string?
+        context 'query for search field that BEGINS WITH search terms' do
+          let(:user_params) { {
+            q_row: ['test1 test2'],
+            op_row: ['begins_with'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( starts:"test1 test2 " )')
+          end
+        end
+
+        context 'query 1 AND query 2' do
+          let(:user_params) { {
+            q_row: ['pickle cheese', 'dill'],
+            op_row: ['AND', 'AND'],
+            search_field_row: [search_field, search_field],
+            boolean_row: {"1": "AND"}
+          } }
+
+          # TODO: Same bugs as above, but no new bugs! ...except for extra space at the end
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('(((+"pickle" +"cheese" ) OR (phrase:"pickle cheese")) AND +dill) ')
+          end
+        end
+
+        context 'query 1 OR query 2' do
+          let(:user_params) { {
+            q_row: ['pickle cheese', 'dill'],
+            op_row: ['AND', 'AND'],
+            search_field_row: [search_field, search_field],
+            boolean_row: {"1": "OR"}
+          } }
+
+          # TODO: Same bugs as above
+          # TODO: If search term is 1 word (e.g. dill), it doesn't make sense to combine OR with +
+          #       https://culibrary.atlassian.net/browse/DACCESS-354
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('(((+"pickle" +"cheese" ) OR (phrase:"pickle cheese")) OR +dill) ')
+          end
+        end
+
+        context 'query 1 NOT query 2' do
+          let(:user_params) { {
+            q_row: ['pickle cheese', 'dill'],
+            op_row: ['AND', 'AND'],
+            search_field_row: [search_field, search_field],
+            boolean_row: {"1": "NOT"}
+          } }
+
+          # TODO: Same bugs as above, but no new bugs!
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('(((+"pickle" +"cheese" ) OR (phrase:"pickle cheese")) -dill) ')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+"test1" +"test2" ) OR (phrase:"test1 test2"))' +
+                                          ' AND quoted:"test3 test4") ' +
+                                          ' AND (test5 OR test6))' +
+                                          ' AND starts:"test7 test8 ")' +
+                                          ' AND quoted:"test9 test10")' +
+                                          ' OR ((+"test11" +"test12" ) OR (phrase:"test11 test12")))' +
+                                          ' -((+"test13" +"test14" ) OR (phrase:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with title' do
         let(:search_field) { 'title' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+title:"test1" +title:"test2" ) OR (title_phrase:"test1 test2"))' +
-                                        ' AND title_quoted:"test3 test4") ' +
-                                        ' AND (title:test5 OR title:test6))' +
-                                        ' AND title_starts:"test7 test8 ")' +
-                                        ' AND (title_quoted:"test9 test10"))' +
-                                        ' OR ((+title:"test11" +title:"test12" ) OR (title_phrase:"test11 test12")))' +
-                                        ' -((+title:"test13" +title:"test14" ) OR (title_phrase:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+title:"test") OR title_phrase:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+title:"test1" +title:"test2" ) OR (title_phrase:"test1 test2"))' +
+              ' AND title_quoted:"test3 test4") ' +
+              ' AND (title:test5 OR title:test6))' +
+              ' AND title_starts:"test7 test8 ")' +
+              ' AND (title_quoted:"test9 test10"))' +
+              ' OR ((+title:"test11" +title:"test12" ) OR (title_phrase:"test11 test12")))' +
+              ' -((+title:"test13" +title:"test14" ) OR (title_phrase:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with journaltitle' do
         let(:search_field) { 'journaltitle' }
 
-        # TODO: Why does this one use journaltitle_quoted but journaltitle catalog search with quotation marks does not?
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( ((((+title:"test1" +title:"test2" ) OR (title:"test1 test2")) AND format:Journal/Periodical )' +
-                                        ' AND journaltitle_quoted:"test3 test4") ' +
-                                        ' AND ((title:test5 OR title:test6) AND format:Journal/Periodical ))' +
-                                        ' AND (title_starts:"test7 test8 " AND format:Journal/Periodical ))' +
-                                        ' AND (journaltitle_quoted:"test9 test10"))' +
-                                        ' OR (((+title:"test11" +title:"test12" ) OR (title:"test11 test12")) AND format:Journal/Periodical ))' +
-                                        ' -(((+title:"test13" +title:"test14" ) OR (title:"test13 test14")) AND format:Journal/Periodical ))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+title:"test" OR title_phrase:"test") AND format:Journal/Periodical) )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          # TODO: Why does this one use journaltitle_quoted but journaltitle catalog search with quotation marks does not?
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( ((((+title:"test1" +title:"test2" ) OR (title:"test1 test2")) AND format:Journal/Periodical )' +
+                                          ' AND journaltitle_quoted:"test3 test4") ' +
+                                          ' AND ((title:test5 OR title:test6) AND format:Journal/Periodical ))' +
+                                          ' AND (title_starts:"test7 test8 " AND format:Journal/Periodical ))' +
+                                          ' AND (journaltitle_quoted:"test9 test10"))' +
+                                          ' OR (((+title:"test11" +title:"test12" ) OR (title:"test11 test12")) AND format:Journal/Periodical ))' +
+                                          ' -(((+title:"test13" +title:"test14" ) OR (title:"test13 test14")) AND format:Journal/Periodical ))')
+          end
         end
       end
 
       context 'search_field_row with author' do
         let(:search_field) { 'author' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+author:"test1" +author:"test2" ) OR (author:"test1 test2"))' +
-                                        ' AND author_quoted:"test3 test4") ' +
-                                        ' AND (author:test5 OR author:test6))' +
-                                        ' AND author_starts:"test7 test8 ")' +
-                                        ' AND (author_quoted:"test9 test10"))' +
-                                        ' OR ((+author:"test11" +author:"test12" ) OR (author:"test11 test12")))' +
-                                        ' -((+author:"test13" +author:"test14" ) OR (author:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: Seems duplicative... Is there an author_phrase, or should this just be simplified?
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+author:"test") OR author:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+author:"test1" +author:"test2" ) OR (author:"test1 test2"))' +
+                                          ' AND author_quoted:"test3 test4") ' +
+                                          ' AND (author:test5 OR author:test6))' +
+                                          ' AND author_starts:"test7 test8 ")' +
+                                          ' AND (author_quoted:"test9 test10"))' +
+                                          ' OR ((+author:"test11" +author:"test12" ) OR (author:"test11 test12")))' +
+                                          ' -((+author:"test13" +author:"test14" ) OR (author:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with subject' do
         let(:search_field) { 'subject' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+subject:"test1" +subject:"test2" ) OR (subject:"test1 test2"))' +
-                                        ' AND subject_quoted:"test3 test4") ' +
-                                        ' AND (subject:test5 OR subject:test6))' +
-                                        ' AND subject_starts:"test7 test8 ")' +
-                                        ' AND (subject_quoted:"test9 test10"))' +
-                                        ' OR ((+subject:"test11" +subject:"test12" ) OR (subject:"test11 test12")))' +
-                                        ' -((+subject:"test13" +subject:"test14" ) OR (subject:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: Seems duplicative... Is there a subject_phrase, or should this just be simplified?
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+subject:"test") OR subject:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+subject:"test1" +subject:"test2" ) OR (subject:"test1 test2"))' +
+                                          ' AND subject_quoted:"test3 test4") ' +
+                                          ' AND (subject:test5 OR subject:test6))' +
+                                          ' AND subject_starts:"test7 test8 ")' +
+                                          ' AND (subject_quoted:"test9 test10"))' +
+                                          ' OR ((+subject:"test11" +subject:"test12" ) OR (subject:"test11 test12")))' +
+                                          ' -((+subject:"test13" +subject:"test14" ) OR (subject:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with lc_callnum' do
         let(:search_field) { 'lc_callnum' }
 
-        # TODO: Should lc_callnum be querying "quoted" for phrase searches?
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (lc_callnum:"test1 test2"' +
-                                        ' AND lc_callnum_quoted:"test3 test4") ' +
-                                        ' AND lc_callnum:"test5 test6")' +
-                                        ' AND lc_callnum_starts:"test7 test8")' +
-                                        ' AND quoted:"test9 test10")' +
-                                        ' OR lc_callnum:"test11 test12")' +
-                                        ' -lc_callnum:"test13 test14")')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( lc_callnum:"test" )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          # TODO: Should lc_callnum be querying "quoted" for phrase searches vs lc_callnum_quoted?
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (lc_callnum:"test1 test2"' +
+                                          ' AND lc_callnum_quoted:"test3 test4") ' +
+                                          ' AND lc_callnum:"test5 test6")' +
+                                          ' AND lc_callnum_starts:"test7 test8")' +
+                                          ' AND quoted:"test9 test10")' +
+                                          ' OR lc_callnum:"test11 test12")' +
+                                          ' -lc_callnum:"test13 test14")')
+          end
         end
       end
 
       context 'search_field_row with series' do
         let(:search_field) { 'series' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+series:"test1" +series:"test2" ) OR (series:"test1 test2"))' +
-                                        ' AND series_quoted:"test3 test4") ' +
-                                        ' AND (series:test5 OR series:test6))' +
-                                        ' AND series_starts:"test7 test8 ")' +
-                                        ' AND (series_quoted:"test9 test10"))' +
-                                        ' OR ((+series:"test11" +series:"test12" ) OR (series:"test11 test12")))' +
-                                        ' -((+series:"test13" +series:"test14" ) OR (series:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: Seems duplicative... Is there a series_phrase, or should this just be simplified?
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+series:"test") OR series:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+series:"test1" +series:"test2" ) OR (series:"test1 test2"))' +
+                                          ' AND series_quoted:"test3 test4") ' +
+                                          ' AND (series:test5 OR series:test6))' +
+                                          ' AND series_starts:"test7 test8 ")' +
+                                          ' AND (series_quoted:"test9 test10"))' +
+                                          ' OR ((+series:"test11" +series:"test12" ) OR (series:"test11 test12")))' +
+                                          ' -((+series:"test13" +series:"test14" ) OR (series:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with publisher' do
         let(:search_field) { 'publisher' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+publisher:"test1" +publisher:"test2" ) OR (publisher:"test1 test2"))' +
-                                        ' AND publisher_quoted:"test3 test4") ' +
-                                        ' AND (publisher:test5 OR publisher:test6))' +
-                                        ' AND publisher_starts:"test7 test8 ")' +
-                                        ' AND (publisher_quoted:"test9 test10"))' +
-                                        ' OR ((+publisher:"test11" +publisher:"test12" ) OR (publisher:"test11 test12")))' +
-                                        ' -((+publisher:"test13" +publisher:"test14" ) OR (publisher:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: publisher_phrase or simplify when single word
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+publisher:"test") OR publisher:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+publisher:"test1" +publisher:"test2" ) OR (publisher:"test1 test2"))' +
+                                          ' AND publisher_quoted:"test3 test4") ' +
+                                          ' AND (publisher:test5 OR publisher:test6))' +
+                                          ' AND publisher_starts:"test7 test8 ")' +
+                                          ' AND (publisher_quoted:"test9 test10"))' +
+                                          ' OR ((+publisher:"test11" +publisher:"test12" ) OR (publisher:"test11 test12")))' +
+                                          ' -((+publisher:"test13" +publisher:"test14" ) OR (publisher:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with pubplace' do
         let(:search_field) { 'pubplace' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+pubplace:"test1" +pubplace:"test2" ) OR (pubplace:"test1 test2"))' +
-                                        ' AND pubplace_quoted:"test3 test4") ' +
-                                        ' AND (pubplace:test5 OR pubplace:test6))' +
-                                        ' AND pubplace_starts:"test7 test8 ")' +
-                                        ' AND (pubplace_quoted:"test9 test10"))' +
-                                        ' OR ((+pubplace:"test11" +pubplace:"test12" ) OR (pubplace:"test11 test12")))' +
-                                        ' -((+pubplace:"test13" +pubplace:"test14" ) OR (pubplace:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: pubplace_phrase or simplify when single word
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+pubplace:"test") OR pubplace:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+pubplace:"test1" +pubplace:"test2" ) OR (pubplace:"test1 test2"))' +
+                                          ' AND pubplace_quoted:"test3 test4") ' +
+                                          ' AND (pubplace:test5 OR pubplace:test6))' +
+                                          ' AND pubplace_starts:"test7 test8 ")' +
+                                          ' AND (pubplace_quoted:"test9 test10"))' +
+                                          ' OR ((+pubplace:"test11" +pubplace:"test12" ) OR (pubplace:"test11 test12")))' +
+                                          ' -((+pubplace:"test13" +pubplace:"test14" ) OR (pubplace:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with number' do
         let(:search_field) { 'number' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+number:"test1" +number:"test2" ) OR (number_phrase:"test1 test2"))' +
-                                        ' AND number_quoted:"test3 test4") ' +
-                                        ' AND (number:test5 OR number:test6))' +
-                                        ' AND number_starts:"test7 test8 ")' +
-                                        ' AND (number_quoted:"test9 test10"))' +
-                                        ' OR ((+number:"test11" +number:"test12" ) OR (number_phrase:"test11 test12")))' +
-                                        ' -((+number:"test13" +number:"test14" ) OR (number_phrase:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+number:"test") OR number_phrase:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+number:"test1" +number:"test2" ) OR (number_phrase:"test1 test2"))' +
+                                          ' AND number_quoted:"test3 test4") ' +
+                                          ' AND (number:test5 OR number:test6))' +
+                                          ' AND number_starts:"test7 test8 ")' +
+                                          ' AND (number_quoted:"test9 test10"))' +
+                                          ' OR ((+number:"test11" +number:"test12" ) OR (number_phrase:"test11 test12")))' +
+                                          ' -((+number:"test13" +number:"test14" ) OR (number_phrase:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with isbnissn' do
         let(:search_field) { 'isbnissn' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+isbnissn:"test1" +isbnissn:"test2" ) OR (isbnissn:"test1 test2"))' +
-                                        ' AND isbnissn_quoted:"test3 test4") ' +
-                                        ' AND (isbnissn:test5 OR isbnissn:test6))' +
-                                        ' AND isbnissn_starts:"test7 test8 ")' +
-                                        ' AND (isbnissn_quoted:"test9 test10"))' +
-                                        ' OR ((+isbnissn:"test11" +isbnissn:"test12" ) OR (isbnissn:"test11 test12")))' +
-                                        ' -((+isbnissn:"test13" +isbnissn:"test14" ) OR (isbnissn:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: isbnissn_phrase or simplify when single word
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+isbnissn:"test") OR isbnissn:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+isbnissn:"test1" +isbnissn:"test2" ) OR (isbnissn:"test1 test2"))' +
+                                          ' AND isbnissn_quoted:"test3 test4") ' +
+                                          ' AND (isbnissn:test5 OR isbnissn:test6))' +
+                                          ' AND isbnissn_starts:"test7 test8 ")' +
+                                          ' AND (isbnissn_quoted:"test9 test10"))' +
+                                          ' OR ((+isbnissn:"test11" +isbnissn:"test12" ) OR (isbnissn:"test11 test12")))' +
+                                          ' -((+isbnissn:"test13" +isbnissn:"test14" ) OR (isbnissn:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with notes' do
         let(:search_field) { 'notes' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+notes:"test1" +notes:"test2" ) OR (notes:"test1 test2"))' +
-                                        ' AND notes_quoted:"test3 test4") ' +
-                                        ' AND (notes:test5 OR notes:test6))' +
-                                        ' AND notes_starts:"test7 test8 ")' +
-                                        ' AND (notes_quoted:"test9 test10"))' +
-                                        ' OR ((+notes:"test11" +notes:"test12" ) OR (notes:"test11 test12")))' +
-                                        ' -((+notes:"test13" +notes:"test14" ) OR (notes:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: notes_phrase or simplify when single word
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+notes:"test") OR notes:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+notes:"test1" +notes:"test2" ) OR (notes:"test1 test2"))' +
+                                          ' AND notes_quoted:"test3 test4") ' +
+                                          ' AND (notes:test5 OR notes:test6))' +
+                                          ' AND notes_starts:"test7 test8 ")' +
+                                          ' AND (notes_quoted:"test9 test10"))' +
+                                          ' OR ((+notes:"test11" +notes:"test12" ) OR (notes:"test11 test12")))' +
+                                          ' -((+notes:"test13" +notes:"test14" ) OR (notes:"test13 test14")))')
+          end
         end
       end
 
       context 'search_field_row with donor' do
         let(:search_field) { 'donor' }
 
-        it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('( ( ( ( ( (((+donor:"test1" +donor:"test2" ) OR (donor:"test1 test2"))' +
-                                        ' AND donor_quoted:"test3 test4") ' +
-                                        ' AND (donor:test5 OR donor:test6))' +
-                                        ' AND donor_starts:"test7 test8 ")' +
-                                        ' AND (donor_quoted:"test9 test10"))' +
-                                        ' OR ((+donor:"test11" +donor:"test12" ) OR (donor:"test11 test12")))' +
-                                        ' -((+donor:"test13" +donor:"test14" ) OR (donor:"test13 test14")))')
+        context 'simplest query' do
+          let(:user_params) { {
+            q_row: ['test'],
+            op_row: ['AND'],
+            search_field_row: [search_field],
+            boolean_row: {}
+          } }
+
+          # TODO: donor_phrase or simplify when single word
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ((+donor:"test") OR donor:"test") )')
+          end
+        end
+
+        context 'combination query' do
+          let(:user_params) { {
+            q_row: ['test1 test2', '"test3 test4"', 'test5 test6', 'test7 test8', 'test9 test10', 'test11 test12', 'test13 test14'],
+            op_row: ['AND', 'AND', 'OR', 'begins_with', 'phrase', 'AND', 'AND'],
+            search_field_row: Array.new(7) { search_field },
+            boolean_row: {"1": "AND", "2": "AND", "3": "AND", "4": "AND", "5": "OR", "6": "NOT"}
+          } }
+
+          # TODO: Same bugs as above
+          it 'transforms expected solr params' do
+            search_builder.advsearch(solr_params)
+            expect(solr_params[:q]).to eq('( ( ( ( ( (((+donor:"test1" +donor:"test2" ) OR (donor:"test1 test2"))' +
+                                          ' AND donor_quoted:"test3 test4") ' +
+                                          ' AND (donor:test5 OR donor:test6))' +
+                                          ' AND donor_starts:"test7 test8 ")' +
+                                          ' AND (donor_quoted:"test9 test10"))' +
+                                          ' OR ((+donor:"test11" +donor:"test12" ) OR (donor:"test11 test12")))' +
+                                          ' -((+donor:"test13" +donor:"test14" ) OR (donor:"test13 test14")))')
+          end
         end
       end
     end
