@@ -300,3 +300,13 @@ module AeonHelper
     end.join.html_safe
   end
 end
+
+def generate_hidden_inputs_for_login(params_hash)
+  params_hash.map do |key, value|
+    if key == 'Request'
+      value.map { |val| tag.input(type: 'hidden', name: key, value: val) }.join.html_safe
+    else
+      tag.input(type: 'hidden', name: key, value: value)
+    end
+  end.join.html_safe
+end
