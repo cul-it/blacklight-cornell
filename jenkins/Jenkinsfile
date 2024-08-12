@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'my-node-label' }
+    agent { label 'controller' }
     environment {
         GIT_ACCESS_TOKEN = credentials('8adf6139-b5f5-408a-99c5-135aa578cfdf')
         JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
@@ -93,7 +93,7 @@ pipeline {
     }
     post {
         success {
-            node('my-node-label') {
+            node('controller') {
                 echo "The thrill of victory"
                 sh 'jenkins/report-status-to-github.sh success'
                 script {
@@ -104,7 +104,7 @@ pipeline {
             }
         }
         unsuccessful {
-            node('my-node-label') {
+            node('controller') {
                 echo "The agony of defeat"
                 sh 'jenkins/report-status-to-github.sh failure'
                 script {
