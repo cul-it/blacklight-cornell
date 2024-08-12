@@ -154,6 +154,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
 
   # /get_previous
   def previous_callnumber
+    params.require([:callnum, :start])  # sometimes bots are calling this without required parameters - 400
     start = (params["start"].to_i * 8)
     location = ""
     location = params["fq"] if params["fq"].present?
@@ -167,6 +168,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
 
   # /get_next
   def next_callnumber
+    params.require([:callnum, :start])  # sometimes bots are calling this without required parameters - 400
     start = (params["start"].to_i * 8) + 1
     location = ""
     location = params["fq"] if params["fq"].present?
@@ -180,6 +182,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
 
   # /get_carousel
   def build_carousel
+    params.require(:callnum) # sometimes bots are calling this without required parameters - 400
     @callnumber = params["callnum"]
     previous_eight = get_surrounding_docs(params["callnum"],"reverse",0,8)
     next_eight = get_surrounding_docs(params["callnum"],"forward",0,9)
