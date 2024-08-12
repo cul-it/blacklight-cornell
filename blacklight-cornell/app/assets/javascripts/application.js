@@ -51,5 +51,5 @@
 //= require retrieve_lcsh.js
 
 //= require aeon/date
+//= require aeon/request
 //= require aeon/repro_request
-//= require aeon/rmc_scripts
