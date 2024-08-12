@@ -17,11 +17,16 @@ pipeline {
         OKAPI_PW = credentials('OKAPI_PW')
     }
     stages {
+        stage('Greetings') {
+            steps {
+                echo 'Hello, Jenkins!'
+                echo 'Branch: ' + BRANCH_NAME
+                echo 'Git Branch: ' + GIT_BRANCH
+            }
+        }
         stage('Set up and run bundler') {
             steps {
                 echo 'Setting up bundler'
-                echo 'Branch: ' + BRANCH_NAME
-                echo 'Git Branch: ' + GIT_BRANCH
                 script {
                     if (BRANCH_NAME ==~ /PR-.+/) {
                         // slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
