@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        GIT_ACCESS_TOKEN = credentials('be6a5f7e-d674-4265-bdf9-f20267b9cee3')
+        GIT_ACCESS_TOKEN = credentials('8adf6139-b5f5-408a-99c5-135aa578cfdf')
         JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
         SOLR_URL = credentials('FOLIO_FEW_solr_url')
         STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
