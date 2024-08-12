@@ -19,6 +19,7 @@
     }
      
     function makeRequest(index,ele) {
+      console.log("makeRequest");
     var  req = $(ele).attr('name');
     if ( $(ele).is(':checked'))  {
       var enx = itemdata[req].enumeration?itemdata[req].enumeration: ''; 
@@ -59,6 +60,7 @@
     }
 
     function doSubmit(event) {
+      console.log("doSubmit");
       var v = $("#num-selections").text();
       var dt = $("#DocumentType").val();
       var ur = $("#UserReview").prop('checked'); 
@@ -127,6 +129,7 @@
     * there are more than 1 items that can be selected
     */
     function doClick (event) {
+      console.log("doClick");
         var bc= $(this).val();
         var loc= itemdata[bc].location; 
         var cn = itemdata[bc].callnumber; 
@@ -176,6 +179,7 @@
     }
 
     function showReview () {
+      console.log("showReview");
       $('#ReviewText').show();
       $('#ScheduledText').hide();
       $('#ScheduledDate').hide();
@@ -184,7 +188,7 @@
      }
 
     function showScheduled () {
-      $('#ReviewText').hide();
+      console.log("showScheduled");
       $('#ScheduledText').show();
       $('#ScheduledDate').show();
       $('#UserReview').prop("checked", false);
@@ -197,7 +201,7 @@
      * will be selected by default.
     */
     $(document).ready(function () {
-      $('#ReviewText').hide();
+      console.log("aeon/request.js loaded");
       $("#num-selections").text('0');
       showScheduled();
       $('#UserReview').click(function () {

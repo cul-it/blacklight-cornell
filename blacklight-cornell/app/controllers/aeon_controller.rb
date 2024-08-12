@@ -19,8 +19,6 @@ class AeonController < ApplicationController
 
   def index
     @url = 'www.google.com'
-    @review_text = 'Keep this request saved in your account for later review.' \
-    ' It will not be sent to library staff for fulfillment.'
   end
 
   def aeon_login; end
@@ -72,8 +70,6 @@ class AeonController < ApplicationController
     'off-site items require scheduling 2 business days in advance, as indicated above. ' \
     'Please be sure that you choose a date when we are ' \
     '<a href="https://www.library.cornell.edu/libraries/rmc">open</a>.'
-    @review_text = 'Keep this request saved in your account for later review. ' \
-    'It will not be sent to library staff for fulfillment.'
   end
 
   def set_scan_instance_variables
