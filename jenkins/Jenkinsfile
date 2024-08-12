@@ -40,7 +40,9 @@ pipeline {
         stage("Rspec tests") {
             steps {
                 echo "Running Rspec tests"
-                sh 'jenkins/rspec.sh'
+                node('run-rspec-tests') {
+                    sh 'jenkins/rspec.sh'
+                }
             }
         }
 
@@ -87,7 +89,9 @@ pipeline {
     post {
         success {
             echo "The thrill of victory"
-            sh 'jenkins/report-status-to-github.sh success'
+            node('report-success-to-github') {
+                sh 'jenkins/report-status-to-github.sh success'
+            }
             script {
                 if (BRANCH_NAME ==~ /PR-.+/) {
                     slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
@@ -96,7 +100,9 @@ pipeline {
         }
         unsuccessful {
             echo "The agony of defeat"
-            sh 'jenkins/report-status-to-github.sh failure'
+            node('report-failure-to-github') {
+                sh 'jenkins/report-status-to-github.sh failure'
+            }
             script {
                 if (BRANCH_NAME ==~ /PR-.+/) {
                     // slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
