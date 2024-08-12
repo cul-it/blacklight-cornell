@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'my-node-label' }
     environment {
         GIT_ACCESS_TOKEN = credentials('8adf6139-b5f5-408a-99c5-135aa578cfdf')
         JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
@@ -93,21 +93,25 @@ pipeline {
     }
     post {
         success {
-            echo "The thrill of victory"
-            sh 'jenkins/report-status-to-github.sh success'
-            script {
-                if (BRANCH_NAME ==~ /PR-.+/) {
-                    slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+            node('my-node-label') {
+                echo "The thrill of victory"
+                sh 'jenkins/report-status-to-github.sh success'
+                script {
+                    if (BRANCH_NAME ==~ /PR-.+/) {
+                        slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                    }
                 }
             }
         }
         unsuccessful {
-            echo "The agony of defeat"
-            sh 'jenkins/report-status-to-github.sh failure'
-            script {
-                if (BRANCH_NAME ==~ /PR-.+/) {
-                    // slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
-                    slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed  ${CHANGE_BRANCH} --> ${CHANGE_TARGET}"
+            node('my-node-label') {
+                echo "The agony of defeat"
+                sh 'jenkins/report-status-to-github.sh failure'
+                script {
+                    if (BRANCH_NAME ==~ /PR-.+/) {
+                        // slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                        slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed  ${CHANGE_BRANCH} --> ${CHANGE_TARGET}"
+                    }
                 }
             }
         }
