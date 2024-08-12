@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'controller' }
     environment {
         GIT_ACCESS_TOKEN = credentials('8adf6139-b5f5-408a-99c5-135aa578cfdf')
         JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
@@ -22,8 +22,12 @@ pipeline {
                 echo 'Hello, Jenkins!'
                 echo 'Branch: ' + BRANCH_NAME
                 echo 'Git Branch: ' + GIT_BRANCH
+                echo 'Git Commit: ' + GIT_COMMIT
+                echo 'Jenkins Project: ' + JENKINS_PROJECT
+                echo 'Build Number: ' + BUILD_NUMBER
             }
         }
+
         stage('Set up and run bundler') {
             steps {
                 echo 'Setting up bundler'
