@@ -1,0 +1,125 @@
+.bookmarks-index,
+.book_bags-index,
+.blacklight-book_bags,
+.blacklight-bookmarks-index {
+	.item-tools {
+		margin-top: .5em;
+	}
+}	
+.clear-bookmarks {
+	margin-left: 1em;
+}
+
+
+.bookmarks-refworks input.submit {display:none;}
+
+// Wanted to extend Bootstrap's default like this:
+// .bookmarks-refworks a { @extend .dropdown-menu > li > form > a; }
+// -- but you can't extend nested selectors :(
+.dropdown-menu {
+	> li > form > a {
+		display: block;
+		padding: 3px 20px;
+		clear: both;
+		font-weight: normal;
+		line-height: $line-height-base;
+    	color: $dropdown-link-color;
+		white-space: nowrap;
+	}
+	> li > form > a:hover {
+		text-decoration: none;
+	  	color: $dropdown-link-hover-color;
+	  	@include gradient-vertical($dropdown-link-hover-bg, darken($dropdown-link-hover-bg, 5%));
+	}
+}
+
+.results-info {
+  margin: 0;
+  padding-bottom: .2em;
+  border-bottom: solid 5px $light-tan;
+}
+
+.bookmarks-login {
+	display: block;
+	margin-bottom: 1em;
+}
+
+// Bookbag tips
+.bookbag-tips {
+	margin-bottom: 1em;
+	border-bottom: 1px solid $light-tan;
+	h3 {
+		font-size: 14px;
+		font-weight: 700;
+		text-transform: uppercase;
+		margin-top: 0;
+		color: $medium-gray;
+		i {
+			margin-right: .25em;
+		}
+	}
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  .fa {
+  	margin-right: .25rem;
+  }
+}
+
+// DISCOVERYACCESS-8206: be more explicit about where to remove the padding from btn-link because it messes up the alignment of previous/next buttons in modal facets
+.blacklight-nav {
+	.btn-link {
+		padding: 0;
+	}
+}
+
+// Add bookmarks button
+// ----------------------
+
+.add-bookmarks {
+	i {
+		margin-right: .25rem;
+	}
+}
+.add-bookmarks.btn-cul {
+	border-bottom: 0;
+}
+
+// MEDIA QUERIES
+// -------------------------
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+	.bookmarks-index,
+  	.book_bags-index,
+  	.blacklight-bookmarks-index {
+		#sort-dropdown, #per_page-dropdown {
+			float: right;
+		}
+	}
+	#sort-dropdown, #per_page-dropdown {
+		margin-right: 5px;
+	}
+}
+
+// Large devices (desktops, 992px and up)
+@include media-breakpoint-up(lg) {
+	.bookmarks-login {
+		margin-left: 1em;
+		display: inline;
+		margin-bottom: 0;
+	}
+}
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }

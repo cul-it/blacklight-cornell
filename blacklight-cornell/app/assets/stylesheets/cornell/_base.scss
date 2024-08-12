@@ -1,0 +1,228 @@
+// Layout
+// ------------------------
+
+.main-content { 
+	padding: 0.5em 0 30px 0;
+	background: white;
+}
+
+// Links
+// ------------------------
+
+// Add underlines to most links
+.main-content,
+.blacklight-nav,
+footer,
+.search-bar .nav,
+.popover {
+	a {
+		text-decoration: underline;
+	}
+}
+
+// Remove in some cases
+.main-content,
+footer {
+	.btn {
+		text-decoration: none;
+	}
+}
+.main-content {
+	.search-source {
+		a {
+			text-decoration: none;
+		}
+	}
+}
+
+
+// Typography
+// ------------------------
+
+h2 { 
+	margin-bottom: .5em;
+	font-size: 26px;
+}
+h3 { font-size: 20px; line-height: 1.5em;}
+
+// Home page text
+// ------------------------
+
+.other-resources {
+	margin-top: 30px;
+	margin-bottom: 2em;
+	h3 {
+		font-size: 14px;
+		text-transform: uppercase;
+		line-height: normal;
+	}
+}
+
+// Override BS4 btn-secondary
+// ---------------------------
+
+.btn-secondary {
+	background: $concrete;
+}
+.btn-secondary:hover {
+	background: $concrete-hover;
+}
+.btn-outline-secondary {
+	border-color: $concrete;
+	color: $dark-gray;
+}
+.btn-outline-secondary:hover {
+	border-color: $concrete-hover;
+	color: white;
+	background: $concrete-hover;
+}
+
+// CUL button - generic teal
+// ------------------------------
+
+.btn-cul {
+	color: white;
+	background-color: $cornell-primary;
+	border-color: $cornell-primary;
+	background-image: none;
+}
+.btn-cul:hover,
+.btn-cul:active,
+.btn-cul:focus {
+	background-color: $cornell-primary-hover;
+	color: white;
+	border-color: $cornell-primary-hover;
+}
+.main-content {
+	.btn-cul {
+		border-bottom: 1px solid $dark-green;
+	}
+}
+
+
+// Card customization
+// ------------------------
+// Add old well background color to some cards
+.card-well {
+	background: $light-tan;
+}
+
+// Img overrides
+// ------------------------
+.img-thumbnail {
+	border-radius: 0;
+	background: white;
+}
+// Modal overrides
+// ----------------------
+.close {
+	color: $medium-gray;
+	opacity: 1;
+}
+.modal {
+	h1 {
+		font-weight: 700;
+		margin: 0;
+	}
+	.form-control {
+		width: 100%;
+	}
+}
+.modal-title {
+	font-size: 24px;
+	float: left;
+}
+.modal-body {
+	h2 {
+		font-size: 20px;
+		margin-top: 1rem;
+	}
+	h2:first-child {
+		margin-top: 0;
+	}
+}
+
+// Miscellaneous
+// ----------------------
+.toplink {
+	margin: 1em 0;
+	font-size: 12px !important;
+	text-align: right;
+}
+
+// Used in Best Bet and search_help partial at bottom of results
+.highlight-box {
+	padding: 1em 1em 1.5em 1em;
+	margin-bottom: 2em;
+	border: 5px solid $light-tan;
+	h2 {
+	  line-height: 1.2em;
+	  margin-bottom: 0.2em;
+	  padding-bottom: 0;
+	  margin-top: -.15em;
+	  font-size: 20px;
+	}
+	.heads-up {
+	  font-size: 16px;
+	  margin-bottom:.5em;
+	  font-weight: bold;
+	  padding:0;
+	}
+	i {
+	  color: $cornell-primary
+	}
+}
+.highlight-box.search-more {
+	margin: 2em auto;
+	width: 80%;
+}
+
+// Override alert-warning yellow
+// Accessibility checked
+// ------------------------------
+.alert-warning {
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+	border-color: #faebcc;
+}
+
+
+// MEDIA QUERIES
+// -------------------------
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+	.home-message {
+		margin-top: 2.2rem;
+ 	}
+}
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }
+
+
+// BOOTSTRAP 4 TEMP FIXES
+// -----------------------
+div.select_all label {
+	margin-bottom: 0.15rem;
+}
+
+.submit-reset {
+	width: 100%;
+}
+
+.dl-horizontal dt {
+    float: left;
+    clear: left;
+    text-align: right;
+}

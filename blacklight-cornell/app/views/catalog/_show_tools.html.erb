@@ -1,0 +1,128 @@
+<%-
+  # Compare with render_document_functions_partial helper, and
+  # _document_functions partial. BL actually has two groups
+  # of document-related tools. "document functions" by default
+  # contains Bookmark/Folder functionality shown on both results and
+  # item view. While "document tools" contains external export type
+  # functions by default only on detail.
+-%>
+<% if request.path != '/bookmarks'  && !request.path.start_with?('/book_bags') %>
+  <% citable = is_citable(@document) %>
+  <% emailable = is_emailable(@document) %>
+  <% exportable = is_exportable(@document) %>
+<% elsif request.path == '/bookmarks'  %>
+  <% bookmarks_index = true %>
+<% else %>
+  <% bookbags_index = true %>
+<% end %>
+<% if !bookmarks_index %>
+<li><%= render :partial => "bookmark_control" , :locals => {:document => @document} %></li>
+<% end %>
+<!-- TODO: TRANSLATE -->
+<% if citable %>
+  <% citelink_content =  '<i class="fa fa-pencil" aria-hidden="true"></i>' + t('blacklight.tools.cite') %>
+  <li>
+  <%= link_to citation_solr_document_path(:id => @document), {:id => 'citation', :name => 'citationSolr', :class => 'lightboxLink btn btn-default btn-sm', data: {}.merge({ blacklight_modal: "trigger" }) } do %>
+    <%= citelink_content.html_safe %>
+  <% end %>
+  </li>
+<% elsif bookmarks_index || bookbags_index%>
+<%# ************************ %>
+  <li>
+  <img id="loadingSpinner" style="display: none;" src="/img/ajax-loader.gif">
+  </li>
+  <li class="dropdown">
+    <div class="btn-group">
+      <a href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="cite-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true"></i>Cite <b class="caret"></b></a>
+      <ul class="dropdown-menu" aria-labelledby="cite-menu">
+      <% names = %w[apa chicago cse mla mla8]  %>
+      <%  names.each do |name|  %>
+        <% citation_format = t('blacklight.citation.'+name) %>
+        <li>
+        <% if bookmarks_index %>
+          <%= link_to citation_format,  show_citation_page_path(:form => name), {:id => 'citationLink-'+name, :name => citation_format, :class => 'dropdown-item citationLink', data: {}.merge({ blacklight_modal: "trigger" })} %>
+        <% else %>
+          <%= link_to citation_format,  show_book_bags_citation_page_path(:form => name), {:id => 'citationLink-'+name, :name => citation_format, :class => 'dropdown-item citationLink', data: {}.merge({ blacklight_modal: "trigger" })} %>
+        <% end %>
+        </li>
+      <% end %>
+    </ul>
+    </div>
+  </li>
+<%# ************************ %>
+<% end %>
+
+<% if bookmarks_index || emailable  || bookbags_index %>
+  <% emaillink_content = '<i class="fa fa-envelope" aria-hidden="true"></i>' + t('blacklight.tools.email') %>
+  <li>
+    <% if bookmarks_index %>
+      <% if current_user && BookBag.enabled? %>
+        <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :data => {:blacklight_modal => "trigger"}, :class => 'lightboxLink btn btn-sm'} do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
+      <% else %>
+        <%= link_to '/bookmarks/book_bags_login', {:name => 'Email', :data => {:blacklight_modal => "trigger"}, :class => "lightboxLink btn btn-sm", "data-toggle" => "modal"}  do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
+      <% end %>
+   <% elsif bookbags_index %>
+      <%= link_to "/book_bags/email", {:id => 'emailLink', :name => 'email', :data => {:blacklight_modal => "trigger"}, :class => 'lightboxLink btn btn-sm'} do %>
+        <%= emaillink_content.html_safe %>
+      <% end %>
+    <% elsif emailable %>
+      <% if current_user %>
+        <%= link_to email_solr_document_path(:id => @document), {:id => 'email-link', :data => {:blacklight_modal => "trigger"}, :class => 'lightboxLink btn btn-default btn-sm'} do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
+      <% else %>
+        <%= link_to email_require_login_path(:id => @document), {:id => 'email-link', :name => 'Email', :data => {:blacklight_modal => "trigger"}, :class => "lightboxLink btn btn-default btn-sm", "data-toggle" => "modal"}  do %>
+          <%= emaillink_content.html_safe %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </li>
+<% end %>
+
+<% if bookmarks_index || exportable  || bookbags_index %>
+  <li class="dropdown">
+    <div class="btn-group">
+      <a href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true"></i>Export <b class="caret"></b></a>
+      <ul class="dropdown-menu" aria-labelledby="export-menu">
+        <% if bookmarks_index  %>
+          <li>
+            <%= link_to t('blacklight.tools.endnote'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote'), {:class => 'piwik_download dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
+          </li>
+          <li>
+            <%= link_to t('blacklight.tools.mendeley'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'ris'), {:class => 'piwik_download dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
+          </li>
+            <li>
+            <%= link_to t('blacklight.tools.endnote_xml'), endnote_solr_document_path(:sort=>params[:sort], :per_page=>1000, :page=>params[:page], :format => 'endnote_xml'), {:class => 'piwik_download dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'}%>
+            </li>
+        <% elsif bookbags_index  %>
+          <li>
+            <%= link_to t('blacklight.tools.endnote'), "/book_bags/endnote.endnote", {:class => 'dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
+          </li>
+          <li>
+            <%= link_to t('blacklight.tools.mendeley'), "/book_bags/endnote.ris", {:class => 'dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
+          </li>
+        <% elsif exportable %>
+          <% if @document.export_formats.keys.include?( :endnote ) %>
+            <li>
+              <%= link_to t('blacklight.tools.endnote'), solr_document_path(@document, :format => 'endnote'), {:class => 'piwik_download dropdown-item'} %>
+            </li>
+          <% end %>
+          <% if @document.export_formats.keys.include?( :endnote_xml ) %>
+            <li>
+              <%= link_to t('blacklight.tools.endnote_xml'), solr_document_path(@document, :format => 'endnote_xml'), {:class => 'piwik_download dropdown-item'} %>
+            </li>
+          <% end %>
+          <% if @document.export_formats.keys.include?( :mendeley ) %>
+            <li>
+              <%= link_to t('blacklight.tools.mendeley'), solr_document_path(@document, :format => 'ris'), {:class => 'piwik_download dropdown-item'} %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </li>
+<% end %>

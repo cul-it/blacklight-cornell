@@ -1,0 +1,340 @@
+// Return to catalog link
+//----------------------------//
+.return-link {
+	display: inline-block;
+	margin-bottom: .6em;
+	font-size: 12px;
+}
+
+.document-header {
+	margin-bottom: 1.5em;
+}
+
+h3.subtitle,
+h3.responsibility {
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 1.2em;
+	margin-bottom: 1em;
+	margin-top: 0;
+}
+h3.responsibility {
+	color: $medium-gray;
+}
+
+.catalog-show .bookcover {
+	margin-bottom: 1em;
+}
+
+.item-metadata {
+	float: left;
+	margin-bottom: 20px;
+}
+.item-cover {
+	margin: 0 0 2em 2em;
+	text-align: center;
+}
+#discogs-image {
+	img {
+		max-width: 200px;
+	}
+}
+// Availability anchor button
+// ----------------------------- //
+.availability-link {
+	display: block;
+	i {
+		margin-left: .5em;
+	}
+}
+
+// OVERRIDE CORE STYLES
+.document {
+	border-bottom: none;
+	clear: none;
+	padding-bottom: 0;
+}
+#document {
+	 margin-top: 1.5em;
+	 h2 {
+	 	line-height: 32px;
+	 	margin-top: 0; }
+	 dl {
+		dt {
+			display: inline;
+			font-weight: normal;
+			overflow: visible;
+			text-overflow: inherit;
+			white-space: normal;
+			}
+		dd {
+			// Fix to keep dd aligned with long dt that wraps
+			// -- can't use .clearfix because we only want to clear left
+			&:after {
+				display: table;
+				content: "";
+				clear: left;
+			}
+			ul {
+				padding-left: 18px;
+			}
+			li {
+				margin-bottom: .25em;
+			}
+			@media (max-width: $screen-sm) {
+				margin-left: 12px;
+			}
+		}
+	}
+	// DISCOVERYACCESS-6626 - fix alignment in safar
+	dl.row {
+		margin-left: 0;
+		margin-right: 0;
+		dt, dd {
+			padding-left: 0;
+		}
+	}
+}
+label.toggle_bookmark { 
+	min-width: 4em;
+	margin-right: 1.5em;
+}
+
+dd.blacklight-notes {
+	// -ms-word-break: break-all; - remove this style to fix word wrap bug in IE 8/9/10 (DNA 741)
+	// word-break: break-all; - remove this style to fix word wrap bug in Firefox (DNA 741)
+	/* Non standard for webkit */
+	word-wrap: break-word;
+	word-break:break-word;
+	overflow-wrap:break-word;
+	-webkit-hyphens: auto;
+  	hyphens: auto;
+  	// display: table; - remove this because it causes IE 9 and 10 to have a smaller width for metadata display for this field. Wasted space.
+}
+
+.active-hierarchy {
+	color: $dark-gray;
+	text-decoration: underline;
+}
+
+// Item tools
+// -------------------------
+
+.item-tools {
+	ul {
+		margin-left: 0;
+		list-style: none;
+		padding-left: 0;
+	}
+	li {
+		font-size: 0.875em;
+		float: left;
+		margin-right: .5em;
+		margin-bottom: 6px;
+	}
+	li:last-child {
+		margin-right: 0;
+	}
+	label { font-size: 1em; }
+	form { margin: 0; }
+	.form-inline .checkbox,
+	.form-inline input { vertical-align: bottom; } // Override core style so bookmark link lines up with the rest of the tool links
+	.dropdown-menu {
+		min-width: 3em;
+		li {
+			float: none;
+			margin: 0;
+			font-size: 1em;
+		}
+	}
+	i { margin-right: 3px; }
+	.selected-box { margin-right: 1em; }
+	// override button group border radius
+	.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle), .btn-group > .facets-toggle:first-child:not(:last-child):not(.dropdown-toggle) {
+		border-radius: 3px;
+	}
+	a {
+		color: $dark-gray;
+	}
+	.checkbox.toggle_list {
+		padding-top: 3px;
+		margin-right: 10px;
+	}
+}
+// make select box area wider behind the scenes so that tooltip isn't too narrow; need .catalog-show so this is only changed on the item view
+// BL7 and BS4 changes: text-align now center and added padding-top
+.catalog-show,
+.bookmarks-show {
+	.show-select-box {
+		width: 100px;
+		text-align: center;
+		padding-top: 6px;
+	}
+}
+.catalog-show, .bookmarks, .book_bags {
+	label.toggle_bookmark { 
+		margin-right: .5em;
+		font-size: 14px;
+	}
+}
+.main-content {
+	.item-tools {
+		a, a:hover {
+			border: 1px solid $databases-light-gray;
+		}
+		.dropdown-menu {
+			a, a:hover {
+				border: none;
+			}
+		}
+	}
+}
+.item-pagination {
+	margin-bottom: 2.2em;
+}
+
+.fa-disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+  }
+
+// Librarian view
+// -------------------------
+
+.librarian-view { margin-left: -15px; }
+#marc_view { font-family: courier, monospace; }
+#marc_view .field { clear: both; }
+#marc_view .tag { 
+	float: left;
+	margin-right: 5px;
+}
+#marc_view .ind1,
+#marc_view .ind2 {
+	width: 20px;
+	display: inline; 
+	float: left;
+}
+#marc_view .subfields { 
+padding-left: 6em;
+}
+
+// Captcha
+// -------------------------
+
+#captcha_form {
+	#request-submit { display: block; }
+}
+
+// Authorities info popup
+// ----------------------------- //
+.catalog-show {
+	.popover {
+		max-width: 100%;
+		h2 {
+			margin: 0 0 .25em 0;
+			font-size: 18px;
+			line-height: 1.2em;
+		}
+		.author-works {
+			margin-left: 0;
+			display: block;
+			margin-bottom: .25em;
+		}
+		dl.dl-horizontal {
+			font-size: 90%;
+			dt {
+				display: block;
+				width: 100%;
+				text-align: left;
+				margin: .75em 0 .15em 0;
+				font-weight: 700;
+				color: $dark-gray;
+			}
+			dd {
+				margin-left: 0;
+				margin-bottom: 0;
+			}
+		}
+		a {
+			cursor: pointer;
+		}
+	}
+}
+// Styles apply to item view and browse pages for Author, Author-Title, Subject
+.info-button {
+	margin-left: .25rem;
+	padding: .1rem .4rem;
+	font-size: .8rem;
+}
+
+// Metadata
+// -----------
+.item-info {
+	h3 {
+		font-size: 24px;
+		font-weight: 300;
+		margin: 0 0 .25em;
+		border-bottom: 1px solid $light-tan;
+	}
+}
+
+// Browse by call number links
+// ----------------------------
+.browse-call-number {
+	margin-top: 3em;
+	margin-bottom: 3em;
+	border-top: 5px solid $light-tan;
+	li {
+		font-size: 16px;
+	}
+	.btn, .btn:hover {
+		border-bottom: 0;
+		margin-bottom: .75em;
+	}
+}
+
+// Linked data
+// -------------------------
+.wikidata-bgc {
+	background-color: #D1F2EB;
+}
+
+// Search for more - not finding what you want?
+// -----------------------------------------------//
+// see .highlight box in _base.scss
+
+// MEDIA QUERIES
+// -------------------------
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+// @include media-breakpoint-up(sm) {
+// }
+
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+	.return-link {
+		font-size: 14px;
+	}
+	.item-tools {
+		ul {
+			float: right;
+		}
+	}
+	#document {
+		margin-top: 0;
+	}
+	dl.dl-horizontal {
+		dd {
+			margin-left: 165px;
+		}
+	}
+}
+
+// Large devices (desktops, 992px and up)
+// @include media-breakpoint-up(lg) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+// @include media-breakpoint-up(xl) { ... }
