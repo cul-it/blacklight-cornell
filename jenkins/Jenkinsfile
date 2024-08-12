@@ -31,7 +31,9 @@ pipeline {
                     }
                 }
                 echo 'Run prelude.sh'
-                sh 'jenkins/prelude.sh'
+                node {
+                    sh 'jenkins/prelude.sh'
+                }
             }
         }
 
