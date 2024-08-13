@@ -1,0 +1,119 @@
+pipeline {
+    agent { label 'controller' }
+    environment {
+        GIT_ACCESS_TOKEN = credentials('be6a5f7e-d674-4265-bdf9-f20267b9cee3')
+        JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
+        SOLR_URL = credentials('FOLIO_FEW_solr_url')
+        STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
+        COLLECTIONS = "development"
+        CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
+        IR_SOLR_URL = "http://aws-108-118.internal.library.cornell.edu:8983/solr/repositories"
+        IR_SOLR_USER = credentials('622231e0-352f-431f-9847-a109f3795d97')
+        IR_SOLR_PAW = credentials('f6e43070-a7b0-44ef-9a72-8767cc8ee968')
+        SAML_IDP_TARGET_URL = credentials('SAML_IDP_TARGET_URL')
+        OKAPI_URL = credentials('OKAPI_URL')
+        OKAPI_TENANT = credentials('OKAPI_TENANT')
+        OKAPI_USER = credentials('OKAPI_USER')
+        OKAPI_PW = credentials('OKAPI_PW')
+    }
+    stages {
+        stage('Greetings') {
+            steps {
+                echo 'Hello, Jenkins!'
+                echo 'Branch: ' + BRANCH_NAME
+                echo 'Git Branch: ' + GIT_BRANCH
+                echo 'Git Commit: ' + GIT_COMMIT
+                echo 'Jenkins Project: ' + JENKINS_PROJECT
+                echo 'Build Number: ' + BUILD_NUMBER
+            }
+        }
+
+        stage('Set up and run bundler') {
+            steps {
+                echo 'Setting up bundler'
+                script {
+                    if (BRANCH_NAME ==~ /PR-.+/) {
+                        // slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                        slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started ${CHANGE_BRANCH} --> ${CHANGE_TARGET}"
+                    } else {
+                        echo "Skipping the slack messages unless it is a Pull Request."
+                    }
+                }
+                echo 'Run prelude.sh'
+                sh 'jenkins/prelude.sh'
+            }
+        }
+
+        stage("Rspec tests") {
+            steps {
+                echo "Running Rspec tests"
+                sh 'jenkins/rspec.sh'
+            }
+        }
+
+        // use this version for quick turnaround while testing pull request validation
+        // stage("cucumber all tests") {
+        //     steps {
+        //         timeout(60) {
+        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+        //                 sh 'jenkins/cucumber-features.sh features/catalog_search/book_bags.feature:8'
+        //             }
+        //         }
+        //     }
+        // }
+
+        // use this version for normal situations
+        stage("cucumber all tests") {
+            steps {
+                echo "Running cucumber tests"
+                timeout(90) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/cucumber-features.sh'
+                    }
+                }
+            }
+        }
+
+        stage('Publish Coverage') {
+            steps {
+                echo "Publishing coverage"
+                sh 'mkdir -p coverage'
+                sh 'chmod g+w coverage'
+                sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: "${WORKSPACE}/blacklight-cornell/coverage/rcov",
+                    reportFiles: 'index.html',
+                    reportName: 'Code Coverage Report',
+                    reportTitles: 'Discovery and Access Team Code Coverage'])
+            }
+        }
+    }
+    post {
+        success {
+            node('controller') {
+                echo "The thrill of victory"
+                sh 'jenkins/report-status-to-github.sh success'
+                script {
+                    if (BRANCH_NAME ==~ /PR-.+/) {
+                        slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                    }
+                }
+            }
+        }
+        unsuccessful {
+            node('controller') {
+                echo "The agony of defeat"
+                sh 'jenkins/report-status-to-github.sh failure'
+                script {
+                    if (BRANCH_NAME ==~ /PR-.+/) {
+                        // slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
+                        slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed  ${CHANGE_BRANCH} --> ${CHANGE_TARGET}"
+                    }
+                }
+            }
+        }
+    }
+}
