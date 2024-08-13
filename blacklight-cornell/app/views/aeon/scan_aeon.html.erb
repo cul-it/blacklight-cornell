@@ -16,14 +16,19 @@
 	</head>
 	<body>
 		<%= render :partial => 'aeon/aeon_header' %>
-		<div id="main-content">
-			<h2>RMC Scanning Request</h2>
+		
+		<div id="main-content" class="container">
+			<h1>Scanning Request</h1>
 			<p><%= @disclaimer %></p>
+ 
+			<a href="/catalog/<%= @bibid %>" class="return-link">
+				<i class="fa fa-arrow-circle-left"></i> Back to item
+			</a>
 			<form id="RequestForm" action="/aeon/aeon_login" method="GET" class="form-horizontal">
-				<h3><%= @title %></h3>
-				<% if !@finding_aid.nil? %>
+				<h2><%= @title %></h2>
+				<% if @finding_aid.present? %>
 				  <p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
-			  <% end %>
+			  	<% end %>
 				<strong><%= @re506 %></strong>
 				<div id="shoppingcart">
 					<span id="numitems">Number of items selected:</span>
