@@ -27,7 +27,7 @@ pipeline {
                 echo 'Build Number: ' + BUILD_NUMBER
                 echo 'Workspace: ' + WORKSPACE
                 script {
-                    def jenkinsVersion = sh(script: 'jenkins --version', returnStdout: true).trim()
+                    def jenkinsVersion = sh(script: 'curl -sI http://localhost:8080 | grep "X-Jenkins:" | awk \'{print $2}\'', returnStdout: true).trim()
                     echo "Jenkins Version: ${jenkinsVersion}"
                 }
             }
