@@ -25,6 +25,8 @@ pipeline {
                 echo 'Git Commit: ' + GIT_COMMIT
                 echo 'Jenkins Project: ' + JENKINS_PROJECT
                 echo 'Build Number: ' + BUILD_NUMBER
+                echo 'Jenkins Version: ' + JENKINS_VERSION
+                echo 'Workspace: ' + WORKSPACE
             }
         }
 
