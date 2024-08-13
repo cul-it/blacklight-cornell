@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'controller' }
+    agent any
     environment {
         GIT_ACCESS_TOKEN = credentials('be6a5f7e-d674-4265-bdf9-f20267b9cee3')
         JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
@@ -84,7 +84,7 @@ pipeline {
         success {
             node('controller') {
                 echo "The thrill of victory"
-                sh 'jenkins/report-status-to-github.sh success'
+                // sh 'jenkins/report-status-to-github.sh success'
                 script {
                     if (BRANCH_NAME ==~ /PR-.+/) {
                         slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
@@ -95,7 +95,7 @@ pipeline {
         unsuccessful {
             node('controller') {
                 echo "The agony of defeat"
-                sh 'jenkins/report-status-to-github.sh failure'
+                // sh 'jenkins/report-status-to-github.sh failure'
                 script {
                     if (BRANCH_NAME ==~ /PR-.+/) {
                         // slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
