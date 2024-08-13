@@ -16,18 +16,25 @@
 	</head>
 	<body>
 		<%= render :partial => 'aeon/aeon_header' %>
-		<div id="main-content" class="container-fluid">
+		
+		<div id="main-content" class="container">
+			<h1>Reading Room Delivery Request</h1>
+			<br/>
+			<a href="/catalog/<%= @bibid %>" class="return-link">
+				<i class="fa fa-arrow-circle-left"></i> Back to item
+			</a>
 			<form id="EADRequest" name="EADRequest"
 				action=" <%= "/aeon/aeon_login" %> "
 		    method="POST" class="form-horizontal">
 				<h2><%= @title %></h2>
-				<% if !@finding_aid.nil? %>
-			  	<p><a href='<%= @finding_aid %>' target='_blank'>  Finding Aid</a></p>
-		  	<% end %>
+				<% if @finding_aid.present? %>
+				  <p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
+			  	<% end %>
 
 				<strong><%= @re506 %></strong>
+				
 				<div id="shoppingcart">
-					<span id="numitems">Number of items selected:</span>
+					<span id="numitems" tabindex="0">Number of items selected:</span>
 					<span id="num-selections-wrapper">
 						<span id="num-selections"></span>
 					</span>
@@ -37,6 +44,7 @@
 						</ol>
 					</div>
 				</div>
+				
 				<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
 				<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
