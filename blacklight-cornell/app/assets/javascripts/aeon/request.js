@@ -157,7 +157,7 @@
            $("#num-selections").text(v);
            $("#selections").append("<div id='t" + bc+"'> <li>" + cn + " " +co+" "+en+"  "+cr+ remspan +"</li></div>");
            $('#'+remid).click(function () {
-             var v = 100;
+             var v = $("#num-selections").text();
              v--;
              $("#num-selections").text(v);
              $("#t"+bc).remove();
