@@ -12,12 +12,12 @@ module LoggingHelper
   #         "skey: #{skey}",
   #          "sdef: #{sdef}")
   def log_debug_info(context, *info)
-    original_level = logger.level
-    logger.level = Logger::INFO
+    original_level = Rails.logger.level
+    Rails.logger.level = Logger::INFO
     log_message = build_log_message(context, info)
-    logger.info(log_message)
+    Rails.logger.info(log_message)
   ensure
-    logger.level = original_level
+    Rails.logger.level = original_level
   end
 
   private
