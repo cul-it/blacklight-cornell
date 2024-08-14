@@ -270,7 +270,7 @@ module AeonHelper
           enumeration: "#{item['enum']}",
           barcode: "#{barcode}",
           loc_code: "#{item['location']['code']}",
-          chron: "",
+          chron: "#{item['chron']}",
           copy: "#{item['copy']}",
           free: "",
           caption: "#{caption}",
