@@ -87,7 +87,11 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     tmp_hash["internal_class_label"] = build_class_label(classification)
     tmp_hash["display_class_label"] = tmp_hash["internal_class_label"].gsub(' : ','<i class="fa fa-caret-right class-caret"></i>').html_safe
     # tmp_hash["img_url"] = get_googlebooks_image(oclc_isbn[0], oclc_isbn[1], the_format)
-    tmp_hash["img_url"] = get_googlebooks_image(oclc_id, isbn, the_format)
+    if doc["no_google_img_b"].present?
+      tmp_hash["img_url"] = set_cover_image(the_format)
+    else
+      tmp_hash["img_url"] = get_googlebooks_image(oclc_id, isbn, the_format)
+    end
 
     tmp_hash
   end
@@ -228,8 +232,8 @@ def get_googlebooks_image(oclc, isbn, format)
       unless payload.nil?
         result = JSON.parse(payload)
         # if there's a thumbnail_url, return it
-        if result.present? && result.values[0].present? && result.values[0][:thumbnail_url].present?
-          return result.values[0][:thumbnail_url]
+        if result.present? && result.values[0].present? && result.values[0]['thumbnail_url'].present?
+          return result.values[0]['thumbnail_url']
         end
       end
     end
