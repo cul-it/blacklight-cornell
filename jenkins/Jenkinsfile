@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Greetings') {
             steps {
-                echo 'Hello, Jenkins!'
+                echo 'Hello, New Jenkins!'
                 echo 'Branch: ' + BRANCH_NAME
                 echo 'Git Branch: ' + GIT_BRANCH
                 echo 'Git Commit: ' + GIT_COMMIT
