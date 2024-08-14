@@ -516,7 +516,7 @@ def render_simple_constraints_filters(my_params = params)
   return_content = ""
   if(my_params[:f].present?)
     my_params[:f].each do |key, value|
-      removeString = makeRemoveString(my_params,key)
+      removeString = make_remove_string(my_params,key)
       label =facet_field_labels[key]
       if value[0].include?('%26')
         value[0].gsub!('%26','&')
@@ -531,24 +531,20 @@ def render_simple_constraints_filters(my_params = params)
 end
 
 
-def render_advanced_constraints_filters(my_params = params)
-  return_content = "" #super(my_params)
-#   if (@advanced_query)
-   if(my_params[:f].present?)
-   # @advanced_query.filters.each_pair do |field, value_list|
-     my_params[:f].each do |key, value|
-#        label = facet_field_labels[field]
-      removeString = makeRemoveString(my_params, key)
+def render_advanced_constraints_filters(params)
+  # Create deep copy of params to not alter original search params hash
+  my_params = params.present? ? params.deep_dup : {}
+
+  return_content = ''
+  if my_params[:f].present?
+    my_params[:f].each do |key, value|
       label = facet_field_labels[key]
-      if value[0].include?('%26')
-        value[0].gsub!('%26','&')
-      end
+      value[0].gsub!('%26', '&')
+      remove_string = make_remove_string(my_params, key)
+
       return_content << render_constraint_element(label,
-        value.join(" AND "),
-#          :remove => search_facet_catalog_path( remove_advanced_filter_group(field, my_params) )
-        :remove => "?" + removeString
-#          :remove => "catalog?"
-        )
+                                                  value.join(' AND '),
+                                                  :remove => '?' + remove_string)
     end
   end
 
@@ -579,7 +575,7 @@ def render_edit_advanced_constraints_filters(my_params = params)
   return return_content.html_safe
 end
 
-def makeRemoveString(my_params, facet_key)
+def make_remove_string(my_params, facet_key)
   removeString = ""
   fkey = facet_key
   advanced_query = my_params["advanced_query"]
