@@ -1,6 +1,8 @@
 require "cgi"
 
 class SearchController < ApplicationController
+  include LoggingHelper
+
   before_action :heading
   def heading
    @heading='Search'
@@ -52,6 +54,9 @@ class SearchController < ApplicationController
 
           # ... which then needs some extra massaging to get the data into the proper form
           faceted_results, @scores = facet_solr_results facet_results
+          log_debug_info("#{__FILE__}:#{__LINE__}",
+                         ["original_query:", original_query],
+                         ["query:", @query])
 
           # Merge the newly generated, format-specific results with any other results (e.g., from
           # Summon or web search), then remove the original single-query result.
