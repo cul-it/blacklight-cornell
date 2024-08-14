@@ -1,6 +1,7 @@
 class BentoSearch::SolrEngineSingle
-
   include BentoSearch::SearchEngine
+
+  include LoggingHelper
 
   # Next, at a minimum, you need to implement a #search_implementation method,
   # which takes a normalized hash of search instructions as input (see documentation
@@ -17,6 +18,10 @@ class BentoSearch::SolrEngineSingle
     bento_results = BentoSearch::Results.new
     # solr search must be transformed to match simple search transformation.
     q = SearchController.transform_query args[:query]
+
+    log_debug_info("#{__FILE__}:#{__LINE__}",
+                   ["args:", args], ["q:", q])
+
     Rails.logger.debug("mjc12test: BentoSearch::SolrEngineSingle called. #{__FILE__} #{__LINE__} transformed q = #{q}")
     #solr = RSolr.connect :url => 'http://da-prod-solr1.library.cornell.edu/solr/blacklight'
     Rails.logger.debug("mjc12test: #{self.class.name} #{__FILE__} #{__LINE__} url is #{configuration.solr_url}")
