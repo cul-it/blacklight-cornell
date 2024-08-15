@@ -172,7 +172,10 @@ $(document).ready(function () {
     const item = $('.ItemNo').first();
     item.click().unbind('click');
     $("#num-selections").text('1');
+    // Append the item to the selected items box; 'false' indicates that the item is not removable
     appendItemToSelection(item.val(), false);
+    // Disable the checkbox so that it matches the non-removable behavior of the single selected item
+    $('.ItemNo').prop('disabled', true)
   }
   else {
     $('.ItemNo').each((_, element) => $(element).click(doClick));
