@@ -25,10 +25,9 @@ function buildRequestForItem(_, element) {
       copy = '',
       Restrictions = ''
     } = itemdata[req] ?? {};
-    const en = `${enumeration} ${chron}`;
     const fields = [
       { name: "Request[]", value: req },
-      { name: `ItemVolume_${req}`, value: enumeration },
+      { name: `ItemVolume_${req}`, value: `${enumeration} ${chron}` },
       { name: `Location_${req}`, value: cslocation },
       { name: `CallNumber_${req}`, value: callnumber },
       { name: `Restrictions_${req}`, value: Restrictions },
@@ -151,12 +150,13 @@ const appendItemToSelection = (id, removable) => {
   const {
     callnumber,
     enumeration,
-    copy = '',
+    copy,
     chron = '',
   } = itemdata[id];
+  const copyString = copy ? `c. ${copy}` : '';
   const remId = `tremid${id}`;
   const remSpan = removable ? `<span id='${remId}'>&nbsp;<image src='/img/cross-small.png' alt='Remove'>&nbsp;</span>` : '';
-  const itemDiv = `<div id='t${id}'> <li>${callnumber} ${copy} ${enumeration} ${chron} ${remSpan}</li></div>`;
+  const itemDiv = `<div id='t${id}'> <li>${callnumber} ${copyString} ${enumeration} ${chron} ${remSpan}</li></div>`;
   $("#selections").append(itemDiv);
 }
 
