@@ -120,7 +120,7 @@ function doClick(event) {
   $("#ItemIssue").val(copy);
   $("#Restrictions").val(Restrictions);
 
-  if ($(this).is(":checked")) {
+  if ($(this).is(":checked") && ($('.ItemNo').length > 1)) {
     const remId = `tremid${id}`;
     appendItemToSelection(id, true);
 
@@ -167,7 +167,7 @@ $(document).ready(function () {
   $("#num-selections").text('0');
   $('#clear').click(clearForm);
   $('#SubmitButton').click(doSubmit);
-
+  $('.ItemNo').each((_, element) => $(element).click(doClick));
   if ($('.ItemNo').length === 1) {
     const item = $('.ItemNo').first();
     item.click().unbind('click');
@@ -176,8 +176,5 @@ $(document).ready(function () {
     appendItemToSelection(item.val(), false);
     // Disable the checkbox so that it matches the non-removable behavior of the single selected item
     $('.ItemNo').prop('disabled', true)
-  }
-  else {
-    $('.ItemNo').each((_, element) => $(element).click(doClick));
   }
 });
