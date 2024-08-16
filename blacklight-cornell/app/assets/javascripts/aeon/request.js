@@ -40,6 +40,7 @@ function buildRequestForItem(_, element) {
       $("#EADRequest").append(`<input type="hidden" name="${field.name}" value="${field.value}">`);
     });
   }
+  
 }
 
 /**
@@ -55,26 +56,16 @@ function doSubmit(_) {
     alert("Please select an item or items for your request.");
     return false;
   }
+  
+  $('.ItemNo').each(buildRequestForItem);
 
-  if (docType === 'Manuscript' || numSelected > 1) {
-    $("#AeonForm").val('EADRequest');
-    $('.ItemNo').each(buildRequestForItem);
-
-    const fixed = ["ItemTitle", "ItemInfo3", "ItemPublisher", "ItemPlace", "ItemDate", "ItemEdition"];
-    fixed.forEach(item => {
-      $("#EADRequest").append(`<input type="hidden" name="${item}_FIXED" value="${$('#' + item).val()}">`);
-    });
-
-    const fixed2 = ["SpecialRequest"];
-    fixed2.forEach(item => {
-      if ($('#' + item).length) {
-        $("#EADRequest").append(`<input type="hidden" name="${item}_FIXED" value="${$('#' + item).val()}">`);
-      }
-    });
-  }
+  const fixed = ['SpecialRequest', 'ItemTitle', 'ItemInfo3'];
+  fixed.forEach(item => {
+    $("#EADRequest").append(`<input type="hidden" name="${item}_FIXED" value="${$('#' + item).val()}">`);
+  });
 
   if (docType === 'Photoduplication') {
-    const fields = ['SpecialRequest', 'ItemCitation', 'Notes', 'ServiceLevel', 'ShippingOption'];
+    const fields = ['ItemCitation', 'Notes', 'ServiceLevel', 'ShippingOption'];
 
     fields.forEach(field => {
       const $element = $(`#${field}`);
@@ -102,21 +93,11 @@ function doClick(event) {
     copy = '',
     Restrictions
   } = itemdata[id];
-  const {
-    publisher,
-    publisher_date,
-    pub_place,
-    edition
-  } = bibdata.items[0];
 
   $("#ItemNumber").val(id);
   $("#Location").val(location);
   $("#CallNumber").val(callnumber);
   $("#ItemVolume").val(enumeration);
-  $("#ItemPublisher").val(publisher);
-  $("#ItemPlace").val(pub_place);
-  $("#ItemDate").val(publisher_date);
-  $("#ItemEdition").val(edition);
   $("#ItemIssue").val(copy);
   $("#Restrictions").val(Restrictions);
 
