@@ -23,9 +23,8 @@
 			<a href="/catalog/<%= @bibid %>" class="return-link">
 				<i class="fa fa-arrow-circle-left"></i> Back to item
 			</a>
-			<form id="EADRequest" name="EADRequest"
-				action=" <%= "/aeon/aeon_login" %> "
-		    method="POST" class="form-horizontal">
+			<form id="EADRequest" name="EADRequest" action="<%= "/aeon/aeon_login" %>" 
+					method="POST" class="form-horizontal">
 				<h2><%= @title %></h2>
 				<% if @finding_aid.present? %>
 				  <p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
@@ -49,10 +48,8 @@
 				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
 				<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
 				<input type="hidden" id="DocumentType" name="DocumentType" value="<%= @doctype %>"/>
-				<input type="hidden" name="WebRequestForm" value="<%= @webreq %>"/>
 				<%= render :partial => 'aeon/holdings' %>
 				<%= render :partial => 'aeon/aeon_body' %>
-				<%= render :partial => 'aeon/warning' %>
 				<%= render :partial => 'aeon/clearer' %>
 	    </form>
 	  </div>
