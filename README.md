@@ -38,7 +38,7 @@
 ## Building Docker image
 
 To run the containerized blacklight-cornell application, you need to have correct remote MySQL information.\
-That information can be found at LastPass shared folder `Sahred-Discovery and Access-Library Systems` -> `container-discovery POC admin`.\
+That information can be found at LastPass shared folder `Shared-Discovery and Access-Library Systems` -> `container-discovery POC admin`.\
 **PLEASE USE THE CREDENTIALS UNDER THE NOTES SECTION!**\
 If you don't have access to the shared folder, please contact the library systems team.\
 **To build and run the application locally, you will need to be in the library VPN**.\
