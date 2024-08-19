@@ -21,6 +21,10 @@ form.advanced {
   .form-group {
     margin-bottom: 0;
   }
+
+  .input_row:not(:last-child) {
+    margin-bottom: 1em;
+  }
 }
 .as-examples {
   margin-bottom: 0;

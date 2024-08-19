@@ -1,266 +1,76 @@
 # Helper methods for the advanced search form
 module AdvancedHelper
-  # Current params without fields that will be over-written by adv. search,
-  # or other fields we don't want.
+  def advanced_search_field_select_opts
+    @advanced_search_field_select_opts ||= begin
+        # make it an ActiveSupport::OrderedHash if it needs to be
+        hash = blacklight_config.search_fields.class.new
+        blacklight_config.search_fields.select do |field, field_config|
+          hash[field] = field_config unless field_config.include_in_advanced_search == false
+        end
 
-  def advanced_search_context
-    my_params = params.dup
-    [:page, :commit, :f_inclusive, :q, :search_field, :op, :action, :index, :sort, :controller].each do |bad_key|
-      my_params.delete(bad_key)
+        hash.collect{|field, field_config| [field_config.label, field_config.field]}
+      end
+  end
+
+  def advanced_search_sort_opts
+    @advanced_search_sort_opts ||= active_sort_fields.each_with_object([]) do |(sort_key, field_config), sort_options|
+      sort_options << [sort_field_label(sort_key), search_state.params_for_search(sort: sort_key)['sort']]
     end
-    search_fields_for_advanced_search.each do |key, field_def|
-      my_params.delete(field_def[:key])
-    end
-    my_params
   end
 
   def strip_quotes(str)
     str.sub(/\A['"]/, "").sub(/['"]\z/, "")
   end
 
-  def search_fields_for_advanced_search
-    # If we could count on 1.9.3 with ordered hashes and
-    # Hash#select that worked reasonably, this would be trivial.
-    # instead, a way compat with 1.8.7 and 1.9.x both.
-    @search_fields_for_advanced_search ||= begin
-        # make it an ActiveSupport::OrderedHash if it needs to be
-        hash = blacklight_config.search_fields.class.new
-        blacklight_config.search_fields.each_pair do |key, value|
-          hash[key] = value unless value.include_in_advanced_search == false
-        end
-
-        hash
-      end
-  end
-
   def prep_query(raw_query)
-    raw_query_trim = raw_query.strip
-    multi_word = raw_query_trim.include?(" ")
-    quoted = (raw_query_trim.start_with?('"') && raw_query_trim.end_with?('"'))
-    single_quoted = (raw_query_trim.start_with?("'") && raw_query_trim.end_with?("'"))
-    stripped_query = strip_quotes(raw_query_trim)
-    # DISCOVERYACCESS-7882 - adv search html injection
-    query = ActionView::Base.full_sanitizer.sanitize(stripped_query)
-    #  replace double quotes with &quot; to render full string in input field
-    query = query.gsub('"', "&quot;")
-    if (multi_word)
-      if (quoted)
-        query = "\"" + query + "\""
-      else
-        # replace single quotes with &apos; to render full string in input field
-        query = "\'" + query.gsub("'", "&apos;") + "\'"
-      end
-    else
-      # effectively remove quotes from single word queries
-    end
-    query
+    query = raw_query.strip
+
+    # Remove quotes if single word query
+    query = strip_quotes(query) unless query.include?(' ')
+
+    # Sanitize to prevent HTML injection
+    query = ActionView::Base.full_sanitizer.sanitize(query)
+
+    # Marks query as safe post-sanitization, so special characters aren't further escaped in view
+    query.html_safe
   end
 
-  DEFAULT_BOOL = "AND"
-
-  def render_edited_advanced_search(params)
-    query = ""
-    if params[:boolean_row].nil?
-      params[:boolean_row] = { "1" => DEFAULT_BOOL }
-    end
-
-    if params[:q_row].nil?
-      params[:q_row] = []
-      params[:q_row][0] = ""
-    end
-    if params[:op_row].nil?
-      params[:op_row] = []
-      params[:op_row][0] = "all"
-    end
-    if params[:search_field_row].nil?
-      params[:search_field_row] = []
-      params[:search_field_row][0] = "all_fields"
-    end
-
-    subject_values = blacklight_config.search_fields.reject { |k, v| v.include_in_advanced_search == false }
-    boolean_values = [["AND", "all"], ["OR", "any"], ["phrase", "phrase"], ["begins_with", "begins with"]]
-    boolean_row_values = [["AND", "and"], ["OR", "or"], ["NOT", "not"]]
-    word = ""
-    row1 = ""
-
-    row1 << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\""
-    query = prep_query(params[:q_row][0])
-    if query.present?
-      row1 << " value=" << query
-    end
-    row1 << " /> "
-    row1 << "<label for=\"op_row\" class=\"sr-only\">" << t("blacklight.search.form.op_row") << "</label>"
-    row1 << "<select class=\"form-control adv-search-control\" id=\"op_row\" name=\"op_row[]\">"
-    boolean_values.each do |key, value|
-      if key == params[:op_row][0]
-        row1 << "<option value=\"" << key << "\" selected>" << value << "</option>"
-      else
-        row1 << "<option value=\"" << key << "\">" << value << "</option>"
-      end
-    end
-    row1 << "</select> in "
-    row1 << "<label for=\"search_field_row\" class=\"sr-only\">" << t("blacklight.search.form.search_field_row") << "</label>"
-    row1 << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
-    subject_values.each do |key, value|
-      if key == params[:search_field_row][0]
-        row1 << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
-      else
-        row1 << "<option value=\"" << key << "\">" << value.label << "</option>"
-      end
-    end
-    row1 << "</select>"
-    unless params[:q_row].count <= 1
-      next2rows = ""
-      for i in 1..params[:q_row].count - 1
-        query = prep_query(params[:q_row][i])
-
-        next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
-        boolean_row_values.each do |key, value|
-          n = i.to_s
-          #  Default to "AND" when missing booleans in search params
-          if key == params[:boolean_row][n] || (params[:boolean_row][n].blank? && key == DEFAULT_BOOL)
-            next2rows << "<div class=\"form-check form-check-inline\">"
-            next2rows << "<label>"
-            next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
-            next2rows << "</label>"
-            next2rows << "</div>"
-          else
-            next2rows << "<div class=\"form-check form-check-inline\">"
-            next2rows << "<label>"
-            next2rows << "<input type=\"radio\" name=\"boolean_row[" << "#{i}" << "]\" value=\"" << key << "\">" << " " << value << " "
-            next2rows << "</label>"
-            next2rows << "</div>"
-          end
-        end
-        next2rows << "</div>"
-        next2rows << "<div class=\"form-group\">"
-        next2rows << "<label for=\"q_row" << "#{i}\"" << " class=\"sr-only\">" << t("blacklight.search.form.q_row") << "</label>"
-        next2rows << "<input autocapitalize=\"off\" class=\"form-control adv-search-control\" id=\"q_row" << "#{i}" << "\" name=\"q_row[]\" type=\"text\""
-        if query.present?
-          next2rows << " value=" << query
-        end
-        next2rows << " /> "
-        next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t("blacklight.search.form.op_row") << "</label>"
-        next2rows << "<select class=\"form-control adv-search-control\" id=\"op_row" << "#{i}" << "\" name=\"op_row[]\">"
-        boolean_values.each do |key, value|
-          if key == params[:op_row][i]
-            next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
-          else
-            next2rows << "<option value=\"" << key << "\">" << value << "</option>"
-          end
-        end
-        next2rows << "</select> in "
-        next2rows << "<label for=\"search_field_row" << "#{i}\" class=\"sr-only\">" << t("blacklight.search.form.search_field_row") << "</label>"
-        next2rows << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row" << "#{i}" << "\" name=\"search_field_row[]\">"
-        subject_values.each do |key, value|
-          if key == params[:search_field_row][i]
-            next2rows << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
-          else
-            next2rows << "<option value=\"" << key << "\">" << value.label << "</option>"
-          end
-        end
-        next2rows << "</select></div></div>"
-      end
-    else
-      next2rows = ""
-      next2rows << "<div class=\"input_row\"><div class=\"boolean_row radio adv-search-control\">"
-      boolean_row_values.each do |key, value|
-        if params[:boolean_row]["1"].blank?
-          params[:boolean_row]["1"] = "AND"
-        end
-        if key == params[:boolean_row]["1"]
-          next2rows << "<div class=\"form-check form-check-inline\">"
-          next2rows << "<label>"
-          next2rows << "<input type=\"radio\" name=\"boolean_row[1]\" value=\"" << key << "\" checked=\"checked\">" << " " << value << " "
-          next2rows << "</label>"
-          next2rows << "</div>"
-        else
-          next2rows << "<div class=\"form-check form-check-inline\">"
-          next2rows << "<label>"
-          next2rows << "<input type=\"radio\" name=\"boolean_row[1]\" value=\"" << key << "\">" << " " << value << " "
-          next2rows << "</label>"
-          next2rows << "</div>"
-        end
-      end
-      next2rows << "</select></div></div>"
-      next2rows << "<input autocapitalize=\"off\" id=\"q_row\" class=\"form-control adv-search-control\" name=\"q_row[]\" placeholder=\"Search....\" type=\"text\" value=\"" << "\" /> "
-      next2rows << "<label for=\"op_row" << "#{i}\" class=\"sr-only\">" << t("blacklight.search.form.op_row") << "</label>"
-      next2rows << "<select class=\"form-control adv-search-control\" id=\"op_row\" name=\"op_row[]\">"
-      boolean_values.each do |key, value|
-        if key == params[:op_row][0]
-          next2rows << "<option value=\"" << key << "\" selected>" << value << "</option>"
-        else
-          next2rows << "<option value=\"" << key << "\">" << value << "</option>"
-        end
-      end
-      next2rows << "</select> in "
-      next2rows << "<label for=\"search_field_row\" class=\"sr-only\">" << t("blacklight.search.form.search_field_row") << "</label>"
-      next2rows << "<select class=\"advanced-search-field form-control adv-search-control\" id=\"search_field_row\" name=\"search_field_row[]\">"
-      subject_values.each do |key, value|
-        if key == params[:search_field_row][0]
-          next2rows << "<option value=\"" << key << "\" selected>" << value.label << "</option>"
-        else
-          next2rows << "<option value=\"" << key << "\">" << value.label << "</option>"
-        end
-      end
-
-      next2rows << "</select>"
-    end
-
-    fparams = ""
-    unless params[:f].nil?
-      params[:f].each do |key, value|
-        value.each do |name|
-          fparams << "<input type=\"hidden\" name=\"f[" << key << "][]\" value=\"" << name << "\"/>"
-        end
-      end
-    end
-    word << row1 << next2rows << fparams
-    return word.html_safe
+  def default_form_values(params)
+    [
+      { q: params[:q], search_field: params[:search_field] },
+      {}
+    ]
   end
 
-  def search_as_hidden_fields(options = {})
-    my_params = cornell_params_for_search({ :omit_keys => [:page] }.merge(options))
+  def params_to_form_values(params)
+    q_row = params[:q_row] || []
+    op_row = params[:op_row] || []
+    search_field_row = params[:search_field_row] || []
+    boolean_row = params[:boolean_row] || {}
 
-    # hash_as_hidden_fields in hash_as_hidden_fields.rb
-    return hash_as_hidden_fields(my_params)
+    form_values = []
+    q_row.count.times do |i|
+      row = {
+        q: prep_query(q_row[i]),
+        op: op_row[i] || 'AND',
+        search_field: search_field_row[i] || 'all_fields'
+      }
+      row.merge!(boolean: boolean_row[i.to_s] || 'AND') if i > 0
+      form_values << row
+    end
+
+    form_values
   end
 
-  def hash_as_hidden_fields(hash)
-    hidden_fields = []
-    flatten_hash(hash).each do |name, value|
-      value = [value] if !value.is_a?(Array)
-      value.each do |v|
-        hidden_fields << hidden_field_tag(name, v.to_s, :id => nil)
+  def params_to_hidden_form_values(params)
+    return [] if params[:f].nil?
+
+    hidden_filters = []
+    params[:f].each do |key, value|
+      value.each do |name|
+        hidden_filters << { name: "f[#{key}][]", value: name }
       end
     end
-
-    hidden_fields.join("\n").html_safe
-  end
-
-  def flatten_hash(hash = params, ancestor_names = [])
-    flat_hash = {}
-    hash.each do |k, v|
-      names = Array.new(ancestor_names)
-      names << k
-      if v.is_a?(Hash)
-        flat_hash.merge!(flatten_hash(v, names))
-      else
-        key = flat_hash_key(names)
-        key += "[]" if v.is_a?(Array)
-        flat_hash[key] = v
-      end
-    end
-
-    flat_hash
-  end
-
-  def flat_hash_key(names)
-    names = Array.new(names)
-    name = names.shift.to_s.dup
-    names.each do |n|
-      name << "[#{n}]"
-    end
-    name
+    hidden_filters
   end
 end
