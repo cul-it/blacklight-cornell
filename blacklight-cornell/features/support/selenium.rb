@@ -55,6 +55,7 @@ if ENV['USE_TEST_CONTAINER']
   end
 else
   Capybara.javascript_driver = :selenium_chrome_headless
+    chrome_options = Selenium::WebDriver::Chrome::Options.new
     chrome_options.browser_version = '126'
   Capybara.server = :webrick
 end
