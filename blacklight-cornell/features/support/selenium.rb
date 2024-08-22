@@ -54,8 +54,16 @@ if ENV['USE_TEST_CONTAINER']
     end
   end
 else
-  Capybara.javascript_driver = :selenium_chrome_headless
+  Capybara.register_driver :remote_selenium_126 do |app|
     chrome_options = Selenium::WebDriver::Chrome::Options.new
+    chrome_options.add_argument('--headless')
     chrome_options.browser_version = '126'
+
+    Capybara::Selenium::Driver.new(
+      app,
+      options: chrome_options
+    )
+  end
+  Capybara.javascript_driver = :remote_selenium_126
   Capybara.server = :webrick
 end
