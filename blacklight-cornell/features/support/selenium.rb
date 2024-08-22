@@ -54,16 +54,8 @@ if ENV['USE_TEST_CONTAINER']
     end
   end
 else
-  Capybara.register_driver :remote_selenium_126 do |app|
-    chrome_options = Selenium::WebDriver::Options.chrome
-    chrome_options.add_argument('--headless')
-    chrome_options.browser_version = '126'
-
-    Capybara::Selenium::Driver.new(
-      app,
-      options: chrome_options
-    )
-  end
-  Capybara.javascript_driver = :remote_selenium_126
+  ENV['WD_CHROME_PATH'] = '/home/jenkins/.cache/selenium/chrome/linux64/126.0.6478.0/chrome'
+  Selenium::WebDriver::Chrome.path = ENV['WD_CHROME_PATH']
+  Capybara.javascript_driver = :selenium_chrome_headless
   Capybara.server = :webrick
 end
