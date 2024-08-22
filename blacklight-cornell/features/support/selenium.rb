@@ -30,7 +30,6 @@ if ENV['USE_TEST_CONTAINER']
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--window-size=1400,1400')
     chrome_options.add_argument('--disable-gpu')
-    chrome_options.browser_version = '126'
 
     long_client = Selenium::WebDriver::Remote::Http::Default.new
     long_client.read_timeout = 120
@@ -56,5 +55,6 @@ if ENV['USE_TEST_CONTAINER']
   end
 else
   Capybara.javascript_driver = :selenium_chrome_headless
+    chrome_options.browser_version = '126'
   Capybara.server = :webrick
 end
