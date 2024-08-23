@@ -24,19 +24,14 @@ $(document).ready ->
       # Clear any populated text input
       if $(this).attr('type') == 'text'
         $(this).val('')
-      # we want between row operator to default to AND
-      # -- we also want to increment the neme, otherwise values will be overwritten
-      if $(this).attr('type') == 'radio'
-        incrementedName = $(this).attr('name').replace(/\[(\d+)\]$/, (match, p1) ->
-          increment = parseInt(p1) + 1
-          return '[' + increment + ']'
-        )
-        $(this).attr('name', incrementedName)
 
-        if $(this).val() != 'AND'
-          $(this).attr('checked', false)
-        else
-          $(this).attr('checked', true)
+    # Increment boolean row name too (formatted differently: boolean_row[n])
+    booleanSelect = newRow.find('select[id^="boolean_row"]')
+    incrementedName = booleanSelect.attr('name').replace(/\[(\d+)\]$/, (match, p1) ->
+      increment = parseInt(p1) + 1
+      return '[' + increment + ']'
+    )
+    booleanSelect.attr('name', incrementedName)
 
     newRow.appendTo('.query_zone')
     return false

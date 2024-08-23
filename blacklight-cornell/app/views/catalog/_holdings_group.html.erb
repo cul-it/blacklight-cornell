@@ -1,70 +1,70 @@
 
-<% reading = '' %>
-<%# bwith = '' %>
-<%# if @document['abbound_with_json'] %>
-  <%# bwith = t('blacklight.catalog.bound_with') %>
-<%# end %>
-<% multi_vol = @document['multivol_b'] %>
+<% reading = "" %>
+<% # bwith = '' %>
+<% # if @document['abbound_with_json'] %>
+  <% # bwith = t('blacklight.catalog.bound_with') %>
+<% # end %>
+<% multi_vol = @document["multivol_b"] %>
 <% on_site_count = 0 %>
 <% reserve_item = false %>
 <% noncirc = false %>
 <% aeon_codes = [] %>
-<% not_spif = 0  %>
-<% spif = 0  %>
+<% not_spif = 0 %>
+<% spif = 0 %>
 
 <% if group == "Rare" %>
-<% reading = ' for Reading Room Delivery' %>
-<% noncirc = true  %>
+<% reading = " for Reading Room Delivery" %>
+<% noncirc = true %>
 <% end %>
 
-<%#= @document.inspect %>
+<% #= @document.inspect %>
 
 <% items.each do |i| %>
 <div class="holding">
-  <%# <%= i.inspect %>
+  <% # <%= i.inspect %>
   <% if group == "Rare" %>
-    <% aeon_codes << i['location']['code'] unless aeon_codes.include?(i['location']['code']) %>
+    <% aeon_codes << i["location"]["code"] unless aeon_codes.include?(i["location"]["code"]) %>
   <% end %>
 
   <% if !i["circ"].present? %>
   <% noncirc = true %>
   <% end %>
 
-  <% reserve_item = (i['location']['code'].include?(',res') ||  i['location']['code'].include?('oclc,afrp') || i['location']['name'].include?('Reserve')) %>
+  <% reserve_item = (i["location"]["code"].include?(",res") || i["location"]["code"].include?("oclc,afrp") || i["location"]["name"].include?("Reserve")) %>
   <% if i["location"]["name"] !~ /Spacecraft Planetary Imaging Facility/ %>
-    <% not_spif += 1  %>
+    <% not_spif += 1 %>
   <% end %>
   <% if i["location"]["name"] =~ /Non-Circulating/ %>
-    <% noncirc = true  %>
+    <% noncirc = true %>
   <% end %>
   <% if i["location"]["name"] =~ /Spacecraft Planetary Imaging Facility/ %>
-    <% noncirc = true  %>
-    <% spif += 1  %>
+    <% noncirc = true %>
+    <% spif += 1 %>
   <% end %>
     <!-- location -->
 
-    <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] == 'Available for the Library to Purchase' %>
-      <% pda = 'yes' %>
+    <% if !i["call"].blank? && !i["call"].include?("No call number") && i["call"] == "Available for the Library to Purchase" %>
+      <% pda = "yes" %>
     <% end %>
 
-    <% if pda == 'yes' %>
+    <% if pda == "yes" %>
       <div class="location">
-        <%= 'Available for the Library to purchase' %>
+        <%= "Available for the Library to purchase" %>
         </br>
-        <%= 'Request item for rush purchase (typically within a week).' %>
+        <%= "Request item for rush purchase (typically within a week)." %>
       </div>
-    <% elsif i["location"]["name"] != 'Library Technical Services Review Shelves' && @document['callnum_sort'] != 'Available for the Library to Purchase' %>
+    <% elsif i["location"]["name"] != "Library Technical Services Review Shelves" && @document["callnum_sort"] != "Available for the Library to Purchase" %>
       <div class="location">
         <%= i["location"]["name"] %>
         <span class="map-it">
-          <% if i['location']['hoursCode'].present? %>
+          <% if i["location"]["hoursCode"].present? %>
             <% if i["location"]["hoursCode"] == "spif" %>
-              <%= link_to "Hours", "https://cornellspif.com/contact-spif/", "aria-label" => i["location"]["name"] +" Hours" %>
+              <%= link_to "Hours", "https://cornellspif.com/contact-spif/", "aria-label" => i["location"]["name"] + " Hours" %>
             <% else %>
-              <% if i['location']['hoursCode'] == "ciser" %>
-                <%= link_to "Hours", "https://ciser.cornell.edu/", "aria-label" => i["location"]["name"] +" Hours" %>
+              <% if i["location"]["hoursCode"] == "ciser" %>
+                <%= link_to "Hours", "https://ciser.cornell.edu/", "aria-label" => i["location"]["name"] + " Hours" %>
               <% else %>
-                <%= link_to "Hours", "https://www.library.cornell.edu/libraries/" + i['location']['hoursCode'], "aria-label" => i["location"]["name"] +" Hours" %>
+                <%= link_to "Hours", "https://www.library.cornell.edu/libraries/" + i["location"]["hoursCode"], "aria-label" => i["location"]["name"] + " Hours" %>
               <% end %>
             <% end %>
           <% end %>
@@ -73,19 +73,14 @@
       </div>
     <% end %>
 
-    <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] == 'Available for the Library to Purchase' %>
-      <% pda = 'yes' %>
+    <% if !i["call"].blank? && !i["call"].include?("No call number") && i["call"] == "Available for the Library to Purchase" %>
+      <% pda = "yes" %>
     <% end %>
 
-    <% if !i["call"].blank? && !i["call"].include?('No call number') && i["call"] != '' %>
+    <% if !i["call"].blank? && !i["call"].include?("No call number") && i["call"] != "" %>
       <div class="call-number">
-      <% if pda != 'yes' %>
+      <% if pda != "yes" %>
         <%= i["call"] %>
-        <span class="text-it">
-        <%= link_to sms_solr_document_path(:id => params[:id], :location => i["location"]["name"], :callnumber => i["call"]), {:id => 'smsLink', :name => 'Text', :class => 'lightboxLink', "aria-label" => "Text " + i["location"]["name"] + " " + i["call"], :data => {:toggle => 'tooltip', :placement => 'right', blacklight_modal: "trigger"}, :title =>
-            'Text call number'} do %>
-          <i class="fa fa-mobile" aria-hidden="true"></i><%= t('blacklight.tools.sms') %>
-        <% end %>
       <% end %>
     </div>
   <% end %>
@@ -93,8 +88,8 @@
       <!-- holding description, notes, status -->
       <div class="group">
         <% if i["items"].present? %>
-        <% if i['items']['tempLoc'].present? %>
-        <% i['items']['tempLoc'].each do |t| %>
+        <% if i["items"]["tempLoc"].present? %>
+        <% i["items"]["tempLoc"].each do |t| %>
           <div class="message">
             <%= t["enum"] %> Temporarily shelved in <%= t["location"]["name"] %>
           </div>
@@ -103,28 +98,28 @@
         <% end %>
 
 
-          <% if i['boundWith'].present? %>
-            <% bw = i['boundWith'] %>
+          <% if i["boundWith"].present? %>
+            <% bw = i["boundWith"] %>
             <% bwenums = [] %>
-              <% bw.each do |k,v| %>
-                  <% @mi = v['masterBibId']%>
+              <% bw.each do |k, v| %>
+                  <% @mi = v["masterBibId"] %>
                   <% @mt = v["masterTitle"] %>
                   <% bwenums << v["masterEnum"] %>
               <% end %>
                   <div class="message">
                      <a href="/catalog/<%= @mi %>">This item is bound with another item. Requests must be made to that item: <%= @mt %>
-                       <%= bwenums.join(', ').html_safe %></a>
+                       <%= bwenums.join(", ").html_safe %></a>
                   </div>
             <% end %>
 
 
         <div class="message">
-        <% if i['order'].present? %>
-          <%= i['order'] %>
+        <% if i["order"].present? %>
+          <%= i["order"] %>
         <% end %>
         </div>
 
-        <%#= i.inspect %>
+        <% #= i.inspect %>
         <div class="message">
           <% if i["holdings"].present? %>
             Library has: <% if i["holdings"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["holdings"]) %>
@@ -133,13 +128,13 @@
 
         <div class="message">
           <% if i["indexes"].present? %>
-             
-            Indexes: <% if i["indexes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["indexes"]) %> 
+
+            Indexes: <% if i["indexes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["indexes"]) %>
           <% end %>
         </div>
 
         <div class="message">
-          <% if i["supplements"].present? %>             
+          <% if i["supplements"].present? %>
             Supplements: <% if i["supplements"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["supplements"]) %>
           <% end %>
         </div>
@@ -149,22 +144,22 @@
           Notes: <% if i["notes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["notes"]) %>
           <% end %>
         </div>
-       
+
         <div class="message">
           <% if !i["recents"].nil? and i["recents"].size == 1 %>
              Current Issues: <%= i["recents"][0] %>
           <% else %>
              <% if !i["recents"].nil? and i["recents"].size > 1 %>
                Current Issues:<br><%= i["recents"].join("<br>").html_safe %>
-             <% end %> 
+             <% end %>
           <% end %>
         </div>
 
       </div>
-    <%= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:on_site_count=>on_site_count %>
-    <%#= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
+    <%= render "solr_status", :i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc => noncirc, :multi_vol => multi_vol, :on_site_count => on_site_count %>
+    <% #= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
   </div>
 
   <% end %>
 
-  <%= render 'request_buttons', :group => group, :noncirc => noncirc, :@document => @document, :aeon_codes => aeon_codes, :not_spif => not_spif, :spif => :spif, :reading => reading, :reserve_item => reserve_item %>
+  <%= render "request_buttons", :group => group, :noncirc => noncirc, :@document => @document, :aeon_codes => aeon_codes, :not_spif => not_spif, :spif => :spif, :reading => reading, :reserve_item => reserve_item %>

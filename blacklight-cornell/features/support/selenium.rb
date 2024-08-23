@@ -54,6 +54,8 @@ if ENV['USE_TEST_CONTAINER']
     end
   end
 else
+  ENV['WD_CHROME_PATH'] = '/home/jenkins/.cache/selenium/chrome/linux64/126.0.6478.0/chrome'
+  Selenium::WebDriver::Chrome.path = ENV['WD_CHROME_PATH']
   Capybara.javascript_driver = :selenium_chrome_headless
   Capybara.server = :webrick
 end

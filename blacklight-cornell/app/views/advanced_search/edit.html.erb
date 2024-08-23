@@ -1,0 +1,4 @@
+<% @page_title = "Advanced Search Edit - #{application_name}" %>
+<%= render 'form', params: params,
+                   form_row_values: params_to_form_values(params),
+                   hidden_form_values: params_to_hidden_form_values(params) %>
