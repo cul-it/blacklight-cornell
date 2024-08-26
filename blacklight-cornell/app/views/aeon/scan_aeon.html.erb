@@ -24,27 +24,40 @@
 			<a href="/catalog/<%= @bibid %>" class="return-link">
 				<i class="fa fa-arrow-circle-left"></i> Back to item
 			</a>
-			<form id="RequestForm" action="/aeon/aeon_login" method="GET" class="form-horizontal">
-				<h2><%= @title %></h2>
+			<h2><%= @title %></h2>
+			<div id="info-wrapper">
 				<% if @finding_aid.present? %>
-				  <p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
-			  	<% end %>
-				<strong><%= @re506 %></strong>
-				<div id="shoppingcart">
-					<span id="numitems">Number of items selected:</span>
-					<span id="num-selections-wrapper">
-						<span id="num-selections"></span>
-					</span>
-					<div id="selections-wrapper">
-						<ol>
-							<div id="selections"></div>
-						</ol>
-					</div>
-				</div>
+					<p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
+				<% end %>
+				<% if @re506.present? %>
+					<h3 style="display: inline-block;">Restrictions: </h3>
+					<p style="display: inline-block;"> <%= @re506 %></p>
+				<% end %>
+			</div>
 
+			<div id="shoppingcart">
+				<span id="numitems">Number of items selected:</span>
+				<span id="num-selections-wrapper">
+					<span id="num-selections"></span>
+				</span>
+				<div id="selections-wrapper">
+					<ol>
+						<div id="selections"></div>
+					</ol>
+				</div>
+			</div>
+
+			<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
+		 
+			<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">
+				<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+				<input type="hidden" name="authenticated" value="true">
 				<input type="hidden" name="SkipOrderEstimate" value="Yes">
 				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
-				<input type="hidden" id="ItemNumber" name="ItemNumber" value=""/>
+				<input type="hidden" name="AeonForm" value="ExternalRequest">
+				<input type="hidden" name="SystemID" value="Aeon Copy">
+				<input type="hidden" name="WebRequestForm" value="PhotoduplicationRequest">
+				<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request"/>
 				<input type="hidden" name="RequestType" value="Copy"/>
 				<input type="hidden" id="DocumentType" name="DocumentType" value="Photoduplication"/>
 				<input type="hidden" name="FormValidationOverride" value="AllRequests">
@@ -52,7 +65,7 @@
 				<%= render :partial => 'aeon/holdings' %>
 				<%= render :partial => 'aeon/aeon_scan_body' %>
 				<%= render :partial => 'aeon/clearer' %>
-      </form>
-    </div>
-  </body>
+      		</form>
+		</div>
+  	</body>
  </html>

@@ -12,8 +12,9 @@ function clearForm(event) {
  * Builds the request for the selected item and appends the necessary hidden input fields to the form.
  * @param {number} _ - The index of the element in the jQuery collection.
  * @param {HTMLElement} element - The DOM element.
+ * @param {boolean} multipleFlag - Whether multiple items will be submitted in the request.
  */
-function buildRequestForItem(_, element) {
+function buildRequestForItem(_, element, multipleFlag) {
   const req = $(element).attr('name');
   if ($(element).is(':checked')) {
     const {
@@ -21,26 +22,26 @@ function buildRequestForItem(_, element) {
       barcode = '',
       chron = '',
       cslocation = '',
+      location = '',
       callnumber = '',
       copy = '',
-      Restrictions = ''
     } = itemdata[req] ?? {};
-    const fields = [
-      { name: "Request[]", value: req },
-      { name: `ItemVolume_${req}`, value: `${enumeration} ${chron}` },
-      { name: `Location_${req}`, value: cslocation },
-      { name: `CallNumber_${req}`, value: callnumber },
-      { name: `Restrictions_${req}`, value: Restrictions },
-      { name: `ItemInfo1_${req}`, value: chron },
-      { name: `ItemNumber_${req}`, value: barcode },
-      { name: `ItemIssue_${req}`, value: copy }
-    ];
 
+    const fields = [
+      { name: `ItemVolume`, value: `${enumeration} ${chron}` },
+      { name: `Location`, value: cslocation + ' ' + location},
+      { name: `CallNumber`, value: callnumber },
+      { name: `ItemInfo1`, value: chron },
+      { name: `ItemNumber`, value: barcode },
+      { name: `ItemIssue`, value: copy }
+    ];
+    $("#RequestForm").append(`<input type="text" name="Request" value="${req}">`);
+    const ext = multipleFlag ? `_${req}` : '';
     fields.forEach(field => {
-      $("#EADRequest").append(`<input type="hidden" name="${field.name}" value="${field.value}">`);
+      $("#RequestForm").append(`<input type="text" name="${field.name}${ext}" value="${field.value}">`);
     });
   }
-  
+
 }
 
 /**
@@ -56,16 +57,17 @@ function doSubmit(_) {
     alert("Please select an item or items for your request.");
     return false;
   }
-  
-  $('.ItemNo').each(buildRequestForItem);
 
-  const fixed = ['SpecialRequest', 'ItemTitle', 'ItemInfo3'];
-  fixed.forEach(item => {
-    $("#EADRequest").append(`<input type="hidden" name="${item}_FIXED" value="${$('#' + item).val()}">`);
-  });
+  if(numSelected == "1") { 
+    // for a single item request, hidden input field names can NOT have that ID appended
+    $('.ItemNo').each((_, element) => buildRequestForItem(_, element, false));
+  } else {
+    // for requests w/multiple items, hidden input field names must have '_item#' appended
+    $('.ItemNo').each((_, element) => buildRequestForItem(_, element, true));
+  }
 
   if (docType === 'Photoduplication') {
-    const fields = ['ItemCitation', 'Notes', 'ServiceLevel', 'ShippingOption'];
+    const fields = ['SpecialRequest', 'ItemCitation', 'Notes', 'ServiceLevel', 'ShippingOption'];
 
     fields.forEach(field => {
       const $element = $(`#${field}`);
@@ -74,7 +76,6 @@ function doSubmit(_) {
       }
     });
   }
-
   return true;
 }
 
@@ -90,8 +91,7 @@ function doClick(event) {
     location,
     callnumber,
     enumeration,
-    copy = '',
-    Restrictions
+    copy = ''
   } = itemdata[id];
 
   $("#ItemNumber").val(id);
@@ -99,7 +99,6 @@ function doClick(event) {
   $("#CallNumber").val(callnumber);
   $("#ItemVolume").val(enumeration);
   $("#ItemIssue").val(copy);
-  $("#Restrictions").val(Restrictions);
 
   if ($(this).is(":checked") && ($('.ItemNo').length > 1)) {
     const remId = `tremid${id}`;
@@ -147,7 +146,7 @@ const appendItemToSelection = (id, removable) => {
 $(document).ready(function () {
   $("#num-selections").text('0');
   $('#clear').click(clearForm);
-  $('#SubmitButton').click(doSubmit);
+  $('#RequestForm').submit(doSubmit);
   $('.ItemNo').each((_, element) => $(element).click(doClick));
   if ($('.ItemNo').length === 1) {
     const item = $('.ItemNo').first();
@@ -157,5 +156,22 @@ $(document).ready(function () {
     appendItemToSelection(item.val(), false);
     // Disable the checkbox so that it matches the non-removable behavior of the single selected item
     $('.ItemNo').prop('disabled', true)
+  }
+});
+
+/**
+ * If the user navigated back to the form, the shopping cart
+ * is out of sync with selected items. This function will 
+ * reset the shopping cart and show the correct num selected value
+ */
+$(window).on('pageshow', function () {
+  const checkedItems = $('.ItemNo:checked');
+  if (checkedItems.length > 0) {
+    checkedItems.each((_, element) => {
+      const item = $(element);
+      // Append the item to the selected items box
+      appendItemToSelection(item.val(), true);
+      $("#num-selections").text(parseInt($("#num-selections").text()) + 1);
+    });
   }
 });
