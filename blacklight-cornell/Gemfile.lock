@@ -49,10 +49,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 84a17456d5464515667a686cdf57265abc532f18
-  tag: v2.3.1
+  revision: 91e2c3dcf93b029ac911ef8eb87854a1eeaf826f
+  tag: v2.3.2
   specs:
-    my_account (2.3.1)
+    my_account (2.3.2)
       blacklight (>= 7.0)
       cul-folio-edge (~> 3.1)
       rails (~> 6.1)
