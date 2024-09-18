@@ -4,6 +4,8 @@ set -e
 echo ""
 echo "*********************************************************************************"
 echo ""
+cd blacklight-cornell
+
 source jenkins/environment.sh
 
 # Clean up existing Bundler installations
