@@ -21,6 +21,10 @@ export PATH=$GEM_HOME/bin:$PATH
 which bundle
 bundle --version
 
+# Clear cached gems in RVM
+rvm gemset empty default
+rm -rf $rvm_path/gem-cache
+
 bundle update --redownload blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
 bundle info concurrent-ruby
