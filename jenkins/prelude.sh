@@ -23,7 +23,15 @@ cd blacklight-cornell
 bundle update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
 bundle info concurrent-ruby
-RAILS_ENV=test bin/rake db:migrate
+
+# Set the environment for the test database
+echo "Setting environment for the test database..."
+bin/rails db:environment:set RAILS_ENV=${RAILS_ENV}
+
+# Run database migrations
+echo "Running database migrations..."
+bundle exec rake db:migrate
+
 brakeman --fast  -o brakeman-output.json
 echo $RAILS_ENV
 rm -fr results/*
