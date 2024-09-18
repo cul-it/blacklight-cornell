@@ -21,6 +21,7 @@ export PATH=$GEM_HOME/bin:$PATH
 which bundle
 bundle --version
 
+bundle exec gem uninstall my_account
 bundle update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
 bundle info concurrent-ruby
