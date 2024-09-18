@@ -21,6 +21,8 @@ pipeline {
                     }
                 }
                 echo 'Run prelude.sh'
+                // Add the safe directory configuration
+                sh 'git config --global --add safe.directory /usr/local/rvm/gems/ruby-3.2.2/cache/bundler/git/blacklight-cornell-requests-c752c2b177d641220d3e2d75f3d718e4a0372f98'
                 sh 'jenkins/prelude.sh'
             }
         }
