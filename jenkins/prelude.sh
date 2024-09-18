@@ -6,7 +6,7 @@ echo "**************************************************************************
 echo ""
 cd blacklight-cornell
 
-source jenkins/environment.sh
+source ../jenkins/environment.sh
 
 # Clean up existing Bundler installations
 gem uninstall bundler -aIx
