@@ -22,14 +22,14 @@ pipeline {
                     }
                 }
                 echo 'Run prelude.sh'
-                sh 'blacklight-cornell/jenkins/prelude.sh'
+                sh 'jenkins/prelude.sh'
             }
         }
 
         stage("Rspec tests") {
             steps {
                 echo "Running Rspec tests"
-                sh 'blacklight-cornell/jenkins/rspec.sh'
+                sh 'jenkins/rspec.sh'
             }
         }
 
@@ -50,7 +50,7 @@ pipeline {
                 echo "Running cucumber tests"
                 timeout(90) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-                        sh 'blacklight-cornell/jenkins/cucumber-features.sh'
+                        sh 'jenkins/cucumber-features.sh'
                     }
                 }
             }
@@ -76,7 +76,7 @@ pipeline {
     post {
         success {
             echo "The thrill of victory"
-            sh 'blacklight-cornell/jenkins/report-status-to-github.sh success'
+            sh 'jenkins/report-status-to-github.sh success'
             script {
                 if (BRANCH_NAME ==~ /PR-.+/) {
                     slackSend channel: "#discovery-and-access", color: "#00ff00", message: "Build Successful - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
@@ -85,7 +85,7 @@ pipeline {
         }
         unsuccessful {
             echo "The agony of defeat"
-            sh 'blacklight-cornell/jenkins/report-status-to-github.sh failure'
+            sh 'jenkins/report-status-to-github.sh failure'
             script {
                 if (BRANCH_NAME ==~ /PR-.+/) {
                     // slackSend channel: "#discovery-and-access", color: "#ff0000", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
