@@ -5,7 +5,20 @@ echo ""
 echo "*********************************************************************************"
 echo ""
 source jenkins/environment.sh
-gem install bundler -v 2.3.26
+
+# Clean up existing Bundler installations
+gem uninstall bundler -aIx
+
+# Reinstall Bundler without documentation
+gem install bundler -v 2.4.10 --no-document
+
+# Ensure the PATH includes the directory where Bundler is installed
+export PATH=$GEM_HOME/bin:$PATH
+
+# Verify Bundler installation
+which bundle
+bundle --version
+
 cd blacklight-cornell
 bundle update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
