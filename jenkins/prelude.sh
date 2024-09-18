@@ -22,7 +22,7 @@ which bundle
 bundle --version
 
 # Clear cached gems in RVM
-rvm gemset empty default
+rvm gemset empty default --force
 rm -rf $rvm_path/gem-cache
 
 bundle update --redownload blacklight_unapi blacklight_cornell_requests my_account sqlite3
