@@ -39,8 +39,7 @@ git rev-parse --abbrev-ref HEAD
 echo "JENKINS_HOME: $JENKINS_HOME"
 echo "Ruby: $RUBYVERSION"
 echo "PATH is:$PATH"
-which bundle
-chromedriver --version
+
 echo "Xvfb DISPLAY value is $DISPLAY"
 echo "Diligent Tester: $DEBUG_USER"
 grep ^SOLR_URL blacklight-cornell/.env
