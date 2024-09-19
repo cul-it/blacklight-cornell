@@ -26,7 +26,7 @@ class BookBagsController < CatalogController
 
   def authenticate
     #binding.pry
-    if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
+    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
       mock_auth
       :authenticate_user!
     else
@@ -39,27 +39,27 @@ class BookBagsController < CatalogController
   end
 
   def mock_auth
-    if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
+    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
         provider: "saml",
-        "saml_resp" => 'hello' ,
+        "saml_resp" => "hello",
         uid: "12345678910",
-        extra: {raw_info: {} } ,
+        extra: { raw_info: {} },
         info: {
-          email: [ENV['DEBUG_USER']],
+          email: [ENV["DEBUG_USER"]],
           name: ["Diligent Tester"],
           netid: "jgr25",
-          groups: ["staff","student"],
+          groups: ["staff", "student"],
           primary: ["staff"],
           first_name: "Diligent",
-          last_name: "Tester"
+          last_name: "Tester",
         },
         credentials: {
           token: "abcdefg12345",
           refresh_token: "12345abcdefg",
-          expires_at: DateTime.now
-        }
+          expires_at: DateTime.now,
+        },
       })
     end
   end

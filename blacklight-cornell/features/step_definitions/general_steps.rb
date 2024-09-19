@@ -143,3 +143,13 @@ Then("the Rails environment should be {string}") do |expected_env|
     fail("Expected Rails environment to be #{expected_env}, but it was #{Rails.env}")
   end
 end
+
+Then ("I {string} login required") do |string|
+  if string == "set"
+    ENV["LOGIN_REQUIRED"] = "true"
+  elsif string == "clear"
+    ENV.delete("LOGIN_REQUIRED")
+  else
+    expect(string).not_to have_content(string)
+  end
+end
