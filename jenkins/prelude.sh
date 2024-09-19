@@ -34,7 +34,7 @@ echo "Running database migrations..."
 bundle exec rake db:migrate
 
 brakeman --fast  -o brakeman-output.json
-echo $RAILS_ENV
+echo "Rails environment: $RAILS_ENV"
 rm -fr results/*
 mkdir -p results
 rm -f features/cassettes/cucumber_tags/*
