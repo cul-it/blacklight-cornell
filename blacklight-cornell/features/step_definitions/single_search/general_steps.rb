@@ -36,7 +36,7 @@ end
 
 Then("I should see {string} in the flash message") do |string|
   within ("#main-flashes") do
-    expect(page.find("div.flash_messages > .alert")).to have_content string
+    expect(page.find("div.alert")).to have_content(string)
   end
 end
 
