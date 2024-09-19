@@ -31,6 +31,9 @@ if ENV['USE_TEST_CONTAINER']
     chrome_options.add_argument('--window-size=1400,1400')
     chrome_options.add_argument('--disable-gpu')
 
+    # Specify the path to the Chrome binary
+    chrome_options.binary = "/usr/bin/google-chrome" # Update this path as needed
+
     long_client = Selenium::WebDriver::Remote::Http::Default.new
     long_client.read_timeout = 120
     long_client.open_timeout = 120
