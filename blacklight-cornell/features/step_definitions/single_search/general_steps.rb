@@ -35,6 +35,7 @@ Then("I should see any text {string}") do |string|
 end
 
 Then("I should see {string} in the flash message") do |string|
+  what_is("#main-flashes")
   within ("#main-flashes") do
     expect(page.find("div.alert")).to have_content(string)
   end
