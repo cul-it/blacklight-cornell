@@ -133,3 +133,15 @@ Then("the {string} environment variable should be set to {string}") do |string, 
     expect(page).to have_title "#{string}"
   end
 end
+
+Then("the Rails environment should be {string}") do |expected_env|
+  env_checks = {
+    "development" => Rails.env.development?,
+    "test" => Rails.env.test?,
+    "production" => Rails.env.production?,
+  }
+
+  unless env_checks[expected_env] || Rails.env == expected_env
+    fail("Expected Rails environment to be #{expected_env}, but it was #{Rails.env}")
+  end
+end

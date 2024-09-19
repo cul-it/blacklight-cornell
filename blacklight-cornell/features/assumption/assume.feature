@@ -18,3 +18,8 @@ Examples:
 Scenario: Check for testing user
   Given I am on the home page
   Then the test user is available
+
+@assumption
+Scenario: Rails environment matches RAILS_ENV
+  Given I am on the home page
+  Then the Rails environment should be 'test'
