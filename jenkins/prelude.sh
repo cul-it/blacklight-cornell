@@ -22,7 +22,7 @@ which bundle
 bundle --version
 
 git config --global --add safe.directory /usr/local/rvm/gems/ruby-3.2.2/cache/bundler/git/csl-styles-413c6d0d4d7cc7a3fcde1c5ec9976b007257fc07
-
+git config --global --add safe.directory /usr/local/rvm/gems/ruby-3.2.2/cache/bundler/git/cul-my-account-d2727df0453f58fea08b04f7c6a29bbc038ea24c
 
 bundle update --redownload blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
