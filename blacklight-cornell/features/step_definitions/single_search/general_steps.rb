@@ -35,7 +35,10 @@ Then("I should see any text {string}") do |string|
 end
 
 Then("I should see {string} in the flash message") do |string|
-  expect(page.find("#main-flashes")).to have_content(string)
+  what_is("#main-flashes")
+  within ("#main-flashes") do
+    expect(page.find("div.alert")).to have_content(string)
+  end
 end
 
 # Then(/^I should see the text "(.*?)"$/) do |arg1|
