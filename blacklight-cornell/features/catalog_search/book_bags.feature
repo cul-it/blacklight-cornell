@@ -62,7 +62,6 @@ Feature: Book Bags for logged in users
         # I should be redirected back to /book_bags/index
         And I sleep 3 seconds
         Then navigation should show 'Book Bag'
-        And I sleep 1 second
         Then I should see "Please use Book Bag while you are signed in." in the flash message
         And navigation should show 'Book Bag'
 
