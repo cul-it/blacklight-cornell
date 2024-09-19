@@ -21,20 +21,6 @@ export PATH=$GEM_HOME/bin:$PATH
 which bundle
 bundle --version
 
-# Define an array of directories
-safe_directories=(
-  "/usr/local/rvm/gems/ruby-3.2.2/cache/bundler/git/csl-styles-413c6d0d4d7cc7a3fcde1c5ec9976b007257fc07"
-  "/usr/local/rvm/gems/ruby-3.2.2/cache/bundler/git/cul-my-account-d2727df0453f58fea08b04f7c6a29bbc038ea24c"
-  "/usr/local/rvm/gems/ruby-3.2.2/cache/bundler/git/cul-folio-edge-191b915bddb1d0cbdaa3ee2ff87d0cc86c642f11"
-  "/usr/local/rvm/gems/ruby-3.2.2/cache/bundler/git/blacklight-unapi-c14686948391b4e2f8f6dce0ccfd1019728d8c9b"
-  "/usr/local/rvm/gems/ruby-3.2.2/cache/bundler/git/spreewald-75182b89ad36be7783a3dd312bd8f9ab3019c195"
-)
-
-# Loop through the array and add each directory to the safe list
-for dir in "${safe_directories[@]}"; do
-  git config --global --add safe.directory "$dir"
-done
-
 bundle update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
 bundle info concurrent-ruby
