@@ -31,7 +31,7 @@ module Blacklight::Bookmarks
 
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
-  def search_action_url *args
+  def search_action_url(*args)
     search_catalog_url(*args)
   end
 
@@ -60,8 +60,8 @@ module Blacklight::Bookmarks
     @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 8.0")
 
     respond_to do |format|
-      format.html {}
-      format.rss  { render layout: false }
+      format.html { }
+      format.rss { render layout: false }
       format.atom { render layout: false }
       additional_response_formats(format)
       document_export_formats(format)
@@ -84,20 +84,20 @@ module Blacklight::Bookmarks
     # begin and rescue block are custom code
     begin
       @bookmarks = if params[:bookmarks]
-                     permit_bookmarks[:bookmarks]
-                   else
-                     [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
-                   end
+          permit_bookmarks[:bookmarks]
+        else
+          [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
+        end
 
       current_or_guest_user.save! unless current_or_guest_user.persisted?
 
       # next 8 lines are custom code
       current_count = current_or_guest_user.bookmarks.count
       new_count = @bookmarks.count
-      save_level = Rails.logger.level;  Rails.logger.level = Logger::WARN
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
       if (current_count + new_count) > BookBagsController::MAX_BOOKBAGS_COUNT
         Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: too many bookmarks"
-        raise RangeError, 'Too many bookmarks'
+        raise RangeError, "Too many bookmarks"
       end
       Rails.logger.level = save_level
       success = @bookmarks.all? do |bookmark|
@@ -108,15 +108,15 @@ module Blacklight::Bookmarks
         success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(plain: "", status: "500")
       else
         if @bookmarks.any? && success
-          flash[:notice] = I18n.t('blacklight.bookmarks.add.success', count: @bookmarks.length)
+          flash[:notice] = I18n.t("blacklight.bookmarks.add.success", count: @bookmarks.length)
         elsif @bookmarks.any?
-          flash[:error] = I18n.t('blacklight.bookmarks.add.failure', count: @bookmarks.length)
+          flash[:error] = I18n.t("blacklight.bookmarks.add.failure", count: @bookmarks.length)
         end
 
         redirect_back fallback_location: bookmarks_path
       end
     rescue RangeError => msg
-      render :partial => '/bookmarks/selected_item_limit'
+      render :partial => "/bookmarks/selected_item_limit"
       #redirect_to '/bookmarks/show_selected_item_limit_bookmarks'
       #render(plain: msg, status: "500")
       #redirect_to 'bookmarks/show_selected_item_limit_bookmarks'
@@ -126,8 +126,7 @@ module Blacklight::Bookmarks
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
   # idempotent, as DELETE is supposed to be.
   def destroy
-    @bookmarks =
-      if params[:bookmarks]
+    @bookmarks = if params[:bookmarks]
         permit_bookmarks[:bookmarks]
       else
         [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
@@ -142,20 +141,20 @@ module Blacklight::Bookmarks
       if request.xhr?
         render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } })
       else
-        redirect_back fallback_location: bookmarks_path, notice: I18n.t('blacklight.bookmarks.remove.success')
+        redirect_back fallback_location: bookmarks_path, notice: I18n.t("blacklight.bookmarks.remove.success")
       end
     elsif request.xhr?
       head 500 # ajaxy request needs no redirect and should not have flash set
     else
-      redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
+      redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t("blacklight.bookmarks.remove.failure") }
     end
   end
 
   def clear
     if current_or_guest_user.bookmarks.clear
-      flash[:notice] = I18n.t('blacklight.bookmarks.clear.success')
+      flash[:notice] = I18n.t("blacklight.bookmarks.clear.success")
     else
-      flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
+      flash[:error] = I18n.t("blacklight.bookmarks.clear.failure")
     end
     redirect_to action: "index"
   end
@@ -163,8 +162,8 @@ module Blacklight::Bookmarks
   def export
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in bookmaks#export"
-    puts 'export'.to_yaml
-    puts 'export'.inspect
+    puts "export".to_yaml
+    puts "export".inspect
     if current_user
       puts "Current user:\n" + current_user.email.to_yaml
     elsif current_or_guest_user
