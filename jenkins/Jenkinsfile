@@ -1,29 +1,19 @@
 pipeline {
     agent any
     environment {
-        GIT_ACCESS_TOKEN = credentials('f3b46a8a-a247-4703-baf7-c27c69656aaa')
+        GIT_ACCESS_TOKEN = credentials('be6a5f7e-d674-4265-bdf9-f20267b9cee3')
         JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
-        SOLR_URL = credentials('FOLIO_FEW_solr_url')
         STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
         COLLECTIONS = "development"
         CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
-        IR_SOLR_URL = "http://aws-108-118.internal.library.cornell.edu:8983/solr/repositories"
-        IR_SOLR_USER = credentials('622231e0-352f-431f-9847-a109f3795d97')
-        IR_SOLR_PAW = credentials('f6e43070-a7b0-44ef-9a72-8767cc8ee968')
-        SAML_IDP_TARGET_URL = credentials('SAML_IDP_TARGET_URL')
-        OKAPI_URL = credentials('OKAPI_URL')
-        OKAPI_TENANT = credentials('OKAPI_TENANT')
-        OKAPI_USER = credentials('OKAPI_USER')
-        OKAPI_PW = credentials('OKAPI_PW')
-    }
+        }
     stages {
         stage('Set up and run bundler') {
             steps {
                 echo 'Setting up bundler'
-                echo 'Branch: ' + BRANCH_NAME
-                echo 'Git Branch: ' + GIT_BRANCH
+                echo "The branch is ${env.GIT_BRANCH}"
                 script {
-                    if (BRANCH_NAME ==~ /PR-.+/) {
+                    if (env.GIT_BRANCH ==~ /PR-.+/) {
                         // slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
                         slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started ${CHANGE_BRANCH} --> ${CHANGE_TARGET}"
                     } else {
@@ -47,7 +37,7 @@ pipeline {
         //     steps {
         //         timeout(60) {
         //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'jenkins/cucumber-features.sh features/catalog_search/book_bags.feature:8'
+        //                 sh 'blacklight-cornell/jenkins/cucumber-features.sh features/catalog_search/book_bags.feature:8'
         //             }
         //         }
         //     }

@@ -31,16 +31,12 @@ cp /cul/data/jenkins/environments/blacklight-cornell.env .env
 # Add DEBUG_USER to environment file
 echo "DEBUG_USER=${DEBUG_USER}" >>.env
 
-# Move environment file
-mv .env blacklight-cornell/.env
-
 # Print debug information
 git rev-parse --abbrev-ref HEAD
 echo "JENKINS_HOME: $JENKINS_HOME"
 echo "Ruby: $RUBYVERSION"
 echo "PATH is:$PATH"
-which bundle
-chromedriver --version
+
 echo "Xvfb DISPLAY value is $DISPLAY"
 echo "Diligent Tester: $DEBUG_USER"
-grep ^SOLR_URL blacklight-cornell/.env
+grep ^SOLR_URL .env
