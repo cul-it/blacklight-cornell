@@ -41,8 +41,9 @@ get 'bookmarks/export' => 'bookmarks#export'
 get 'bookmarks/book_bags_login' => 'bookmarks#bookmarks_book_bags_login', :as => 'bookmarks_book_bags_login'
 get 'bookmarks/citation_page' => 'bookmarks#show_citation_page', :as => 'show_citation_page'
 
-resources :bookmarks do
-  concerns :exportable
+  resources :bookmarks do
+    concerns :exportable
+    concerns :searchable
 
   collection do
     delete 'clear'
