@@ -49,10 +49,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 91e2c3dcf93b029ac911ef8eb87854a1eeaf826f
-  tag: v2.3.2
+  revision: c03cd679cb1d730e1f1da24705854941c7e566ad
+  tag: v2.3.3
   specs:
-    my_account (2.3.2)
+    my_account (2.3.3)
       blacklight (>= 7.0)
       cul-folio-edge (~> 3.1)
       rails (~> 6.1)
@@ -544,13 +544,13 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.7.1)
-    nokogiri (1.16.4-aarch64-linux)
+    nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.16.4-arm64-darwin)
+    nokogiri (1.16.7-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.4-x86_64-darwin)
+    nokogiri (1.16.7-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.4-x86_64-linux)
+    nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     nori (2.7.0)
       bigdecimal
@@ -580,9 +580,9 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    omniauth-saml (2.1.0)
-      omniauth (~> 2.0)
-      ruby-saml (~> 1.12)
+    omniauth-saml (2.2.1)
+      omniauth (~> 2.1)
+      ruby-saml (~> 1.17)
     openurl (1.0.0)
       marc
       scrub_rb (~> 1.0)
@@ -607,7 +607,7 @@ GEM
     puma (6.4.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
-    racc (1.7.3)
+    racc (1.8.1)
     rack (2.2.9)
     rack-contrib (2.4.0)
       rack (< 4)
@@ -695,7 +695,7 @@ GEM
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby-plsql (0.8.0)
-    ruby-saml (1.16.0)
+    ruby-saml (1.17.0)
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
@@ -914,7 +914,7 @@ DEPENDENCIES
   omniauth-google-oauth2 (~> 0.8)
   omniauth-oauth2
   omniauth-rails_csrf_protection
-  omniauth-saml (~> 2.0)
+  omniauth-saml (>= 2.1.2)
   parslet
   piwik_analytics (~> 1.0.1)
   protected_attributes_continued
