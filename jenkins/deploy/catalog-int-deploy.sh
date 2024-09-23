@@ -2,16 +2,13 @@
 /bin/date
 source /usr/local/rvm/scripts/rvm
 
-ls -l FETCH_HEAD
-cat .git/FETCH_HEAD
-
 # new for containerized version ...
 cd "${WORKSPACE}/blacklight-cornell"
 # ... end new
 
+echo "************** fetch test ****************"
 git fetch origin
-ls -l FETCH_HEAD
-cat ../.git/FETCH_HEAD
+echo "************** end of fetch test ****************"
 
 
 echo "BRANCH: ${BRANCH}"
