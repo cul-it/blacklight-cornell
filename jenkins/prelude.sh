@@ -4,15 +4,37 @@ set -e
 echo ""
 echo "*********************************************************************************"
 echo ""
-source jenkins/environment.sh
-gem install bundler -v 2.3.26
 cd blacklight-cornell
+
+source ../jenkins/environment.sh
+
+# Clean up existing Bundler installations
+gem uninstall bundler -aIx
+
+# Reinstall Bundler without documentation
+gem install bundler -v 2.4.10 --no-document
+
+# Ensure the PATH includes the directory where Bundler is installed
+export PATH=$GEM_HOME/bin:$PATH
+
+# Verify Bundler installation
+which bundle
+bundle --version
+
 bundle update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
 bundle info concurrent-ruby
-RAILS_ENV=test bin/rake db:migrate
+
+# Set the environment for the test database
+echo "Setting environment for the test database..."
+bin/rails db:environment:set RAILS_ENV=${RAILS_ENV}
+
+# Run database migrations
+echo "Running database migrations..."
+bundle exec rake db:migrate
+
 brakeman --fast  -o brakeman-output.json
-echo $RAILS_ENV
+echo "Rails environment: $RAILS_ENV"
 rm -fr results/*
 mkdir -p results
 rm -f features/cassettes/cucumber_tags/*

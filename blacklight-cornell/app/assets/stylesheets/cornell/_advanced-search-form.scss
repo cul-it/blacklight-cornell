@@ -1,3 +1,5 @@
+// TODO: clean up and add comments, mhk33
+
 .advanced-search .form-control {
    margin: 0 2px;
 }
@@ -20,6 +22,15 @@ form.advanced {
   }
   .form-group {
     margin-bottom: 0;
+  }
+
+  .input_row:not(:last-child) {
+    margin-bottom: 1em;
+  }
+  .input_row {
+    select, label, input {
+      margin-bottom: .25rem;
+    }
   }
 }
 .as-examples {
@@ -78,6 +89,10 @@ body.blacklight-advanced-index dl.dl-horizontal {
       }
     }
   }
+  // Adjust width of first row so that it is the same as subsequent rows
+  #q_row0 {
+    width: 37.5%;
+  }
 }
 
 // Large devices (desktops, 992px and up)
@@ -97,6 +112,10 @@ body.blacklight-advanced-index dl.dl-horizontal {
       }
     }
   }
+  // Adjust width of first row so that it is the same as subsequent rows
+  #q_row0 {
+    width: 34%;
+  }
 }
 
 // Extra large devices (large desktops, 1200px and up)
@@ -105,5 +124,9 @@ body.blacklight-advanced-index dl.dl-horizontal {
     .advanced-search-field.form-control {
       width: auto;
     }
+  }
+  // Adjust width of first row so that it is the same as subsequent rows
+  #q_row0 {
+    width: 32.5%;
   }
 }
