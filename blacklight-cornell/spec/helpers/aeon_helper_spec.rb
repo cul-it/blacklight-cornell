@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AeonController, type: :controller do
+RSpec.describe AeonHelper, type: :helper do
   describe '#xholdings' do
     let(:holdingsHash) {
       {
@@ -32,7 +32,7 @@ RSpec.describe AeonController, type: :controller do
       end
 
       it 'building location is also added to the cslocation so requests can be routed into Awaiting Restriction Review Q' do
-        result = subject.xholdings(holdingsHash, itemsHash)
+        result = helper.xholdings(holdingsHash, itemsHash)
         expected_values = [
           "itemdata[\"sample_barcode_val\"] = {",
           "location:\"K-1-2-3-4-5\",",
@@ -52,7 +52,7 @@ RSpec.describe AeonController, type: :controller do
         }
       end     
       it 'cslocation does not add the building code' do
-        result = subject.xholdings(holdingsHash, itemsHash)
+        result = helper.xholdings(holdingsHash, itemsHash)
         expected_values = [
           "itemdata[\"sample_barcode_val\"] = {",
           "location:\"rmc Rare and Manuscript Collections\",",
@@ -73,13 +73,12 @@ RSpec.describe AeonController, type: :controller do
       end
 
       it 'displays the chron value, copy value, and caption' do
-        result = subject.xholdings(holdingsHash, itemsHash)
+        result = helper.xholdings(holdingsHash, itemsHash)
         expect(result).to include("sample_chron_val")
         expect(result).not_to include("sample_enum_val")
         expect(result).to include("sample_copy_val")
         expect(result).to include("sample_caption_val")
       end
     end
-
   end
 end
