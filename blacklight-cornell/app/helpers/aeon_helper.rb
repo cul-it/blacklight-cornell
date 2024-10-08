@@ -23,13 +23,11 @@ module AeonHelper
     #   end
     #   items_json_hash[holding_id] = items
     # end
-
+    #
     valholding = items_json_hash.values.flatten
     items_json_hash.transform_values! { |items| sort_items(valholding.dup) }
 
-    res = xholdings(holdings_json_hash, items_json_hash)
-    Rails.logger.debug res
-    res
+    xholdings(holdings_json_hash, items_json_hash)
   end
 
   def xholdings(holdings_hash, items_hash)

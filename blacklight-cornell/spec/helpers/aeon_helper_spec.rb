@@ -35,9 +35,9 @@ RSpec.describe AeonHelper, type: :helper do
         result = helper.xholdings(holdingsHash, itemsHash)
         expected_values = [
           "itemdata[\"sample_barcode_val\"] = {",
-          "location:\"K-1-2-3-4-5\",",
-          "loc_code:\"K-1-2-3-4-5\",",
-          "cslocation:\"K-1-2-3-4-5 rmc\","
+          "location: \"K-1-2-3-4-5\",",
+          "loc_code: \"K-1-2-3-4-5\",",
+          "cslocation: \"K-1-2-3-4-5 rmc\","
         ]
         expected_values.each do |value|
           expect(result).to include(value)
@@ -45,19 +45,19 @@ RSpec.describe AeonHelper, type: :helper do
       end
     end
 
-    context 'when valut location already contains the rmc building code' do
+    context 'when vault location already contains the rmc building code' do
       before do
         itemsHash["hh_foo"].first["rmc"] = {
           "Vault location" => "rmc Rare and Manuscript Collections"
         }
-      end     
+      end
       it 'cslocation does not add the building code' do
         result = helper.xholdings(holdingsHash, itemsHash)
         expected_values = [
           "itemdata[\"sample_barcode_val\"] = {",
-          "location:\"rmc Rare and Manuscript Collections\",",
-          "loc_code:\"rmc Rare and Manuscript Collections\",",
-          "cslocation:\"rmc Rare and Manuscript Collections\","
+          "location: \"rmc Rare and Manuscript Collections\",",
+          "loc_code: \"rmc Rare and Manuscript Collections\",",
+          "cslocation: \"rmc Rare and Manuscript Collections\","
         ]
         expected_values.each do |value|
           expect(result).to include(value)
