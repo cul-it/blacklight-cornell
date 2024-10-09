@@ -49,12 +49,29 @@ RSpec.describe AeonHelper, type: :helper do
     }
   end
 
-  def document
-    
+  def document(barcode:, nocirc:, rmc:, vault:)
+    # The items_json section of the document is almost identical to the items_hash input,
+    # with the exception that the 'rmc' section, if present, is found within 'status'.
+    items = items_hash(barcode: barcode, nocirc: nocirc, rmc: false, vault: false)
+    document = { 'items_json' => items }
+    document['items_json']['hh_foo'].delete('barcode') unless barcode
+    rmc_section = nil
+    if rmc
+      rmc_section = {
+        'ArchivesSpace Top Container': '12345'
+      }
+      rmc_section['Vault location'] = VAULT_LOCATION if vault
+      document['items_json']['status'] = { 'rmc' => rmc_section }
+    end
+    document
   end
 
   def test_generate_script(input, expectations)
-    items = items_hash(barcode: input[:barcode], nocirc: input[:nocirc], rmc: input[:rmc], vault: input[:vault])
+    items = if input['empty']
+              empty_items_hash
+            else
+              items_hash(barcode: input[:barcode], nocirc: input[:nocirc], rmc: input[:rmc], vault: input[:vault])
+            end
     holdings = holdings_hash
     puts "barcode is #{items}"
     result = helper.xholdings(holdings, items)
@@ -90,13 +107,13 @@ RSpec.describe AeonHelper, type: :helper do
       end
 
       specify 'not noncirc, vault location missing' do
-        input = initial_input.merge(nocirc: false, rmc: true, vault: true)
+        input = initial_input.merge(nocirc: false, rmc: true, vault: false)
         expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
         test_generate_script(input, expectations)
       end
 
-      specify 'not noncirc, vault location missing' do
-        input = initial_input.merge(nocirc: false, rmc: true, vault: false)
+      specify 'not noncirc, vault location present' do
+        input = initial_input.merge(nocirc: false, rmc: true, vault: true)
         expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
         test_generate_script(input, expectations)
       end
@@ -119,5 +136,55 @@ RSpec.describe AeonHelper, type: :helper do
     end
   end
 
-  context 'Item info is taken from the @document items_json'
+  context 'Item info is taken from the @document items_json' do
+    def merged_document(overrides = {})
+      base_document.merge(overrides)
+    end
+
+    let(:initial_input) { { empty: true } }
+
+    context 'item has barcode' do
+      let(:base_document) { document(barcode: true, nocirc: true, rmc: true, vault: true) }
+
+      specify 'noncirculating, vault location missing' do
+        @document = merged_document(vault: false)
+        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+
+      specify 'noncirculating, vault location present' do
+        @document = merged_document
+        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+
+      specify 'not noncirc, vault location missing' do
+        @document = merged_document(nocirc: false, vault: false)
+        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+
+      specify 'not noncirc, vault location present' do
+        @document = merged_document(nocirc: false)
+        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+    end
+
+    context 'item has no barcode' do
+      let(:base_document) { document(barcode: false, nocirc: true, rmc: true, vault: true) }
+
+      specify 'noncirculating' do
+        @document = base_document
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+
+      specify 'not noncirc' do
+        @document = merged_document(nocirc: false)
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+    end
+  end
 end
