@@ -52,9 +52,18 @@ RSpec.describe AeonHelper, type: :helper do
   def document(barcode:, nocirc:, rmc:, vault:)
     # The items_json section of the document is almost identical to the items_hash input,
     # with the exception that the 'rmc' section, if present, is found within 'status'.
+    # holdings_json is similar, except that it's not an array.
     items = items_hash(barcode: barcode, nocirc: nocirc, rmc: false, vault: false)
-    document = { 'items_json' => items }
-    document['items_json']['hh_foo'].delete('barcode') unless barcode
+    document = {
+      'items_json' => items,
+      'holdings_json' => {
+        'hh_foo' => items['hh_foo'][0]
+      }
+    }
+    unless barcode
+      document['items_json']['hh_foo'].delete('barcode')
+      document['holdings_json']['hh_foo'].delete('barcode')
+    end
     rmc_section = nil
     if rmc
       rmc_section = {
@@ -62,6 +71,7 @@ RSpec.describe AeonHelper, type: :helper do
       }
       rmc_section['Vault location'] = VAULT_LOCATION if vault
       document['items_json']['status'] = { 'rmc' => rmc_section }
+      document['holdings_json']['rmc'] = rmc_section
     end
     document
   end
@@ -69,6 +79,8 @@ RSpec.describe AeonHelper, type: :helper do
   def test_generate_script(input, expectations)
     items = if input['empty']
               empty_items_hash
+            elsif input['noinput']
+              {}
             else
               items_hash(barcode: input[:barcode], nocirc: input[:nocirc], rmc: input[:rmc], vault: input[:vault])
             end
@@ -136,7 +148,7 @@ RSpec.describe AeonHelper, type: :helper do
     end
   end
 
-  context 'Item info is taken from the @document items_json' do
+  context 'items_hash is present but empty; item info is taken from the @document items_json' do
     def merged_document(overrides = {})
       base_document.merge(overrides)
     end
@@ -166,6 +178,52 @@ RSpec.describe AeonHelper, type: :helper do
 
       specify 'not noncirc, vault location present' do
         @document = merged_document(nocirc: false)
+        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+    end
+
+    context 'item has no barcode' do
+      let(:base_document) { document(barcode: false, nocirc: true, rmc: true, vault: true) }
+
+      specify 'noncirculating' do
+        @document = base_document
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+
+      specify 'not noncirc' do
+        @document = merged_document(nocirc: false)
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+    end
+  end
+
+  context 'items_hash is missing; item info is taken from the @document holdings_json' do
+    def merged_document(overrides = {})
+      base_document.merge(overrides)
+    end
+
+    let(:initial_input) { { noinput: true } }
+
+    context 'item has barcode' do
+      let(:base_document) { document(barcode: true, nocirc: true, rmc: true, vault: true) }
+
+      specify 'noncirculating, vault location missing' do
+        @document = merged_document(vault: false)
+        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+
+      specify 'noncirculating, vault location present' do
+        @document = merged_document
+        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        test_generate_script(initial_input, expectations)
+      end
+
+      specify 'not noncirc' do
+        @document = merged_document(nocirc: false, vault: false)
         expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
         test_generate_script(initial_input, expectations)
       end
