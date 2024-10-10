@@ -40,6 +40,11 @@ module AeonHelper
     ret
   end
 
+  # Process the items hash to generate the HTML items seen in the request form
+  # creates the checkboxes for each item
+  #
+  # @param items_hash [Hash] hash of the items
+  # @return [String] the HTML items to be added into the holdings div
   def process_items_hash(items_hash)
     # items_hash = JSON.parse(document['items_json'] || '{}')
     ret = ''
@@ -50,12 +55,11 @@ module AeonHelper
     if items.present?
       items.each do |item|
         loc_code = item.dig('location', 'code')
-        next unless loc_code&.include?('rmc') || loc_code&.include?('rare')
-
+        next unless ['rmc', 'rare', 'lmdr', 'lmdc', 'kanx'].any? { |code| loc_code&.include?(code) }
         item['location']['library'] = 'ANNEX' if item['location']['library'] == 'Library Annex'
         item['rmc'] ||= {}
         call_number = item['call'].to_s.sub('Archives ', '')
-        copy_string = " c. #{[item['copy'], item['enum'] || item['chron'], item['caption']].compact.join(' ')}" if item['copy']
+        copy_string = " c. #{[item['copy'], item['enum'], item['chron'], item['caption']].compact.join(' ')}" if item['copy']
         item_id = item['barcode'] || "iid-#{item['id']}"
         location = item.dig('rmc', 'Vault location') || item['location']['code']
 
@@ -245,7 +249,7 @@ module AeonHelper
     restrictions = item.dig('rmc', 'Restrictions') || ''
     location = item.dig('location', 'name')
     text = location&.include?('Non-Circulating') ? 'Available Immediately' : 'Request in Advance'
-    " (#{text}) #{call_number} c #{copy_number} #{restrictions}</div>"
+    " (#{text}) #{call_number} #{copy_number} #{restrictions}</div>"
   end
 
   # Generates the itemdata <script> element for a given item.

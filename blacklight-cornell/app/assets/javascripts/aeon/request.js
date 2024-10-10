@@ -141,7 +141,9 @@ const appendItemToSelection = (id, removable) => {
 }
 
 /**
- * Sets up the click event handlers for the page and selects the item by default if there is only 1 item to select.
+ * Sets up the click event handlers for the page 
+ * and selects the item by default if there is only 1 item to select
+ * and updates the selected items box if the user navigates back to the form
  */
 $(document).ready(function () {
   $("#num-selections").text('0');
@@ -157,21 +159,18 @@ $(document).ready(function () {
     // Disable the checkbox so that it matches the non-removable behavior of the single selected item
     $('.ItemNo').prop('disabled', true)
   }
-});
-
-/**
- * If the user navigated back to the form, the shopping cart
- * is out of sync with selected items. This function will 
- * reset the shopping cart and show the correct num selected value
- */
-$(window).on('pageshow', function () {
-  const checkedItems = $('.ItemNo:checked');
-  if (checkedItems.length > 0) {
-    checkedItems.each((_, element) => {
-      const item = $(element);
-      // Append the item to the selected items box
-      appendItemToSelection(item.val(), true);
-      $("#num-selections").text(parseInt($("#num-selections").text()) + 1);
-    });
+  else {
+    // make sure shopping cart items are in sync with checked items
+    const checkedItems = $('.ItemNo:checked');
+    if (checkedItems.length > 0) {
+      checkedItems.each((_, element) => {
+        const item = $(element);
+        // add any missing checked items to selected items box
+        if ($("#selected-items-box").find(`[value='${item.val()}']`).length === 0) {
+          appendItemToSelection(item.val(), true);
+          $("#num-selections").text(parseInt($("#num-selections").text()) + 1);
+        }
+      });
+    }
   }
 });
