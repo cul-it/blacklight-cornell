@@ -7,6 +7,7 @@ VAULT_LOCATION = 'K-1-2-3-4-5'
 NAME = 'Library Name'
 ID = '1234567890'
 HRID = '12345'
+CODE = 'rmc_location_code'
 
 RSpec.describe AeonHelper, type: :helper do
   def holdings_hash()
@@ -21,7 +22,7 @@ RSpec.describe AeonHelper, type: :helper do
       'hh_foo' => [
         {
           'id' => barcode ? BARCODE : ID,
-          'location' => { 'name' => name, 'code' => 'rmc_code', 'library' => NAME },
+          'location' => { 'name' => name, 'code' => CODE, 'library' => NAME },
           'barcode' => BARCODE,
           'hrid' => HRID,
           'call' => 'sample_call_val',
@@ -116,30 +117,30 @@ RSpec.describe AeonHelper, type: :helper do
 
   context 'Item info taken from items_hash input' do
     context 'item has barcode' do
-      skip 'skip' do
+      
       let(:initial_input) { { barcode: true } }
 
       specify 'noncirculating, vault location missing' do
         input = initial_input.merge(nocirc: true, rmc: true, vault: false)
-        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        expectations = { id: BARCODE, location: CODE, loc_code: CODE, cslocation: "#{CODE} #{NAME}", code: 'rmc' }
         test_generate_script(input, expectations)
       end
 
       specify 'noncirculating, vault location present' do
         input = initial_input.merge(nocirc: true, rmc: true, vault: true)
-        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        expectations = { id: BARCODE, location: VAULT_LOCATION, loc_code: VAULT_LOCATION, cslocation: "rmc #{NAME}", code: 'rmc' }
         test_generate_script(input, expectations)
       end
-
+      skip 'skip' do
       specify 'not noncirc, vault location missing' do
         input = initial_input.merge(nocirc: false, rmc: true, vault: false)
-        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        expectations = { id: BARCODE, location: CODE, loc_code: CODE, cslocation: "#{CODE} #{NAME}", code: 'rmc' }
         test_generate_script(input, expectations)
       end
 
       specify 'not noncirc, vault location present' do
         input = initial_input.merge(nocirc: false, rmc: true, vault: true)
-        expectations = { id: BARCODE, location: 'rmc', loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        expectations = { id: BARCODE, location: VAULT_LOCATION, loc_code: CODE, cslocation: VAULT_LOCATION, code: CODE }
         test_generate_script(input, expectations)
       end
     end
@@ -150,13 +151,13 @@ RSpec.describe AeonHelper, type: :helper do
 
       specify 'noncirculating' do
         input = initial_input.merge(nocirc: true, rmc: true, vault: true)
-        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: "rmc_code #{VAULT_LOCATION}", cslocation: "rmc_code #{VAULT_LOCATION}", code: 'rmc_code' }
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: "#{CODE} #{VAULT_LOCATION}", cslocation: "#{CODE} #{VAULT_LOCATION}", code: CODE }
         test_generate_script(input, expectations)
       end
 
       specify 'not noncirc' do
         input = initial_input.merge(nocirc: false, rmc: true, vault: true)
-        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: 'rmc_code', cslocation: "rmc_code #{VAULT_LOCATION}", code: 'rmc_code' }
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: CODE, cslocation: "#{CODE} #{VAULT_LOCATION}", code: CODE }
         test_generate_script(input, expectations)
       end
     end
