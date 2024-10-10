@@ -83,7 +83,7 @@ module AeonHelper
               # for requests to route into Awaiting Restriction Review,
               # the cslocation needs both the vault and the building.
               vault_location = item['rmc']['Vault location']
-              location_code = item['location']['code']
+              location_code = vault_location
               cslocation = vault_location.include?(location_code) ? vault_location : "#{vault_location} #{location_code}"
               ret += itemdata_script(
                 item: item,
@@ -95,12 +95,17 @@ module AeonHelper
             end
           else
             # Barcode, circulating
+
+            # NOTE: vault location will never be nil! It's assigned a value up above
+            puts "vault location is #{item['rmc']['Vault location']}"
             csloc = if item['rmc']['Vault location'].nil?
                       "#{item['location']['code']} #{item['location']['library']}"
                     else
                       item['rmc']['Vault location']
                     end
             code = item['rmc']['Vault location'].nil? ? 'rmc' : item['location']['code']
+
+            puts "csloc is #{csloc}"
 
             ret += itemdata_script(
               item: item,
