@@ -76,7 +76,8 @@ module AeonHelper
                 item: item,
                 location: location,
                 csloc: "#{item['location']['code']} #{item['location']['library']}",
-                code: 'rmc'
+                code: 'rmc',
+                loc_code: loc_code
               )
             else
               # for requests to route into Awaiting Restriction Review,
@@ -88,7 +89,8 @@ module AeonHelper
                 item: item,
                 location: location,
                 csloc: cslocation,
-                code: 'rmc'
+                code: 'rmc',
+                loc_code: location_code
               )
             end
           else
@@ -104,16 +106,23 @@ module AeonHelper
               item: item,
               location: location,
               csloc: csloc,
-              code: code
+              code: code,
+              loc_code: loc_code
             )
           end
         else
           # No barcode
+          loc_code = if item['location']['name'].include?('Non-Circulating')
+                       "#{item['location']['code']} #{item['rmc']['Vault location']}"
+                     else
+                       item['location']['code']
+                     end
           ret += itemdata_script(
             item: item,
             location: item['rmc']['Vault location'] ||= '',
             csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
-            code: item['location']['code']
+            code: item['location']['code'],
+            loc_code: loc_code
           )
         end
       end
@@ -198,7 +207,8 @@ module AeonHelper
         item: item,
         location: location,
         csloc: "#{csloc_prefix} #{csloc_suffix}",
-        code: code
+        code: code,
+        loc_code: item['location']['code']
       )
     else
       ret += item['location']['library'] if item['location']['name'].include?('Non-Circulating')
@@ -207,7 +217,8 @@ module AeonHelper
         item: item,
         location: location,
         csloc: "#{csloc_prefix} #{csloc_suffix}",
-        code: item['location']['code']
+        code: item['location']['code'],
+        loc_code: item['location']['code']
       )
     end
     ret
@@ -261,7 +272,7 @@ module AeonHelper
   # @return [String] The itemdata <script> element.
   #
   # rubocop:disable Metrics/MethodLength
-  def itemdata_script(item:, location:, csloc:, code:)
+  def itemdata_script(item:, location:, csloc:, code:, loc_code:)
     restrictions = item.dig('rmc', 'Restrictions') || ''
     barcode = item['barcode'] || "iid-#{item['id']}" || "iid-#{item['hrid']}"
     caption = item['rmc']['Vault location'].nil? ? '' : item['caption']
@@ -271,7 +282,7 @@ module AeonHelper
           location: "#{location}",
           enumeration: "#{item['enum']}",
           barcode: "#{barcode}",
-          loc_code: "#{item['location']['code']}",
+          loc_code: "#{loc_code}",
           chron: "#{item['chron']}",
           copy: "#{item['copy']}",
           free: "",
