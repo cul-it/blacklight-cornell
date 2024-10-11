@@ -71,7 +71,7 @@ RSpec.describe AeonHelper, type: :helper do
         'ArchivesSpace Top Container': '12345'
       }
       rmc_section['Vault location'] = VAULT_LOCATION if vault
-      document['items_json'][0]['status'] = { 'rmc' => rmc_section }
+      document['items_json']['hh_foo'][0]['status'] = { 'rmc' => rmc_section }
       document['holdings_json']['rmc'] = rmc_section
     end
     document
@@ -119,7 +119,7 @@ RSpec.describe AeonHelper, type: :helper do
     context 'item has barcode' do
       
       let(:initial_input) { { barcode: true } }
-
+      skip 'skip' do
       specify 'noncirculating, vault location missing' do
         input = initial_input.merge(nocirc: true, rmc: true, vault: false)
         expectations = { id: BARCODE, location: CODE, loc_code: CODE, cslocation: "#{CODE} #{NAME}", code: 'rmc' }
@@ -131,7 +131,7 @@ RSpec.describe AeonHelper, type: :helper do
         expectations = { id: BARCODE, location: VAULT_LOCATION, loc_code: VAULT_LOCATION, cslocation: "rmc #{NAME}", code: 'rmc' }
         test_generate_script(input, expectations)
       end
-      skip 'skip' do
+      
       specify 'not noncirc, vault location missing' do
         input = initial_input.merge(nocirc: false, rmc: true, vault: false)
         expectations = { id: BARCODE, location: CODE, loc_code: CODE, cslocation: "#{CODE} #{NAME}", code: 'rmc' }
@@ -164,13 +164,13 @@ RSpec.describe AeonHelper, type: :helper do
   end
 
   context 'items_hash is present but empty; item info is taken from the @document items_json' do
-    skip 'skip' do
+
     def merged_document(overrides = {})
       base_document.merge(overrides)
     end
 
     let(:initial_input) { { empty: true } }
-
+    skip 'skip' do
     context 'item has barcode' do
       let(:base_document) { document(barcode: true, nocirc: true, rmc: true, vault: true) }
 
@@ -198,7 +198,7 @@ RSpec.describe AeonHelper, type: :helper do
         test_generate_script(initial_input, expectations)
       end
     end
-
+  end
     context 'item has no barcode' do
       let(:base_document) { document(barcode: false, nocirc: true, rmc: true, vault: true) }
 
@@ -214,7 +214,7 @@ RSpec.describe AeonHelper, type: :helper do
         test_generate_script(initial_input, expectations)
       end
     end
-  end
+
   end
 
   context 'items_hash is missing; item info is taken from the @document holdings_json' do

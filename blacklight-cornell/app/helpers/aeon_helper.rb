@@ -52,6 +52,7 @@ module AeonHelper
     items = items_hash[holding_id]
 
     copy_string = ''
+    puts "items is #{items}"
     if items.present?
       items.each do |item|
         loc_code = item.dig('location', 'code')
@@ -83,7 +84,7 @@ module AeonHelper
               # for requests to route into Awaiting Restriction Review,
               # the cslocation needs both the vault and the building.
               vault_location = item['rmc']['Vault location']
-              location_code = vault_location
+              location_code = item['location']['code']
               cslocation = vault_location.include?(location_code) ? vault_location : "#{vault_location} #{location_code}"
               ret += itemdata_script(
                 item: item,
