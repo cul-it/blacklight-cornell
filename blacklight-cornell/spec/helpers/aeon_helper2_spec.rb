@@ -68,19 +68,19 @@ RSpec.describe AeonHelper, type: :helper do
     rmc_section = nil
     if rmc
       rmc_section = {
-        'ArchivesSpace Top Container': '12345'
+        'ArchivesSpace Top Container' => '12345'
       }
       rmc_section['Vault location'] = VAULT_LOCATION if vault
-      document['items_json']['hh_foo'][0]['status'] = { 'rmc' => rmc_section }
+      document['items_json']['hh_foo'][0]['rmc'] = rmc_section
       document['holdings_json']['rmc'] = rmc_section
     end
     document
   end
 
   def test_generate_script(input, expectations)
-    items = if input['empty']
+    items = if input[:empty]
               empty_items_hash
-            elsif input['noinput']
+            elsif input[:noinput]
               {}
             else
               items_hash(barcode: input[:barcode], nocirc: input[:nocirc], rmc: input[:rmc], vault: input[:vault])
@@ -151,13 +151,13 @@ RSpec.describe AeonHelper, type: :helper do
 
       specify 'noncirculating' do
         input = initial_input.merge(nocirc: true, rmc: true, vault: true)
-        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: "#{CODE} #{VAULT_LOCATION}", cslocation: "#{CODE} #{VAULT_LOCATION}", code: CODE }
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: CODE, cslocation: "#{CODE} #{VAULT_LOCATION}", code: CODE }
         test_generate_script(input, expectations)
       end
 
       specify 'not noncirc' do
         input = initial_input.merge(nocirc: false, rmc: true, vault: true)
-        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: CODE, cslocation: "#{CODE} #{VAULT_LOCATION}", code: CODE }
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: CODE, cslocation: VAULT_LOCATION, code: CODE }
         test_generate_script(input, expectations)
       end
     end
@@ -204,13 +204,13 @@ RSpec.describe AeonHelper, type: :helper do
 
       specify 'noncirculating' do
         @document = base_document
-        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: CODE, cslocation: "#{CODE} #{NAME}", code: CODE }
         test_generate_script(initial_input, expectations)
       end
 
       specify 'not noncirc' do
         @document = merged_document(nocirc: false)
-        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: 'rmc', cslocation: "rmc #{NAME}", code: 'rmc' }
+        expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: CODE, cslocation: "#{CODE} #{NAME}", code: CODE }
         test_generate_script(initial_input, expectations)
       end
     end

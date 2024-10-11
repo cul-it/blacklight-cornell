@@ -39,7 +39,14 @@ module AeonHelper
     # here for now. items_hash is set to the items_hash parameter by default, but
     # it's overwritten if the document['items_json'] hash is present and not empty.
     # If items_hash is empty, then holdings_hash is used to generate the items_hash.
-    items_hash = @document['items_json'] if items_hash.values.any?(&:empty?)
+    if items_hash.values.any?(&:empty?)
+      items_hash = @document['items_json']
+      # Unfortunately, there are some discrepancies in the assignment of variables in the old code,
+      # depending on whether the items_hash is coming from the document or the items_hash parameter,
+      # so we need to check for that here in order to replicate the old code.
+      key = items_hash.keys.first
+      items_hash[key].first['from_document'] = true
+    end
     ret = items_hash.present? ? process_items_hash(items_hash) : process_holdings_hash(holdings_hash)
 
     ret += "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
@@ -68,36 +75,33 @@ module AeonHelper
         call_number = item['call'].to_s.sub('Archives ', '')
         copy_string = " c. #{[item['copy'], item['enum'], item['chron'], item['caption']].compact.join(' ')}" if item['copy']
         item_id = item['barcode'] || "iid-#{item['id']}"
-        location = item.dig('rmc', 'Vault location') || item['location']['code']
+        location = item.dig('rmc', 'Vault location') || loc_code
 
         ret += labeled_checkbox(item_id)
         ret += availability_text(call_number, copy_string, item)
 
         if item['barcode']
-          item['rmc']['Vault location'] = item['location'] ? "#{item['location']['code']} #{item['location']['library']}" : 'Not in record'
+          item['rmc']['Vault location'] = item['location'] ? "#{loc_code} #{item['location']['library']}" : 'Not in record'
 
           if item['location']['name'].include?('Non-Circulating')
-            # Barcode, noncicrulating
+            # Barcode, noncirculating
             if item.dig('rmc', 'Vault location').nil?
               ret += itemdata_script(
                 item: item,
                 location: location,
-                csloc: "#{item['location']['code']} #{item['location']['library']}",
-                code: 'rmc',
-                loc_code: loc_code
+                csloc: "#{loc_code} #{item['location']['library']}",
+                code: 'rmc'
               )
             else
               # for requests to route into Awaiting Restriction Review,
               # the cslocation needs both the vault and the building.
               vault_location = item['rmc']['Vault location']
-              location_code = item['location']['code']
-              cslocation = vault_location.include?(location_code) ? vault_location : "#{vault_location} #{location_code}"
+              cslocation = vault_location.include?(loc_code) ? vault_location : "#{vault_location} #{loc_code}"
               ret += itemdata_script(
                 item: item,
                 location: location,
                 csloc: cslocation,
-                code: 'rmc',
-                loc_code: location_code
+                code: 'rmc'
               )
             end
           else
@@ -106,11 +110,11 @@ module AeonHelper
             # NOTE: vault location will never be nil! It's assigned a value up above
             puts "vault location is #{item['rmc']['Vault location']}"
             csloc = if item['rmc']['Vault location'].nil?
-                      "#{item['location']['code']} #{item['location']['library']}"
+                      "#{loc_code} #{item['location']['library']}"
                     else
                       item['rmc']['Vault location']
                     end
-            code = item['rmc']['Vault location'].nil? ? 'rmc' : item['location']['code']
+            code = item['rmc']['Vault location'].nil? ? 'rmc' : loc_code
 
             puts "csloc is #{csloc}"
 
@@ -118,23 +122,24 @@ module AeonHelper
               item: item,
               location: location,
               csloc: csloc,
-              code: code,
-              loc_code: loc_code
+              code: code
             )
           end
         else
           # No barcode
-          loc_code = if item['location']['name'].include?('Non-Circulating')
-                       "#{item['location']['code']} #{item['rmc']['Vault location']}"
-                     else
-                       item['location']['code']
-                     end
+          puts "checking: #{item}"
+          csloc = if item['from_document']
+                    "#{loc_code} #{item['location']['library']}"
+                  elsif item['location']['name'].include?('Non-Circulating')
+                    "#{loc_code} #{item['rmc']['Vault location']}"
+                  else
+                    item['rmc']['Vault location']
+                  end
           ret += itemdata_script(
             item: item,
             location: item['rmc']['Vault location'] ||= '',
-            csloc: "#{item['location']['code']} #{item['rmc']['Vault location']}",
-            code: item['location']['code'],
-            loc_code: loc_code
+            csloc: csloc,
+            code: loc_code
           )
         end
       end
@@ -206,21 +211,21 @@ module AeonHelper
               end
     item['rmc'] ||= {}
     item['rmc']['Vault location'] ||= 'not in record'
+    loc_code = item['location']['code']
     location = item['rmc']['Vault location']
-    csloc_prefix = item['location']['code']
+    csloc_prefix = loc_code
     csloc_suffix = item['rmc']['Vault location']
 
     ret += labeled_checkbox(item_id)
     if item['barcode']
-      code = item['location']['name'].include?('Non-Circulating') ? 'rmc' : item['location']['code']
+      code = item['location']['name'].include?('Non-Circulating') ? 'rmc' : loc_code
 
       ret += availability_text(item['call'], item['copy'], item)
       ret += itemdata_script(
         item: item,
         location: location,
         csloc: "#{csloc_prefix} #{csloc_suffix}",
-        code: code,
-        loc_code: item['location']['code']
+        code: code
       )
     else
       ret += item['location']['library'] if item['location']['name'].include?('Non-Circulating')
@@ -229,8 +234,7 @@ module AeonHelper
         item: item,
         location: location,
         csloc: "#{csloc_prefix} #{csloc_suffix}",
-        code: item['location']['code'],
-        loc_code: item['location']['code']
+        code: loc_code
       )
     end
     ret
@@ -284,17 +288,22 @@ module AeonHelper
   # @return [String] The itemdata <script> element.
   #
   # rubocop:disable Metrics/MethodLength
-  def itemdata_script(item:, location:, csloc:, code:, loc_code:)
+  def itemdata_script(item:, location:, csloc:, code:)
     restrictions = item.dig('rmc', 'Restrictions') || ''
     barcode = item['barcode'] || "iid-#{item['id']}" || "iid-#{item['hrid']}"
     caption = item['rmc']['Vault location'].nil? ? '' : item['caption']
+    # NOTE about loc_code: In the old code, 19 out of 20 cases use item['location']['code'].
+    # The one exception is for an items_hash param input (i.e., not from the document),
+    # with a barcode and an RMC vault location, where the location is set to the vault location.
+    # For now, we're going to ignore that case and just use item['location']['code'] everywhere.
+    # If we need to change that, we can add a conditional or something.
     <<~HTML
       <script>
         itemdata["#{barcode}"] = {
           location: "#{location}",
           enumeration: "#{item['enum']}",
           barcode: "#{barcode}",
-          loc_code: "#{loc_code}",
+          loc_code: "#{item['location']['code']}",
           chron: "#{item['chron']}",
           copy: "#{item['copy']}",
           free: "",
