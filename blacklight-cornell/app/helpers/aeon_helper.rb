@@ -31,9 +31,15 @@ module AeonHelper
   end
 
   def xholdings(holdings_hash, items_hash)
-    Rails.logger.debug "mjc12: holdings_hash: #{holdings_hash}"
-    Rails.logger.debug "mjc12:items_hash: #{items_hash}"
-
+    # Old code has three different ways to get the items_hash:
+    # 1. From the items_hash parameter
+    # 2. From the document['items_json'] hash
+    # 3. From the document['holdings_json'] hash
+    # I don't know if all three of these are really needed, but I'm replicating them
+    # here for now. items_hash is set to the items_hash parameter by default, but
+    # it's overwritten if the document['items_json'] hash is present and not empty.
+    # If items_hash is empty, then holdings_hash is used to generate the items_hash.
+    items_hash = @document['items_json'] if items_hash.values.any?(&:empty?)
     ret = items_hash.present? ? process_items_hash(items_hash) : process_holdings_hash(holdings_hash)
 
     ret += "<!--Producing menu with items no need to refetch data. ic=**$ic**\n -->"
