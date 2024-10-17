@@ -66,16 +66,6 @@ function doSubmit(_) {
     $('.ItemNo').each((_, element) => buildRequestForItem(_, element, true));
   }
 
-  if (docType === 'Photoduplication') {
-    const fields = ['SpecialRequest', 'ItemCitation', 'Notes', 'ServiceLevel', 'ShippingOption'];
-
-    fields.forEach(field => {
-      const $element = $(`#${field}`);
-      if ($element.length) {
-        $("#RequestForm").append(`<input type="hidden" class="dynamic-input" name="${field}" value="${$element.val()}">`);
-      }
-    });
-  }
   return true;
 }
 
