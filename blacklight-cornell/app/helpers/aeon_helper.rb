@@ -81,10 +81,12 @@ module AeonHelper
         ret += availability_text(call_number, copy_string, item)
 
         if item['barcode']
-          item['rmc']['Vault location'] = item['location'] ? "#{loc_code} #{item['location']['library']}" : 'Not in record'
-
+          unless item['from_document']
+            item['rmc']['Vault location'] = item['location'] ? "#{loc_code} #{item['location']['library']}" : 'Not in record'
+          end
           if item['location']['name'].include?('Non-Circulating')
             # Barcode, noncirculating
+            # NOTE: vault location will never be nil! It's assigned a value up above
             if item.dig('rmc', 'Vault location').nil?
               ret += itemdata_script(
                 item: item,
@@ -97,16 +99,19 @@ module AeonHelper
               # the cslocation needs both the vault and the building.
               vault_location = item['rmc']['Vault location']
               cslocation = vault_location.include?(loc_code) ? vault_location : "#{vault_location} #{loc_code}"
+              puts "cslocation is #{cslocation}, vault_location is #{vault_location}, loc_code is #{loc_code}"
+              cslocation = "#{loc_code} #{item['location']['library']}" if item['from_document']
+              code = 'rmc'
               ret += itemdata_script(
                 item: item,
                 location: location,
                 csloc: cslocation,
-                code: 'rmc'
+                code: code
               )
             end
           else
             # Barcode, circulating
-
+            puts "checking that not non-circ is working"
             # NOTE: vault location will never be nil! It's assigned a value up above
             puts "vault location is #{item['rmc']['Vault location']}"
             csloc = if item['rmc']['Vault location'].nil?
@@ -115,6 +120,11 @@ module AeonHelper
                       item['rmc']['Vault location']
                     end
             code = item['rmc']['Vault location'].nil? ? 'rmc' : loc_code
+            location = if item['from_document']
+                         item['rmc']['Vault location'] || item['location']['code']
+                       else
+                        item['rmc']['Vault location'] || item['location']['code']
+            end
 
             puts "csloc is #{csloc}"
 
@@ -292,18 +302,24 @@ module AeonHelper
     restrictions = item.dig('rmc', 'Restrictions') || ''
     barcode = item['barcode'] || "iid-#{item['id']}" || "iid-#{item['hrid']}"
     caption = item['rmc']['Vault location'].nil? ? '' : item['caption']
-    # NOTE about loc_code: In the old code, 19 out of 20 cases use item['location']['code'].
+    loc_code = item['location']['code']
+    # NOTE: about loc_code: In the old code, 19 out of 20 cases use item['location']['code'].
     # The one exception is for an items_hash param input (i.e., not from the document),
     # with a barcode and an RMC vault location, where the location is set to the vault location.
-    # For now, we're going to ignore that case and just use item['location']['code'] everywhere.
-    # If we need to change that, we can add a conditional or something.
+    # So the following is a ridiculous and clunky exception to the rule.
+    if item['location']['name'].include?('Non-Circulating') &&
+       item['barcode'] &&
+       !item['rmc']['Vault location'].nil? &&
+       !item['from_document']
+      loc_code = item['rmc']['Vault location']
+    end
     <<~HTML
       <script>
         itemdata["#{barcode}"] = {
           location: "#{location}",
           enumeration: "#{item['enum']}",
           barcode: "#{barcode}",
-          loc_code: "#{item['location']['code']}",
+          loc_code: "#{loc_code}",
           chron: "#{item['chron']}",
           copy: "#{item['copy']}",
           free: "",
