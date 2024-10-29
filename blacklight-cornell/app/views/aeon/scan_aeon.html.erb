@@ -52,16 +52,26 @@
 			<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">
 				<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 				<input type="hidden" name="authenticated" value="true">
+				<%# 
+					ExternalRequest must be used to support multiple items in a single request
+					Note, SkipOrderEstimate is not supported yet, but once it is we can remove the routing rule.
+					This setting will tell Aeon to send requests directly to Awaiting Order Processing status.
+				%>
 				<input type="hidden" name="SkipOrderEstimate" value="Yes">
 				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
-				<input type="hidden" name="AeonForm" value="PhotoduplicationRequest">
-				<input type="hidden" name="controller" value="aeon">
+				<input type="hidden" name="AeonForm" value="ExternalRequest">
+				<input type="hidden" name="SystemID" value="Aeon Copy">
 				<input type="hidden" name="WebRequestForm" value="PhotoduplicationRequest">
 				<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request"/>
-				<input type="hidden" name="RequestType" value="Copy"/>
-				<input type="hidden" id="DocumentType" name="DocumentType" value="Photoduplication"/>
+				<input type="hidden" name="RequestType" value="Copy">
+				<input type="hidden" id="DocumentType" name="DocumentType" value="Photoduplication"/>	
 				<input type="hidden" name="FormValidationOverride" value="AllRequests">
 				<input type="hidden" name="SkipFieldLengthValidation" value="yes">
+				<input type="hidden" id="Restrictions" name="Restrictions" value="<%= @re506 %>">
+				<input type="hidden" id="ItemInfo3" name="ItemInfo3" value="<%= @re506 %>">
+				<input type="hidden" id="ItemInfo5" name="ItemInfo5" value="">
+				<input type="hidden" id="ItemTitle" name="ItemTitle" value="<%= @title %>">
+				<input type="hidden" id="ItemAuthor" name="ItemAuthor" value="<%= @author %>">				
 				<%= render :partial => 'aeon/holdings' %>
 				<%= render :partial => 'aeon/aeon_scan_body' %>
 				<%= render :partial => 'aeon/clearer' %>

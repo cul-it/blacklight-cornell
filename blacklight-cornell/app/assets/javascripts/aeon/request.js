@@ -35,10 +35,10 @@ function buildRequestForItem(_, element, multipleFlag) {
       { name: `ItemNumber`, value: barcode },
       { name: `ItemIssue`, value: copy }
     ];
-    $("#RequestForm").append(`<input type="text" name="Request" value="${req}">`);
+    $("#RequestForm").append(`<input type="hidden" class="dynamic-input" name="Request" value="${req}">`);
     const ext = multipleFlag ? `_${req}` : '';
     fields.forEach(field => {
-      $("#RequestForm").append(`<input type="text" name="${field.name}${ext}" value="${field.value}">`);
+      $("#RequestForm").append(`<input type="hidden" class="dynamic-input" name="${field.name}${ext}" value="${field.value}">`);
     });
   }
 
@@ -66,16 +66,6 @@ function doSubmit(_) {
     $('.ItemNo').each((_, element) => buildRequestForItem(_, element, true));
   }
 
-  if (docType === 'Photoduplication') {
-    const fields = ['SpecialRequest', 'ItemCitation', 'Notes', 'ServiceLevel', 'ShippingOption'];
-
-    fields.forEach(field => {
-      const $element = $(`#${field}`);
-      if ($element.length) {
-        $("#RequestForm").append(`<input type="hidden" name="${field}" value="${$element.val()}">`);
-      }
-    });
-  }
   return true;
 }
 
@@ -143,9 +133,9 @@ const appendItemToSelection = (id, removable) => {
 /**
  * Sets up the click event handlers for the page 
  * and selects the item by default if there is only 1 item to select
- * and updates the selected items box if the user navigates back to the form
- */
+*/
 $(document).ready(function () {
+  $(".dynamic-input").remove().length;
   $("#num-selections").text('0');
   $('#clear').click(clearForm);
   $('#RequestForm').submit(doSubmit);
@@ -159,17 +149,25 @@ $(document).ready(function () {
     // Disable the checkbox so that it matches the non-removable behavior of the single selected item
     $('.ItemNo').prop('disabled', true)
   }
-  else {
+});
+
+/* if the user navigates back to the form...
+ * update the selected items box so its in sync with the checked items
+ * and remove all dynamically added inputs to avoid double submission
+ */
+$(window).on('pageshow', function() {
+  $(".dynamic-input").remove().length;
+  if ($('.ItemNo').length > 1) {
     // make sure shopping cart items are in sync with checked items
     const checkedItems = $('.ItemNo:checked');
     if (checkedItems.length > 0) {
       checkedItems.each((_, element) => {
         const item = $(element);
         // add any missing checked items to selected items box
-        if ($("#selected-items-box").find(`[value='${item.val()}']`).length === 0) {
+        if ($("#selections").find(`div[id='t${item.val()}']`).length === 0) {
           appendItemToSelection(item.val(), true);
           $("#num-selections").text(parseInt($("#num-selections").text()) + 1);
-        }
+        } 
       });
     }
   }

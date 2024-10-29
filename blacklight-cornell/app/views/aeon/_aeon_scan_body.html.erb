@@ -1,8 +1,3 @@
-<input type="hidden" id="Restrictions" name="Restrictions" value="<%= @re506 %>">
-<input type="hidden" id="ItemInfo3" name="ItemInfo3" value="<%= @re506 %>">
-<input type="hidden" id="ItemInfo5" name="ItemInfo5" value="">
-<input type="hidden" id="ItemTitle" name="ItemTitle" value="<%= @title %>">
-<input type="hidden" id="ItemAuthor" name="ItemAuthor" value="<%= @author %>">
 
 
 <div class="row">
@@ -27,7 +22,7 @@
                 <div class="form-group">
                         <span class="req">*</span>
                         <label for="ServiceLevel">Service level</label>
-                        <select class="form-control" id="ServiceLevel" name="Service level">
+                        <select class="form-control" id="ServiceLevel" name="ServiceLevel">
                                 <option value="a. Normal: $15">Normal: $15</option>
                                 <option value="b. Rush <3 weeks: $40">Rush < 3 weeks: $40</option>
                         </select>
@@ -37,7 +32,7 @@
                 <div class="form-group">
                         <span class="req">*</span>
                         <label for="ShippingOption">Delivery method</label>
-                        <select class="form-control" id="ShippingOption" name="Delivery method">
+                        <select class="form-control" id="ShippingOption" name="ShippingOption">
                                 <option value="a. Digital file download: $0">Digital file download: $0</option>
                         </select>
                 </div>
@@ -45,13 +40,13 @@
 </div>
 <div class="form-group">
         <label for="SpecialRequest">Please enter any deadlines, special requests or questions for library staff.</label>
-        <textarea class="form-control col-md-6" id="SpecialRequest" rows="3"></textarea>
+        <textarea class="form-control col-md-6" id="SpecialRequest" name="SpecialRequest" rows="3"></textarea>
 </div>
 <div class="form-group">
         <label for="Notes">Add any notes about this item or request that may be helpful for your own personal reference later.</label>
-        <textarea class="form-control col-md-6" id="Notes" rows="3"></textarea>
+        <textarea class="form-control col-md-6" id="Notes" name="Notes" rows="3"></textarea>
 </div>        
 <div class="form-group">
         <label for="ItemCitation">If you have seen the image you are requesting online, please provide the URL. You may also enter an image ID number, if known.</label>
-        <textarea class="form-control col-md-6" id="ItemCitation" rows="3"></textarea>
+        <textarea class="form-control col-md-6" id="ItemCitation" name="ItemCitation" rows="3"></textarea>
 </div>
