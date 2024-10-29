@@ -65,7 +65,7 @@ module AeonHelper
     items = items_hash[holding_id]
 
     copy_string = ''
-    puts "items is #{items}"
+
     if items.present?
       items.each do |item|
         loc_code = item.dig('location', 'code')
@@ -99,7 +99,6 @@ module AeonHelper
               # the cslocation needs both the vault and the building.
               vault_location = item['rmc']['Vault location']
               cslocation = vault_location.include?(loc_code) ? vault_location : "#{vault_location} #{loc_code}"
-              puts "cslocation is #{cslocation}, vault_location is #{vault_location}, loc_code is #{loc_code}"
               cslocation = "#{loc_code} #{item['location']['library']}" if item['from_document']
               code = 'rmc'
               ret += itemdata_script(
@@ -111,9 +110,7 @@ module AeonHelper
             end
           else
             # Barcode, circulating
-            puts "checking that not non-circ is working"
             # NOTE: vault location will never be nil! It's assigned a value up above
-            puts "vault location is #{item['rmc']['Vault location']}"
             csloc = if item['rmc']['Vault location'].nil?
                       "#{loc_code} #{item['location']['library']}"
                     else
@@ -126,8 +123,6 @@ module AeonHelper
                         item['rmc']['Vault location'] || item['location']['code']
             end
 
-            puts "csloc is #{csloc}"
-
             ret += itemdata_script(
               item: item,
               location: location,
@@ -137,7 +132,6 @@ module AeonHelper
           end
         else
           # No barcode
-          puts "checking: #{item}"
           csloc = if item['from_document']
                     "#{loc_code} #{item['location']['library']}"
                   elsif item['location']['name'].include?('Non-Circulating')
