@@ -36,8 +36,8 @@ RSpec.describe AeonHelper, type: :helper do
         expected_values = [
           "itemdata[\"sample_barcode_val\"] = {",
           "location: \"K-1-2-3-4-5\",",
-          "loc_code: \"K-1-2-3-4-5\",",
-          "cslocation: \"K-1-2-3-4-5 rmc\","
+          "loc_code: \"rmc library_name\",",
+          "cslocation: \"rmc library_name\","
         ]
         expected_values.each do |value|
           expect(result).to include(value)
@@ -56,8 +56,8 @@ RSpec.describe AeonHelper, type: :helper do
         expected_values = [
           "itemdata[\"sample_barcode_val\"] = {",
           "location: \"rmc Rare and Manuscript Collections\",",
-          "loc_code: \"rmc Rare and Manuscript Collections\",",
-          "cslocation: \"rmc Rare and Manuscript Collections\","
+          "loc_code: \"rmc library_name\",",
+          "cslocation: \"rmc library_name\","
         ]
         expected_values.each do |value|
           expect(result).to include(value)
