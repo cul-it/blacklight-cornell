@@ -1413,25 +1413,15 @@ end
     bws
   end
 
-  def sub_tilde_path(var,id,aeon_codes,document)
-      var_str = "#{var}"
-      var_req = "#{var.downcase}"
-      req = "#{var_req}"
-      if ENV[var_str].blank?
-        req = '/aeon/~id~'
-        req = req.gsub('~id~',id.to_s)
-        req = req.gsub('~libid~',aeon_codes.join('|'))
-      else
-        req = ENV["#{var}"].gsub('~id~',id.to_s)
-        req = req.gsub('~libid~',aeon_codes.join('|'))
-       end
-    if document['url_findingaid_display'] &&  document['url_findingaid_display'].size > 0
-      finding_a = (document['url_findingaid_display'][0]).split('|')[0]
-    end
-    req = req.gsub('~fa~',"#{finding_a}")
-  end
-
-# (group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{id}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{id}&libid=#{aeon_codes.join('|')}"
+  # Generates the target url
+  #
+  # @param [String] group - "Circulating" or "AEON_SCAN_REQUEST"
+  # @param [String] id
+  # @param [Array<String>] aeon_codes
+  # @param [Hash] document - metadata for the item
+  # @param [Boolean] scan - photoduplication request flag
+  #
+  # @return [String] the target URL
   def request_path(group, id, aeon_codes, document, scan)
     id_scan = scan ? "#{id}.scan" : "#{id}"
     magic_path  = blacklight_cornell_request.magic_request_path("#{id_scan}")
@@ -1448,9 +1438,13 @@ end
     end
 
     if document['url_findingaid_display'] && document['url_findingaid_display'].size > 0
-      finding_a = (document['url_findingaid_display'][0]).split('|')[0]
-    end
-    aeon_req = aeon_req.gsub('~fa~',"#{finding_a}")
+		finding_a = (document['url_findingaid_display'][0]).split('|')[0]
+		# only replace the placeholder if a finding aid value exists
+		aeon_req = aeon_req.gsub('~fa~', finding_a)
+	else
+		# otherwise remove the finding aid placeholder
+		aeon_req = aeon_req.gsub('&finding=~fa~', '')
+	end
 
     (group == "Circulating" ) ? magic_path : aeon_req
   end
