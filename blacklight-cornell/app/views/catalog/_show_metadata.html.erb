@@ -225,6 +225,7 @@
 
 	             		<% if holding["location"].present? %>
 	                		<% if holding["location"]["name"].include?('Rare') %>
+								<%# || holding["location"]["name"].include?('Kheel') %>
 	                   			<% rare_items << holding %>
 	                		<% else %>
 	                		   <% circulating_items << holding %>

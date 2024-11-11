@@ -1,48 +1,176 @@
 /* 
     aeon_custom.css
-    Any site-specific CSS customization should be added to this file.
-    This file overrides the defaults in aeon.css, which should not be altered.
+    Any aeon specific CSS customization should be added to this file.
 */
+@import url("https://use.typekit.net/wiq6yer.css");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
 
-/* CUL logo */
-.cornell-logo {
-    background: url("img/CULibraryRed.svg") no-repeat;
-}
-.insignia {
-    float: left;
-    margin-right: .5em;
-    width: 100px;
-    height: 100px;
-    text-indent: -99999em;
-}
-.library-brand a {
-    text-indent: -99999em;
-    display: block;
-    width: 160px;
-    height: 100px;
-    margin-left: 150px;
-}
-
-/* CUL mobile logo */
-.mobile-cornell-logo {
-    background: url("img/cornell-reduced-red.svg") no-repeat;
-    width: 200px;
-    height: 45px;
-    display: block;
-    text-indent: -99999em;
-}
-.library-brand-mobile {
-    display: block;
-    background: url("img/CULWordmark.svg") no-repeat;
-    text-indent: -99999em;
-    width: 120px;
-    height: 45px;
-    margin-top: .5rem;
-}
-h1 {
+body {
+    font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
     text-align: left;
-    font-size: 1.5rem;
-    padding: 1rem 0 0 0;
-    margin-bottom: 0;
+}
+
+/* class to hide the skip for screen readers */
+.offscreen {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+#noshow {
+    display: none;
+}
+
+/* used for the back to catalog item link */
+.return-link {
+	display: inline-block;
+	margin-bottom: .6em;
+	font-size: 14px;
+}
+
+/*These are CSS classes for the headers*/
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 {
+    font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+}
+
+h1 {
+    margin: .25rem 0 .5rem 0;
+    display: inline-block;
+    line-height: 1.5em;
+    font-weight: 500;
+    font-family: "freight-sans-pro", "Helvetica", "Arial", sans-serif;
+    //text-transform: uppercase;
+    font-size: 32px;
     color: #222;
+}
+
+h2 {
+    font-size: 26px;
+    padding: 10px 0 8px;
+}
+
+h3 { 
+    font-size: 20px; 
+    line-height: 1.5em;
+}
+ 
+label {
+    font: bold 16px;
+}
+
+a {
+    text-decoration: underline;
+    color: #005FBD;
+    cursor: pointer;
+}
+
+/* the reset button on the forms will render as a link, not a button */
+input[type="button"]#clear {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    text-decoration: underline;
+    color: #005FBD;
+    cursor: pointer;
+}
+.req {
+    color: #b81f18;
+    font-size: 1em;
+    padding:0 0 0 6px;
+    text-align: right;
+}
+
+.form-horizontal .control-group { 
+    margin: 0px;
+    padding:10px 0px 0px 0px;
+}
+
+/* button style for the aeon request forms */
+.btn, .btn:hover, .btn:active, .btn:focus {
+    background: #757068;
+    color: white;
+}
+
+.btn:hover
+{
+    background-color: #605C56;
+}
+
+.btn-primary:hover {
+    background-color: #52b3d9;
+    color: #05171f;
+    text-decoration: underline;
+}
+
+.head {
+    background-color: #fff;
+    height: auto;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+/* scrollable is used imitate a multiple select box */
+.scrollable {
+    top:100px;
+    margin:20px;
+    width: 60%;
+    height: 300px;
+    max-height: 300px;
+    overflow: auto;
+}
+/* shoppingcart renders the selected items for the request */
+#shoppingcart {
+    float: right;
+}#shoppingcart {
+    width: 38%;
+    height: 300px;
+    overflow: auto;
+}
+#shoppingcart, .scrollable {
+    padding: 5px;
+    margin: 0px;
+    display: inline-block;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 16px;
+}
+
+/* the options classes are used on the login page */
+.options_container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.option_left, .option_right {
+    margin: 50px 0 0 0;
+    padding: 40px;
+    width: 48%;
+    min-height: 200px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+@media (max-width: 600px) {
+    .option_left, .option_right {
+        width: 100%;
+    }
+}
+/* the btn_option class centers the button on login page */
+.btn_option
+{
+    display: block;
+    margin: 0 auto;
 }
