@@ -28,7 +28,8 @@
 			<h2><%= @title %></h2>
 			<div id="info-wrapper">
 				<% if @finding_aid.present? %>
-					<p><a href='<%= @finding_aid %>'>Finding Aid</a></p>
+					<% cleaned_finding_aid = @finding_aid.end_with?('/track') ? @finding_aid.chomp('/track') : @finding_aid %>
+					<p><a href='<%= cleaned_finding_aid %>'>Finding Aid</a></p>
 				<% end %>
 				<% if @re506.present? %>
 					<h3 style="display: inline-block;">Restrictions: </h3>
