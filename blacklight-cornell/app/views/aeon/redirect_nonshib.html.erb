@@ -1,0 +1,24 @@
+<% require 'uri' %>
+<html>
+  <% aeonStuff = params['newParams'] %> 
+  <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+  <link href='aeon.css' rel='stylesheet' type='text/css' />
+  <title>Login to Aeon at Cornell University Library</title>
+  <body onload='window.focus();'>
+    Redirecting...
+    <form id='aeonPoster' action='https://rmc-aeon.library.cornell.edu/nonshib/aeon.dll' method='POST'>
+      <!-- // I think we need a param with this name/value.  Doesn't need to be a button. -->
+      <input type='hidden' name='SubmitButton' value='Submit Request'>
+      <input type="hidden" name="aeonControl_usertype" value="nonshib" >
+      <pre></pre> 
+      <%= generate_hidden_inputs(aeonStuff) %>
+    
+      <input type='submit' name='Button' value='Login to Aeon' />
+    </form>
+    <br>
+    <script>
+      // submits the form right after it is parsed
+      window.focus(); document.forms['aeonPoster'].submit();
+    </script> 
+  </body>
+</html>
