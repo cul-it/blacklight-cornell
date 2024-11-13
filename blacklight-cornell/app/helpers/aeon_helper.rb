@@ -205,7 +205,6 @@ module AeonHelper
     ret = ''
     items_hash = JSON.parse(@document['holdings_json'])
     item = items_hash.values.first
-
     item_id = if item['barcode']
                 item['barcode']
               elsif item['location']['name'].include?('Non-Circulating')
@@ -294,7 +293,13 @@ module AeonHelper
   # rubocop:disable Metrics/MethodLength
   def itemdata_script(item:, location:, csloc:, code:)
     restrictions = item.dig('rmc', 'Restrictions') || ''
-    barcode = item['barcode'] || "iid-#{item['id']}" || "iid-#{item['hrid']}"
+    barcode = if item['barcode']
+                item['barcode']
+              elsif item['id']
+                "iid-#{item['id']}"
+              else
+                "iid-#{item['hrid']}"
+              end
     caption = item['rmc']['Vault location'].nil? ? '' : item['caption']
     loc_code = item['location']['code']
     # NOTE: about loc_code: In the old code, 19 out of 20 cases use item['location']['code'].
