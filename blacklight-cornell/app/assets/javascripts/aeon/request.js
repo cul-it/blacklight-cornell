@@ -82,7 +82,7 @@ function doClick(event) {
     callnumber,
     enumeration,
     copy = ''
-  } = itemdata[id];
+  } = itemdata[id] || itemdata[`iid-${id}`];
 
   $("#ItemNumber").val(id);
   $("#Location").val(location);
@@ -122,7 +122,7 @@ const appendItemToSelection = (id, removable) => {
     enumeration,
     copy,
     chron = '',
-  } = itemdata[id];
+  } = itemdata[id] || itemdata[`iid-${id}`];
   const copyString = copy ? `c. ${copy}` : '';
   const remId = `tremid${id}`;
   const remSpan = removable ? `<span id='${remId}'>&nbsp;<image src='/img/cross-small.png' alt='Remove'>&nbsp;</span>` : '';
