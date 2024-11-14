@@ -69,7 +69,7 @@ module AeonHelper
     if items.present?
       items.each do |item|
         loc_code = item.dig('location', 'code')
-        next unless ['rmc', 'rare', 'lmdr', 'lmdc', 'kanx'].any? { |code| loc_code&.include?(code) }
+        next unless ['rmc', 'rare', 'lmdr', 'lmdc', 'kanx', 'ranx'].any? { |code| loc_code&.include?(code) }
         item['location']['library'] = 'ANNEX' if item['location']['library'] == 'Library Annex'
         item['rmc'] ||= {}
         call_number = item['call'].to_s.sub('Archives ', '')
@@ -245,12 +245,18 @@ module AeonHelper
 
   def sort_items(items)
     items.sort_by do |item|
+      # the following if statement fixes an edge case catalog item 314011
+      # when the enum is nil error in DISCOVERYACCESS-8334 
+      # its corrected by referencing the array index
+      if index + 1 < items.size
+        next_item = items[index + 1]
+      end
       enum = item['enum']
       enum.scan(/\D+|\d+/).map { |x| x =~ /\d/ ? x.to_i : x }
     rescue StandardError
       enum
     end
-  end
+  end      
 
   # Generates an HTML snippet for a labeled checkbox. (Note that the div is not closed in this method.)
   #
