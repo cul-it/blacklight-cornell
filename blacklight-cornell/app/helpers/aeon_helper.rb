@@ -256,7 +256,7 @@ module AeonHelper
     rescue StandardError
       enum
     end
-  end      
+  end
 
   # Generates an HTML snippet for a labeled checkbox. (Note that the div is not closed in this method.)
   #
