@@ -643,13 +643,6 @@ RSpec.describe SearchBuilder, type: :model do
             #                               ' AND (title_quoted:"test9 test10" AND format:Journal/Periodical))' +
             #                               ' OR (((title:"test11" AND title:"test12") OR title_phrase:"test11 test12") AND format:Journal/Periodical))' +
             #                               ' NOT (((title:"test13" AND title:"test14") OR title_phrase:"test13 test14") AND format:Journal/Periodical))')
-            # expect(solr_params[:q]).to eq('((((((((title:"test1" AND title:"test2") OR title_phrase:"test1 test2")' +
-            #                               ' AND title_quoted:"test3 test4")' +
-            #                               ' AND (title:"test5" OR title:"test6"))' +
-            #                               ' AND title_starts:"test7 test8")' +
-            #                               ' AND title_quoted:"test9 test10")' +
-            #                               ' OR ((title:"test11" AND title:"test12") OR title_phrase:"test11 test12"))' +
-            #                               ' NOT ((title:"test13" AND title:"test14") OR title_phrase:"test13 test14")) AND format:Journal/Periodical')
           end
         end
       end
