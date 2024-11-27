@@ -9,8 +9,7 @@
               <%= render 'single_search/search_form' %>
             </div>
             <div class="advanced-search-link col-md-4">
-              <%= link_to 'Catalog Advanced Search', '/advanced' %>
-                    <%#= params[:q].inspect %>
+              <%= link_to 'Catalog Advanced Search', "/advanced?q=#{params[:q]}" %>
             </div>
           </div>
         </div>
