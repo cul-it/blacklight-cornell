@@ -109,6 +109,7 @@ Feature: Bookmarks for anonymous users
     @javascript
     Scenario: The Email button on bookmarks should go direct to login
         Given I am on the home page
+        Then I set login required
         When I fill in the search box with 'Harry'
         And I press 'search'
         Then I should get results
@@ -118,4 +119,5 @@ Feature: Bookmarks for anonymous users
         And I click on link "Email"
         And I sleep 1 second
         Then I should see the CUWebLogin page
+        Then I clear login required
 

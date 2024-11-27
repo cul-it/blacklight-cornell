@@ -1,12 +1,16 @@
 /* 
-    custom.css
-    Any site-specific CSS customization should be added to this file.
-    This file overrides the defaults in aeon.css, which should not be altered.
+    aeon_branding.css
+    Cornell specific CSS should be added to this file.
 */
 
 /* CUL logo */
 .cornell-logo {
-    background: url("images/CULibraryRed.svg") no-repeat;
+    background: url("img/CULibraryRed.svg") no-repeat;
+}
+.cornell-identity {
+    background: white;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 .insignia {
     float: left;
@@ -25,7 +29,7 @@
 
 /* CUL mobile logo */
 .mobile-cornell-logo {
-    background: url("images/cornell-reduced-red.svg") no-repeat;
+    background: url("img/cornell-reduced-red.svg") no-repeat;
     width: 200px;
     height: 45px;
     display: block;
@@ -33,16 +37,9 @@
 }
 .library-brand-mobile {
     display: block;
-    background: url("images/CULWordmark.svg") no-repeat;
+    background: url("img/CULWordmark.svg") no-repeat;
     text-indent: -99999em;
     width: 120px;
     height: 45px;
     margin-top: .5rem;
-}
-h1 {
-    text-align: left;
-    font-size: 1.5rem;
-    padding: 1rem 0 0 0;
-    margin-bottom: 0;
-    color: #222;
 }

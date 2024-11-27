@@ -32,7 +32,7 @@
     <h3 class="subtitle"><%= @subtitle %></h3>
   <% end %>
   <% if responsibility.present? %>
-    <h3 class="responsibility"><%= responsibility.map(&:inspect).join('; ').gsub('\\"', '') %></h3>
+    <h3 class="responsibility"><%= responsibility.join('; ') %></h3>
   <% end %>
   </div>
   <div class="row">
@@ -225,6 +225,7 @@
 
 	             		<% if holding["location"].present? %>
 	                		<% if holding["location"]["name"].include?('Rare') %>
+								<%# || holding["location"]["name"].include?('Kheel') %>
 	                   			<% rare_items << holding %>
 	                		<% else %>
 	                		   <% circulating_items << holding %>
@@ -324,25 +325,29 @@
 	  <%# end col-md-4 %>
 	  <div class="col-md-8 order-md-4">
 	    <div class="float-sm-right item-cover">
-		  <% if @document["format_main_facet"] == "Musical Recording" && @discogs_image_url.present?%>
-			<%= format_discogs_image(@discogs_image_url)%>
-		  <% end %>
-	      <div class="bookcover d-none d-sm-inline" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>"></div>
-	    </div>
+				<% if @document["format_main_facet"] == "Musical Recording" && @discogs_image_url.present?%>
+					<%= format_discogs_image(@discogs_image_url)%>
+				<% end %>
+				<% unless @document["no_google_img_b"] %>
+					<div class="bookcover d-none d-sm-inline" id="OCLC:<%= bookcover_oclc(@document) %>" data-oclc="<%= bookcover_oclc(@document) %>"></div>
+				<% end %>
+			</div>
 	    <%# item-cover %>
 	    <%= render_document_partial @document, :show %>
-        <% if @document["format_main_facet"] == "Musical Recording" %>
-		  <div id="discogs_disclaimer"></div>
-		<% end %>
+			<% if @document["format_main_facet"] == "Musical Recording" %>
+		   <div id="discogs_disclaimer"></div>
+			<% end %>
 		<!--Adding Wikidata sourcing -->
 		<div id="wikidata_source"></div>
-	    <%# DISCOVERYACCESS-6275 %>
-		<% if ENV['SYNDETICS_UNBOUND_ENABLED'].present? && ENV['SYNDETICS_UNBOUND_ENABLED'] == "1" %>
-		<div id="syndetics_unbound"></div>
-		<script src="https://unbound.syndetics.com/syndeticsunbound/connector/initiator.php?a_id=1624&i_id=2636"
-						type="text/javascript"></script>
-		<% end %>
 
+			<%# DISCOVERYACCESS-6275 %>
+			<% unless @document["no_syndetics_b"] %>
+				<% if ENV['SYNDETICS_UNBOUND_ENABLED'].present? && ENV['SYNDETICS_UNBOUND_ENABLED'] == "1" %>
+				<div id="syndetics_unbound"></div>
+				<script src="https://unbound.syndetics.com/syndeticsunbound/connector/initiator.php?a_id=1624&i_id=2636"
+								type="text/javascript"></script>
+				<% end %>
+			<% end %>
 
 	    <%= render :partial => 'catalog/call_number_browse_links' %>
 	    <%# browse-call-number %>

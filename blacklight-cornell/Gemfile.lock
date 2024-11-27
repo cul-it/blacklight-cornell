@@ -1,8 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: fa40cd0f3b56d9526cce404bb89d6040586537c4
+  revision: cbdcbfcefc14355d48efab2cf9796e0f3dc9c1ec
+  tag: v5.1
   specs:
-    blacklight_cornell_requests (5.0)
+    blacklight_cornell_requests (5.1)
       activerecord-oracle_enhanced-adapter
       blacklight
       dotenv
@@ -40,30 +41,23 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-folio-edge
-  revision: bc7098ba4127604100c909cf4d9a303f5ed0c8fe
-  tag: v3.0
+  revision: c34dab4611ce57dfca2308344e03a72dbc92ff44
+  tag: v3.1
   specs:
-    cul-folio-edge (3.0)
+    cul-folio-edge (3.1)
       rest-client
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: cf1a5866a6be40e7244ff16e6641495d4d5bb017
+  revision: c03cd679cb1d730e1f1da24705854941c7e566ad
+  tag: v2.3.3
   specs:
-    my_account (2.2.5)
+    my_account (2.3.3)
       blacklight (>= 7.0)
-      borrow_direct
-      cul-folio-edge (>= 1.2.1)
+      cul-folio-edge (~> 3.1)
       rails (~> 6.1)
       rest-client
       xml-simple
-
-GIT
-  remote: https://github.com/jrochkind/borrow_direct
-  revision: f2f53760e15d742a5c5584dd641f20dea315f99f
-  specs:
-    borrow_direct (1.2.0)
-      httpclient (~> 2.4)
 
 GIT
   remote: https://github.com/makandra/spreewald.git
@@ -550,13 +544,13 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.7.1)
-    nokogiri (1.16.4-aarch64-linux)
+    nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.16.4-arm64-darwin)
+    nokogiri (1.16.7-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.4-x86_64-darwin)
+    nokogiri (1.16.7-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.4-x86_64-linux)
+    nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     nori (2.7.0)
       bigdecimal
@@ -586,9 +580,9 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    omniauth-saml (2.1.0)
-      omniauth (~> 2.0)
-      ruby-saml (~> 1.12)
+    omniauth-saml (2.2.1)
+      omniauth (~> 2.1)
+      ruby-saml (~> 1.17)
     openurl (1.0.0)
       marc
       scrub_rb (~> 1.0)
@@ -613,7 +607,7 @@ GEM
     puma (6.4.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
-    racc (1.7.3)
+    racc (1.8.1)
     rack (2.2.9)
     rack-contrib (2.4.0)
       rack (< 4)
@@ -701,7 +695,7 @@ GEM
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby-plsql (0.8.0)
-    ruby-saml (1.16.0)
+    ruby-saml (1.17.0)
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
@@ -867,7 +861,6 @@ DEPENDENCIES
   blacklight_unapi!
   bootstrap (~> 4.3)
   bootstrap-sass (~> 3.4.1)
-  borrow_direct!
   brakeman
   byebug
   capistrano (~> 3.18)
@@ -911,17 +904,14 @@ DEPENDENCIES
   my_account!
   mysql2 (= 0.5.6)
   net-ldap
-  net-scp (= 2.0.0)
-  net-sftp
   net-smtp
-  net-ssh (= 5.2.0)
   nokogiri (>= 1.14.3)
   omniauth (~> 2.0)
   omniauth-facebook (~> 5.0)
   omniauth-google-oauth2 (~> 0.8)
   omniauth-oauth2
   omniauth-rails_csrf_protection
-  omniauth-saml (~> 2.0)
+  omniauth-saml (>= 2.1.2)
   parslet
   piwik_analytics (~> 1.0.1)
   protected_attributes_continued

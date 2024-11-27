@@ -1,16 +1,14 @@
 class Bookmarklite
   attr_accessor :document_id
 
-
   def initialize(bid)
     @document_id = bid
   end
-
 end
 
 class BookBagsController < CatalogController
-   include Blacklight::Catalog
-   include BlacklightCornell::CornellCatalog
+  include Blacklight::Catalog
+  include BlacklightCornell::CornellCatalog
 
   MAX_BOOKBAGS_COUNT = 500
 
@@ -26,7 +24,7 @@ class BookBagsController < CatalogController
 
   def authenticate
     #binding.pry
-    if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
+    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
       mock_auth
       :authenticate_user!
     else
@@ -39,27 +37,27 @@ class BookBagsController < CatalogController
   end
 
   def mock_auth
-    if ENV['DEBUG_USER'].present? && (Rails.env.development? || Rails.env.test?)
+    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
         provider: "saml",
-        "saml_resp" => 'hello' ,
+        "saml_resp" => "hello",
         uid: "12345678910",
-        extra: {raw_info: {} } ,
+        extra: { raw_info: {} },
         info: {
-          email: [ENV['DEBUG_USER']],
+          email: [ENV["DEBUG_USER"]],
           name: ["Diligent Tester"],
           netid: "jgr25",
-          groups: ["staff","student"],
+          groups: ["staff", "student"],
           primary: ["staff"],
           first_name: "Diligent",
-          last_name: "Tester"
+          last_name: "Tester",
         },
         credentials: {
           token: "abcdefg12345",
           refresh_token: "12345abcdefg",
-          expires_at: DateTime.now
-        }
+          expires_at: DateTime.now,
+        },
       })
     end
   end
@@ -74,7 +72,7 @@ class BookBagsController < CatalogController
   end
 
   def heading
-   @heading='BookBag'
+    @heading = "BookBag"
   end
 
   def initialize
@@ -98,13 +96,13 @@ class BookBagsController < CatalogController
         session[:bookbag_count] = @bb.count
       end
       if request.xhr?
-        success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
+        success ? render(json: { bookmarks: { count: @bb.count } }) : render(plain: "", status: "500")
       else
         respond_to do |format|
           format.html { }
-          format.rss  { render :layout => false }
+          format.rss { render :layout => false }
           format.atom { render :layout => false }
-          format.json { render json:   { }      }
+          format.json { render json: {} }
         end
       end
     end
@@ -133,14 +131,14 @@ class BookBagsController < CatalogController
     success = @bb.uncache(value)
     session[:bookbag_count] = @bb.count
     if request.xhr?
-      success ? render(json: { bookmarks: { count: @bb.count }}) : render(plain: "", status: "500")
+      success ? render(json: { bookmarks: { count: @bb.count } }) : render(plain: "", status: "500")
     else
       respond_to do |format|
         format.html { }
-        format.rss  { render :layout => false }
+        format.rss { render :layout => false }
         format.atom { render :layout => false }
         format.json do
-          render json:   { }
+          render json: {}
         end
       end
     end
@@ -149,21 +147,21 @@ class BookBagsController < CatalogController
   def index
     params.permit(:move_bookmarks)
 
-    @bms =@bb.index
+    @bms = @bb.index
     if @bb.is_a? BookBag
-      docs = @bms.each {|v| v.to_s }
+      docs = @bms.each { |v| v.to_s }
     else
-      docs = @bms.map {|b| b.sub!("bibid-",'')}
+      docs = @bms.map { |b| b.sub!("bibid-", "") }
     end
 
     if docs.present?
-      @bookmarks = docs.map {|b| Bookmarklite.new(b)}
-      @response,@documents = search_service.fetch docs
-      @document_list =  @documents
+      @bookmarks = docs.map { |b| Bookmarklite.new(b) }
+      @response, @documents = search_service.fetch docs
+      @document_list = @documents
     end
     respond_to do |format|
-      format.html {}
-      format.rss  { render :layout => false }
+      format.html { }
+      format.rss { render :layout => false }
       format.atom { render :layout => false }
       additional_response_formats(format)
       document_export_formats(format)
@@ -176,9 +174,9 @@ class BookBagsController < CatalogController
       if current_or_guest_user.bookmarks.count > 0
         current_or_guest_user.bookmarks.clear
       end
-      flash[:notice] = I18n.t('blacklight.bookmarks.clear.success')
+      flash[:notice] = I18n.t("blacklight.bookmarks.clear.success")
     else
-      flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
+      flash[:error] = I18n.t("blacklight.bookmarks.clear.failure")
     end
     redirect_to :action => "index"
   end
@@ -186,14 +184,14 @@ class BookBagsController < CatalogController
   def action_documents
     docs = @bb.index
     per_page = docs.count
-    options =   {:per_page => per_page,:rows => per_page}
+    options = { :per_page => per_page, :rows => per_page }
     search_service.fetch(docs, options)
   end
 
   # show citations on a page
   def show_citation_page
     @response, @documents = action_documents
-    render :partial=>"bookmarks/citation_page"
+    render :partial => "bookmarks/citation_page"
   end
 
   def citation
@@ -208,21 +206,21 @@ class BookBagsController < CatalogController
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     if params[:id].nil?
       docs = @bb.index
-      @response, @documents = search_service.fetch(docs, :per_page => 1000,:rows => 1000)
+      @response, @documents = search_service.fetch(docs, :per_page => 1000, :rows => 1000)
       Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
     else
       @response, @documents = search_service.fetch(params[:id])
     end
     respond_to do |format|
-      format.endnote  { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-      format.ris      { render 'ris', :layout => false }
+      format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+      format.ris { render "ris", :layout => false }
     end
   end
 
   def export
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
     Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in export"
-    msg= "book_bags_controler.rb export"
+    msg = "book_bags_controler.rb export"
     puts msg.to_yaml
     @bb.debug
     Rails.logger.level = save_level
@@ -244,11 +242,10 @@ class BookBagsController < CatalogController
   end
 
   def get_saved_bookmarks
-      session[:bookmarks_for_book_bags]
+    session[:bookmarks_for_book_bags]
   end
 
   def clear_saved_bookmarks
-      session[:bookmarks_for_book_bags] = nil;
+    session[:bookmarks_for_book_bags] = nil
   end
-
 end

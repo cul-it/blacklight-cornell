@@ -92,6 +92,8 @@ module BlacklightCornell
     config.exceptions_app = self.routes
     config.action_controller.permit_all_parameters = true
 
+    # Generate ids on inputs with form_with
+    config.action_view.form_with_generates_ids = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

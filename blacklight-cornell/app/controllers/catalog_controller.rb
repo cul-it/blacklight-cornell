@@ -1155,7 +1155,7 @@ def tou
     record = eholdings_record(title_id) || []
     if record
       # recordTitle = record["data"]["attributes"]["name"]
-      record["included "].each do |package|
+      record["included"].each do |package|
         attrs = package['attributes']
         if attrs["isSelected"] == true
           packageID = attrs["packageId"]
@@ -1217,8 +1217,11 @@ def tou
 
   # Return a FOLIO authentication token for API calls -- either from the session if a token
   # was prevoiusly created, or directly from FOLIO otherwise.
+  #
+  # TODO: Caching is being disabled for now, since it's causing problems with the new expiring
+  # token mechanism in FOLIO. We need to figure out how to cache the token properly. (mjc12)
   def folio_token
-    if session[:folio_token].nil?
+   #  if session[:folio_token].nil?
       url = ENV['OKAPI_URL']
       tenant = ENV['OKAPI_TENANT']
       response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
@@ -1227,7 +1230,7 @@ def tou
       else
         session[:folio_token] = response[:token]
       end
-    end
+   #  end
     session[:folio_token]
   end
 

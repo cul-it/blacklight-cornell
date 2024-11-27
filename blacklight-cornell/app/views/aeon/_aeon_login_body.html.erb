@@ -1,0 +1,40 @@
+<%= render partial: 'aeon/aeon_header' %>
+<%= stylesheet_link_tag "aeon", :media => "all" %>
+<% paramsHash = params.to_h %>
+<%= generate_hidden_inputs_for_login(paramsHash) %>
+
+
+<div class="container" id="main-content">
+  <h1>Special Collections Request System</h1>
+  <div class="options_container">
+    <div class="option_left">
+      <p>Cornell affiliates can access the Aeon request system with your Cornell NetID using this option.</p>
+      <form action="https://rmc-aeon.library.cornell.edu/aeon/aeon.dll" method="POST"> 
+        <input type="hidden" name="authenticated" value="true" />
+        <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" />
+        <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />  
+        <%= generate_hidden_inputs_for_login(paramsHash) %> 
+        <input type="submit" value="Cornell Affiliate Login" class="btn btn_option" />
+      </form>
+    </div>
+    <div class="option_right"> 
+      <p>Public users without a Cornell NetID can access the Aeon request system using this option.</p>
+      <form id="aeonPoster" action="https://rmc-aeon.library.cornell.edu/nonshib/aeon.dll" method="POST">
+        <input type="hidden" name="target" value="<%= params['target'] %>" method="POST" />
+        <input type="hidden" name="aeonParams" value="<%= paramsHash %>" />  
+        <%= generate_hidden_inputs_for_login(paramsHash) %>
+        <input type="submit" value="Public User Login" class="btn btn_option" />
+      </form>
+    </div>
+  </div>
+  <br/>
+  <p>To request materials for onsite in library reading rooms or to request digital scans of library materials, 
+    you must be registered in the Aeon request system. 
+    For first-time users and more information, 
+    please visit the <a href="https://rmc-aeon.library.cornell.edu/nonshib/aeon.dll?Action=10&Form=79">registration information guide.</a>
+  </p> 
+</div>
+
+
+
+

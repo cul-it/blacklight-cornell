@@ -182,7 +182,7 @@ Feature: Select and export items from the result set
   # When I literally go to /catalog.json?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
   When I literally go to advanced
     And I use 'Zombies' with 'all' logic for field 'Title' on line 1 of advanced search
-    And I select 'and' from the row logic radio before line 2
+    And I select 'AND' from the boolean dropdown on line 2
     And I use 'Charlier' with 'all' logic for field 'Author' on line 2 of advanced search
     And I press 'advanced_search'
     And I view the 'json' version of the search results
@@ -211,7 +211,7 @@ Feature: Select and export items from the result set
   # When I literally go to /catalog.rss?advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
   When I literally go to advanced
     And I use 'Zombies' with 'all' logic for field 'Title' on line 1 of advanced search
-    And I select 'and' from the row logic radio before line 2
+    And I select 'AND' from the boolean dropdown on line 2
     And I use 'Charlier' with 'all' logic for field 'Author' on line 2 of advanced search
     And I press 'advanced_search'
     And I view the 'rss' version of the search results
@@ -225,7 +225,7 @@ Feature: Select and export items from the result set
   # When I literally go to /catalog.atom?content_format=<Format>&advanced_query=yes&boolean_row[1]=AND&counter=1&op_row[]=AND&op_row[]=AND&q_row[]=Zombies&q_row[]=Charlier&search_field=advanced&search_field_row[]=title&search_field_row[]=author&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&total=1
   When I literally go to advanced
     And I use 'Zombies' with 'all' logic for field 'Title' on line 1 of advanced search
-    And I select 'and' from the row logic radio before line 2
+    And I select 'AND' from the boolean dropdown on line 2
     And I use 'Charlier' with 'all' logic for field 'Author' on line 2 of advanced search
     And I press 'advanced_search'
     And I view the '<Format>' version of the search results
