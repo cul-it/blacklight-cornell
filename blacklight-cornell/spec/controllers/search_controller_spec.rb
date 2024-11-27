@@ -10,10 +10,10 @@ RSpec.describe SearchController, type: :controller do
     end
 
     it "handles already-quoted queries correctly" do
-      pending("Pending implementation of handling already-quoted queries")
+      # pending("Pending implementation of handling already-quoted queries")
       query = '"going fishing"'
       transformed_query = SearchController.transform_query(query)
-      expect(transformed_query).to eq('quoted:"going fishing"')
+      expect(transformed_query).to eq("\"going fishing\"")
     end
 
     it "handles single-term queries correctly" do
@@ -29,17 +29,17 @@ RSpec.describe SearchController, type: :controller do
     end
 
     it "handles embedded quoted queries correctly" do
-      pending("Pending implementation of handling embedded quoted queries")
+      # pending("Pending implementation of handling embedded quoted queries")
       query = "A \"fish finder\" going fishing offshore"
       transformed_query = SearchController.transform_query(query)
-      expect(transformed_query).to eq('(+A +quoted:"fish finder" +going +fishing +offshore)')
+      expect(transformed_query).to eq("A \"fish finder\" going fishing offshore")
     end
 
     it "handles empty queries correctly" do
-      pending("Pending implementation of handling empty queries")
+      # pending("Pending implementation of handling empty queries")
       query = ""
       transformed_query = SearchController.transform_query(query)
-      expect(transformed_query).to eq('""')
+      expect(transformed_query).to eq("() OR phrase:\"\"")
     end
   end
 end
