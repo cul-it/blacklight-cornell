@@ -1,10 +1,10 @@
 .facets {
-	background: white;
-	ul {
-		margin: 0 0 5px 10px;
-		padding: 0;
-		list-style: none;
-	}
+	// background: white;
+	// ul {
+	// 	margin: 0 0 5px 10px;
+	// 	padding: 0;
+	// 	list-style: none;
+	// }
 	li {
 		font-size: .9rem;
 		padding-right: 50px;
@@ -51,20 +51,7 @@
 // OVERRIDE #FACETS - TODO: do we still need this in BL5?
 // -------------------------
 
-#sidebar {
-	padding-bottom: 0;
-}
 #facets {
-	padding-bottom: 0;
-	ul {
-		margin-left: 0;
-		padding-top: 0;
-		padding-bottom: 0;
-	}
-	li {
-		margin-right: 0;
-		padding-right: 0;
-	}
 	a.remove {
 		padding: 0;
 		display: inline-block;
