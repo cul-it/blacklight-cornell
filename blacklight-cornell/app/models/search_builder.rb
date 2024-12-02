@@ -553,7 +553,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
 
       # If format value exists for search_field, add format to q_string
-      q_string = "(#{q_string}) AND format:#{search_field_config['format']}" if search_field_config['format']
+      q_string = "(#{q_string}) AND format:\"#{search_field_config['format']}\"" if search_field_config['format']
       form_q_to_solr_q << q_string
     end
 

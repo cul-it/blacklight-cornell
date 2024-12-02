@@ -501,7 +501,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['((title:"cats") OR title_phrase:"cats") AND format:Journal/Periodical'])
+            expect(search_builder.set_q_fields(params)).to eq(['((title:"cats") OR title_phrase:"cats") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -509,7 +509,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title:"cats") AND format:Journal/Periodical'])
+            expect(search_builder.set_q_fields(params)).to eq(['(title:"cats") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -517,7 +517,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title_quoted:"cats") AND format:Journal/Periodical'])
+            expect(search_builder.set_q_fields(params)).to eq(['(title_quoted:"cats") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -525,7 +525,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title_starts:"cats") AND format:Journal/Periodical'])
+            expect(search_builder.set_q_fields(params)).to eq(['(title_starts:"cats") AND format:"Journal/Periodical"'])
           end
         end
       end
@@ -941,7 +941,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['((title:"cats" AND title:"dogs") OR title_phrase:"cats dogs") AND format:Journal/Periodical'])
+            expect(search_builder.set_q_fields(params)).to eq(['((title:"cats" AND title:"dogs") OR title_phrase:"cats dogs") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -949,7 +949,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title:"cats" OR title:"dogs") AND format:Journal/Periodical'])
+            expect(search_builder.set_q_fields(params)).to eq(['(title:"cats" OR title:"dogs") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -957,7 +957,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title_quoted:"cats dogs") AND format:Journal/Periodical'])
+            expect(search_builder.set_q_fields(params)).to eq(['(title_quoted:"cats dogs") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -965,7 +965,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title_starts:"cats dogs") AND format:Journal/Periodical'])
+            expect(search_builder.set_q_fields(params)).to eq(['(title_starts:"cats dogs") AND format:"Journal/Periodical"'])
           end
         end
       end
@@ -1591,7 +1591,7 @@ RSpec.describe SearchBuilder, type: :model do
 
           it 'transforms expected solr params' do
             search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('(((title:"test") OR title_phrase:"test") AND format:Journal/Periodical)')
+            expect(solr_params[:q]).to eq('(((title:"test") OR title_phrase:"test") AND format:"Journal/Periodical")')
           end
         end
 
@@ -1605,13 +1605,13 @@ RSpec.describe SearchBuilder, type: :model do
 
           it 'transforms expected solr params' do
             search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('(((((((((title:"test1" AND title:"test2") OR title_phrase:"test1 test2") AND format:Journal/Periodical)' \
-                                          ' AND (((title_quoted:"test3 test4")) AND format:Journal/Periodical))' \
-                                          ' AND ((title:"test5" OR title:"test6") AND format:Journal/Periodical))' \
-                                          ' AND ((title_starts:"test7 test8") AND format:Journal/Periodical))' \
-                                          ' AND ((title_quoted:"test9 test10") AND format:Journal/Periodical))' \
-                                          ' OR (((title:"test11" AND title:"test12") OR title_phrase:"test11 test12") AND format:Journal/Periodical))' \
-                                          ' NOT (((title:"test13" AND title:"test14") OR title_phrase:"test13 test14") AND format:Journal/Periodical))')
+            expect(solr_params[:q]).to eq('(((((((((title:"test1" AND title:"test2") OR title_phrase:"test1 test2") AND format:"Journal/Periodical")' \
+                                          ' AND (((title_quoted:"test3 test4")) AND format:"Journal/Periodical"))' \
+                                          ' AND ((title:"test5" OR title:"test6") AND format:"Journal/Periodical"))' \
+                                          ' AND ((title_starts:"test7 test8") AND format:"Journal/Periodical"))' \
+                                          ' AND ((title_quoted:"test9 test10") AND format:"Journal/Periodical"))' \
+                                          ' OR (((title:"test11" AND title:"test12") OR title_phrase:"test11 test12") AND format:"Journal/Periodical"))' \
+                                          ' NOT (((title:"test13" AND title:"test14") OR title_phrase:"test13 test14") AND format:"Journal/Periodical"))')
           end
         end
       end
