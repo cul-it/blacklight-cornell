@@ -79,15 +79,26 @@
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-6 mb-0">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
-              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
+              <%= text_field_tag :q, params[:q],
+                                 :placeholder => t('blacklight.search.form.q'),
+                                 :class => "search-query phone-search-query form-control",
+                                 :id => "q",
+                                 :data => { :dynamic => "true" },
+                                 :autocapitalize => "off" %>
           </div>
 
           <% if search_fields.empty? or search_fields.nil? %>
-             <input type="hidden" name="search_field" value="all_fields"/>          
+             <input type="hidden" name="search_field" value="all_fields"/>
           <% else %>
             <div class="form-group col-4 col-lg-5 mb-0">
               <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
-              <%= select_tag(:search_field, options_for_select(search_bar_select, selected:params[:search_field],disabled: ["separator_1","separator_2","separator_3","separator_4"]), :title => t('blacklight.search.form.search_field.title'), :class => 'form-control') %>
+              <%= select_tag(:search_field,
+                             options_for_select(search_bar_select,
+                                                selected:params[:search_field],
+                                                disabled: ["separator_1","separator_2","separator_3","separator_4"]),
+                             :title => t('blacklight.search.form.search_field.title'),
+                             :class => 'form-control',
+                             :data => { :dynamic => "true" } ) %>
               <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
             </div>
           <% end %>
@@ -115,7 +126,11 @@
   <% if params[:controller] !='advanced_search' %>
     <div class="search-nav col-12 col-lg-5">
       <ul class="nav nav-pills">
-        <li><a href="/advanced"><i class="fa fa-search" aria-hidden="true"></i>Advanced Search</a></li>
+        <li>
+          <a id="advanced-search-link" href="/advanced">
+            <i class="fa fa-search" aria-hidden="true"></i>Advanced Search
+          </a>
+        </li>
       </ul>
     </div>
   <% end %>
