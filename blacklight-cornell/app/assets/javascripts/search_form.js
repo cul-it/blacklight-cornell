@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Select all inputs, selects, and textareas if no dynamic fields are found
     let formFields = document.querySelectorAll("[data-dynamic='true']");
     if (formFields.length === 0) {
-        console.warn("No fields with data-dynamic found! Falling back to all form elements.");
         formFields = document.querySelectorAll("input, select, textarea");
     }
 
