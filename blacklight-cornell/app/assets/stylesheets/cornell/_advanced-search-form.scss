@@ -48,6 +48,14 @@ form.advanced {
   width: auto;
 }
 
+// Selected facet/constraint
+// -------------------------
+
+.advanced-facets {
+  margin-bottom: 1rem;
+  padding-top: 0;
+}
+
 // Submit or reset
 // -------------------------
 
@@ -83,7 +91,7 @@ form.advanced {
       width: 25%;
     }
   }
-  // TODO: remove dl-horizontal class and use cols for dt and dd alignment and sizing
+  // TODO: remove dl-horizontal class and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
   .as-tips {
     dl.dl-horizontal {
       dt {
