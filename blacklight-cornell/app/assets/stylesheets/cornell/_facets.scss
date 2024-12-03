@@ -48,21 +48,9 @@
 	}
 }
 
-// OVERRIDE #FACETS - TODO: do we still need this in BL5?
-// -------------------------
-
-#sidebar {
-	padding-bottom: 0;
-}
 #facets {
-	padding-bottom: 0;
-	ul {
-		margin-left: 0;
-		padding-top: 0;
-		padding-bottom: 0;
-	}
 	li {
-		margin-right: 0;
+		// Align the facet count right; needed for hieirarchical facets
 		padding-right: 0;
 	}
 	a.remove {
@@ -81,9 +69,15 @@
 	span.selected {
 		color: $dark-gray;
 	}
-	h5 + div { padding-bottom: .5em; }
 }
-// TODO: ".count" may not be used in BL5
+
+// More facet link to open modal
+.more_facets {
+	margin-top: .5rem;
+	font-size: .9rem;
+}
+
+// Use monospace font for the facet count so it aligns nicely
 .facet-count {
   font-family: $monospace-font-family;
   font-size: 12px;
@@ -113,19 +107,23 @@
 	}
 }
 
+// Hierarchical call number facet
+// ------------------------------------
+
+// Indent child lists - default has no indentation
+#facets ul.facet-hierarchy ul {
+	padding-left: 1.2rem;
+	margin-bottom: .3rem;
+}
+
 // PUBLICATION YEAR
 // -----------------------
 
-.limit_content {
-	margin-right: 10px;
-	.subsection { margin-top: .5em; }
-}
 .blacklight-pub_date_facet {
 	form { margin-bottom: 1.2em; }
 	.count {
 		text-align: right;
 		float: right;
-		// color: $medium-gray;
 	}
 	.tickLabel { font-size: 0.875em; }
 	.missing,
@@ -144,13 +142,6 @@
 		}
 	}
 }
-form.range_limit {
-	input.range_begin,
-	input.range_end {
-		padding: 1px 3px;
-		width: 3em;
-	}
-}
 .navbar {
 	.blacklight-pub_date_facet {
 		.btn, .btn-group {
@@ -165,12 +156,6 @@ form.range_limit {
 	width: 89% !important;
 }
 .hover_legend { padding: 0; }
-// add a little space above the unknown value in pub year facet
-.blacklight-pub_date_facet {
-	.missing.subsection {
-		margin-top: 20px;
-	}
-}
 
 // Constraints
 // -----------------------
@@ -204,14 +189,6 @@ form.range_limit {
 	padding-bottom: .5rem;
 }
 
-// Hierarchical call number facet
-// ------------------------------------
-
-// Indent child lists - default has no indentation
-#facets ul.facet-hierarchy ul {
-	padding-left: 1.2rem;
-}
-
 // MEDIA QUERIES
 // -------------------------
 
@@ -220,10 +197,6 @@ form.range_limit {
 
 // Small devices (landscape phones, 576px and up)
 @include media-breakpoint-up(sm) {
-	.facets {
-		h5 {
-			font-size: 12px;
-		}	}
 	.facet-values {
 		.facet-label {
 			display: block;
@@ -242,11 +215,6 @@ form.range_limit {
 
 // Medium devices (tablets, 768px and up)
 @include media-breakpoint-up(md) {
-	.facets {
-		h5 {
-			font-size: 14px;
-		}
-	}
 	.facet-values {
 		.facet-label {
 			display: table-cell;
