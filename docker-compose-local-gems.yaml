@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  webapp:
+    tty: true
+    image: ${IMAGE_NAME}:latest
+    build:
+      context: .
+      dockerfile: docker/bookworm/local_gems/Dockerfile
+      args:
+        - GIT_COMMIT
+    environment:
+      - IMAGE_NAME=container-discovery-local-gems
+      - RAILS_ENV=${RAILS_ENV:-development}
+      - RUN_CRON=false
+      - RAILS_LOG_LEVEL=info
+    ports:
+      - 9292:9292
+    volumes:
+      - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro
+      - /cul/app/blacklight-cornell-requests:/custom_mnt/blacklight-cornell-requests:cached
+      - /cul/app/cul-my-account:/custom_mnt/cul-my-account:cached
+    networks:
+      - bcnetwork
+
+networks:
+  bcnetwork:
+    name: blacklight-cornell
+    external: true
