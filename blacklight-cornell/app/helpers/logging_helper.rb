@@ -1,5 +1,3 @@
-require 'pp'
-
 module LoggingHelper
   # temporarily set the log level to debug,
   # log the message,
@@ -27,7 +25,7 @@ module LoggingHelper
   def build_log_message(context, info)
     msg = [" Debugging Info ".center(60, "Z")]
     msg << "ZZZ #{context}:"
-    info.each { |i| msg << "ZZZ " + pp(i) }
+    info.each { |i| msg << "ZZZ " + i.inspect }
     msg << "Z" * 60
     msg.join("\n")
   end
