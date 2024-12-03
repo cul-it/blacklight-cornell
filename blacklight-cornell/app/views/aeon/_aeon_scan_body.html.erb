@@ -1,10 +1,10 @@
-
-
-<div class="row">
-        <div class="col-md-4">
-                <div class="form-group">
+<div>
+        <div class="form-group row">
+                <div class="col-form-label col-sm-2">
                         <span class="req">*</span>
-                        <label for="Format">Format</label>
+                        <label for="Format">Format:</label>
+                </div>
+                <div class="col-form-label col-sm-10">
                         <select class="form-control" id="Format" name="Format">
                                 <option value="a. PDF: $1">PDF: $1</option>
                                 <option value="b. TIFF 600 dpi: $35">TIFF 600 dpi: $35</option>
@@ -18,21 +18,25 @@
                         </select>
                 </div>
         </div>
-        <div class="col-md-4">
-                <div class="form-group">
+        <div class="form-group row">
+                <div class="col-form-label col-sm-2">
                         <span class="req">*</span>
-                        <label for="ServiceLevel">Service level</label>
+                        <label for="ServiceLevel">Service level:</label>
+                </div>
+                <div class="col-form-label col-sm-10">
                         <select class="form-control" id="ServiceLevel" name="ServiceLevel">
                                 <option value="a. Normal: $15">Normal: $15</option>
                                 <option value="b. Rush <3 weeks: $40">Rush < 3 weeks: $40</option>
                         </select>
                 </div>
         </div>
-        <div class="col-md-4">
-                <div class="form-group">
+        <div class="form-group row">
+                <div class="col-form-label col-sm-2">
                         <span class="req">*</span>
-                        <label for="ShippingOption">Delivery method</label>
-                        <select class="form-control" id="ShippingOption" name="ShippingOption">
+                        <label for="ShippingOption">Delivery method:</label>
+                </div>
+                <div class="col-form-label col-sm-10">Digital file download
+                        <select style="display:none" id="ShippingOption" name="ShippingOption">
                                 <option value="a. Digital file download: $0">Digital file download: $0</option>
                         </select>
                 </div>
