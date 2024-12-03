@@ -1,4 +1,4 @@
-require 'pretty_inspect'
+require 'pp'
 
 module LoggingHelper
   # temporarily set the log level to debug,
@@ -16,7 +16,8 @@ module LoggingHelper
   def log_debug_info(context, *info)
     original_level = Rails.logger.level
     Rails.logger.level = Logger::INFO
-    log_message = build_log_message(context, info)
+    # log_message = build_log_message(context, info)
+    log_message = PP.pp(["ZZZ #{context}", info], "")
     Rails.logger.info(log_message)
   ensure
     Rails.logger.level = original_level
