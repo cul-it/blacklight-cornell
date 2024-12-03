@@ -7,7 +7,6 @@
   # functions by default only on detail.
 -%>
 <% if request.path != '/bookmarks'  && !request.path.start_with?('/book_bags') %>
-  <% citable = is_citable(@document) %>
   <% emailable = is_emailable(@document) %>
   <% exportable = is_exportable(@document) %>
 <% elsif request.path == '/bookmarks'  %>
