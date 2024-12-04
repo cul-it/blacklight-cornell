@@ -78,14 +78,6 @@ div.search-tools > h2 {line-height: 1em}
   color: white;
 }
 
-// Advanced search - TODO: combine with AS CSS partial when that is brought into app
-// ------------------------------------------------------------------------------ //
-h2.advanced-search { margin: 0; }
-.advanced-facets { margin-bottom: 10px; }
-.advanced-search-link {
-  margin-top: .5em;
-}
-
 // Search navigation
 // --------------------- //
 .search-nav {
@@ -136,10 +128,6 @@ h2.advanced-search { margin: 0; }
 @include media-breakpoint-up(md) {
   .search-bar {
     padding-bottom: 1em;
-  }
-  .advanced-search-link {
-    float: right;
-    margin-top: 0;
   }
 }
 
