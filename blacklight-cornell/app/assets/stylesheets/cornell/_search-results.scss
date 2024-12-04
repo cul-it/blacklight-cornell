@@ -127,6 +127,11 @@ body.book_bags-index #documents .document {
 	.select_all.checkbox {
 			display: inline-block;
 	}
+	.select_all {
+		label {
+			margin-bottom: 0.15rem;
+		}
+	}
 }
 
 // Select / bookmarks
