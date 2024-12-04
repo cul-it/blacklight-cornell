@@ -3,8 +3,8 @@
 This documentation will demonstrate how to run two local gems with the local container setup.
 
     cd mount
-    GIT CLONE blacklight-cornell-requests
-    GIT CLONE cul-my-account
+    git clone git@github.com:cul-it/blacklight-cornell-requests.git
+    git clone git@github.com:cul-it/cul-my-account.git
     cd ..
 
 Before building the container image, update the blacklight-cornell/Gemfile.
