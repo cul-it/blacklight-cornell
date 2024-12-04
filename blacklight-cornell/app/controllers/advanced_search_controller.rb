@@ -1,9 +1,4 @@
 class AdvancedSearchController < ApplicationController
-  # drop down problems?
-  #
-  #include Blacklight::Catalog
-  #include BlacklightCornell::CornellCatalog
-
   include LoggingHelper
 
   delegate :blacklight_config, to: :default_catalog_controller
