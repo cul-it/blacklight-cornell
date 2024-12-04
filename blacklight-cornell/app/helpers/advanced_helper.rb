@@ -18,15 +18,8 @@ module AdvancedHelper
     end
   end
 
-  def strip_quotes(str)
-    str.sub(/\A['"]/, "").sub(/['"]\z/, "")
-  end
-
   def prep_query(raw_query)
     query = raw_query.strip
-
-    # Remove quotes if single word query
-    query = strip_quotes(query) unless query.include?(' ')
 
     # Sanitize to prevent HTML injection
     query = ActionView::Base.full_sanitizer.sanitize(query)
