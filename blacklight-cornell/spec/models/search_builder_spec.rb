@@ -3,10 +3,11 @@ require 'rails_helper'
 RSpec.describe SearchBuilder, type: :model do
   let(:blacklight_config) { CatalogController.blacklight_config }
   let(:scope) { double blacklight_config: blacklight_config }
-  let(:advanced_search_fields) { %w[all_fields title journaltitle author subject lc_callnum series publisher pubplace number isbnissn notes donor] }
+  let(:all_search_fields) { %w[all_fields title title_starts journaltitle author subject lc_callnum series publisher pubplace number isbnissn notes donor] }
+  # TODO: Add tests for title_starts
   subject(:search_builder) { described_class.new scope }
 
-  describe '#group_bools' do
+  describe '#set_q_row_with_bools' do
     let(:params) {
       {
         q_row: ['curly', 'moe', 'larry', 'rando'],
@@ -20,7 +21,7 @@ RSpec.describe SearchBuilder, type: :model do
           q_row: ['curly', 'moe', 'larry', 'rando'],
           boolean_row: ['AND', 'OR', 'NOT']
         }
-        expect(search_builder.group_bools(params)).to eq('((((curly) AND (moe)) OR (larry)) NOT (rando))')
+        expect(search_builder.set_q_row_with_bools(params)).to eq('((((curly) AND (moe)) OR (larry)) NOT (rando))')
       end
     end
 
@@ -32,91 +33,10 @@ RSpec.describe SearchBuilder, type: :model do
                   'subject:"larry" OR subject:"fine"'],
           boolean_row: ['AND', 'OR']
         }
-        expect(search_builder.group_bools(params)).
+        expect(search_builder.set_q_row_with_bools(params)).
           to eq('((((title:"curly" AND title:"howard") OR title_phrase:"curly howard) AND ' \
                 '((author:"moe" AND author:"howard") OR author_phrase:"moe howard")) OR ' \
                 '(subject:"larry" OR subject:"fine"))')
-      end
-    end
-  end
-
-  describe '#checkMixedQuoted' do
-    let(:defined_search_fields) { advanced_search_fields.excluding('all_fields') }
-
-    context 'multiple quoted terms' do
-      let(:q) { '"apples and oranges" "chickens and geese"' }
-
-      context 'search_field = all_fields' do
-        it 'returns expected array of params' do
-          blacklight_params = { q: q, search_field: 'all_fields' }
-          expect(search_builder.checkMixedQuoted(blacklight_params)).to eq(['+quoted:"apples and oranges"',
-                                                                            '+quoted:"chickens and geese"'])
-        end
-      end
-
-      context 'search_field != all_fields' do
-        it 'returns expected array of params' do
-          defined_search_fields.each do |search_field|
-            blacklight_params = { q: q, search_field: search_field }
-            expect(search_builder.checkMixedQuoted(blacklight_params)).to eq(["+#{search_field}_quoted:\"apples and oranges\"",
-                                                                              "+#{search_field}_quoted:\"chickens and geese\""])
-          end
-        end
-      end
-    end
-
-    context 'multiple quoted terms with non-quoted terms' do
-      let(:q) { 'paint "apples and oranges" water "chickens and geese" troubadours' }
-
-      context 'search_field = all_fields' do
-        it 'returns expected array of params' do
-          blacklight_params = { q: q, search_field: 'all_fields' }
-          expect(search_builder.checkMixedQuoted(blacklight_params)).to eq(['+paint',
-                                                                            '+quoted:"apples and oranges"',
-                                                                            '+water',
-                                                                            '+quoted:"chickens and geese"',
-                                                                            '+troubadours'])
-        end
-      end
-
-      context 'search_field != all_fields' do
-        it 'returns expected array of params' do
-          defined_search_fields.each do |search_field|
-            blacklight_params = { q: q, search_field: search_field }
-            expect(search_builder.checkMixedQuoted(blacklight_params)).to eq(["+#{search_field}:paint",
-                                                                              "+#{search_field}_quoted:\"apples and oranges\"",
-                                                                              "+#{search_field}:water",
-                                                                              "+#{search_field}_quoted:\"chickens and geese\"",
-                                                                              "+#{search_field}:troubadours"])
-          end
-        end
-      end
-    end
-
-    # TODO: Should a phrase with an odd number of quotation marks really be queried with a quoted solr field
-    context 'odd number of quotation marks' do
-      let(:q) { '"painting "things hello"hi' }
-
-      context 'search_field = all_fields' do
-        it 'returns expected array of params' do
-          blacklight_params = { q: q, search_field: 'all_fields' }
-          expect(search_builder.checkMixedQuoted(blacklight_params)).to eq(['+quoted:"painting "',
-                                                                            '+things',
-                                                                            '+hello',
-                                                                            '+quoted:"hi'])
-        end
-      end
-
-      context 'search_field != all_fields' do
-        it 'returns expected array of params' do
-          defined_search_fields.each do |search_field|
-            blacklight_params = { q: q, search_field: search_field }
-            expect(search_builder.checkMixedQuoted(blacklight_params)).to eq(["+#{search_field}_quoted:\"painting \"",
-                                                                              "+#{search_field}:things",
-                                                                              "+#{search_field}:hello",
-                                                                              "+#{search_field}_quoted:\"hi"])
-          end
-        end
       end
     end
   end
@@ -414,9 +334,33 @@ RSpec.describe SearchBuilder, type: :model do
         end
       end
     end
+
+    context 'search field with no corresponding quoted solr field' do
+      let(:op) { 'AND' }
+
+      context 'search_field = lc_callnum' do
+        let(:search_field) { 'lc_callnum' }
+
+        it 'strips quotes from query' do
+          q = '"a doll\'s house" "henrik ibsen"'
+          expect(search_builder.q_with_quotes_to_solr(q, op, search_field, search_field_config)).
+            to eq('lc_callnum:"a doll\'s house henrik ibsen"')
+        end
+      end
+
+      context 'search_field = title_starts' do
+        let(:search_field) { 'title_starts' }
+
+        it 'strips quotes from query' do
+          q = '"a doll\'s house" "henrik ibsen"'
+          expect(search_builder.q_with_quotes_to_solr(q, op, search_field, search_field_config)).
+            to eq('title_starts:"a doll\'s house henrik ibsen"')
+        end
+      end
+    end
   end
 
-  describe '#set_q_fields' do
+  describe '#set_q_row_with_search_fields' do
     let(:params) { { op_row: op_row, search_field_row: search_field_row, q_row: q_row } }
 
     context '1 search term' do
@@ -429,7 +373,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['("cats") OR phrase:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("cats") OR phrase:"cats"'])
           end
         end
 
@@ -437,7 +381,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['"cats"'])
           end
         end
 
@@ -445,7 +389,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['quoted:"cats"'])
           end
         end
 
@@ -453,7 +397,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['starts:"cats"'])
           end
         end
       end
@@ -465,7 +409,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title:"cats") OR title_phrase:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title:"cats") OR title_phrase:"cats"'])
           end
         end
 
@@ -473,7 +417,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['title:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title:"cats"'])
           end
         end
 
@@ -481,7 +425,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['title_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title_quoted:"cats"'])
           end
         end
 
@@ -489,7 +433,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['title_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title_starts:"cats"'])
           end
         end
       end
@@ -501,7 +445,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['((title:"cats") OR title_phrase:"cats") AND format:"Journal/Periodical"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['((title:"cats") OR title_phrase:"cats") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -509,7 +453,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title:"cats") AND format:"Journal/Periodical"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title:"cats") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -517,7 +461,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title_quoted:"cats") AND format:"Journal/Periodical"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title_quoted:"cats") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -525,7 +469,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title_starts:"cats") AND format:"Journal/Periodical"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title_starts:"cats") AND format:"Journal/Periodical"'])
           end
         end
       end
@@ -537,7 +481,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['author:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['author:"cats"'])
           end
         end
 
@@ -545,7 +489,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['author:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['author:"cats"'])
           end
         end
 
@@ -553,7 +497,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['author_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['author_quoted:"cats"'])
           end
         end
 
@@ -561,7 +505,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['author_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['author_starts:"cats"'])
           end
         end
       end
@@ -573,7 +517,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['subject:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['subject:"cats"'])
           end
         end
 
@@ -581,7 +525,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['subject:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['subject:"cats"'])
           end
         end
 
@@ -589,7 +533,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['subject_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['subject_quoted:"cats"'])
           end
         end
 
@@ -597,7 +541,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['subject_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['subject_starts:"cats"'])
           end
         end
       end
@@ -609,7 +553,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['lc_callnum:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats"'])
           end
         end
 
@@ -617,7 +561,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['lc_callnum:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats"'])
           end
         end
 
@@ -625,7 +569,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['lc_callnum:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats"'])
           end
         end
 
@@ -633,7 +577,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['lc_callnum_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum_starts:"cats"'])
           end
         end
       end
@@ -645,7 +589,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['publisher:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher:"cats"'])
           end
         end
 
@@ -653,7 +597,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['publisher:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher:"cats"'])
           end
         end
 
@@ -661,7 +605,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['publisher_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher_quoted:"cats"'])
           end
         end
 
@@ -669,7 +613,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['publisher_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher_starts:"cats"'])
           end
         end
       end
@@ -681,7 +625,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['pubplace:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['pubplace:"cats"'])
           end
         end
 
@@ -689,7 +633,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['pubplace:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['pubplace:"cats"'])
           end
         end
 
@@ -697,7 +641,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['pubplace_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['pubplace_quoted:"cats"'])
           end
         end
 
@@ -705,7 +649,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['pubplace_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['pubplace_starts:"cats"'])
           end
         end
       end
@@ -717,7 +661,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(number:"cats") OR number_phrase:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(number:"cats") OR number_phrase:"cats"'])
           end
         end
 
@@ -725,7 +669,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['number:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['number:"cats"'])
           end
         end
 
@@ -733,7 +677,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['number_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['number_quoted:"cats"'])
           end
         end
 
@@ -741,7 +685,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['number_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['number_starts:"cats"'])
           end
         end
       end
@@ -753,7 +697,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['isbnissn:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['isbnissn:"cats"'])
           end
         end
 
@@ -761,7 +705,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['isbnissn:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['isbnissn:"cats"'])
           end
         end
 
@@ -769,7 +713,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['isbnissn_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['isbnissn_quoted:"cats"'])
           end
         end
 
@@ -777,7 +721,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['isbnissn_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['isbnissn_starts:"cats"'])
           end
         end
       end
@@ -789,7 +733,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['notes:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['notes:"cats"'])
           end
         end
 
@@ -797,7 +741,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['notes:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['notes:"cats"'])
           end
         end
 
@@ -805,7 +749,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['notes_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['notes_quoted:"cats"'])
           end
         end
 
@@ -813,7 +757,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['notes_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['notes_starts:"cats"'])
           end
         end
       end
@@ -825,7 +769,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['donor:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['donor:"cats"'])
           end
         end
 
@@ -833,7 +777,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['donor:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['donor:"cats"'])
           end
         end
 
@@ -841,7 +785,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['donor_quoted:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['donor_quoted:"cats"'])
           end
         end
 
@@ -849,7 +793,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['donor_starts:"cats"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['donor_starts:"cats"'])
           end
         end
       end
@@ -865,7 +809,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['("cats" AND "dogs") OR phrase:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("cats" AND "dogs") OR phrase:"cats dogs"'])
           end
 
           context 'with quotation marks' do
@@ -877,7 +821,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['"cats" OR "dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['"cats" OR "dogs"'])
           end
         end
 
@@ -885,7 +829,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['quoted:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['quoted:"cats dogs"'])
           end
         end
 
@@ -893,7 +837,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['starts:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['starts:"cats dogs"'])
           end
         end
       end
@@ -905,7 +849,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title:"cats" AND title:"dogs") OR title_phrase:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title:"cats" AND title:"dogs") OR title_phrase:"cats dogs"'])
           end
         end
 
@@ -913,7 +857,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['title:"cats" OR title:"dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title:"cats" OR title:"dogs"'])
           end
         end
 
@@ -921,7 +865,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['title_quoted:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title_quoted:"cats dogs"'])
           end
         end
 
@@ -929,7 +873,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['title_starts:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title_starts:"cats dogs"'])
           end
         end
       end
@@ -941,7 +885,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['((title:"cats" AND title:"dogs") OR title_phrase:"cats dogs") AND format:"Journal/Periodical"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['((title:"cats" AND title:"dogs") OR title_phrase:"cats dogs") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -949,7 +893,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title:"cats" OR title:"dogs") AND format:"Journal/Periodical"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title:"cats" OR title:"dogs") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -957,7 +901,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title_quoted:"cats dogs") AND format:"Journal/Periodical"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title_quoted:"cats dogs") AND format:"Journal/Periodical"'])
           end
         end
 
@@ -965,7 +909,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(title_starts:"cats dogs") AND format:"Journal/Periodical"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title_starts:"cats dogs") AND format:"Journal/Periodical"'])
           end
         end
       end
@@ -977,7 +921,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'does not break up solr query' do
-            expect(search_builder.set_q_fields(params)).to eq(['lc_callnum:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats dogs"'])
           end
         end
 
@@ -985,7 +929,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['lc_callnum:"cats" OR lc_callnum:"dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats" OR lc_callnum:"dogs"'])
           end
         end
 
@@ -993,7 +937,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'does not break up solr query, does not use a special quoted field' do
-            expect(search_builder.set_q_fields(params)).to eq(['lc_callnum:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats dogs"'])
           end
         end
 
@@ -1001,7 +945,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['lc_callnum_starts:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum_starts:"cats dogs"'])
           end
         end
       end
@@ -1013,7 +957,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['AND'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['(publisher:"cats" AND publisher:"dogs") OR publisher:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(publisher:"cats" AND publisher:"dogs") OR publisher:"cats dogs"'])
           end
         end
 
@@ -1021,7 +965,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['OR'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['publisher:"cats" OR publisher:"dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher:"cats" OR publisher:"dogs"'])
           end
         end
 
@@ -1029,7 +973,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['phrase'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['publisher_quoted:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher_quoted:"cats dogs"'])
           end
         end
 
@@ -1037,7 +981,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:op_row) { ['begins_with'] }
 
           it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_fields(params)).to eq(['publisher_starts:"cats dogs"'])
+            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher_starts:"cats dogs"'])
           end
         end
       end
@@ -1049,7 +993,7 @@ RSpec.describe SearchBuilder, type: :model do
       let(:search_field_row) { ['all_fields', 'donor'] }
 
       it 'returns a list with multiple queries containing solr field names' do
-        expect(search_builder.set_q_fields(params)).to eq(['("cats" AND "dogs") OR phrase:"cats dogs"', 'donor:"pets"'])
+        expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("cats" AND "dogs") OR phrase:"cats dogs"', 'donor:"pets"'])
       end
     end
 
@@ -1061,7 +1005,7 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field_row) { ['all_fields'] }
 
         it 'defaults to handling op as AND/all' do
-          expect(search_builder.set_q_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
+          expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
         end
       end
 
@@ -1070,7 +1014,7 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field_row) { ['all_fields'] }
 
         it 'defaults to handling op as AND/all' do
-          expect(search_builder.set_q_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
+          expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
         end
       end
 
@@ -1078,8 +1022,8 @@ RSpec.describe SearchBuilder, type: :model do
         let(:op_row) { ['AND'] }
         let(:search_field_row) { ['invalid'] }
 
-        it 'defaults to search field as solr field' do
-          expect(search_builder.set_q_fields(params)).to eq(['(invalid:"A" AND invalid:"Doll\'s" AND invalid:"House") OR invalid:"A Doll\'s House"'])
+        it 'defaults to all_fields query' do
+          expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
         end
       end
 
@@ -1087,8 +1031,8 @@ RSpec.describe SearchBuilder, type: :model do
         let(:op_row) { ['AND'] }
         let(:search_field_row) { [] }
 
-        it 'defaults to query with no search field set' do
-          expect(search_builder.set_q_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR "A Doll\'s House"'])
+        it 'defaults to all fields query' do
+          expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
         end
       end
     end
@@ -1119,12 +1063,12 @@ RSpec.describe SearchBuilder, type: :model do
     end
   end
 
-  describe '#advsearch' do
+  describe '#set_query' do
     before do
       allow(search_builder).to receive(:blacklight_params) { blacklight_params }
     end
 
-    # TODO: Commented out expects are the expected behavior, but the actual behavior is different. Need to confirm and fix.
+    # TODO: Add tests for *_browse and *_cts search fields
     context 'simple catalog search' do
       let(:q) { 'test1 test2 test3'}
       let(:blacklight_params) { { q: q, search_field: search_field } }
@@ -1137,7 +1081,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:q) { 'test'}
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('("test") OR phrase:"test"')
           end
         end
@@ -1146,8 +1090,8 @@ RSpec.describe SearchBuilder, type: :model do
           let(:q) { 'test1 test2 test3'}
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('("test1" AND "test2"  AND "test3") OR phrase:"test1 test2 test3"')
+            search_builder.set_query(solr_params)
+            expect(solr_params[:q]).to eq('("test1" AND "test2" AND "test3") OR phrase:"test1 test2 test3"')
           end
         end
       end
@@ -1156,9 +1100,8 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field) { 'title' }
 
         it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('(+title:"test1" +title:"test2" +title:"test3") OR title_phrase:"test1 test2 test3"')
-          # expect(solr_params[:q]).to eq('(title:"test1" AND title:"test2" AND title:"test3") OR title_phrase:"test1 test2 test3"')
+          search_builder.set_query(solr_params)
+          expect(solr_params[:q]).to eq('(title:"test1" AND title:"test2" AND title:"test3") OR title_phrase:"test1 test2 test3"')
         end
       end
 
@@ -1166,9 +1109,8 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field) { 'journaltitle' }
 
         it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('((+title:test1 +title:test2 +title:test3) OR title_phrase:"test1 test2 test3") AND format:Journal/Periodical')
-          # expect(solr_params[:q]).to eq('((title:"test1" AND title:"test2" AND title:"test3") OR title_phrase:"test1 test2 test3") AND format:Journal/Periodical')
+          search_builder.set_query(solr_params)
+          expect(solr_params[:q]).to eq('((title:"test1" AND title:"test2" AND title:"test3") OR title_phrase:"test1 test2 test3") AND format:"Journal/Periodical"')
         end
       end
 
@@ -1176,7 +1118,7 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field) { 'title_starts' }
 
         it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
+          search_builder.set_query(solr_params)
           expect(solr_params[:q]).to eq('title_starts:"test1 test2 test3"')
         end
       end
@@ -1185,7 +1127,7 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field) { 'lc_callnum' }
 
         it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
+          search_builder.set_query(solr_params)
           expect(solr_params[:q]).to eq('lc_callnum:"test1 test2 test3"')
         end
       end
@@ -1194,9 +1136,8 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field) { 'publisher' }
 
         it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('(+publisher:"test1" +publisher:"test2" +publisher:"test3") OR publisher:"test1 test2 test3"')
-          # expect(solr_params[:q]).to eq('(publisher:"test1" AND publisher:"test2" AND publisher:"test3") OR publisher:"test1 test2 test3"')
+          search_builder.set_query(solr_params)
+          expect(solr_params[:q]).to eq('(publisher:"test1" AND publisher:"test2" AND publisher:"test3") OR publisher:"test1 test2 test3"')
         end
       end
 
@@ -1204,9 +1145,8 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field) { 'author' }
 
         it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('(+author:"test1" +author:"test2" +author:"test3") OR author:"test1 test2 test3"')
-          # expect(solr_params[:q]).to eq('(author:"test1" AND author:"test2" AND author:"test3") OR author:"test1 test2 test3"')
+          search_builder.set_query(solr_params)
+          expect(solr_params[:q]).to eq('(author:"test1" AND author:"test2" AND author:"test3") OR author:"test1 test2 test3"')
         end
       end
 
@@ -1214,9 +1154,8 @@ RSpec.describe SearchBuilder, type: :model do
         let(:search_field) { 'subject' }
 
         it 'transforms expected solr params' do
-          search_builder.advsearch(solr_params)
-          expect(solr_params[:q]).to eq('(+subject:"test1" +subject:"test2" +subject:"test3") OR subject:"test1 test2 test3"')
-          # expect(solr_params[:q]).to eq('(subject:"test1" AND subject:"test2" AND subject:"test3") OR subject:"test1 test2 test3"')
+          search_builder.set_query(solr_params)
+          expect(solr_params[:q]).to eq('(subject:"test1" AND subject:"test2" AND subject:"test3") OR subject:"test1 test2 test3"')
         end
       end
 
@@ -1228,8 +1167,8 @@ RSpec.describe SearchBuilder, type: :model do
             let(:search_field) { 'all_fields' }
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
-              expect(solr_params[:q]).to eq('quoted:"test1 test2 test3"')
+              search_builder.set_query(solr_params)
+              expect(solr_params[:q]).to eq('(quoted:"test1 test2 test3")')
             end
           end
 
@@ -1237,8 +1176,8 @@ RSpec.describe SearchBuilder, type: :model do
             let(:search_field) { 'title' }
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
-              expect(solr_params[:q]).to eq('title_quoted:"test1 test2 test3"')
+              search_builder.set_query(solr_params)
+              expect(solr_params[:q]).to eq('(title_quoted:"test1 test2 test3")')
             end
           end
 
@@ -1246,8 +1185,8 @@ RSpec.describe SearchBuilder, type: :model do
             let(:search_field) { 'journaltitle' }
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
-              expect(solr_params[:q]).to eq('title_quoted:"test1 test2 test3" AND format:Journal/Periodical')
+              search_builder.set_query(solr_params)
+              expect(solr_params[:q]).to eq('((title_quoted:"test1 test2 test3")) AND format:"Journal/Periodical"')
             end
           end
 
@@ -1255,7 +1194,7 @@ RSpec.describe SearchBuilder, type: :model do
             let(:search_field) { 'title_starts' }
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
+              search_builder.set_query(solr_params)
               expect(solr_params[:q]).to eq('title_starts:"test1 test2 test3"')
             end
           end
@@ -1264,7 +1203,7 @@ RSpec.describe SearchBuilder, type: :model do
             let(:search_field) { 'lc_callnum' }
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
+              search_builder.set_query(solr_params)
               expect(solr_params[:q]).to eq('lc_callnum:"test1 test2 test3"')
             end
           end
@@ -1273,8 +1212,8 @@ RSpec.describe SearchBuilder, type: :model do
             let(:search_field) { 'publisher' }
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
-              expect(solr_params[:q]).to eq('publisher_quoted:"test1 test2 test3"')
+              search_builder.set_query(solr_params)
+              expect(solr_params[:q]).to eq('(publisher_quoted:"test1 test2 test3")')
             end
           end
 
@@ -1282,8 +1221,8 @@ RSpec.describe SearchBuilder, type: :model do
             let(:search_field) { 'author' }
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
-              expect(solr_params[:q]).to eq('author_quoted:"test1 test2 test3"')
+              search_builder.set_query(solr_params)
+              expect(solr_params[:q]).to eq('(author_quoted:"test1 test2 test3")')
             end
           end
 
@@ -1291,8 +1230,8 @@ RSpec.describe SearchBuilder, type: :model do
             let(:search_field) { 'subject' }
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
-              expect(solr_params[:q]).to eq('subject_quoted:"test1 test2 test3"')
+              search_builder.set_query(solr_params)
+              expect(solr_params[:q]).to eq('(subject_quoted:"test1 test2 test3")')
             end
           end
         end
@@ -1304,11 +1243,9 @@ RSpec.describe SearchBuilder, type: :model do
         context 'all_fields' do
           let(:search_field) { 'all_fields' }
 
-          # TODO: CHECK THIS one, esp the latter part
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('(+quoted:"test1 test2 test3" +test4)')
-            # expect(solr_params[:q]).to eq('quoted:"test1 test2 test3" AND ("test4" OR phrase:"test4")')
+            search_builder.set_query(solr_params)
+            expect(solr_params[:q]).to eq('(quoted:"test1 test2 test3") AND (("test4") OR phrase:"test4")')
           end
         end
 
@@ -1316,9 +1253,8 @@ RSpec.describe SearchBuilder, type: :model do
           let(:search_field) { 'title' }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('(+title_quoted:"test1 test2 test3" +title:test4)')
-            # expect(solr_params[:q]).to eq('title_quoted:"test1 test2 test3" AND (title:"test4" OR title_phrase:"test4"')
+            search_builder.set_query(solr_params)
+            expect(solr_params[:q]).to eq('(title_quoted:"test1 test2 test3") AND ((title:"test4") OR title_phrase:"test4")')
           end
         end
 
@@ -1326,9 +1262,8 @@ RSpec.describe SearchBuilder, type: :model do
           let(:search_field) { 'journaltitle' }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('((+title:"test1 +title:test2 +title:test3" +title:test4) OR title_phrase:""test1 test2 test3" test4") AND format:Journal/Periodical')
-            # expect(solr_params[:q]).to eq('title_quoted:"test1 test2 test3" AND (title:"test4" OR title_phrase:"test4") AND format:Journal/Periodical')
+            search_builder.set_query(solr_params)
+            expect(solr_params[:q]).to eq('((title_quoted:"test1 test2 test3") AND ((title:"test4") OR title_phrase:"test4")) AND format:"Journal/Periodical"')
           end
         end
 
@@ -1336,7 +1271,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:search_field) { 'title_starts' }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('title_starts:"test1 test2 test3 test4"')
           end
         end
@@ -1345,7 +1280,7 @@ RSpec.describe SearchBuilder, type: :model do
           let(:search_field) { 'lc_callnum' }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('lc_callnum:"test1 test2 test3 test4"')
           end
         end
@@ -1354,21 +1289,17 @@ RSpec.describe SearchBuilder, type: :model do
           let(:search_field) { 'publisher' }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('(+publisher_quoted:"test1 test2 test3" +publisher:test4)')
-            # expect(solr_params[:q]).to eq('publisher_quoted:"test1 test2 test3" AND publisher:"test4"')
+            search_builder.set_query(solr_params)
+            expect(solr_params[:q]).to eq('(publisher_quoted:"test1 test2 test3") AND (publisher:"test4")')
           end
 
-          # TODO: Fix the org of these tests
-          # TODO: Also check this one
           context 'query with mixed quotes and multiword non-quoted terms' do
             let(:q) { '"test1 test2 test3" test4 test5' }
 
 
             it 'transforms expected solr params' do
-              search_builder.advsearch(solr_params)
-              expect(solr_params[:q]).to eq('(+publisher_quoted:"test1 test2 test3" +publisher:test4 +publisher:test5)')
-              # expect(solr_params[:q]).to eq('publisher_quoted:"test1 test2 test3" AND ((publisher:"test4" AND publisher:"test5") OR publisher:"test4 test5")')
+              search_builder.set_query(solr_params)
+              expect(solr_params[:q]).to eq('(publisher_quoted:"test1 test2 test3") AND ((publisher:"test4" AND publisher:"test5") OR publisher:"test4 test5")')
             end
           end
         end
@@ -1377,9 +1308,8 @@ RSpec.describe SearchBuilder, type: :model do
           let(:search_field) { 'author' }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('(+author_quoted:"test1 test2 test3" +author:test4)')
-            # expect(solr_params[:q]).to eq('author_quoted:"test1 test2 test3" AND author:"test4"')
+            search_builder.set_query(solr_params)
+            expect(solr_params[:q]).to eq('(author_quoted:"test1 test2 test3") AND (author:"test4")')
           end
         end
 
@@ -1387,9 +1317,8 @@ RSpec.describe SearchBuilder, type: :model do
           let(:search_field) { 'subject' }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
-            expect(solr_params[:q]).to eq('(+subject_quoted:"test1 test2 test3" +subject:test4)')
-            # expect(solr_params[:q]).to eq('(subject_quoted:"test1 test2 test3" AND subject:"test4")')
+            search_builder.set_query(solr_params)
+            expect(solr_params[:q]).to eq('(subject_quoted:"test1 test2 test3") AND (subject:"test4")')
           end
         end
       end
@@ -1415,7 +1344,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(("test") OR phrase:"test")')
           end
         end
@@ -1429,7 +1358,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(("test1" AND "test2") OR phrase:"test1 test2")')
           end
         end
@@ -1443,7 +1372,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('("test1" OR "test2")')
           end
         end
@@ -1457,7 +1386,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(quoted:"test1 test2")')
           end
         end
@@ -1471,7 +1400,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(starts:"test1 test2")')
           end
         end
@@ -1485,7 +1414,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((("pickle" AND "cheese") OR phrase:"pickle cheese") AND (("dill") OR phrase:"dill"))')
           end
         end
@@ -1499,7 +1428,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((("pickle" AND "cheese") OR phrase:"pickle cheese") OR (("dill") OR phrase:"dill"))')
           end
         end
@@ -1513,7 +1442,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((("pickle" AND "cheese") OR phrase:"pickle cheese") NOT (("dill") OR phrase:"dill"))')
           end
         end
@@ -1528,7 +1457,7 @@ RSpec.describe SearchBuilder, type: :model do
 
           # Wow there are really a lot of parentheses
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(((((((("test1" AND "test2") OR phrase:"test1 test2")' \
                                           ' AND ((quoted:"test3 test4")))' \
                                           ' AND ("test5" OR "test6"))' \
@@ -1552,7 +1481,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((title:"test") OR title_phrase:"test")')
           end
         end
@@ -1566,7 +1495,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((title:"test1" AND title:"test2") OR title_phrase:"test1 test2")' \
               ' AND ((title_quoted:"test3 test4")))' \
               ' AND (title:"test5" OR title:"test6"))' \
@@ -1590,7 +1519,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(((title:"test") OR title_phrase:"test") AND format:"Journal/Periodical")')
           end
         end
@@ -1604,7 +1533,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(((((((((title:"test1" AND title:"test2") OR title_phrase:"test1 test2") AND format:"Journal/Periodical")' \
                                           ' AND (((title_quoted:"test3 test4")) AND format:"Journal/Periodical"))' \
                                           ' AND ((title:"test5" OR title:"test6") AND format:"Journal/Periodical"))' \
@@ -1628,7 +1557,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(author:"test")')
           end
         end
@@ -1642,7 +1571,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((author:"test1" AND author:"test2") OR author:"test1 test2")' \
                                           ' AND ((author_quoted:"test3 test4")))' \
                                           ' AND (author:"test5" OR author:"test6"))' \
@@ -1666,7 +1595,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(subject:"test")')
           end
         end
@@ -1680,7 +1609,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((subject:"test1" AND subject:"test2") OR subject:"test1 test2")' \
                                           ' AND ((subject_quoted:"test3 test4")))' \
                                           ' AND (subject:"test5" OR subject:"test6"))' \
@@ -1704,7 +1633,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(lc_callnum:"test")')
           end
         end
@@ -1718,9 +1647,9 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(((((((lc_callnum:"test1 test2")' \
-                                          ' AND ((lc_callnum:"test3 test4")))' \
+                                          ' AND (lc_callnum:"test3 test4"))' \
                                           ' AND (lc_callnum:"test5" OR lc_callnum:"test6"))' \
                                           ' AND (lc_callnum_starts:"test7 test8"))' \
                                           ' AND (lc_callnum:"test9 test10"))' \
@@ -1742,7 +1671,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(series:"test")')
           end
         end
@@ -1756,7 +1685,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((series:"test1" AND series:"test2") OR series:"test1 test2")' \
                                           ' AND ((series_quoted:"test3 test4")))' \
                                           ' AND (series:"test5" OR series:"test6"))' \
@@ -1780,7 +1709,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(publisher:"test")')
           end
         end
@@ -1794,7 +1723,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((publisher:"test1" AND publisher:"test2") OR publisher:"test1 test2")' \
                                           ' AND ((publisher_quoted:"test3 test4")))' \
                                           ' AND (publisher:"test5" OR publisher:"test6"))' \
@@ -1818,7 +1747,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(pubplace:"test")')
           end
         end
@@ -1832,7 +1761,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((pubplace:"test1" AND pubplace:"test2") OR pubplace:"test1 test2")' \
                                           ' AND ((pubplace_quoted:"test3 test4")))' \
                                           ' AND (pubplace:"test5" OR pubplace:"test6"))' \
@@ -1856,7 +1785,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((number:"test") OR number_phrase:"test")')
           end
         end
@@ -1870,7 +1799,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((number:"test1" AND number:"test2") OR number_phrase:"test1 test2")' \
                                           ' AND ((number_quoted:"test3 test4")))' \
                                           ' AND (number:"test5" OR number:"test6"))' \
@@ -1894,7 +1823,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(isbnissn:"test")')
           end
         end
@@ -1908,7 +1837,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((isbnissn:"test1" AND isbnissn:"test2") OR isbnissn:"test1 test2")' \
                                           ' AND ((isbnissn_quoted:"test3 test4")))' \
                                           ' AND (isbnissn:"test5" OR isbnissn:"test6"))' \
@@ -1932,7 +1861,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(notes:"test")')
           end
         end
@@ -1946,7 +1875,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((notes:"test1" AND notes:"test2") OR notes:"test1 test2")' \
                                           ' AND ((notes_quoted:"test3 test4")))' \
                                           ' AND (notes:"test5" OR notes:"test6"))' \
@@ -1970,7 +1899,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('(donor:"test")')
           end
         end
@@ -1984,7 +1913,7 @@ RSpec.describe SearchBuilder, type: :model do
           } }
 
           it 'transforms expected solr params' do
-            search_builder.advsearch(solr_params)
+            search_builder.set_query(solr_params)
             expect(solr_params[:q]).to eq('((((((((donor:"test1" AND donor:"test2") OR donor:"test1 test2")' \
                                           ' AND ((donor_quoted:"test3 test4")))' \
                                           ' AND (donor:"test5" OR donor:"test6"))' \
