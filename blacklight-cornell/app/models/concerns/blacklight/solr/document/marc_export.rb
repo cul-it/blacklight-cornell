@@ -28,23 +28,6 @@ module Blacklight::Solr::Document::MarcExport
   end
   alias_method :export_as_xml, :export_as_marcxml
 
-
-  # TODO This exporting as formatted citation thing should be re-thought
-  # redesigned at some point to be more general purpose, but this
-  # is in-line with what we had before, but at least now attached
-  # to the document extension where it belongs.
-  def export_as_apa_citation_txt
-    citeproc_citation( to_marc,'apa')
-  end
-
-  def export_as_cse_citation_txt
-    citeproc_citation( to_marc,'council-of-science-editors')
-  end
-
-  def export_as_mla_citation_txt
-    citeproc_citation( to_marc,'modern-language-association-7th-edition')
-  end
-
   def old_xxx_export_as_mla8_citation_txt
     mla8_citation( to_marc )
   end
@@ -53,12 +36,6 @@ module Blacklight::Solr::Document::MarcExport
   def export_as_mla8_citation_txt
     #citeproc_citation( to_marc,'modern-language-association-8th-edition')
     citeproc_citation( to_marc,'modern-language-association')
-  end
-
-  def export_as_chicago_citation_txt
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    citeproc_citation( to_marc,'chicago-fullnote-bibliography')
-    #chicago_citation( to_marc )
   end
 
   # Exports as an OpenURL KEV (key-encoded value) query string.
