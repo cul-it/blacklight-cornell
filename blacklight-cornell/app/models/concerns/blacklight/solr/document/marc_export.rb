@@ -80,7 +80,6 @@ module Blacklight::Solr::Document::MarcExport
      export_text.html_safe unless export_text.blank?
   end
 
-
   # This format used to be called 'refworks', which wasn't really
   # accurate, sounds more like 'refworks tagged format'. Which this
   # is not, it's instead some weird under-documented Refworks
@@ -129,78 +128,7 @@ module Blacklight::Solr::Document::MarcExport
    "Website" => "Web Page"
    }
 
-  def OLD_export_as_endnote()
-    end_note_format = {
-      "100.a" => "%A" ,
-      "260.a" => "%C" ,
-      "260.c" => "%D" ,
-      "264.a" => "%C" ,
-      "264.c" => "%D" ,
-      "700.a" => "%E" ,
-      "260.b" => "%I" ,
-      "264.b" => "%I" ,
-      "440.a" => "%J" ,
-      "024.a" => "%R" ,
-      "020.a" => "%@" ,
-      "022.a" => "%@" ,
-      "245.a,245.b" => "%T" ,
-      "856.u" => "%U" ,
-      "250.a" => "%7"
-    }
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    marc_obj = to_marc
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} marc_obj #{marc_obj.inspect}")
-    # TODO. This should be rewritten to guess
-    # from actual Marc instead, probably.
-    fmt_str = 'Generic'
-    text = ''
-    fmt = self['format'].first
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} fmt #{fmt.inspect}"
-    if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
-      fmt_str = FACET_TO_ENDNOTE_TYPE[fmt]
-     end
-    if  fmt == 'Book'  && self['online'] && self['online'].first == 'Online'
-      fmt_str = 'Electronic Book'
-    end
-    text << "%0 #{ fmt_str }\n"
-    # If there is some reliable way of getting the language of a record we can add it here
-    #text << "%G #{record['language'].first}\n"
-    if !self["language_facet"].blank?
-       self["language_facet"].map{|la|  text += "%G #{la}\n" }
-    end
-    # #marc field is key, value is tag target
-    end_note_format.each do |key,etag|
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} key,etag #{key},#{etag}")
-      values = key.split(",")
-      first_value = values[0].split('.')
-      if values.length > 1
-        second_value = values[1].split('.')
-      else
-        second_value = []
-      end
-
-      if marc_obj[first_value[0].to_s]
-        marc_obj.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
-          if field[first_value[1]].to_s or field[second_value[1]].to_s
-            text << "#{etag.gsub('_','')}"
-            if field[first_value[1]].to_s
-              text << " #{clean_end_punctuation(field[first_value[1]].to_s)}"
-            end
-            if field[second_value[1]].to_s
-              text << " #{clean_end_punctuation(field[second_value[1]].to_s)}"
-            end
-            text << "\n"
-          end
-        end
-      end
-    end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
-    text
-  end
-
   protected
-
   def apa_citation(record)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     text = ''
