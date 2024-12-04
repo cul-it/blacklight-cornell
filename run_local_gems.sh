@@ -45,7 +45,7 @@ aws_creds=""
 compose="docker-compose-local-gems.yaml"
 rails_env="production"
 rails_env_file=""
-image_name="container-discovery"
+image_name="container-discovery-local-gems"
 interactive=""
 platform=""
 target="container-discovery"
@@ -100,6 +100,8 @@ export RAILS_ENV_FILE=${rails_env_file}
 
 # img_id=$(git rev-parse head)
 # echo "Running ${target}:${img_id} ${feature}"
+
+echo "Image name: ${image_name}"
 
 echo "docker compose -f ${compose} down --remove-orphans"
 docker compose -f ${compose} down --remove-orphans
