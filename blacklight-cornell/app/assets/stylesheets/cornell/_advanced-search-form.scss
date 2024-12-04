@@ -73,6 +73,12 @@ form.advanced {
   margin-bottom: 0;
   margin-top: .25em;
 }
+// TODO: Bootstrap 4 temp fix - remove floats and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
+.dl-horizontal dt {
+  float: left;
+  clear: left;
+  text-align: right;
+}
 
 // MEDIA QUERIES
 // -------------------------
