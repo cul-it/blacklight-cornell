@@ -5,7 +5,6 @@
 # We'll need to either fix this or remove any unused legacy code
 
 require "rails_helper"
-require "bl_monkeys"
 require "stringio"
 require "json"
 
