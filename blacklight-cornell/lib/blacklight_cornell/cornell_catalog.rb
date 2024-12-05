@@ -115,6 +115,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       params[:qdisplay] = ''
     end
     search_session[:per_page] = params[:per_page]
+
+    # TODO: Review all this code. Why is this here and not in SearchBuilder?
     temp_search_field = ''
     journal_titleHold = ''
     if (!params[:range].nil?)
