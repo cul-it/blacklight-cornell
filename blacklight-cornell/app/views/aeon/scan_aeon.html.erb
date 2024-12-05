@@ -19,65 +19,73 @@
 		<%= render :partial => 'aeon/aeon_header' %>
 		
 		<div id="main-content" class="container">
-			<h1>Scanning Request</h1>
-			<p><%= @disclaimer %></p>
- 
 			<a href="/catalog/<%= @bibid %>" class="return-link">
 				<i class="fa fa-arrow-circle-left"></i> Back to item
 			</a>
-			<h2><%= @title %></h2>
-			<div id="info-wrapper">
-				<% if @finding_aid.present? %>
-					<% cleaned_finding_aid = @finding_aid.end_with?('/track') ? @finding_aid.chomp('/track') : @finding_aid %>
-					<p><a href='<%= cleaned_finding_aid %>'>Finding Aid</a></p>
-				<% end %>
-				<% if @re506.present? %>
-					<h3 style="display: inline-block;">Restrictions: </h3>
-					<p style="display: inline-block;"> <%= @re506 %></p>
-				<% end %>
-			</div>
-
-			<div id="shoppingcart">
-				<span id="numitems">Number of items selected:</span>
-				<span id="num-selections-wrapper">
-					<span id="num-selections"></span>
-				</span>
-				<div id="selections-wrapper">
-					<ol>
-						<div id="selections"></div>
-					</ol>
+			<h2>Scanning Request</h2>
+			 
+			<p><%= @disclaimer %></p>
+ 
+			<div class="aeoncard">
+				<h2 class="h2title"><%= @title %></h2>
+				<div class="info-wrapper">
+					<% if @finding_aid.present? %>
+						<% cleaned_finding_aid = @finding_aid.end_with?('/track') ? @finding_aid.chomp('/track') : @finding_aid %>
+						<p>
+							<i class="fa fa-check" aria-hidden="true"></i>
+							<a href='<%= cleaned_finding_aid %>'> Finding Aid</a>
+						</p>
+					<% end %>
+					<% if @re506.present? %>
+						<p>
+							<i class="fa fa-warning" aria-hidden="true"></i>
+							Restrictions: <%= @re506 %>
+						</p>
+					<% end %>
 				</div>
-			</div>
 
-			<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
-		 
-			<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">
-				<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
-				<input type="hidden" name="authenticated" value="true">
-				<%# 
-					ExternalRequest must be used to support multiple items in a single request
-					Note, SkipOrderEstimate is not supported yet, but once it is we can remove the routing rule.
-					This setting will tell Aeon to send requests directly to Awaiting Order Processing status.
-				%>
-				<input type="hidden" name="SkipOrderEstimate" value="Yes">
-				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
-				<input type="hidden" name="AeonForm" value="ExternalRequest">
-				<input type="hidden" name="SystemID" value="Aeon Copy">
-				<input type="hidden" name="WebRequestForm" value="PhotoduplicationRequest">
-				<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request"/>
-				<input type="hidden" name="RequestType" value="Copy">
-				<input type="hidden" id="DocumentType" name="DocumentType" value="Photoduplication"/>	
-				<input type="hidden" name="FormValidationOverride" value="AllRequests">
-				<input type="hidden" name="SkipFieldLengthValidation" value="yes">
-				<input type="hidden" id="Restrictions" name="Restrictions" value="<%= @re506 %>">
-				<input type="hidden" id="ItemInfo3" name="ItemInfo3" value="<%= @re506 %>">
-				<input type="hidden" id="ItemInfo5" name="ItemInfo5" value="">
-				<input type="hidden" id="ItemTitle" name="ItemTitle" value="<%= @title %>">
-				<input type="hidden" id="ItemAuthor" name="ItemAuthor" value="<%= @author %>">				
-				<%= render :partial => 'aeon/holdings' %>
-				<%= render :partial => 'aeon/aeon_scan_body' %>
-				<%= render :partial => 'aeon/clearer' %>
-      		</form>
+				<div id="shoppingcart">
+					<span id="numitems">Number of items selected:</span>
+					<span id="num-selections-wrapper">
+						<span id="num-selections"></span>
+					</span>
+					<div id="selections-wrapper">
+						<ol>
+							<div id="selections"></div>
+						</ol>
+					</div>
+				</div>
+
+				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
+			
+				<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">
+					<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+					<input type="hidden" name="authenticated" value="true">
+					<%# 
+						ExternalRequest must be used to support multiple items in a single request
+						Note, SkipOrderEstimate is not supported yet, but once it is we can remove the routing rule.
+						This setting will tell Aeon to send requests directly to Awaiting Order Processing status.
+					%>
+					<input type="hidden" name="SkipOrderEstimate" value="Yes">
+					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
+					<input type="hidden" name="AeonForm" value="ExternalRequest">
+					<input type="hidden" name="SystemID" value="Aeon Copy">
+					<input type="hidden" name="WebRequestForm" value="PhotoduplicationRequest">
+					<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request"/>
+					<input type="hidden" name="RequestType" value="Copy">
+					<input type="hidden" id="DocumentType" name="DocumentType" value="Photoduplication"/>	
+					<input type="hidden" name="FormValidationOverride" value="AllRequests">
+					<input type="hidden" name="SkipFieldLengthValidation" value="yes">
+					<input type="hidden" id="Restrictions" name="Restrictions" value="<%= @re506 %>">
+					<input type="hidden" id="ItemInfo3" name="ItemInfo3" value="<%= @re506 %>">
+					<input type="hidden" id="ItemInfo5" name="ItemInfo5" value="">
+					<input type="hidden" id="ItemTitle" name="ItemTitle" value="<%= @title %>">
+					<input type="hidden" id="ItemAuthor" name="ItemAuthor" value="<%= @author %>">				
+					<%= render :partial => 'aeon/holdings' %>
+					<%= render :partial => 'aeon/aeon_scan_body' %>
+					<%= render :partial => 'aeon/clearer' %>
+				</form>
+			</div>
 		</div>
   	</body>
  </html>

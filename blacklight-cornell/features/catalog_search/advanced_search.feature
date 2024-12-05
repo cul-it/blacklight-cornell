@@ -740,7 +740,13 @@ Scenario Outline: Simple advanced search solr query matches regular search
     And I press 'advanced_search'
     Then the solr query should be '<solr_query>'
 
-Examples:cd v
+Examples:
     | search | solr_query |
     | goblet  | ("goblet") OR phrase:"goblet" |
     | goblet of fire | ("goblet" AND "of" AND "fire") OR phrase:"goblet of fire" |
+    | going fishing | ("going" AND "fishing") OR phrase:"going fishing" |
+    | "going fishing" | "\"going fishing\"" |
+    | fishing | ("fishing") OR phrase:"fishing" |
+    | a doll's house | ("a" AND "doll\'s" AND "house") OR phrase:"a doll\'s house" |
+    | A "fish finder" going fishing offshore | A "fish finder" going fishing offshore |
+    | | () OR phrase:"" |
