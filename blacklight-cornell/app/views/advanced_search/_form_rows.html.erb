@@ -1,8 +1,8 @@
 <div class='input_row'>
   <% if row_num > 0 %>
-    <%= form.label "boolean_row#{row_num}", t('blacklight.search.form.boolean'), class: 'sr-only' %>
+    <%= form.label "boolean_row[#{row_num}]", t('blacklight.search.form.boolean'), class: 'sr-only' %>
     <%= form.select "boolean_row[#{row_num}]", ['AND', 'OR', 'NOT'], { selected: form_values[:boolean] || 'AND' },
-                    { id: "boolean_row#{row_num}", class: 'form-control adv-search-control w-auto' } %>
+                    { id: "boolean_row[#{row_num}]", class: 'form-control adv-search-control w-auto' } %>
   <% end %>
   <%= form.label "q_row#{row_num}", t('blacklight.search.form.q'), class: 'sr-only' %>
   <%= form.text_field 'q_row[]', { value: form_values[:q],

@@ -23,7 +23,7 @@ Feature: Search
     Then the 'search_field_row0' drop-down should have an option for 'Series'
     Then the 'search_field_row0' drop-down should have an option for 'Place of Publication'
     Then the 'search_field_row0' drop-down should have an option for 'Donor/Provenance'
-    #Then the 'boolean_row[1]' radio should have an option for 'or'
+    #Then the 'boolean_row\[1\]' radio should have an option for 'or'
 
   @adv_search
   @all_search
@@ -55,7 +55,7 @@ Feature: Search
     And I should see a stylesheet
     And I fill in "q_row0" with 'Ocean thermal energy conversion'
     And I select 'Title' from the 'search_field_row0' drop-down
-    Then I select 'OR' from the 'boolean_row1' drop-down
+    Then I select 'OR' from the 'boolean_row\[1\]' drop-down
     And I fill in "q_row1" with 'Lexington Books'
     And I select 'Publisher' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
@@ -74,7 +74,7 @@ Feature: Search
     And I should see a stylesheet
     And I fill in "q_row0" with 'Encyclopedia'
     And I select 'Title' from the 'search_field_row0' drop-down
-    Then I select 'NOT' from the 'boolean_row1' drop-down
+    Then I select 'NOT' from the 'boolean_row\[1\]' drop-down
     And I fill in "q_row1" with 'springer'
     And I select 'Publisher' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
@@ -94,7 +94,7 @@ Feature: Search
     And I should see a stylesheet
     And I fill in "q_row0" with 'Encyclopedia'
     And I select 'Title' from the 'search_field_row0' drop-down
-    Then I select 'NOT' from the 'boolean_row1' drop-down
+    Then I select 'NOT' from the 'boolean_row\[1\]' drop-down
     And I fill in "q_row1" with 'springer'
     And I select 'All Fields' from the 'search_field_row1' drop-down
     And I press 'advanced_search'

@@ -1,5 +1,5 @@
 When("I select {string} from the boolean dropdown on line {int}") do |string, int|
-  page.find_by_id("boolean_row#{int - 1}").select(string)
+  page.find_by_id("boolean_row\[#{int - 1}\]").select(string)
 end
 
 When("I use {string} with {string} logic for field {string} on line {int} of advanced search") do |query, logic, field, line|
