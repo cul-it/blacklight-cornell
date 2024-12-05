@@ -1,3 +1,5 @@
+require 'pp'
+
 module LoggingHelper
   # temporarily set the log level to debug,
   # log the message,
@@ -12,12 +14,13 @@ module LoggingHelper
   #         "skey: #{skey}",
   #          "sdef: #{sdef}")
   def log_debug_info(context, *info)
-    original_level = logger.level
-    logger.level = Logger::INFO
-    log_message = build_log_message(context, info)
-    logger.info(log_message)
+    original_level = Rails.logger.level
+    Rails.logger.level = Logger::INFO
+    # log_message = build_log_message(context, info)
+    log_message = PP.pp(["ZZZ #{context}", info], "")
+    Rails.logger.info(log_message)
   ensure
-    logger.level = original_level
+    Rails.logger.level = original_level
   end
 
   private
@@ -25,7 +28,7 @@ module LoggingHelper
   def build_log_message(context, info)
     msg = [" Debugging Info ".center(60, "Z")]
     msg << "ZZZ #{context}:"
-    info.each { |i| msg << "ZZZ " + i.inspect }
+    info.each { |i| msg << "ZZZ " + i.pretty_inspect }
     msg << "Z" * 60
     msg.join("\n")
   end

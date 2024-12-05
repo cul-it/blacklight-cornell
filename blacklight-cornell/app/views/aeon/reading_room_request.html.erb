@@ -19,48 +19,55 @@
 		<%= render :partial => 'aeon/aeon_header' %>
 		
 		<div id="main-content" class="container">
-			<h1>Reading Room Delivery Request</h1>
-			<br/>
 			<a href="/catalog/<%= @bibid %>" class="return-link">
 				<i class="fa fa-arrow-circle-left"></i> Back to item
 			</a>
+			<h2>Reading Room Delivery Request</h2>
 			
-			<h2><%= @title %></h2>
-			<div id="info-wrapper">
-				<% if @finding_aid.present? %>
-					<% cleaned_finding_aid = @finding_aid.end_with?('/track') ? @finding_aid.chomp('/track') : @finding_aid %>
-					<p><a href='<%= cleaned_finding_aid %>'>Finding Aid</a></p>
-				<% end %>
-				<% if @re506.present? %>
-					<h3 style="display: inline-block;">Restrictions: </h3>
-					<p style="display: inline-block;"> <%= @re506 %></p>
-				<% end %>
-			</div>
-			<div id="shoppingcart">
-				<span id="numitems" tabindex="0">Number of items selected:</span>
-				<span id="num-selections-wrapper">
-					<span id="num-selections"></span>
-				</span>
-				<div id="selections-wrapper">
-					<ol>
-						<div id="selections"></div>
-					</ol>
+			<div class="aeoncard">
+				<h2 class="h2title"><%= @title %></h2>
+				<div class="info-wrapper">
+					<% if @finding_aid.present? %>
+						<% cleaned_finding_aid = @finding_aid.end_with?('/track') ? @finding_aid.chomp('/track') : @finding_aid %>
+						<p>
+							<i class="fa fa-check" aria-hidden="true"></i>
+							<a href='<%= cleaned_finding_aid %>'> Finding Aid</a>
+						</p>
+					<% end %>
+					<% if @re506.present? %>
+						<p>
+							<i class="fa fa-warning" aria-hidden="true"></i>
+							Restrictions: <%= @re506 %>
+						</p>
+					<% end %>
 				</div>
+				<div id="shoppingcart">
+					<span id="numitems" tabindex="0">Number of items selected:</span>
+					<span id="num-selections-wrapper">
+						<span id="num-selections"></span>
+					</span>
+					<div id="selections-wrapper">
+						<ol>
+							<div id="selections"></div>
+						</ol>
+					</div>
+				</div>
+			
+				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
+
+				<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">	
+					<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
+					<input type="hidden" name="WebRequestForm" value="GenericRequestManuscript"/>
+					<input type="hidden" id="AeonForm" name="AeonForm" value="EADRequest"/>
+					<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request">
+					<input type="hidden" id="DocumentType" name="DocumentType" value="Manuscript"/>
+					<%= render :partial => 'aeon/holdings' %>
+					<%= render :partial => 'aeon/aeon_body' %>
+					<%= render :partial => 'aeon/clearer' %>
+				</form>
+			 
 			</div>
-
-			<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
-
-			<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">	
-				<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
-				<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
-				<input type="hidden" name="WebRequestForm" value="GenericRequestManuscript"/>
-				<input type="hidden" id="AeonForm" name="AeonForm" value="EADRequest"/>
-				<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request">
-				<input type="hidden" id="DocumentType" name="DocumentType" value="Manuscript"/>
-				<%= render :partial => 'aeon/holdings' %>
-				<%= render :partial => 'aeon/aeon_body' %>
-				<%= render :partial => 'aeon/clearer' %>
-	    </form>
-	  </div>
+	  	</div>
 	</body>
 </html>
