@@ -1,7 +1,18 @@
 .facets {
+	background: white;
+	ul {
+		margin: 0 0 5px 10px;
+		padding: 0;
+		list-style: none;
+	}
 	li {
 		font-size: .9rem;
 		padding-right: 50px;
+	}
+	p {
+		margin: 0 0 .25em;
+		border-bottom: 1px solid $light-tan;
+    	padding: 0 0 .25em 0;
 	}
 	i {
 		color: $dark-gray;
