@@ -65,10 +65,14 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  config.after(:each, type: :system) do |system_test|
-    if system_test.exception
-      save_page Rails.root.join("tmp/capybara", "failed_test.html")
-      puts "Saved HTML to tmp/capybara/failed_test.html"
-    end
-  end
+
+  ###################################################
+  ## Uncomment to see html of page at test failure ##
+  ###################################################
+  # config.after(:each, type: :system) do |system_test|
+  #   if system_test.exception
+  #     save_page Rails.root.join("tmp/capybara", "failed_test.html")
+  #     puts "Saved HTML to tmp/capybara/failed_test.html"
+  #   end
+  # end
 end
