@@ -149,15 +149,6 @@ class SearchBuilder < Blacklight::SearchBuilder
     set_q_row_with_bools(params)
   end
 
-  def solr_query(field, q)
-    solr_field_prefix = field.present? ? "#{field}:" : ''
-    "#{solr_field_prefix}\"#{q}\""
-  end
-
-  def solr_field_or_default(field_config, field_type)
-    field_config[field_type] || field_config['field']
-  end
-
   def q_to_solr(query, op, search_field, search_field_config)
     solr_field = solr_field_or_default(search_field_config, 'field_override')
     solr_phrase_field = solr_field_or_default(search_field_config, 'phrase_field')
@@ -237,6 +228,8 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def set_q_with_search_fields(query:, search_field: DEFAULT_SEARCH_FIELD, op: DEFAULT_OP)
+    return '' if query.blank?
+
     # Default to 'all_fields' if field not in blacklight_config.search_fields
     search_field_config = blacklight_config.search_fields[search_field] || blacklight_config.search_fields[DEFAULT_SEARCH_FIELD]
 
@@ -311,5 +304,16 @@ class SearchBuilder < Blacklight::SearchBuilder
     user_params.delete('f.subject_content_facet.facet.limit')
     user_params.delete('f.lc_alpha_facet.facet.limit')
     return user_params
+  end
+
+  private
+
+  def solr_query(field, q)
+    solr_field_prefix = field.present? ? "#{field}:" : ''
+    "#{solr_field_prefix}\"#{q}\""
+  end
+
+  def solr_field_or_default(field_config, field_type)
+    field_config[field_type] || field_config['field']
   end
 end

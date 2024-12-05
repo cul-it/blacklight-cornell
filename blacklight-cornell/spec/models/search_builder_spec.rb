@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe SearchBuilder, type: :model do
   let(:blacklight_config) { CatalogController.blacklight_config }
   let(:scope) { double blacklight_config: blacklight_config }
-  let(:all_search_fields) { %w[all_fields title title_starts journaltitle author subject lc_callnum series publisher pubplace number isbnissn notes donor] }
-  # TODO: Add tests for title_starts
   subject(:search_builder) { described_class.new scope }
 
   describe '#set_q_row_with_bools' do
@@ -156,43 +154,58 @@ RSpec.describe SearchBuilder, type: :model do
   end
 
   describe '#clean_q_rows' do
+    it 'returns a list of cleaned queries' do
+      params = { q_row: ['"just one pair of quotes"', 'fun:colon:times'] }
+        expect(search_builder.clean_q_rows(params)).to eq(['"just one pair of quotes"', 'fun\:colon\:times'])
+    end
+  end
+
+  describe '#clean_q' do
     context 'query with parentheses or brackets' do
       it 'removes all parentheses and brackets' do
-        params = { q_row: ['(oh hello) here [are] some (cool) special c[h]aracters'] }
-        expect(search_builder.clean_q_rows(params)).to eq(['oh hello here are some cool special characters'])
+        query = '(oh hello) here [are] some (cool) special c[h]aracters'
+        expect(search_builder.clean_q(query)).to eq('oh hello here are some cool special characters')
       end
     end
 
     context 'query with left and right quotation marks' do
       it 'replaces with standard quotation marks' do
-        params = { q_row: ["”a doll's house“"] }
-        expect(search_builder.clean_q_rows(params)).to eq(['"a doll\'s house"'])
+        query = "”a doll's house“"
+        expect(search_builder.clean_q(query)).to eq('"a doll\'s house"')
       end
     end
 
     context 'query with paired quotation marks' do
       it 'does not change the query' do
-        params = { q_row: ['"a doll\'s house" "henrik ibsen"', '"just one pair of quotes"'] }
-        expect(search_builder.clean_q_rows(params)).to eq(['"a doll\'s house" "henrik ibsen"', '"just one pair of quotes"'])
+        two_quote_query = '"a doll\'s house" "henrik ibsen"'
+        expect(search_builder.clean_q(two_quote_query)).to eq('"a doll\'s house" "henrik ibsen"')
+        one_quote_query = '"just one pair of quotes"'
+        expect(search_builder.clean_q(one_quote_query)).to eq('"just one pair of quotes"')
       end
     end
 
     context 'query with unpaired quotation marks' do
       it 'closes the quotation if query starts with quotation mark' do
-        params = { q_row: ['"oh hey there'] }
-        expect(search_builder.clean_q_rows(params)).to eq(['"oh hey there"'])
+        query = '"oh hey there'
+        expect(search_builder.clean_q(query)).to eq('"oh hey there"')
       end
 
       it 'removes all other quotation marks' do
-        params = { q_row: ['oh hey "there', '"oh hey "there"'] }
-        expect(search_builder.clean_q_rows(params)).to eq(['oh hey there', 'oh hey there'])
+        one_quote_query = 'oh hey "there'
+        expect(search_builder.clean_q(one_quote_query)).to eq('oh hey there')
+        three_quote_query = '"oh hey "there"'
+        expect(search_builder.clean_q(three_quote_query)).to eq('oh hey there')
       end
     end
 
     context 'query with escapable special characters' do
       it 'escapes all special characters' do
-        params = { q_row: ['oh: hi', 'fun:colon:times', '(fancy seeing [you!] - yes, you + your friend - here)'] }
-        expect(search_builder.clean_q_rows(params)).to eq(['oh\: hi', 'fun\:colon\:times', 'fancy seeing you! \- yes, you \+ your friend \- here'])
+        colon_query = 'oh: hi'
+        expect(search_builder.clean_q(colon_query)).to eq('oh\: hi')
+        mult_colon_query = 'fun:colon:times'
+        expect(search_builder.clean_q(mult_colon_query)).to eq('fun\:colon\:times')
+        lots_of_chars_query = '(fancy seeing [you!] - yes, you + your friend - here)'
+        expect(search_builder.clean_q(lots_of_chars_query)).to eq('fancy seeing you! \- yes, you \+ your friend \- here')
       end
     end
   end
@@ -361,693 +374,729 @@ RSpec.describe SearchBuilder, type: :model do
   end
 
   describe '#set_q_row_with_search_fields' do
-    let(:params) { { op_row: op_row, search_field_row: search_field_row, q_row: q_row } }
+    it 'returns a list with multiple queries containing solr field names' do
+      params = { op_row: ['AND', 'OR'], search_field_row: ['all_fields', 'donor'], q_row: ['cats dogs', 'pets'] }
+      expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("cats" AND "dogs") OR phrase:"cats dogs"', 'donor:"pets"'])
+    end
+  end
 
+  describe '#set_q_with_search_fields' do
     context '1 search term' do
-      let(:q_row) { ['cats'] }
+      let(:q) { 'cats' }
 
       context 'all_fields' do
-        let(:search_field_row) { ['all_fields'] }
+        let(:search_field) { 'all_fields' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("cats") OR phrase:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('("cats") OR phrase:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('starts:"cats"')
           end
         end
       end
 
       context 'title' do
-        let(:search_field_row) { ['title'] }
+        let(:search_field) { 'title' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title:"cats") OR title_phrase:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(title:"cats") OR title_phrase:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title_starts:"cats"')
           end
         end
       end
 
       context 'journaltitle' do
-        let(:search_field_row) { ['journaltitle'] }
+        let(:search_field) { 'journaltitle' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['((title:"cats") OR title_phrase:"cats") AND format:"Journal/Periodical"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('((title:"cats") OR title_phrase:"cats") AND format:"Journal/Periodical"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title:"cats") AND format:"Journal/Periodical"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(title:"cats") AND format:"Journal/Periodical"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title_quoted:"cats") AND format:"Journal/Periodical"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(title_quoted:"cats") AND format:"Journal/Periodical"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title_starts:"cats") AND format:"Journal/Periodical"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(title_starts:"cats") AND format:"Journal/Periodical"')
           end
         end
       end
 
       context 'author' do
-        let(:search_field_row) { ['author'] }
+        let(:search_field) { 'author' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['author:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('author:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['author:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('author:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['author_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('author_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['author_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('author_starts:"cats"')
           end
         end
       end
 
       context 'subject' do
-        let(:search_field_row) { ['subject'] }
+        let(:search_field) { 'subject' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['subject:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('subject:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['subject:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('subject:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['subject_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('subject_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['subject_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('subject_starts:"cats"')
           end
         end
       end
 
       context 'lc_callnum' do
-        let(:search_field_row) { ['lc_callnum'] }
+        let(:search_field) { 'lc_callnum' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('lc_callnum:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('lc_callnum:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('lc_callnum:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('lc_callnum_starts:"cats"')
           end
         end
       end
 
       context 'publisher' do
-        let(:search_field_row) { ['publisher'] }
+        let(:search_field) { 'publisher' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('publisher:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('publisher:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('publisher_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('publisher_starts:"cats"')
           end
         end
       end
 
       context 'pubplace' do
-        let(:search_field_row) { ['pubplace'] }
+        let(:search_field) { 'pubplace' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['pubplace:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('pubplace:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['pubplace:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('pubplace:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['pubplace_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('pubplace_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['pubplace_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('pubplace_starts:"cats"')
           end
         end
       end
 
       context 'number' do
-        let(:search_field_row) { ['number'] }
+        let(:search_field) { 'number' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(number:"cats") OR number_phrase:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(number:"cats") OR number_phrase:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['number:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('number:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['number_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('number_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['number_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('number_starts:"cats"')
           end
         end
       end
 
       context 'isbnissn' do
-        let(:search_field_row) { ['isbnissn'] }
+        let(:search_field) { 'isbnissn' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['isbnissn:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('isbnissn:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['isbnissn:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('isbnissn:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['isbnissn_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('isbnissn_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['isbnissn_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('isbnissn_starts:"cats"')
           end
         end
       end
 
       context 'notes' do
-        let(:search_field_row) { ['notes'] }
+        let(:search_field) { 'notes' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['notes:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('notes:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['notes:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('notes:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['notes_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('notes_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['notes_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('notes_starts:"cats"')
           end
         end
       end
 
       context 'donor' do
-        let(:search_field_row) { ['donor'] }
+        let(:search_field) { 'donor' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['donor:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('donor:"cats"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['donor:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('donor:"cats"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['donor_quoted:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('donor_quoted:"cats"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['donor_starts:"cats"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('donor_starts:"cats"')
           end
         end
       end
     end
 
-    context 'multiple search terms in 1 query' do
-      let(:q_row) { ['cats dogs'] }
+    context 'multiple search terms' do
+      let(:q) { 'cats dogs' }
 
       context 'all_fields' do
-        let(:search_field_row) { ['all_fields'] }
+        let(:search_field) { 'all_fields' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("cats" AND "dogs") OR phrase:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('("cats" AND "dogs") OR phrase:"cats dogs"')
           end
 
           context 'with quotation marks' do
-            let(:q_row) { ['"cats dogs"']}
+            let(:q) { '"cats dogs"'}
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['"cats" OR "dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('"cats" OR "dogs"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['quoted:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('quoted:"cats dogs"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['starts:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('starts:"cats dogs"')
           end
         end
       end
 
       context 'title' do
-        let(:search_field_row) { ['title'] }
+        let(:search_field) { 'title' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title:"cats" AND title:"dogs") OR title_phrase:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(title:"cats" AND title:"dogs") OR title_phrase:"cats dogs"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title:"cats" OR title:"dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title:"cats" OR title:"dogs"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title_quoted:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title_quoted:"cats dogs"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['title_starts:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title_starts:"cats dogs"')
+          end
+        end
+      end
+
+      context 'title_starts' do
+        let(:search_field) { 'title_starts' }
+
+        context 'op = all' do
+          let(:op) { 'AND' }
+
+          it 'does not break up solr query' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title_starts:"cats dogs"')
+          end
+        end
+
+        context 'op = any' do
+          let(:op) { 'OR' }
+
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title_starts:"cats" OR title_starts:"dogs"')
+          end
+        end
+
+        context 'op = phrase' do
+          let(:op) { 'phrase' }
+
+          it 'does not break up solr query, does not use a special quoted field' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title_starts:"cats dogs"')
+          end
+        end
+
+        context 'op = begins with' do
+          let(:op) { 'begins_with' }
+
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('title_starts:"cats dogs"')
           end
         end
       end
 
       context 'journaltitle' do
-        let(:search_field_row) { ['journaltitle'] }
+        let(:search_field) { 'journaltitle' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['((title:"cats" AND title:"dogs") OR title_phrase:"cats dogs") AND format:"Journal/Periodical"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('((title:"cats" AND title:"dogs") OR title_phrase:"cats dogs") AND format:"Journal/Periodical"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title:"cats" OR title:"dogs") AND format:"Journal/Periodical"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(title:"cats" OR title:"dogs") AND format:"Journal/Periodical"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title_quoted:"cats dogs") AND format:"Journal/Periodical"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(title_quoted:"cats dogs") AND format:"Journal/Periodical"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(title_starts:"cats dogs") AND format:"Journal/Periodical"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(title_starts:"cats dogs") AND format:"Journal/Periodical"')
           end
         end
       end
 
       context 'lc_callnum' do
-        let(:search_field_row) { ['lc_callnum'] }
+        let(:search_field) { 'lc_callnum' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
           it 'does not break up solr query' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats dogs"'])
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('lc_callnum:"cats dogs"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats" OR lc_callnum:"dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('lc_callnum:"cats" OR lc_callnum:"dogs"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
           it 'does not break up solr query, does not use a special quoted field' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum:"cats dogs"'])
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('lc_callnum:"cats dogs"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['lc_callnum_starts:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('lc_callnum_starts:"cats dogs"')
           end
         end
       end
 
       context 'publisher' do
-        let(:search_field_row) { ['publisher'] }
+        let(:search_field) { 'publisher' }
 
         context 'op = all' do
-          let(:op_row) { ['AND'] }
+          let(:op) { 'AND' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['(publisher:"cats" AND publisher:"dogs") OR publisher:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('(publisher:"cats" AND publisher:"dogs") OR publisher:"cats dogs"')
           end
         end
 
         context 'op = any' do
-          let(:op_row) { ['OR'] }
+          let(:op) { 'OR' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher:"cats" OR publisher:"dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('publisher:"cats" OR publisher:"dogs"')
           end
         end
 
         context 'op = phrase' do
-          let(:op_row) { ['phrase'] }
+          let(:op) { 'phrase' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher_quoted:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('publisher_quoted:"cats dogs"')
           end
         end
 
         context 'op = begins with' do
-          let(:op_row) { ['begins_with'] }
+          let(:op) { 'begins_with' }
 
-          it 'returns new q_row with solr fields included' do
-            expect(search_builder.set_q_row_with_search_fields(params)).to eq(['publisher_starts:"cats dogs"'])
+          it 'returns new q with solr fields included' do
+            expect(search_builder.set_q_with_search_fields(query: q, search_field: search_field, op: op)).to eq('publisher_starts:"cats dogs"')
           end
         end
       end
     end
 
-    context 'multiple queries' do
-      let(:q_row) { ['cats dogs', 'pets'] }
-      let(:op_row) { ['AND', 'OR'] }
-      let(:search_field_row) { ['all_fields', 'donor'] }
-
-      it 'returns a list with multiple queries containing solr field names' do
-        expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("cats" AND "dogs") OR phrase:"cats dogs"', 'donor:"pets"'])
-      end
-    end
-
     context 'invalid values' do
-      let(:q_row) { ['A Doll\'s House'] }
-
-      context 'invalid op' do
-        let(:op_row) { ['invalid'] }
-        let(:search_field_row) { ['all_fields'] }
-
-        it 'defaults to handling op as AND/all' do
-          expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
-        end
-      end
-
-      context 'missing op' do
-        let(:op_row) { [] }
-        let(:search_field_row) { ['all_fields'] }
-
-        it 'defaults to handling op as AND/all' do
-          expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
-        end
-      end
+      let(:q) { 'A Doll\'s House' }
 
       context 'invalid search_field' do
-        let(:op_row) { ['AND'] }
-        let(:search_field_row) { ['invalid'] }
-
         it 'defaults to all_fields query' do
-          expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
+          expect(search_builder.set_q_with_search_fields(query: q, search_field: 'invalid')).
+            to eq('("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"')
         end
       end
 
       context 'missing search_field' do
-        let(:op_row) { ['AND'] }
-        let(:search_field_row) { [] }
-
         it 'defaults to all fields query' do
-          expect(search_builder.set_q_row_with_search_fields(params)).to eq(['("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"'])
+          expect(search_builder.set_q_with_search_fields(query: q, search_field: nil)).
+            to eq('("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"')
+          expect(search_builder.set_q_with_search_fields(query: q, search_field: '')).
+            to eq('("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"')
+          expect(search_builder.set_q_with_search_fields(query: q)).
+            to eq('("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"')
         end
+      end
+
+      context 'invalid op' do
+        it 'defaults to handling op as AND/all' do
+          expect(search_builder.set_q_with_search_fields(query: q, search_field: 'all_fields', op: 'invalid')).to eq('("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"')
+        end
+      end
+
+      context 'missing op' do
+        it 'defaults to handling op as AND/all' do
+          expect(search_builder.set_q_with_search_fields(query: q, search_field: 'all_fields', op: nil)).
+            to eq('("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"')
+          expect(search_builder.set_q_with_search_fields(query: q, search_field: 'all_fields', op: '')).
+            to eq('("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"')
+          expect(search_builder.set_q_with_search_fields(query: q)).
+            to eq('("A" AND "Doll\'s" AND "House") OR phrase:"A Doll\'s House"')
+        end
+      end
+    end
+
+    context 'empty query' do
+      it 'returns an empty string' do
+        expect(search_builder.set_q_with_search_fields(query: '', search_field: 'all_fields')).to eq('')
       end
     end
   end
 
   describe '#build_advanced_search_query' do
     context 'unexpected q_row' do
-      it 'returns nil if q_row is missing or not an array' do
+      it 'returns empty string if q_row is missing or not an array' do
         expect(search_builder.build_advanced_search_query({ q_row: 'invalid' })).to eq('')
         expect(search_builder.build_advanced_search_query({ })).to eq('')
       end
     end
 
     context 'q_row only has characters that will be stripped' do
-      it 'returns nil' do
+      it 'returns empty string' do
         expect(search_builder.build_advanced_search_query({
           q_row: ['()[]'], op_row: ['AND'], search_field_row: ['all_fields']
         })).to eq('')
@@ -1059,6 +1108,28 @@ RSpec.describe SearchBuilder, type: :model do
         expect(search_builder.build_advanced_search_query({
           q_row: ['cats dogs', 'pets'], op_row: ['AND', 'AND'], search_field_row: ['all_fields', 'title'], boolean_row: { '1' => 'OR' }
         })).to eq('((("cats" AND "dogs") OR phrase:"cats dogs") OR ((title:"pets") OR title_phrase:"pets"))')
+      end
+    end
+  end
+
+  describe '#build_simple_search_query' do
+    context 'unexpected q' do
+      it 'returns empty string if q is missing' do
+        expect(search_builder.build_simple_search_query({ })).to eq('')
+      end
+    end
+
+    context 'q only has characters that will be stripped' do
+      it 'returns empty string' do
+        expect(search_builder.build_simple_search_query({ q: '()[]', search_field: 'all_fields' })).to eq('')
+      end
+    end
+
+    context 'valid params' do
+      it 'returns a formatted query string' do
+        expect(search_builder.build_simple_search_query({
+          q: 'cats dogs', search_field: 'title'
+        })).to eq('(title:"cats" AND title:"dogs") OR title_phrase:"cats dogs"')
       end
     end
   end
@@ -1923,6 +1994,50 @@ RSpec.describe SearchBuilder, type: :model do
                                           ' NOT ((donor:"test13" AND donor:"test14") OR donor:"test13 test14"))')
           end
         end
+      end
+    end
+  end
+
+  describe '#set_fl' do
+    let(:solr_params) { {} }
+
+    before do
+      allow(search_builder).to receive(:blacklight_params) { blacklight_params }
+    end
+
+    context 'controller=catalog, no format' do
+      let(:blacklight_params) { { 'controller' => 'catalog', 'q' => 'test query' } }
+
+      it 'does not change solr fl' do
+        search_builder.set_fl(solr_params)
+        expect(solr_params[:fl]).to be_nil
+      end
+    end
+
+    context 'controller=catalog, format' do
+      let(:blacklight_params) { { 'controller' => 'catalog', 'format' => 'test format', 'q' => 'test query' } }
+
+      it 'sets solr fl as *' do
+        search_builder.set_fl(solr_params)
+        expect(solr_params[:fl]).to eq('*')
+      end
+    end
+
+    context 'controller=bookmarks' do
+      let(:blacklight_params) { { 'controller' => 'bookmarks', 'q' => 'test query' } }
+
+      it 'sets solr fl as *' do
+        search_builder.set_fl(solr_params)
+        expect(solr_params[:fl]).to eq('*')
+      end
+    end
+
+    context 'controller=book_bags' do
+      let(:blacklight_params) { { 'controller' => 'book_bags', 'q' => 'test query' } }
+
+      it 'sets solr fl as *' do
+        search_builder.set_fl(solr_params)
+        expect(solr_params[:fl]).to eq('*')
       end
     end
   end
