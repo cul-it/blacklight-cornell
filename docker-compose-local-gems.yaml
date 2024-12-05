@@ -18,5 +18,5 @@ services:
       - 9292:9292
     volumes:
       - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro
-      - /cul/app/blacklight-cornell-requests:/custom_mnt/blacklight-cornell-requests:cached
-      - /cul/app/cul-my-account:/custom_mnt/cul-my-account:cached
+      - ./mount/blacklight-cornell-requests:/app/blacklight-cornell-requests:cached
+      - ./mount/cul-my-account:/app/cul-my-account:cached
