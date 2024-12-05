@@ -5,7 +5,7 @@ end
 When("I use {string} with {string} logic for field {string} on line {int} of advanced search") do |query, logic, field, line|
   id = "q_row#{line - 1}"
   op = "op_row#{line - 1}"
-  fid = "search_field_advanced#{line-1}"
+  fid = "search_field_row#{line-1}"
   page.find_by_id(id).set("#{query}")
   page.find_by_id(op).select("#{logic}")
   page.find_by_id(fid).select("#{field}")

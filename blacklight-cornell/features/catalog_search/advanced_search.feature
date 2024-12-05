@@ -14,15 +14,15 @@ Feature: Search
   @javascript
   Scenario: Advanced Search Page search types
     When I literally go to advanced
-    Then the 'search_field_advanced0' drop-down should have an option for 'All Fields'
-    Then the 'search_field_advanced0' drop-down should have an option for 'Title'
-    Then the 'search_field_advanced0' drop-down should have an option for 'Journal Title'
-    Then the 'search_field_advanced0' drop-down should have an option for 'Call Number'
-    Then the 'search_field_advanced0' drop-down should have an option for 'Publisher'
-    Then the 'search_field_advanced0' drop-down should have an option for 'Subject'
-    Then the 'search_field_advanced0' drop-down should have an option for 'Series'
-    Then the 'search_field_advanced0' drop-down should have an option for 'Place of Publication'
-    Then the 'search_field_advanced0' drop-down should have an option for 'Donor/Provenance'
+    Then the 'search_field_row0' drop-down should have an option for 'All Fields'
+    Then the 'search_field_row0' drop-down should have an option for 'Title'
+    Then the 'search_field_row0' drop-down should have an option for 'Journal Title'
+    Then the 'search_field_row0' drop-down should have an option for 'Call Number'
+    Then the 'search_field_row0' drop-down should have an option for 'Publisher'
+    Then the 'search_field_row0' drop-down should have an option for 'Subject'
+    Then the 'search_field_row0' drop-down should have an option for 'Series'
+    Then the 'search_field_row0' drop-down should have an option for 'Place of Publication'
+    Then the 'search_field_row0' drop-down should have an option for 'Donor/Provenance'
     #Then the 'boolean_row[1]' radio should have an option for 'or'
 
   @adv_search
@@ -34,9 +34,9 @@ Feature: Search
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
     And I fill in "q_row0" with 'Encyclopedia of railroading'
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'National Text Book Company'
-    And I select 'Publisher' from the 'search_field_advanced1' drop-down
+    And I select 'Publisher' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     And I sleep 4 seconds
     Then I should get results
@@ -54,10 +54,10 @@ Feature: Search
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
     And I fill in "q_row0" with 'Ocean thermal energy conversion'
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     Then I select 'OR' from the 'boolean_row1' drop-down
     And I fill in "q_row1" with 'Lexington Books'
-    And I select 'Publisher' from the 'search_field_advanced1' drop-down
+    And I select 'Publisher' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 - 2 of'
@@ -73,10 +73,10 @@ Feature: Search
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
     And I fill in "q_row0" with 'Encyclopedia'
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     Then I select 'NOT' from the 'boolean_row1' drop-down
     And I fill in "q_row1" with 'springer'
-    And I select 'Publisher' from the 'search_field_advanced1' drop-down
+    And I select 'Publisher' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     And I sleep 4 seconds
     Then I should get 3 results
@@ -93,10 +93,10 @@ Feature: Search
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
     And I fill in "q_row0" with 'Encyclopedia'
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     Then I select 'NOT' from the 'boolean_row1' drop-down
     And I fill in "q_row1" with 'springer'
-    And I select 'All Fields' from the 'search_field_advanced1' drop-down
+    And I select 'All Fields' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
 
@@ -118,9 +118,9 @@ Feature: Search
   Scenario: Perform an advanced search by Publisher
     When I literally go to advanced
     And I fill in "q_row0" with 'Encyclopedia'
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'National Text Book Company'
-    And I select 'Publisher' from the 'search_field_advanced1' drop-down
+    And I select 'Publisher' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     And it should contain filter "Publisher" with value "National Text Book Company"
@@ -133,7 +133,7 @@ Feature: Search
   Scenario: Perform an advanced search by author, as author see results
     When I literally go to advanced
     And I fill in "q_row0" with 'Heaney, Seamus, 1939-2013'
-    And I select 'Author' from the 'search_field_advanced0' drop-down
+    And I select 'Author' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -143,7 +143,7 @@ Feature: Search
  # Scenario: Perform an advanced search by title with colon, colon should be ignored.
  #   When I literally go to advanced
  #   And I fill in "q_row0" with 'ethnoarchaeology:'
- #   And I select 'Title' from the 'search_field_advanced0' drop-down
+ #   And I select 'Title' from the 'search_field_row0' drop-down
  #   And I press 'advanced_search'
  #   Then I should get results
  #   And I should see the label '1 - 20 of'
@@ -157,7 +157,7 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'TL565 .N85 no.185'
     And I select 'phrase' from the 'op_row0' drop-down
-    And I select 'Call Number' from the 'search_field_advanced0' drop-down
+    And I select 'Call Number' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -168,7 +168,7 @@ Feature: Search
   @javascript
   Scenario: Perform an advanced search by journaltitle
     When I literally go to advanced
-    And I select 'Journal Title' from the 'search_field_advanced0' drop-down
+    And I select 'Journal Title' from the 'search_field_row0' drop-down
     And I fill in "q_row0" with 'Dokumente zur Deutschlandpolitik'
     And I press 'advanced_search'
     Then I should get results
@@ -183,7 +183,7 @@ Feature: Search
     When I literally go to advanced
     And I sleep 4 seconds
     And I fill in "q_row0" with '9780571347155'
-    And I select 'ISBN/ISSN' from the 'search_field_advanced0' drop-down
+    And I select 'ISBN/ISSN' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -199,7 +199,7 @@ Feature: Search
     And I sleep 4 seconds
     And I fill in "q_row0" with 'Prepared under the sponsorship of the Propulsion and Energetics Panel.'
     And I select 'phrase' from the 'op_row0' drop-down
-    And I select 'Notes' from the 'search_field_advanced0' drop-down
+    And I select 'Notes' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get 1 results
     And I should see the "Notes" facet constraint
@@ -217,7 +217,7 @@ Feature: Search
     When I literally go to advanced
     And I sleep 4 seconds
     And I fill in "q_row0" with '075992511025'
-    And I select 'Publisher Number/Other Identifier' from the 'search_field_advanced0' drop-down
+    And I select 'Publisher Number/Other Identifier' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -231,7 +231,7 @@ Feature: Search
     When I literally go to advanced
     And I sleep 4 seconds
     And I fill in "q_row0" with 'Scripta Orientalia'
-    And I select 'Series' from the 'search_field_advanced0' drop-down
+    And I select 'Series' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -246,7 +246,7 @@ Feature: Search
     And I sleep 4 seconds
     And I fill in "q_row0" with '"Prepared under the sponsorship of the Propulsion and Energetics Panel."'
     And I select 'all' from the 'op_row0' drop-down
-    And I select 'Notes' from the 'search_field_advanced0' drop-down
+    And I select 'Notes' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'North Atlantic Treaty Organization'
     And I select 'phrase' from the 'op_row1' drop-down
     And I press 'advanced_search'
@@ -262,7 +262,7 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'Class of 1957'
     And I select 'all' from the 'op_row0' drop-down
-    And I select 'Donor/Provenance' from the 'search_field_advanced0' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get 2 results
     And I should see the "Donor/Provenance" facet constraint
@@ -280,10 +280,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with '1957'
     And I select 'all' from the 'op_row0' drop-down
-    And I select 'Donor/Provenance' from the 'search_field_advanced0' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Pumpelly'
     And I select 'all' from the 'op_row1' drop-down
-    And I select 'Donor/Provenance' from the 'search_field_advanced1' drop-down
+    And I select 'Donor/Provenance' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -298,10 +298,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'Hales, John'
     And I select 'all' from the 'op_row0' drop-down
-    And I select 'Subject' from the 'search_field_advanced0' drop-down
+    And I select 'Subject' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Imprints'
     And I select 'all' from the 'op_row1' drop-down
-    And I select 'Subject' from the 'search_field_advanced1' drop-down
+    And I select 'Subject' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -315,10 +315,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'Ocean thermal power plants'
     And I select 'phrase' from the 'op_row0' drop-down
-    And I select 'Subject' from the 'search_field_advanced0' drop-down
+    And I select 'Subject' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Maritime law'
     And I select 'phrase' from the 'op_row1' drop-down
-    And I select 'Subject' from the 'search_field_advanced1' drop-down
+    And I select 'Subject' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -332,15 +332,15 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'Ocean thermal power plants'
     And I select 'phrase' from the 'op_row0' drop-down
-    And I select 'Subject' from the 'search_field_advanced0' drop-down
+    And I select 'Subject' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Maritime law'
     And I select 'phrase' from the 'op_row1' drop-down
-    And I select 'Subject' from the 'search_field_advanced1' drop-down
+    And I select 'Subject' from the 'search_field_row1' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
     And I fill in "q_row2" with 'conversion'
     And I select 'phrase' from the 'op_row2' drop-down
-    And I select 'Title' from the 'search_field_advanced2' drop-down
+    And I select 'Title' from the 'search_field_row2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -355,15 +355,15 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'Ocean thermal power plants'
     And I select 'all' from the 'op_row0' drop-down
-    And I select 'All Fields' from the 'search_field_advanced0' drop-down
+    And I select 'All Fields' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Maritime law'
     And I select 'phrase' from the 'op_row1' drop-down
-    And I select 'All Fields' from the 'search_field_advanced1' drop-down
+    And I select 'All Fields' from the 'search_field_row1' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
     And I fill in "q_row2" with 'Lexington Books'
     And I select 'any' from the 'op_row2' drop-down
-    And I select 'Publisher' from the 'search_field_advanced2' drop-down
+    And I select 'Publisher' from the 'search_field_row2' drop-down
     And I press 'advanced_search'
     Then I should get results
     #And I should see the label '1 result'
@@ -379,11 +379,11 @@ Feature: Search
     And I sleep 4 seconds
     And I fill in "q_row0" with 'Ocean'
     And I select 'all' from the 'op_row0' drop-down
-    And I select 'Subject' from the 'search_field_advanced0' drop-down
+    And I select 'Subject' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Lexington'
     And I select 'all' from the 'op_row1' drop-down
     And I sleep 4 seconds
-    And I select 'Place of Publication' from the 'search_field_advanced1' drop-down
+    And I select 'Place of Publication' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
@@ -398,7 +398,7 @@ Feature: Search
     And I sleep 4 seconds
     And I fill in "q_row0" with 'New York'
     And I select 'all' from the 'op_row0' drop-down
-    And I select 'Place of Publication' from the 'search_field_advanced0' drop-down
+    And I select 'Place of Publication' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get 41 results
     And I should see the "Place of Publication" facet constraint
@@ -416,10 +416,10 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'Indian Ocean'
     And I select 'begins' from the 'op_row0' drop-down
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Indian Ocean'
     And I select 'begins' from the 'op_row1' drop-down
-    And I select 'Title' from the 'search_field_advanced1' drop-down
+    And I select 'Title' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
@@ -437,7 +437,7 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'Indian Ocean'
     And I select 'begins' from the 'op_row0' drop-down
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
@@ -490,9 +490,9 @@ Feature: Search
   Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
     When I literally go to advanced
     And I fill in "q_row0" with 'beef'
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with '100%'
-    And I select 'Title' from the 'search_field_advanced1' drop-down
+    And I select 'Title' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     Then it should have link "Title: beef" with value 'catalog?&q_row[]=100%25&boolean_row[1]=AND&op_row[]=AND&search_field_row[]=title&search_field=advanced&action=index&commit=Search'
@@ -508,9 +508,9 @@ Feature: Search
   Scenario: Perform a 2 row  advanced search with Title with percent that must be url encoded.
     When I literally go to advanced
     And I fill in "q_row0" with 'beef'
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with '100%'
-    And I select 'Title' from the 'search_field_advanced1' drop-down
+    And I select 'Title' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
@@ -550,15 +550,15 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'Birds I have kept'
     And I select 'any' from the 'op_row0' drop-down
-    And I select 'All Fields' from the 'search_field_advanced0' drop-down
+    And I select 'All Fields' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'years “gone by” “full directions” successfully'
     And I select 'any' from the 'op_row1' drop-down
     And click on link "add-row"
     And I sleep 4 seconds
-    And I select 'All Fields' from the 'search_field_advanced1' drop-down
+    And I select 'All Fields' from the 'search_field_row1' drop-down
     And I fill in "q_row2" with 'Cage birds'
     And I select 'any' from the 'op_row2' drop-down
-    And I select 'All Fields' from the 'search_field_advanced2' drop-down
+    And I select 'All Fields' from the 'search_field_row2' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label 'Modify advanced'
@@ -573,7 +573,7 @@ Feature: Search
     When I literally go to advanced
     And I fill in "q_row0" with 'manual of the trees of north america (exclusive of mexico)'
     And I fill in "q_row1" with 'sargent, charles sprague'
-    And I select 'Title' from the 'search_field_advanced0' drop-down
+    And I select 'Title' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
 
