@@ -842,6 +842,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-23
+  arm64-darwin-24
   x86_64-darwin-23
   x86_64-linux
 
@@ -870,8 +871,6 @@ DEPENDENCIES
   capybara (= 3.39.2)
   capybara-email
   celluloid (= 0.17.4)
-  citeproc
-  citeproc-ruby
   coffee-rails (~> 4.0)
   concurrent-ruby (= 1.2.3)
   csl-styles!
