@@ -130,13 +130,6 @@ class SearchController < ApplicationController
   # Note that this function doesn't do anything special with website results. If they're present in
   # 'results', they're handled like anything else.
   def sort_panes(results, display_type, max_scores)
-
-    #remove wcl before it tries to sort it and fails
-    @wcl = results.delete("worldcat")
-    #Rails.logger.debug("#{__FILE__}:#{__LINE__} results=  #{@results.inspect}")
-    #Rails.logger.debug("#{__FILE__}:#{__LINE__} requesthost=  #{request.host.inspect}")
-    #  @catalog_host = get_catalog_host(request.host)
-    #  Rails.logger.debug("#{__FILE__}:#{__LINE__} @catalog_host=  #{@catalog_host.inspect}")
     top1 = top4 = secondary = []
 
     # Sort formats alphabetically for more results
@@ -174,7 +167,7 @@ class SearchController < ApplicationController
       secondary = results
     end
 
-    return top4, secondary, more, @websites, @wcl
+    return top4, secondary, more, @websites
   end
 
   def toggle_display(display_type)
