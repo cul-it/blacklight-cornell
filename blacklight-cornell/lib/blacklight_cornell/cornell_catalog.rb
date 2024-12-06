@@ -357,15 +357,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
 
-  # citation action
-  def citation
-    @response, @documents = search_service.fetch params[:id]
-    @documents = [ @documents ]
-    respond_to do |format|
-      format.html { render :layout => false }
-    end
-  end
-
   # grabs a bunch of documents to export to endnote
   def endnote
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
