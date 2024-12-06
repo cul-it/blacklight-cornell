@@ -42,6 +42,14 @@
 							Restrictions: <%= @re506 %>
 						</p>
 					<% end %>
+					<% holdings = JSON.parse(@document['holdings_json']) %>
+					<% bounds_with = holdings.any? { |_, holding| holding.key?('boundWith') && holding['boundWith'].any? } %>
+					<% if bounds_with %>
+							<p>
+									<i class="fa fa-warning" aria-hidden="true"></i>
+									This item is bound with another item(s). Please ask a librarian for assistance to make this request.
+							</p>
+					<% end %>
 				</div>
 
 				<div id="shoppingcart">
