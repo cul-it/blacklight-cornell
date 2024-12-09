@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: cbdcbfcefc14355d48efab2cf9796e0f3dc9c1ec
-  tag: v5.1
+  revision: 43127a142f8d689f5d834f31c473ffa0535d7537
+  tag: v5.2
   specs:
-    blacklight_cornell_requests (5.1)
+    blacklight_cornell_requests (5.2)
       activerecord-oracle_enhanced-adapter
       blacklight
       dotenv
@@ -15,7 +15,6 @@ GIT
       httpclient
       i18n
       net-ldap
-      nokogiri
       protected_attributes_continued
       rails (~> 6.1)
       repost
