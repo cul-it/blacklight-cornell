@@ -11,3 +11,4 @@ Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'im
 
 Rails.application.config.assets.precompile += %w( aeon.css )
 Rails.application.config.assets.precompile += %w( aeon.js )
+Rails.application.config.assets.precompile += %w( search_form.js )
