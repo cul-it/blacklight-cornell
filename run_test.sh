@@ -49,6 +49,7 @@ run_cmd="up --abort-on-container-exit --exit-code-from webapp"
 use_rspec=""
 manual_compose_down=""
 profiles="--profile cucumber"
+
 while getopts "shia:r:f:" options; do
   case "${options}" in
     a) abs_path=$(resolve_relative_path "${OPTARG}")
@@ -61,7 +62,7 @@ while getopts "shia:r:f:" options; do
        run_cmd="run --entrypoint=bash webapp"
        manual_compose_down="1" ;;
     s) use_rspec="1"
-       profiles="" ;;
+       profiles="--profile rspec" ;;
     *) exit_abnormal ;;
   esac
 done
