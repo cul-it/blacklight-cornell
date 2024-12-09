@@ -57,8 +57,12 @@ if ENV["USE_TEST_CONTAINER"]
     end
   end
 else
+  puts "######## TESTING ######"
   ENV["WD_CHROME_PATH"] = "/usr/bin/google-chrome"
   Selenium::WebDriver::Chrome.path = ENV["WD_CHROME_PATH"]
-  Capybara.javascript_driver = :selenium_chrome_headless
+  #TODO TEST OUT
+  # Capybara.javascript_driver = :selenium_chrome_headless
+  Capybara.javascript_driver = :remote_selenium
+
   Capybara.server = :webrick
 end
