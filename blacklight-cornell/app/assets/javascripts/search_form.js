@@ -49,6 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (field.name === "browse_type" || field.name === "search_field") {
                             if (field.value in searchValueMappings) {
                                 params.append("search_field", searchValueMappings[field.value]);
+                                // Set to "begins with" if "Title Begins With" is selected in basic search
+                                if (field.value === "title_starts") {
+                                    params.append("op", "begins_with");
+                                }
                             }
                         } else {
                             params.append(fieldMappings[field.name], field.value);
