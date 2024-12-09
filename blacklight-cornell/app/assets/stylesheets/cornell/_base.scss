@@ -35,7 +35,6 @@ footer {
 	}
 }
 
-
 // Typography
 // ------------------------
 
@@ -77,7 +76,7 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	background: $concrete-hover;
 }
 
-// CUL button - generic teal
+// CUL button
 // ------------------------------
 
 .btn-cul {
@@ -99,7 +98,6 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	}
 }
 
-
 // Card customization
 // ------------------------
 // Add old well background color to some cards
@@ -113,6 +111,7 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	border-radius: 0;
 	background: white;
 }
+
 // Modal overrides
 // ----------------------
 .close {
@@ -186,7 +185,6 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	border-color: #faebcc;
 }
 
-
 // MEDIA QUERIES
 // -------------------------
 
@@ -209,20 +207,3 @@ h3 { font-size: 20px; line-height: 1.5em;}
 
 // Extra large devices (large desktops, 1200px and up)
 // @include media-breakpoint-up(xl) { ... }
-
-
-// BOOTSTRAP 4 TEMP FIXES
-// -----------------------
-div.select_all label {
-	margin-bottom: 0.15rem;
-}
-
-.submit-reset {
-	width: 100%;
-}
-
-.dl-horizontal dt {
-    float: left;
-    clear: left;
-    text-align: right;
-}

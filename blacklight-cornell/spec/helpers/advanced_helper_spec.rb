@@ -59,12 +59,9 @@ RSpec.describe AdvancedHelper, type: :helper do
       expect(helper.prep_query("  hi \"some\" +wacky <body> text&stuff's  ")).to eq("hi \"some\" +wacky  text&amp;stuff's")
     end
 
-    it 'strips quotes if query is a single word and quoted' do
-      expect(helper.prep_query('"hello"')).to eq('hello')
-      expect(helper.prep_query("'hello'")).to eq('hello')
-    end
-
-    it 'does not strip quotes if query is multiple words and quoted' do
+    it 'does not strip quotes if query is quoted' do
+      expect(helper.prep_query('"hello"')).to eq('"hello"')
+      expect(helper.prep_query("'hello'")).to eq("'hello'")
       expect(helper.prep_query('"hello world"')).to eq('"hello world"')
       expect(helper.prep_query("'hello world'")).to eq("'hello world'")
     end

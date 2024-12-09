@@ -4,8 +4,13 @@
  */
 function clearForm(event) {
   $("form")[0].reset();
-  $("#num-selections").text('0');
-  $("#selections").html('');
+  itemCount = $('.ItemNo').length;
+  if ($('.ItemNo').length === 1) {
+    $("#num-selections").text('1');
+  } else {
+    $("#num-selections").text('0');
+    $("#selections").html('');
+  }
 }
 
 /**
@@ -51,7 +56,6 @@ function buildRequestForItem(_, element, multipleFlag) {
  */
 function doSubmit(_) {
   const numSelected = $("#num-selections").text();
-  const docType = $("#DocumentType").val();
 
   if (!numSelected || numSelected == "0") {
     alert("Please select an item or items for your request.");
@@ -99,6 +103,7 @@ function doClick(event) {
 
     // Bind a click event to the remove icon to give us a way to remove the item from the list
     $(`#${remId}`).click(() => {
+      let numSelections = parseInt($("#num-selections").text());
       $("#num-selections").text(--numSelections);
       $(`#t${id}`).remove();
       $(`#${id}`).prop('checked', false);
@@ -143,11 +148,14 @@ $(document).ready(function () {
   if ($('.ItemNo').length === 1) {
     const item = $('.ItemNo').first();
     item.click().unbind('click');
+    // set the checked attribute so the form reset works as expected
+    item.attr('checked', 'checked'); 
     $("#num-selections").text('1');
     // Append the item to the selected items box; 'false' indicates that the item is not removable
     appendItemToSelection(item.val(), false);
     // Disable the checkbox so that it matches the non-removable behavior of the single selected item
     $('.ItemNo').prop('disabled', true)
+    $('#clearBtnSpan').remove();
   }
 });
 

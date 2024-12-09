@@ -429,10 +429,6 @@ Given /^our host is "([^\"]+)"$/ do |host|
   Capybara.app_host = host
 end
 
-Given("I visit the Cite page for {int}") do |int|
-	do_visit("/catalog/#{int}/citation")
-end
-
 Then("I did not catch any javascript errors") do
   expect(find('#js_error_report', visible: false, text: /^0$/ ))
 end

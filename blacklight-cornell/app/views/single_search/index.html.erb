@@ -80,7 +80,6 @@
                         <i class="fa fa-arrow-right"></i>
                         <%= link_to "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
                           Request from Libraries Worldwide
-                            <%= render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl %>
                         <% end %>
                       </li>
                       <li>

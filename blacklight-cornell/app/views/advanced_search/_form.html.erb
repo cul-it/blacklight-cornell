@@ -4,14 +4,7 @@
       <%# Display at least 2 search rows %>
       <% [form_row_values.count, 2].max().times do |i| %>
         <% form_values_for_row = form_row_values[i] || {} %>
-        <div class='input_row'>
-          <% if i > 0 %>
-            <%= form.label "boolean_row#{i}", t('blacklight.search.form.boolean'), class: 'sr-only' %>
-            <%= form.select "boolean_row[#{i}]", ['AND', 'OR', 'NOT'], { selected: form_values_for_row[:boolean] || 'AND' },
-                            { id: "boolean_row#{i}", class: 'form-control adv-search-control w-auto' } %>
-          <% end %>
-          <%= render 'form_rows', form: form, form_values: form_values_for_row, row_num: i %>
-        </div>
+        <%= render 'form_rows', form: form, form_values: form_values_for_row, row_num: i %>
       <% end %>
     </div>
 

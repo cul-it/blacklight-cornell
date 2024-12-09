@@ -4,6 +4,7 @@
 */
 @import url("https://use.typekit.net/wiq6yer.css");
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+@import 'cornell/variables';
 
 body {
     font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
@@ -48,21 +49,29 @@ h1 {
     line-height: 1.5em;
     font-weight: 500;
     font-family: "freight-sans-pro", "Helvetica", "Arial", sans-serif;
-    //text-transform: uppercase;
     font-size: 32px;
-    color: #222;
+    color: $dark-gray;
+    text-align: left !important;
 }
 
 h2 {
     font-size: 26px;
     padding: 10px 0 8px;
+
+}
+
+.h2title {
+    font-size: 24px;
 }
 
 h3 { 
-    font-size: 20px; 
-    line-height: 1.5em;
+    font-size: 20px;
 }
- 
+
+.h1div {
+    text-align: left !important;
+}
+
 label {
     font: bold 16px;
 }
@@ -95,15 +104,19 @@ input[type="button"]#clear {
     padding:10px 0px 0px 0px;
 }
 
+.col-form-label select {
+    width: auto !important;
+}
+
 /* button style for the aeon request forms */
 .btn, .btn:hover, .btn:active, .btn:focus {
-    background: #757068;
-    color: white;
+    background: $cornell-primary;
+    color: $white;
 }
 
 .btn:hover
 {
-    background-color: #605C56;
+    background-color: $cornell-primary-hover;
 }
 
 .btn-primary:hover {
@@ -113,7 +126,7 @@ input[type="button"]#clear {
 }
 
 .head {
-    background-color: #fff;
+    background-color: $white;
     height: auto;
     padding: 10px;
     text-align: center;
@@ -128,6 +141,7 @@ input[type="button"]#clear {
     height: 300px;
     max-height: 300px;
     overflow: auto;
+    padding: 10px;
 }
 /* shoppingcart renders the selected items for the request */
 #shoppingcart {
@@ -142,11 +156,13 @@ input[type="button"]#clear {
     margin: 0px;
     display: inline-block;
     box-sizing: border-box;
-    border: 1px solid #ccc;
-    background-color: #fff;
+    font-size: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+#numitems {
     font-size: 16px;
 }
-
 /* the options classes are used on the login page */
 .options_container {
     display: flex;
@@ -160,7 +176,7 @@ input[type="button"]#clear {
     width: 48%;
     min-height: 200px;
     border: 1px solid #ccc;
-    background-color: #fff;
+    background-color: $white;
     box-sizing: border-box;
 }
 @media (max-width: 600px) {
@@ -173,4 +189,25 @@ input[type="button"]#clear {
 {
     display: block;
     margin: 0 auto;
+}
+
+.aeoncard
+{
+    padding: 10px 20px 10px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+.fa-check {
+    color: $green;
+} 
+.fa-warning {
+    color: $yellow;
+}
+.fa-warning:before {
+  content: "\f071";
+}
+
+.info-wrapper
+{
+    padding-left: 10px;
 }

@@ -6,7 +6,7 @@ Scenario Outline: As a hacker, I am prevented from showing some html on a librar
 When I literally go to <hack>
     And I should not see '<output>'
     And I press 'advanced_search'
-    Then I should get results
+    Then I should get 0 results
 
 Examples:
 | hack | output |

@@ -1,7 +1,7 @@
 @bookmarks
 @javascript
 Feature: Bookmarks for anonymous users
-    I want to be sure anonymous users can cite, export, and print selected items
+    I want to be sure anonymous users can export and print selected items
 
     @bookmarks_exists
     #@saml_on
@@ -39,7 +39,7 @@ Feature: Bookmarks for anonymous users
     | 5 |
 
     @bookmarks_cite_selected
-    Scenario Outline: I should be able to view citations for selected items
+    Scenario: I should NOT be able to view citations for selected items
         Given I am on the home page
 		When I fill in the search box with '100 poems'
 		And I press 'search'
@@ -51,24 +51,7 @@ Feature: Bookmarks for anonymous users
         And there should be 1 items selected
         Then load 1 selected items
         And I should not see the text "You have no selected items."
-        Then I should see the text "Cite"
-        And I clear transactions
-        Then I disable ajax activity completion
-        And I view my citations in form "<format>"
-        And I sleep 3 seconds
-        Then the popup should include "<citation>"
-        Then I close the popup
-        And I sleep 1 second
-        Then I enable ajax activity completion
-        And I clear transactions
-
-    Examples:
-        | format | citation |
-        | APA 6th ed. | Heaney, S. (2018). 100 poems. London: Faber & Faber. |
-        | Chicago 17th ed. | Heaney, Seamus. 100 Poems. London: Faber & Faber, 2018. |
-        | Council of Science Editors | Heaney S. 100 poems. London: Faber & Faber; 2018. |
-        | MLA 7th ed. | Heaney, Seamus. 100 Poems. London: Faber & Faber, 2018. Print. |
-        | MLA 8th ed. | Heaney, Seamus. 100 Poems. Faber & Faber, 2018. |
+        Then I should not see the text "Cite"
 
     @bookmarks_export_selected
     Scenario: I should be able to export selected bookmarks

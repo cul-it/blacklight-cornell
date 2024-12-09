@@ -188,19 +188,6 @@ class BookBagsController < CatalogController
     search_service.fetch(docs, options)
   end
 
-  # show citations on a page
-  def show_citation_page
-    @response, @documents = action_documents
-    render :partial => "bookmarks/citation_page"
-  end
-
-  def citation
-    @response, @documents = action_documents
-    respond_to do |format|
-      format.html { render :layout => false }
-    end
-  end
-
   # grabs a bunch of documents to export to endnote or ris.
   def endnote
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")

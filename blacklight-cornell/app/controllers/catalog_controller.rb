@@ -365,7 +365,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'url_other_display', :label => 'Other online content'
     config.add_show_field 'works_about_display', :label => 'Works about'
     config.add_show_field 'awards_display', :label => 'Awards'
-  #  config.add_show_field 'holdings_json', :label => 'Holdings'
+    # config.add_show_field 'holdings_json', :label => 'Holdings'
 
 
 
@@ -389,27 +389,38 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', :label => 'All Fields', :include_in_advanced_search => true
+    config.add_search_field('all_fields') do |field|
+      field.label = 'All Fields'
+      field.include_in_advanced_search = true
+      field.field_override = ''
+      field.phrase_field = 'phrase'
+      field.quoted_field = 'quoted'
+      field.starts_field = 'starts'
+    end
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields.
 
-    config.add_search_field 'separator_1', :label => '---', :include_in_advanced_search => false
+    config.add_search_field 'separator_1', label: '---', include_in_advanced_search: false
 
+    config.add_search_field('title') do |field|
+      field.label = 'Title'
+      field.phrase_field = 'title_phrase'
+      field.quoted_field = 'title_quoted'
+      field.starts_field = 'title_starts'
 
-    config.add_search_field('title', :label => "Title") do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
-#      field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
+      # field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
       # :solr_local_parameters will be sent using Solr LocalParams
       # syntax, as eg {! qf=$title_qf }. This is neccesary to use
       # Solr parameter de-referencing like $title_qf.
       # See: http://wiki.apache.org/solr/LocalParams
-      field.solr_local_parameters = {
-#        :qf => '$title_qf',
-#        :pf => '$title_pf'
-      }
+      # field.solr_local_parameters = {
+      #   :qf => '$title_qf',
+      #   :pf => '$title_pf'
+      # }
     end
 
     # config.add_search_field('title abbreviation', :qt => 'standard') do |field|
@@ -436,32 +447,28 @@ class CatalogController < ApplicationController
     #      :pf => '$author_pf'
     #    }
     #)
-    config.add_search_field('journaltitle', :label => "Journal Title") do |field|
-      field.solr_local_parameters = {
-#        :qf => '$title_qf',
-#        :pf => '$title_pf',
-        :search_field => "journaltitle"
-      }
+    config.add_search_field('journaltitle') do |field|
+      field.label = 'Journal Title'
+      field.field_override = 'title'
+      field.phrase_field = 'title_phrase'
+      field.quoted_field = 'title_quoted'
+      field.starts_field = 'title_starts'
+      field.format = 'Journal/Periodical'
     end
 
+    config.add_search_field('title_starts') do |field|
+      field.label = 'Title Begins With'
+      field.include_in_simple_select = true
+      field.include_in_advanced_search = false
+    end
 
-config.add_search_field('title_starts',:label => "Title Begins With", :include_in_advanced_search => false) do |field|
-  field.include_in_simple_select = true
-#  field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
-  field.solr_local_parameters = {
-   # :qf => '$title_starts_qf',
-   # :pf => '$title_starts_pf'
-  }
-end
+    config.add_search_field 'separator_2', label: '---', include_in_advanced_search: false
 
-    config.add_search_field 'separator_2', :label => '---', :include_in_advanced_search => false
-
-    config.add_search_field('author',:label => "Author") do |field|
+    config.add_search_field('author') do |field|
+      field.label = 'Author'
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-      field.solr_local_parameters = {
-#        :qf => '$author_qf',
-#        :pf => '$author_pf'
-      }
+      field.quoted_field = 'author_quoted'
+      field.starts_field = 'author_starts'
     end
 
     # add browse searches to simple search trying to get merged
@@ -471,90 +478,97 @@ end
       field.placeholder_text = 'Dickens, Charles'
     end
 
-    config.add_search_field('at_browse', :label => 'Author Browse (A-Z) Sorted By Title',:include_in_advanced_search => false, :placeholder_text => 'Beethoven, Ludwig van, 1770-1827 | Fidelio')
+    config.add_search_field('at_browse') do |field|
+      field.label = 'Author Browse (A-Z) Sorted By Title'
+      field.include_in_advanced_search = false
+      field.placeholder_text = 'Beethoven, Ludwig van, 1770-1827 | Fidelio'
+    end
 
     config.add_search_field 'separator_3', :label => '---', :include_in_advanced_search => false
-
 
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
     config.add_search_field('subject', :label => "Subject") do |field|
- #     field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
-      field.solr_local_parameters = {
-#        :qf => '$subject_qf',
-#        :pf => '$subject_pf'
-      }
+      field.quoted_field = 'subject_quoted'
+      field.starts_field = 'subject_starts'
     end
 
-    config.add_search_field('subject_browse', :label => 'Subject Browse (A-Z)',:include_in_advanced_search => false, :placeholder_text => 'China > History')
+    config.add_search_field('subject_browse') do |field|
+      field.label = 'Subject Browse (A-Z)'
+      field.include_in_advanced_search = false
+      field.placeholder_text = 'China > History'
+    end
 
-    config.add_search_field 'separator_4', :label => '---', :include_in_advanced_search => false
+    config.add_search_field 'separator_4', label: '---', include_in_advanced_search: false
 
-    config.add_search_field('lc_callnum', :label => 'Call Number') do |field|
-#      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
+    config.add_search_field('lc_callnum') do |field|
+      field.label = 'Call Number'
       field.include_in_simple_select = true
       field.solr_local_parameters = {
-        :qf => '$lc_callnum_qf',
-        :pf => '$lc_callnum_pf',
+        qf: '$lc_callnum_qf',
+        pf: '$lc_callnum_pf',
       }
+      field.starts_field = 'lc_callnum_starts'
     end
 
-    config.add_search_field('callnumber_browse', :label => 'Call Number Browse',:include_in_advanced_search => false, :placeholder_text => 'TP640')
+    config.add_search_field('callnumber_browse') do |field|
+      field.label = 'Call Number Browse'
+      field.include_in_advanced_search = false
+      field.placeholder_text = 'TP640'
+    end
 
     config.add_search_field('series') do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-         :qf => '$series_qf',
-         :pf => '$series_pf'
-       }
+      field.include_in_simple_select = false
+      field.solr_local_parameters = {
+        qf: '$series_qf',
+        pf: '$series_pf'
+      }
+      field.quoted_field = 'series_quoted'
+      field.starts_field = 'series_starts'
     end
-
 
     config.add_search_field('publisher') do |field|
-      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
-      field.solr_local_parameters = {
-#        :qf => '$publisher_qf',
-#        :pf => '$publisher_pf'
-      }
-    end
-    config.add_search_field('pubplace', :label => 'Place of Publication') do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$pubplace_qf',
-#         :pf => '$pubplace_pf'
-       }
-    end
-    config.add_search_field('number', label: 'Publisher Number/Other Identifier') do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$number_qf',
-#         :pf => '$number_pf'
-       }
-    end
-    config.add_search_field('isbnissn', :label => 'ISBN/ISSN') do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$isbnissn_qf',
-#         :pf => '$isbnissn_pf'
-       }
-    end
-    config.add_search_field('notes') do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$notes_qf',
-#         :pf => '$notes_pf'
-       }
+      field.quoted_field = 'publisher_quoted'
+      field.starts_field = 'publisher_starts'
     end
 
-    config.add_search_field('donor', :label => 'Donor/Provenance') do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$donor_qf',
-#         :pf => '$donor_pf'
-       }
+    config.add_search_field('pubplace') do |field|
+      field.label = 'Place of Publication'
+      field.include_in_simple_select = false
+      field.quoted_field = 'pubplace_quoted'
+      field.starts_field = 'pubplace_starts'
     end
+
+    config.add_search_field('number') do |field|
+      field.label = 'Publisher Number/Other Identifier'
+      field.include_in_simple_select = false
+      field.phrase_field = 'number_phrase'
+      field.quoted_field = 'number_quoted'
+      field.starts_field = 'number_starts'
+    end
+
+    config.add_search_field('isbnissn') do |field|
+      field.label = 'ISBN/ISSN'
+      field.include_in_simple_select = false
+      field.quoted_field = 'isbnissn_quoted'
+      field.starts_field = 'isbnissn_starts'
+    end
+
+    config.add_search_field('notes') do |field|
+      field.include_in_simple_select = false
+      field.quoted_field = 'notes_quoted'
+      field.starts_field = 'notes_starts'
+    end
+
+    config.add_search_field('donor') do |field|
+      field.label = 'Donor/Provenance'
+      field.include_in_simple_select = false
+      field.quoted_field = 'donor_quoted'
+      field.starts_field = 'donor_starts'
+    end
+
     #config.add_search_field('acquired_month') do |field|
     #  field.include_in_simple_select = true
     #  field.solr_local_parameters = {
@@ -569,218 +583,6 @@ end
     #    :pf => '$acquired_dt_pf'
     #  }
     #end
-
-
-# Begins with search fields
-
-    config.add_search_field('all_fields_starts',:include_in_advanced_search => false) do |field|
-      field.include_in_simple_select = false
-#      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
-      field.solr_local_parameters = {
-#         :qf => '$all_fields_starts',
-#         :pf => '$all_fields_starts'
-      }
-    end
-
-    config.add_search_field('journaltitle_starts',:include_in_advanced_search => false) do |field|
-      field.solr_parameters = { :'format' => "Journal" }
-      field.include_in_simple_select = false
-      field.solr_local_parameters = {
-#        :qf => '$title_starts_qf',
-#        :pf => '$title_starts_pf',
-        :search_field => "journaltitle"
-      }
-    end
-
-    config.add_search_field('author_starts',:include_in_advanced_search => false) do |field|
-      field.include_in_simple_select = false
-      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-      field.solr_local_parameters = {
-#        :qf => '$author_starts_qf',
-#        :pf => '$author_starts_pf'
-      }
-    end
-
-    config.add_search_field('subject_starts',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$subject_starts_qf',
-#         :pf => '$subject_starts_pf'
-       }
-    end
-
-    config.add_search_field('lc_callnum_starts', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
-#      field.solr_parameters = { :'spellcheck.dictionary' => 'call number' }
-      field.include_in_simple_select = false
-      field.solr_local_parameters = {
-#        :qf => '$lc_callnum_starts_qf',
-#        :pf => '$lc_callnum_starts_pf',
-      }
-    end
-
-    config.add_search_field('series_starts',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$series_starts_qf',
-#         :pf => '$series_starts_pf'
-       }
-    end
-
-    config.add_search_field('publisher_starts',:include_in_advanced_search => false) do |field|
-      # field.solr_parameters = { :'spellcheck.dictionary' => 'callnumber' }
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#        :qf => '$publisher_starts_qf',
-#        :pf => '$publisher_starts_pf'
-      }
-    end
-
-    config.add_search_field('pubplace_starts', :include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$pubplace_starts_qf',
-#         :pf => '$pubplace_starts_pf'
-       }
-    end
-
-    config.add_search_field('number_starts',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$number_starts_qf',
-#         :pf => '$number_starts_pf'
-       }
-    end
-
-    config.add_search_field('isbnissn_starts', :label => 'ISBN/ISSN Starts',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$isbnissn_starts_qf',
-#         :pf => '$isbnissn_starts_pf'
-       }
-    end
-    config.add_search_field('notes_starts',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$notes_starts_qf',
-#         :pf => '$notes_starts_pf'
-       }
-    end
-    config.add_search_field('donor_starts',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$donor_starts_qf',
-#         :pf => '$donor_starts_pf'
-       }
-    end
-
-# end of begins_with declares
-# start of quot declares
-    config.add_search_field('title_quote',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$title_quot_qf',
-#         :pf => '$title_quot_pf'
-       }
-    end
-
-    config.add_search_field('publisher_quote',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$publisher_quot_qf',
-#         :pf => '$publisher_quot_pf'
-       }
-    end
-    config.add_search_field('all_fields_quote',:include_in_advanced_search => false) do |field|
-      field.include_in_simple_select = false
-#      field.solr_parameters = { :'spellcheck.dictionary' => 'default' }
-      field.solr_local_parameters = {
-#         :qf => '$all_fields_quot',
-#         :pf => '$all_fields_quot'
-      }
-    end
-
-    config.add_search_field('journaltitle_quote',:include_in_advanced_search => false) do |field|
-      field.solr_parameters = { :'format' => "Journal" }
-      field.include_in_simple_select = false
-      field.solr_local_parameters = {
-#        :qf => '$title_quot_qf',
-#        :pf => '$title_quot_pf',
-        :search_field => "journaltitle"
-      }
-    end
-
-    config.add_search_field('author_quote',:include_in_advanced_search => false) do |field|
-      field.include_in_simple_select = false
-#      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-      field.solr_local_parameters = {
-#        :qf => '$author_quot_qf',
-#        :pf => '$author_quot_pf'
-      }
-    end
-
-    config.add_search_field('subject_quote',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
- #        :qf => '$subject_quot_qf',
- #        :pf => '$subject_quot_pf'
-       }
-    end
-    config.add_search_field('lc_callnum_quote', :label => 'Call Number Starts', :include_in_advanced_search => false) do |field|
-      field.include_in_simple_select = false
-      field.solr_local_parameters = {
-#        :qf => '$lc_callnum_quot_qf',
-#        :pf => '$lc_callnum_quot_pf',
-      }
-    end
-
-    config.add_search_field('series_quote',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$series_quot_qf',
-#         :pf => '$series_quot_pf'
-       }
-    end
-
-    config.add_search_field('pubplace_quote',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$pubplace_quot_qf',
-#         :pf => '$pubplace_quot_pf'
-       }
-    end
-
-    config.add_search_field('number_quote',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$number_quot_qf',
-#         :pf => '$number_quot_pf'
-       }
-    end
-
-    config.add_search_field('isbnissn_quote', :label => 'ISBN/ISSN Quoted',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$isbnissn_quot_qf',
-#         :pf => '$isbnissn_quot_pf'
-       }
-    end
-    config.add_search_field('notes_quote',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$notes_quot_qf',
-#         :pf => '$notes_quot_pf'
-       }
-    end
-    config.add_search_field('donor_quote',:include_in_advanced_search => false) do |field|
-       field.include_in_simple_select = false
-       field.solr_local_parameters = {
-#         :qf => '$donor_quot_qf',
-#         :pf => '$donor_quot_pf'
-       }
-    end
-# end of quot declares
-
-
 
     #combined author CTS field made from the multiple author browse fields
     config.add_search_field('author_cts',:label=>'Author/Contributor') do |field|

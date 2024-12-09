@@ -7,7 +7,7 @@ $(document).ready ->
     # Find all elements in the clone that have an id, and iterate using each()
     newRow.find('[id]').each ->
       # Get the number at the end of the id, increment it, and replace the old id
-      newID = $(this).attr('id').replace(/\d+$/, (str) ->
+      newID = $(this).attr('id').replace(/\d+/, (str) ->
         return parseInt(str) + 1
       )
       $(this).attr('id', newID)
@@ -15,7 +15,7 @@ $(document).ready ->
     # Do the same for the for" attributes
     newRow.find('[for]').each ->
       # Perform the same replace as above
-      newFor = $(this).attr('for').replace(/\d+$/, (str) ->
+      newFor = $(this).attr('for').replace(/\d+/, (str) ->
         return parseInt(str) + 1
       )
       $(this).attr('for', newFor)
