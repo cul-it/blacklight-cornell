@@ -32,7 +32,7 @@
     <h3 class="subtitle"><%= @subtitle %></h3>
   <% end %>
   <% if responsibility.present? %>
-    <h3 class="responsibility"><%= responsibility.map(&:inspect).join('; ').gsub('\\"', '') %></h3>
+    <h3 class="responsibility"><%= responsibility.join('; ') %></h3>
   <% end %>
   </div>
   <div class="row">

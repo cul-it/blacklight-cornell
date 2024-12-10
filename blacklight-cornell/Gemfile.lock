@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: cbdcbfcefc14355d48efab2cf9796e0f3dc9c1ec
-  tag: v5.1
+  revision: 43127a142f8d689f5d834f31c473ffa0535d7537
+  tag: v5.2
   specs:
-    blacklight_cornell_requests (5.1)
+    blacklight_cornell_requests (5.2)
       activerecord-oracle_enhanced-adapter
       blacklight
       dotenv
@@ -15,7 +15,6 @@ GIT
       httpclient
       i18n
       net-ldap
-      nokogiri
       protected_attributes_continued
       rails (~> 6.1)
       repost
@@ -842,6 +841,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-23
+  arm64-darwin-24
   x86_64-darwin-23
   x86_64-linux
 
@@ -870,8 +870,6 @@ DEPENDENCIES
   capybara (= 3.39.2)
   capybara-email
   celluloid (= 0.17.4)
-  citeproc
-  citeproc-ruby
   coffee-rails (~> 4.0)
   concurrent-ruby (= 1.2.3)
   csl-styles!

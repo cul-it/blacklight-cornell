@@ -7,7 +7,6 @@
   # functions by default only on detail.
 -%>
 <% if request.path != '/bookmarks'  && !request.path.start_with?('/book_bags') %>
-  <% citable = is_citable(@document) %>
   <% emailable = is_emailable(@document) %>
   <% exportable = is_exportable(@document) %>
 <% elsif request.path == '/bookmarks'  %>
@@ -17,39 +16,6 @@
 <% end %>
 <% if !bookmarks_index %>
 <li><%= render :partial => "bookmark_control" , :locals => {:document => @document} %></li>
-<% end %>
-<!-- TODO: TRANSLATE -->
-<% if citable %>
-  <% citelink_content =  '<i class="fa fa-pencil" aria-hidden="true"></i>' + t('blacklight.tools.cite') %>
-  <li>
-  <%= link_to citation_solr_document_path(:id => @document), {:id => 'citation', :name => 'citationSolr', :class => 'lightboxLink btn btn-default btn-sm', data: {}.merge({ blacklight_modal: "trigger" }) } do %>
-    <%= citelink_content.html_safe %>
-  <% end %>
-  </li>
-<% elsif bookmarks_index || bookbags_index%>
-<%# ************************ %>
-  <li>
-  <img id="loadingSpinner" style="display: none;" src="/img/ajax-loader.gif">
-  </li>
-  <li class="dropdown">
-    <div class="btn-group">
-      <a href="#" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id="cite-menu" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share" aria-hidden="true"></i>Cite <b class="caret"></b></a>
-      <ul class="dropdown-menu" aria-labelledby="cite-menu">
-      <% names = %w[apa chicago cse mla mla8]  %>
-      <%  names.each do |name|  %>
-        <% citation_format = t('blacklight.citation.'+name) %>
-        <li>
-        <% if bookmarks_index %>
-          <%= link_to citation_format,  show_citation_page_path(:form => name), {:id => 'citationLink-'+name, :name => citation_format, :class => 'dropdown-item citationLink', data: {}.merge({ blacklight_modal: "trigger" })} %>
-        <% else %>
-          <%= link_to citation_format,  show_book_bags_citation_page_path(:form => name), {:id => 'citationLink-'+name, :name => citation_format, :class => 'dropdown-item citationLink', data: {}.merge({ blacklight_modal: "trigger" })} %>
-        <% end %>
-        </li>
-      <% end %>
-    </ul>
-    </div>
-  </li>
-<%# ************************ %>
 <% end %>
 
 <% if bookmarks_index || emailable  || bookbags_index %>

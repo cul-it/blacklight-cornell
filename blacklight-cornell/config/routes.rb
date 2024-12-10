@@ -39,7 +39,6 @@ BlacklightCornell::Application.routes.draw do
   get "bookmarks/show_selected_item_limit_bookmarks" => "bookmarks#show_selected_item_limit_bookmarks"
   get "bookmarks/export" => "bookmarks#export"
   get "bookmarks/book_bags_login" => "bookmarks#bookmarks_book_bags_login", :as => "bookmarks_book_bags_login"
-  get "bookmarks/citation_page" => "bookmarks#show_citation_page", :as => "show_citation_page"
 
   resources :bookmarks do
     concerns :exportable
@@ -199,12 +198,10 @@ BlacklightCornell::Application.routes.draw do
   get "book_bags/delete/:id" => "book_bags#delete", :as => "delete_index", :constraints => { :id => /.+/ }
   # get 'book_bags/index(.:format)' => 'book_bags#index'
   get "book_bags/index" => "book_bags#index"
-  get "book_bags/citation"
   get "book_bags/clear" => "book_bags#clear"
   match "book_bags/email", via: [:get, :post]
   get "book_bags/endnote(.:format)" => "book_bags#endnote"
   get "book_bags/ris(.:format)" => "book_bags#ris"
-  get "book_bags/citation_page" => "book_bags#show_citation_page", :as => "show_book_bags_citation_page"
 
   resources :book_bags, path: "/book_bags", controller: "book_bags" do
     concerns :exportable
