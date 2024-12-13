@@ -213,7 +213,7 @@ module AeonHelper
                 item['id']
               end
     item['rmc'] ||= {}
-    item['rmc']['Vault location'] ||= 'not in record'
+    item['rmc']['Vault location'] ||= 'no vault location'
     loc_code = item['location']['code']
     location = item['rmc']['Vault location']
     csloc_prefix = loc_code
