@@ -729,24 +729,23 @@ Examples:
   | NOT | 8 | All fields | fire | complete |
 
 @DACCESS-313
-@solr_query_display
 Scenario Outline: Simple advanced search solr query matches regular search
   Given I am on the home page
     And I fill in the search box with '<search>'
     And I press 'search'
-    Then the solr query should be '<solr_query>'
+    Then the solr query should be '<solr_simple_query>'
     When I literally go to advanced
     And I fill in "q_row0" with '<search>'
     And I press 'advanced_search'
-    Then the solr query should be '<solr_query>'
+    Then the solr query should be '<solr_advanced_query>'
 
 Examples:
-    | search | solr_query |
-    | goblet  | ("goblet") OR phrase:"goblet" |
-    | goblet of fire | ("goblet" AND "of" AND "fire") OR phrase:"goblet of fire" |
-    | going fishing | ("going" AND "fishing") OR phrase:"going fishing" |
-    | "going fishing" | "\"going fishing\"" |
-    | fishing | ("fishing") OR phrase:"fishing" |
-    | a doll's house | ("a" AND "doll\'s" AND "house") OR phrase:"a doll\'s house" |
-    | A "fish finder" going fishing offshore | A "fish finder" going fishing offshore |
-    | | () OR phrase:"" |
+    | search | solr_simple_query | solr_advanced_query |
+    | goblet  | ("goblet") OR phrase:"goblet" | (("goblet") OR phrase:"goblet") |
+    | goblet of fire | ("goblet" AND "of" AND "fire") OR phrase:"goblet of fire" | (("goblet" AND "of" AND "fire") OR phrase:"goblet of fire") |
+    | going fishing | ("going" AND "fishing") OR phrase:"going fishing" | (("going" AND "fishing") OR phrase:"going fishing") |
+    | "going fishing" | (quoted:"going fishing") | ((quoted:"going fishing")) |
+    | fishing | ("fishing") OR phrase:"fishing" | (("fishing") OR phrase:"fishing") |
+    | a doll's house | ("a" AND "doll\'s" AND "house") OR phrase:"a doll\'s house" | (("a" AND "doll\'s" AND "house") OR phrase:"a doll\'s house") |
+    | A "fish finder" going fishing offshore | (("A") OR phrase:"A") AND (quoted:"fish finder") AND (("going" AND "fishing" AND "offshore") OR phrase:"going fishing offshore") | ((("A") OR phrase:"A") AND (quoted:"fish finder") AND (("going" AND "fishing" AND "offshore") OR phrase:"going fishing offshore")) |
+    | | | |
