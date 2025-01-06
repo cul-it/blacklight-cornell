@@ -22,6 +22,18 @@ RSpec.describe 'Basic Search to Advanced Search Carryover', type: :system do
       expect(find('#search_field_row0').value).to eq('title')
     end
 
+    it 'can carryover "Title Begins With" and auto select "begins with" as a search option' do
+      visit root_path
+      assert_text "Search..."
+      fill_in 'q', with: 'Test Query'
+      select 'Title Begins With', from: 'search_field'
+      assert_text "Advanced Search"
+      click_on "Advanced Search"
+      expect(find('#q_row0').value).to eq('Test Query')
+      expect(find('#search_field_row0').value).to eq('title')
+      expect(find('#op_row0').value).to eq('begins_with')
+    end
+
     it 'can have same text and selected field carryover to advanced search for all fields' do
       visit root_path
       assert_text "Search..."
