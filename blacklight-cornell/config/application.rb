@@ -103,7 +103,7 @@ module BlacklightCornell
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins "https://amplify-pages.d9ohqorlfrbif.amplifyapp.com", "*.library.cornell.edu"
+        origins "https://amplify-pages.d277og7fvixi1h.amplifyapp.com", "*.library.cornell.edu"
         resource "/status", headers: :any, methods: [:get]
         resource '/status.json', headers: :any, methods: [:get]
       end
