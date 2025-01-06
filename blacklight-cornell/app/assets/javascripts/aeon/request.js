@@ -20,7 +20,11 @@ function clearForm(event) {
  * @param {boolean} multipleFlag - Whether multiple items will be submitted in the request.
  */
 function buildRequestForItem(_, element, multipleFlag) {
-  const req = $(element).attr('name');
+  let req = $(element).attr('name');  
+  // if the itemdata key doesn't exist, use "iid-" prefix for items without a barcode
+  if (!itemdata[req]) {
+    req = `iid-${req}`;
+  }
   if ($(element).is(':checked')) {
     const {
       enumeration = '',
