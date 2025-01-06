@@ -10,8 +10,11 @@ pipeline {
     stages {
         stage('Set up and run bundler') {
             steps {
+                echo ""
+                echo "##########################################################################"
                 echo 'Setting up bundler'
                 echo "The branch is ${env.GIT_BRANCH}"
+                echo "##########################################################################"
                 script {
                     if (env.GIT_BRANCH ==~ /PR-.+/) {
                         // slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
@@ -27,8 +30,15 @@ pipeline {
 
         stage("Rspec tests") {
             steps {
+                echo ""
+                echo "##########################################################################"
                 echo "Running Rspec tests"
-                sh 'jenkins/rspec.sh'
+                echo "##########################################################################"
+                timeout(90) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                        sh 'jenkins/rspec.sh'
+                    }
+                }
             }
         }
 
@@ -46,7 +56,10 @@ pipeline {
         // use this version for normal situations
         stage("cucumber all tests") {
             steps {
+                echo ""
+                echo "##########################################################################"
                 echo "Running cucumber tests"
+                echo "##########################################################################"
                 timeout(90) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
                         sh 'jenkins/cucumber-features.sh'
@@ -57,10 +70,13 @@ pipeline {
 
         stage('Publish Coverage') {
             steps {
+                echo ""
+                echo "##########################################################################"
                 echo "Publishing coverage"
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
                 sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
+                echo "##########################################################################"
                 publishHTML(target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
