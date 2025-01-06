@@ -19,7 +19,7 @@ RSpec.describe 'Basic Search to Advanced Search Carryover', type: :system do
       assert_text "Advanced Search"
       click_on "Advanced Search"
       expect(find('#q_row0').value).to eq('Test Query')
-      expect(find('#search_field_advanced0').value).to eq('title')
+      expect(find('#search_field_row0').value).to eq('title')
     end
 
     it 'can have same text and selected field carryover to advanced search for all fields' do
@@ -50,7 +50,7 @@ RSpec.describe 'Basic Search to Advanced Search Carryover', type: :system do
         # Verify that the query text carried over
         expect(find('#q_row0').value).to eq('Test Query')
         # Verify that the selected field carried over
-        expect(find('#search_field_advanced0').value).to eq(field_value)
+        expect(find('#search_field_row0').value).to eq(field_value)
         # Navigate back to the root_path for the next iteration
         visit root_path
         fill_in 'q', with: 'Test Query'
