@@ -21,18 +21,18 @@ pipeline {
                     }
                 }
                 echo 'Run prelude.sh'
-                timeout(90) {
-                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-                        sh 'jenkins/prelude.sh'
-                    }
-                }
+                sh 'jenkins/prelude.sh'
             }
         }
 
         stage("Rspec tests") {
             steps {
                 echo "Running Rspec tests"
-                sh 'jenkins/rspec.sh'
+                timeout(90) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                       sh 'jenkins/rspec.sh'
+                    }
+                }
             }
         }
 
