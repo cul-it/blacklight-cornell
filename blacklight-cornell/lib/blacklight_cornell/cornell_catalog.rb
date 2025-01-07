@@ -139,25 +139,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @filters = params[:f] || []
     end
 
-    @expanded_results = {}
-    ['worldcat'].each do |key|
-      @expanded_results [key] =  { :count => 0 , :url => '' }
-    end
-
     # Expand search only under certain conditions
-    tmp = BentoSearch::Results.new
-    if !(params[:search_field] == 'lc_callnum')
-      if expandable_search?
-        # DISCOVERYACCESS-6734 - skip entire worldcat search that was intended to provide a count for worldcat results
-        query = ( params[:qdisplay]?params[:qdisplay] : params[:q]).gsub(/&/, '%26')
-        key = :worldcat
-        source_results = {
-          :count => 1,
-          :url => BentoSearch.get_engine(key).configuration.link + query,
-        }
-        @expanded_results = {}
-        @expanded_results[key.to_s] = source_results
-      end
+    if expandable_search?
+      query = params[:q].gsub(/&/, '%26')
+      source_results = { :url => BentoSearch.get_engine(:worldcat).configuration.link + query }
+      @expanded_results = { 'worldcat' => source_results }
+    else
+      @expanded_results = { 'worldcat' => { :url => ENV['WORLDCAT_URL'] } }
     end
 
     @controller = self
