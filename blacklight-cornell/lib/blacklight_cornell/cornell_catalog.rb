@@ -109,21 +109,16 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-    # set_bag_name
-    # make sure we are not going directly to home page
-    if !params[:qdisplay].nil?
-      params[:qdisplay] = ''
-    end
+
     search_session[:per_page] = params[:per_page]
 
-    # TODO: Review all this code. Why is this here and not in SearchBuilder?
-    temp_search_field = ''
-    journal_titleHold = ''
+    # Check for missing pub_date_facet range values
     if (!params[:range].nil?)
       check_dates(params)
     end
-    temp_search_field = ''
-    if  !params[:q].blank? and !params[:search_field].blank? # and !params[:search_field].include? '_cts'
+
+    # Sanitize query for constraints display
+    if  !params[:q].blank? && !params[:search_field].blank?
       if params[:q].include?('%2520')
         params[:q].gsub!('%2520',' ')
       end
@@ -131,85 +126,18 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         params[:q].gsub!('%2F','')
         params[:q].gsub!('/','')
       end
-      if params["search_field"] == "journaltitle"
-        journal_titleHold = "journaltitle"
-        # params[:f] = {'format' => ['Journal/Periodical']}
-      end
       params[:q] = sanitize(params)
-      if params[:search_field] == 'lc_callnum' and !params[:q].include?('"')
-        tempQ = params[:q]
-      end
-      # check_params(params)
-      if !tempQ.nil?
-        params[:qdisplay] = tempQ
-      end
-    else
-      if params[:q].blank?
-        temp_search_field = params[:search_field]
-      else
-        if params[:search_field].nil?
-          params[:search_field] = 'quoted'
-        end
-        check_params(params)
-      end
-      if params[:q_row] == ["",""]
-        params.delete(:q_row)
-      end
     end
-    if !params[:search_field].nil?
-      if !params[:q].nil? and !params[:q].include?(':') and params[:search_field].include?('cts')
-        params[:q] = params[:search_field] + ':' + params[:q]
-      end
-    end
-    if !params[:q].nil?
-      if params[:q].include?('_cts')
-        display = params[:q].split(':')
-        params[:q] = display[1]
-      end
-    end
-    # params[:mm] = "100"
-    params[:mm] = "1"
-    # params[:q] = '"journal of parasitology"'
-    # params[:search_field] = 'quoted'
-    # params[:sort]= ''
-    # params = {"utf8"=>"✓", "controller"=>"catalog", "action"=>"index", "q"=>"(+title:100%) OR title_phrase:\"100%\"", "search_field"=>"title", "qdisplay"=>"100%"}
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    # params[:q] = '(+title_quoted:"A news" +title:Reporter)'
-    # params[:search_field] = 'advanced'
-    # params[:q] = '(water)'
-    (@response, deprecated_document_list) = search_service.search_results session["search_limit_exceeded"]
+
+    # Query solr for document list
+    (@response, deprecated_document_list) = search_service.search_results(session['search_limit_exceeded'])
     @document_list = deprecated_document_list
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} response = #{@response[:responseHeader].inspect}"
-    #logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} document_list = #{@document_list.inspect}"
-    if temp_search_field != ''
-      params[:search_field] = temp_search_field
-    end
-    if journal_titleHold != ''
-      params[:search_field] = journal_titleHold
-    end
-    if params[:search_field] == 'author_quoted'
-      params[:search_field] = 'author'
-    end
-    # why keep this block if nothing is being done inside it?
-    # commenting it out 5/18/21. Remove July sprint '21.
-    if @response[:responseHeader][:q_row].nil?
-    # params.delete(:q_row)
-    # params[:q] = @response[:responseHeader][:q]
-    # params[:search_field] = ''
-    # params[:advanced_query] = ''
-    # params[:commit] = "Search"
-    # params[:controller] = "catalog"
-    # params[:action] = "index"
-    end
+
     if params.nil? || params[:f].nil?
       @filters = []
     else
       @filters = params[:f] || []
     end
-
-    # Will comment out the method 5/18/21. Remove July sprint '21.
-    # clean up search_field and q params.  May be able to remove this
-    # cleanup_params(params)
 
     @expanded_results = {}
     ['worldcat'].each do |key|
@@ -231,10 +159,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         @expanded_results[key.to_s] = source_results
       end
     end
+
     @controller = self
-    if session["search_limit_exceeded"]
+    if session['search_limit_exceeded']
       flash.now.alert = I18n.t('blacklight.search.search_limit_exceeded')
     end
+
     respond_to do |format|
       format.html { }
       format.rss  { render :layout => false }
@@ -242,18 +172,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       format.json { render json: { response: { document: deprecated_document_list } } }
     end
 
-    if !params[:q_row].nil?
+    # Format query for constraints display
+    if params[:q_row].present? && params[:q_row] != ['', '']
       params[:show_query] = make_show_query(params)
       search_session[:q] = params[:show_query]
     end
 
-    if !params[:qdisplay].blank?
-      params[:q] = params[:qdisplay]
-      search_session[:q] = params[:show_query]
-      # params[:q] = qparam_display
-      search_session[:q] = params[:q]
-      # params[:sort] = "score desc, pub_date_sort desc, title_sort asc"
-    end
   rescue ArgumentError => e
     logger.error e
     flash[:notice] = e.message
@@ -645,246 +569,6 @@ private
     end
   end
 
-  def check_params(params)
-    qparam_display = ''
-    fieldname = ''
-
-    # Journal title search hack.
-    if params[:search_field].nil?
-      params[:search_field] = 'all_fields'
-    end
-    if (params[:search_field].present? and params[:search_field] == 'journaltitle') or (params[:search_field_row].present? and params[:search_field_row].index('journaltitle'))
-      if params[:f].nil?
-        params[:f] = {'format' => ['Journal/Periodical']}
-      end
-      params[:f][:format] = ['Journal/Periodical']
-      # unless(!params[:q])
-      #params[:q] = params[:q]
-      if (params[:search_field_row].present? and params[:search_field_row].index('journaltitle'))
-        params[:search_field] = 'advanced'
-      else
-        params[:search_field] = 'title'
-      end
-      search_session[:f] = params[:f]
-    end
-    if params[:search_field] == 'all_fields'
-      fieldname = ''
-    else
-      fieldname = params[:search_field]
-    end
-    # end of Journal title search hack
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-    #quote the call number
-    if params[:search_field] == 'lc_callnum'
-      if !params[:q].nil?
-        search_session[:q] = params[:q]
-        # params[:qdisplay] = params[:q]
-        if !params[:q].include?('"')
-          params[:q] = '"' << params[:q] << '"'
-        end
-        # params[:q] = '(lc_callnum:' << params[:q] << ')' #OR lc_callnum:' << params[:q]
-      else
-        params[:q] =  '' or params[:q].nil?
-        params[:search_field] = 'all_fields'
-      end
-    end
-    if params[:search_field] == "title_starts"
-      params[:qdisplay] = params[:q]
-      params[:q] = '"' + params[:q] + '"'
-    else
-      if (params[:search_field] != 'journaltitle ' and params[:search_field] != 'lc_callnum')# or params[:action] == 'range_limit'
-        qparam_display = params[:q]
-        params[:qdisplay] = params[:q]
-        # params[:q] = parseQuoted(params[:q])
-        if !params[:search_field].include?('browse')
-          qarray = params[:q].split(' ')
-        else
-          qarray = [params[:q]]
-        end
-        if !params[:q].nil? and (params[:q].include?('OR') or params[:q].include?('AND') or params[:q].include?('NOT'))
-          params[:q] = params[:q]
-        else
-          if (!params[:q].nil? and !params[:q].include?('"') and !params[:q].blank?)# or params[:action] == 'range_limit'
-            params[:q] = '('
-            if qarray.size == 1
-              if qarray[0].include?(':')
-                qarray[0].gsub!(':','\:')
-              end
-              if fieldname == ''
-                params[:q] << "+" << qarray[0] << ') OR phrase:"' << qarray[0] << '"'
-              else
-                if (fieldname != "title" and fieldname != "subject") and fieldname != "title_starts" and fieldname != 'lc_callnum'
-                  params[:q] << '+' << fieldname << ":" << qarray[0] << ') OR ' << fieldname + "_phrase" << ':"' << qarray[0] << '"'
-                else
-                  #This should be cleaned up next week when I start removing redundancies and cleaning up code
-                  if fieldname != "title_starts"
-                    if fieldname == "number" or fieldname == "title"
-                      params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname + '_phrase:"' << qarray[0] << '"'
-                    else
-                      params[:q] << '+' << fieldname << ':' << qarray[0] << ') OR ' << fieldname << ':"' << qarray[0] << '"'
-                    end
-                  else
-                    if qarray[0].include?('"')
-                      qarray[0] = qarray[0].gsub!('"','')
-                    end
-                    params[:q] << '+' << fieldname << ':"' << qarray[0] << '")'
-                  end
-                end
-              end
-            else
-              qarray.each do |bits|
-                if bits.include?(':')
-                  bits.gsub!(':','\\:')
-                end
-                if fieldname == ''
-                  params[:q] << '+' << bits << ' '
-                else
-                  params[:q] << '+' << fieldname << ':' << bits << ' '
-                end
-              end
-              if fieldname == ''
-                params[:q] << ') OR phrase:"' << qparam_display << '"'
-              else
-                if fieldname == "title"
-                  params[:q] << ') OR ' << fieldname + "_phrase" << ':"' << qparam_display << '"'
-                else
-                  params[:q] << ') OR ' << fieldname << ':"' << qparam_display << '"'
-                end
-              end
-            end
-          else
-            if params[:q].first == '"' and params[:q].last == '"' and !params[:search_field].include?('browse')
-            # if (fieldname == 'title' or fieldname == 'number' or fieldname == 'subject') and fieldname != ''
-              if  fieldname != '' and fieldname != "lc_callnum" and !fieldname.include?('_cts')
-                params[:q] = params[:q]
-                params[:search_field] = fieldname << '_quoted'
-                params[:q] = params[:search_field] + ':' + params[:q]
-              else
-                if fieldname == ''
-                  params[:q] = "quoted:" + params[:q]
-                  params[:search_field] = 'quoted'
-                end
-                if fieldname == "lc_callnum"
-                  params[:qdisplay] = params[:q]
-                  # params[:q].gsub!('"','')
-                  params[:q] = '(+lc_callnum:' + params[:q] + ') OR lc_callnum:' + params[:q] + ''
-                end
-                if fieldname.include?('_cts')
-                  params[:qdisplay] = params[:q]
-                  params[:q] = fieldname + ':' + params[:q]
-                end
-              end
-            else
-              qarray = separate_quoted(params[:q])
-              params[:q] = ''
-              qarray.each do |bits|
-                if bits.include?(':')
-                  bits.gsub!(':','\\:')
-                end
-                if bits.first == '"'
-                  #bits = bits + '"'
-                  if fieldname == ''
-                    params[:q] << '+quoted:' + bits + ' '
-                  else
-                    if !params[:search_field].include?('browse')
-                      params[:q] << '+' + fieldname + '_quoted:' + bits + ' '
-                    end
-                  end
-                else
-                  if fieldname == ''
-                    params[:q] << '+' + bits + ' '
-                  else
-                    params[:q] << '+' + fieldname + ':' + bits + ' '
-                  end
-                end
-              end
-            end
-            if params[:q].nil? or params[:q].blank?
-              params[:q] = qparam_display
-            end
-          end
-          if params[:search_field].include?('browse')
-            params[:q] = params[:search_field] + ":" + params[:q]
-          end
-        end
-      end
-    end
-    return params
-  end
-
-  def separate_quoted(string)
-    #string = "this \"is what not\" quoted \"but this is\""
-    if string.count('"').odd?
-      if string[-1] == '"'
-        string = string[0..-2]
-      else
-        string = string + '"'
-      end
-    end
-    tempStringArray = string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
-    return tempStringArray
-  end
-
-  # will delete this in the July '21 sprint
-  #def cleanup_params(params)
-  #  qparam_display = params[:qdisplay]
-  #  if !qparam_display.nil?
-  #    if qparam_display.start_with?('"') and qparam_display.end_with?('"')
-  #      qparam_display = qparam_display[1..-1]
-  #    end
-  #  end
-  #  query_string = params[:q]
-  #  fieldname = ''
-  #  if params[:search_field] == 'journal title'
-  #    if params[:q].nil?
-  #      params[:search_field] = ''
-  #    end
-  #  end
-  #  if params[:q_row].present?
-  #    if params[:q].nil?
-  #      params[:q] = query_string
-  #    end
-  #  else
-  #    if params[:q].nil?
-  #      if !params[:search_field].nil?
-  #        params.delete(:search_field)
-  #      end
-  #    else
-  #      if params[:q].include?('_quoted:') or params[:q].include?('+quoted')
-  #        params[:q].gsub!('(','')
-  #        params[:q].gsub!(')','')
-  #        holdQ = params[:q].split(':')
-  #        params[:q] = holdQ[1]
-  #      end
-  #      if params[:search_field].nil?
-  #        params[:search_field] = 'all_fields'
-  #      end
-  #      if params[:search_field].include?('quoted')
-  #        params[:search_field].gsub!('quoted','')
-  #        if params[:search_field].include?('_')
-  #          params[:search_field].gsub!('_','')
-  #        end
-  #      end
-  #    end
-  #  end
-  #  if params[:search_field] == 'call number'
-  #    if !params[:q].nil? and params[:q].include?('"')
-  #      params[:q] = params[:q].gsub!('"','')
-  #    end
-  #  end
-  #  # if params[:search_field] == 'all_fields'
-  #  #   params[:search_field] = ''
-  #  # end
-  #  if params[:search_field] == 'lc_callnum'
-  #    params[:search_field] = 'call number'
-  #  end
-  #  if params[:search_field] == 'number'
-  #    params[:search_field] = 'publisher number/other identifier'
-  #  end
-  #  # end of cleanup of search_field and q params
-  #  return params
-  #end
-
   def sanitize(q)
     if q[:q].include?('<img')
       Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
@@ -899,17 +583,5 @@ private
       end
       return q
     end
-  end
-
-  def parseQuoted(q)
-    if q.first == '"' and q.last == '"'
-      return q
-    else
-      howmany = q.count('"')
-      if !howmany.even?
-        q = q + '"'
-      end
-    end
-    return q
   end
 end
