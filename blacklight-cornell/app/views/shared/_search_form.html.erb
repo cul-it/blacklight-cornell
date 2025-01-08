@@ -56,7 +56,7 @@
          <%= render :partial => 'browse/headings_search_form' %>
      <% end %>
   <% elsif params[:controller]=='advanced_search' && (params[:q].present? || !params[:q_row].present?) || params[:action] == 'edit' %>
-    <h2 class="advanced-search">Advanced Search_MAIN</h2>
+    <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
     <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
       <% hidden_params = cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
