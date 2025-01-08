@@ -1,0 +1,19 @@
+services:
+  webapp:
+    tty: true
+    image: ${IMAGE_NAME}:latest
+    build:
+      context: .
+      dockerfile: docker/bookworm/Dockerfile
+      args:
+        - GIT_COMMIT
+      target: integration
+    environment:
+      - IMAGE_NAME=container-discovery-int
+      - RAILS_ENV=${RAILS_ENV:-integration}
+      - RUN_CRON=false
+      - RAILS_LOG_LEVEL=info
+    ports:
+      - 9292:9292
+    volumes:
+      - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro
