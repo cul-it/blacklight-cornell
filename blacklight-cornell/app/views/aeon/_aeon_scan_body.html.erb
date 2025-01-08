@@ -49,7 +49,9 @@
 <div class="form-group">
         <label for="SpecialRequest">Please enter any deadlines, special requests or questions for library staff.</label>
         <textarea class="form-control col-md-6" id="SpecialRequest" name="SpecialRequest" rows="3" maxlength="250" oninput="checkLength()" aria-describedby="charWarning"></textarea>
-        <div id="charWarning" style="color: red; display: none;" role="alert" aria-live="assertive">You have reached the 250 character limit.</div>
+        <div id="charWarning" class="charmax-alert" style="display: none;" role="alert" aria-live="assertive">
+                <i class="fa fa-charmax-alert"></i> You have reached the 250 character limit.
+        </div>
 </div>
 <script>
         // when character max limit is reached, show (and announce to screen readers) a warning message 

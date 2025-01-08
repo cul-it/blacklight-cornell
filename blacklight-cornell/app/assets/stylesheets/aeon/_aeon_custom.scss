@@ -206,7 +206,15 @@ input[type="button"]#clear {
 .fa-warning:before {
   content: "\f071";
 }
-
+.fa-charmax-alert {
+    color: red;
+}
+.charmax-alert {
+    color: red;
+}
+.fa-charmax-alert:before {
+    content: "\f06a";
+}
 .info-wrapper
 {
     padding-left: 10px;
