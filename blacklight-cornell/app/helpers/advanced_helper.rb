@@ -30,7 +30,7 @@ module AdvancedHelper
 
   def default_form_values(params)
     [
-      { q: params[:q] || params[:q_row].first  , search_field: params[:search_field] || params[:search_field_row], op: params[:op] || params[:op_row]},
+      { q: params[:q] || params[:q_row]&.first , search_field: params[:search_field] || params[:search_field_row], op: params[:op] || params[:op_row]},
       {}
     ]
   end
