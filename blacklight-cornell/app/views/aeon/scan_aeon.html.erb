@@ -66,7 +66,15 @@
 				</div>
 
 				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
-			
+				<% holdings = JSON.parse(@document['holdings_json']) %>
+				<% rmc_site = true %>
+				<% holdings.each do |_, holding| %>
+						<% location = holding['location'] %>
+						<% if location && (location['code'].downcase.include?('kheel') || location['name'].downcase.include?('kheel')) %>
+								<% rmc_site = false %>
+								<% break %>
+						<% end %>
+				<% end %>
 				<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">
 					<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 					<input type="hidden" name="authenticated" value="true">
@@ -78,6 +86,7 @@
 					<input type="hidden" name="SkipOrderEstimate" value="Yes">
 					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
 					<input type="hidden" name="AeonForm" value="ExternalRequest">
+					<input type="hidden" name="Site" value="<%= rmc_site ? 'RMC' : 'KHEEL' %>"/>
 					<input type="hidden" name="SystemID" value="Aeon Copy">
 					<input type="hidden" name="WebRequestForm" value="PhotoduplicationRequest">
 					<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request"/>
@@ -91,7 +100,7 @@
 					<input type="hidden" id="ItemTitle" name="ItemTitle" value="<%= @title %>">
 					<input type="hidden" id="ItemAuthor" name="ItemAuthor" value="<%= @author %>">				
 					<%= render :partial => 'aeon/holdings' %>
-					<%= render :partial => 'aeon/aeon_scan_body' %>
+					<%= render :partial => 'aeon/aeon_scan_body', locals: { show_rmc_options: rmc_site } %>
 					<%= render :partial => 'aeon/clearer' %>
 				</form>
 			</div>
