@@ -30,10 +30,6 @@ if ENV["USE_TEST_CONTAINER"]
     chrome_options.add_argument("--window-size=1400,1400")
     chrome_options.add_argument("--disable-gpu")
 
-    chrome_options.add_argument("--disable-background-timer-throttling")
-    chrome_options.add_argument("--disable-backgrounding-occluded-windows")
-    chrome_options.add_argument("--disable-renderer-backgrounding")
-
     long_client = Selenium::WebDriver::Remote::Http::Default.new
     long_client.read_timeout = 120
     long_client.open_timeout = 120
