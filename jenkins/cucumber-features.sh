@@ -22,7 +22,7 @@ export COVERAGE=on
 export RAILS_ENV=test
 
 # Run tests in parallel
-NUM_PROCESSES=2 # Adjust this based
+NUM_PROCESSES=4 # Adjust this based
 
 if [ -z ${CUCUMBER_FEATURE_TESTS+x} ]; then
     echo "Running all feature tests."
