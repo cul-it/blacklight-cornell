@@ -12,16 +12,7 @@
                                 <option value="MP3 of audio">MP3 of audio</option>
                                 <option value="MP4 of video">MP4 of video</option>
                                 <option value="MP4 of film">MP4 of film</option>
-                                
-                                <% holdings = JSON.parse(@document['holdings_json']) %>
-                                <% show_rmc_options = true %>
-                                <% holdings.each do |_, holding| %>
-                                        <% location = holding['location'] %>
-                                        <% if location && (location['code'].downcase.include?('kheel') || location['name'].downcase.include?('kheel')) %>
-                                                <% show_rmc_options = false %>
-                                                <% break %>
-                                        <% end %>
-                                <% end %>
+                               
                                 <% if show_rmc_options %>
                                         <option value="PDF of microfilm">PDF of microfilm</option>
                                         <option value="PDF of thesis">PDF of thesis</option>
