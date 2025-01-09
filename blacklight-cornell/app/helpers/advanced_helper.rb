@@ -30,15 +30,15 @@ module AdvancedHelper
 
   def default_form_values(params)
     [
-      { q: params[:q] || params[:q_row]&.first , search_field: params[:search_field] || params[:search_field_row], op: params[:op] || params[:op_row]},
+      { q: params[:q], search_field: params[:search_field] },
       {}
     ]
   end
 
   def params_to_form_values(params)
-    q_row = params[:q_row] || []
-    op_row = params[:op_row] || []
-    search_field_row = params[:search_field_row] || []
+    q_row = Array(params[:q_row]) || []
+    op_row = Array(params[:op_row]) || []
+    search_field_row = Array(params[:search_field_row]) || []
     boolean_row = params[:boolean_row] || {}
 
     form_values = []

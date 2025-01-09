@@ -1,5 +1,5 @@
 <div class='card card-body card-well'>
-  <%= form_with url: search_catalog_path, class: 'advanced', id: 'advanced-search-link', method: :get do |form| %>
+  <%= form_with url: search_catalog_path, class: 'advanced', method: :get do |form| %>
     <div class='query_zone'>
       <%# Display at least 2 search rows %>
       <% [form_row_values.count, 2].max().times do |i| %>

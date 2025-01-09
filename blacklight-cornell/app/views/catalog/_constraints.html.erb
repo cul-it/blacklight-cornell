@@ -17,8 +17,8 @@
     <%= render_constraints(params) %>
 
     <% end %>
-    <% if params[:q_row].present? && params[:action] != 'edit' && params[:controller] != 'advanced_search' %>
-      <div class="modify-search-link">
+  <% if params[:q_row].present? && params[:action] != 'edit'%>
+  <div class="modify-search-link">
         <%= link_to 'Modify advanced search', url_for(:controller=>"advanced_search", :action=>"edit", :q_row=>params[:q_row], :op_row=>params[:op_row], :search_field_row=>params[:search_field_row], :boolean_row=>params[:boolean_row], :f=>params[:f]), :class=>"btn btn-search" %>
       </div>
     <% end %>
