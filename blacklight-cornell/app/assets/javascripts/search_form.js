@@ -7,13 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (advancedSearchLink && formFields) {
+        const searchField = document.getElementById("q");
+
         // Function to update the Advanced Search link dynamically
         const updateAdvancedSearchLink = () => {
             let params = new URLSearchParams();
+            let hasSearchText = searchField && searchField.value.trim().length > 0;
 
             formFields.forEach((field) => {
-                if (field.name && field.value) {
-                    // Mapping for browse-specific parameters
+                if (field.name && field.value && field.name !== "q") {
                     const fieldMappings = {
                         authq: "q",
                         browse_type: "search_field",
@@ -44,39 +46,69 @@ document.addEventListener("DOMContentLoaded", function () {
                         lc_callnum: "lc_callnum"
                     };
 
-                    // Check if the field name needs special mapping
                     if (field.name in fieldMappings) {
                         if (field.name === "browse_type" || field.name === "search_field") {
                             if (field.value in searchValueMappings) {
-                                params.append("search_field", searchValueMappings[field.value]);
-                                // Set to "begins with" if "Title Begins With" is selected in basic search
+                                params.append("search_field_row", searchValueMappings[field.value]);
                                 if (field.value === "title_starts") {
-                                    params.append("op", "begins_with");
+                                    params.append("op_row", "begins_with");
                                 }
                             }
                         } else {
                             params.append(fieldMappings[field.name], field.value);
                         }
                     } else if (field.name !== "authenticity_token" && field.name !== "utf8") {
-                        // Add other fields except unnecessary ones
                         params.append(field.name, field.value);
                     }
                 }
             });
-            // Update the href of the link
-            advancedSearchLink.href = `/advanced?${params.toString()}`;
+
+            // Add q_row as a parameter if the search field has text
+            if (hasSearchText) {
+                params.append("q_row", searchField.value.trim()); // Append q_row
+            }
+
+            // Append other advanced search parameters if present
+            const opRow = document.querySelectorAll("[name='op_row[]']");
+            const searchFieldRow = document.querySelectorAll("[name='search_field_row[]']");
+            const booleanRow = document.querySelectorAll("[name='boolean_row[]']");
+            const facetFields = document.querySelectorAll("[name^='f[']");
+
+            opRow.forEach((field, index) => params.append(`op_row[${index}]`, field.value));
+            searchFieldRow.forEach((field, index) => params.append(`search_field_row[${index}]`, field.value));
+            booleanRow.forEach((field, index) => params.append(`boolean_row[${index}]`, field.value));
+
+            // advancedSearchLink.href = `/edit?${params.toString()}`;
+
+            console.log("facetFields => ", facetFields )
+            console.log("href => ", advancedSearchLink.href  )
+
+            // Handle facets, including f[format]
+            const uniqueFacets = new Set();
+            facetFields.forEach((field) => {
+                const match = field.name.match(/^f\[(.+)\]$/); // Match f[key] format
+                if (match && match[1]) {
+                    const key = `f[${match[1]}]`;
+                    const value = field.value;
+                    const facetEntry = `${key}=${value}`;
+
+                    if (!uniqueFacets.has(facetEntry)) {
+                        uniqueFacets.add(facetEntry);
+                        params.append(key, value);
+                    }
+                }
+            });
+            // Update link href
+            advancedSearchLink.href = `/edit?${params.toString()}`;
         };
 
-        // Add event listeners to form fields for dynamic updates
         formFields.forEach((field) => {
             field.addEventListener("input", updateAdvancedSearchLink);
             field.addEventListener("change", updateAdvancedSearchLink);
         });
 
-        // Ensure the link updates on page load
         updateAdvancedSearchLink();
 
-        // Ensure params are updated on click as a fallback
         advancedSearchLink.addEventListener("click", updateAdvancedSearchLink);
     }
 });
