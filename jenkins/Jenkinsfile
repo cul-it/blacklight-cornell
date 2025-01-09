@@ -6,6 +6,7 @@ pipeline {
         STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
         COLLECTIONS = "development"
         CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
+        DISPLAY_SOLR_QUERY = 1
         }
     stages {
         stage('Set up and run bundler') {

@@ -32,7 +32,7 @@ When("I view the {string} version of the search results") do |format|
   visit new_url
 end
 
-Then("the solr query should be {string}") do |string|
+Then /^the solr query should be '(.*?)'$/ do |string|
   sq = page.find("dl#solr-query-display > dd").text
   expect(sq).to eq(string)
 end

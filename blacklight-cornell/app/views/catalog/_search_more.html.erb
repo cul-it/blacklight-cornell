@@ -1,4 +1,4 @@
-<% unless @response.total_count < 1 && !@expanded_results.nil? %>
+<% unless @response.total_count < 1 || @expanded_results.nil? %>
     <div class="highlight-box search-more">
         <div class="heads-up">Not finding what you want?</div> 
         <p class="mb-0">
