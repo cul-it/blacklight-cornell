@@ -12,7 +12,7 @@
 		<%# bookmark functions for items/docs -%>
 		<%= render_index_doc_actions document, :wrapping_class => "select-item" %>
 		<% oclc_num = bookcover_oclc(document) %>
-		<% if oclc_num.present? %>
+		<% if oclc_num.present? && !document["no_google_img_b"] %>
 		<div class="bookcover" id="OCLC:<%= oclc_num %>" data-oclc="<%= oclc_num %>">
 		</div>
 		<% end %>
