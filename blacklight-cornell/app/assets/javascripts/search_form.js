@@ -8,8 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (advancedSearchLink && formFields) {
         const searchField = document.getElementById("q");
-
-        // Function to update the Advanced Search link dynamically
+        // Update the Advanced Search link dynamically
         const updateAdvancedSearchLink = () => {
             let params = new URLSearchParams();
             let hasSearchText = searchField && searchField.value.trim().length > 0;
@@ -78,11 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
             searchFieldRow.forEach((field, index) => params.append(`search_field_row[${index}]`, field.value));
             booleanRow.forEach((field, index) => params.append(`boolean_row[${index}]`, field.value));
 
-            // advancedSearchLink.href = `/edit?${params.toString()}`;
-
-            console.log("facetFields => ", facetFields )
-            console.log("href => ", advancedSearchLink.href  )
-
             // Handle facets, including f[format]
             const uniqueFacets = new Set();
             facetFields.forEach((field) => {
@@ -98,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 }
             });
-            // Update link href
+            // Update link href to use the /edit path
             advancedSearchLink.href = `/edit?${params.toString()}`;
         };
 
@@ -106,9 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
             field.addEventListener("input", updateAdvancedSearchLink);
             field.addEventListener("change", updateAdvancedSearchLink);
         });
-
         updateAdvancedSearchLink();
-
         advancedSearchLink.addEventListener("click", updateAdvancedSearchLink);
     }
 });
