@@ -4,7 +4,11 @@ class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
   include BlacklightRangeLimit::RangeLimitBuilder
 
-  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :advsearch, :homepage_default]
+  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :set_fl, :set_query, :homepage_default]
+
+  DEFAULT_BOOLEAN = 'AND'
+  DEFAULT_OP = 'AND'
+  DEFAULT_SEARCH_FIELD = 'all_fields'
 
   def sortby_title_when_browsing user_parameters
     # if no search term is submitted and user hasn't specified a sort
@@ -33,13 +37,13 @@ class SearchBuilder < Blacklight::SearchBuilder
     end
   end
 
-  def advsearch solr_parameters
-    query_string = ""
-
+  def set_fl solr_parameters
     # Overrides default fl set in solrconfig to return all stored fields
-    # TODO: Why do we need to do this? What fields do we need that aren't returned by default?
-    solr_parameters[:fl] = "*" if blacklight_params["controller"] == "bookmarks" || blacklight_params["format"].present? || blacklight_params["controller"] == "book_bags"
+    solr_parameters[:fl] = '*' if blacklight_params['controller'] == 'bookmarks' || blacklight_params['format'].present? || blacklight_params['controller'] == 'book_bags'
+  end
 
+  # Sets solr q param from search fields, booleans, and ops (simple and advanced search)
+  def set_query solr_parameters
     # Standard blacklight_params from advanced search form:
     # {
     #   "advanced_query"=>"yes", 
@@ -59,360 +63,26 @@ class SearchBuilder < Blacklight::SearchBuilder
     # }
     # For non-standard advanced search params, use presence of q_row to determine if query should be processed as advanced search
     if blacklight_params[:q_row].present?
+      # Build solr q param for advanced search
       # Clean up/reset non-standard advanced search params
       blacklight_params.delete('q')
       solr_parameters[:search_field] = 'advanced'
 
       solr_parameters[:q] = build_advanced_search_query(blacklight_params)
-    else # simple search code below
-      if blacklight_params[:q].nil?
-        blacklight_params[:q] = ''
-        if !blacklight_params[:f].nil?
-          solr_parameters[:fq] = []
-          fq_string = ""
-          blacklight_params[:f].each do |key, value|
-            value.each do |val|
-              if (val == 'last_1_week' or val == 'last_1_month' or val == 'last_1_years')
-                if val == 'last_1_week'
-                  fq_string = 'acquired_dt:[NOW-14DAY TO NOW-7DAY ]'
-                else 
-                  if val == 'last_1_month'
-                    fq_string = 'acquired_dt:[NOW-30DAY TO NOW-7DAY ]'
-                  else
-                    if value[0] == 'last_1_years'
-                      fq_string = 'acquired_dt:[NOW-1YEAR TO NOW-7DAY]'
-                    end
-                  end
-                end                   
-              else
-                fq_string = '{!term f=' + key + '}' + val
-              end
-              solr_parameters[:fq] << fq_string
-              blacklight_params[:fq] = solr_parameters[:fq]
-            end
-          end
-        end
-      end
-
-      if !blacklight_params[:advanced_query].nil?
-        blacklight_params.delete("advanced_query")
-        blacklight_params.delete("search_field_row")
-        blacklight_params.delete(:q_row)
+    elsif blacklight_params[:search_field].present?
+      # Remove any unexpected advanced search params
+      if blacklight_params[:advanced_query].present?
+        blacklight_params.delete(:advanced_query)
+        blacklight_params.delete(:search_field_row)
         blacklight_params.delete(:op_row)
         blacklight_params.delete(:boolean_row)
         blacklight_params.delete(:count)
       end
-      # End of secondary parsing
 
-      journal_title_hack = 0
-      if !blacklight_params.nil? and !blacklight_params[:search_field].nil?
-        if blacklight_params[:search_field] == 'title_starts'
-          if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
-            blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
-          else
-            if blacklight_params[:q].include?('"')
-              blacklight_params[:q].gsub!('"', '')
-            end
-            blacklight_params[:q] = blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
-          end
-        end
-
-        if blacklight_params[:search_field] == 'series'
-          if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
-            blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
-          else
-            blacklight_params[:q] = blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
-          end
-        end
-        if blacklight_params[:search_field].include?('_cts')
-          if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
-            blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
-          else
-            blacklight_params[:q] = blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
-          end
-        end
-    
-        #check for call number search
-        if blacklight_params[:search_field] == 'lc_callnum'
-          if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
-            query_string = blacklight_params[:q]
-          else
-            query_string = '"' + blacklight_params[:q].gsub('"','') + '"'
-          end
-          blacklight_params[:q] = 'lc_callnum:' + query_string
-          solr_parameters[:search_field] = blacklight_params[:search_field]
-          if blacklight_params[:sort].nil? or blacklight_params[:sort] == 'callnum_sort asc, pub_date_sort desc'
-            blacklight_params[:sort] = 'callnum_sort asc, pub_date_sort desc'
-          end
-          solr_parameters[:sort] = blacklight_params[:sort]
-        end
-
-        if blacklight_params[:search_field] == 'journaltitle'
-          if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
-            query_string = 'title_quoted:' + blacklight_params[:q]
-          else
-            tokens_array = []
-            query_string = ''
-            tokens_array = blacklight_params[:q].split(' ')
-            if tokens_array.size > 1
-              tokens_array.each do |token|
-                query_string = query_string + '+title:' + token + ' '
-              end
-              query_string = '((' + query_string.rstrip + ') OR title_phrase:"' + blacklight_params[:q] + '")'
-            else
-              query_string = '(title:' + '"' + blacklight_params[:q].gsub('"','') + '" OR title_phrase:"' + blacklight_params[:q].gsub('"', '') + '") '
-            end
-          end
-          blacklight_params[:q] =  query_string + ' AND format:Journal/Periodical'
-          solr_parameters[:search_field] = blacklight_params[:search_field]
-        end
-
-        # All fields search calls parse_all_fields_query
-        if blacklight_params[:search_field] == 'all_fields' or blacklight_params[:search_field] == ''
-          returned_query = parse_all_fields_query(blacklight_params[:q])
-          if returned_query == ''
-            blacklight_params[:q] = ''
-          else
-            if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"' and blacklight_params[:q].count('"') == 2
-              blacklight_params[:q] = 'quoted:' + blacklight_params[:q]
-            else
-              if !blacklight_params[:q].include?('"')
-                if returned_query[0] != '+'
-                  blacklight_params[:q] = '("' + returned_query + '") OR phrase:"' + blacklight_params[:q] + '"'
-                else
-                  blacklight_params[:q] = '('  + returned_query + ') OR phrase:"' + blacklight_params[:q] + '"'
-                end
-                solr_parameters[:q] = blacklight_params[:q]
-              else
-                query_string = '('
-                return_query = checkMixedQuoted(blacklight_params)
-                return_query.each do |token|
-                  query_string = query_string + token + ' '
-                end
-                query_string = query_string.rstrip
-                query_string = query_string + ')'
-                blacklight_params[:q] = query_string
-              end
-            end
-          end
-        else
-          #Not an all fields search test if query is quoted
-          if blacklight_params[:q].first == '"' && blacklight_params[:q].last == '"' && blacklight_params[:q].count('"') == 2 && ['journaltitle', 'lc_callnum'].exclude?(blacklight_params[:search_field]) && blacklight_params[:search_field].exclude?('_cts')
-            if ['author', 'publisher', 'title', 'subject'].include?(blacklight_params[:search_field])
-              blacklight_params[:q] = "#{blacklight_params[:search_field]}_quoted:#{blacklight_params[:q]}"
-            elsif ['author_quoted', 'publisher_quoted', 'title_starts'].include?(blacklight_params[:search_field])
-              blacklight_params[:q] = "#{blacklight_params[:search_field]}:#{blacklight_params[:q]}"
-            elsif ['title_quoted', 'subject_quoted'].include?(blacklight_params[:search_field])
-              blacklight_params[:q] = "(+#{blacklight_params[:search_field]}:#{blacklight_params[:q]})"
-            end
-          else
-            #check if this is a crazy multi quoted multi token search
-            if blacklight_params[:q].include?('"') && ['title_starts', 'series', 'lc_callnum', 'journaltitle'].exclude?(blacklight_params[:search_field]) && blacklight_params[:search_field].exclude?('_cts')
-              if blacklight_params[:q].first != '('
-                query_string = '('
-                return_query = checkMixedQuoted(blacklight_params)
-
-                return_query.each do |token|
-                  query_string = query_string + token + ' '
-                end
-                query_string = query_string.rstrip
-                query_string = query_string + ')'
-                blacklight_params[:q] = query_string
-              else
-                blacklight_params[:search_field] = 'author'
-                blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
-              end
-              solr_parameters["mm"] = "1"
-            end
-          end
-          if blacklight_params[:search_field].include?('_browse')
-            blacklight_params[:q] = blacklight_params[:search_field] + ':' + blacklight_params[:q]
-          end
-          #queries are not all fields nor quoted  go ahead
-          # exclude search_fields that match *_cts or *_browse
-          if !(/_cts$/.match(blacklight_params[:search_field]) ||
-            /_browse$/.match(blacklight_params[:search_field]) ||
-            ['title_starts','series','journaltitle','lc_callnum'].include?(blacklight_params[:search_field])
-          )
-            # TODO: I don't think we want to split on the q param with included search_field?
-            # Example: blacklight_params[:q] = "publisher_quoted:\"National Geographic Partners\""
-            query_array = blacklight_params[:q].split(' ')
-            # Example 1: query_array = ["publisher_quoted:\"National", "Geographic", "Partners\""]
-            # Example 2: query_array = ["National", "Geographic", "Partners"]
-            clean_array = []
-            new_query = ''
-            query_string = ''
-            if query_array.size > 1
-              query_array.each do |token|
-                query_string = '+' + blacklight_params[:search_field] + ':"' + token + '"'
-                clean_array << query_string
-              end
-              #  Example 1: clean_array = ["+publisher:\"publisher_quoted:\"National\"", "+publisher:\"Geographic\"", "+publisher:\"Partners\"\""]
-              #  Example 2: clean_array = ["+publisher:\"National\"", "+publisher:\"Geographic\"", "+publisher:\"Partners\""]
-              new_query = '('
-              clean_array.each do |query|
-                new_query = new_query + query + ' '
-              end
-              new_query = new_query.rstrip
-              if ['number', 'title'].include?(blacklight_params[:search_field])
-                if blacklight_params[:q].exclude?('_quoted')
-                  new_query = new_query + ') OR ' + blacklight_params[:search_field] + '_phrase:"' + blacklight_params[:q] + '"'
-                else
-                  new_query = blacklight_params[:q]
-                end
-              else
-                if blacklight_params[:q].first == '"' && blacklight_params[:q].last == '"'
-                  new_query = new_query + ') OR ' + blacklight_params[:search_field] + ':' + blacklight_params[:q]
-                else
-                  if blacklight_params[:q].exclude?('_quoted')
-                    new_query = new_query + ') OR '  + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
-                    # Example 2: new_query = "(+publisher:\"National\" +publisher:\"Geographic\" +publisher:\"Partners\") OR publisher:\"National Geographic Partners\""
-                  else
-                    # TODO: No need to run through all the query logic above if we're just going to revert to original q
-                    new_query = blacklight_params[:q]
-                    # Example 1: new_query = "publisher_quoted:\"National Geographic Partners\""
-                  end
-                end
-              end
-              blacklight_params[:q] = new_query
-            else
-              if blacklight_params[:search_field] == 'title'
-                blacklight_params[:q] = '(+title:' + blacklight_params[:q] +  ') OR title_phrase:"' + blacklight_params[:q] + '"'
-              else
-                if blacklight_params[:q].first != '"+'
-                  blacklight_params[:q] = '(+' + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '") OR ' + blacklight_params[:search_field] + ':"' + blacklight_params[:q] + '"'
-                else
-                  blacklight_params[:q] = ""
-                end
-              end
-            end
-          end
-        end
-        solr_parameters[:q] = blacklight_params[:q]
-        solr_parameters[:f] = blacklight_params[:f]
-        solr_parameters[:sort] = blacklight_params[:sort]
-        solr_parameters["mm"] = "1"
-      end
+      # Build solr q param for simple search
+      solr_parameters[:q] = build_simple_search_query(blacklight_params)
     end
-  end    
-
-  def parseQuotedQuery(quotedQuery)
-    queryArray = []
-    token_string = ''
-    length_counter = 0
-    quote_flag = 0
-    quotedQuery.each_char do |x|
-      length_counter = length_counter + 1
-      if x != '"' and x != ' '
-          token_string = token_string + x
-      end
-      if x == ' '
-        if quote_flag != 0
-          token_string = token_string + x
-        else
-          queryArray << token_string
-          token_string = ''
-        end
-      end
-      if x == '"' and quote_flag == 0
-        if token_string != ''
-          queryArray << token_string
-          token_string = x
-          quote_flag = 1
-        else
-          token_string = x
-          quote_flag = 1
-         end
-      end
-      if x == '"' and quote_flag == 1
-        if token_string != '' and token_string != '"'
-          token_string = token_string + x
-          queryArray << token_string
-          token_string = ''
-          quote_flag = 0
-        end
-      end
-      if length_counter == quotedQuery.size
-        queryArray << token_string
-      end
-    end
-    cleanArray = []
-    queryArray.each do |toke|
-      if toke != ''
-        if !toke.blank?
-          cleanArray << toke.rstrip
-        end
-      end
-    end
-    queryArray = cleanArray
-    return queryArray
   end
-
-  def checkMixedQuoted(blacklight_params)
-      returnArray = []
-      addFieldsArray = []
-      if blacklight_params[:q].first == '"' and blacklight_params[:q].last == '"'
-        if blacklight_params[:q].count('"') > 2
-          returnArray = parseQuotedQuery(blacklight_params[:q])
-          returnArray.each do |token|
-            if blacklight_params[:search_field] == 'all_fields'
-              if token.first == '"'
-                token = '+quoted:' + token
-              else
-                token = '+' + token
-              end
-            else
-              if token.first == '"'
-                sfr = get_sf_name(blacklight_params[:search_field])
-                if blacklight_params[:search_field] != 'all_fields'
-                  token = '+' + sfr + '_quoted:' + token
-                else
-                  token = '+' + 'quoted:' + token
-                end
-              else
-                sfr = get_sf_name(blacklight_params[:search_field])
-                if blacklight_params[:search_field] != 'all_fields'
-                  token = '+' + sfr +':' + token
-                else
-                  token = '+' + token
-                end
-              end
-            end
-            addFieldsArray << token
-          end
-          returnArray = addFieldsArray
-          return returnArray
-        else
-          returnArray << blacklight_params[:q]
-          return returnArray
-        end
-      else
-        clearArray = []
-        returnArray = parseQuotedQuery(blacklight_params[:q])
-        returnArray.each do |token|
-          if blacklight_params[:search_field] == 'all_fields'
-            if token.first == '"'
-              clearArray << '+quoted:' + token
-            else
-              clearArray << '+' + token
-            end
-          else
-            sfr = get_sf_name(blacklight_params[:search_field])
-            if token.first == '"'
-              clearArray << '+' + sfr + '_quoted:' + token
-            else
-              clearArray << '+' + sfr + ':' + token
-            end
-          end
-        end
-        returnArray = clearArray
-        return returnArray
-      end
-  end
-
-  DEFAULT_BOOLEAN = 'AND'
-  DEFAULT_OP = 'AND'
-  DEFAULT_SEARCH_FIELD = 'all_fields'
 
   # Remove any blank rows from advanced search form
   def remove_blank_rows(params)
@@ -447,6 +117,14 @@ class SearchBuilder < Blacklight::SearchBuilder
     params.merge(cleaned_params)
   end
 
+  def build_simple_search_query(params)
+    return '' if params[:q].blank?
+
+    query = clean_q(params[:q])
+    search_field = params[:search_field]
+    set_q_with_search_fields(query: query, search_field: search_field)
+  end
+
   def build_advanced_search_query(params)
     return '' if params[:q_row].blank? || !params[:q_row].is_a?(Array)
     
@@ -457,20 +135,11 @@ class SearchBuilder < Blacklight::SearchBuilder
     params = remove_blank_rows(params)
 
     # Add solr fields to q based on search_field and op
-    params[:q_row] = set_q_fields(params)
+    params[:q_row] = set_q_row_with_search_fields(params)
 
     # Pair queries together with booleans
     # Return final q solr param
-    group_bools(params)
-  end
-
-  def solr_query(field, q)
-    solr_field_prefix = field.present? ? "#{field}:" : ''
-    "#{solr_field_prefix}\"#{q}\""
-  end
-
-  def solr_field_or_default(field_config, field_type)
-    field_config[field_type] || field_config['field']
+    set_q_row_with_bools(params)
   end
 
   def q_to_solr(query, op, search_field, search_field_config)
@@ -483,6 +152,8 @@ class SearchBuilder < Blacklight::SearchBuilder
     case op
     when 'OR'
       # Combine separate words with 'OR'
+      # Theoretically okay to split up left-anchored search fields and cts fields if op is OR,
+      #    though most of these fields aren't available in advanced search
       q_string = q_words.map { |q_word| solr_query(solr_field, q_word) }.join(' OR ')
     when 'phrase'
       q_string = solr_query(solr_quoted_field, query)
@@ -490,10 +161,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       q_string = solr_query(solr_starts_field, query)
     else
       # Default to handling op as 'AND'
-      if search_field == 'lc_callnum'
-        # Don't break up lc_callnum queries
-        # Call number "all" search is an inherently left-anchored search and
-        #   should be sent as a single phrase to lc_callnum (e.g. lc_callnum:"ABC123 .R12")
+      if search_whole_query(search_field)
         q_string = solr_query(solr_field, query)
       else
         # Combine separate words with 'AND'
@@ -510,7 +178,8 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def q_with_quotes_to_solr(query, op, search_field, search_field_config)
-    if ['phrase', 'begins_with'].include?(op)
+    if ['phrase', 'begins_with'].include?(op) || search_whole_query(search_field)
+      # Don't break up queries if no quoted field exists for search_field
       # Remove quotation marks from query and handle as normal
       query.gsub!('"', '')
       q_to_solr(query, op, search_field, search_field_config)
@@ -537,58 +206,65 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   # Add solr fields to q based on search_field and op
-  def set_q_fields(params)
+  def set_q_row_with_search_fields(params)
     form_q_to_solr_q = []
 
     params[:q_row].each_with_index do |query, q_index|
       op = params[:op_row][q_index]
       search_field = params[:search_field_row][q_index]
-      # Default to search_field if field not in blacklight_config.search_fields
-      search_field_config = blacklight_config.search_fields[search_field] || { 'field' => search_field }
-
-      if query.count('"') > 0
-        q_string = q_with_quotes_to_solr(query, op, search_field, search_field_config)
-      else
-        q_string = q_to_solr(query, op, search_field, search_field_config)
-      end
-
-      # If format value exists for search_field, add format to q_string
-      q_string = "(#{q_string}) AND format:\"#{search_field_config['format']}\"" if search_field_config['format']
-      form_q_to_solr_q << q_string
+      form_q_to_solr_q << set_q_with_search_fields(query: query, search_field: search_field, op: op)
     end
 
     form_q_to_solr_q
   end
 
-  def get_sf_name(search_field)
-    search_field == 'all_fields' ? '' : search_field
+  def set_q_with_search_fields(query:, search_field: DEFAULT_SEARCH_FIELD, op: DEFAULT_OP)
+    return '' if query.blank?
+
+    # Default to 'all_fields' if no search_field
+    search_field = DEFAULT_SEARCH_FIELD if search_field.blank?
+    # Use search_field as-is if not in blacklight_config.search_fields
+    search_field_config = blacklight_config.search_fields[search_field] || { 'field' => search_field }
+
+    if query.count('"') > 0
+      q_string = q_with_quotes_to_solr(query, op, search_field, search_field_config)
+    else
+      q_string = q_to_solr(query, op, search_field, search_field_config)
+    end
+
+    # If format value exists for search_field, add format to q_string
+    q_string = "(#{q_string}) AND format:\"#{search_field_config['format']}\"" if search_field_config['format']
+
+    q_string
+  end
+
+  def clean_q_rows(params)
+    params[:q_row].map { |query| clean_q(query) }
   end
 
   # Handle special characters and unpaired quotation marks in q_row
-  def clean_q_rows(params)
-    params[:q_row].map do |query|
-      query.strip!
+  def clean_q(query)
+    query.strip!
 
-      # Replace left and right quotation marks with regular quotes
-      query.gsub!(/[”“]/, '"')
+    # Replace left and right quotation marks with regular quotes
+    query.gsub!(/[”“]/, '"')
 
-      # Handle unpaired quotes
-      # If the first character is an unpaired quotation mark, close quotation
-      query = query + '"' if query.count('"') == 1 && query[0] == '"'        
-      # Remove unpaired quotes
-      query.gsub!('"', '') if query.count('"') % 2 == 1
+    # Handle unpaired quotes
+    # If the first character is an unpaired quotation mark, close quotation
+    query = query + '"' if query.count('"') == 1 && query[0] == '"'        
+    # Remove unpaired quotes
+    query.gsub!('"', '') if query.count('"') % 2 == 1
 
-      # Remove: parentheses, brackets. Escape: colons, plus signs, minus signs/dashes
-      # From: https://solr.apache.org/guide/8_8/the-dismax-query-parser.html
-      #       The DisMax query parser supports an extremely simplified subset of the Lucene QueryParser syntax.
-      #       As in Lucene, quotes can be used to group phrases, and +/- can be used to denote mandatory and optional clauses.
-      #       All other Lucene query parser special characters (except AND and OR) are escaped to simplify the user experience.
-      query.gsub(/[\[\]\(\):+-]/, ':' => '\:', '+' => '\+', '-' => '\-')
-    end
+    # Remove: parentheses, brackets. Escape: colons, plus signs, minus signs/dashes
+    # From: https://solr.apache.org/guide/8_8/the-dismax-query-parser.html
+    #       The DisMax query parser supports an extremely simplified subset of the Lucene QueryParser syntax.
+    #       As in Lucene, quotes can be used to group phrases, and +/- can be used to denote mandatory and optional clauses.
+    #       All other Lucene query parser special characters (except AND and OR) are escaped to simplify the user experience.
+    query.gsub(/[\[\]\(\):+-]/, ':' => '\:', '+' => '\+', '-' => '\-')
   end
 
   # Pair 2 queries with booleans, wrap each pair in parentheses
-  def group_bools(params)
+  def set_q_row_with_bools(params)
     solr_q = ''
     params[:q_row].each_with_index do |query, q_index|
       if q_index == 0
@@ -602,37 +278,6 @@ class SearchBuilder < Blacklight::SearchBuilder
     end
 
     solr_q
-  end
-
-  def parse_all_fields_query(query)
-    return_query = ''
-    tokenArray = []
-    count = 0
-    if query.first == '"' and query.last == '"'
-      query = query[1..-2]
-    end
-    if query.include?(' ')
-      tokenArray = query.split(' ')
-      tokenArray.each do |bits|
-
-          if bits.include?(':')
-             bits.gsub!(':','\\:')
-          end
-          if count == 0
-          return_query << bits << '"'
-          else
-          	if count < (tokenArray.size - 1)
-               return_query << ' AND "' << bits << '" '
-            else
-               return_query << ' AND "' << bits
-            end
-          end
-          count = count + 1
-      end
-    else
-        return_query = query
-    end
-    return return_query
   end
 
   def streamline_query(user_params)
@@ -653,5 +298,32 @@ class SearchBuilder < Blacklight::SearchBuilder
     user_params.delete('f.lc_alpha_facet.facet.limit')
     return user_params
   end
-end
 
+  private
+
+  def solr_query(field, q)
+    solr_field_prefix = field.present? ? "#{field}:" : ''
+    "#{solr_field_prefix}\"#{q}\""
+  end
+
+  def solr_field_or_default(field_config, field_type)
+    field_config[field_type] || field_config['field']
+  end
+
+  def click_to_search_field(search_field)
+    search_field.end_with?('_cts', '_browse')
+  end
+
+  def left_anchored_search_field(search_field)
+    # Call number "all" search is an inherently left-anchored search and
+    #   should be sent as a single phrase to lc_callnum (e.g. lc_callnum:"ABC123 .R12")
+    # title_starts as search_field is only available in simple search and should be handled like op == 'begins_with'
+    ['lc_callnum', 'title_starts'].include?(search_field)
+  end
+
+  # Don't break up queries for left-anchored search fields or cts fields
+  def search_whole_query(search_field)
+    search_field = search_field || DEFAULT_SEARCH_FIELD
+    left_anchored_search_field(search_field) || click_to_search_field(search_field)
+  end
+end

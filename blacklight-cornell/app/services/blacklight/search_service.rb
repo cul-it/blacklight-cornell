@@ -33,7 +33,7 @@ module Blacklight
             per_page_i = @user_params[:per_page].present? ? @user_params[:per_page].to_i : 20
             last_page = search_limit/per_page_i
             @user_params[:page] = last_page
-            @search_state.params = @user_params
+            @search_state.params.merge(@user_params)
         end
 
         builder = search_builder.with(search_state)
