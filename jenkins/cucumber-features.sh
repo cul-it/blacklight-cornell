@@ -23,8 +23,8 @@ export RAILS_ENV=test
 #############################
 ##  Run tests in parallel  ##
 #############################
-NUM_PROCESSES=1 # Adjust this value based number of processors you want to use
-#NUM_PROCESSES=$(nproc --all) # Use all available jenkins processors
+#NUM_PROCESSES=1 # Adjust this value based number of processors you want to use
+NUM_PROCESSES=$(nproc --all) # Use all available jenkins processors
 
 if [ -z ${CUCUMBER_FEATURE_TESTS+x} ]; then
     echo "Running all feature tests."
