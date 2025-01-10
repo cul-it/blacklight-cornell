@@ -587,6 +587,9 @@ GEM
       scrub_rb (~> 1.0)
     orm_adapter (0.5.0)
     ostruct (0.6.0)
+    parallel (1.26.3)
+    parallel_tests (4.8.0)
+      parallel
     parslet (2.0.0)
     piwik_analytics (1.0.2)
       actionpack
@@ -910,6 +913,7 @@ DEPENDENCIES
   omniauth-oauth2
   omniauth-rails_csrf_protection
   omniauth-saml (>= 2.1.2)
+  parallel_tests
   parslet
   piwik_analytics (~> 1.0.1)
   protected_attributes_continued

@@ -6,6 +6,7 @@ pipeline {
         STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
         COLLECTIONS = "development"
         CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
+        DISPLAY_SOLR_QUERY = 1
         }
     stages {
         stage('Set up and run bundler') {
@@ -28,7 +29,11 @@ pipeline {
         stage("Rspec tests") {
             steps {
                 echo "Running Rspec tests"
-                sh 'jenkins/rspec.sh'
+                timeout(90) {
+                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
+                       sh 'jenkins/rspec.sh'
+                    }
+                }
             }
         }
 

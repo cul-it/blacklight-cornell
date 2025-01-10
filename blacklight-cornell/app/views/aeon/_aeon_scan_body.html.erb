@@ -12,16 +12,7 @@
                                 <option value="MP3 of audio">MP3 of audio</option>
                                 <option value="MP4 of video">MP4 of video</option>
                                 <option value="MP4 of film">MP4 of film</option>
-                                
-                                <% holdings = JSON.parse(@document['holdings_json']) %>
-                                <% show_rmc_options = true %>
-                                <% holdings.each do |_, holding| %>
-                                        <% location = holding['location'] %>
-                                        <% if location && (location['code'].downcase.include?('kheel') || location['name'].downcase.include?('kheel')) %>
-                                                <% show_rmc_options = false %>
-                                                <% break %>
-                                        <% end %>
-                                <% end %>
+                               
                                 <% if show_rmc_options %>
                                         <option value="PDF of microfilm">PDF of microfilm</option>
                                         <option value="PDF of thesis">PDF of thesis</option>
@@ -57,8 +48,21 @@
 </div>
 <div class="form-group">
         <label for="SpecialRequest">Please enter any deadlines, special requests or questions for library staff.</label>
-        <textarea class="form-control col-md-6" id="SpecialRequest" name="SpecialRequest" rows="3"></textarea>
+        <textarea class="form-control col-md-6" id="SpecialRequest" name="SpecialRequest" rows="3" maxlength="250" oninput="checkLength()" aria-describedby="charWarning"></textarea>
+        <div id="charWarning" class="charmax-alert" style="display: none;" role="alert" aria-live="assertive">
+                <i class="fa fa-charmax-alert"></i> You have reached the 250 character limit.
+        </div>
 </div>
+<script>
+        // when character max limit is reached, show (and announce to screen readers) a warning message 
+        function checkLength() {
+                if (document.getElementById('SpecialRequest').value.length >= 250) {
+                        document.getElementById('charWarning').style.display = 'block';
+                } else {
+                        document.getElementById('charWarning').style.display = 'none';
+                }
+        }
+</script>
 <div class="form-group">
         <label for="Notes">Add any notes about this item or request that may be helpful for your own personal reference later.</label>
         <textarea class="form-control col-md-6" id="Notes" name="Notes" rows="3"></textarea>

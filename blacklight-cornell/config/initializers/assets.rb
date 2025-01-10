@@ -9,5 +9,4 @@ Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'images')
 
-Rails.application.config.assets.precompile += %w( aeon.css )
-Rails.application.config.assets.precompile += %w( aeon.js )
+Rails.application.config.assets.precompile += %w( aeon.css aeon.js search_form.js )

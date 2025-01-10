@@ -9,8 +9,7 @@
               <%= render 'single_search/search_form' %>
             </div>
             <div class="advanced-search-link col-md-4">
-              <%= link_to 'Catalog Advanced Search', '/advanced' %>
-                    <%#= params[:q].inspect %>
+              <%= link_to 'Catalog Advanced Search', "/advanced", id: "advanced-search-link" %>
             </div>
           </div>
         </div>
@@ -298,3 +297,5 @@
     <% end %>
   <% end %>
 <% end %>
+
+<%= javascript_include_tag 'search_form', 'data-turbo-track': 'reload' %>
