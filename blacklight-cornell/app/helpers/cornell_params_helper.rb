@@ -737,7 +737,7 @@ def makeEditRemoveString(my_params, facet_key)
       op_string << "op[]=" << op[i] << "&"
     end
   end
-  op_row = Array(my_params["op_row"])
+  op_row = my_params["op_row"]
   op_row_string = ""
   if !op_row.nil?
     for i in 0..op_row.count - 1 do
@@ -757,7 +757,7 @@ def makeEditRemoveString(my_params, facet_key)
   else
     q = ""
   end
-  q_row = Array(my_params["q_row"])
+  q_row = my_params["q_row"]
   q_row_string = ""
   if !q_row.nil?
     for i in 0..q_row.count - 1
@@ -769,7 +769,7 @@ def makeEditRemoveString(my_params, facet_key)
   if !search_field.nil?
     search_field_string = "search_field=" << search_field << "&"
   end
-  search_field_row = Array(my_params["search_field_row"])
+  search_field_row = my_params["search_field_row"]
   search_field_row_string = ""
   if !search_field_row.nil?
     for i in 0..search_field_row.count - 1
