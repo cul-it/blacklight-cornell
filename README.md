@@ -83,3 +83,10 @@ You can run RSPEC tests by supplying -s flag.
     ./run_test.sh -r YOUR_RAILS_ENV_FILE -f features/catalog_search/item_view.feature
     ./run_test.sh -sr YOUR_RAILS_ENV_FILE
     ./run_test.sh -sr YOUR_RAILS_ENV_FILE -f spec/helpers/advanced_helper_spec.rb
+
+## Parallel Testing
+Testing has been updated to allow for parallel testing with cucumber tests. 
+### To run tests in parallel:
+* Update constant `NUM_PROCESSES=1` in  `jenkins/cucumber-features.sh` to the number of processes you want to run in parallel.
+* Currently, Jenkins has a maximum of 4 processes.
+* Set to `NUM_PROCESSES=$(nproc --all)` to use all available processors.
