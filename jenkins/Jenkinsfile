@@ -7,6 +7,7 @@ pipeline {
         COLLECTIONS = "development"
         CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
         DISPLAY_SOLR_QUERY = 1
+        NUM_PROCESSES = "${params.NUM_PROCESSES}"
         }
     parameters {
         string(name: 'NUM_PROCESSES', defaultValue: '2', description: 'Number of processes to use for parallel cucumber tests')
