@@ -46,11 +46,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
 
                     if (field.name in fieldMappings) {
-                        if (field.name === "browse_type" || field.name === "search_field") {
+                        if (field.name === "browse_type" || field.name === "search_field" || field.name === "search_field_row") {
                             if (field.value in searchValueMappings) {
-                                params.append("search_field_row", searchValueMappings[field.value]);
+                                params.append("search_field_row[]", searchValueMappings[field.value]);
                                 if (field.value === "title_starts") {
-                                    params.append("op_row", "begins_with");
+                                    params.append("op_row[]", "begins_with");
                                 }
                             }
                         } else {
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Add q_row as a parameter if the search field has text
             if (hasSearchText) {
-                params.append("q_row", searchField.value.trim()); // Append q_row
+                params.append("q_row[]", searchField.value.trim()); // Append q_row
             }
 
             // Append other advanced search parameters if present
