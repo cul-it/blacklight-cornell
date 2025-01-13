@@ -2,6 +2,10 @@
 
 require 'rails_helper'
 
+before do
+  allow(controller).to receive(:current_user).and_return(nil)
+end
+
 RSpec.describe CatalogController, type: :controller do
   let(:callnum) { 'HB172.5%20.F692%202019' }
 
