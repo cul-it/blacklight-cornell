@@ -1,0 +1,14 @@
+<% unless @response.total_count < 1 || @expanded_results.nil? %>
+    <div class="highlight-box search-more">
+        <div class="heads-up">Not finding what you want?</div> 
+        <p class="mb-0">
+            Try <a href="/advanced" onclick="javascript:_paq.push(['trackEvent', 'search_results', 'search_more_advanced_link']);">Advanced Search</a> or 
+            <% if params[:q_row].nil? && params[:click_to_search].nil? && params[:f].nil? %>
+            <a href="<%= @expanded_results["worldcat"][:url] %>" onclick="javascript:_paq.push(['trackEvent', 'search_results', 'search_more_wcl_link']);">
+            <% else %>
+            <a href="<%= ENV["WORLDCAT_URL"] %>" onclick="javascript:_paq.push(['trackEvent', 'search_results', 'search_more_wcl_link']);">
+            <% end %>
+            Libraries Worldwide</a>.
+        </p>
+    </div>
+<% end %>

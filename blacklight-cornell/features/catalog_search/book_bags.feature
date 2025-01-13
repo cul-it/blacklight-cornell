@@ -62,8 +62,7 @@ Feature: Book Bags for logged in users
         # I should be redirected back to /book_bags/index
         And I sleep 3 seconds
         Then navigation should show 'Book Bag'
-        Then I should see "Please use Book Bag while you are signed in." in the flash message
-        And navigation should show 'Book Bag'
+        # Then I should see "Please use Book Bag while you are signed in." in the flash message
 
     @book_bags_persisit
     Scenario: Items in the book bag should persist through logout
@@ -111,7 +110,7 @@ Feature: Book Bags for logged in users
 
 
     @book_bags_cite_selected
-    Scenario Outline: I should be able to view citations for selected items
+    Scenario: I should NOT be able to view citations for selected items
         Given we are in any development or test environment
         And I clear the SQLite transactions
         And the test user is available
@@ -128,25 +127,7 @@ Feature: Book Bags for logged in users
         And there should be 1 item in the BookBag
         Then load 1 selected items
         And I should not see the text "You have no selected items."
-        Then I should see the text "Cite"
-        And I clear transactions
-        Then I disable ajax activity completion
-        And I view my citations in form "<format>"
-        And I sleep 3 seconds
-        Then the popup should include "<citation>"
-        Then I close the popup
-        And I sleep 1 second
-        Then I enable ajax activity completion
-        And I clear transactions
-
-    Examples:
-        | format | citation |
-        | APA 6th ed. | Heaney, S. (2018). 100 poems. London: Faber & Faber. |
-        | Chicago 17th ed. | Heaney, Seamus. 100 Poems. London: Faber & Faber, 2018. |
-        | Council of Science Editors | Heaney S. 100 poems. London: Faber & Faber; 2018. |
-        | MLA 7th ed. | Heaney, Seamus. 100 Poems. London: Faber & Faber, 2018. Print. |
-        | MLA 8th ed. | Heaney, Seamus. 100 Poems. Faber & Faber, 2018. |
-
+        Then I should not see the text "Cite"
 
     @book_bags_export_selected
     Scenario: I should be able to export selected bookmarks

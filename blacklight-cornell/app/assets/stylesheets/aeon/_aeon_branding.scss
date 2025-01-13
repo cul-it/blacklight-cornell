@@ -1,0 +1,45 @@
+/* 
+    aeon_branding.css
+    Cornell specific CSS should be added to this file.
+*/
+
+/* CUL logo */
+.cornell-logo {
+    background: url("img/CULibraryRed.svg") no-repeat;
+}
+.cornell-identity {
+    background: $white;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.insignia {
+    float: left;
+    margin-right: .5em;
+    width: 100px;
+    height: 100px;
+    text-indent: -99999em;
+}
+.library-brand a {
+    text-indent: -99999em;
+    display: block;
+    width: 160px;
+    height: 100px;
+    margin-left: 150px;
+}
+
+/* CUL mobile logo */
+.mobile-cornell-logo {
+    background: url("img/cornell-reduced-red.svg") no-repeat;
+    width: 200px;
+    height: 45px;
+    display: block;
+    text-indent: -99999em;
+}
+.library-brand-mobile {
+    display: block;
+    background: url("img/CULWordmark.svg") no-repeat;
+    text-indent: -99999em;
+    width: 120px;
+    height: 45px;
+    margin-top: .5rem;
+}

@@ -1,54 +1,83 @@
-.advanced-search .form-control {
-   margin: 0 2px;
+// Page layout
+// -------------------------
+
+// Add some white space before the form starts
+.advanced_search {
+  .main-content {
+    padding-top: 2em;
+  }
 }
-.add-row {
-  margin: 1em 0;
-}
-#sort { width: auto; }
-.as-tips {
-  margin-top: 1rem;
-}
-.add-and-sort label {
-  display: inline-block;
-  vertical-align: middle;
-}
+
+// Form styling
+// -------------------------
+
 form.advanced {
-  .boolean_row {
-    margin-bottom: .5rem;
-    margin-top: .5rem;
-    width: 100%;
+  .input_row:not(:last-child) {
+    margin-bottom: 1em;
   }
-  .form-group {
-    margin-bottom: 0;
+  .input_row {
+    select, label, input {
+      margin-bottom: .25rem;
+    }
   }
 }
-.as-examples {
-  margin-bottom: 0;
-  margin-top: .25em;
-}
-body.blacklight-advanced-index dl.dl-horizontal {
-  dt { width: 50px; }
-}
-.submit-reset {
-  margin-top: 1.5em;
-}
-.sort-results {
-  font-weight: normal;
-}
-// TODO, 8/5/15 mhk33: This is too global a style and is messing with other forms on the site
+
+// TODO: if possible (BL8 upgrade?) remove this global style and add more specificity to individual form controls; removing this now affects other parts of the app (12/3/24, mhk33)
 .form-control {
   width: 25%;
   display: inline-block;
 }
+
 // tlw72: fix spacing caused by BL7 and BS4
 .adv-search-control{
   margin: 0 0.15em;
 }
 
-.advanced_search {
-  .main-content {
-    padding-top: 2em;
+// Add a row link
+// -------------------------
+.add-row {
+  margin: 1em 0;
+}
+.add-and-sort {
+  label {
+    display: inline-block;
+    vertical-align: middle;
   }
+}
+#sort {
+  width: auto;
+}
+
+// Selected facet/constraint
+// -------------------------
+
+.advanced-facets {
+  margin-bottom: 1rem;
+  padding-top: 0;
+}
+
+// Submit or reset
+// -------------------------
+
+.submit-reset {
+  margin-top: 1.5em;
+}
+
+// Search tips
+// -------------------------
+
+.as-tips {
+  margin-top: 1rem;
+}
+.as-examples {
+  margin-bottom: 0;
+  margin-top: .25em;
+}
+// TODO: Bootstrap 4 temp fix - remove floats and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
+.dl-horizontal dt {
+  float: left;
+  clear: left;
+  text-align: right;
 }
 
 // MEDIA QUERIES
@@ -68,6 +97,7 @@ body.blacklight-advanced-index dl.dl-horizontal {
       width: 25%;
     }
   }
+  // TODO: remove dl-horizontal class and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
   .as-tips {
     dl.dl-horizontal {
       dt {
@@ -77,6 +107,10 @@ body.blacklight-advanced-index dl.dl-horizontal {
         margin-left: 65px;
       }
     }
+  }
+  // Adjust width of first row so that it is the same as subsequent rows
+  #q_row0 {
+    width: 37.5%;
   }
 }
 
@@ -97,6 +131,10 @@ body.blacklight-advanced-index dl.dl-horizontal {
       }
     }
   }
+  // Adjust width of first row so that it is the same as subsequent rows
+  #q_row0 {
+    width: 34%;
+  }
 }
 
 // Extra large devices (large desktops, 1200px and up)
@@ -105,5 +143,9 @@ body.blacklight-advanced-index dl.dl-horizontal {
     .advanced-search-field.form-control {
       width: auto;
     }
+  }
+  // Adjust width of first row so that it is the same as subsequent rows
+  #q_row0 {
+    width: 32.5%;
   }
 }

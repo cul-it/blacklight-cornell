@@ -105,3 +105,13 @@ Then("all ids are unique") do
     end
   end
 end
+
+Then('I navigate to a page that exceeds search results') do
+  RSpec::Mocks.with_temporary_scope do
+    Rails.configuration.stub(:search_limit).and_return(50)
+
+    within 'ul.pagination' do
+      click_link '5'
+    end
+  end
+end

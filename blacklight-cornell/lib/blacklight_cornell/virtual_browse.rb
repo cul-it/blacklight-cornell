@@ -21,9 +21,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     @location = location.gsub('&','%26')
     base_solr_url = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
     dbclnt = HTTPClient.new
-    solrResponseFull = []
+    solr_response_full = []
     return_array = []
-    callno = callnumber.gsub("\\"," ").gsub('"',' ')
+    callno = callnumber.tr("\\\"", "  ")
     params = {
       :wt => 'json',
       :fq => location,
@@ -40,18 +40,18 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
       uri = URI(base_solr_url + "/" + @@browse_index_callnumber + "/browse")
     end
     uri.query = URI.encode_www_form(params)
-    solrResultString = dbclnt.get_content( uri )
-    if !solrResultString.nil?
-      y = solrResultString
-      solrResponseFull = JSON.parse(y)
-      solrResponseFull["response"]["docs"].each do |doc|
+    solr_result_string = dbclnt.get_content( uri )
+    if !solr_result_string.nil?
+      y = solr_result_string
+      solr_response_full = JSON.parse(y)
+      solr_response_full["response"]["docs"].each do |doc|
         tmp_hash = get_document_details(doc)
         return_array.push(tmp_hash)
       end
     else
       return_array = nil
     end
-    return return_array
+    return_array
   end
 
   # pulls values from the solr document and returns them in a hash
@@ -82,26 +82,30 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     tmp_hash["callnumber"] = doc["callnum_display"].present? ? doc["callnum_display"] : ""
     # the difference between these next two: "internal_class_label" gets used in the data attribute
     # of some elements, while the "display_class_label" gets displayed in the UI and has the added
-    # font awesomne html
+    # font awesome html
     classification = doc["classification_display"].present? ? doc["classification_display"] : ""
     tmp_hash["internal_class_label"] = build_class_label(classification)
     tmp_hash["display_class_label"] = tmp_hash["internal_class_label"].gsub(' : ','<i class="fa fa-caret-right class-caret"></i>').html_safe
     # tmp_hash["img_url"] = get_googlebooks_image(oclc_isbn[0], oclc_isbn[1], the_format)
-    tmp_hash["img_url"] = get_googlebooks_image(oclc_id, isbn, the_format)
+    if doc["no_google_img_b"].present?
+      tmp_hash["img_url"] = set_cover_image(the_format)
+    else
+      tmp_hash["img_url"] = get_googlebooks_image(oclc_id, isbn, the_format)
+    end
 
-    return tmp_hash
+    tmp_hash
   end
 
   # Returns a string using the availability information
   def process_availability(avail_json)
-    browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || ""
+    # browseable_libraries = ENV['BROWSEABLE_LIBRARIES'] || ""
     availability = JSON.parse(avail_json)
     return "Online" if availability["online"].present?
     #return "Available" if availability["availAt"].present?
     #return "Not Available" if availability["unavailAt"].present?
     # Temporary for covid-19: don't show the availability for non-online items. Since the call number index
     # doesn't include holding info, we can't determine the actual availability.
-    return "" if availability["availAt"].present? || availability["unavailAt"].present?
+    "" if availability["availAt"].present? || availability["unavailAt"].present?
   end
 
   # Builds an array of the availability information
@@ -112,7 +116,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
       tmp_array << "Online"
     end
     if availability["availAt"].present?
-      availability["availAt"].each do |k, v|
+      availability["availAt"].each do |k, _|
         if k.include?("(")
           i = k.index("(")
           tmp_str = k[0..i - 2]
@@ -123,7 +127,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
       end
     end
 
-    return tmp_array
+    tmp_array
   end
 
   def build_class_label(classlabel)
@@ -141,19 +145,20 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
         add = false
         skipped_first = true
       end
-      add = false if count == 2 and tmp_array[0].downcase.include?(t[t.index(" - ")+2..-1].downcase) and skipped_first == false
+      add = false if count == 2 and tmp_array[0].downcase.include?(t[t.index(" - ")+2..-1].downcase) and !skipped_first
       #add = false if count == 3 and t.include?(tmp_array[2][tmp_array[2].index(" - ")+2..-1])
       #add = false if t.include?("(General)") && count != tmp_array.size
       add = false if t.include?("By region:")
       add = false if t.include?("By period:")
-      final_array << t if add == true
+      final_array << t if add
       add = true
     end
-    return final_array.join(" : ")
+    final_array.join(" : ")
   end
 
   # /get_previous
   def previous_callnumber
+    params.require([:callnum, :start])  # sometimes bots are calling this without required parameters - 400
     start = (params["start"].to_i * 8)
     location = ""
     location = params["fq"] if params["fq"].present?
@@ -167,6 +172,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
 
   # /get_next
   def next_callnumber
+    params.require([:callnum, :start])  # sometimes bots are calling this without required parameters - 400
     start = (params["start"].to_i * 8) + 1
     location = ""
     location = params["fq"] if params["fq"].present?
@@ -180,6 +186,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
 
   # /get_carousel
   def build_carousel
+    params.require(:callnum) # sometimes bots are calling this without required parameters - 400
     @callnumber = params["callnum"]
     previous_eight = get_surrounding_docs(params["callnum"],"reverse",0,8)
     next_eight = get_surrounding_docs(params["callnum"],"forward",0,9)
@@ -187,9 +194,9 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
       if previous_eight.nil?
         @new_carousel = next_eight
       elsif next_eight.nil?
-        @new_carousel = previous_eight.reverse()
+        @new_carousel = previous_eight.reverse
       else
-        @new_carousel = previous_eight.reverse() + next_eight
+        @new_carousel = previous_eight.reverse + next_eight
       end
       respond_to do |format|
         format.js
@@ -201,28 +208,38 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
     callnumber.gsub("Oversize ","").gsub("Rare Books ","").gsub("ONLINE ","").gsub("Human Sexuality ","").gsub("Ellis ","").gsub("New & Noteworthy Books ","").gsub("A.D. White Oversize ","").sub("+ ","")
   end
 
-  def get_googlebooks_image(oclc, isbn, format)
+def get_googlebooks_image(oclc, isbn, format)
+  # use oclc if present, otherwise use isbn
+  book_id = "OCLC:#{oclc}" if oclc.present? && !oclc.include?("not found")
+  # note: this can be an ISBN 10 or 13
+  book_id = "ISBN:#{isbn}" if book_id.nil? && isbn.present? && !isbn.include?("not found")
+  unless book_id.nil?
+    params = { :bibkeys => book_id, :jscmd => "viewapi", "callback" => "?"}
     uri = URI("https://books.google.com/books")
-    if oclc.present? and !oclc.include?("not found")
-      params = { :bibkeys => "OCLC:#{oclc}", :jscmd => "viewapi", "callback" => "?"}
-      uri.query = URI.encode_www_form(params)
-      result = Net::HTTP.get(uri)
-      result = eval(result.gsub("var _GBSBookInfo = ",""))
-      if result.present? && result.values[0].present? && result.values[0][:thumbnail_url].present?
-        return result.values[0][:thumbnail_url]
+    uri.query = URI.encode_www_form(params)
+    response = Net::HTTP.get_response(uri)
+    # sometimes googlebooks returns a 502 bad gateway, so we need to check for that
+    if response.kind_of? Net::HTTPSuccess
+      # extract the json payload from the jsonp response (outermost brackets):
+      #
+      # var _GBSBookInfo = {"ISBN:9780387978444":{"bib_key":"ISBN:9780387978444",
+      # "info_url":"https://books.google.com/books?id=dqNFAQAAIAAJ\u0026source=gbs_ViewAPI",
+      # "preview_url":"https://books.google.com/books?id=dqNFAQAAIAAJ\u0026source=gbs_ViewAPI","
+      # thumbnail_url":"https://books.google.com/books/content?id=dqNFAQAAIAAJ\u0026printsec=frontcover\u0026img=1\u0026zoom=5",
+      # "preview":"noview", "embeddable":false, "can_download_pdf":false, "can_download_epub":false,
+      # "is_pdf_drm_enabled":false, "is_epub_drm_enabled":false}};
+      payload = response.body[/{.+}/]
+      unless payload.nil?
+        result = JSON.parse(payload)
+        # if there's a thumbnail_url, return it
+        if result.present? && result.values[0].present? && result.values[0]['thumbnail_url'].present?
+          return result.values[0]['thumbnail_url']
+        end
       end
     end
-    if isbn.present? and !isbn.include?("not found")
-      params = { :bibkeys => "OCLC:#{isbn}", :jscmd => "viewapi", "callback" => "?"}
-      uri.query = URI.encode_www_form(params)
-      result = Net::HTTP.get(uri)
-      result = eval(result.gsub("var _GBSBookInfo = ",""))
-      if result.present? && result.values[0].present? && result.values[0][:thumbnail_url].present?
-        return result.values[0][:thumbnail_url]
-      end
-    end
-    return set_cover_image(format)
   end
+  set_cover_image(format)
+end
 
   # When there's no image from google books
   def set_cover_image(format)

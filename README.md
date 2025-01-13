@@ -38,7 +38,7 @@
 ## Building Docker image
 
 To run the containerized blacklight-cornell application, you need to have correct remote MySQL information.\
-That information can be found at LastPass shared folder `Sahred-Discovery and Access-Library Systems` -> `container-discovery POC admin`.\
+That information can be found at LastPass shared folder `Shared-Discovery and Access-Library Systems` -> `container-discovery POC admin`.\
 **PLEASE USE THE CREDENTIALS UNDER THE NOTES SECTION!**\
 If you don't have access to the shared folder, please contact the library systems team.\
 **To build and run the application locally, you will need to be in the library VPN**.\
@@ -83,3 +83,10 @@ You can run RSPEC tests by supplying -s flag.
     ./run_test.sh -r YOUR_RAILS_ENV_FILE -f features/catalog_search/item_view.feature
     ./run_test.sh -sr YOUR_RAILS_ENV_FILE
     ./run_test.sh -sr YOUR_RAILS_ENV_FILE -f spec/helpers/advanced_helper_spec.rb
+
+## Parallel Testing
+Testing has been updated to allow for parallel testing with cucumber tests. 
+### To run tests in parallel:
+* Update constant `NUM_PROCESSES=1` in  `jenkins/cucumber-features.sh` to the number of processes you want to run in parallel.
+* Currently, Jenkins has a maximum of 4 processes.
+* Set to `NUM_PROCESSES=$(nproc --all)` to use all available processors.

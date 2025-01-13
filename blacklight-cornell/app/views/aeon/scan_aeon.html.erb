@@ -1,12 +1,109 @@
-  
-  <%# output = Hash(JSON.parse(@document['items_json'])) %>
-  <%#= output %>
-  <%#= @document.inspect %>
-    
-  <%#= @bibdata.inspect %>
-  <%#= @holdings.inspect %>
-  <%#= @document["marc_display"].inspect %>
-  <%#= @all %>
-  <%#= render :partial => 'layouts/aeon/prelim' %>
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<title>Scanning Request for <%= @title %> </title>
+		<%= favicon_link_tag asset_path('favicon.ico') %>
+		<script>var itemdata = {};</script>
+		<%= render :partial => 'aeon/header_meta' %>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<%= render :partial => 'aeon/header_prelim_scripts' %>
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" media="screen" />
+		<%= stylesheet_link_tag "aeon", :media => "all" %>
+		<%= javascript_include_tag "aeon" %>
+	</head>
+	<body>
+		<%= render :partial => 'aeon/aeon_header' %>
+		
+		<div id="main-content" class="container">
+			<a href="/catalog/<%= @bibid %>" class="return-link">
+				<i class="fa fa-arrow-circle-left"></i> Back to item
+			</a>
+			<h2>Scanning Request</h2>
+			 
+			<p><%= @disclaimer %></p>
+ 
+			<div class="aeoncard">
+				<h2 class="h2title"><%= @title %></h2>
+				<div class="info-wrapper">
+					<% if @finding_aid.present? %>
+						<% cleaned_finding_aid = @finding_aid.end_with?('/track') ? @finding_aid.chomp('/track') : @finding_aid %>
+						<p>
+							<i class="fa fa-check" aria-hidden="true"></i>
+							<a href='<%= cleaned_finding_aid %>'> Finding Aid</a>
+						</p>
+					<% end %>
+					<% if @re506.present? %>
+						<p>
+							<i class="fa fa-warning" aria-hidden="true"></i>
+							Restrictions: <%= @re506 %>
+						</p>
+					<% end %>
+					<% holdings = JSON.parse(@document['holdings_json']) %>
+					<% bounds_with = holdings.any? { |_, holding| holding.key?('boundWith') && holding['boundWith'].any? } %>
+					<% if bounds_with %>
+							<p>
+									<i class="fa fa-warning" aria-hidden="true"></i>
+									This item is bound with another item(s). 
+									Please <a href="mailto:rareref@cornell.edu" aria-label="email rareref@cornell.edu">ask a librarian</a> for assistance to make this request.
+							</p>
+					<% end %>
+				</div>
 
+				<div id="shoppingcart">
+					<span id="numitems">Number of items selected:</span>
+					<span id="num-selections-wrapper">
+						<span id="num-selections"></span>
+					</span>
+					<div id="selections-wrapper">
+						<ol>
+							<div id="selections"></div>
+						</ol>
+					</div>
+				</div>
+
+				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
+				<% holdings = JSON.parse(@document['holdings_json']) %>
+				<% rmc_site = true %>
+				<% holdings.each do |_, holding| %>
+						<% location = holding['location'] %>
+						<% if location && (location['code'].downcase.include?('kheel') || location['name'].downcase.include?('kheel')) %>
+								<% rmc_site = false %>
+								<% break %>
+						<% end %>
+				<% end %>
+				<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">
+					<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+					<input type="hidden" name="authenticated" value="true">
+					<%# 
+						ExternalRequest must be used to support multiple items in a single request
+						Note, SkipOrderEstimate is not supported yet, but once it is we can remove the routing rule.
+						This setting will tell Aeon to send requests directly to Awaiting Order Processing status.
+					%>
+					<input type="hidden" name="SkipOrderEstimate" value="Yes">
+					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
+					<input type="hidden" name="AeonForm" value="ExternalRequest">
+					<input type="hidden" name="Site" value="<%= rmc_site ? 'RMC' : 'KHEEL' %>"/>
+					<input type="hidden" name="SystemID" value="Aeon Copy">
+					<input type="hidden" name="WebRequestForm" value="PhotoduplicationRequest">
+					<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request"/>
+					<input type="hidden" name="RequestType" value="Copy">
+					<input type="hidden" id="DocumentType" name="DocumentType" value="Photoduplication"/>	
+					<input type="hidden" name="FormValidationOverride" value="AllRequests">
+					<input type="hidden" name="SkipFieldLengthValidation" value="yes">
+					<input type="hidden" id="Restrictions" name="Restrictions" value="<%= @re506 %>">
+					<input type="hidden" id="ItemInfo3" name="ItemInfo3" value="<%= @re506 %>">
+					<input type="hidden" id="ItemInfo5" name="ItemInfo5" value="">
+					<input type="hidden" id="ItemTitle" name="ItemTitle" value="<%= @title %>">
+					<input type="hidden" id="ItemAuthor" name="ItemAuthor" value="<%= @author %>">				
+					<%= render :partial => 'aeon/holdings' %>
+					<%= render :partial => 'aeon/aeon_scan_body', locals: { show_rmc_options: rmc_site } %>
+					<%= render :partial => 'aeon/clearer' %>
+				</form>
+			</div>
+		</div>
+  	</body>
+ </html>

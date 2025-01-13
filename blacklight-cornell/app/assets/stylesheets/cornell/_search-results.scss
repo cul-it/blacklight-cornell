@@ -109,6 +109,7 @@ body.book_bags-index #documents .document {
 	}
 }
 #sortAndPerPage {
+	margin-top: 1rem;
 	margin-bottom: 0;
 	padding-bottom: .25em;
 	border-bottom: 5px solid $light-tan;
@@ -125,6 +126,11 @@ body.book_bags-index #documents .document {
 	}
 	.select_all.checkbox {
 			display: inline-block;
+	}
+	.select_all {
+		label {
+			margin-bottom: 0.15rem;
+		}
 	}
 }
 
@@ -202,9 +208,6 @@ h4.suggest {
 		margin-top: 0;
 	}
 	.search-filter {
-		float: right;
-	}
-	.search-filter {
 		.select_all.btn {
 			margin-left: 0
 		}
@@ -212,7 +215,11 @@ h4.suggest {
 }
 
 // Large devices (desktops, 992px and up)
-// @include media-breakpoint-up(lg) { ... }
+@include media-breakpoint-up(lg) {
+	.search-filter {
+		float: right;
+	}
+}
 
 // Extra large devices (large desktops, 1200px and up)
 // @include media-breakpoint-up(xl) { ... }

@@ -957,13 +957,6 @@ end
     }
   end
 
-  # Next 3 is_x methods used for show_tools view to switch btw catalog & bookmarks
-  def is_citable document
-    if document.respond_to?(:export_as_mla_citation_txt) || document.respond_to?(:export_as_apa_citation_txt)
-      return true
-    end
-  end
-
   def is_emailable document
     if document.respond_to?(:to_email_text)
       return true

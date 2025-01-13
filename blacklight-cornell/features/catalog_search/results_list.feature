@@ -379,3 +379,10 @@ Feature: Results list
     Then I should get results
     And I should see the label 'Birds I have kept in years gone by'
     And I should see a facets sidebar
+
+  @javascript
+  Scenario: I can't see more than 20,000 search results
+    Given I am on the home page
+    And I press 'search'
+    And I navigate to a page that exceeds search results
+    Then I should see the text 'Search limit exceeded. To view additional results, modify your search using the available filters.'

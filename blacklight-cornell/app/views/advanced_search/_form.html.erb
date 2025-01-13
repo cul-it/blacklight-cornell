@@ -1,0 +1,40 @@
+<div class='card card-body card-well'>
+  <%= form_with url: search_catalog_path, class: 'advanced', method: :get do |form| %>
+    <div class='query_zone'>
+      <%# Display at least 2 search rows %>
+      <% [form_row_values.count, 2].max().times do |i| %>
+        <% form_values_for_row = form_row_values[i] || {} %>
+        <%= render 'form_rows', form: form, form_values: form_values_for_row, row_num: i %>
+      <% end %>
+    </div>
+
+    <div class='add-and-sort'>
+      <div class='add-row'>
+        <a href='#' id='add-row'><i class='fa fa-plus-circle'></i> Add a row</a>
+      </div>
+      <% if params['action'] == 'edit' %>
+        <div class='advanced-facets'>
+          <%= render_edit_advanced_constraints_filters(params) %>
+      	</div>
+      <% end %>
+      <div class='form-group'>
+        <%= form.label :sort, t('blacklight.search.form.sort'), class: 'sort-results' %>
+        <%= form.select :sort, advanced_search_sort_opts, {}, { class: 'form-control adv-search-control' } %>
+      </div>
+      <% hidden_form_values.each do |h| %>
+        <%= form.hidden_field h[:name], value: h[:value] %>
+      <% end %>
+      <%= form.hidden_field :search_field, value: 'advanced' %>
+      <%= form.hidden_field :advanced_query, value: 'yes' %>
+    </div>
+
+    <div class='submit-reset'>
+      <%= form.submit 'Search', class: 'btn btn-search', id: 'advanced_search' %>
+      <span class='form-alternative-action'>
+        or <%= link_to 'Reset', {:controller => 'advanced_search', :action => 'index'} %>
+      </span>
+    </div>
+  <% end %>
+</div>
+
+<%= render 'search_tips' %>

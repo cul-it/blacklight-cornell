@@ -133,13 +133,6 @@ en:
       librarian_view: 'Librarian View'
       clear: 'Clear'
 
-    citation:
-      apa:  'APA 6th ed.'
-      chicago: 'Chicago 17th ed.'
-      cse:  'Council of Science Editors'
-      mla:  'MLA 7th ed.'
-      mla8: 'MLA 8th ed.'
-
     email:
       form:
         title: 'Email this'
@@ -225,6 +218,7 @@ en:
         label: 'Sort by %{field}'
         submit: 'sort results'
       form:
+        boolean: Boolean
         search_field:
           label: 'Search in'
           title: 'Targeted search options'
@@ -233,6 +227,7 @@ en:
         q_row: 'Term'
         search_field_row: 'Field'
         search_field_advanced: 'Field'
+        sort: Sort results by
         op_row: 'Operator'
         submit: 'Search'
       pagination:

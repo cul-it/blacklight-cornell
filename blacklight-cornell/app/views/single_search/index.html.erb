@@ -9,8 +9,7 @@
               <%= render 'single_search/search_form' %>
             </div>
             <div class="advanced-search-link col-md-4">
-              <%= link_to 'Catalog Advanced Search', '/advanced' %>
-                    <%#= params[:q].inspect %>
+              <%= link_to 'Catalog Advanced Search', "/advanced", id: "advanced-search-link" %>
             </div>
           </div>
         </div>
@@ -80,7 +79,6 @@
                         <i class="fa fa-arrow-right"></i>
                         <%= link_to "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" do %>
                           Request from Libraries Worldwide
-                            <%= render 'single_search/wcl_results', :key => 'worldcat', :result => @wcl %>
                         <% end %>
                       </li>
                       <li>
@@ -200,7 +198,7 @@
                     <% end %>
                     <% #alertsArray << $db_recommendation unless $db_recommendation.blank? %>
                     <% alertsArray.each do |alert| %>
-                      <div class="best-bet">
+                      <div class="highlight-box">
                         <div class="heads-up">
                           <i class="fa fa-star"></i>
                           <%= 'Best Bet' %>
@@ -299,3 +297,5 @@
     <% end %>
   <% end %>
 <% end %>
+
+<%= javascript_include_tag 'search_form', 'data-turbo-track': 'reload' %>
