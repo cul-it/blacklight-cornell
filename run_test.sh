@@ -43,13 +43,14 @@ resolve_relative_path() (
 
 aws_creds=""
 compose_file="docker-compose-test.yaml"
-rails_env_file=""
 feature=""
+manual_compose_down=""
+num_processes=2
+profiles="--profile cucumber"
+rails_env_file=""
 run_cmd="up --abort-on-container-exit --exit-code-from webapp"
 use_rspec=""
-manual_compose_down=""
-profiles="--profile cucumber"
-while getopts "shia:r:f:" options; do
+while getopts "shia:n:r:f:" options; do
   case "${options}" in
     a) abs_path=$(resolve_relative_path "${OPTARG}")
        aws_creds="-v ${abs_path}:/custom_mnt/credentials:ro" ;;
@@ -60,6 +61,7 @@ while getopts "shia:r:f:" options; do
     i) compose_file="docker-compose-test-interactive.yaml"
        run_cmd="run --entrypoint=bash webapp"
        manual_compose_down="1" ;;
+    n) num_processes=${OPTARG} ;;
     s) use_rspec="1"
        profiles="--profile rspec" ;;
     *) exit_abnormal ;;
@@ -79,6 +81,8 @@ fi
 echo $RAILS_ENV_FILE
 
 export USE_RSPEC=${use_rspec}
+echo $num_processes
+export NUM_PROCESSES=${num_processes}
 
 selenium_image="seleniarm/standalone-chromium"
 SYSTEM_ARCH=$(arch | sed s/aarch64/arm64/)
@@ -109,6 +113,7 @@ if [ "${manual_compose_down}" != "" ]
 fi
 
 unset FEATURE
+unset NUM_PROCESSES
 unset RAILS_ENV_FILE
 unset SELENIUM_IMAGE
 unset USE_RSPEC

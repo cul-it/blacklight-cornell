@@ -12,6 +12,7 @@ services:
         - GIT_COMMIT
     environment:
       - FEATURE
+      - NUM_PROCESSES
       - USE_TEST_CONTAINER=1
       - USE_RSPEC
     depends_on:
