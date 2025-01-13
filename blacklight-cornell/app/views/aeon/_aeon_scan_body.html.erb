@@ -45,29 +45,50 @@
                         </select>
                 </div>
         </div>
-</div>
-<div class="form-group">
-        <label for="SpecialRequest">Please enter any deadlines, special requests or questions for library staff.</label>
-        <textarea class="form-control col-md-6" id="SpecialRequest" name="SpecialRequest" rows="3" maxlength="250" oninput="checkLength()" aria-describedby="charWarning"></textarea>
-        <div id="charWarning" class="charmax-alert" style="display: none;" role="alert" aria-live="assertive">
-                <i class="fa fa-charmax-alert"></i> You have reached the 250 character limit.
+
+        <div class="form-group row">
+                <div class="col-form-label col-sm-2">
+                        <label for="SpecialRequest">Special Requests or Questions:</label>
+                </div>
+                <div class="col-form-label col-sm-10">
+                        <textarea class="form-control col-md-9" id="SpecialRequest" name="SpecialRequest" rows="3" maxlength="250" oninput="checkLength('SpecialRequest', 'charWarning-sr')" aria-describedby="charWarning-sr"></textarea>
+                        <div id="charWarning-sr" class="charmax-alert" style="display: none;" role="alert" aria-live="assertive">
+                                <i class="fa fa-charmax-alert"></i> You have reached the 250 character limit.
+                        </div>
+                        <small class="form-text text-muted">Please enter any deadlines, special requests or questions for library staff.</small>
+                </div>
         </div>
-</div>
-<script>
-        // when character max limit is reached, show (and announce to screen readers) a warning message 
-        function checkLength() {
-                if (document.getElementById('SpecialRequest').value.length >= 250) {
-                        document.getElementById('charWarning').style.display = 'block';
-                } else {
-                        document.getElementById('charWarning').style.display = 'none';
+        <div class="form-group row">
+                <div class="col-form-label col-sm-2">
+                        <label for="ItemCitation">Citation:</label>
+                </div>
+                <div class="col-form-label col-sm-10">
+                        <textarea class="form-control col-md-9" id="ItemCitation" name="ItemCitation" rows="3" maxlength="250" oninput="checkLength('ItemCitation', 'charWarning-cit')" aria-describedby="charWarning-cit"></textarea>
+                        <div id="charWarning-cit" class="charmax-alert" style="display: none;" role="alert" aria-live="assertive">
+                                <i class="fa fa-charmax-alert"></i> You have reached the 250 character limit.
+                        </div>
+                        <small class="form-text text-muted">If you have seen the image you are requesting online, please provide the URL. You may also enter an image ID number, if known.</small>
+                </div>
+        </div>
+        <div class="form-group row">
+                <div class="col-form-label col-sm-2">
+                        <label for="Notes">My Notes:</label>                
+                </div>
+                <div class="col-form-label col-sm-10">
+                        <textarea class="form-control col-md-9" id="Notes" name="Notes" rows="3" maxlength="4000"></textarea>
+                        <small class="form-text text-muted">Enter any notes about this request for your personal reference.</small>
+                </div>
+        </div>
+        <script>
+                // when character max limit is reached, show (and announce to screen readers) a warning message 
+                function checkLength(textareaId, warningId) {
+                        var textarea = document.getElementById(textareaId);
+                        var warning = document.getElementById(warningId);
+                        if (textarea.value.length >= textarea.maxLength) {
+                                warning.style.display = 'block';
+                        } else {
+                                warning.style.display = 'none';
+                        }
                 }
-        }
-</script>
-<div class="form-group">
-        <label for="Notes">Add any notes about this item or request that may be helpful for your own personal reference later.</label>
-        <textarea class="form-control col-md-6" id="Notes" name="Notes" rows="3"></textarea>
-</div>        
-<div class="form-group">
-        <label for="ItemCitation">If you have seen the image you are requesting online, please provide the URL. You may also enter an image ID number, if known.</label>
-        <textarea class="form-control col-md-6" id="ItemCitation" name="ItemCitation" rows="3"></textarea>
+        </script>
 </div>
