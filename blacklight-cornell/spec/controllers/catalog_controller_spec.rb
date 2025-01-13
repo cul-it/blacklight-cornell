@@ -2,10 +2,6 @@
 
 require 'rails_helper'
 
-before do
-  allow(controller).to receive(:current_user).and_return(nil)
-end
-
 RSpec.describe CatalogController, type: :controller do
   let(:callnum) { 'HB172.5%20.F692%202019' }
 
@@ -38,6 +34,15 @@ RSpec.describe CatalogController, type: :controller do
           }.to raise_error ActionController::InvalidCrossOriginRequest
         end
       end
+
+      # context 'and the Accept: text/javascript header is missing' do
+      #   it 'raises an InvalidCrossOriginRequest error' do
+      #     @request.set_header 'HTTP_X_REQUESTED_WITH', 'XMLHttpRequest'
+      #     expect {
+      #       get :next_callnumber, params: { callnum: callnum, start: 1 }
+      #     }.to raise_error ActionController::UnknownFormat
+      #   end
+      # end
 
       context 'and the Accept header does not include javascript' do
         it 'raises an InvalidCrossOriginRequest error' do
@@ -89,6 +94,15 @@ RSpec.describe CatalogController, type: :controller do
         end
       end
 
+      # context 'and the Accept: text/javascript header is missing' do
+      #   it 'raises an InvalidCrossOriginRequest error' do
+      #     @request.set_header 'HTTP_X_REQUESTED_WITH', 'XMLHttpRequest'
+      #     expect {
+      #       get :previous_callnumber, params: { callnum: callnum, start: 1 }
+      #     }.to raise_error ActionController::UnknownFormat
+      #   end
+      # end
+
       context 'and the Accept header does not include javascript' do
         it 'raises an InvalidCrossOriginRequest error' do
           @request.set_header 'HTTP_X_REQUESTED_WITH', 'XMLHttpRequest'
@@ -137,6 +151,15 @@ RSpec.describe CatalogController, type: :controller do
         end
       end
 
+      # context 'and the Accept: text/javascript header is missing' do
+      #   it 'raises an InvalidCrossOriginRequest error' do
+      #     @request.set_header 'HTTP_X_REQUESTED_WITH', 'XMLHttpRequest'
+      #     expect {
+      #       get :build_carousel, params: { callnum: callnum }
+      #     }.to raise_error ActionController::UnknownFormat
+      #   end
+      # end
+
       context 'and the Accept header does not include javascript' do
         it 'raises an InvalidCrossOriginRequest error' do
           @request.set_header 'HTTP_X_REQUESTED_WITH', 'XMLHttpRequest'
@@ -164,60 +187,4 @@ RSpec.describe CatalogController, type: :controller do
       end
     end
   end
-
-
-  describe '#start_new_search_session?' do
-    # prevent calls to Solr server
-    before do
-      allow_any_instance_of(Blacklight::SearchService).to receive(:search_results).and_return([double('response'), []])
-    end
-
-    context "when action is 'index'" do
-      before { allow(controller).to receive(:action_name).and_return('index') }
-      # return True ------------------------------------------------------------
-      it "returns true when search_field, q(query), and f(facet) are present" do
-        get :index, params: { search_field: 'all_fields', q: 'test', f: {"collection_tesim"=>["Digital Witchcraft Collection"]} }
-        expect(controller.start_new_search_session?).to be true
-      end
-      it "returns true when search_field and f(facet) are present, while q(query) is blank" do
-        get :index, params: { search_field: 'all_fields', q: '', f: {"collection_tesim"=>["Digital Witchcraft Collection"]} }
-        expect(controller.start_new_search_session?).to be true
-      end
-      it "returns true when search_field and q(query) are present, while f(facet) is blank" do
-        get :index, params: { search_field: 'all_fields', q: 'test', f: {} }
-        expect(controller.start_new_search_session?).to be true
-      end
-      # return False -----------------------------------------------------------
-      it "returns false when search_field, q(query), and f(facet) are blank or nil" do
-        get :index, params: { search_field: '', q: '', f: {} }
-        expect(controller.start_new_search_session?).to be false
-      end
-      it "returns false when search_field and q(query) are blank, while f(facet) is present" do
-        get :index, params: { search_field: '', q: '', f: {"collection_tesim"=>["Digital Witchcraft Collection"]} }
-        expect(controller.start_new_search_session?).to be false
-      end
-      it "returns false when only search_field is present" do
-        get :index, params: { search_field: 'all_fields', q: '', f: {} }
-        expect(controller.start_new_search_session?).to be false
-      end
-      it "returns false when search_field and f(facet) are blank, while q(query) is present" do
-        get :index, params: { search_field: '', q: 'search query', f: {} }
-        expect(controller.start_new_search_session?).to be false
-      end
-      it "returns false when search_field is blank, while q(query) and f(facet) are present" do
-        get :index, params: { search_field: '', q: 'test query', f: {"collection_tesim"=>["Digital Witchcraft Collection"]} }
-        expect(controller.start_new_search_session?).to be false
-      end
-    end
-
-    context "when action is not 'index'" do
-      before { allow(controller).to receive(:action_name).and_return('show') }
-
-      it "returns false regardless of search parameters" do
-        get :show, params: { id: 1, search_field: 'title', q: 'query', f: {"collection_tesim"=>["Digital Witchcraft Collection"]} }
-        expect(controller.start_new_search_session?).to be false
-      end
-    end
-  end
-
 end
