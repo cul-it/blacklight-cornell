@@ -31,6 +31,24 @@ class CatalogController < ApplicationController
     eos
   end
 
+  # ============================================================================
+  # Overrides Blacklight 'start_new_search_session?' to prevent saving searches
+  # that don't contain the appropriate parameters for search history.
+  # (prevents empty redundant search history lines)
+  # ----------------------------------------------------------------------------
+  def start_new_search_session?
+    # For advanced search, only start a new session if query is present
+    if params[:search_field] == "advanced"
+       query, index = params[:q_row], action_name == "index"
+      start_new_search_history_record = index && !(query[0].blank?)
+    else
+      # For regular search, start a new session if query or facet is present
+      search_field, query, facet, index = params["search_field"], params["q"], params["f"], action_name == "index"
+      start_new_search_history_record = index && !(search_field.blank? || (query.blank? && facet.blank?))
+    end
+    start_new_search_history_record
+  end
+
   #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
