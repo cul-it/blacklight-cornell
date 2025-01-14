@@ -102,8 +102,8 @@ function SubjectDataBrowse() {
 
   function renderWikiImage(image) {
     if (image) {
-      $('#subject-image').attr('src', image.url);
-      $('#img-container').show();
+      $('#bio-image').attr('src', image.url);
+      $('#img-container').removeClass('d-none');;
       $('#wiki-image-acknowledge').html(`<br/>Image: ${wikidataConnector.imageAttributionHtml(image)}`);
     } else {
       $('#comment-container').removeClass();
@@ -154,11 +154,11 @@ function SubjectDataBrowse() {
   };
   
   function displayCatalogMetadata() {
-    $('#bio-desc').removeClass('d-none');
+    $('#bio-without-ld').removeClass('d-none');
   };
 
   function displayLinkedData() {
-    $('#info-details').removeClass('d-none');
+    $('#bio-with-ld').removeClass('d-none');
     $('#ref-info').addClass('mt-4');
   };
 

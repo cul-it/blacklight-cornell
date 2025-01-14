@@ -1,76 +1,26 @@
-<% encoded_heading = (@headingsResponse[0]["heading"]).gsub('&', '%26').gsub("\"", "'") %>
-<input id="subj_loc_localname" type="hidden" value="<%=@loc_localname.gsub('"','')%>"/>
-<% bio_data = @headingsResponse[0]["rda_json"].present? ? JSON.parse(@headingsResponse[0]["rda_json"]) : {} %>
-<% bio_data = cleanup_bio_data(bio_data)%>
-<% permissions_key = @headingsResponse[0]["heading"].delete_prefix('"').delete_suffix('"')
-    exclusions = check_permissions(permissions_key)
-    exclusions_JSON = exclusions.nil? ? {}: exclusions.to_json
+<%
+  bio_data = @heading_document['rda_json'].present? ? JSON.parse(@heading_document['rda_json']) : {}
+  bio_data = cleanup_bio_data(bio_data)
+  permissions_key = @heading_document['heading'].delete_prefix('"').delete_suffix('"')
+  exclusions = check_permissions(permissions_key)
+  exclusions_JSON = exclusions.nil? ? {}: exclusions.to_json
 %>
-<input id="exclusions" type="hidden" value="<%= exclusions_JSON %>" />
-<div class="row info-row mt-4" style="margin-bottom:20px">
-  <div id="subj-left-col" class="col-sm-8 col-md-8 col-lg-8">
-    <% if bio_data.present? %>
-      <div id="bio-desc" class="d-none">
-        <h3>Description</h3>
-        <dl id="bio-data-dl" class="dl-horizontal ml-3">
-          <%= render_bio_data(bio_data) %>
-        </dl>
-      </div>
+
+<input id='subj_loc_localname' type='hidden' value="<%=@loc_localname.gsub('"','')%>"/>
+<input id='exclusions' type='hidden' value="<%= exclusions_JSON %>" />
+
+<div class='row info-row mb-4 mt-4'>
+  <div id='left-container' class='col-sm-8 col-md-8 col-lg-8'>
+    <%= render 'bio_info', heading_type: 'subject', bio_data: bio_data do %>
+      <%= render_bio_data(bio_data) if bio_data.present? %>
     <% end %>
-    <div id="info-details" class="row info-row d-none">
-      <div id="img-container" class="col-sm-5 col-md-4 col-lg-3 text-center" style="display:none">
-        <img id="subject-image" src="" title="subject image" width="120px"/>
-      </div>
-      <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
-        <div id="dbp-comment"></div>
-        <% unless bio_data.empty? %>
-          <dl id="bio-data-dl" class="dl-horizontal">
-            <%= render_bio_data(bio_data) %>
-          </dl>
-        <% end %>
-        <%# filled in by javascript when needed %>
-        <div class="ld-acknowledge" id="wiki-image-acknowledge"></div>
-      </div>
-    </div>
-    <div id="ref-info">
-      <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
+    <div id='ref-info'>
+      <%= render partial: 'reference_info' %>
     </div>
   </div>
-	<div class="col-sm-4 col-md-4 col-lg-4">
-		<div class="card" id="formats">
-		  <div class="card-header">
-		    <h3 style="margin-bottom: 0;">Library Holdings</h3>
-		  </div>
-		  <div class="card-body" style="padding-top: .75rem;">
-		    <ul class="fa-ul" id="more-results">
-			  <% works=JSON.parse(@headingsResponse[0]["counts_json"]) %>
-              <% if works["worksBy"].present? %>
-		        <li>
-			      Total Works By: <%= link_to '/?q="' + encoded_heading + '"&search_field=author_' + search_field(@headingsResponse[0]["headingTypeDesc"]) + '_browse' do %>
-	                <%= number_with_delimiter(works["worksBy"], :delimiter => ',') %>
-	                <% if  works["worksBy"] > 1 %>Titles<%else%>Title<%end%>
-	              <% end %>
-			    </li>
-              <% end %>
-		      <li>
-			    Total Works About: <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_' + search_field(@headingsResponse[0]["headingTypeDesc"]) + '_browse' do %>
-	              <%= number_with_delimiter(works["worksAbout"], :delimiter => ',') %>
-	              <% if works["worksAbout"] > 1 %>Titles<%else%>Title<%end%>
-	            <% end %>
-			  </li>
-		      <li style="text-align center">
-			    <div style="width:100%;border-bottom: solid 1px #dcdcdc"></div>
-			  </li>
-			  <% @formats.each do |f| %>
-			    <li>
-                  <%= build_search_link(f, encoded_heading, search_field(@headingsResponse[0]["headingTypeDesc"]))%>
-			    </li>
-			  <% end %>
-			</ul>
-		  </div>
-	    </div>
-        <%# Will display relevant call numbers for the subject if they're available. %>
-        <div id="callnumberbrowselink" class="mb-4 mt-4 ml-2" localname="<%=@loc_localname.gsub('"','')%>"></div>
-	</div>
+	<div class='col-sm-4 col-md-4 col-lg-4'>
+    <%= render 'holdings' %>
+    <%# Will display relevant call numbers for the subject if they're available. %>
+    <div id='callnumberbrowselink' class='mb-4 mt-4 ml-2' localname="<%=@loc_localname.gsub('"','')%>"></div>
   </div>
-  
+</div>

@@ -1,28 +1,33 @@
 module BrowseHelper
 
-def search_field(headingType)
-	if headingType == "Personal Name" 
-		search_field = 'pers'
-	elsif headingType=="Corporate Name"
-		search_field = 'corp'
-	elsif headingType == "Event"
-		search_field = 'event'
-	elsif headingType == 'Geographic Name'
-		search_field = "geo"
-	elsif headingType == 'Chronological Term'
-		search_field = 'era'
-	elsif headingType == 'Genre/Form Term'
-		search_field = 'genr'
-	elsif headingType == "Topical Term"
-		search_field = 'topic'
-	elsif headingType=='Work'
-		search_field='work'
-	else search_field='all_fields'
+  def search_field(heading_type)
+    case heading_type
+    when 'Personal Name'
+      'pers'
+    when 'Corporate Name'
+      'corp'
+    when 'Event'
+      'event'
+    when 'Geographic Name'
+      'geo'
+    when 'Chronological Term'
+      'era'
+    when 'Genre/Form Term'
+      'genr'
+    when 'Topical Term'
+      'topic'
+    when 'Work'
+      'work'
+    else
+      'all_fields'
+    end
+  end
 
-	end
+  def browse_search_field(browse_type, heading_type)
+    heading_type = search_field(heading_type) if heading_type
 
-	return search_field
-end
+    browse_type
+  end
 
 def browse_uri_encode (link_url)
     link_url = link_url.gsub('&','%26')
@@ -34,61 +39,54 @@ def call_number_browse_link(call_number)
 	link_to(h(call_number), link_url)
 end
 
-def cleanup_bio_data(bd)
-  if bd.key?("Occupation")
-    bd.except!("Field")
+  def cleanup_bio_data(bd)
+    bd.reject { |k, v| k == 'Field' if bd.key?('Occupation') }
   end
-  return bd
-end
 
-def render_bio_data(bd)
-  html = ""
-  bd.each do |t,d|
-    unless t == "Gender"
-      if t == "Group/Organization"
-        t = "Affiliation"
-      end
-      html += "<dt>" + t + ":</dt><dd style='margin-left:120px'>"
-      if t == "Occupation"
-        d.each do |data|
-          if !data.equal?(d.last)
-            html += data.gsub(/s$/, '') + ", "
-          else
-            html += data.gsub(/s$/, '')
-          end
+  def render_bio_data(bd)
+    html = ''
+    bd.each do |t,d|
+      unless t == 'Gender'
+        if t == 'Group/Organization'
+          t = 'Affiliation'
         end
-      else
-        html += d if !d.kind_of?(Array)
-        html += d.join(", ") if d.kind_of?(Array)
+        html += "<dt>#{t}:</dt><dd>"
+        if t == 'Occupation'
+          d.each do |data|
+            if !data.equal?(d.last)
+              html += data.gsub(/s$/, '') + ', '
+            else
+              html += data.gsub(/s$/, '')
+            end
+          end
+        else
+          html += d if !d.kind_of?(Array)
+          html += d.join(', ') if d.kind_of?(Array)
+        end
+        html += '</dd>'
       end
-      html += "</dd>"
     end
+    return html.html_safe
   end
-  return html.html_safe
-end
 
-def render_reference_info(type,h_response,loc_localname)
-  alt_form_count = h_response[0]["alternateForm"].present? ? h_response[0]["alternateForm"].size : 0
-  html = ""
-  if h_response[0]["headingTypeDesc"].present? 
-    html += build_heading_type(h_response[0]["headingTypeDesc"]) 
-  end 
-  if alt_form_count > 0 
-    if type == "subject"
-      html += build_alt_forms_subjects(h_response[0]["alternateForm"])
-    else
-      html += build_alt_forms_authors(h_response[0]["alternateForm"])
+  def render_reference_info(h_response, loc_localname)
+    alt_form_count = h_response['alternateForm'].present? ? h_response['alternateForm'].size : 0
+    html = ''
+    if h_response['headingTypeDesc'].present? 
+      html += build_heading_type(h_response['headingTypeDesc']) 
+    end 
+    if alt_form_count > 0 
+      html += build_alt_forms(h_response['alternateForm'])
     end
-  end
-  if !loc_localname.blank?
-    if loc_localname[1..2] == "sh"
-      html += build_lcsh_link(loc_localname.gsub('"',''))
-    else
-      html += build_lcnaf_link(loc_localname.gsub('"',''))
+    if !loc_localname.blank?
+      if loc_localname[1..2] == 'sh'
+        html += build_lcsh_link(loc_localname.gsub('"',''))
+      else
+        html += build_lcnaf_link(loc_localname.gsub('"',''))
+      end
     end
+    return html.html_safe
   end
-  return html.html_safe
-end
 
 def build_heading_type(heading_type)
    html = '<dl class="dl-horizontal"><dt>Heading Type:</dt><dd>' + heading_type + '</dd></dt></dl>'
@@ -107,40 +105,7 @@ def build_heading_type(heading_type)
    return html.html_safe
  end
 
- def build_alt_forms_authors(alt_forms)
-   alt_form_count = alt_forms.size
-   html = ""
-   if alt_form_count > 0 && alt_form_count < 8
-     html = '<dl class="dl-horizontal"><dt>Alternate Form(s):</dt>'
-     alt_forms.each do |af|
-       html += '<dd>' + af + '</dd>'
-  	 end
-     html += "</dl>"
-  elsif alt_form_count > 0 and alt_form_count >= 4
-    html += '<div>Alternate Forms: </div><div class="row" style="margin: 0;padding-top: 10px;">'
-    divisor = 2 if alt_form_count <= 8
-    divisor = 3 if alt_form_count > 8
-     html += '<div class="col-md-4">'
-     count = 0
-     split_at = alt_form_count / divisor
-     list = ""
-     alt_forms.each do |af|
-       if count <= split_at
-         list += "<p>" + af + "</p>"
-         count = count + 1
-       elsif
-         list += '</div> <!-- elsif div--><div class="col-md-4">'
-         count = 0
-         list += '<p>' + af + '</p>'
-         count = count + 1
-       end
-     end
-     html += list + "</div><!-- first closing div--></div><!-- second closing div-->"
-   end
-   return html.html_safe   
- end
-
- def build_alt_forms_subjects(alt_forms)
+ def build_alt_forms(alt_forms)
    alt_form_count = alt_forms.size
    html = ""
    if alt_form_count > 0 && alt_form_count < 13
@@ -149,7 +114,7 @@ def build_heading_type(heading_type)
        html += '<dd>' + af + '</dd>'
   	 end
      html += "</dl>"
-   elsif alt_form_count > 0 and alt_form_count >= 13
+   elsif alt_form_count >= 13
      html = '<div>Alternate Form(s)
      : </div><div class="row" style="margin: 0;padding-top: 10px;"><div class="col-md-6">'
      count = 0
@@ -172,6 +137,7 @@ def build_heading_type(heading_type)
     return html.html_safe   
  end
 
+  # TODO: Review generated search fields in search links. author_work_browse, for example, is not a valid search field.
   def build_search_link(format_type, encoded_heading, search_type)
     if search_type == "pers" || search_type == "corp" || search_type == "event"
       the_search_field = 'search_field_row[]=author_' + search_type + '_browse&search_field_row[]=subject_' + search_type + '_browse'

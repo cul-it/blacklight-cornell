@@ -90,7 +90,9 @@ body.blacklight-browse-show_subject,
 		padding-bottom: .5em;
 	}
 	.dl-horizontal {
-		margin-bottom: 2rem;
+    &:not(#item-details) {
+      margin-bottom: 2rem;
+    }
 		dt {
 			font-weight: normal;
 			float: none;

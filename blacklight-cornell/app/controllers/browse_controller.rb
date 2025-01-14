@@ -3,14 +3,16 @@ class BrowseController < ApplicationController
   include Blacklight::Catalog
   include BlacklightCornell::CornellCatalog
   include BlacklightCornell::VirtualBrowse
-  #include BlacklightUnapi::ControllerExtension
+
   before_action :heading
   before_action :redirect_catalog
-  #attr_accessible :authq, :start, :order, :browse_type
+  before_action :check_browse_and_heading_types, only: [:info]
+
   @@browse_index_author = ENV['BROWSE_INDEX_AUTHOR'].nil? ? 'author' : ENV['BROWSE_INDEX_AUTHOR']
   @@browse_index_subject = ENV['BROWSE_INDEX_SUBJECT'].nil? ? 'subject' : ENV['BROWSE_INDEX_SUBJECT']
   @@browse_index_authortitle = ENV['BROWSE_INDEX_AUTHORTITLE'].nil? ? 'authortitle' : ENV['BROWSE_INDEX_AUTHORTITLE']
   @@browse_index_callnumber = ENV['BROWSE_INDEX_CALLNUMBER'].nil? ? 'callnum' : ENV['BROWSE_INDEX_CALLNUMBER']
+
   def heading
    @heading='Browse'
   end
@@ -185,46 +187,40 @@ class BrowseController < ApplicationController
   end
 
   def info
-    # Render error message if invalid params
-    # Subject and Author browse_type require a headingtype param
-    if params[:authq].blank? || ['Author', 'Subject', 'Author-Title'].exclude?(params[:browse_type]) ||
-       (params[:headingtype].blank? && ['Author', 'Subject'].include?(params[:browse_type]))
-      flash.now[:error] = "Please enter a valid query."
-      render "index"
+    base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
+    Appsignal.increment_counter('browse_info', 1)
+    Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{base_solr}")
+
+    solr_collection = solr_collection(params[:browse_type])
+    solr = RSolr.connect :url => "#{base_solr}/#{solr_collection}"
+    query_params = {
+      :q => "\"#{params[:authq].gsub('\\',' ')}\"",
+      :wt => :ruby
+    }
+    query_params[:fq] = "headingTypeDesc:\"#{params[:headingtype]}\"" if params[:headingtype].present?
+    solr_response = solr.get 'browse', :params => query_params
+    @heading_document = solr_response['response']['docs'][0]
+
+    params[:authq].gsub!('%20', ' ')
+
+    # Get Library of Congress local name and format facet for Author and Subject heading
+    if @heading_document.present? && ['Author', 'Subject'].include?(params[:browse_type])
+      if params[:browse_type] == 'Author'
+        loc_url = get_author_loc_url
+      elsif params[:browse_type] == 'Subject'
+        # Authors can also be subjects, so check. When that's the case, get the correct LOC local name.
+        subject_is_author = params[:headingtype] == 'Personal Name' ? check_author_status : false
+        loc_url = subject_is_author ? get_author_loc_url : get_subject_loc_url
+      end
+
+      @loc_localname = !loc_url.blank? ? loc_url.split('/').last.inspect : ''
+      @formats = get_formats(params[:authq], params[:headingtype])
     else
-      base_solr = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
-      Appsignal.increment_counter('browse_info', 1)
-      Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{base_solr}")
+      @formats = []
+    end
 
-      solr_collection = solr_collection(params[:browse_type])
-      solr = RSolr.connect :url => "#{base_solr}/#{solr_collection}"
-      query_params = {
-        :q => "\"#{params[:authq].gsub("\\"," ")}\"",
-        :wt => :ruby
-      }
-      query_params[:fq] = "headingTypeDesc:\"#{params[:headingtype]}\"" if params[:headingtype].present?
-      solr_response = solr.get 'browse', :params => query_params
-      @headingsResponse = solr_response['response']['docs']
-
-      params[:authq].gsub!('%20', ' ')
-
-      # Get Library of Congress local name and format facet for Author and Subject heading
-      if @headingsResponse[0].present? && ['Author', 'Subject'].include?(params[:browse_type])
-        if params[:browse_type] == 'Author'
-          loc_url = get_author_loc_url
-        elsif params[:browse_type] == 'Subject'
-          # Authors can also be subjects, so check. When that's the case, get the correct LOC local name.
-          subject_is_author = params[:headingtype] == 'Personal Name' ? check_author_status : false
-          loc_url = subject_is_author ? get_author_loc_url : get_subject_loc_url
-        end
-
-        @loc_localname = !loc_url.blank? ? loc_url.split("/").last.inspect : ""
-        @formats = get_formats(params[:authq], params[:headingtype])
-      end
-
-      respond_to do |format|
-        format.html { render layout: !request.xhr? } #renders naked html if ajax
-      end
+    respond_to do |format|
+      format.html { render layout: !request.xhr? } #renders naked html if ajax
     end
   end
 
@@ -251,7 +247,7 @@ class BrowseController < ApplicationController
 
   def get_author_loc_url
     @has_wiki_data = params[:hasWD].nil? ? false : true
-    heading = @headingsResponse[0]["heading"].gsub(/\.$/, '')
+    heading = @heading_document["heading"].gsub(/\.$/, '')
     path = 'https://id.loc.gov/authorities/names/suggest'
     escaped = {q: heading, rdftype: params[:headingtype].gsub(" ", ""), count: 1}.to_param
     search_url_escaped = path + '?' + escaped
@@ -412,6 +408,16 @@ class BrowseController < ApplicationController
       @@browse_index_subject
     when 'Author-Title'
       @@browse_index_authortitle
+    end
+  end
+
+  # Render error message if invalid params
+  # Subject and Author browse_type require a headingtype param
+  def check_browse_and_heading_types
+    if params[:authq].blank? || ['Author', 'Subject', 'Author-Title'].exclude?(params[:browse_type]) ||
+        (params[:headingtype].blank? && ['Author', 'Subject'].include?(params[:browse_type]))
+      flash.now[:error] = 'Please enter a valid query.'
+      render 'index'
     end
   end
 end
