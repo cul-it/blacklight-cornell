@@ -65,6 +65,8 @@ function WikidataConnector() {
     });
   }
 
+  // TODO: Strip html from Wikidata response?
+  //       Example where response doesn't fit in below format: "Shakespeare, William, 1564-1616." (headingType=[subject, author])
   function imageAttributionHtml(image) {
     const wmcUrl = `https://commons.wikimedia.org/wiki/${encodeURIComponent(image.title)}`;
     const titleHtml = `"<a href="${wmcUrl}">${image.name || image.title}</a>"`;
