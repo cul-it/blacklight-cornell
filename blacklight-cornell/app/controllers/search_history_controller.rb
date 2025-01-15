@@ -30,7 +30,6 @@ class SearchHistoryController < ApplicationController
     return true
   end
 
-
   # ============================================================================
   # Pulls search history and removes redundant array data from query parameters
   # ----------------------------------------------------------------------------
