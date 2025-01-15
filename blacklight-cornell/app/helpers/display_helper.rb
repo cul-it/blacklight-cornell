@@ -1455,6 +1455,7 @@ end
       label = (label_for_search_field(search_field) unless default_search_field && search_field == default_search_field[:key])
       search_type, query =  [ 'basic search', render_filter_value(basic_query) ]
     end
+
     options = { search_type: search_type, op_row: operator_row, boolean_row: boolean_row }
     render_search_to_s_element(label, query, options) # to => SearchHistoryConstraintsHelperBehavior
   end
