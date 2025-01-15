@@ -694,14 +694,14 @@ module DisplayHelper
 
   def add_row(title, value, options = {})
     options.reverse_merge!({
-                             :display_blank => false,
-                             :display_only_first => false,
-                             :join => nil,
-                             :abbreviate => nil,
-                             :html_safe => true,
-                             :expand => false,
-                             :style => @add_row_style || :definition
-                           })
+      :display_blank => false,
+      :display_only_first => false,
+      :join => nil,
+      :abbreviate => nil,
+      :html_safe => true,
+      :expand => false,
+      :style => @add_row_style || :definition
+    })
 
     value_txt = convert_values_to_text(value, options)
     result    = ""
