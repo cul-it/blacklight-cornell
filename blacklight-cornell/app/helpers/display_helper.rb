@@ -1434,16 +1434,29 @@ end
     result = result.to_sentence.html_safe
   end
 
-# Render the search query constraint
+  # ============================================================================
+  # Render Basic and Advanced Query Constraint
+  # ----------------------------------------------------------------------------
   def render_search_to_s_q(params)
-    return "".html_safe if params['q'].blank?
-    if params[:q_row].nil?
+    basic_query      = params[:q]
+    advanced_query   = params[:q_row]
+    boolean_row      = params['boolean_row']
+    operator_row     = params['op_row']
+    search_field     = params[:search_field]
+    search_field_row = params[:search_field_row]
 
-      label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
+    return "".html_safe if basic_query.blank?
+
+    # Advanced Search Options --------------------------------------------------
+    if advanced_query.present?
+      label, search_type, query =  [ search_field_row, 'advanced search', advanced_query ]
+    # Basic Search Options -----------------------------------------------------
     else
-      label = ""
+      label = (label_for_search_field(search_field) unless default_search_field && search_field == default_search_field[:key])
+      search_type, query =  [ 'basic search', render_filter_value(basic_query) ]
     end
-    render_search_to_s_element(label , render_filter_value(params['q']) )
+    options = { search_type: search_type, op_row: operator_row, boolean_row: boolean_row }
+    render_search_to_s_element(label, query, options) # to => SearchHistoryConstraintsHelperBehavior
   end
 
   def access_url_is_list?(args)
