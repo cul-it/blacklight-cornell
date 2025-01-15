@@ -16,16 +16,16 @@
     <%= bento_search result  %>
     <div class="view-all">
       <% if key == "libguides" %>
-        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
+        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', 'LibGuides'])", :id => "link_top_libguides" %>
       <% elsif key == "ebsco_eds" %>
-        <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm" do %>
+        <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', 'Articles & Full Text'])" do %>
           View
           <%= number_with_delimiter(result.total_items) %>
           <%= BentoSearch.get_engine(key).configuration.title %>
           <i class="fa fa-angle-double-right"></i>
         <% end %>
       <% else %>
-      <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
+      <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.title}'])", :id => "link_top_" + downcast(key) do %>
         View
         <!-- = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
         -->
