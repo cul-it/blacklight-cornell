@@ -31,11 +31,21 @@ class SearchHistoryController < ApplicationController
   end
 
 
+  # ============================================================================
+  # Pulls search history and removes redundant array data from query parameters
+  # ----------------------------------------------------------------------------
+  def index
+    @searches = searches_from_history.map do |search|
+      filtered_query_params = Blacklight::SearchService.filter_query_params(search.query_params)
+      search.tap { |s| s.query_params = filtered_query_params }
+    end
+  end
 
-  # The following code is executed when someone includes blacklight::catalog in their
-  # own controller.
+  # ============================================================================
+  # The following code is executed when someone includes blacklight::catalog in
+  # their own controller.
+  # ----------------------------------------------------------------------------
   if   ENV['SAML_IDP_TARGET_URL']
       prepend_before_action :set_return_path
   end
-
 end
