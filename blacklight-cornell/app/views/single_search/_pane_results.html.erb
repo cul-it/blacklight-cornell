@@ -25,7 +25,7 @@
           <i class="fa fa-angle-double-right"></i>
         <% end %>
       <% else %>
-      <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.title}'])", :id => "link_top_" + downcast(key) do %>
+      <%= link_to link_url, class: "btn btn-outline-secondary btn-sm", onclick: "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format || BentoSearch.get_engine(key).configuration.title}'])", id: "link_top_" + downcast(key) do %>
         View
         <!-- = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
         -->
