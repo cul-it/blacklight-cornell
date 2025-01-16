@@ -1,0 +1,26 @@
+services:
+  webapp:
+    tty: true
+    image: container-discovery-test:latest
+    build:
+      context: .
+      dockerfile: docker/bookworm/Dockerfile
+      target: test
+      args:
+        - GIT_COMMIT
+    environment:
+      - COVERAGE=${COVERAGE:-on}
+      - FEATURE
+      - NUM_PROCESSES=${NUM_PROCESSES:-2}
+      - USE_TEST_CONTAINER=1
+      - USE_RSPEC
+    volumes:
+      - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro
+    networks:
+      blacklight-cornell-test-network:
+
+
+networks:
+  blacklight-cornell-test-network:
+    name: blacklight-cornell-test-network
+    external: true

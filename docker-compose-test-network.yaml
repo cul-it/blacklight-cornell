@@ -1,0 +1,9 @@
+# Dummy hello-world service to create blacklight-cornell-test-network network for chrome and webapp services
+services:
+  hello_world:
+    image: hello-world:latest
+    networks:
+      blacklight-cornell-test-network:
+networks:
+  blacklight-cornell-test-network:
+    name: blacklight-cornell-test-network

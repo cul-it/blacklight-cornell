@@ -1,0 +1,22 @@
+services:
+  chrome:
+    # selenium/standalone-chromium / selenium/standalone-chrome
+    image: ${SELENIUM_IMAGE}
+    shm_size: '2gb'
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - 4444:4444
+    environment:
+      - SE_NODE_MAX_SESSIONS=6
+      - SE_NODE_SESSION_TIMEOUT=11000
+      - START_XVFB=false
+      - SE_START_VNC=false
+    networks:
+      blacklight-cornell-test-network:
+networks:
+  blacklight-cornell-test-network:
+    name: blacklight-cornell-test-network
+    external: true
