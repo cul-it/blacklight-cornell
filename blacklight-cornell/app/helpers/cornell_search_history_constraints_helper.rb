@@ -13,7 +13,7 @@ module CornellSearchHistoryConstraintsHelper
       search_history_node = ""
       search_text.each_with_index do |text, index|
         if _options[:op_row][index] == "AND"
-          operator = "(AND) "
+          operator = ""
         elsif _options[:op_row][index] == "OR"
           operator = "(ANY) "
         elsif _options[:op_row][index] == "phrase"
