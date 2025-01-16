@@ -49,7 +49,8 @@ RSpec.describe AdvancedHelper, type: :helper do
         ['author Z-A', 'author_sort desc, title_sort asc'],
         ['title A-Z', 'title_sort asc, pub_date_sort desc'],
         ['title Z-A', 'title_sort desc, pub_date_sort desc'],
-        ['call number', 'callnum_sort asc, pub_date_sort desc']
+        ['call number', 'callnum_sort asc, pub_date_sort desc'],
+        ['date acquired', 'acquired_dt desc, title_sort asc']
       ])
     end
   end
