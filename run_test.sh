@@ -48,7 +48,7 @@ manual_compose_down=""
 num_processes=1
 profiles="--profile cucumber"
 rails_env_file=""
-run_cmd="up --abort-on-container-exit --exit-code-from webapp"
+run_cmd="up --abort-on-container-exit --exit-code-from webapp --force-recreate"
 use_rspec=""
 while getopts "shia:n:r:f:" options; do
   case "${options}" in
@@ -106,7 +106,7 @@ echo "Running tests with ${feature}"
 echo "docker compose -p container-discovery-test -f ${compose_file} ${profiles} ${run_cmd}"
 docker compose -p container-discovery-test -f ${compose_file} down --remove-orphans
 # docker system prune -f
-docker compose -p container-discovery-test -f ${compose_file} ${profiles} ${run_cmd} --force-recreate
+docker compose -p container-discovery-test -f ${compose_file} ${profiles} ${run_cmd}
 if [ "${manual_compose_down}" != "" ]
   then
     docker compose -p container-discovery-test -f ${compose_file} down --remove-orphans
