@@ -45,7 +45,7 @@ aws_creds=""
 compose_file="docker-compose-test.yaml"
 feature=""
 manual_compose_down=""
-num_processes=2
+num_processes=1
 profiles="--profile cucumber"
 rails_env_file=""
 run_cmd="up --abort-on-container-exit --exit-code-from webapp"
@@ -84,7 +84,7 @@ export USE_RSPEC=${use_rspec}
 echo $num_processes
 export NUM_PROCESSES=${num_processes}
 
-selenium_image="seleniarm/standalone-chromium"
+selenium_image="selenium/standalone-chromium"
 SYSTEM_ARCH=$(arch | sed s/aarch64/arm64/)
 if [ $SYSTEM_ARCH != 'arm64' ]
   then
@@ -106,7 +106,7 @@ echo "Running tests with ${feature}"
 echo "docker compose -p container-discovery-test -f ${compose_file} ${profiles} ${run_cmd}"
 docker compose -p container-discovery-test -f ${compose_file} down --remove-orphans
 # docker system prune -f
-docker compose -p container-discovery-test -f ${compose_file} ${profiles} ${run_cmd}
+docker compose -p container-discovery-test -f ${compose_file} ${profiles} ${run_cmd} --force-recreate
 if [ "${manual_compose_down}" != "" ]
   then
     docker compose -p container-discovery-test -f ${compose_file} down --remove-orphans

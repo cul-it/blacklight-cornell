@@ -37,16 +37,21 @@ echo $OPT1 $OPT2 $OPT3 $OPT4
 echo "Arguments:"
 echo $ARGS
 
-NUM_PROCESSES=${NUM_PROCESSES:-2}
+COVERAGE=${COVERAGE:-on}
+NUM_PROCESSES=${NUM_PROCESSES:-1}
 echo "Number of processes: $NUM_PROCESSES"
 
-if [ $# -eq 0 ]; then
-    echo "COVERAGE=on bundle exec parallel_cucumber -n $NUM_PROCESSES -o \"$ARGS $OPT1 $OPT2 $OPT3 $OPT4"    
-    # COVERAGE=on bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4
-    COVERAGE=on bundle exec parallel_cucumber -n $NUM_PROCESSES -o "$ARGS $OPT1 $OPT2 $OPT3 $OPT4"
-else
-    echo "COVERAGE=on bundle exec parallel_cucumber -n $NUM_PROCESSES -o \"$ARGS $OPT1 $OPT2 $OPT3 $OPT4\" \"$1\""
-    # COVERAGE=on bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 "$1"
-    COVERAGE=on bundle exec parallel_cucumber -n $NUM_PROCESSES -o "$ARGS $OPT1 $OPT2 $OPT3 $OPT4" "$1"
+feature=""
+if [ $# -gt 0 ]; then
+    feature=$1
 fi
 
+if [ $NUM_PROCESSES -eq 1 ]; then
+    echo "Running in single process mode."
+    echo "COVERAGE=$COVERAGE bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $feature"
+    COVERAGE=$COVERAGE bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $feature
+else
+    echo "Running in parallel mode."
+    echo "COVERAGE=$COVERAGE bundle exec parallel_cucumber -n $NUM_PROCESSES -o \"$ARGS $OPT1 $OPT2 $OPT3 $OPT4\" $feature"
+    COVERAGE=$COVERAGE bundle exec parallel_cucumber -n $NUM_PROCESSES -o "$ARGS $OPT1 $OPT2 $OPT3 $OPT4" $feature
+fi
