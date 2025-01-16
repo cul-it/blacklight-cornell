@@ -1,7 +1,5 @@
 <div class="row">
   <div class="search-tools col-12 col-lg-7">
-  <%#= session[:search]["per_page"].inspect %> 
-  <%#= params.inspect %>
   <% if params[:controller]=='browse' || params[:action] == 'show' %>
      <% if params[:action] == 'show' %>
     <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
@@ -10,22 +8,34 @@
         <% session_params = session[:search] ? session[:search].dup : {} %>
 		<%# In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that %>
 		<%# are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.%>
-		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>  
+		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>
         <% hidden_params = session_params.except(:q_row, :op_row, :boolean_row, :search_field, :qt, :page, :utf8) %>
-      <% end %> 
+      <% end %>
       <%= render_hash_as_hidden_fields(hidden_params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-6 mb-0">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
-              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
+              <%= text_field_tag :q, params[:q],
+                                 :placeholder => t('blacklight.search.form.q'),
+                                 :class => "search-query phone-search-query form-control",
+                                 :id => "q",
+                                 :data => { :dynamic => "true" },
+                                 :autocapitalize => "off" %>
           </div>
 
           <% if search_fields.empty? or search_fields.nil? %>
-             <input type="hidden" name="search_field" value="all_fields"/>          
+             <input type="hidden" name="search_field" value="all_fields"/>
           <% else %>
             <div class="form-group col-4 col-lg-5 mb-0">
               <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
-              <%= select_tag(:search_field, options_for_select(search_bar_select, selected:params[:search_field],disabled: ["separator_1","separator_2","separator_3","separator_4"]), :title => t('blacklight.search.form.search_field.title'), :class => 'form-control') %>
+              <%= select_tag(:search_field,
+                             options_for_select(search_bar_select,
+                                                selected:params[:search_field],
+                                                disabled: ["separator_1","separator_2","separator_3","separator_4"]),
+                             :title => t('blacklight.search.form.search_field.title'),
+                             :class => 'form-control',
+                             :data => { :dynamic => "true" } ) %>
+
               <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
             </div>
           <% end %>
@@ -45,7 +55,7 @@
      <% else %>
          <%= render :partial => 'browse/headings_search_form' %>
      <% end %>
-  <% elsif params[:controller]=='advanced_search' %>
+  <% elsif params[:controller]=='advanced_search' && (params[:q].present? || !params[:q_row].present?) || params[:action] == 'edit' %>
     <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
     <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
@@ -54,7 +64,7 @@
         <% session_params = session[:search] ? session[:search].dup : {} %>
 		<%# In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that %>
 		<%# are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.%>
-		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>  
+		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>
         <% if params[:controller] != 'search_history' %>
           <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
         <% end %>
@@ -62,20 +72,31 @@
       <% if params[:controller] == 'blacklight_cornell_requests/request' %>
            <% hidden_params[:format] = 'html' %>
       <% end %>
-     
+
       <%= render_hash_as_hidden_fields(hidden_params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-6 mb-0">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
-              <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search-query phone-search-query form-control", :id => "q", :autocapitalize => "off" %>
+              <%= text_field_tag :q, params[:q],
+                                 :placeholder => t('blacklight.search.form.q'),
+                                 :class => "search-query phone-search-query form-control",
+                                 :id => "q",
+                                 :data => { :dynamic => "true" },
+                                 :autocapitalize => "off" %>
           </div>
 
           <% if search_fields.empty? or search_fields.nil? %>
-             <input type="hidden" name="search_field" value="all_fields"/>          
+             <input type="hidden" name="search_field" value="all_fields"/>
           <% else %>
             <div class="form-group col-4 col-lg-5 mb-0">
               <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
-              <%= select_tag(:search_field, options_for_select(search_bar_select, selected:params[:search_field],disabled: ["separator_1","separator_2","separator_3","separator_4"]), :title => t('blacklight.search.form.search_field.title'), :class => 'form-control') %>
+              <%= select_tag(:search_field,
+                             options_for_select(search_bar_select,
+                                                selected:params[:search_field],
+                                                disabled: ["separator_1","separator_2","separator_3","separator_4"]),
+                             :title => t('blacklight.search.form.search_field.title'),
+                             :class => 'form-control',
+                             :data => { :dynamic => "true" } ) %>
               <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
             </div>
           <% end %>
@@ -100,12 +121,18 @@
 
   </div>
 
-  <% if params[:controller] !='advanced_search' %>
+  <% if params[:controller] !='advanced_search' && !params[:q_row] %>
     <div class="search-nav col-12 col-lg-5">
       <ul class="nav nav-pills">
-        <li><a href="/advanced"><i class="fa fa-search" aria-hidden="true"></i>Advanced Search</a></li>
+        <li>
+          <a id="advanced-search-link" href="/advanced">
+            <i class="fa fa-search" aria-hidden="true"></i>Advanced Search
+          </a>
+        </li>
       </ul>
     </div>
   <% end %>
 
 </div>
+
+<%= javascript_include_tag 'search_form', 'data-turbo-track': 'reload' %>

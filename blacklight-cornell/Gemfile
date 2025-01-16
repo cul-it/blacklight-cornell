@@ -90,6 +90,7 @@ group :test do
   gem "capybara-email"
   gem "simplecov", :require => false
   gem "simplecov-rcov", :require => false
+  gem 'parallel_tests'
 end
 
 gem "jquery-rails"

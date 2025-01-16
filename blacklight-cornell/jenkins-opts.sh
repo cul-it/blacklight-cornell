@@ -12,7 +12,6 @@ OPT5="-t ~@boundwith  -p jenkins_lax --format junit --out results/ "
 OPT3="-t ~@boundwith  -p jenkins_lax "
 OPT2="-t ~@search_availability_title_mission_etrangeres_missing "
 OPT4=" -t ~@saml_off "
-OPT6="-t ~@solr_query_display"
 
 # OPT1="--tags 'not @oclc_request'"
 # OPT2="--tags 'not @search_with_view_all_webs_match_box_with_percent'"
@@ -30,8 +29,8 @@ echo "Arguments:"
 echo $ARGS
 
 if [ $# -eq 0 ]; then
-    COVERAGE=on bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $OPT5 $OPT6
+    COVERAGE=on bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $OPT5
 else
-    COVERAGE=on bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $OPT5 $OPT6 "$1"
+    COVERAGE=on bundle exec cucumber $ARGS $OPT1 $OPT2 $OPT3 $OPT4 $OPT5 "$1"
 fi
 

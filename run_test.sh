@@ -61,7 +61,7 @@ while getopts "shia:r:f:" options; do
        run_cmd="run --entrypoint=bash webapp"
        manual_compose_down="1" ;;
     s) use_rspec="1"
-       profiles="" ;;
+       profiles="--profile rspec" ;;
     *) exit_abnormal ;;
   esac
 done

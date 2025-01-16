@@ -36,10 +36,10 @@ module AdvancedHelper
   end
 
   def params_to_form_values(params)
-    q_row = params[:q_row] || []
-    op_row = params[:op_row] || []
+    q_row            = params[:q_row] || []
+    op_row           = params[:op_row] || []
     search_field_row = params[:search_field_row] || []
-    boolean_row = params[:boolean_row] || {}
+    boolean_row      = params[:boolean_row] || {}
 
     form_values = []
     q_row.count.times do |i|
