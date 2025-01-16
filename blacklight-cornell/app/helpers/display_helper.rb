@@ -906,13 +906,17 @@ end
   end
 
   # Overrides original method from blacklight_helper_behavior.rb
+  # Creates a link to the show page for an item
+  # @param doc [SolrDocument] the document
+  # @param field_or_opts [Hash, String] either a string to render as the link text or options
+  # @param opts [Hash] the options to create the link with
   def link_to_document(doc, field_or_opts = nil, opts={:label=>nil, :counter => nil, :results_view => true})
-    # opts[:label] ||= blacklight_config.index.show_link.to_sym unless blacklight_config.index.show_link == nil
-    # label = _cornell_render_document_index_label doc, opts
-    if ['bookmarks', 'book_bags'].include? params[:controller] 
-      label = field_or_opts
-      docID = doc.id
+    label = field_or_opts
+    docID = doc.id
+    if ['book_bags'].include? params[:controller] 
       link_to label, '/' + params[:controller] + '/' + docID
+    elsif ['bookmarks'].include? params[:controller]
+      link_to label, '/catalog/' + docID
     else
       # link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
       super
