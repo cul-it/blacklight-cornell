@@ -25,10 +25,9 @@
       <% end %>
     <% end %>
     <% if item.format.is_a?(Array) %>
-    <%= link_to_unless(item.link.blank?, item.complete_title, item.link,{:onclick => "javascript:_paq.push(['trackEvent', 'BentoBox', '#{item.format[0].to_s + " item"}'])"}) %>
+    <%= link_to_unless(item.link.blank?, item.complete_title, item.link,{:onclick => "javascript:_paq.push(['trackEvent', 'BentoBox', '#{item.format[0].to_s} result'])"}) %>
     <% else %>
-    <%= link_to_unless(item.link.blank?, item.complete_title, item.link,{:onclick => "javascript:_paq.push(['trackEvent', 'BentoBox', '#{item.engine_id + " item"}'])"}) %>
-
+    <%= link_to_unless(item.link.blank?, item.complete_title, item.link,{:onclick => "javascript:_paq.push(['trackEvent', 'BentoBox', '#{item.engine_id} result'])"}) %>
     <% end %>
 
     <% if item.display_language.present? %>
