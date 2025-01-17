@@ -1277,6 +1277,7 @@ module DisplayHelper
 
     options = { search_type: search_type, op_row: operator_row, boolean_row: boolean_row }
     render_search_to_s_element(label, query, options) # to => SearchHistoryConstraintsHelperBehavior
+    render_search_to_s_element(label, query_text, options) # to => SearchHistoryConstraintsHelperBehavior
   end
 
   def access_url_is_list?(args)
