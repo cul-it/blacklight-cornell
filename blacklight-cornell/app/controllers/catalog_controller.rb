@@ -44,7 +44,7 @@ class CatalogController < ApplicationController
     else
       # For regular search, start a new session if query or facet is present
       search_field, query, facet, index = params["search_field"], params["q"], params["f"], action_name == "index"
-      start_new_search_history_record = index && !(search_field.blank? || (query.blank? && facet.blank?))
+      start_new_search_history_record = index && !(search_field.blank? && query.blank? && facet.blank?)
     end
     start_new_search_history_record
   end
