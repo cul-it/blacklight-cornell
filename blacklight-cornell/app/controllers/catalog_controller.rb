@@ -703,7 +703,7 @@ class CatalogController < ApplicationController
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
     config.add_sort_field 'callnum_sort asc, pub_date_sort desc', :label => 'call number', :callnum_default => true
-    #config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
+    config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.

@@ -1,15 +1,15 @@
 <%# used with the _author_info, _subject_info, and _author_title_info templates %>
 
-<% if @headingsResponse[0]['seeAlso'].present? ||
-      @headingsResponse[0]['alternateForm'].present? ||
-      @headingsResponse[0]['headingTypeDesc'].present? ||
+<% if @heading_document['seeAlso'].present? ||
+      @heading_document['alternateForm'].present? ||
+      @heading_document['headingTypeDesc'].present? ||
       !@loc_localname.blank? %>
 <h3>Reference Information</h3>
 <div id='reference-info' class='col-sm-12 col-md-12 col-lg-12'>
   <%# display any seeAlso info first %>
-  <% if @headingsResponse[0]["seeAlso"].present?  %>
+  <% if @heading_document["seeAlso"].present?  %>
     <dl class="dl-horizontal">
-    <% sa=JSON.parse(@headingsResponse[0]["seeAlso"]) %>
+    <% sa=JSON.parse(@heading_document["seeAlso"]) %>
     <% sa.each do |r,h| %>
       <% if r.blank? %>
         <dt>See Also:</dt>
@@ -57,6 +57,6 @@
     </dl>
   <% end %>
   <%# now render the rest of the reference info ( heading type, alternate forms )%>
-  <%= render_reference_info("subject", @headingsResponse,@loc_localname) %>
+  <%= render_reference_info(@heading_document, @loc_localname) %>
 </div>
 <% end %>
