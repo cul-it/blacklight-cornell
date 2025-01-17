@@ -1,7 +1,4 @@
 class ApplicationController < ActionController::Base
-  # include ConsoleColors if CONSOLE_COLORS_ENABLED=true in dev.env
-  include ConsoleColors if ENV["CONSOLE_COLORS_ENABLED"] == "true"
-
   # Adds a few additional behaviors into the application controller
   include Blacklight::Controller
   # Please be sure to impelement current_user and user_session. Blacklight depends on

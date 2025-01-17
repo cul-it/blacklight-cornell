@@ -7,8 +7,3 @@ MYSQL_DATABASE=blacklightcornell
 MYSQL_PASSWORD=test
 MYSQL_USERNAME=root
 SOLR_URL=http://SOLR_URL_HERE
-
-
-# Allows use of ConsoleColors module and it's colorful log methods
-# See: blacklight-cornell/lib/console_colors.rb for methods
-CONSOLE_COLORS_ENABLED=true
