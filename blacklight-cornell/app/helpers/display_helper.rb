@@ -1268,11 +1268,11 @@ module DisplayHelper
 
     # Advanced Search Options --------------------------------------------------
     if advanced_query.present?
-      label, search_type, query = [search_field_row, 'advanced search', advanced_query]
+      label, search_type, query_text = [search_field_row, 'advanced search', advanced_query]
     # Basic Search Options -----------------------------------------------------
     else
       label = (label_for_search_field(search_field) unless default_search_field && search_field == default_search_field[:key])
-      search_type, query = ['basic search', render_filter_value(basic_query)]
+      search_type, query_text = ['basic search', render_filter_value(basic_query)]
     end
 
     options = { search_type: search_type, op_row: operator_row, boolean_row: boolean_row }
