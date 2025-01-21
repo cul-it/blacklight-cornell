@@ -23,12 +23,6 @@ module BrowseHelper
     end
   end
 
-  def browse_search_field(browse_type, heading_type)
-    heading_type = search_field(heading_type) if heading_type
-
-    browse_type
-  end
-
 def browse_uri_encode (link_url)
     link_url = link_url.gsub('&','%26')
     link_url = link_url.gsub('"','%22')
