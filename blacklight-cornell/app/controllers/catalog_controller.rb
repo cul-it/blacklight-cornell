@@ -247,8 +247,8 @@ class CatalogController < ApplicationController
 
 
     config.add_facet_field 'acquired_dt_query',  label: 'Date Acquired', query: {
-      last_1_week: { label: 'Since last week', fq: "acquired_dt:[NOW-14DAY TO NOW-7DAY ]"},
-      last_1_month: { label: 'Since last month', fq: "acquired_dt:[NOW-30DAY TO NOW-7DAY ]"},
+      last_1_week: { label: 'Since last week', fq: "acquired_dt:[NOW-14DAY TO NOW-7DAY]"},
+      last_1_month: { label: 'Since last month', fq: "acquired_dt:[NOW-30DAY TO NOW-7DAY]"},
       last_1_years: { label: 'Since last year', fq: "acquired_dt:[NOW-1YEAR TO NOW-7DAY]"}
     }, if: :has_search_parameters?
 
@@ -584,138 +584,95 @@ class CatalogController < ApplicationController
     #  }
     #end
 
-    #combined author CTS field made from the multiple author browse fields
-    config.add_search_field('author_cts',:label=>'Author/Contributor') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => '$author_cts_qf',
-#         :pf => '$author_cts_pf'
-#       }
+    # Combined author CTS (Click to Search) field made from the multiple author browse fields
+    # Linked from catalog record pages
+    config.add_search_field('author_cts') do |field|
+      field.label = 'Author/Contributor'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    #combined subject CTS field made from the multiple subject browse fields
-    config.add_search_field('subject_cts',:label=>'Subject') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => '$subject_cts_qf',
-#         :pf => '$subject_cts_pf'
-#       }
+    # Combined subject CTS field made from the multiple subject browse fields
+    # Linked from catalog record pages
+    config.add_search_field('subject_cts') do |field|
+      field.label = 'Subject'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    #browse CTS fields. they do not appear in simple or advanced drop downs.
-    config.add_search_field('author_pers_browse',:label=>'Author: Personal Name') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'author_pers_browse',
-#         :pf => 'author_pers_browse'
-#       }
+    # Browse CTS fields linked to from the browse info pages
+    config.add_search_field('author_pers_browse') do |field|
+      field.label = 'Author: Personal Name'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('author_corp_browse', :label=>'Author: Corporate Name') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'author_corp_browse',
-#         :pf => 'author_corp_browse'
-#       }
+    config.add_search_field('author_corp_browse') do |field|
+      field.label = 'Author: Corporate Name'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('author_event_browse', :label=>'Author: Event') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'author_event_browse',
-#         :pf => 'author_event_browse'
-#       }
-    end
-    config.add_search_field('subject_pers_browse', :label => 'Subject: Personal Name') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'subject_pers_browse',
-#         :pf => 'subject_pers_browse'
-#       }
+    config.add_search_field('author_event_browse') do |field|
+      field.label = 'Author: Event'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('subject_corp_browse', :label => 'Subject: Corporate Name') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'subject_corp_browse',
-#         :pf => 'subject_corp_browse'
-#       }
+    config.add_search_field('subject_pers_browse') do |field|
+      field.label = 'Subject: Personal Name'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('subject_event_browse', :label => 'Subject: Event') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'subject_event_browse',
-#         :pf => 'subject_event_browse'
-#       }
+    config.add_search_field('subject_corp_browse') do |field|
+      field.label = 'Subject: Corporate Name'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('subject_topic_browse', :label => 'Subject: Topic Term') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'subject_topic_browse',
-#         :pf => 'subject_topic_browse'
-#       }
+    config.add_search_field('subject_event_browse') do |field|
+      field.label = 'Subject: Event'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('subject_era_browse', :label => 'Subject: Chronological Term') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'subject_era_browse',
-#         :pf => 'subject_era_browse'
-#       }
+    config.add_search_field('subject_topic_browse') do |field|
+      field.label = 'Subject: Topic Term'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('subject_genr_browse', :label => 'Subject: Genre/Form Term') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'subject_genr_browse',
-#         :pf => 'subject_genr_browse'
-#       }
+    config.add_search_field('subject_era_browse') do |field|
+      field.label = 'Subject: Chronological Term'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('subject_geo_browse', :label => 'Subject: Geographic Name') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
- #      field.solr_local_parameters = {
- #        :qf => 'subject_geo_browse',
- #        :pf => 'subject_geo_browse'
- #      }
+    config.add_search_field('subject_genr_browse') do |field|
+      field.label = 'Subject: Genre/Form Term'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-    config.add_search_field('subject_work_browse', :label => 'Subject: Work') do |field|
-       field.include_in_simple_select = false
-       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'subject_work_browse',
-#         :pf => 'subject_work_browse'
-#       }
+    config.add_search_field('subject_geo_browse') do |field|
+      field.label = 'Subject: Geographic Name'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
     end
 
-#    config.add_search_field('authortitle_browse', :label => 'Author (sorted by title)') do |field|
-#       field.include_in_simple_select = false
-#       field.include_in_advanced_search = false
-#       field.solr_local_parameters = {
-#         :qf => 'authortitle_browse',
-#         :pf => 'authortitle_browse'
-#       }
-#    end
+    config.add_search_field('subject_work_browse') do |field|
+      field.label = 'Subject: Work'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
+    end
 
-#    config.add_search_field('donor name') do |field|
-#       field.include_in_simple_select = false
-#       field.solr_parameters = { :qf => '$donor_t' }
-#    end
+    config.add_search_field('authortitle_browse') do |field|
+      field.label = 'Author (sorted by title)'
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
+    end
+
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
@@ -728,7 +685,7 @@ class CatalogController < ApplicationController
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
     config.add_sort_field 'callnum_sort asc, pub_date_sort desc', :label => 'call number', :callnum_default => true
-    #config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
+    config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.

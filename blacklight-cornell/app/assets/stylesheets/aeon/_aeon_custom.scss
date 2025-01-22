@@ -78,7 +78,7 @@ label {
 
 a {
     text-decoration: underline;
-    color: #005FBD;
+    color: $link-color;
     cursor: pointer;
 }
 
@@ -89,11 +89,11 @@ input[type="button"]#clear {
     padding: 0;
     font: inherit;
     text-decoration: underline;
-    color: #005FBD;
+    color: $link-color;
     cursor: pointer;
 }
 .req {
-    color: #b81f18;
+    color: #a80000;
     font-size: 1em;
     padding:0 0 0 6px;
     text-align: right;
@@ -206,7 +206,15 @@ input[type="button"]#clear {
 .fa-warning:before {
   content: "\f071";
 }
-
+.fa-charmax-alert {
+    color: #a80000;
+}
+.charmax-alert {
+    color: #a80000;
+}
+.fa-charmax-alert:before {
+    content: "\f06a";
+}
 .info-wrapper
 {
     padding-left: 10px;

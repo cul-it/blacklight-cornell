@@ -44,7 +44,7 @@ gem "marc"
 gem "blacklight-marc", "~> 6.3"
 gem "rb-readline", "~> 0.5.x"
 gem "net-ldap"
-gem "nokogiri", ">= 1.14.3"
+gem "nokogiri", "~> 1.16.7"
 gem "rufus-scheduler"
 gem "addressable", ">= 2.8.0"
 gem "redis-session-store"
@@ -90,6 +90,7 @@ group :test do
   gem "capybara-email"
   gem "simplecov", :require => false
   gem "simplecov-rcov", :require => false
+  gem 'parallel_tests'
 end
 
 gem "jquery-rails"
@@ -121,8 +122,8 @@ gem "font-awesome-rails"
 gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.2"
 # gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
-gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.1"
-gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.3"
+gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.4"
 gem "ruby-saml", ">= 1.12.1"
 gem "bento_search", "~> 2.0.0.rc1"
 gem "celluloid", "0.17.4" # Required for bento_search multisearcher

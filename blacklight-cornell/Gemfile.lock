@@ -40,20 +40,20 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-folio-edge
-  revision: c34dab4611ce57dfca2308344e03a72dbc92ff44
-  tag: v3.1
+  revision: bfdc3a28749ce826caf7dd1c415dd044a72a8b4f
+  tag: v3.2
   specs:
-    cul-folio-edge (3.1)
+    cul-folio-edge (3.2)
       rest-client
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: c03cd679cb1d730e1f1da24705854941c7e566ad
-  tag: v2.3.3
+  revision: 81a6040fff2fe0e2e534cd32deb68a7fa0e926be
+  tag: v2.3.4
   specs:
-    my_account (2.3.3)
+    my_account (2.3.4)
       blacklight (>= 7.0)
-      cul-folio-edge (~> 3.1)
+      cul-folio-edge (~> 3.2)
       rails (~> 6.1)
       rest-client
       xml-simple
@@ -543,13 +543,13 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.7.1)
-    nokogiri (1.16.7-aarch64-linux)
+    nokogiri (1.16.8-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.16.7-arm64-darwin)
+    nokogiri (1.16.8-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.7-x86_64-darwin)
+    nokogiri (1.16.8-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.7-x86_64-linux)
+    nokogiri (1.16.8-x86_64-linux)
       racc (~> 1.4)
     nori (2.7.0)
       bigdecimal
@@ -587,6 +587,9 @@ GEM
       scrub_rb (~> 1.0)
     orm_adapter (0.5.0)
     ostruct (0.6.0)
+    parallel (1.26.3)
+    parallel_tests (4.8.0)
+      parallel
     parslet (2.0.0)
     piwik_analytics (1.0.2)
       actionpack
@@ -903,13 +906,14 @@ DEPENDENCIES
   mysql2 (= 0.5.6)
   net-ldap
   net-smtp
-  nokogiri (>= 1.14.3)
+  nokogiri (~> 1.16.7)
   omniauth (~> 2.0)
   omniauth-facebook (~> 5.0)
   omniauth-google-oauth2 (~> 0.8)
   omniauth-oauth2
   omniauth-rails_csrf_protection
   omniauth-saml (>= 2.1.2)
+  parallel_tests
   parslet
   piwik_analytics (~> 1.0.1)
   protected_attributes_continued
