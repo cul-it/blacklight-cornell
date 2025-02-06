@@ -40,20 +40,20 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-folio-edge
-  revision: c34dab4611ce57dfca2308344e03a72dbc92ff44
-  tag: v3.1
+  revision: bfdc3a28749ce826caf7dd1c415dd044a72a8b4f
+  tag: v3.2
   specs:
-    cul-folio-edge (3.1)
+    cul-folio-edge (3.2)
       rest-client
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: c03cd679cb1d730e1f1da24705854941c7e566ad
-  tag: v2.3.3
+  revision: 81a6040fff2fe0e2e534cd32deb68a7fa0e926be
+  tag: v2.3.4
   specs:
-    my_account (2.3.3)
+    my_account (2.3.4)
       blacklight (>= 7.0)
-      cul-folio-edge (~> 3.1)
+      cul-folio-edge (~> 3.2)
       rails (~> 6.1)
       rest-client
       xml-simple

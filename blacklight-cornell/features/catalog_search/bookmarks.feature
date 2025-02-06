@@ -104,3 +104,19 @@ Feature: Bookmarks for anonymous users
         Then I should see the CUWebLogin page
         Then I clear login required
 
+    @bookmarks_view_item_details
+    Scenario: I should be able to view the item details page for a selected item
+        Given I am on the home page
+        When I fill in the search box with 'Encyclopedia of pain'
+        And I press 'search'
+        Then I should get results
+        Then I select the first 1 catalog results
+        And I sleep 3 seconds
+        When I view my selected items
+        Then I should be on 'the bookmarks page'
+        And there should be 1 items selected
+        Then I click on link "Encyclopedia of pain"
+        Then I should see "Encyclopedia of pain"
+        Then I click on link "Back to selected items"
+        Then I should be on 'the bookmarks page'
+        And there should be 1 items selected

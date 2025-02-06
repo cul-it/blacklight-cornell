@@ -42,7 +42,6 @@ BlacklightCornell::Application.routes.draw do
 
   resources :bookmarks do
     concerns :exportable
-    concerns :searchable
 
     collection do
       delete "clear"
