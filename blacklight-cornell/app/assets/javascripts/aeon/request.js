@@ -66,6 +66,9 @@ function doSubmit(_) {
     return false;
   }
 
+  // Replace newline characters - not accepted in Aeon and break routing
+  $('#SpecialRequest').val($('#SpecialRequest').val().replace(/\r?\n|\r/g, ' --- '));
+
   if(numSelected == "1") { 
     // for a single item request, hidden input field names can NOT have that ID appended
     $('.ItemNo').each((_, element) => buildRequestForItem(_, element, false));
