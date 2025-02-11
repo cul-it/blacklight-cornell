@@ -130,3 +130,7 @@ Feature: Facets
 		| lc_callnum_facet | Call Number | x |
 		| collection | Collection | x |
 		# wip | acquired_dt_query | Date Acquired | yes |
+
+Scenario: Filtering searches by facets that are not available in the public ui
+	When I literally go to ?f[availability_facet][]=Checked%20out
+	Then I should get 10 results
