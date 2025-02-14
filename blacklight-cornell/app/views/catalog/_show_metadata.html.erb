@@ -222,10 +222,11 @@
 	          </span>
 	          <% end %>
        			<% if holdings[k]["active"].nil? or holdings[k]["active"] == true %>
-
-	             		<% if holding["location"].present? %>
-	                		<% if holding["location"]["name"].include?('Rare') || holding["location"]["name"].include?('Kheel') %>
-	                   			<% rare_items << holding %>
+						<% item_format_value = field_value('format') %>
+						<% if holding["location"].present? %>
+	                		<% if holding["location"]["name"].include?('Rare') || 
+									(holding["location"]["name"].include?('Kheel') && item_format_value.include?('Book')) %>
+    							<% rare_items << holding %>
 	                		<% else %>
 	                		   <% circulating_items << holding %>
 	                		<% end %>
