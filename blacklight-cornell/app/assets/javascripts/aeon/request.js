@@ -42,7 +42,8 @@ function buildRequestForItem(_, element, multipleFlag) {
       { name: `CallNumber`, value: callnumber },
       { name: `ItemInfo1`, value: chron },
       { name: `ItemNumber`, value: barcode },
-      { name: `ItemIssue`, value: copy }
+      { name: `ItemIssue`, value: copy },
+      { name: `Site`, value: (cslocation + ' ' + location).toLowerCase().includes('rmc') ? 'RMC' : 'KHEEL' },
     ];
     $("#RequestForm").append(`<input type="hidden" class="dynamic-input" name="Request" value="${req}">`);
     const ext = multipleFlag ? `_${req}` : '';
