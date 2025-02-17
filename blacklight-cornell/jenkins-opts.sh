@@ -6,25 +6,6 @@ echo 'But you also need to make sure that your .env file matches.'
 echo 'To run a specific suite, add file argument like features/catalog_search/results_list.feature'
 echo 'To run a specific test, add line argument like features/catalog_search/results_list.feature:317'
 
-# Old set of options, looks like contains some duplicates
-## OPT1="-t ~@oclc_request  -t ~@search_with_view_all_webs_match_box_with_percent "
-# this saves results in the xml format of junit
-## OPT5="-t ~@boundwith  -p jenkins_lax --format junit --out results/ "
-# this displays test results in human readable format.
-## OPT3="-t ~@boundwith  -p jenkins_lax "
-## OPT2="-t ~@search_availability_title_mission_etrangeres_missing "
-## OPT4=" -t ~@saml_off "
-
-# not doesn't work, use ~@ although it gives us warning
-# OPT1="--tags 'not @oclc_request'"
-# OPT2="--tags 'not @search_with_view_all_webs_match_box_with_percent'"
-# # this saves results in the xml format of junit
-# OPT3="--tags 'not @boundwith'"
-# # this displays test results in human readable format.
-# OPT4="--tags 'not @boundwith'"
-# OPT5="--tags 'not @search_availability_title_mission_etrangeres_missing'"
-# OPT6="--tags 'not @saml_off'"
-
 OPT1="-t ~@oclc_request -t ~@search_with_view_all_webs_match_box_with_percent"
 OPT3="-t ~@boundwith"
 OPT2="-t ~@search_availability_title_mission_etrangeres_missing"
