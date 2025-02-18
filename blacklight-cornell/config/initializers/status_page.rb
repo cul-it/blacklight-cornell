@@ -13,4 +13,5 @@ StatusPage.configure do
   self.add_custom_service(RepositoriesSolr)
   self.add_custom_service(FolioPatron)
   self.add_custom_service(IlliadTransactions)
+  self.add_custom_service(ReshareStatus)
 end
