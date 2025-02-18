@@ -5,7 +5,6 @@ echo "**************************************************************************
 echo "Running tests in container"
 echo "*********************************************************************************"
 source jenkins/environment.sh
-cd blacklight-cornell
 
 sudo systemctl start docker
 cp /cul/data/jenkins/environments/blacklight-cornell.env container_env_test.env

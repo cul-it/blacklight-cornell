@@ -13,23 +13,6 @@ pipeline {
         string(name: 'NUM_PROCESSES', defaultValue: '1', description: 'Number of processes to use for parallel cucumber tests')
     }
     stages {
-        stage('Set up and run bundler') {
-            steps {
-                echo 'Setting up bundler'
-                echo "The branch is ${env.GIT_BRANCH}"
-                script {
-                    if (env.GIT_BRANCH ==~ /PR-.+/) {
-                        // slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} ${CHANGE_BRANCH} --> ${CHANGE_TARGET} (<${env.BUILD_URL}|Open>)"
-                        slackSend channel: "#discovery-and-access", color: "#439FE0", message: "Pull Request Started ${CHANGE_BRANCH} --> ${CHANGE_TARGET}"
-                    } else {
-                        echo "Skipping the slack messages unless it is a Pull Request."
-                    }
-                }
-                echo 'Run prelude.sh'
-                sh 'jenkins/prelude.sh'
-            }
-        }
-
         // use this version for normal situations
         stage("All tests") {
             steps {
