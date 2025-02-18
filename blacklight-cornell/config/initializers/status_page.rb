@@ -12,4 +12,5 @@ StatusPage.configure do
   self.add_custom_service(CatalogSolr)
   self.add_custom_service(RepositoriesSolr)
   self.add_custom_service(FolioPatron)
+  self.add_custom_service(IlliadTransactions)
 end
