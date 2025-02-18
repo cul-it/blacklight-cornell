@@ -30,37 +30,15 @@ pipeline {
             }
         }
 
-        stage("Rspec tests") {
-            steps {
-                echo "Running Rspec tests"
-                timeout(90) {
-                    wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-                        sh 'jenkins/rspec.sh'
-                    }
-                }
-            }
-        }
-
-        // use this version for quick turnaround while testing pull request validation
-        // stage("cucumber all tests") {
-        //     steps {
-        //         timeout(60) {
-        //             wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
-        //                 sh 'blacklight-cornell/jenkins/cucumber-features.sh features/catalog_search/book_bags.feature:8'
-        //             }
-        //         }
-        //     }
-        // }
-
         // use this version for normal situations
-        stage("cucumber all tests") {
+        stage("All tests") {
             steps {
-                echo "Running Cucumber tests with ${params.NUM_PROCESSES} processes"
+                echo "Running Cucumber tests with ${params.NUM_PROCESSES} processes and RSpec tests"
                 timeout(90) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
                         sh """
                             export NUM_PROCESSES=${params.NUM_PROCESSES}
-                            ./jenkins/cucumber-features.sh
+                            ./jenkins/container-tests.sh
                         """
                     }
                 }
