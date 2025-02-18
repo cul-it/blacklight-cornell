@@ -19,19 +19,12 @@ class IlliadTransactions < StatusPage::Services::Base
       http.request(request)
     end
 
-    # Check for HTTP 200 status
-    if response.code.to_i != 200
+    # check if the status is 200
+    if response.code.to_i == 200
+      return true # API is up
+    else
       raise "ILLiad API Error: #{response.code} - #{response.message}"
     end
-
-    # Parse JSON response (expecting an array)
-    body = JSON.parse(response.body)
-
-    if body.empty?
-      raise "ILLiad API returned an empty response"
-    end
-
-    true # Success
   rescue StandardError => e
     raise "ILLiad API Check Failed: #{e.message}"
   end
