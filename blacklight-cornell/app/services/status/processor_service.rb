@@ -5,7 +5,7 @@ module Status
       "Data Status" => %w[Database Cache],
       "MyAccount Status" => %w[FolioPatron IlliadStatus ReshareStatus],
       "Solr Status" => %w[CatalogSolr RepositoriesSolr],
-      "Request Status" => %w[FolioPatron IlliadStatus ]
+      "Request Status" => %w[FolioPatron IlliadStatus ] #todo =>  need to create additional service checks for Requests
     }.freeze
 
     def initialize(request)
