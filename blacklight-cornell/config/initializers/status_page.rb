@@ -2,9 +2,9 @@
     self.interval = 10
     self.use :database
     self.use :cache
-    self.add_custom_service(CatalogSolr)
-    self.add_custom_service(RepositoriesSolr)
-    self.add_custom_service(FolioPatron)
-    self.add_custom_service(IlliadStatus)
-    self.add_custom_service(ReshareStatus)
+    self.add_custom_service(Status::CatalogSolr)
+    self.add_custom_service(Status::RepositoriesSolr)
+    self.add_custom_service(Status::FolioPatron)
+    self.add_custom_service(Status::IlliadStatus)
+    self.add_custom_service(Status::ReshareStatus)
   end
