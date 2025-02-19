@@ -1,6 +1,13 @@
 class StatusController < ActionController::Base
   before_action :authenticate_with_basic_auth
 
+  # Define parent services and their children here
+  NESTED_SERVICES = {
+    "MyAccount Status" => %w[FolioPatron IlliadStatus ReshareStatus],
+    "Solr Status" => %w[CatalogSolr RepositoriesSolr],
+    "Data Status" => %w[Database Cache],
+  }.freeze
+
   def index
     @statuses = nested_statuses
     respond_to do |format|
@@ -11,52 +18,51 @@ class StatusController < ActionController::Base
   end
 
   private
-  # Process and nest specific services under MyAccountStatus
+
+  # Process and nest services dynamically based on NESTED_SERVICES config
   def nested_statuses
     raw_statuses = statuses
-
-    # Extract the individual services from the raw status data
     services = raw_statuses[:results]
 
-    # Select the services to nest under MyAccountStatus
-    my_account_children = services.select do |s|
-      %w[FolioPatron IlliadStatus ReshareStatus].include?(s[:name])
+    # Duplicate services array to avoid mutating the original
+    remaining_services = services.dup
+
+    # Build nested service entries
+    nested_entries = NESTED_SERVICES.map do |parent_name, child_service_names|
+      # Select child services for this parent
+      child_services = remaining_services.select { |s| child_service_names.include?(s[:name]) }
+      # Remove selected children from remaining_services
+      remaining_services.reject! { |s| child_service_names.include?(s[:name]) }
+      # Determine the overall status for the parent
+      parent_status = determine_overall_status(child_services.map { |s| s[:status] })
+
+      {
+        name: parent_name,
+        status: parent_status,
+        message: "",
+        children: child_services
+      }
     end
 
-    # Determine overall status for MyAccountStatus
-    child_statuses = my_account_children.map { |s| s[:status] }
-
-    my_account_status =
-      if child_statuses.all? { |s| s == "OK" }
-        "OK"
-      elsif child_statuses.all? { |s| s != "OK" }
-        "ERROR"
-      else
-        "DEGRADED"
-      end
-
-    # Build the MyAccountStatus entry
-    my_account_entry = {
-      name: "MyAccount Status",
-      status: my_account_status,
-      message: "",
-      children: my_account_children
-    }
-
-    # Exclude the nested services from the top-level results
-    remaining_services = services.reject do |s|
-      %w[FolioPatron IlliadStatus ReshareStatus].include?(s[:name])
-    end
-
-    # Add the MyAccountStatus entry to the remaining services
-    updated_results = remaining_services + [my_account_entry]
-
+    # Combine remaining services with the nested parent entries
+    updated_results = remaining_services + nested_entries
     # Return the updated structure
     {
       results: updated_results,
       status: raw_statuses[:status],
       timestamp: raw_statuses[:timestamp]
     }
+  end
+
+  # Determines overall status based on child statuses
+  def determine_overall_status(statuses)
+    if statuses.all? { |s| s == "OK" }
+      "OK"
+    elsif statuses.all? { |s| s != "OK" }
+      "ERROR"
+    else
+      "DEGRADED"
+    end
   end
 
   def statuses
