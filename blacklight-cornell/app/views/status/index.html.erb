@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Status</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <style type="text/css" media="screen">
+      body {
+          line-height: 1.6rem;
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+          background-color: #f0f0f0;
+          margin: 0;
+          padding: 0;
+          color: #333;
+      }
+
+      a { color: #333; }
+
+      .container {
+          width: 960px;
+          margin: 20px auto;
+          text-align: left;
+      }
+
+      h1 {
+          font-weight: normal;
+          font-size: 32px;
+          letter-spacing: -1px;
+          text-align: center;
+          color: #333;
+          margin-bottom: 20px;
+      }
+
+      .statuses {
+          background: #FFF;
+          width: 100%;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          padding: 20px;
+      }
+
+      .status {
+          border-bottom: 1px solid #eee;
+          padding: 15px 0;
+      }
+
+      .child-status {
+          padding: 4px 0;
+      }
+
+      .status:last-child, .child-status:last-child {
+          border-bottom: none;
+      }
+
+      .status-heading {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+
+      .name {
+          font-size: 18px;
+          font-weight: bold;
+          color: #555;
+      }
+
+      .state {
+          padding: 4px 12px;
+          border-radius: 12px;
+          font-size: 12px;
+          text-transform: uppercase;
+          font-weight: bold;
+          display: inline-block;
+          text-align: center;
+          min-width: 70px;
+          text-align: center;
+      }
+
+      /* Status Colors */
+      .status-ok .state {
+          background-color: #d4edda;
+          color: #155724;
+      }
+
+      .status-error .state {
+          background-color: #f8d7da;
+          color: #721c24;
+      }
+
+      .status-degraded .state {
+          background-color: #fff3cd;
+          color: #856404;
+      }
+
+      .status-unknown .state {
+          background-color: #d1d1d1;
+          color: #333;
+      }
+
+      /* Explicitly target child-status colors */
+      .child-status.status-ok .state {
+          background-color: #d4edda !important;
+          color: #155724 !important;
+      }
+
+      .child-status.status-error .state {
+          background-color: #f8d7da !important;
+          color: #721c24 !important;
+      }
+
+      .child-status.status-degraded .state {
+          background-color: #fff3cd !important;
+          color: #856404 !important;
+      }
+
+      .child-status.status-unknown .state {
+          background-color: #d1d1d1 !important;
+          color: #333 !important;
+      }
+
+      .message {
+          color: #666;
+          margin-top: 5px;
+      }
+
+      /* Child Statuses */
+      .child-statuses {
+          margin-top: 2px;
+          border-left: 2px solid #ccc;
+          padding-left: 15px;
+          margin-left: 12px;
+      }
+
+      /* Ensure consistent alignment for child statuses */
+      .child-statuses .status-heading {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+
+      /* Powered by footer */
+      .powered {
+          text-align: center;
+          margin-top: 20px;
+          color: #aaa;
+      }
+
+      .powered a {
+          color: #666;
+      }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="statuses">
+    <h1>Status Page</h1>
+    <% @statuses[:results].each do |status| %>
+      <div class="status status-<%= (status[:status] || 'unknown').downcase %>">
+        <div class="status-heading">
+          <span class="name"><%= status[:name] %></span>
+          <span class="state"><%= status[:status] || 'Unknown' %></span>
+        </div>
+        <% if status[:message].present? %>
+          <div class="message"><%= status[:message] %></div>
+        <% end %>
+
+        <% if status[:children] %>
+          <div class="child-statuses">
+            <% status[:children].each do |child| %>
+              <div class="child-status status-<%= (child[:status] || 'unknown').downcase %>">
+                <div class="status-heading">
+                  <span class="name"><%= child[:name] %></span>
+                  <span class="state"><%= child[:status] || 'Unknown' %></span>
+                </div>
+                <% if child[:message].present? %>
+                  <div class="message"><%= child[:message] %></div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="powered">
+    Powered by <a href="https://github.com/rails-engine/status-page" target="_blank">status-page</a>
+  </div>
+</div>
+</body>
