@@ -1,5 +1,7 @@
 # rubocop:disable Metrics/BlockLength
 BlacklightCornell::Application.routes.draw do
+  get "/status", to: "status#index"
+
   get "errors/not_found"
 
   get "errors/internal_server_error"
@@ -238,6 +240,7 @@ BlacklightCornell::Application.routes.draw do
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 
-  get "/status", to: "status#index"
+
+
 end
 # rubocop:enable Metrics/BlockLength
