@@ -2,7 +2,7 @@ require "net/http"
 require "uri"
 require "json"
 
-class IlliadTransactions < StatusPage::Services::Base
+class IlliadStatus < StatusPage::Services::Base
   API_URL = ENV["MY_ACCOUNT_ILLIAD_API_URL"]
   API_KEY = ENV["MY_ACCOUNT_ILLIAD_API_KEY"]
   USER_ID = ENV["ILLIAD_TEST_USER_ID"] || "jpd294" # test user
