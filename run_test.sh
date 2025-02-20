@@ -48,7 +48,7 @@ manual_compose_down=""
 num_processes=1
 profiles="--profile cucumber"
 rails_env_file=""
-run_cmd="up --abort-on-container-exit --exit-code-from webapp --force-recreate"
+run_cmd="up --exit-code-from webapp"
 use_rspec=""
 while getopts "shia:n:r:f:" options; do
   case "${options}" in
