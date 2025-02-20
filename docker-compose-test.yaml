@@ -9,40 +9,11 @@ services:
       args:
         - GIT_COMMIT
     environment:
+      - COVERAGE=${COVERAGE:-on}
+      - COVERAGE_PATH=${COVERAGE_PATH:-./blacklight-cornell/coverage}
       - FEATURE
-      - NUM_PROCESSES
-      - USE_TEST_CONTAINER=1
+      - NUM_PROCESSES=${NUM_PROCESSES:-2}
       - USE_RSPEC
-    depends_on:
-      chrome:
-        condition: service_healthy
-        # Make this dependency optional so we can use it on cucumber test but not on rspec
-        # https://github.com/compose-spec/compose-spec/issues/274
-        required: false
-    ports:
-      - 3010:3010
     volumes:
       - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro
-  chrome:
-    # selenium/standalone-chromium / selenium/standalone-chrome
-    image: ${SELENIUM_IMAGE}
-    shm_size: '2gb'
-    ports:
-      - 4444:4444
-      - 7900:7900
-      - 5900:5900
-    environment:
-      - SE_NODE_SESSION_TIMEOUT=11000
-      - START_XVFB=false
-      - SE_START_VNC=false
-    healthcheck:
-      test: [ "CMD", "curl", "-fL", "http://localhost:4444" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 1s
-    # Make this service optional so we can use it on cucumber test but not on rspec
-    # https://github.com/compose-spec/compose-spec/issues/274
-    profiles:
-      - cucumber
-      - rspec
+      - ${COVERAGE_PATH}:/blacklight-cornell/coverage:rw

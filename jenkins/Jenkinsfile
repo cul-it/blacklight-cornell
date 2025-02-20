@@ -12,6 +12,9 @@ pipeline {
     parameters {
         string(name: 'NUM_PROCESSES', defaultValue: '1', description: 'Number of processes to use for parallel cucumber tests')
     }
+    parameters {
+        string(name: 'CUCUMBER_FEATURE_TESTS', defaultValue: '', description: "Leave blank to run all tests.\nTo run a specific suite, add file argument like features/catalog_search/results_list.feature\nTo run a specific test, add line argument like features/catalog_search/results_list.feature:317")
+    }
     stages {
         // use this version for normal situations
         stage("All tests") {
@@ -21,6 +24,7 @@ pipeline {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
                         sh """
                             export NUM_PROCESSES=${params.NUM_PROCESSES}
+                            export FEATURE=${params.CUCUMBER_FEATURE_TESTS}
                             ./jenkins/container-tests.sh
                         """
                     }

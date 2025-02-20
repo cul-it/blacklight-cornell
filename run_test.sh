@@ -84,14 +84,7 @@ export USE_RSPEC=${use_rspec}
 echo $num_processes
 export NUM_PROCESSES=${num_processes}
 
-selenium_image="selenium/standalone-chromium"
-SYSTEM_ARCH=$(arch | sed s/aarch64/arm64/)
-if [ $SYSTEM_ARCH != 'arm64' ]
-  then
-    selenium_image="selenium/standalone-chrome"
-fi
-export SELENIUM_IMAGE=${selenium_image}
-echo $SELENIUM_IMAGE
+export COVERAGE_PATH=$(resolve_relative_path "blacklight-cornell/coverage/")
 
 if [ "${feature}" != "" ]
   then
@@ -112,8 +105,8 @@ if [ "${manual_compose_down}" != "" ]
     docker compose -p container-discovery-test -f ${compose_file} down --remove-orphans
 fi
 
+unset COVERAGE
 unset FEATURE
 unset NUM_PROCESSES
 unset RAILS_ENV_FILE
-unset SELENIUM_IMAGE
 unset USE_RSPEC
