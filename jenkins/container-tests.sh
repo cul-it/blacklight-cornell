@@ -8,8 +8,6 @@ source jenkins/environment.sh
 
 sudo systemctl start docker
 cp /cul/data/jenkins/environments/blacklight-cornell.env container_env_test.env
-img_id=$(git rev-parse HEAD)
-img=092831676293.dkr.ecr.us-east-1.amazonaws.com/da/blacklight-cornell-prod:${img_id} 
 
 export COVERAGE=on
 export RAILS_ENV_FILE=./container_env_test.env

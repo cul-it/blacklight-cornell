@@ -128,7 +128,7 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /src/*.deb && \
-    mkdir -p /root/.aws /root/user-data
+    mkdir -p /root/.aws /root/user-data-0 /root/user-data-1 /root/user-data-2 /root/user-data-3 /root/user-data-4
 
 ENV BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell \

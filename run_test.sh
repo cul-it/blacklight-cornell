@@ -84,7 +84,7 @@ export USE_RSPEC=${use_rspec}
 echo $num_processes
 export NUM_PROCESSES=${num_processes}
 
-export COVERAGE_PATH=$(resolve_relative_path "blacklight-cornell/coverage/")
+export COVERAGE_PATH=$(resolve_relative_path "blacklight-cornell/coverage")
 
 if [ "${feature}" != "" ]
   then
