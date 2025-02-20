@@ -23,6 +23,7 @@ pipeline {
                         sh """
                             export NUM_PROCESSES=${params.NUM_PROCESSES}
                             export FEATURE=${params.CUCUMBER_FEATURE_TESTS}
+                            export JENKINS_WORKSPACE=${WORKSPACE}
                             ./jenkins/container-tests.sh
                         """
                     }

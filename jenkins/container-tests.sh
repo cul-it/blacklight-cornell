@@ -14,14 +14,13 @@ img=092831676293.dkr.ecr.us-east-1.amazonaws.com/da/blacklight-cornell-prod:${im
 ./build_test.sh
 export COVERAGE=on
 export RAILS_ENV_FILE=./container_env_test.env
-# export FEATURE=features/assumption/assume.feature
+export COVERAGE_PATH=${JENKINS_WORKSPACE}/blacklight-cornell/coverage
 project_name="container-discovery-test-$(openssl rand -hex 8)"
-# export NUM_PROCESSES=2
 docker compose -p $project_name -f docker-compose-test.yaml up
 EXIT_CODE=$?
 echo $EXIT_CODE
 export USE_RSPEC=1
-docker compose -p container-discovery-test -f docker-compose-test.yaml up
+docker compose -p $project_name -f docker-compose-test.yaml up
 R_EXIT_CODE=$?
 echo $R_EXIT_CODE
 

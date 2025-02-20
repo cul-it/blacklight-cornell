@@ -105,7 +105,7 @@ if [ "${manual_compose_down}" != "" ]
     docker compose -p container-discovery-test -f ${compose_file} down --remove-orphans
 fi
 
-unset COVERAGE
+unset COVERAGE_PATH
 unset FEATURE
 unset NUM_PROCESSES
 unset RAILS_ENV_FILE
