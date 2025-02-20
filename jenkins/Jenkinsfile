@@ -11,8 +11,6 @@ pipeline {
         }
     parameters {
         string(name: 'NUM_PROCESSES', defaultValue: '1', description: 'Number of processes to use for parallel cucumber tests')
-    }
-    parameters {
         string(name: 'CUCUMBER_FEATURE_TESTS', defaultValue: '', description: "Leave blank to run all tests.\nTo run a specific suite, add file argument like features/catalog_search/results_list.feature\nTo run a specific test, add line argument like features/catalog_search/results_list.feature:317")
     }
     stages {
