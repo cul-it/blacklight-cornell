@@ -8,4 +8,6 @@
     self.add_custom_service(Status::FolioRequestStatus)
     self.add_custom_service(Status::IlliadStatus)
     self.add_custom_service(Status::ReshareStatus)
+    self.add_custom_service(Status::PDAStatus)
+    self.add_custom_service(Status::DocumentDeliveryStatus)
   end
