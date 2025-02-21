@@ -7,11 +7,21 @@ module Status
   class ProcessorService
     # Define parent services and their children here
     NESTED_SERVICES = {
-      "Data Status" => %w[Database Cache],
+      "Data Status"      => %w[Database Cache],
       "MyAccount Status" => %w[FolioPatronStatus IlliadStatus ReshareStatus],
-      "Solr Status" => %w[CatalogSolrStatus RepositoriesSolrStatus],
-      "Request Status" => %w[FolioPatronStatus FolioRequestStatus IlliadStatus DocumentDeliveryStatus PDAStatus ] #todo =>  need to work on service checks for Requests
+      "Solr Status"      => %w[CatalogSolrStatus RepositoriesSolrStatus],
+      "Request Status"   => %w[FolioPatronStatus FolioRequestStatus IlliadStatus DocumentDeliveryStatus PDAStatus] #todo => need to work on service checks for Requests
     }.freeze
+
+    ###################################################
+    ##  Services currently under "Work In Progress"  ##
+    ###################################################
+    #TODO; Remove this section once all service statuses complete
+    WIP_SERVICES = %w[
+      DocumentDeliveryStatus
+      PDAStatus
+      FolioRequestStatus
+    ].freeze
 
     def initialize(request)
       @request = request
@@ -24,6 +34,14 @@ module Status
 
       # Build a lookup hash for quick access to services by name
       services_lookup = services.each_with_object({}) do |service, hash|
+        ##################################################
+        ## Override status if service is marked as WIP  ##
+        ##################################################
+        #TODO; Remove this section once all service statuses complete
+        if WIP_SERVICES.include?(service[:name])
+          service[:status] = "Work In Progress"
+        end
+
         hash[service[:name]] = service
       end
 
@@ -76,6 +94,9 @@ module Status
         "OK"
       elsif statuses.all? { |s| s != "OK" }
         "ERROR"
+      #TODO; Remove this line once all service statuses complete
+      elsif statuses.any? { |s| s != "Work In Progress" }
+        "Incomplete Status"
       else
         "DEGRADED"
       end
