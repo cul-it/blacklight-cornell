@@ -1,3 +1,11 @@
+#########################################################################
+##  DACCESS-513                                                        ##
+##  Currently OKAPI is being used, but this wil change in the future.  ##
+##  Kong will be used instead, starting around June/July 2025          ##
+##  https://konghq.com/                                                ##
+##  https://docs.konghq.com/gateway/api/admin-oss/latest/              ##
+#########################################################################
+
 require "net/http"
 require "cul/folio/edge"
 

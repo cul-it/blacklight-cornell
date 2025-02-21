@@ -1,3 +1,8 @@
+##############################################################################
+##  This handles all the status processing. It adds nesting functionality   ##
+##  allowing there to be main services with multiple child services within  ##
+##  scope of each main service if using NESTED_SERVICES.                    ##
+##############################################################################
 module Status
   class ProcessorService
     # Define parent services and their children here
