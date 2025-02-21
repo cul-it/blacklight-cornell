@@ -3,9 +3,9 @@ module Status
     # Define parent services and their children here
     NESTED_SERVICES = {
       "Data Status" => %w[Database Cache],
-      "MyAccount Status" => %w[FolioPatron IlliadStatus ReshareStatus],
-      "Solr Status" => %w[CatalogSolr RepositoriesSolr],
-      "Request Status" => %w[FolioPatron IlliadStatus ] #todo =>  need to create additional service checks for Requests
+      "MyAccount Status" => %w[FolioPatronStatus IlliadStatus ReshareStatus],
+      "Solr Status" => %w[CatalogSolrStatus RepositoriesSolrStatus],
+      "Request Status" => %w[FolioPatronStatus IlliadStatus FolioRequestStatus ] #todo =>  need to create additional service checks for Requests
     }.freeze
 
     def initialize(request)

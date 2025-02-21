@@ -1,7 +1,7 @@
 require "net/http"
 
 module Status
-  class CatalogSolr < StatusPage::Services::Base
+  class CatalogSolrStatus < StatusPage::Services::Base
     def check!
       begin
         solr_config = YAML.load(ERB.new(File.read("#{::Rails.root}/config/blacklight.yml")).result)

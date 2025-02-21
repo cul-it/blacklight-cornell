@@ -2,7 +2,7 @@ require "net/http"
 require "cul/folio/edge"
 
 module Status
-  class FolioPatron < StatusPage::Services::Base
+  class FolioPatronStatus < StatusPage::Services::Base
 
     def folio_patron_token
       url    = ENV["OKAPI_URL"]

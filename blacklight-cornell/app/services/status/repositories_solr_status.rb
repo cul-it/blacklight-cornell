@@ -1,7 +1,7 @@
 require "net/http"
 module Status
 
-  class RepositoriesSolr < StatusPage::Services::Base
+  class RepositoriesSolrStatus < StatusPage::Services::Base
 
     def check!
       uri = ENV["IR_SOLR_URL"]
