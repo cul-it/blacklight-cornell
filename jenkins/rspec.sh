@@ -2,19 +2,16 @@
 set -e
 echo ""
 echo "*********************************************************************************"
-echo ""
+echo "Running tests in container"
+echo "*********************************************************************************"
 source jenkins/environment.sh
-cd blacklight-cornell
-echo "PATH is:$PATH"
-echo "Solr: $SOLR_URL"
-which bundle
+
+sudo systemctl start docker
+cp /cul/data/jenkins/environments/blacklight-cornell.env container_env_test.env
+
 export COVERAGE=on
-export RAILS_ENV=test
-if [ $# -eq 0 ]
-    then
-        echo "Running all rspec tests."
-        bundle exec rspec
-    else
-        echo "Running spec: $1"
-        bundle exec rspec "$1"
-fi
+export RAILS_ENV_FILE=./container_env_test.env
+export COVERAGE_PATH=${JENKINS_WORKSPACE}/blacklight-cornell/coverage
+project_name="container-discovery-test-${TEST_ID}"
+echo "RSpec tests for ${project_name}"
+docker compose -p $project_name -f docker-compose-test.yaml up --exit-code-from webapp
