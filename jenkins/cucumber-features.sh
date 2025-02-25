@@ -2,7 +2,7 @@
 set -e
 echo ""
 echo "*********************************************************************************"
-echo "Running tests in container"
+echo "Running cucumber tests in container"
 echo "*********************************************************************************"
 source jenkins/environment.sh
 
