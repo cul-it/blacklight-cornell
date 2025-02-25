@@ -28,6 +28,11 @@ rescue Errno::ENOENT
   eos
 end
 
+# Partially override BentoSearch classes using prepend pattern
+Rails.application.config.to_prepare do
+  BentoSearch::StandardDecorator.prepend BentoSearch::Prepends::StandardDecorator
+end
+
 # official supported eds search
 BentoSearch.register_engine('ebsco_eds') do |conf|
 	conf.engine = 'BentoSearch::EbscoEdsEngine'
