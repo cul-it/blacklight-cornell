@@ -145,7 +145,7 @@ class SearchController < ApplicationController
 
     if display_type == "fixed"
       # Pre-populate top4 with our chosen formats and remove them from the results
-      top4 << ["Journal", results.delete("Journal")]
+      top4 << ["Journal/Periodical", results.delete("Journal/Periodical")]
       top4 << ["Database", results.delete("Database")]
     end
 
