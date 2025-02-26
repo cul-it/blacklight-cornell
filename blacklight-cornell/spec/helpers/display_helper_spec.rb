@@ -13,8 +13,8 @@ RSpec.describe DisplayHelper, type: :helper do
 
     it 'renders the display link' do
       result = helper.render_display_link(args)
-      expect(result).to include('Processed Title')
-      expect(result).to include('http://example.com')
+      expect(result.first).to include('Processed Title')
+      expect(result.first).to include('http://example.com')
     end
   end
 
@@ -24,8 +24,8 @@ RSpec.describe DisplayHelper, type: :helper do
 
     it 'renders the display link' do
       result = helper.render_display_link(args)
-      expect(result).to include('Processed Title')
-      expect(result).to include('http://example.com')
+      expect(result.first).to include('Processed Title')
+      expect(result.first).to include('http://example.com')
     end
   end
 
@@ -41,12 +41,15 @@ RSpec.describe DisplayHelper, type: :helper do
   end
 
   context 'when field is url_findingaid_display' do
-    let(:args) { { field: 'url_findingaid_display', value: ['http://example.com|Example'] } }
+    let(:args) { { field: 'url_findingaid_display', value: ['http://example.com|Example', 'http://example2.com|Example2'] } }
 
-    it 'returns the first value' do
+    it 'returns all the values' do
       result = helper.render_display_link(args)
-      expect(result).to include('Processed Title')
-      expect(result).to include('http://example.com')
+      expect(result).to be_an(Array)
+      expect(result.length).to eq(2)
+      expect(result.first).to include('Processed Title')
+      expect(result.first).to include('http://example.com')
+      expect(result.last).to include('http://example2.com')
     end
   end
 
@@ -65,12 +68,12 @@ RSpec.describe DisplayHelper, type: :helper do
   context 'when field is url_other_display' do
     let(:args) { { field: 'url_other_display', value: ['http://example.com|Example', 'http://example2.com|Example2'] } }
 
-    it 'returns values joined by <br>' do
+    it 'returns values joined by <br/>' do
       result = helper.render_display_link(args)
       expect(result).to include('Processed Title')
       expect(result).to include('http://example.com')
       expect(result).to include('http://example2.com')
-      expect(result).to include('<br>')
+      expect(result).to include('<br/>')
     end
   end
 end
