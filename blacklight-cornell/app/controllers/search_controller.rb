@@ -86,10 +86,12 @@ class SearchController < ApplicationController
     render "single_search/index"
   end
 
+  # TODO: Can this be deleted, or should it be fixed? https://culibrary.atlassian.net/browse/DACCESS-515
   def single_search
     Appsignal.increment_counter("single_search_index", 1)
     begin
       @engine = BentoSearch.get_engine(params[:engine])
+      # TODO: Handle when params[:engine] == 'solr'
     rescue BentoSearch::NoSuchEngine => e
       # DA-5405
       @engine = params[:engine]
