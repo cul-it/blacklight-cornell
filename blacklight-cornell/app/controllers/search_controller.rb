@@ -40,7 +40,6 @@ class SearchController < ApplicationController
         @query = @query
       end
       Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-      titem = BentoSearch::ResultItem.new
       searcher = BentoSearch::ConcurrentSearcher.new(:solr, :ebsco_eds, :bestbet, :digitalCollections, :libguides, :institutionalRepositories)
       searcher.search(@query, :oq => original_query, :per_page => 3)
       @results = searcher.results.dup

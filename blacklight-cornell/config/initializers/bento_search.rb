@@ -19,6 +19,8 @@ BentoSearch.register_engine('ebsco_eds') do |conf|
 	conf.highlighting = false
 end
 
+# TODO: I don't think we use this engine at all - we just use the configuration link in CornellCatalog#index
+# Engine defined in bento_search
 BentoSearch.register_engine('worldcat') do |conf|
   conf.engine = "BentoSearch::WorldcatSruDcEngine"
   conf.api_key = ENV['WORLDCAT_API_KEY']
