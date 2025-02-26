@@ -73,17 +73,4 @@ RSpec.describe DisplayHelper, type: :helper do
       expect(result).to include('<br>')
     end
   end
-
-  # context 'when field is not specifically handled' do
-  #   let(:document) { { 'url_findingaid_display' => ['http://example.com|Example'] } }
-  #   let(:args) { { field: 'unknown_field', document: document } }
-
-  #   it 'uses Blacklight::FieldPresenter to render the field' do
-  #     presenter = instance_double(Blacklight::FieldPresenter, render: 'Rendered Field')
-  #     allow(Blacklight::FieldPresenter).to receive(:new).and_return(presenter)
-
-  #     result = helper.render_display_link(args)
-  #     expect(result).to eq('Rendered Field')
-  #   end
-  # end
 end
