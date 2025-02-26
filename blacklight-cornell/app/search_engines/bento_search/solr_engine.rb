@@ -39,10 +39,10 @@ class BentoSearch::SolrEngine
         # bento_search does some slightly odd things to author strings in order to display them,
         # so the raw string coming out of *our* display value turns into nonsense by default
         # Telling to create a new Author with an explicit 'display' value seems to work.
-        item.authors << BentoSearch::Author.new({:display => a.split('|')[1][0..-2]})
+        item.authors << BentoSearch::Author.new({:display => a})
       end
       item.year = i['pub_date_facet'].to_s
-      item.link = "http://catalog.library.cornell.edu/catalog/#{i['id']}"
+      item.link = "/catalog/#{i['id']}"
       bento_results << item
     end
     bento_results.total_items = solr_response['response']['numFound']
@@ -51,5 +51,9 @@ class BentoSearch::SolrEngine
 
   end
 
-
+  def self.default_configuration
+    {
+      :solr_url => ENV['SOLR_URL']
+    }
+  end
 end

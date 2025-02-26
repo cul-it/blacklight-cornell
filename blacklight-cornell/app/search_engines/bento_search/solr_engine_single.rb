@@ -51,4 +51,10 @@ class BentoSearch::SolrEngineSingle
     bento_results.total_items = 1
     return bento_results
   end
+
+  def self.default_configuration
+    {
+      :solr_url => ENV['SOLR_URL']
+    }
+  end
 end
