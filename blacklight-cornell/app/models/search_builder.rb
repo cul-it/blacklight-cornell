@@ -4,7 +4,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
   include BlacklightRangeLimit::RangeLimitBuilder
 
-  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :set_fl, :set_fq, :set_query, :homepage_default]
+  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :set_fl, :set_fq, :set_query, :homepage_default, :group_bento_results]
 
   DEFAULT_BOOLEAN = 'AND'
   DEFAULT_OP = 'AND'
@@ -97,6 +97,18 @@ class SearchBuilder < Blacklight::SearchBuilder
 
       # Build solr q param for simple search
       solr_parameters[:q] = build_simple_search_query(blacklight_params)
+    end
+  end
+
+  def group_bento_results solr_parameters
+    if blacklight_params[:format] == 'bento'
+      solr_parameters.merge!({
+        :group => true,
+        :'group.field' => 'format_main_facet',
+        :'group.limit' => 3,
+        :'group.ngroups' => 'true',
+        :fl => 'id,pub_date_display,format,fulltitle_display,fulltitle_vern_display,author_display,score,pub_info_display,availability_json'
+      })
     end
   end
 

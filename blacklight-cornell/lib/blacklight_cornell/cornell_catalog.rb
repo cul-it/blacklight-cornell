@@ -158,6 +158,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
       format.json { render json: { response: { document: deprecated_document_list } } }
+      format.bento { }
     end
 
     # Format query for constraints display

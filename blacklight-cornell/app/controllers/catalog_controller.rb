@@ -163,6 +163,9 @@ class CatalogController < ApplicationController
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
     config.index.display_type_field = 'format'
 
+    # Sets group field for bento search results
+    config.index.group = 'format_main_facet'
+
     # solr field configuration for document/show views
     config.show.title_field = 'title_display'
     config.show.display_type_field = 'format'

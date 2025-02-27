@@ -1,0 +1,9 @@
+<%
+  bento = {
+    response: {
+      groups: @response.group['groups']
+    }
+  }
+%>
+
+<%= bento.to_json.html_safe %>
