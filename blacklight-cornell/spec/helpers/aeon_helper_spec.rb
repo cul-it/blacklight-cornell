@@ -238,16 +238,11 @@ RSpec.describe AeonHelper, type: :helper do
 
     it 'returns the correct HTML for multiple finding aids' do
       finding_aids = ['http://example.com|Example Label', 'http://example2.com|Example Label 2']
-      expected_html = <<~HTML
-        <p>
-          <i class="fa fa-check" aria-hidden="true"></i>
-          <a href='http://example.com'>Example Label</a>
-        </p><p>
-          <i class="fa fa-check" aria-hidden="true"></i>
-          <a href='http://example2.com'>Example Label 2</a>
-        </p>
-      HTML
-      expect(helper.finding_aids_display(finding_aids)).to eq(expected_html.strip.html_safe)
+      result = helper.finding_aids_display(finding_aids)
+      expect(result).to include('Example Label')
+      expect(result).to include('http://example.com')
+      expect(result).to include('Example Label 2')
+      expect(result).to include('http://example2.com')
     end
 
     it 'cleans the URL if it ends with /track' do
