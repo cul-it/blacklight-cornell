@@ -378,7 +378,7 @@ module AeonHelper
       next if url.blank?
 
       cleaned_url = url.end_with?('/track') ? url.chomp('/track') : url
-      label = label.presence || url
+      label = label.presence || cleaned_url
       <<~HTML.strip
         <p>
           <i class="fa fa-check" aria-hidden="true"></i>
