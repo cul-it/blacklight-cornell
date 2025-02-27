@@ -3,7 +3,7 @@
     <% if @results.total_items > 0 %>
         <h2>Repositories</h2>
         <%= bento_search @results %>
-        <%= paginate @results.pagination {:theme => 'blacklight'} %>
+        <%= paginate @results.pagination, :theme => 'blacklight' %>
     <% else %>
         <p class="no-results">
         Your search returned 0 results. Try searching

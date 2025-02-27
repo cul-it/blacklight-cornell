@@ -7,12 +7,6 @@ module SingleSearchHelper
     extra_body_classes.join " "
   end
 
-  def ss_encode (str)
-     str
-     #CGI::escape(str)
-     #str = str.gsub('%','%25')
-  end
-
   def downcast (str)
     str.gsub(/\//, '_').
     gsub(/::/, '/').
@@ -48,19 +42,19 @@ module SingleSearchHelper
     when "libguides"
       link = 'http://guides.library.cornell.edu/libguides/home'
     when "ebsco_eds"
-      bq = ss_encode(params[:q] || params[:query])
+      bq = params[:q] || params[:query]
       if bq.present?
         link = "https://discovery.ebsco.com/c/u2yil2/results?q=#{bq}"
       else
         link = "https://discovery.ebsco.com/c/u2yil2"
       end
     when "digitalCollections"
-      link = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+      link = controller.all_items_url(key, params[:q] || params[:query], BentoSearch.get_engine(key).configuration.blacklight_format)
     else
       # our app chooses to use 'q' as the query param; the ajax loading controller
       # uses 'query'.This ordinarily is fine, but since we want this layout to work
       # for both, we have to look for both, oh well.
-      link = controller.all_items_url(key, ss_encode(params[:q] || params[:query]), BentoSearch.get_engine(key).configuration.blacklight_format)
+      link = controller.all_items_url(key, params[:q] || params[:query], BentoSearch.get_engine(key).configuration.blacklight_format)
       link = request.protocol + request.host_with_port + '/' + link
     end
 
@@ -69,7 +63,7 @@ module SingleSearchHelper
 
   def bento_eds_count()
     eds_total = 0
-    bq = ss_encode(params[:q] || params[:query])
+    bq = params[:q] || params[:query]
     if bq.present?
       searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_eds)
       searcher.search(bq, :per_page => 0)
