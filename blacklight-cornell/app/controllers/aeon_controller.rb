@@ -24,7 +24,6 @@ class AeonController < ApplicationController
 
   def set_variables
     # @finding_aid = params[:finding] || ''
-    Rails.logger.debug "mjc12q: finding_aid in controller: #{@finding_aid}"
     @bibid = params[:id]
     _, @document = search_service.fetch(params[:id])
     @title = @document['fulltitle_display']
