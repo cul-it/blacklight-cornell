@@ -169,11 +169,6 @@ RSpec.describe AeonHelper, type: :helper do
     end
   end
 
-
-
-
-
-
   context 'items_hash is present but empty; item info is taken from the @document items_json' do
     def merged_document(overrides = {})
       base_document.merge(overrides)
@@ -219,6 +214,67 @@ RSpec.describe AeonHelper, type: :helper do
         expectations = { id: "iid-#{ID}", location: VAULT_LOCATION, loc_code: CODE, cslocation: "#{CODE} #{NAME}", code: CODE }
         test_generate_script(initial_input, expectations)
       end
+    end
+  end
+
+  describe '#finding_aids_display' do
+    let(:single_output) {
+      <<~HTML
+        <p>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <a href='http://example.com'>Example Label</a>
+        </p>
+      HTML
+    }
+
+    it 'returns an empty string if there is no input' do
+      expect(helper.finding_aids_display(nil)).to eq('')
+    end
+
+    it 'returns the correct HTML for a single finding aid' do
+      finding_aids = ['http://example.com|Example Label']
+      expect(helper.finding_aids_display(finding_aids)).to eq(single_output.strip.html_safe)
+    end
+
+    it 'returns the correct HTML for multiple finding aids' do
+      finding_aids = ['http://example.com|Example Label', 'http://example2.com|Example Label 2']
+      expected_html = <<~HTML
+        <p>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <a href='http://example.com'>Example Label</a>
+        </p><p>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <a href='http://example2.com'>Example Label 2</a>
+        </p>
+      HTML
+      expect(helper.finding_aids_display(finding_aids)).to eq(expected_html.strip.html_safe)
+    end
+
+    it 'cleans the URL if it ends with /track' do
+      finding_aids = ['http://example.com/track|Example Label']
+      expect(helper.finding_aids_display(finding_aids)).to eq(single_output.strip.html_safe)
+    end
+
+    it 'handles finding aids with no label' do
+      finding_aids = ['http://example.com|']
+      expected_html = <<~HTML
+        <p>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <a href='http://example.com'></a>
+        </p>
+      HTML
+      expect(helper.finding_aids_display(finding_aids)).to eq(expected_html.strip.html_safe)
+    end
+
+    it 'handles finding aids with no URL' do
+      finding_aids = ['|Example Label']
+      expected_html = <<~HTML
+        <p>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <a href=''>Example Label</a>
+        </p>
+      HTML
+      expect(helper.finding_aids_display(finding_aids)).to eq(expected_html.strip.html_safe)
     end
   end
 end
