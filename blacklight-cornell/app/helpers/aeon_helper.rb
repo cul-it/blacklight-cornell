@@ -365,3 +365,18 @@ def generate_hidden_inputs_for_login(params_hash)
     end
   end.join.html_safe
 end
+
+def finding_aids_display(finding_aids)
+  return '' if finding_aids.nil?
+
+  finding_aids.map do |finding_aid|
+    url, label = finding_aid.split('|')
+    cleaned_url = url.end_with?('/track') ? url.chomp('/track') : url
+    <<~HTML
+      <p>
+        <i class="fa fa-check" aria-hidden="true"></i>
+        <a href='#{cleaned_url}'>#{label}</a>
+      </p>
+    HTML
+  end.join.html_safe
+end

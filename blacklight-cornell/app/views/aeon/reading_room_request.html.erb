@@ -27,16 +27,7 @@
 			<div class="aeoncard">
 				<h2 class="h2title"><%= @title %></h2>
 				<div class="info-wrapper">
-					<% if @finding_aids.present? %>
-						<% @finding_aids.each do |finding_aid| %>
-							<% url, label = finding_aid.split('|') %>
-							<% cleaned_url = url.end_with?('/track') ? url.chomp('/track') : url %>
-							<p>
-								<i class="fa fa-check" aria-hidden="true"></i>
-								<a href='<%= cleaned_url %>'><%= label %></a>
-							</p>
-						<% end %>
-					<% end %>
+					<%= finding_aids_display(@finding_aids) %>
 					<% if @re506.present? %>
 						<p>
 							<i class="fa fa-warning" aria-hidden="true"></i>
