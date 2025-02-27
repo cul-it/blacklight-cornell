@@ -375,6 +375,8 @@ module AeonHelper
 
     finding_aids.map do |finding_aid|
       url, label = finding_aid.split('|')
+      next if url.blank?
+
       cleaned_url = url.end_with?('/track') ? url.chomp('/track') : url
       <<~HTML.strip
         <p>

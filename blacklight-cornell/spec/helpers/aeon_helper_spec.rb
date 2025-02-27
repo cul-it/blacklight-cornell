@@ -261,15 +261,9 @@ RSpec.describe AeonHelper, type: :helper do
       expect(helper.finding_aids_display(finding_aids)).to eq(expected_html.strip.html_safe)
     end
 
-    it 'handles finding aids with no URL' do
+    it 'handles finding aids with no URL by outputting nothing' do
       finding_aids = ['|Example Label']
-      expected_html = <<~HTML
-        <p>
-          <i class="fa fa-check" aria-hidden="true"></i>
-          <a href=''>Example Label</a>
-        </p>
-      HTML
-      expect(helper.finding_aids_display(finding_aids)).to eq(expected_html.strip.html_safe)
+      expect(helper.finding_aids_display(finding_aids)).to eq('')
     end
   end
 end
