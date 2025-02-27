@@ -2,30 +2,10 @@
 
 # Contains initialization for bento_search as suggested in the documentation:
 # http://rubydoc.info/gems/bento_search/frames/
-begin
-  SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
-rescue Errno::ENOENT
-  puts <<-eos
 
-  ******************************************************************************
-  Your search_apis.yml config file is missing.
-  See config/search_apis.yml.example
-  ******************************************************************************
-
-  eos
-
-
-end
-#conf = YAML.load(ERB.new(File.read("#{Rails.root}/config/database.yml")).result
-begin
-  SOLR_CONFIG = YAML.load(ERB.new(File.read("#{::Rails.root}/config/blacklight.yml")).result)
-rescue Errno::ENOENT
-  puts <<-eos
-  ******************************************************************************
-  Your solr.yml config file is missing.
-  See config/solr.yml.example
-  ******************************************************************************
-  eos
+# Partially override BentoSearch classes using prepend pattern
+Rails.application.config.to_prepare do
+  BentoSearch::StandardDecorator.prepend BentoSearch::Prepends::StandardDecorator
 end
 
 # official supported eds search
@@ -39,6 +19,8 @@ BentoSearch.register_engine('ebsco_eds') do |conf|
 	conf.highlighting = false
 end
 
+# TODO: I don't think we use this engine at all - we just use the configuration link in CornellCatalog#index
+# Engine defined in bento_search
 BentoSearch.register_engine('worldcat') do |conf|
   conf.engine = "BentoSearch::WorldcatSruDcEngine"
   conf.api_key = ENV['WORLDCAT_API_KEY']
@@ -74,7 +56,6 @@ end
 BentoSearch.register_engine('solr') do |conf|
 	conf.engine = 'BentoSearch::SolrEngineSingle'
 	conf.title = 'Solr Query'
-	conf.solr_url = SOLR_CONFIG[ENV['RAILS_ENV']]["url"] unless SOLR_CONFIG.nil? or SOLR_CONFIG[ENV['RAILS_ENV']].nil?
 end
 
 BentoSearch.register_engine('Book') do |conf|
@@ -102,7 +83,7 @@ BentoSearch.register_engine('Thesis') do |conf|
 end
 
 BentoSearch.register_engine('Musical Recording') do |conf|
-	conf.engine = 'BentoSearch::SolrEngineSingle'
+	conf.engine = 'SolrEngine'
 	conf.title = 'Musical Recordings'
 	conf.blacklight_format = 'Musical Recording'
 end

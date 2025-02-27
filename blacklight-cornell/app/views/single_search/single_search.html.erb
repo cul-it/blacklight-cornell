@@ -1,7 +1,8 @@
-<%# file restored DISCOVERYACCESS-5405 %>
-<h2>
-  Library Websites
-</h2>
+<%
+  page_title = @engine.class == String ? @engine : @engine.configuration.title
+  search_types = page_title.downcase.pluralize
+%>
+<h2><%= page_title %></h2>
 <div class="well">
   <div class="row">
     <div class="col-sm-12">
@@ -11,7 +12,7 @@
           <label class="sr-only" for="q">
             Search
           </label>
-          <input class="search-query form-control col-xs-6" type='text' name='q' id='q' value='<%= params[:q] %>' placeholder='Search library websites' autocapitalize='off'></input>
+          <input class="search-query form-control col-xs-6" type='text' name='q' id='q' value='<%= params[:q] %>' placeholder="Search <%= search_types %>" autocapitalize='off'></input>
         </div>
         <button class="btn btn-search" id="search-btn" type="submit" />
           <i class="fa fa-search fa-inverse"></i>
