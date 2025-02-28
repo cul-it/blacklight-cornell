@@ -255,7 +255,7 @@ RSpec.describe AeonHelper, type: :helper do
       expected_html = <<~HTML
         <p>
           <i class="fa fa-check" aria-hidden="true"></i>
-          <a href='http://example.com'></a>
+          <a href='http://example.com'>http://example.com</a>
         </p>
       HTML
       expect(helper.finding_aids_display(finding_aids)).to eq(expected_html.strip.html_safe)
