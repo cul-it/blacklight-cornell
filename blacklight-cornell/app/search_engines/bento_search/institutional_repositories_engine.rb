@@ -35,7 +35,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
 
     solr = RSolr.connect :url => url.to_s
     solr_response = solr.get 'select', :params => {
-                                        :q => q,
+                                        :q => args[:query],
                                         :fq => fq,
                                         :start => start * per_page,
                                         :rows => per_page,

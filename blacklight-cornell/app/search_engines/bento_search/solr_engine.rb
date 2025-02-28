@@ -1,3 +1,4 @@
+# Used by search#single_search when bento search engine is a blacklight format
 class BentoSearch::SolrEngine
 
   include BentoSearch::SearchEngine
@@ -20,6 +21,7 @@ class BentoSearch::SolrEngine
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Book'
 
+    # TODO: Should args[:query] go through the same transformation as in SolrEngineSingle?
     solr = RSolr.connect :url => configuration.solr_url
     solr_response = solr.get 'select', :params => {
                                         :q => args[:query],

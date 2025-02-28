@@ -1,6 +1,6 @@
 class BentoSearch::SolrEngineSingle
   include BentoSearch::SearchEngine
-
+  include SolrQueryBuilder
   include LoggingHelper
 
   # Next, at a minimum, you need to implement a #search_implementation method,
@@ -17,13 +17,12 @@ class BentoSearch::SolrEngineSingle
     Rails.logger.debug("mjc12test: #{self.class.name} called. Query is #{args[:query]}}")
     bento_results = BentoSearch::Results.new
     # solr search must be transformed to match simple search transformation.
-    q = SearchController.transform_query args[:query]
+    q = transform_query args[:query]
 
     log_debug_info("#{__FILE__}:#{__LINE__}",
                    ["args:", args], ["q:", q])
 
     Rails.logger.debug("mjc12test: BentoSearch::SolrEngineSingle called. #{__FILE__} #{__LINE__} transformed q = #{q}")
-    #solr = RSolr.connect :url => 'http://da-prod-solr1.library.cornell.edu/solr/blacklight'
     Rails.logger.debug("mjc12test: #{self.class.name} #{__FILE__} #{__LINE__} url is #{configuration.solr_url}")
     solr = RSolr.connect :url => configuration.solr_url
     solr_response = solr.get "select", :params => {
@@ -50,6 +49,19 @@ class BentoSearch::SolrEngineSingle
     bento_results << result
     bento_results.total_items = 1
     return bento_results
+  end
+  
+  def transform_query(search_query)
+    # Use raw query when capitalized booleans included in query
+    # Otherwise transform the query using the same logic that simple and advanced searches use
+    if search_query =~ /AND|OR|NOT/
+      # TODO: Should all catalog searches have this raw boolean support?
+      search_query
+    else
+      # Possible refactor could be to create a dedicated catalog endpoint for returning the data that this bento search
+      #   engine needs (similar to how DCP set up an index.bento) rather than working directly with the catalog solr index.
+      build_solr_q({ q: search_query })
+    end
   end
 
   def self.default_configuration

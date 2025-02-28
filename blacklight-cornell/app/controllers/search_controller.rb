@@ -18,35 +18,11 @@ class SearchController < ApplicationController
     unless params["q"].nil?
       @query = params["q"]
       @query.slice! "doi:"
-      original_query = @query
 
-      # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
-      if @query.empty?
-        # no action, pass through
-        # Something about the Summon engine causes the search to choke if the query is empty.
-        # All the other engines are fine with either empty or a single space character, and
-        # forcing to the space allows the Summon empty query to work.
-        @query = " "
-        # Only do the following if the query isn't already quoted
-      else
-        #      @query = objectify_query @query
-        if @query.include?('"')
-          @query = checkMixedQuotedBento(@query).join(" ")
-
-          log_debug_info("#{__FILE__}:#{__LINE__}",
-                         ["original_query:", original_query],
-                         ["query:", @query])
-        end
-        @query = @query
-      end
       Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
       searcher = BentoSearch::ConcurrentSearcher.new(:solr, :ebsco_eds, :bestbet, :digitalCollections, :libguides, :institutionalRepositories)
-      searcher.search(@query, :oq => original_query, :per_page => 3)
+      searcher.search(@query, :per_page => 3)
       @results = searcher.results.dup
-      #@results = searcher.results
-
-      # Reset query to make it show up properly for the user on the results page
-      @query = original_query
 
       # In order to treat multiple formats separately but only run one Solr query to retrieve
       # them all, we have to store the query result in the custom_data object ...
@@ -78,10 +54,7 @@ class SearchController < ApplicationController
     session[:search][:search_field] = "all_fields"
     session[:search][:controller] = "search"
     session[:search][:action] = "index"
-    # session[:search][:counter] = ?
-    # session[:search][:total] = ?
 
-    #Rails.logger.warn "mjc12test: session(ss): #{session[:search]}"
     render "single_search/index"
   end
 
@@ -260,143 +233,5 @@ class SearchController < ApplicationController
     end
 
     return output, max_relevancy_scores
-  end
-
-  #
-  # def get_catalog_host req_host
-  #   ch  = Rails.configuration.cornell_catalog
-  #   # for hosts like "es287-dev"
-  #   if (/.*-dev/).match(req_host)
-  #      ch  = req_host.gsub(/.*-dev/,"catalog-int");
-  #   end
-  #   if (/search.*/).match(req_host)
-  #      ch  = req_host.gsub(/search/,"newcatalog");
-  #   end
-  #   Rails.logger.debug("#{__FILE__}:#{__LINE__} #{ch}")
-  #   return ch
-  # end
-
-  # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
-  def objectify_query(search_query)
-
-    # Don't do anything for already-quoted queries or single-term queries
-    if search_query !~ /[\"\'].*?[\"\']/ and
-       search_query !~ /[AND|OR|NOT]/ and
-       search_query =~ /\w.+?\s\w.+?/
-      # create modified query: (+x +y +z) OR "x y z"
-      new_query = search_query.split.map { |w| "#{w}" }.join(" ")
-      # (have to use double quotes; single returns an incorrect result set from Solr!)
-      search_query = "(#{new_query}) OR phrase:\"#{search_query}\""
-    else
-      search_query
-    end
-  end
-
-  # Modify query for improved Solr search (and to match Blacklight changes) (DISCOVERYACCESS-1103)
-  def self.transform_query(search_query)
-    # Don't do anything for already-quoted queries or single-term queries
-    if search_query !~ /[\"\'].*?[\"\']/ and
-       search_query !~ /AND|OR|NOT/
-      #search_query =~ /\w.+?\s\w.+?/
-      # create modified query: (+x +y +z) OR "x y z"
-      new_query = search_query.split.map { |w| "\"#{w}\"" }.join(" AND ")
-      Rails.logger.info("BENTO = #{new_query}")
-      # (have to use double quotes; single returns an incorrect result set from Solr!)
-      search_query = "(#{new_query}) OR phrase:\"#{search_query}\""
-    else
-      if search_query.first == "'" and search_query.last == "'"
-        search_query = search_query.gsub("'", "")
-        search_query = "(#{search_query}) OR phrase:\"#{search_query}\""
-      end
-      search_query
-    end
-  end
-
-  def checkMixedQuotedBento(query)
-    returnArray = []
-    addFieldsArray = []
-    if query.first == '"' and query.last == '"'
-      if query.count('"') > 2
-        returnArray = parseQuotedQueryBento(query)
-        returnArray.each do |token|
-          if token.first == '"'
-            token = "+quoted:" + token
-          else
-            token = "+" + token
-          end
-
-          addFieldsArray << token
-        end
-        returnArray = addFieldsArray
-        return returnArray
-      else
-        returnArray << query
-        return returnArray
-      end
-    else
-      clearArray = []
-      returnArray = parseQuotedQueryBento(query)
-      returnArray.each do |token|
-        if token.first == '"'
-          clearArray << "+quoted:" + token
-        else
-          clearArray << "+" + token
-        end
-      end
-      returnArray = clearArray
-      return returnArray
-    end
-  end
-
-  def parseQuotedQueryBento(quotedQuery)
-    queryArray = []
-    token_string = ""
-    length_counter = 0
-    quote_flag = 0
-    quotedQuery.each_char do |x|
-      length_counter = length_counter + 1
-      if x != '"' and x != " "
-        token_string = token_string + x
-      end
-      if x == " "
-        if quote_flag != 0
-          token_string = token_string + x
-        else
-          queryArray << token_string
-          token_string = ""
-        end
-      end
-      if x == '"' and quote_flag == 0
-        if token_string != ""
-          queryArray << token_string
-          token_string = x
-          quote_flag = 1
-        else
-          token_string = x
-          quote_flag = 1
-        end
-      end
-      if x == '"' and quote_flag == 1
-        if token_string != "" and token_string != '"'
-          token_string = token_string + x
-          queryArray << token_string
-          token_string = ""
-          quote_flag = 0
-        end
-      end
-      if length_counter == quotedQuery.size
-        queryArray << token_string
-      end
-    end
-    cleanArray = []
-    queryArray.each do |toke|
-      if toke != ""
-        if !toke.blank?
-          cleanArray << toke.rstrip
-        end
-      end
-    end
-    queryArray = cleanArray
-    return queryArray
   end
 end

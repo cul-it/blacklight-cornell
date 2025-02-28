@@ -33,7 +33,7 @@ class BentoSearch::EbscoEdsEngine
         results = BentoSearch::Results.new
         xml, response, exception = nil, nil, nil
 
-        q = args[:oq].present? ? args[:oq] : args[:query].present? ? args[:query] : nil
+        q = args[:query]
         if q.nil?
             results.total_items = 0
             return results
