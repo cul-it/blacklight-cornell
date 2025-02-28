@@ -107,13 +107,24 @@ end
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
 
+  # Renders display links based on the provided arguments.
+  #
+  # @param [Hash] args The arguments to render the display link
+  # @option args [String] :field The field name to fetch the display link configuration
+  # @option args [Array<String>] :value The array of links to be rendered
+  # @option args [Hash] :document The Solr document containing the field
+  # @option args [String] :format The format in which the links should be rendered (raw|default, default: 'default')
+  #
+  # @return [String, Array<String>] the rendered display link(s) based on the format
+  #
+  # The method processes the links and renders them based on the specified format.
+  # If the format is 'url' and there is only one link, it returns the URL directly.
+  # Otherwise, it generates HTML links with appropriate labels and metadata.
+  # The method also handles different field types and renders them accordingly.
   def render_display_link args
-    label = blacklight_config.display_link[args[:field]][:label]
-    links = args[:value]
-    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
-    links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
-    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} links =  #{links.inspect}")
-    render_format = args[:format] ? args[:format] : 'default'
+    label = blacklight_config.dig(:display_link, args[:field], :label) || args[:field]
+    links = args[:value] || (args[:document] && args[:field] && args[:document].fetch(args[:field], :sep => nil))
+    render_format = args[:format] || 'default'
 
     value = links.map do |link|
       #Check to see whether there is metadata at the end of the link
@@ -127,20 +138,16 @@ end
       link_to(process_online_title(label), url.html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
     end
 
-    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
-    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} render_format =  #{render_format.inspect}")
-    #Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} value =  #{value.inspect}")
     if render_format == 'raw'
-      return value
+      value
     else
-      case  args[:field]
+      case args[:field]
         when'url_findingaid_display'
-          return value[0]
+          value
         when 'url_bookplate_display'
-          Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
-          return value.uniq.join(',').html_safe
+          value.uniq.join(',').html_safe
         when 'url_other_display'
-          return value.join('<br>').html_safe
+          value.join('<br/>').html_safe
         else
           fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
           fp.render

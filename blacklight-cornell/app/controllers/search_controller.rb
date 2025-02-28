@@ -40,7 +40,6 @@ class SearchController < ApplicationController
         @query = @query
       end
       Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-      titem = BentoSearch::ResultItem.new
       searcher = BentoSearch::ConcurrentSearcher.new(:solr, :ebsco_eds, :bestbet, :digitalCollections, :libguides, :institutionalRepositories)
       searcher.search(@query, :oq => original_query, :per_page => 3)
       @results = searcher.results.dup
@@ -86,10 +85,12 @@ class SearchController < ApplicationController
     render "single_search/index"
   end
 
+  # TODO: Can this be deleted, or should it be fixed? https://culibrary.atlassian.net/browse/DACCESS-515
   def single_search
     Appsignal.increment_counter("single_search_index", 1)
     begin
       @engine = BentoSearch.get_engine(params[:engine])
+      # TODO: Handle when params[:engine] == 'solr'
     rescue BentoSearch::NoSuchEngine => e
       # DA-5405
       @engine = params[:engine]
@@ -145,7 +146,7 @@ class SearchController < ApplicationController
 
     if display_type == "fixed"
       # Pre-populate top4 with our chosen formats and remove them from the results
-      top4 << ["Journal", results.delete("Journal")]
+      top4 << ["Journal/Periodical", results.delete("Journal/Periodical")]
       top4 << ["Database", results.delete("Database")]
     end
 
