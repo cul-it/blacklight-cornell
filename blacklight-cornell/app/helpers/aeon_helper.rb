@@ -354,14 +354,38 @@ module AeonHelper
       tag.input(type: 'hidden', name: key, value: value)
     end.join.html_safe
   end
+
+  def generate_hidden_inputs_for_login(params_hash)
+    params_hash.map do |key, value|
+      if key == 'Request'
+        value.map { |val| tag.input(type: 'hidden', name: key, value: val) }.join.html_safe
+      else
+        tag.input(type: 'hidden', name: key, value: value)
+      end
+    end.join.html_safe
+  end
+
+  # Generates HTML for displaying finding aids with icons and links.
+  #
+  # @param finding_aids [Array<String>] An array of finding aid strings, each containing a URL
+  #  and a label separated by a '|'.
+  # @return [String] The generated HTML for the finding aids, or an empty string if no finding aids are provided.
+  def finding_aids_display(finding_aids)
+    return '' if finding_aids.nil?
+
+    finding_aids.map do |finding_aid|
+      url, label = finding_aid.split('|')
+      next if url.blank?
+
+      cleaned_url = url.end_with?('/track') ? url.chomp('/track') : url
+      label = label.presence || cleaned_url
+      <<~HTML.strip
+        <p>
+          <i class="fa fa-check" aria-hidden="true"></i>
+          <a href='#{cleaned_url}'>#{label}</a>
+        </p>
+      HTML
+    end.join.html_safe
+  end
 end
 
-def generate_hidden_inputs_for_login(params_hash)
-  params_hash.map do |key, value|
-    if key == 'Request'
-      value.map { |val| tag.input(type: 'hidden', name: key, value: val) }.join.html_safe
-    else
-      tag.input(type: 'hidden', name: key, value: value)
-    end
-  end.join.html_safe
-end

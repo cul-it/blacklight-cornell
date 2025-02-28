@@ -1431,20 +1431,26 @@ end
     end
 
     if ENV['AEON_REQUEST'].blank? && group != 'AEON_SCAN_REQUEST'
-      aeon_req = "/aeon/#{id.to_s}"
+      aeon_req = "/aeon/#{id}"
     else
       url = group == 'AEON_SCAN_REQUEST' ? ENV['AEON_SCAN_REQUEST'] : ENV['AEON_REQUEST']
       aeon_req = url.gsub('~id~', id.to_s).gsub('~libid~',aeon_codes.join('|'))
     end
 
-    if document['url_findingaid_display'] && document['url_findingaid_display'].size > 0
-		finding_a = (document['url_findingaid_display'][0]).split('|')[0]
-		# only replace the placeholder if a finding aid value exists
-		aeon_req = aeon_req.gsub('~fa~', finding_a)
-	else
-		# otherwise remove the finding aid placeholder
-		aeon_req = aeon_req.gsub('&finding=~fa~', '')
-	end
+		# NOTE: In order to support display of multiple finding aids (see, e.g., bib 3272126),
+		# I'm using a different way of handling the finding aid URLs (the @finding_aids variable
+		# in the aeon_controller). So I'm not sure if we even need to do the following anymore.
+		# We should probably test this and remove it if it's not needed. (2/27/2025)
+
+		# If there is a finding aid URL, replace the placeholder in the AEON request URL with it
+		if document['url_findingaid_display'] && document['url_findingaid_display'].size > 0
+			finding_a = (document['url_findingaid_display'][0]).split('|')[0]
+			# only replace the placeholder if a finding aid value exists
+			aeon_req = aeon_req.gsub('~fa~', finding_a)
+		else
+			# otherwise remove the finding aid placeholder
+			aeon_req = aeon_req.gsub('&finding=~fa~', '')
+		end
 
     (group == "Circulating" ) ? magic_path : aeon_req
   end
