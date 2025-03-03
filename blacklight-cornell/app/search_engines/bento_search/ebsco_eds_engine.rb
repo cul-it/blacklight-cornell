@@ -21,6 +21,9 @@ class BentoSearch::EbscoEdsEngine
         client.connect_timeout = client.send_timeout = client.receive_timeout = HttpTimeout
     end
 
+    # TODO: Fix empty query handling: https://culibrary.atlassian.net/browse/DACCESS-520
+    # BentoSearch::SearchEngine failed results: #<EBSCO::EDS::BadRequest: {"DetailedErrorDescription"=>"Unknown error retrieving results.", "ErrorDescription"=>"Unknown Error", "ErrorNumber"=>"106"}>
+
     def search_implementation(args)
 
         session = EBSCO::EDS::Session.new({
