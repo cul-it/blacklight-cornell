@@ -20,7 +20,7 @@ class BentoSearch::LibguidesEngine
       format = configuration[:blacklight_format] || "Research Guides"
       guides_response = []
       path = "http://lgapi-us.libapps.com/1.1/guides/"
-      st = args[:query].gsub(" ", "+")
+      st = args[:query].gsub(/["”“]/, '')
       escaped = { site_id: 45, search_terms: st, status: 1, key: ENV["LIBGUIDES_API_KEY"] }.to_param
       guides_url = path + "?" + escaped
       guides_response = JSON.load(URI.open(guides_url))
