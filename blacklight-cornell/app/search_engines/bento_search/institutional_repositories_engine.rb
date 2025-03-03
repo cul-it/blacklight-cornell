@@ -20,7 +20,7 @@ class BentoSearch::InstitutionalRepositoriesEngine
     # If not specified, we can maybe default to books for now.
     format = configuration[:blacklight_format] || 'Institutional Repositories'
 
-    qp = { q: args[:oq] }.to_param
+    qp = { q: args[:query] }.to_param
     # q = URI::encode(args[:oq].gsub(" ","+"))
     q = qp[2..-1]
 
@@ -42,7 +42,6 @@ class BentoSearch::InstitutionalRepositoriesEngine
                                         :fl => '*',
                                         :defType => 'edismax'
                                        }
-
 
     results = solr_response['response']['docs']
 
