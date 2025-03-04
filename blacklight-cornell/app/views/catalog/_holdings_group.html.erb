@@ -61,10 +61,10 @@
             <% if i["location"]["hoursCode"] == "spif" %>
               <%= link_to "Hours", "https://cornellspif.com/contact-spif/", "aria-label" => i["location"]["name"] + " Hours" %>
             <% else %>
-              <% if i["location"]["hoursCode"] == "ciser" %>
-                <%= link_to "Hours", "https://ciser.cornell.edu/", "aria-label" => i["location"]["name"] + " Hours" %>
+              <% if i["location"]["hoursCode"] == "ornithology" %>
+                <%= link_to "Hours", "https://www.birds.cornell.edu/home/visit/adelson-library", "aria-label" => i["location"]["name"] + " Hours" %>
               <% else %>
-                <%= link_to "Hours", "https://www.library.cornell.edu/libraries/" + i["location"]["hoursCode"], "aria-label" => i["location"]["name"] + " Hours" %>
+                <%= link_to "Hours", "https://" + i["location"]["hoursCode"] + ".library.cornell.edu", "aria-label" => i["location"]["name"] + " Hours" %>
               <% end %>
             <% end %>
           <% end %>
