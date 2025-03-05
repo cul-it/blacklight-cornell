@@ -712,7 +712,7 @@ Feature: Item view
     Given I request the item view for 2083253
     # Temporary change for Covid-19: added 'not' to the following line.
     Then I should see the label 'On-site use'
-    And it should have link "Hours" with value "https://www.library.cornell.edu/libraries/rmc"
+    And it should have link "Hours" with value "https://rmc.library.cornell.edu"
 
   @hours-page
   @on-site-use
@@ -720,7 +720,7 @@ Feature: Item view
   Scenario: View an hotel items holdings, and have pointer to ILR help page.
     Given I request the item view for 330333
     Then I should see the label 'On-site use'
-    And it should have link "Hours" with value "https://www.library.cornell.edu/libraries/rmc"
+    And it should have link "Hours" with value "https://rmc.library.cornell.edu"
 
 # item view links to call number browse
 #  @all_item_view
