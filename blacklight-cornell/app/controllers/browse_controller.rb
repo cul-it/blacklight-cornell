@@ -205,7 +205,7 @@ class BrowseController < ApplicationController
     params[:authq].gsub!('%20', ' ')
 
     # Get Library of Congress local name and format facet for Author and Subject heading
-    if @heading_document.present? && ['Author', 'Subject'].include?(params[:browse_type])
+    if @heading_document.present?
       if params[:browse_type] == 'Author'
         loc_url = get_author_loc_url
       elsif params[:browse_type] == 'Subject'
