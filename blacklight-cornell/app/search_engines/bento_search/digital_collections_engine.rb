@@ -22,7 +22,7 @@ class BentoSearch::DigitalCollectionsEngine
     base = Addressable::URI.parse("https://digital.library.cornell.edu")
     uri = URI( base + "catalog.bento")
     params = {
-      :q => args[:oq],
+      :q => args[:query],
       :utf8 => "✓",
       :search_field => "all_fields",
       :rows => 3
