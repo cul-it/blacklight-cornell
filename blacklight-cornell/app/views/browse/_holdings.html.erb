@@ -38,7 +38,7 @@
       </li>
       <% @formats.each do |format, f_count| %>
         <li>
-          <i class="fa <%= fa_icon_for_format(format) %>"></i><%= build_search_link(format, f_count) %>
+          <i class="fa fa-<%= DisplayHelper::FORMAT_MAPPINGS[format] %>"></i><%= build_search_link(format, f_count) %>
         </li>
       <% end %>
     </ul>

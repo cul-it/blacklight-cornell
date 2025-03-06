@@ -130,32 +130,4 @@ def build_heading_type(heading_type)
   def pluralize_format(format)
     format.split('/').map(&:pluralize).join('/')
   end
-
-  def fa_icon_for_format(format)
-    case format
-    when "Journal/Periodical"
-      'fa-book-open'
-    when "Manuscript/Archive"
-      'fa-archive'
-    when "Map"
-      'fa-globe'
-    when "Non-musical Recording"
-      'fa-headphones'
-    when "Video"
-      'fa-video-camera'
-    when "Computer File"
-      'fa-save'
-    when "Musical Recording"
-      'fa-music'
-    when "Thesis"
-      'fa-file-text-o'
-    when "Microform"
-      'fa-film'
-    when "Miscellaneous"
-      'fa-ellipsis-h'
-    else
-      dasherized_format = format.downcase.gsub(/\s+/, '-')
-      "fa-#{dasherized_format}"
-    end
-  end
 end

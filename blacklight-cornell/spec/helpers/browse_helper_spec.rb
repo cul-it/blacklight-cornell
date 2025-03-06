@@ -107,22 +107,4 @@ describe BrowseHelper do
       expect(helper.pluralize_format('Miscellaneous')).to eq('Miscellaneous')
     end
   end
-
-  describe '#fa_icon_for_format' do
-    it 'returns expected fontawesome icon class' do
-      expect(helper.fa_icon_for_format('Book')).to eq('fa-book')
-      expect(helper.fa_icon_for_format('Journal/Periodical')).to eq('fa-book-open')
-      expect(helper.fa_icon_for_format('Manuscript/Archive')).to eq('fa-archive')
-      expect(helper.fa_icon_for_format('Map')).to eq('fa-globe')
-      expect(helper.fa_icon_for_format('Musical Score')).to eq('fa-musical-score')
-      expect(helper.fa_icon_for_format('Non-musical Recording')).to eq('fa-headphones')
-      expect(helper.fa_icon_for_format('Video')).to eq('fa-video-camera')
-      expect(helper.fa_icon_for_format('Computer File')).to eq('fa-save')
-      expect(helper.fa_icon_for_format('Database')).to eq('fa-database')
-      expect(helper.fa_icon_for_format('Musical Recording')).to eq('fa-music')
-      expect(helper.fa_icon_for_format('Thesis')).to eq('fa-file-text-o')
-      expect(helper.fa_icon_for_format('Microform')).to eq('fa-film')
-      expect(helper.fa_icon_for_format('Miscellaneous')).to eq('fa-ellipsis-h')
-    end
-  end
 end
