@@ -18,6 +18,7 @@ pipeline {
         // use this version for normal situations
         stage("Cucumber tests") {
             steps {
+                echo "The branch is ${env.GIT_BRANCH}"
                 echo "Running Cucumber tests with ${params.NUM_PROCESSES} processes"
                 timeout(90) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
