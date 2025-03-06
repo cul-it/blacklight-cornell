@@ -1,4 +1,5 @@
 class AdvancedSearchController < ApplicationController
+  include Blacklight::Searchable
   include LoggingHelper
 
   delegate :blacklight_config, to: :default_catalog_controller
@@ -8,6 +9,19 @@ class AdvancedSearchController < ApplicationController
   end
 
   def edit
+    advanced_facet_fields = blacklight_config.facet_fields.select { |_k, config| config.include_in_advanced_search }
+    advanced_facet_fields.each do |_k, config|
+      config.limit = -1
+      # Sort by most common instead of alphabetical:
+      # config.sort = 'count'
+    end
+
+    (@response, _deprecated_document_list) = blacklight_advanced_search_form_search_service.search_results
+
+    @facets = advanced_facet_fields.each_with_object({}) do |(k, config), h| 
+      h[k] = { label: config.label, values: @response.aggregations[k].items.map(&:value) }
+    end
+
     params[:q_row].each { |q| q.gsub!('%26', '&') } if params[:q_row].is_a?(Array)
 
     respond_to :html
@@ -52,5 +66,13 @@ class AdvancedSearchController < ApplicationController
       end
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     return true
+  end
+
+  private
+
+  def blacklight_advanced_search_form_search_service
+    form_search_state = search_state_class.new({}, blacklight_config, self)
+
+    search_service_class.new(config: blacklight_config, search_state: form_search_state, user_params: form_search_state.to_h, **search_service_context)
   end
 end

@@ -1,0 +1,5 @@
+<h3>Limit your results</h3>
+<% @facets.each do |k, config| %>
+  <%= form.label "f_inclusive_#{k}", config[:label] %>
+  <%= form.select "f_inclusive[#{k}][]", config[:values], {}, { multiple: true } %>
+<% end %>
