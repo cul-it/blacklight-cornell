@@ -23,7 +23,11 @@
       <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }   Delete this? Or keep around for post-covid?%>
       <% if !@document['etas_facet'].present? %>
           <% if !@document["location"].nil? %>
+            <% if reserve_item %>
+              <%= link_to "Request item#{reading}", "#", { :title => 'Request', :class => 'btn btn-danger disabled', :id => 'id_request', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;' } %>
+            <% else %>
               <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request'} unless (requestable_libraries && @document["location"]).empty? %>
+            <% end %>
               <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } unless reading.empty?   %>
           <% elsif @document['callnum_sort'] == "Available for the Library to Purchase"%>
              <%= link_to "Request item #{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request'}%>
@@ -33,8 +37,12 @@
       <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' } Delete this?%>
        <% if !@document['etas_facet'].present? %>
           <% if !@document["location"].nil? %>
-              <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request', :scan => scan } unless (requestable_libraries && @document["location"]).empty? %>
-              <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' }  unless reading.empty? %>
+            <% if reserve_item %>
+              <%= link_to "Request item#{reading}", "#", { :title => 'Request', :class => 'btn btn-danger disabled', :id => 'id_request', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;' } %>
+            <% else %>
+              <%= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request'} unless (requestable_libraries && @document["location"]).empty? %>
+            <% end %>
+            <%= link_to "Request item for scanning", request_scan_path, { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' }  unless reading.empty? %>
             <% elsif @document['callnum_sort'] == "Available for the Library to Purchase"%>
                <%= link_to "Request item #{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }%>
           <% end %>
@@ -55,6 +63,9 @@
     <% if !@document['etas_facet'].present? %>
          <%= link_to 'Request scan of article/chapter', ill_link, { :title => 'Request scan', :class => 'btn btn-outline-secondary'} %>
     <% end %>
+  <% end %>
+  <%if reserve_item %>
+    <br/>This item is on reserve and can't be requested for delivery. See a librarian for assistance.
   <% end %>
 </div>
 <% end %>
