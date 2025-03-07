@@ -1,28 +1,5 @@
 module BrowseHelper
 
-  def search_field(heading_type)
-    case heading_type
-    when 'Personal Name'
-      'pers'
-    when 'Corporate Name'
-      'corp'
-    when 'Event'
-      'event'
-    when 'Geographic Name'
-      'geo'
-    when 'Chronological Term'
-      'era'
-    when 'Genre/Form Term'
-      'genr'
-    when 'Topical Term'
-      'topic'
-    when 'Work'
-      'work'
-    else
-      'all_fields'
-    end
-  end
-
 def browse_uri_encode (link_url)
     link_url = link_url.gsub('&','%26')
     link_url = link_url.gsub('"','%22')
@@ -131,75 +108,26 @@ def build_heading_type(heading_type)
     return html.html_safe   
  end
 
-  # TODO: Review generated search fields in search links. author_work_browse, for example, is not a valid search field.
-  def build_search_link(format_type, encoded_heading, search_type)
-    if search_type == "pers" || search_type == "corp" || search_type == "event"
-      the_search_field = 'search_field_row[]=author_' + search_type + '_browse&search_field_row[]=subject_' + search_type + '_browse'
-      return format_the_formats(format_type, encoded_heading, the_search_field, "OR")
-    else
-      the_search_field = 'search_field_row[]=subject_' + search_type + '_browse&search_field_row[]=author_' + search_type + '_browse'
-      return format_the_formats(format_type, encoded_heading, the_search_field, "NOT")    
-    end
-    return ""#%2F
+  def build_search_link(format, f_count)
+    browse_field_count = @heading_document.browse_fields.count
+    boolean_row = {}
+    (browse_field_count - 1).times { |i| boolean_row[i + 1] = 'OR' }
+    search_params = {
+      advanced_query: 'yes',
+      search_field: 'advanced',
+      search_field_row: @heading_document.browse_fields,
+      boolean_row: boolean_row,
+      op_row: ['AND'] * browse_field_count,
+      q_row: [@heading_document['heading']] * browse_field_count,
+      "f[format]": [format]
+    }
+    
+    format_with_count = "#{pluralize_format(format)} (#{number_with_delimiter(f_count)})"
+    link_id = "facet_link_#{format.downcase.gsub(/[\/\-\s]/, '_')}"
+    link_to format_with_count, search_catalog_path(search_params).html_safe, id: link_id
   end
-  
-  def format_the_formats(f_type, encoded_heading, the_search_field, bool)
-    html = ""    
-    f = f_type.split(" (")[0]
-    case f
-    when "Books"
-      html = '<i class="fa fa-book"></i>'
-      html += '<a id="facet_link_book" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Book&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Journals/Periodicals"
-      html = '<i class="fa fa-book-open"></i>'
-      html += '<a id="facet_link_journal_periodical" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Journal/Periodical&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Manuscripts/Archives"
-      html = '<i class="fa fa-archive"></i>'
-      html += '<a id="facet_link_manuscript_archive" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Manuscript/Archive&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Maps"
-      html = '<i class="fa fa-globe"></i>'
-      html += '<a id="facet_link_map" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Map&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Musical Scores"
-      html = '<i class="fa-musical-score"></i>'
-      html += '<a id="facet_link_musical_score" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Musical%20Score&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Non-musical Recordings"
-      html = '<i class="fa fa-headphones"></i>'
-      html += '<a id="facet_link_non_musical_recording" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Non-musical%20Recording&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Videos"
-      html = '<i class="fa fa-video-camera"></i>'
-      html += '<a id="facet_link_video" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Video&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Computer Files"
-      html = '<i class="fa fa-save"></i>'
-      html += '<a id="facet_link_computer_file" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Computer%20File&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Databases"
-      html = '<i class="fa fa-database"></i>'
-      html += '<a id="facet_link_database" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Database&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Musical Recordings"
-      html = '<i class="fa fa-music"></i>'
-      html += '<a id="facet_link_musical_recording" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Musical%20Recording&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Theses"
-      html = '<i class="fa fa-file-text-o"></i>'
-      html += '<a id="facet_link_thesis" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Thesis&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Microforms"
-      html = '<i class="fa fa-film"></i>'
-      html += '<a id="facet_link_microform" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Microform&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    when "Miscellaneous"
-      html = '<i class="fa fa-ellipsis-h"></i>'
-      html += '<a id="facet_link_miscellaneous" href="/?advanced_query=yes&boolean_row[1]=' + bool + '&f[format][]=Miscellaneous&op_row[]=AND&op_row[]=AND'
-      html += '&q_row[]=' + encoded_heading + '&q_row[]=' + encoded_heading + '&search_field=advanced&' + the_search_field + '">' + f_type + '</a>'
-    end
-    return html.html_safe
+
+  def pluralize_format(format)
+    format.split('/').map(&:pluralize).join('/')
   end
 end
