@@ -199,12 +199,13 @@ class BrowseController < ApplicationController
     }
     query_params[:fq] = "headingTypeDesc:\"#{params[:headingtype]}\"" if params[:headingtype].present?
     solr_response = solr.get 'browse', :params => query_params
-    @heading_document = solr_response['response']['docs'][0]
+    solr_doc = solr_response['response']['docs'][0]
+    @heading_document = solr_doc.present? ? HeadingSolrDocument.new(solr_doc) : nil
 
     params[:authq].gsub!('%20', ' ')
 
     # Get Library of Congress local name and format facet for Author and Subject heading
-    if @heading_document.present? && ['Author', 'Subject'].include?(params[:browse_type])
+    if @heading_document.present?
       if params[:browse_type] == 'Author'
         loc_url = get_author_loc_url
       elsif params[:browse_type] == 'Subject'
@@ -214,9 +215,9 @@ class BrowseController < ApplicationController
       end
 
       @loc_localname = !loc_url.blank? ? loc_url.split('/').last.inspect : ''
-      @formats = get_formats(params[:authq], params[:headingtype])
+      @formats = get_formats(params[:authq])
     else
-      @formats = []
+      @formats = {}
     end
 
     respond_to do |format|
@@ -283,119 +284,23 @@ class BrowseController < ApplicationController
     ''
   end
 
- def get_formats(query,htype)
-    qparam_hash = define_search_fields(query,htype)
-    if qparam_hash.empty?
-      formats = []
+ def get_formats(query)
+    browse_fields = @heading_document.browse_fields
+    if browse_fields.empty?
+      {}
     else
-      solr = RSolr.connect :url => ENV["SOLR_URL"]
-      solr_response = solr.get 'select', :params => {
-                                         :q => qparam_hash[:q],
-                                         :rows => 0,
-                                         :q_row => qparam_hash[:qr],
-                                         :op_row => qparam_hash[:or],
-                                         :search_field_row => qparam_hash[:sfr],
-                                         :mm => 1
-                                        }
+      query = browse_fields.map { |field| "#{field}:\"#{query}\"" }.join(' OR ')
+      solr = RSolr.connect :url => ENV['SOLR_URL']
+      solr_response = solr.get 'select',
+        :params => {
+          :q => query,
+          :rows => 0,
+          :mm => 1
+        }
 
-      formats = solr_response['facet_counts']['facet_fields']['format']
+      format_facet_counts = solr_response['facet_counts']['facet_fields']['format']
+      Hash[*format_facet_counts]
     end
-
-    # uri = "https://digital.library.cornell.edu/catalog.json?utf8=%E2%9C%93&q=#{query}&search_field=all_fields&rows=3"
-    # url = Addressable::URI.parse(URI.escape(uri))
-    # url.normalize
-    # portal_response = JSON.load(open(url.to_s))
-    # if portal_response['response']['pages']['total_count'] > 0
-    #   formats << "Digital Collections"
-    #   formats << portal_response['response']['pages']['total_count']
-    # end
-    f_count = 0
-    tmp_array = []
-    formats.each do |f|
-      if f.class == String
-        tmp_string = pluralize_format(f) + " (" + number_with_delimiter(formats[f_count + 1], :delimiter => ',').to_s + ")"
-        tmp_array << tmp_string
-      end
-      f_count = f_count + 1
-    end
-
-    return tmp_array.sort
-  end
-
-  def pluralize_format(format)
-    case format
-    when "Book"
-      format = "Books"
-    when "Journal/Periodical"
-      format = "Journals/Periodicals"
-    when "Manuscript/Archive"
-      format = "Manuscripts/Archives"
-    when "Map"
-      format = "Maps"
-    when "Musical Score"
-      format = "Musical Scores"
-    when "Non-musical Recording"
-      format = "Non-musical Recordings"
-    when "Video"
-      format = "Videos"
-    when "Computer File"
-      format = "Computer Files"
-    when "Database"
-      format = "Databases"
-    when "Musical Recording"
-      format = "Musical Recordings"
-    when "Thesis"
-      format = "Theses"
-    when "Microform"
-      format = "Microforms"
-    end
-    return format
-  end
-
-  def define_search_fields(query,htype)
-    temp_hash = {}
-    if htype == "Personal Name"
-      temp_hash = {:q => '(((+author_pers_browse:"' + query + '") OR author_pers_browse:"' + query + '") OR ((+subject_pers_browse:"' + query + '") OR subject_pers_browse:"' + query + '"))',
-                   :qr => [query, query],
-                   :or => ["AND", "AND"],
-                   :sfr => ["author_pers_browse", "subject_pers_browse"]}
-    elsif htype == "Corporate Name"
-      temp_hash = {:q => '(((+author_corp_browse:"' + query + '") OR author_corp_browse:"' + query + '") OR ((+subject_corp_browse:"' + query + '") OR subject_corp_browse:"' + query + '"))',
-                   :qr => [query, query],
-                   :or => ["AND", "AND"],
-                   :sfr => ["author_corp_browse", "subject_corp_browse"]}
-    elsif htype ==  "Event"
-      temp_hash = {:q => '(((+author_event_browse:"' + query + '") OR author_event_browse:"' + query + '") OR ((+subject_event_browse:"' + query + '") OR subject_event_browse:"' + query + '"))',
-                   :qr => [query, query],
-                   :or => ["AND", "AND"],
-                   :sfr => ["author_event_browse", "subject_event_browse"]}
-    elsif htype ==  "Chronological Term"
-      temp_hash = {:q => '((+subject_era_browse:"' + query + '") OR subject_era_browse:"' + query + '")',
-                   :qr => [query, query],
-                   :or => ["AND"],
-                   :sfr => ["subject_era_browse"]}
-    elsif htype ==  "Genre/Form Term"
-      temp_hash = {:q => '((+subject_genr_browse:"' + query + '") OR subject_genr_browse:"' + query + '")',
-                   :qr => [query],
-                   :or => ["AND"],
-                   :sfr => ["subject_genr_browse"]}
-    elsif htype ==  "Geographic Name"
-      temp_hash = {:q => '((+subject_geo_browse:"' + query + '") OR subject_geo_browse:"' + query + '")',
-                   :qr => [query],
-                   :or => ["AND"],
-                   :sfr => ["subject_geo_browse"]}
-    elsif htype ==  "Topical Term"
-      temp_hash = {:q => '((+subject_topic_browse:"' + query + '") OR subject_topic_browse:"' + query + '")',
-                   :qr => [query],
-                   :or => ["AND"],
-                   :sfr => ["subject_topic_browse"]}
-    elsif htype ==  "Work"
-      temp_hash = {:q => '((+subject_work_browse:"' + query + '") OR subject_work_browse:"' + query + '")',
-                   :qr => [query],
-                   :or => ["AND"],
-                   :sfr => ["subject_work_browse"]}
-    end
-    return temp_hash
   end
 
   private
