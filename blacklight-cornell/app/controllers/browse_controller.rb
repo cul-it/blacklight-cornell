@@ -58,15 +58,13 @@ class BrowseController < ApplicationController
   # checks to see if there are previous items to page to
   def check_for_previous
     solrResponseFull = browse_solr(order: 'reverse', rows: 0)
-    return true if solrResponseFull['response']['numFound'] > 0
-    return false if solrResponseFull['response']['numFound'] == 0
+    solrResponseFull['response']['numFound'] > 0
   end
 
   # checks to see if there are more ("next") items to page to
   def check_for_next
     solrResponseFull = browse_solr(order: 'forward', rows: 0)
-    return true if solrResponseFull['response']['numFound'] > 20
-    return false if solrResponseFull['response']['numFound'] < 21
+    solrResponseFull['response']['numFound'] > 20
   end
 
   def info
@@ -119,8 +117,7 @@ class BrowseController < ApplicationController
 
     q = '"' + params[:authq].gsub("\\"," ").gsub('"',' ') + '"'
     results = solr_for_browse('Author').get 'browse', :params => { :q => q, :wt => :ruby }
-    return true if results['response']['numFound'] == 1
-    return false if results['response']['numFound'] != 1
+    results['response']['numFound'] == 1
   end
 
   def get_author_loc_url
