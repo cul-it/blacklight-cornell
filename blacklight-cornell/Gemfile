@@ -91,6 +91,7 @@ group :test do
   gem "simplecov", :require => false
   gem "simplecov-rcov", :require => false
   gem 'parallel_tests'
+  gem 'rails-controller-testing'
 end
 
 gem "jquery-rails"
