@@ -266,7 +266,7 @@ GEM
       timers (>= 4.1.1)
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
-    cgi (0.4.1)
+    cgi (0.4.2)
     citeproc (1.0.10)
       namae (~> 1.0)
     citeproc-ruby (1.1.13)
