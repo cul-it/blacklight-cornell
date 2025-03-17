@@ -17,20 +17,6 @@ class CatalogController < ApplicationController
     #prepend_before_action :set_return_path
   end
 
-  # Ensure that the configuration file is present
-  begin
-    SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
-  rescue Errno::ENOENT
-    puts <<-eos
-
-    ******************************************************************************
-    Your search_apis.yml config file is missing.
-    See config/search_apis.yml.example
-    ******************************************************************************
-
-    eos
-  end
-
   #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
@@ -962,7 +948,7 @@ def tou
     token = folio_token
     if url && token
       headers = {
-        'X-Okapi-Tenant' => ENV['TENANT_ID'],
+        'X-Okapi-Tenant' => ENV['OKAPI_TENANT'],
         'x-okapi-token' => token,
         :accept => 'application/json, application/vnd.api+json'
       }

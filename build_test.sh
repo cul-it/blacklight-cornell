@@ -26,17 +26,11 @@ rails_env_file=$(resolve_relative_path "$0")
 export RAILS_ENV_FILE="${rails_env_file}"
 echo $RAILS_ENV_FILE
 
-selenium_image="seleniarm/standalone-chromium"
-SYSTEM_ARCH=$(arch | sed s/aarch64/arm64/)
-if [ $SYSTEM_ARCH != 'arm64' ]
-  then
-    selenium_image="selenium/standalone-chrome"
-fi
-export SELENIUM_IMAGE=${selenium_image}
-echo $SELENIUM_IMAGE
+export COVERAGE_PATH=$(resolve_relative_path "blacklight-cornell/coverage")
 
 echo "docker compose -f docker-compose-test.yaml build"
 docker compose -f docker-compose-test.yaml build
 
+unset COVERAGE_PATH
 unset RAILS_ENV_FILE
 unset SELENIUM_IMAGE

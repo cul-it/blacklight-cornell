@@ -217,6 +217,7 @@
                       </div>
                     <% end %>
                   <% else %>
+                    <%# EBSCO results %>
                     <% @top_4_results.to(0).each do |key, result| %>
                       <div id="<%= key+"-Bento1" %>">
                         <%= render 'single_search/pane_results', :key => key, :result => result %>
@@ -229,6 +230,7 @@
                 <div class="search-pane">
                   <% #this is the second result %>
                   <% unless @results.blank? %>
+                    <%# EBSCO results %>
                     <% @top_4_results.to(0).each do |key, result, position| %>
                       <div id="<%= key+"-Bento2" %>">
                         <% unless result.nil? or result[0].nil? %>
@@ -240,7 +242,7 @@
                     <div class="card card-body">
                       <p>
                         No results from the
-                        <%= link_to 'Catalog.', "https://catalog.library.cornell.edu" %>
+                        <%= link_to 'Catalog.', root_path %>
                         Try searching
                         <%= link_to 'Libraries Worldwide.', "#{ENV['WORLDCAT_URL']}/search?queryString=#{query}&fq=&dblist=638&qt=sort&se=nodgr&sd=desc&qt=sort_nodgr_desc" %>
                       </p>

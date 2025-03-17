@@ -33,15 +33,14 @@
       <label for="vb-lib-select" class="sr-only">Select library</label>
       <select id="vb-lib-select" class="form-control w-100" onchange="location = this.value;">
           <% libs.each do |lib| %>
-            <% lib_encoded = CGI::escape(lib) %>
             <% if lib == "All" %>
               <option value="<%= url %>">All libraries</option>
             <% elsif lib == "Online" %>
               <% selected = params[:fq].present? && params[:fq].include?(lib) ? "selected" : "" %>
-              <option value="<%= url + '&fq=online:""' + lib_encoded + '"'%>"  <%= selected %> ><%= lib %></option>
+              <option value="<%= url + '&fq=online:"' + lib + '"'%>"  <%= selected %> ><%= lib %></option>
             <% else %>
               <% selected = params[:fq].present? && params[:fq].include?(lib) ? "selected" : "" %>  
-              <option value="<%= url + '&fq=location:"' + lib_encoded  + '"'%>" <%= selected %> ><%= lib %></option>
+              <option value="<%= url + '&fq=location:"' + lib  + '"'%>" <%= selected %> ><%= lib %></option>
             <% end %>
           <% end %>
       </select>
@@ -52,11 +51,10 @@
       <div class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
           <% libs.each { |lib| %>
               <% 
-  			lib_encoded = CGI::escape(lib)
               if params[:fq] && params[:fq].include?("location")
-                  checked = params[:fq] == "location:\"#{lib_encoded}\"" ? '✓ ' : ''
+                  checked = params[:fq] == "location:\"#{lib}\"" ? '✓ ' : ''
   	        elsif params[:fq] && params[:fq].include?("online")
-  	            checked = params[:fq] == "online:\"#{lib_encoded}\"" ? '✓ ' : ''
+  	            checked = params[:fq] == "online:\"#{lib}\"" ? '✓ ' : ''
               else 
                   checked = lib == 'All' ? '✓ ' : ''
   			end
@@ -69,11 +67,11 @@
                   </div>
               <% elsif lib == 'Online' %>
                   <div class="dropdown-item">
-                      <%= link_to "#{checked}#{lib}", :fq => "online:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
+                      <%= link_to "#{checked}#{lib}", :fq => "online:\"#{lib}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
                   </div>
               <% else %>
                   <div class="dropdown-item">
-                      <%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib_encoded}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
+                      <%= link_to "#{checked}#{lib}", :fq => "location:\"#{lib}\"", :start => start, :browse_type => params[:browse_type], :authq => params[:authq], :order => order %>
                   </div>
               <% end %>
           <% } %>

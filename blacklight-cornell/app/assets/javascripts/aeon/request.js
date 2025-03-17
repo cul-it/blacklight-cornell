@@ -34,16 +34,19 @@ function buildRequestForItem(_, element, multipleFlag) {
       location = '',
       callnumber = '',
       copy = '',
+      loc_code = '',
     } = itemdata[req] ?? {};
+
+    // DACCESS-512 combine location fields but make sure they are unique, do not use code field it contains 'rmc' on kheel items 
 
     const fields = [
       { name: `ItemVolume`, value: `${enumeration} ${chron}` },
-      { name: `Location`, value: cslocation + ' ' + location},
+      { name: `Location`, value: cleanLocation(cslocation + ' ' + location + ' ' + loc_code) },
       { name: `CallNumber`, value: callnumber },
       { name: `ItemInfo1`, value: chron },
       { name: `ItemNumber`, value: barcode },
       { name: `ItemIssue`, value: copy },
-      { name: `Site`, value: (cslocation + ' ' + location).toLowerCase().includes('rmc') ? 'RMC' : 'KHEEL' },
+      { name: `Site`, value: /kheel|ilr/i.test(cslocation + ' ' + location + ' ' + loc_code) ? 'KHEEL' : 'RMC' },
     ];
     $("#RequestForm").append(`<input type="hidden" class="dynamic-input" name="Request" value="${req}">`);
     const ext = multipleFlag ? `_${req}` : '';
@@ -79,6 +82,25 @@ function doSubmit(_) {
   }
 
   return true;
+}
+
+/**
+ * Cleans the location fields for all items by removing duplicate words
+ * may have duplicates due to the variety of ways location is stored for different items
+ * @param  {string} location - original string cslocation + ' ' + location + ' ' + loc_code 
+ * @returns {string} - cleaned location string
+ */
+function cleanLocation(location) {
+  const parts = location.split(' ');
+  const newLocation = [...new Set(parts)];
+  newLocationstr = newLocation.join(' ');
+
+  // if "Rare and Manuscript Collections" is a location, then ensure 'rmc' is included so routing rules work
+  // necessary for: 'sasa,rare' 'hote,rare' 'was,rare' 'ech,rare' etc.
+  if (newLocationstr.includes("Rare and Manuscript Collections") && !newLocationstr.includes('rmc')) {
+    newLocationstr += ' rmc';
+  }
+  return newLocationstr;
 }
 
 /**
