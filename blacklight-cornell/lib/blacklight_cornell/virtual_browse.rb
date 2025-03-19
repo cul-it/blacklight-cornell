@@ -1,57 +1,24 @@
 #encoding: UTF-8
 module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
-#  extend ActiveSupport::Concern
-#
-#  include Blacklight::Configurable
-#  include Blacklight::SolrHelper
-#  include CornellCatalogHelper
-#  include ActionView::Helpers::NumberHelper
-#  include CornellParamsHelper
-#  include Blacklight::SearchContext
-#  include Blacklight::TokenBasedUser
-#  include ActsAsTinyURL
-  @@browse_index_callnumber = ENV['BROWSE_INDEX_CALLNUMBER'].nil? ? 'callnum' : ENV['BROWSE_INDEX_CALLNUMBER']
+  include Browse
 
   # gets the documents on either "side" of the selected one. Direction determines whether
   # to get the previous or next group of docs.
   def get_surrounding_docs(callnumber,direction,start,rows, location="")
-    if callnumber.nil?
-      return nil
-    end
+    return nil if callnumber.nil?
+
     @location = location.gsub('&','%26')
-    base_solr_url = Blacklight.connection_config[:url].gsub(/\/solr\/.*/,'/solr')
-    dbclnt = HTTPClient.new
-    solr_response_full = []
-    return_array = []
     callno = callnumber.tr("\\\"", "  ")
-    params = {
-      :wt => 'json',
-      :fq => location,
-      :fl => '*',
-      :start => start.to_s,
-      :rows => rows.to_s
-    }
-    uri = ''
-    if direction == "reverse"
-      params[:q] = '[* TO "' + callno + '"]'
-      uri = URI(base_solr_url + "/" + @@browse_index_callnumber + "/reverse")
-    else
-      params[:q] = '["' + callno +'" TO *]'
-      uri = URI(base_solr_url + "/" + @@browse_index_callnumber + "/browse")
+
+    solr_response_full = browse_solr(query: callno,
+                                     order: direction,
+                                     start: start,
+                                     rows: rows,
+                                     fq: location,
+                                     browse_type: 'Call-Number')
+    solr_response_full['response']['docs'].map do |doc|
+      get_document_details(doc)
     end
-    uri.query = URI.encode_www_form(params)
-    solr_result_string = dbclnt.get_content( uri )
-    if !solr_result_string.nil?
-      y = solr_result_string
-      solr_response_full = JSON.parse(y)
-      solr_response_full["response"]["docs"].each do |doc|
-        tmp_hash = get_document_details(doc)
-        return_array.push(tmp_hash)
-      end
-    else
-      return_array = nil
-    end
-    return_array
   end
 
   # pulls values from the solr document and returns them in a hash

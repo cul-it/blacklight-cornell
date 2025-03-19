@@ -22,7 +22,7 @@ bundle update blacklight_unapi
 bundle update blacklight_cornell_requests
 bundle update my_account
 bundle update capistrano
-TARGT=integration-ruby3
+TARGT=integration
 bundle exec cap --version
 echo "************** running test ****************"
 bundle exec cap $TARGT check_write_permissions --trace || exit 1

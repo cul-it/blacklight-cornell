@@ -91,6 +91,7 @@ group :test do
   gem "simplecov", :require => false
   gem "simplecov-rcov", :require => false
   gem 'parallel_tests'
+  gem 'rails-controller-testing'
 end
 
 gem "jquery-rails"
@@ -104,7 +105,7 @@ gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'
 
 gem "omniauth", "~> 2.0"
-gem "omniauth-saml", ">= 2.1.2"
+gem "omniauth-saml", "~> 2.2"
 gem "omniauth-oauth2"
 gem "omniauth-rails_csrf_protection"
 #gem 'omniauth-google-oauth2'
@@ -124,7 +125,7 @@ gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-co
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
 gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.4"
-gem "ruby-saml", ">= 1.12.1"
+gem "ruby-saml", "~>1.18"
 gem "bento_search", "~> 2.0.0.rc1"
 gem "celluloid", "0.17.4" # Required for bento_search multisearcher
 gem "exception_notification"
