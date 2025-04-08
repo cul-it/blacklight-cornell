@@ -18,10 +18,9 @@ class BentoSearch::LibguidesEngine
       # Format is passed to the engine using the configuration set up in the bento_search initializer
       # If not specified, we can maybe default to books for now.
       format = configuration[:blacklight_format] || "Research Guides"
-      # q = URI::encode(args[:oq].gsub(" ","+"))
       guides_response = []
       path = "http://lgapi-us.libapps.com/1.1/guides/"
-      st = args[:oq].gsub(" ", "+")
+      st = args[:query].gsub(/["”“]/, '')
       escaped = { site_id: 45, search_terms: st, status: 1, key: ENV["LIBGUIDES_API_KEY"] }.to_param
       guides_url = path + "?" + escaped
       guides_response = JSON.load(URI.open(guides_url))

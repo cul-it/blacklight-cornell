@@ -948,7 +948,7 @@ def tou
     token = folio_token
     if url && token
       headers = {
-        'X-Okapi-Tenant' => ENV['TENANT_ID'],
+        'X-Okapi-Tenant' => ENV['OKAPI_TENANT'],
         'x-okapi-token' => token,
         :accept => 'application/json, application/vnd.api+json'
       }
