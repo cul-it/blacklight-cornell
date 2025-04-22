@@ -12,6 +12,13 @@
     <h2>
       <%= params[:q] %>
     </h2>
+    <% if params[:q] == "Streaming Video" %>
+      <div class="highlight-box highlight-box-tan">
+        <div class="heads-up"><i class="fa fa-info-circle" aria-hidden="true"></i>How to find streaming video</div>
+        <p class="mb-0"><a href="/">Search the catalog</a> for streaming content. Need help? Check out our <a href="https://guides.library.cornell.edu/hybridOnlineTeaching/streaming">help guide</a>.</p>
+      </div>
+      </div>
+    <% end %>
   </div>
 </div>
 <% if @subjectCore.present? %>
@@ -28,7 +35,7 @@
     <%= render 'database', :response => @subject %>
   </div>
 <% else %>
-  <div class="resources">
+  <div class="resources container">
     <%= render 'database', :response => @subject %>
   </div>
 <% end %>
