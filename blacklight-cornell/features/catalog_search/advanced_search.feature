@@ -758,3 +758,13 @@ Scenario: Empty searches produce empty solr queries in advanced and simple searc
     And I fill in "q_row0" with ''
     And I press 'advanced_search'
     Then the solr query should be ''
+
+@javascript
+Scenario: I can filter advanced searches by multiple languages
+  When I literally go to advanced
+  And I fill in "q_row0" with 'Canada'
+  And I press 'Language'
+  And I should select checkbox "f_inclusive_language_facet_6"
+  And I should select checkbox "f_inclusive_language_facet_7"
+  And I press 'advanced_search'
+  Then I should get 4 results

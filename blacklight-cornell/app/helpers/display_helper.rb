@@ -1286,10 +1286,17 @@ end
     end
     ## Sends 'correct' q param to link_link_to_previous_search
     params[:q] = showText
-    ## Uses overridden render_search_to_s_q(params) function below originally from app/helper/blacklight/search_history_constraints_helper_behavior.rb
-    showText = link_to_previous_search(params)
+    # Uses newer version of #link_to_previous_search from blacklight to include f_inclusive filters
+    showText = link_to_previous_search_override(params)
 
     return showText
+  end
+
+  # Can remove and replace with #link_to_previous_search in blacklight >= v8.0.0: https://github.com/projectblacklight/blacklight/pull/2626
+  # Use in e.g. the search history display, where we want something more like text instead of the normal constraints
+  def link_to_previous_search_override(params)
+    search_state = controller.search_state_class.new(params, blacklight_config, self)
+    link_to(render(Blacklight::ConstraintsComponent.for_search_history(search_state: search_state)), search_action_path(params))
   end
 
   def parseHistoryQueryString(params)

@@ -200,7 +200,7 @@ class CatalogController < ApplicationController
     }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters?
 
     config.add_facet_field 'workid_facet', :label => 'Work', :show => false
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
+    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true, :include_in_advanced_search => true
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?
