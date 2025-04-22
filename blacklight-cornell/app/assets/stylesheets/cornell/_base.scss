@@ -162,13 +162,24 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	  font-size: 20px;
 	}
 	.heads-up {
-	  font-size: 16px;
+	  font-size: 1.1rem;
 	  margin-bottom:.5em;
 	  font-weight: bold;
 	  padding:0;
 	}
 	i {
-	  color: $cornell-primary
+	  color: $cornell-primary;
+	  margin-right: .25rem;
+	}
+}
+.highlight-box.highlight-box-tan {
+	background: $light-tan;
+}
+.databases-subject {
+	.highlight-box {
+		i {
+			color: $cornell-primary
+		}
 	}
 }
 .highlight-box.search-more {
