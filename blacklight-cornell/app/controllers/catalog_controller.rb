@@ -895,7 +895,7 @@ def tou
     packageName = ""
     title_id = params[:title_id]
     id = params[:id]
-    @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
+    @newTouResult = []
     # okapi_url = ENV['OKAPI_URL']
     record = eholdings_record(title_id) || []
     if record
