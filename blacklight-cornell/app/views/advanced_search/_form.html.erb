@@ -14,7 +14,7 @@
         <a href='#' id='add-row'><i class='fa fa-plus-circle'></i> Add a row</a>
       </div>
       <h3>Limit your results</h3>
-      <% if params['action'] == 'edit' %>
+      <% if params[:f].present? %>
         <div class='advanced-facets'>
           <%= render_edit_advanced_constraints_filters(params) %>
       	</div>
