@@ -85,6 +85,9 @@
           <% i["items"]["tempLoc"].each do |t| %>
             <div class="message">
               <%= t["enum"] %> Temporarily shelved in <%= t["location"]["name"] %>
+              <% if t["location"]["name"] =~ /Reserve/ %>
+                 (Cannot be requested for delivery)
+              <% end %>
             </div>
           <% end %>
         <% end %>
