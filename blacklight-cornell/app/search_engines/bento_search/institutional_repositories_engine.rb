@@ -16,10 +16,6 @@ class BentoSearch::InstitutionalRepositoriesEngine
     # :query, :per_page, :start, :page, :search_field, :sort
     bento_results = BentoSearch::Results.new
 
-    # Format is passed to the engine using the configuration set up in the bento_search initializer
-    # If not specified, we can maybe default to books for now.
-    format = configuration[:blacklight_format] || 'Institutional Repositories'
-
     uri = get_solr_url(args)
     url = Addressable::URI.parse(uri)
     url.normalize
