@@ -1,0 +1,5 @@
+<% @facets.each do |_k, facet| %>
+  <% presenter = Blacklight::FacetFieldPresenter.new(facet[:field_config], facet[:display_facet], self) %>
+  <%# TODO: render Blacklight::FacetFieldCheckboxesComponent after upgrading to blacklight >= v8.4.0 %>
+  <%= render AdvancedFacetFieldCheckboxesComponent.new(facet_field: presenter) %>
+<% end %>
