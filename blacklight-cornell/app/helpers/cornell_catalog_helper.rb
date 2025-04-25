@@ -1413,6 +1413,20 @@ end
     bws
   end
 
+  # Determines if the request buttons should be hidden because item is in Aspace
+  # searches for the Aspace PUI resources id in the marc 035 field
+  # resource id: is the value after (CULAspaceURI)in the marc 035 field
+  #
+  # @param [Hash] document - metadata for the item
+  #
+  # @return [Boolean] true if the PUI resources item ID exists
+  def aspace_pui_id?(document)
+	return false unless document['marc_display']
+	item_field_035_values = document['marc_display'].scan(/<datafield tag="035".*?>.*?<subfield code="a">(.*?)<\/subfield>/m).flatten
+	itemid = item_field_035_values.find { |value| value.include?('CULAspaceURI') }&.match(/\(CULAspaceURI\)(.+)/)&.captures&.first
+	itemid.present?
+  end
+
   # Generates the target url
   #
   # @param [String] group - "Circulating" or "AEON_SCAN_REQUEST"
