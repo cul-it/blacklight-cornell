@@ -15,9 +15,6 @@ class BentoSearch::LibguidesEngine
       Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
       bento_results = BentoSearch::Results.new
 
-      # Format is passed to the engine using the configuration set up in the bento_search initializer
-      # If not specified, we can maybe default to books for now.
-      format = configuration[:blacklight_format] || "Research Guides"
       guides_response = []
       path = "http://lgapi-us.libapps.com/1.1/guides/"
       st = args[:query].gsub(/["”“]/, '')

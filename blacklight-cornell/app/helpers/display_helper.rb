@@ -560,6 +560,7 @@ end
     "Maps" => "globe",
     "Manuscript/Archive" => "archive",
     "Manuscripts / Archives" => "archive",
+    "Manuscripts/Archives" => "archive",
     "Newspaper" => "newspaper",
     "Newspaper Articles" => "newspaper",
     "Database" => "database",
