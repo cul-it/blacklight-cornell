@@ -58,39 +58,6 @@ class SearchController < ApplicationController
     render "single_search/index"
   end
 
-  # TODO: Can this be deleted, or should it be fixed? https://culibrary.atlassian.net/browse/DACCESS-515
-  def single_search
-    Appsignal.increment_counter("single_search_index", 1)
-    begin
-      @engine = BentoSearch.get_engine(params[:engine])
-      # TODO: Handle when params[:engine] == 'solr'
-    rescue BentoSearch::NoSuchEngine => e
-      # DA-5405
-      @engine = params[:engine]
-      @error_msg = e.message
-      flash.now[:error] = 'There is no registered search engine for the the type "' + @engine + '."'
-      render :status => 404, :text => e.message, :template => "single_search/single_search"
-      return
-    end
-
-    if params[:q]
-      args = {}
-      args[:query] = params[:q]
-      args[:oq] = params[:q]
-      args[:page] = params[:page]
-      args[:semantic_search_field] = params[:field]
-      args[:per_page] = 3
-      args[:sort] = params[:sort]
-      args[:per_page] = params[:per_page]
-      @results = @engine.search(params[:q], args)
-    end
-
-    respond_to do |format|
-      format.html { render :template => "single_search/single_search" }
-      format.atom { render :template => "bento_search/atom_results", :locals => { :atom_results => @results } }
-    end
-  end
-
   # Take a set of search results and order them according to how we want them to be displayed.
   # The expected input  is the output of searcher.results, with sets of results keyed by the
   # engine ID, e.g. 'books' => search results, 'summon' => search results, etc.
@@ -107,7 +74,7 @@ class SearchController < ApplicationController
     top1 = top4 = secondary = []
 
     # Sort formats alphabetically for more results
-    more = results.sort_by { |key, result| BentoSearch.get_engine(key).configuration.title }
+    more = results.sort_by { |key, result| helpers.bento_title(key) }
 
     # Remove articles and digital collections from top 4 logic
     @digitalCollections = results.delete("digitalCollections")

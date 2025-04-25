@@ -101,10 +101,10 @@
                       <% @more_results.each do |key, result| %>
                         <% if !result.empty? and result.total_items > 0 %>
                           <li>
-                            <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
+                            <i class="fa fa-<%= formats_icon_mapping(bento_title(key)) %>"></i>
                             <% link_url = bento_all_results_link(key) %>
-                            <%= link_to link_url ,:id => "facet_link_" + downcast(key), :onclick => "javascript:_paq.push(['trackEvent', 'sidebarLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :class => "facet_link_" + downcast(key) do %>
-                              <%= BentoSearch.get_engine(key).configuration.title %>
+                            <%= link_to link_url ,:id => "facet_link_" + downcast(key), :onclick => "javascript:_paq.push(['trackEvent', 'sidebarLink', '#{bento_blacklight_format(key)}'])", :class => "facet_link_" + downcast(key) do %>
+                              <%= bento_title(key) %>
                               <!-- ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
                               -->
                               (<%= number_with_delimiter(result.total_items) %>)
@@ -127,7 +127,7 @@
                 <% @top_4_results.from(1).to(0).each do |key, result| %>
                   <%= link_to '#'+key.tr(" ", "_") do %>
                     <i class="fa fa-arrow-down"></i>
-                    <%= BentoSearch.get_engine(key).configuration.title %>
+                    <%= bento_title(key) %>
                   <% end %>
                 <% end %>
               </li>
@@ -136,7 +136,7 @@
                   <% unless result.blank? %>
                     <%= link_to '#'+key do %>
                       <i class="fa fa-arrow-down"></i>
-                      <%= BentoSearch.get_engine(key).configuration.title %>
+                      <%= bento_title(key) %>
                     <% end %>
                   <% end %>
                 <% end %>
@@ -145,7 +145,7 @@
                 <% @top_4_results.from(2).to(1).each do |key, result| %>
                   <%= link_to '#'+key.tr(" ", "_") do %>
                     <i class="fa fa-arrow-down"></i>
-                    <%= BentoSearch.get_engine(key).configuration.title %>
+                    <%= bento_title(key) %>
                   <% end %>
                 <% end %>
               </li>
