@@ -805,7 +805,7 @@ GEM
     unf_ext (0.0.9.1)
     unicode (0.4.4.4)
     unicode_utils (1.4.0)
-    uri (0.12.2)
+    uri (0.12.4)
     utf8-cleaner (1.0.0)
       activesupport
     vcr (6.2.0)
@@ -953,7 +953,7 @@ DEPENDENCIES
   ultraviolet
   unicode
   unicode_utils
-  uri (= 0.12.2)
+  uri (= 0.12.4)
   utf8-cleaner
   vcr
   view_component
