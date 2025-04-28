@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
             formFields.forEach((field) => {
                 if (field.name && field.value && field.name !== "q") {
                     const fieldMappings = {
-                        authq: "q",
-                        browse_type: "search_field",
-                        search_field: "search_field"
+                        authq: "q_row[]",
+                        browse_type: "search_field_row[]",
+                        search_field: "search_field_row[]"
                     };
 
                     const searchValueMappings = {
