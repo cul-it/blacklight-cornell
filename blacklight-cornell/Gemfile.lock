@@ -673,7 +673,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rexml (3.2.6)
+    rexml (3.3.9)
     rsolr (2.6.0)
       builder (>= 2.1.2)
       faraday (>= 0.9, < 3, != 2.0.0)
@@ -931,7 +931,7 @@ DEPENDENCIES
   rb-readline (~> 0.5.x)
   redis-session-store
   repost
-  rexml (= 3.2.6)
+  rexml (= 3.3.9)
   rsolr
   rspec
   rspec-rails
