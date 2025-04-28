@@ -611,7 +611,7 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (2.2.13)
-    rack-contrib (2.4.0)
+    rack-contrib (2.5.0)
       rack (< 4)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
