@@ -137,11 +137,11 @@ gem "ebsco-eds"
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem "loofah", "2.19.1"
 
-gem "puma", "~> 6.4", ">= 6.4.2"
+gem "puma", "~> 6.4"
 gem "aws-sdk-s3", "~> 1.143"
 gem "uri", "0.12.4"
 # gem 'pkg-config', '1.5.4'
 gem "status-page"
 gem "concurrent-ruby", "1.2.3", require: "concurrent"
 gem "rack-cors", require: "rack/cors"
-gem "rexml", "3.2.6"
+gem "rexml", "3.3.9"
