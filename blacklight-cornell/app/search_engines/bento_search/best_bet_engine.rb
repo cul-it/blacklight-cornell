@@ -14,7 +14,8 @@ class BentoSearch::BestBetEngine
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort, :oq
     bento_results = BentoSearch::Results.new
-    q = URI.encode_www_form({:ignore => args[:oq]}).gsub("ignore=","").gsub("+","%20")
+    # Strip quotes and encode for uri
+    q = URI.encode_uri_component(args[:query].gsub(/["”“]/, ''))
     uri = URI.join("https://bestbets.library.cornell.edu/match/", q)
     best_bet = []
     begin

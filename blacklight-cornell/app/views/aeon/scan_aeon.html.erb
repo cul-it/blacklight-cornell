@@ -29,13 +29,7 @@
 			<div class="aeoncard">
 				<h2 class="h2title"><%= @title %></h2>
 				<div class="info-wrapper">
-					<% if @finding_aid.present? %>
-						<% cleaned_finding_aid = @finding_aid.end_with?('/track') ? @finding_aid.chomp('/track') : @finding_aid %>
-						<p>
-							<i class="fa fa-check" aria-hidden="true"></i>
-							<a href='<%= cleaned_finding_aid %>'> Finding Aid</a>
-						</p>
-					<% end %>
+					<%= finding_aids_display(@finding_aids) %>
 					<% if @re506.present? %>
 						<p>
 							<i class="fa fa-warning" aria-hidden="true"></i>
@@ -86,14 +80,13 @@
 					<input type="hidden" name="SkipOrderEstimate" value="Yes">
 					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
 					<input type="hidden" name="AeonForm" value="ExternalRequest">
-					<input type="hidden" name="Site" value="<%= rmc_site ? 'RMC' : 'KHEEL' %>"/>
 					<input type="hidden" name="SystemID" value="Aeon Copy">
 					<input type="hidden" name="WebRequestForm" value="PhotoduplicationRequest">
 					<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request"/>
 					<input type="hidden" name="RequestType" value="Copy">
 					<input type="hidden" id="DocumentType" name="DocumentType" value="Photoduplication"/>	
 					<input type="hidden" name="FormValidationOverride" value="AllRequests">
-					<input type="hidden" name="SkipFieldLengthValidation" value="yes">
+					<input type="hidden" name="SkipFieldLengthValidation" value="no">
 					<input type="hidden" id="Restrictions" name="Restrictions" value="<%= @re506 %>">
 					<input type="hidden" id="ItemInfo3" name="ItemInfo3" value="<%= @re506 %>">
 					<input type="hidden" id="ItemInfo5" name="ItemInfo5" value="">

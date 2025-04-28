@@ -17,29 +17,15 @@ class CatalogController < ApplicationController
     #prepend_before_action :set_return_path
   end
 
-  # Ensure that the configuration file is present
-  begin
-    SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
-  rescue Errno::ENOENT
-    puts <<-eos
-
-    ******************************************************************************
-    Your search_apis.yml config file is missing.
-    See config/search_apis.yml.example
-    ******************************************************************************
-
-    eos
-  end
-
-  # ============================================================================
-  # Overrides Blacklight 'start_new_search_session?' to prevent saving searches
-  # that don't contain the appropriate parameters for search history.
-  # (prevents empty redundant search history lines)
-  # ----------------------------------------------------------------------------
+# ============================================================================
+# Overrides Blacklight 'start_new_search_session?' to prevent saving searches
+# that don't contain the appropriate parameters for search history.
+# (prevents empty redundant search history lines)
+# ----------------------------------------------------------------------------
   def start_new_search_session?
     # For advanced search, only start a new session if query is present
     if params[:search_field] == "advanced"
-       query, index = params[:q_row], action_name == "index"
+      query, index = params[:q_row], action_name == "index"
       start_new_search_history_record = index && !(query[0].blank?)
     else
       # For regular search, start a new session if query or facet is present
@@ -232,7 +218,7 @@ class CatalogController < ApplicationController
     }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters?
 
     config.add_facet_field 'workid_facet', :label => 'Work', :show => false
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
+    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true, :include_in_advanced_search => true
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?
@@ -927,7 +913,7 @@ def tou
     packageName = ""
     title_id = params[:title_id]
     id = params[:id]
-    @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
+    @newTouResult = []
     # okapi_url = ENV['OKAPI_URL']
     record = eholdings_record(title_id) || []
     if record
@@ -980,7 +966,7 @@ def tou
     token = folio_token
     if url && token
       headers = {
-        'X-Okapi-Tenant' => ENV['TENANT_ID'],
+        'X-Okapi-Tenant' => ENV['OKAPI_TENANT'],
         'x-okapi-token' => token,
         :accept => 'application/json, application/vnd.api+json'
       }

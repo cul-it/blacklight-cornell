@@ -4,7 +4,9 @@ class SearchBuilder < Blacklight::SearchBuilder
   include Blacklight::Solr::SearchBuilderBehavior
   include BlacklightRangeLimit::RangeLimitBuilder
 
-  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum, :set_fl, :set_query, :homepage_default]
+  self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum,
+                                   :set_fl, :set_fq, :set_query,
+                                   :homepage_default, :group_bento_results]
 
   DEFAULT_BOOLEAN = 'AND'
   DEFAULT_OP = 'AND'
@@ -42,7 +44,23 @@ class SearchBuilder < Blacklight::SearchBuilder
     solr_parameters[:fl] = '*' if blacklight_params['controller'] == 'bookmarks' || blacklight_params['format'].present? || blacklight_params['controller'] == 'book_bags'
   end
 
-  # Sets solr q param from search fields, booleans, and ops (simple and advanced search)
+  # Add any facets not already defined by blacklight to the solr fq
+  # Useful for backend cataloging work
+  def set_fq solr_parameters
+    if blacklight_params[:f].present?
+      solr_parameters[:fq] = solr_parameters[:fq] || []
+      blacklight_params[:f].each do |key, value|
+        unless blacklight_config.facet_fields.keys.include?(key)
+          value.each do |val|
+            fq_string = "{!term f=#{key.to_s}}#{val}"
+            solr_parameters[:fq] << fq_string
+          end
+        end
+      end
+    end
+  end
+
+  # Sets solr q param from search fields, booleans, and ops (simple, advanced, and bento search)
   def set_query solr_parameters
     # Standard blacklight_params from advanced search form:
     # {
@@ -79,8 +97,26 @@ class SearchBuilder < Blacklight::SearchBuilder
         blacklight_params.delete(:count)
       end
 
-      # Build solr q param for simple search
-      solr_parameters[:q] = build_simple_search_query(blacklight_params)
+      # Build solr q param for simple and bento search
+      solr_parameters[:q] = build_simple_search_query(blacklight_params, bento: blacklight_params[:bento])
+    end
+  end
+
+  # Set result grouping solr parameters for bento search results
+  def group_bento_results solr_parameters
+    if blacklight_params[:bento]
+      # Group results by format_main_facet and remove unnecessary facet values and stats
+      # format_main_facet is a single-valued field used specially for bento's type-aggregated relevance sorting
+      #    vs catalog's show and index multivalued "format" solr field
+      solr_parameters.merge!({
+        :group => true,
+        :'group.field' => 'format_main_facet',
+        :'group.limit' => 3,
+        :'group.ngroups' => 'true',
+        :fl => 'id,pub_date_display,format,fulltitle_display,fulltitle_vern_display,author_display,score,pub_info_display,availability_json',
+        :facet => false,
+        :stats => false
+      })
     end
   end
 
@@ -117,12 +153,18 @@ class SearchBuilder < Blacklight::SearchBuilder
     params.merge(cleaned_params)
   end
 
-  def build_simple_search_query(params)
-    return '' if params[:q].blank?
+  def build_simple_search_query(params, bento=false)
+    return '' if params[:q].blank? || !params[:q].is_a?(String)
 
     query = clean_q(params[:q])
-    search_field = params[:search_field]
-    set_q_with_search_fields(query: query, search_field: search_field)
+
+    # Ideally, bento and simple search would use the same logic: https://culibrary.atlassian.net/browse/DACCESS-519
+    if bento && query =~ /AND|OR|NOT/
+      query
+    else
+      search_field = params[:search_field]
+      set_q_with_search_fields(query: query, search_field: search_field)
+    end
   end
 
   def build_advanced_search_query(params)

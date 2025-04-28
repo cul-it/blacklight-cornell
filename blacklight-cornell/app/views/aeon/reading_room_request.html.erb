@@ -27,13 +27,7 @@
 			<div class="aeoncard">
 				<h2 class="h2title"><%= @title %></h2>
 				<div class="info-wrapper">
-					<% if @finding_aid.present? %>
-						<% cleaned_finding_aid = @finding_aid.end_with?('/track') ? @finding_aid.chomp('/track') : @finding_aid %>
-						<p>
-							<i class="fa fa-check" aria-hidden="true"></i>
-							<a href='<%= cleaned_finding_aid %>'> Finding Aid</a>
-						</p>
-					<% end %>
+					<%= finding_aids_display(@finding_aids) %>
 					<% if @re506.present? %>
 						<p>
 							<i class="fa fa-warning" aria-hidden="true"></i>
@@ -64,18 +58,8 @@
 			
 				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
 			
-				<% rmc_site = true %>
-				<% holdings.each do |_, holding| %>
-					<% location = holding['location'] %>
-					<% if location && (location['code'].downcase.include?('kheel') || location['name'].downcase.include?('kheel')) %>
-						<% rmc_site = false %>
-						<% break %>
-					<% end %>
-				<% end %>
-
 				<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">	
 					<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
-					<input type="hidden" name="Site" value="<%= rmc_site ? 'RMC' : 'KHEEL' %>"/>
 					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
 					<input type="hidden" name="WebRequestForm" value="GenericRequestManuscript"/>
 					<input type="hidden" id="AeonForm" name="AeonForm" value="EADRequest"/>

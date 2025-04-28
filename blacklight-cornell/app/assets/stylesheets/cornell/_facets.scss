@@ -1,7 +1,6 @@
 .facets {
 	background: white;
 	ul {
-		margin: 0 0 5px 10px;
 		padding: 0;
 		list-style: none;
 	}
@@ -40,6 +39,13 @@
 }
 .facets-heading {
 	font-size: 1.25rem;
+}
+
+// DACCESS-290; label for multiple language values
+#facet-language_facet {
+	h4 {
+		font-size: 1rem;
+	}
 }
 
 .sidenav {
@@ -111,9 +117,18 @@
 // ------------------------------------
 
 // Indent child lists - default has no indentation
-#facets ul.facet-hierarchy ul {
-	padding-left: 1.2rem;
-	margin-bottom: .3rem;
+#facets ul.facet-hierarchy  {
+	ul {
+		padding-left: 1.2rem;
+		margin-bottom: .3rem;
+	}
+	.h-leaf {
+		padding-left: 1.4rem;
+	}
+}
+
+.facet-hierarchy .twiddle > .toggle-handle .toggle-icon {
+	margin-top: 0;
 }
 
 // PUBLICATION YEAR

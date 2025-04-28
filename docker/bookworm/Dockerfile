@@ -7,7 +7,7 @@ ARG GIT_COMMIT=0.0
 # new base with security patch #
 ################################
 
-FROM ruby:${RUBY_VERSION}-slim-bookworm as ruby_base
+FROM ruby:${RUBY_VERSION}-slim-bookworm AS ruby_base
 
 # default-libmysqlclient-dev is required for running the app
 #   otherwise, mysql2.so will fail to load
@@ -31,7 +31,7 @@ RUN apt-get update -qq && \
 # prod base #
 #############
 
-FROM ruby_base as prod_base
+FROM ruby_base AS prod_base
 
 # CVE-2023-36617⁠
 RUN gem install -v '0.12.2' uri && \
@@ -42,7 +42,7 @@ RUN gem install -v '0.12.2' uri && \
 # build stage #
 ###############
 
-FROM ruby_base as base_bundler
+FROM ruby_base AS base_bundler
 
 # How do we pin versions for build-essential & libvips?
 # Install libvips for Active Storage preview support & git which is not included in slim base image
@@ -56,7 +56,7 @@ RUN apt-get update -qq && \
 # test bundler #
 ################
 
-FROM base_bundler as test_bundler
+FROM base_bundler AS test_bundler
 
 # Set building environment
 ENV RAILS_LOG_TO_STDOUT="1" \
@@ -81,10 +81,11 @@ COPY ./exe/puma.sh ${APP_PATH}/puma.sh
 # prod bundler stage #
 ######################
 
-FROM base_bundler as prod_bundler
+FROM base_bundler AS prod_bundler
+ARG RAILS_ENV
 
 ENV RAILS_LOG_TO_STDOUT="1" \
-    RAILS_ENV="production" \
+    RAILS_ENV=${RAILS_ENV} \
     BUNDLE_WITHOUT="development test" \
     BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell
@@ -113,7 +114,7 @@ RUN bundle exec rake assets:precompile && rm .env
 # test stage #
 ##############
 
-FROM ruby_base as test
+FROM ruby_base AS test
 ARG GIT_COMMIT
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -122,12 +123,12 @@ ENV DEBIAN_FRONTEND noninteractive
 #   Does prod code use this library or is it OK to only put it in test image?
 # How do we pin versions for build-essential & libvips?
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends vim=2:9.0.1378-2 \
+    apt-get install -y --no-install-recommends vim=2:9.0.1378-2+deb12u2 chromium chromium-driver \
     libcurl4=7.88.1-10+deb12u5 curl=7.88.1-10+deb12u5 libfontconfig1=2.14.1-4 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /src/*.deb && \
-    mkdir -p /root/.aws
+    mkdir -p /root/.aws /root/user-data-0 /root/user-data-1 /root/user-data-2 /root/user-data-3 /root/user-data-4
 
 ENV BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell \
@@ -148,9 +149,11 @@ ENTRYPOINT ["/blacklight-cornell/test.sh"]
 
 FROM prod_base
 ARG GIT_COMMIT
+ARG RAILS_ENV
 
 # create container runner user to run the app as
-ENV USER=crunner \
+ENV RAILS_ENV=${RAILS_ENV} \
+    USER=crunner \
     GROUP=crunnergrp \
     APP_VERSION=${GIT_COMMIT} \
     AWS_DEFAULT_REGION=us-east-1 \

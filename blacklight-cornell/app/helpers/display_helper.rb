@@ -59,6 +59,7 @@ module DisplayHelper
     "Maps" => "globe",
     "Manuscript/Archive" => "archive",
     "Manuscripts / Archives" => "archive",
+    "Manuscripts/Archives" => "archive",
     "Newspaper" => "newspaper",
     "Newspaper Articles" => "newspaper",
     "Database" => "database",
@@ -170,11 +171,24 @@ module DisplayHelper
   # * link_to's with trailing <br>'s -- the default -- (url_other_display &
   # url_toc_display in field listing on item page)
   # ----------------------------------------------------------------------------
+  # Renders display links based on the provided arguments.
+  #
+  # @param [Hash] args The arguments to render the display link
+  # @option args [String] :field The field name to fetch the display link configuration
+  # @option args [Array<String>] :value The array of links to be rendered
+  # @option args [Hash] :document The Solr document containing the field
+  # @option args [String] :format The format in which the links should be rendered (raw|default, default: 'default')
+  #
+  # @return [String, Array<String>] the rendered display link(s) based on the format
+  #
+  # The method processes the links and renders them based on the specified format.
+  # If the format is 'url' and there is only one link, it returns the URL directly.
+  # Otherwise, it generates HTML links with appropriate labels and metadata.
+  # The method also handles different field types and renders them accordingly.
   def render_display_link args
-    label = blacklight_config.display_link[args[:field]][:label]
-    links = args[:value]
-    links ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
-    render_format = args[:format] ? args[:format] : 'default'
+    label = blacklight_config.dig(:display_link, args[:field], :label) || args[:field]
+    links = args[:value] || (args[:document] && args[:field] && args[:document].fetch(args[:field], :sep => nil))
+    render_format = args[:format] || 'default'
 
     value = links.map do |link|
       # Check to see whether there is metadata at the end of the link
@@ -185,24 +199,23 @@ module DisplayHelper
       if metadata.present?
         label = metadata[0]
       end
-      link_to(process_online_title(label), url.html_safe, { :class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);" })
+      link_to(process_online_title(label), url.html_safe, {:class => 'online-access', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'outlink']);"})
     end
 
     if render_format == 'raw'
-      return value
+      value
     else
       case args[:field]
-      when 'url_findingaid_display'
-        return value[0]
-      when 'url_bookplate_display'
-        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__} field =  #{args[:field].inspect}")
-        return value.uniq.join(',').html_safe
-      when 'url_other_display'
-        return value.join('<br>').html_safe
-      else
-        fp = Blacklight::FieldPresenter.new(self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
-        fp.render
-      end
+        when'url_findingaid_display'
+          value
+        when 'url_bookplate_display'
+          value.uniq.join(',').html_safe
+        when 'url_other_display'
+          value.join('<br/>').html_safe
+        else
+          fp = Blacklight::FieldPresenter.new( self, args[:document], blacklight_config.show_fields[args[:field]], :value => label)
+          fp.render
+        end
     end
   end
 
@@ -211,7 +224,7 @@ module DisplayHelper
   # ----------------------------------------------------------------------------
   def render_location_link location_code
     loc_url = Location::help_page(location_code)
-    link_to('Hours/Map', loc_url, { :title => 'See hours and map' })
+    link_to('Hours/Map', loc_url, {:title => 'See hours and map'})
   end
 
   def yy_render_location_link location_code
@@ -226,16 +239,15 @@ module DisplayHelper
     end
 
     location_url =
-      case
-      when matched_location.present? && matched_location.include?('http:')
-        matched_location
-      when matched_location.present? && !matched_location.include?('http:')
-        base_url + matched_location
-      else
-        base_url
-      end
-
-    link_to('Hours/Map', location_url, { :title => 'See hours and map' })
+     case
+       when matched_location.present? && matched_location.include?('http:')
+         matched_location
+       when matched_location.present? && !matched_location.include?('http:')
+         base_url + matched_location
+       else
+         base_url
+     end
+    link_to('Hours/Map', location_url, {:title => 'See hours and map'})
   end
 
   def render_special_location_link location_code
@@ -293,11 +305,11 @@ module DisplayHelper
 
   def render_clickable_document_show_field_value args
     dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
-    value      = args[:value]
-    value      ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
+    value = args[:value]
+    value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
-    value      = [value] unless value.is_a? Array
-    value      = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
+    value = [value] unless value.is_a? Array
+    value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
 
     value.map { |v| render_clickable_item(args, v) }.join(args[:sep]).html_safe
   end
@@ -704,7 +716,7 @@ module DisplayHelper
     })
 
     value_txt = convert_values_to_text(value, options)
-    result    = ""
+    result = ""
 
     if options[:display_blank] || !value_txt.empty?
       if options[:style] == :text
@@ -838,7 +850,7 @@ module DisplayHelper
   def is_exportable document
     if document.present? && document.export_formats.present?
       if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
-        true
+        return true
       end
     end
   end
@@ -936,15 +948,15 @@ module DisplayHelper
 
   def cornell_params_for_search(*args, &block)
     source_params, params_to_merge = case args.length
-       when 0
-         search_state.params_for_search
-       when 1
-         search_state.params_for_search(args.first)
-       when 2
-         Blacklight::SearchState.new(args.first, blacklight_config).params_for_search(args.last)
-       else
-         raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
-       end
+     when 0
+       search_state.params_for_search
+     when 1
+       search_state.params_for_search(args.first)
+     when 2
+       Blacklight::SearchState.new(args.first, blacklight_config).params_for_search(args.last)
+     else
+       raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
+     end
   end
 
   def cornell_sanitize_search_params(source_params)
@@ -1091,18 +1103,55 @@ module DisplayHelper
 
     while i < num do
       if i > 0
-        showText = showText + " " + "#{b_row[i.to_s.to_sym] if b_row[i].present? }" + ", " + q_row[i]
+        showText = showText + " " + "#{b_row[i.to_s.to_sym]}" + " " + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
       else
-        showText = showText + q_row[i]
+        showText = showText + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
       end
       i += 1
     end
+    ## Sends 'correct' q param to link_link_to_previous_search
+    params[:q] = showText
+    # Uses newer version of #link_to_previous_search from blacklight to include f_inclusive filters
+    showText = link_to_previous_search_override(params)
 
-    params[:q] = showText # Sends 'correct' q param to link_link_to_previous_search
+    return showText
+  end
 
-    # Uses overridden render_search_to_s_q(params) function below originally
-    # from app/helper/blacklight/search_history_constraints_helper_behavior.rb
-    link_to_previous_search(params)
+  # TODO LOOK INTO
+  # # ============================================================================
+  # # Render Basic and Advanced Query Constraint
+  # # ----------------------------------------------------------------------------
+  # def parseHistoryShowString(params)
+  #   showText = ''
+  #   sf_row   = params[:search_field_row]
+  #   q_row    = params[:q_row]
+  #   b_row    = params[:boolean_row]
+  #   i        = 0
+  #   num      = sf_row.length
+  #
+  #   while i < num do
+  #     if i > 0
+  #       showText = showText + " " + "#{b_row[i.to_s.to_sym] if b_row[i].present? }" + ", " + q_row[i]
+  #     else
+  #       showText = showText + q_row[i]
+  #     end
+  #     i += 1
+  #   end
+  #
+  #   params[:q] = showText # Sends 'correct' q param to link_link_to_previous_search
+  #
+  #   # Uses overridden render_search_to_s_q(params) function below originally
+  #   # from app/helper/blacklight/search_history_constraints_helper_behavior.rb
+  #   link_to_previous_search(params)
+  # end
+
+
+
+  # Can remove and replace with #link_to_previous_search in blacklight >= v8.0.0: https://github.com/projectblacklight/blacklight/pull/2626
+  # Use in e.g. the search history display, where we want something more like text instead of the normal constraints
+  def link_to_previous_search_override(params)
+    search_state = controller.search_state_class.new(params, blacklight_config, self)
+    link_to(render(Blacklight::ConstraintsComponent.for_search_history(search_state: search_state)), search_action_path(params))
   end
 
   def parseHistoryQueryString(params)
@@ -1151,7 +1200,7 @@ module DisplayHelper
       request.original_url.include?("request") || params[:controller] == 'search_history' ||
       params[:controller] == 'advanced_search' || params[:controller] == 'aeon' || params[:controller] == 'browse' ||
       params[:controller] == 'book_bags' || params[:controller] == 'errors'
-      true
+      return true
     end
   end
 
@@ -1231,7 +1280,7 @@ module DisplayHelper
 
   def html_safe field
     require 'htmlentities'
-    coder  = HTMLEntities.new
+    coder = HTMLEntities.new
     result =[]
     field[:value].each do |r|
       r = coder.decode(r)
@@ -1243,7 +1292,7 @@ module DisplayHelper
 
   def holdings_html_safe holdings
     require 'htmlentities'
-    coder  = HTMLEntities.new
+    coder = HTMLEntities.new
     result =[]
     holdings.each do |r|
       r = coder.decode(r)
@@ -1269,7 +1318,7 @@ module DisplayHelper
     # Advanced Search Options --------------------------------------------------
     if advanced_query.present?
       label, search_type, query_text = [search_field_row, 'advanced search', advanced_query]
-    # Basic Search Options -----------------------------------------------------
+      # Basic Search Options -----------------------------------------------------
     else
       label = (label_for_search_field(search_field) unless default_search_field && search_field == default_search_field[:key])
       search_type, query_text = ['basic search', render_filter_value(basic_query)]
@@ -1279,6 +1328,18 @@ module DisplayHelper
 
     render_search_to_s_element(label, query_text, options) # to => SearchHistoryConstraintsHelperBehavior
   end
+
+  #TODO OLD VERSION
+  # def render_search_to_s_q(params)
+  #   return "".html_safe if params['q'].blank?
+  #   if params[:q_row].nil?
+  #
+  #     label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
+  #   else
+  #     label = ""
+  #   end
+  #   render_search_to_s_element(label , render_filter_value(params['q']) )
+  # end
 
   def access_url_is_list?(args)
     args['url_access_json'].present? && args['url_access_json'].size != 1
