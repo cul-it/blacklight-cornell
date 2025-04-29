@@ -8,7 +8,15 @@ set :branch, ENV['BRANCH'].gsub("origin/","") if ENV['BRANCH']
 
 set :rails_env, 'integration'
 
-#task :install_env, :roles => [ :app, :db, :web ] do
-#  run "cp #{deploy_to}/../conf/latest-integration.env  #{shared_path}/.env"
-#  run "cat #{shared_path}/.env"
-#end
+# ==============================================================================
+# Force Nokogiri to build from source instead of using precompiled binaries
+# ------------------------------------------------------------------------------
+before 'bundler:install', 'deploy:set_force_ruby_platform'
+
+namespace :deploy do
+  task :set_force_ruby_platform do
+    on roles(:app) do
+      execute :bundle, "config set force_ruby_platform true"
+    end
+  end
+end
