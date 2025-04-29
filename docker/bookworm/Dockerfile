@@ -117,7 +117,7 @@ RUN bundle exec rake assets:precompile && rm .env
 FROM ruby_base AS test
 ARG GIT_COMMIT
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 # It was reported that features/catalog_search/advanced_search.feature fails
 #   with libfontconfig.so.1 missing.
 #   Does prod code use this library or is it OK to only put it in test image?
@@ -159,12 +159,10 @@ ENV RAILS_ENV=${RAILS_ENV} \
     AWS_DEFAULT_REGION=us-east-1 \
     BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell
-COPY ./cron/crontab.txt /etc/cron.d/yaml_alert_cron
 RUN groupadd -r ${GROUP} && useradd -r -g ${GROUP} ${USER} && \
     mkdir -p /home/crunner/.aws && \
     chown ${USER}:${GROUP} /home/crunner/.aws && \
-    crontab -u ${USER} /etc/cron.d/yaml_alert_cron && \
-    chmod u+s /usr/sbin/cron && \
+    chmod gu+rw /var/run && chmod gu+s /usr/sbin/cron && \
     touch /var/log/cron.log
 
 # Copy application code from builder
