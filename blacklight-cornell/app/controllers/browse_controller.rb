@@ -31,6 +31,7 @@ class BrowseController < ApplicationController
           if @headingsResponse['response']['numFound'] > 0 && @headingsResponse['response']['docs'][0]['classification_display'].present?
             @class_display = @headingsResponse['response']['docs'][0]['classification_display'].gsub(' > ',' <i class="fa fa-caret-right class-caret"></i> ').html_safe
           end
+          @browse_locations = call_number_locations
         else
           @headingsResponse = headingsResponseFull['response']['docs']
         end
