@@ -1,28 +1,3 @@
-<%
-  libs = ["All",
-	  "Online",
-	  "Adelson Library",
-	  "Africana Library",
-	  "Bailey Hortorium",
-	  "CISER Data Archive",
-	  "Fine Arts Library",
-	  "ILR Library",
-	  "ILR Library Kheel Center",
-	  "Kroch Library Asia",
-	  "Kroch Library Rare & Manuscripts",
-	  "Law Library",
-	  "Library Annex",
-	  "Mann Library",
-	  "Mathematics Library",
-	  "Music Library",
-	  "Nestle Library",
-	  "Olin Library",
-	  "Sage Hall Management Library",
-	  "Space Sciences Building",
-	  "Uris Library",
-	  "Veterinary Library"
-	]
-%>
 <%# If we're going to the virtual browse, then we want to display a select element.%>
 <% if params[:browse_type].present? && params[:browse_type] == "virtual" %>
   <div id="location-filter-dropdown dropdown" class="d-sm-inline-block align-top">
@@ -32,7 +7,7 @@
       url = "/browse?authq=#{params[:authq]}&browse_type=virtual&order=#{order}&start=#{start}"%>
       <label for="vb-lib-select" class="sr-only">Select library</label>
       <select id="vb-lib-select" class="form-control w-100" onchange="location = this.value;">
-          <% libs.each do |lib| %>
+          <% @browse_locations.each do |lib| %>
             <% if lib == "All" %>
               <option value="<%= url %>">All libraries</option>
             <% elsif lib == "Online" %>
@@ -49,7 +24,7 @@
   <div id="location-filter-dropdown dropdown">
       <a href="#" class="btn btn-default btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" id="location-filter-menu" aria-haspopup="true" aria-expanded="false">Availability</a>
       <div class="dropdown-menu" role="menu" aria-labelledby="location-filter-menu">
-          <% libs.each { |lib| %>
+          <% @browse_locations.each { |lib| %>
               <% 
               if params[:fq] && params[:fq].include?("location")
                   checked = params[:fq] == "location:\"#{lib}\"" ? '✓ ' : ''
