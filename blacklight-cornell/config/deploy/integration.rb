@@ -8,21 +8,19 @@ set :branch, ENV['BRANCH'].gsub("origin/","") if ENV['BRANCH']
 
 set :rails_env, 'integration'
 
-# ==============================================================================
-# Force Nokogiri and other gems to build from source instead of using binaries
-# and limit make parallelism to avoid "Argument list too long" errors
-# ------------------------------------------------------------------------------
-before 'bundler:install', 'deploy:set_force_ruby_platform'
-
-# Add MAKEFLAGS environment variable for bundle install
-set :bundle_env_variables, { 'MAKEFLAGS' => '-j1' }
-
 namespace :deploy do
-  task :set_force_ruby_platform do
+  task :uninstall_and_reinstall_nokogiri do
     on roles(:app) do
-      info "👉 Setting Bundler to force Ruby platform on #{host.hostname}..."
-      execute :bundle, "config set force_ruby_platform true"
-      info "✅ Bundler config force_ruby_platform set successfully."
+      within release_path do
+        # Uninstall the existing Nokogiri gem
+        execute :gem, 'uninstall nokogiri -a -x -I'
+
+        # Install Nokogiri from source with the ruby platform
+        execute :gem, 'install nokogiri --platform=ruby'
+      end
     end
   end
+
+  # Hook this task into the deploy process (after bundling)
+  after 'deploy:updated', 'deploy:uninstall_and_reinstall_nokogiri'
 end

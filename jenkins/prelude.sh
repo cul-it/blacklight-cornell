@@ -22,7 +22,7 @@ which bundle
 bundle --version
 
 # Force native gem compilation (avoid incompatible precompiled binaries with GLIBC)
-bundle config set force_ruby_platform true
+#bundle config set force_ruby_platform true
 
 bundle update blacklight_unapi blacklight_cornell_requests my_account sqlite3
 bundle install
