@@ -846,7 +846,6 @@ GEM
     zeitwerk (2.6.13)
 
 PLATFORMS
-  ruby
   aarch64-linux
   arm64-darwin-23
   arm64-darwin-24
