@@ -21,19 +21,23 @@ namespace :deploy do
         # Uninstall all versions and ignore failure if none is present
         execute 'gem uninstall nokogiri -a -x -I || true'
 
-        # Reinstall Nokogiri from source, pinned to specific version
-        execute 'gem install nokogiri -v 1.16.8 --platform=ruby -- --use-system-libraries'
+        # Force bundler to build nokogiri from source using system libraries
+        execute :bundle, 'config set --local force_ruby_platform true'
+        execute :bundle, 'config set build.nokogiri --use-system-libraries'
+
+        # Reinstall nokogiri respecting the configs above
+        execute 'gem install nokogiri --platform=ruby -- --use-system-libraries'
       end
     end
   end
 
   # ==============================================================================
-  # Re-run bundler to ensure the Rails app can find the new nokogiri gem
+  # Re-run bundler without deployment mode to allow re-resolution of nokogiri
   # ------------------------------------------------------------------------------
   task :rebundle_with_fixed_nokogiri do
     on roles(:app) do
       within release_path do
-        execute :bundle, 'install --path vendor/bundle --without development test --deployment'
+        execute :bundle, 'install --path vendor/bundle --without development test'
       end
     end
   end
