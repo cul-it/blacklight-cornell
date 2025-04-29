@@ -16,10 +16,10 @@ namespace :deploy do
     on roles(:app) do
       within release_path do
         # Uninstall all versions and ignore failure if none is present
-        execute :gem, 'uninstall nokogiri -a -x -I || true'
+        execute 'gem uninstall nokogiri -a -x -I || true'
 
         # Reinstall Nokogiri from source, pinned to specific version
-        execute :gem, 'install nokogiri -v 1.16.8 --platform=ruby -- --use-system-libraries'
+        execute 'gem install nokogiri -v 1.16.8 --platform=ruby -- --use-system-libraries'
       end
     end
   end
