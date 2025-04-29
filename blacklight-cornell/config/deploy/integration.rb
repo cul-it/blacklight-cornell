@@ -16,7 +16,9 @@ before 'bundler:install', 'deploy:set_force_ruby_platform'
 namespace :deploy do
   task :set_force_ruby_platform do
     on roles(:app) do
+      info "👉 Setting Bundler to force Ruby platform on #{host.hostname}..."
       execute :bundle, "config set force_ruby_platform true"
+      info "✅ Bundler config force_ruby_platform set successfully."
     end
   end
 end
