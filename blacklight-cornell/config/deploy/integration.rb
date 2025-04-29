@@ -15,9 +15,8 @@ namespace :deploy do
   task :uninstall_and_reinstall_nokogiri do
     on roles(:app) do
       within release_path do
-        # 1. Remove broken nokogiri from shared bundle
+        # Remove broken nokogiri from shared bundle
         execute :rm, '-rf', "#{shared_path}/bundle/ruby/3.2.0/gems/nokogiri-*"
-
 
         # Uninstall all versions and ignore failure if none is present
         execute 'gem uninstall nokogiri -a -x -I || true'
@@ -28,6 +27,18 @@ namespace :deploy do
     end
   end
 
-  # Run this right before asset precompilation
+  # ==============================================================================
+  # Re-run bundler to ensure the Rails app can find the new nokogiri gem
+  # ------------------------------------------------------------------------------
+  task :rebundle_with_fixed_nokogiri do
+    on roles(:app) do
+      within release_path do
+        execute :bundle, 'install --path vendor/bundle --without development test --deployment'
+      end
+    end
+  end
+
+  # Hook both tasks before assets precompile
   before 'deploy:assets:precompile', 'deploy:uninstall_and_reinstall_nokogiri'
+  before 'deploy:assets:precompile', 'deploy:rebundle_with_fixed_nokogiri'
 end
