@@ -15,6 +15,10 @@ namespace :deploy do
   task :uninstall_and_reinstall_nokogiri do
     on roles(:app) do
       within release_path do
+        # 1. Remove broken nokogiri from shared bundle
+        execute :rm, '-rf', "#{shared_path}/bundle/ruby/3.2.0/gems/nokogiri-*"
+
+
         # Uninstall all versions and ignore failure if none is present
         execute 'gem uninstall nokogiri -a -x -I || true'
 
