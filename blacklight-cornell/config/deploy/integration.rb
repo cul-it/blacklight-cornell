@@ -13,10 +13,10 @@ namespace :deploy do
     on roles(:app) do
       within release_path do
         # Uninstall the existing Nokogiri gem
-        execute :gem, 'uninstall nokogiri -a -x -I'
+        execute :gem, 'uninstall nokogiri -a -x -I || true'
 
         # Install Nokogiri from source with the ruby platform
-        execute :gem, 'install nokogiri --platform=ruby'
+        execute :gem, 'install nokogiri -v 1.16.8 --platform=ruby'
       end
     end
   end
