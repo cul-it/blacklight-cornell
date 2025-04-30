@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   webapp:
     tty: true
@@ -9,11 +7,12 @@ services:
       dockerfile: docker/bookworm/Dockerfile
       args:
         - GIT_COMMIT
+        - RAILS_ENV=${RAILS_ENV:-production}
     environment:
       - IMAGE_NAME=container-discovery
       - RAILS_ENV=${RAILS_ENV:-production}
-      - RUN_CRON=false
       - RAILS_LOG_LEVEL=info
+      - RUN_CRON=false
     ports:
       - 9292:9292
     volumes:

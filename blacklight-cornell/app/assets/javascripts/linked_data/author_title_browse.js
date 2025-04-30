@@ -6,6 +6,7 @@ function AuthorTitleBrowse() {
   // TODO: Add ability to exclude excludeEntities.yml?
 
   async function renderLinkedData() {
+    let wikidata = {};
     try {
       // Query Library of Congress for localName that can be used to fetch Wikidata results
       const headingAttr = $('#author-title-heading').data('heading');
@@ -14,11 +15,13 @@ function AuthorTitleBrowse() {
 
       if (localName) {
         // If LOC name found for heading, query Wikidata for additional data to display
-        const wikidata = await bamwowHelper.getWikidata(localName);
-        renderWikidata(wikidata);
+        wikidata = await bamwowHelper.getWikidata(localName);
       }
     } catch(err) {
       console.log(err);
+    } finally {
+      // Either display linked data or default catalog metadata
+      showDetails(wikidata);
     }
   };
 
@@ -27,37 +30,50 @@ function AuthorTitleBrowse() {
     return bamwowHelper.reformatHeading(headingAttr);
   };
 
-  function renderWikidata(data) {
+  function showDetails(data) {
     if (bamwowHelper.canRender(data)) {
-      const fieldHtml = generateFieldHtml(data);
-      $('dl#item-details').append(fieldHtml);
-
-      const sourceLinkHtml = generateWikidataSourceLinks(data);
-      $('#wiki-acknowledge').html(sourceLinkHtml);
-
-      // Show details
-      $('#info-details').removeClass('d-none');
-      $('#ref-info').addClass('mt-4');
+      renderWikidata(data);
+      displayLinkedData();
+    } else {
+      displayCatalogMetadata();
     }
+  };
+
+  // when there's no wikidata or an error occurs in one of the ajax calls
+  function displayCatalogMetadata() {
+    $('#bio-without-ld').removeClass('d-none');
+  };
+
+  function displayLinkedData() {
+    $('#bio-with-ld').removeClass('d-none');
+    $('#ref-info').addClass('mt-4');
+  };
+
+  function renderWikidata(data) {
+    const fieldHtml = generateFieldHtml(data);
+    $('dl#item-details').append(fieldHtml);
+
+    const sourceLinkHtml = generateWikidataSourceLinks(data);
+    $('#wiki-acknowledge').html(sourceLinkHtml);
   }
 
   // Generate fields
   function generateFieldHtml(data) {
     let html = '';
     if (data.codes?.length) {
-      const codesArr = data.codes.map(code => `<dt>${code.catalogLabel} : ${code.code} *</dt>`);
+      const codesArr = data.codes.map(code => `<li class='list-unstyled'>${code.catalogLabel} : ${code.code} *</li>`);
       html += (
-        `<dt class="col-sm-4">Catalog numbers:</dt>
-        <dd class="col-sm-8">
-          <dl class="dl-horizontal">${codesArr.join(' ')}</dl>
+        `<dt>Catalog numbers:</dt>
+        <dd>
+          <ul class='list-group'>${codesArr.join(' ')}</ul>
         </dd>`
       );
     }
     if ('createdFor' in data) {
       const { loc: createdForLoc, label: createdForLabel } = data.createdFor;
       html += (
-        `<dt class="blacklight-wd-created col-sm-4">Created for:</dt>
-        <dd class="col-sm-8" loc="${createdForLoc}">${createdForLabel} *</dd>`
+        `<dt class="blacklight-wd-created">Created for:</dt>
+        <dd loc="${createdForLoc}">${createdForLabel} *</dd>`
       );
     }
 
@@ -68,7 +84,7 @@ function AuthorTitleBrowse() {
         let value = data[prop];
         if (prop === 'date') value = bamwowHelper.formatDates(value);
         if ($.isArray(value)) value = value.join(', ');
-        html += `<dt class="col-sm-4">${label}:</dt><dd class="col-sm-8">${value} *</dd>`;
+        html += `<dt>${label}:</dt><dd>${value} *</dd>`;
       }
     });
 

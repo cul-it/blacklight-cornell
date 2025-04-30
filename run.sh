@@ -9,17 +9,6 @@ exit_abnormal() {
   exit 1
 }
 
-# If there is a running container, bash into it.
-# The output of this docker command is:
-# CONTAINER_ID container-discovery:TAG
-# We only need the first information to bash into.
-running_test=$(docker inspect --format="{{.Id}} {{.Config.Image}}" $(docker ps -q) | grep container-discovery:)
-for term in $running_test
-do
-  docker exec -it "$term" bash
-  exit
-done
-
 # https://www.baeldung.com/linux/bash-expand-relative-path
 resolve_relative_path() (
     # If the path is a directory, we just need to 'cd' into it and print the new path.
@@ -43,33 +32,51 @@ resolve_relative_path() (
 
 aws_creds=""
 compose="docker-compose.yaml"
-rails_env="production"
-rails_env_file=""
+development=""
+feature=""
 image_name="container-discovery"
+integration=0
 interactive=""
 platform=""
-target="container-discovery"
 port="9292:9292"
-feature=""
-development=""
+rails_env="production"
+rails_env_file=""
 run_cmd="up"
-# run_cron="false"
+run_cron="false"
 # while getopts "cdhipt:a:r:" options; do
-while getopts "dhipt:a:m:r:" options; do
+while getopts "cdhitp:a:e:m:r:" options; do
   case "${options}" in
     a) aws_creds=$(resolve_relative_path "${OPTARG}") ;; # -a aws_creds
-      #  aws_creds="-v ${abs_path}:/custom_mnt/credentials:ro" ;;
-    # c) run_cron="true" ;; # -c cron
+    c) run_cron="true" ;;
     d) rails_env="development"
        development="-f docker-compose-development.yaml" ;;
-    m) image_name="${OPTARG}" ;; # -m image_name
-    r) rails_env_file=$(resolve_relative_path "${OPTARG}") ;;
-    i) run_cmd="run --entrypoint=bash webapp" ;;
-    p) platform="--platform=linux/amd64" ;;
+    e) rails_env="${OPTARG}" ;; # -e rails_env
     h) usage
-      exit 0 ;;
+       exit 0 ;;
+    i) run_cmd="run --entrypoint=bash webapp" ;;
+    m) image_name="${OPTARG}" ;; # -m image_name
+    p) platform="--platform=linux/amd64" ;;
+    r) rails_env_file=$(resolve_relative_path "${OPTARG}") ;;
+    t) integration=1
+       rails_env="integration" ;;
     *) exit_abnormal ;;
   esac
+done
+
+if [ "${integration}" == 1 ] && [ "${image_name}" == "container-discovery" ]
+  then
+    image_name="container-discovery-int"
+fi
+
+# If there is a running container, bash into it.
+# The output of this docker command is:
+# CONTAINER_ID container-discovery:TAG
+# We only need the first information to bash into.
+running_test=$(docker inspect --format="{{.Id}} {{.Config.Image}}" $(docker ps -q) | grep ${image_name}:)
+for term in $running_test
+do
+  docker exec -it "$term" bash
+  exit
 done
 
 # if [ "${aws_creds}" == "" ] && [ "${rails_env}" == "" ]
@@ -93,10 +100,10 @@ fi
 export IMAGE_NAME=${image_name}
 export RAILS_ENV=${rails_env}
 export RAILS_ENV_FILE=${rails_env_file}
-# if [ "${run_cron}" == "true" ]
-#   then
-#     export RUN_CRON="true"
-# fi
+if [ "${run_cron}" == "true" ]
+  then
+    export RUN_CRON="true"
+fi
 
 # img_id=$(git rev-parse head)
 # echo "Running ${target}:${img_id} ${feature}"
@@ -112,4 +119,4 @@ unset AWS_CREDENTIALS
 unset IMAGE_NAME
 unset RAILS_ENV
 unset RAILS_ENV_FILE
-# unset RUN_CRON
+unset RUN_CRON

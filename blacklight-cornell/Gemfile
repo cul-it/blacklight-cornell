@@ -13,6 +13,7 @@ gem "activerecord-session_store", ">= 2.0.0"
 gem "protected_attributes_continued"
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 gem 'net-smtp'
+gem "whenever", require: false
 
 group :development, :test, :integration do
   gem "rspec_junit_formatter"
@@ -91,6 +92,7 @@ group :test do
   gem "simplecov", :require => false
   gem "simplecov-rcov", :require => false
   gem 'parallel_tests'
+  gem 'rails-controller-testing'
 end
 
 gem "jquery-rails"
@@ -104,7 +106,7 @@ gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'
 
 gem "omniauth", "~> 2.0"
-gem "omniauth-saml", ">= 2.1.2"
+gem "omniauth-saml", "~> 2.2"
 gem "omniauth-oauth2"
 gem "omniauth-rails_csrf_protection"
 #gem 'omniauth-google-oauth2'
@@ -114,7 +116,7 @@ gem "omniauth-google-oauth2", "~> 0.8"
 gem "omniauth-facebook", "~> 5.0"
 gem "repost"
 gem "xmlrpc"
-gem "bootstrap", "~> 4.3"
+gem "bootstrap", "~> 4.6"
 gem "bootstrap-sass", "~> 3.4.1"
 gem "sassc-rails", ">= 2.1.0"
 gem "sassc", "~> 2.4"
@@ -122,9 +124,9 @@ gem "font-awesome-rails"
 gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.2"
 # gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
-gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.1"
-gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.3"
-gem "ruby-saml", ">= 1.12.1"
+gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.4"
+gem "ruby-saml", "~>1.18"
 gem "bento_search", "~> 2.0.0.rc1"
 gem "celluloid", "0.17.4" # Required for bento_search multisearcher
 gem "exception_notification"
@@ -136,11 +138,15 @@ gem "ebsco-eds"
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem "loofah", "2.19.1"
 
-gem "puma", "~> 6.4", ">= 6.4.2"
+gem "puma", "~> 6.4"
 gem "aws-sdk-s3", "~> 1.143"
-gem "uri", "0.12.2"
+gem "uri", "0.12.4"
 # gem 'pkg-config', '1.5.4'
 gem "status-page"
 gem "concurrent-ruby", "1.2.3", require: "concurrent"
 gem "rack-cors", require: "rack/cors"
 gem "rexml", "3.2.6"
+# TODO: rexml v3.3.9 is more stringent on acceptable xml. Fails with current xml format
+# Before implementing, the xml structure will need to be modified to work with rexml v3.3.9
+# example: Bad ❌ <"xml version='1.0'" Good ✅ <?xml version='1.0'"
+# gem "rexml", "3.3.9"

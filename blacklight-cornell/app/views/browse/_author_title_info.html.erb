@@ -1,77 +1,43 @@
 <%
-  encoded_heading = (@headingsResponse[0]["heading"]).gsub('&', '%26').gsub("\"", "'")
-  bio_data = @headingsResponse[0]["rda_json"].present? ? JSON.parse(@headingsResponse[0]["rda_json"]) : {}
+  encoded_heading = (@heading_document['heading']).gsub('&', '%26').gsub('"', "'")
+  bio_data = @heading_document['rda_json'].present? ? JSON.parse(@heading_document['rda_json']) : {}
+	display_info_details = bio_data.present? || @heading_document['notes'].present?
 %>
+<h1><%=@heading_document['headingTypeDesc']%></h1>
 
-<div id="author-title-heading" class="row info-row mb-4 mt-4" data-heading="<%=encoded_heading%>" >
-  <div id="left-container" class="col-sm-8 col-md-8 col-lg-8">
-    <% displayInfoDetails = bio_data.present? || @headingsResponse[0]['notes'].present? %>
-    <div id="info-details" class="row info-row ml-0 <%= 'd-none' unless displayInfoDetails %>">
-	    <div id="comment-container" class="col-sm-7 col-md-8 col-lg-9">
-			<div id="dbp-comment"></div>
-	    	<dl class="row" id="item-details">
-	    		<% if bio_data.present? %>
-	    		  <%
+<div id='author-title-heading' class='row info-row mb-4 mt-4' data-heading="<%=encoded_heading%>" >
+  <div id='left-container' class='col-sm-8 col-md-8 col-lg-8'>
+		<%= render 'bio_info', heading_type: 'authortitle', bio_data: bio_data do %>
+      <% if bio_data.present? %>
+				<%
 					bio_data.each do |title, value|
-						display_value = value.kind_of?(Array) ? value.join(", ") : value
-				  %>
-						<dt class="col-sm-4" data-rda-label=<%=title%>><%=title%>:</dt>
-						<dd class="col-sm-8"><%=display_value.capitalize%></dd>
-				  <%	
-					end
-				  %>
-	    	    <% end %>
-	    		
-	    		<% if @headingsResponse[0]["notes"].present? %>
-	              <% the_notes = JSON.parse(@headingsResponse[0]["notes"][0])%>
-	    		  <dt class="col-sm-4">Notes:</dt>
-	    		  <dd class="col-sm-8">
-	                <%=the_notes[0].to_s%>:
-	                <ul class="agent-notes">
-			        <% the_notes.each do |n| %>
-			          <% if n.class.inspect == "Hash"%>
-			            <li><a href="/browse?authq=<%=n['header']%>&start=0&browse_type=Author"><%= n['header']%></a></li>
-			          <% end %>
-			        <% end %>
-			        </ul>
-		          </dd>
-	    	    <% end %>
-	    		<!--Used to contain pseudonym block-->
-	    	</dl>
-            <%# filled in by javascript when needed %>
-            <div id="wiki-acknowledge" class="float-right"></div>
-	    </div>
-	  </div>
-    <div id="ref-info" class="<%= 'mt-4' if displayInfoDetails %>">
-      <%= render partial: 'reference_info', response: { h_resp: @headingsResponse, locname: @loc_localname } %>
+						display_value = value.kind_of?(Array) ? value.join(', ') : value
+				%>
+						<dt data-rda-label=<%=title%>><%=title%>:</dt>
+						<dd><%=display_value.capitalize%></dd>
+				<% end %>
+			<% end %>
+			
+			<% if @heading_document['notes'].present? %>
+						<% the_notes = JSON.parse(@heading_document['notes'][0])%>
+				<dt>Notes:</dt>
+				<dd>
+					<%= the_notes[0].to_s %>:
+					<ul class='agent-notes'>
+					<% the_notes.each do |n| %>
+						<% if n.class.inspect == 'Hash'%>
+							<li><a href="/browse?authq=<%=n['header']%>&start=0&browse_type=Author"><%= n['header']%></a></li>
+						<% end %>
+					<% end %>
+					</ul>
+				</dd>
+			<% end %>
+    <% end %>
+    <div id='ref-info' class="<%= 'mt-4' if display_info_details %>">
+      <%= render partial: 'reference_info' %>
     </div>
 	</div>
-	<div class="col-sm-4 col-md-4 col-lg-4">
-		<div class="card" id="formats">
-		  <div class="card-header">
-		    <h3 style="margin-bottom: 0;">Library Holdings</h3>
-		  </div>
-		  <div class="card-body" style="padding-top: .75rem;">
-		    <ul class="fa-ul" id="more-results">
-			  <% works=JSON.parse(@headingsResponse[0]["counts_json"]) %>
-		      <li>
-				Total Works: <%= link_to '/?q="' + encoded_heading + '"&search_field=authortitle_browse' do %>
-					<%= pluralize(number_with_delimiter(works['works']), 'Title') %>
-				<% end %>
-			  </li>
-		      <li>
-			    Total Works About: <%= link_to '/?q="' + encoded_heading + '"&search_field=subject_work_browse' do %>
-	              <%= pluralize(number_with_delimiter(works['worksAbout']), 'Title') %>
-	            <% end %>
-			  </li>
-		      <li style="text-align center">
-			    <div style="width:100%;border-bottom: solid 1px #dcdcdc"></div>
-			  </li>
-			  
-			</ul>
-		  </div>
-	    </div>
-        <%# Will display relevant call numbers for the subject if they're available. %>
-        <!--Call number browse link went here-->
+	<div class='col-sm-4 col-md-4 col-lg-4'>
+		<%= render 'holdings' %>
 	</div>
-  </div>
+</div>

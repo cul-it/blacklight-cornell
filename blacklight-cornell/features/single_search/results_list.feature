@@ -5,15 +5,15 @@ Feature: Results list
 	I want to view a list of search results with various options.
 
 	Background:
-#  @all_results_list @empty_search
-#  Scenario: Empty search
-#    Given I literally go to search
-#    And I press 'Search'
-#    Given I literally go to search
-#    And I press 'Search'
-#    And I sleep 8 seconds
-#    Then I should be on 'the single search results page'
-#    And I should get bento results
+ @all_results_list @empty_search
+ Scenario: Empty search
+   Given I literally go to search
+   And I press 'Search'
+   Given I literally go to search
+   And I press 'Search'
+   And I sleep 8 seconds
+   Then I should be on 'the single search results page'
+   And I should get bento results
 
 #why are there any results at all? when I specified no search terms?
 

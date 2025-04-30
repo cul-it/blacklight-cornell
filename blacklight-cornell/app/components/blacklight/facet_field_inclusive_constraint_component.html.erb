@@ -1,0 +1,7 @@
+<%# Override component from blacklight to use h4 instead of h5 %>
+<div class="inclusive_or card card-body bg-light mb-3">
+  <h4><%= t('blacklight.advanced_search.any_of') %></h4>
+  <ul class="list-unstyled facet-values">
+    <%= helpers.render(Blacklight::FacetItemComponent.with_collection(presenters.to_a)) %>
+  </ul>
+</div>

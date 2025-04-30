@@ -11,10 +11,11 @@ export OPENSSL_CONF=/dev/null
 export GEM_HOME="/usr/local/rvm/gems/$RUBYVERSION"
 export GEM_PATH="/usr/local/rvm/gems/$RUBYVERSION:/usr/local/rvm/gems/$RUBYVERSION@global"
 export RAILS_ENV=test
+export WD_CHROME_PATH='/usr/bin/chromium'
 
 # Update PATH
 #PATH="/opt/rh/devtoolset-10/root/usr/bin:$PATH"
-PATH="/usr/lib64/chromium-browser/:/opt/rh/devtoolset-10/root/usr/bin:$PATH"
+PATH="/usr/bin/chromium:/usr/lib64/chromium-browser/:/opt/rh/devtoolset-10/root/usr/bin:$PATH"
 PATH="/usr/local/bin:$PWD/bin:$PATH"
 PATH=$PWD/bin:$PATH
 PATH=$GEM_HOME/bin:$PWD/bin:/usr/local/bin:$PATH

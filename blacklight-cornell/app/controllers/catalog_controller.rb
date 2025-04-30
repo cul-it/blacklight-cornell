@@ -17,20 +17,6 @@ class CatalogController < ApplicationController
     #prepend_before_action :set_return_path
   end
 
-  # Ensure that the configuration file is present
-  begin
-    SEARCH_API_CONFIG = YAML.load_file("#{::Rails.root}/config/search_apis.yml")
-  rescue Errno::ENOENT
-    puts <<-eos
-
-    ******************************************************************************
-    Your search_apis.yml config file is missing.
-    See config/search_apis.yml.example
-    ******************************************************************************
-
-    eos
-  end
-
   #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
@@ -214,7 +200,7 @@ class CatalogController < ApplicationController
     }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters?
 
     config.add_facet_field 'workid_facet', :label => 'Work', :show => false
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true
+    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true, :include_in_advanced_search => true
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?
@@ -685,7 +671,7 @@ class CatalogController < ApplicationController
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title A-Z', :browse_default => true
     config.add_sort_field 'title_sort desc, pub_date_sort desc', :label => 'title Z-A'
     config.add_sort_field 'callnum_sort asc, pub_date_sort desc', :label => 'call number', :callnum_default => true
-    #config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
+    config.add_sort_field 'acquired_dt desc, title_sort asc', :label => 'date acquired'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
@@ -909,7 +895,7 @@ def tou
     packageName = ""
     title_id = params[:title_id]
     id = params[:id]
-    @newTouResult = [] # ::Term_Of_Use.where(title_id: title_id)
+    @newTouResult = []
     # okapi_url = ENV['OKAPI_URL']
     record = eholdings_record(title_id) || []
     if record
@@ -962,7 +948,7 @@ def tou
     token = folio_token
     if url && token
       headers = {
-        'X-Okapi-Tenant' => ENV['TENANT_ID'],
+        'X-Okapi-Tenant' => ENV['OKAPI_TENANT'],
         'x-okapi-token' => token,
         :accept => 'application/json, application/vnd.api+json'
       }

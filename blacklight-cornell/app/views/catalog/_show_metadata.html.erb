@@ -44,16 +44,15 @@
 	    <div class="card-block">
 	      <%# check the document rather than the finding_aid() method %>
 	      <% if @document['url_findingaid_display'].present? %>
-				<% if @document['url_findingaid_display'].size == 1 %>
-					<% url_findingaid_display = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default'%>
-				<% else %>
-					<% url_findingaid_display = render_display_link :value => @document['url_findingaid_display'], :field => 'url_findingaid_display', :format => 'default'%>
-				<% end %>
-	        <% if url_findingaid_display.present? %>
-	          <span class="url_findingaid_display" id="finding_aid">
-	            <i class="fa fa-check" aria-hidden="true"></i><%= url_findingaid_display %>
-              </span>
-	        <% end %>
+					<% url_findingaid_displays = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default' %>
+					<div class="url_findingaid_display" id="finding_aid">
+						<% url_findingaid_displays.each do |url_findingaid_display| %>
+							<div class="url_findingaid_link">
+								<i class="fa fa-check" aria-hidden="true"></i>
+								<%= url_findingaid_display %>
+							</div>
+						<% end %>
+					</div>
 	      <% end %>
 
 	      <%  summary_holdings = '' %>
@@ -224,8 +223,7 @@
        			<% if holdings[k]["active"].nil? or holdings[k]["active"] == true %>
 
 	             		<% if holding["location"].present? %>
-	                		<% if holding["location"]["name"].include?('Rare') %>
-								<%# || holding["location"]["name"].include?('Kheel') %>
+	                		<% if holding["location"]["name"].include?('Rare') || holding["location"]["name"].include?('Kheel') %>
 	                   			<% rare_items << holding %>
 	                		<% else %>
 	                		   <% circulating_items << holding %>

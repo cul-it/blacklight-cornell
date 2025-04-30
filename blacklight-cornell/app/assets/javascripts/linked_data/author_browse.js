@@ -134,8 +134,8 @@ function AuthorBrowse() {
     const { citizenship, education, entity, image, pseudonyms } = parsedWikidata;
 
     if (image) {
-      $('#agent-image').attr('src', image.url);
-      $('#img-container').show();
+      $('#bio-image').attr('src', image.url);
+      $('#img-container').removeClass('d-none');;
       $('#wiki-image-acknowledge').html(`<br/>Image: ${wikidataConnector.imageAttributionHtml(image)}`);
     } else {
       $('#comment-container').removeClass();
@@ -208,11 +208,11 @@ function AuthorBrowse() {
 
   // when there's no wikidata or an error occurs in one of the ajax calls
   function displayCatalogMetadata() {
-    $('#bio-desc').removeClass('d-none');
+    $('#bio-without-ld').removeClass('d-none');
   };
 
   function displayLinkedData() {
-    $('#info-details').removeClass('d-none');
+    $('#bio-with-ld').removeClass('d-none');
     $('#ref-info').addClass('mt-4');
   };
 

@@ -16,13 +16,10 @@ class BentoSearch::DigitalCollectionsEngine
     Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
     bento_results = BentoSearch::Results.new
 
-    # Format is passed to the engine using the configuration set up in the bento_search initializer
-    # If not specified, we can maybe default to books for now.
-    format = configuration[:blacklight_format] || 'Digital Collections'
     base = Addressable::URI.parse("https://digital.library.cornell.edu")
     uri = URI( base + "catalog.bento")
     params = {
-      :q => args[:oq],
+      :q => args[:query],
       :utf8 => "✓",
       :search_field => "all_fields",
       :rows => 3

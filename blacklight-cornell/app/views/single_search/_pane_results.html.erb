@@ -4,8 +4,8 @@
   <% end %>
   <h2 class="search-source">
     <%= link_to link_url, :title => "View all" do %>
-      <i class="fa fa-<%= formats_icon_mapping(BentoSearch.get_engine(key).configuration.title) %>"></i>
-      <%= BentoSearch.get_engine(key).configuration.title %>
+      <i class="fa fa-<%= formats_icon_mapping(bento_title(key)) %>"></i>
+      <%= bento_title(key) %>
     <% end %>
   </h2>
 </div>
@@ -16,45 +16,45 @@
     <%= bento_search result  %>
     <div class="view-all">
       <% if key == "libguides" %>
-        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :id => "link_top_libguides" %>
+        <%= link_to 'View All Research Guides', 'http://guides.library.cornell.edu/libguides/home', :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', 'LibGuides'])", :id => "link_top_libguides" %>
       <% elsif key == "ebsco_eds" %>
-        <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm" do %>
+        <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', 'Articles & Full Text'])" do %>
           View
           <%= number_with_delimiter(result.total_items) %>
-          <%= BentoSearch.get_engine(key).configuration.title %>
+          <%= bento_title(key) %>
           <i class="fa fa-angle-double-right"></i>
         <% end %>
       <% else %>
-      <%= link_to link_url, :class => "btn btn-outline-secondary btn-sm", :onclick => "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])", :id => "link_top_" + downcast(key) do %>
+      <%= link_to link_url, class: "btn btn-outline-secondary btn-sm", onclick: "javascript:_paq.push(['trackEvent', 'allResultsLink', '#{bento_blacklight_format(key) || bento_title(key)}'])", id: "link_top_" + downcast(key) do %>
         View
         <!-- = '(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
         -->
         <%= number_with_delimiter(result.total_items) %>
         <% if !result.nil? %>
           <% if result.total_items && result.total_items > 1 %>
-            <%= BentoSearch.get_engine(key).configuration.title %>
+            <%= bento_title(key) %>
           <% end %>
         <% else %>
-          <% if BentoSearch.get_engine(key).configuration.title != "Theses" && BentoSearch.get_engine(key).configuration.title != "Miscellaneous" && BentoSearch.get_engine(key).configuration.title != "Manuscripts / Archives" %>
-            <%= BentoSearch.get_engine(key).configuration.title[0...-1] %>
+          <% if ['Theses', 'Miscellaneous', 'Manuscripts/Archives'].exclude?(bento_title(key)) %>
+            <%= bento_title(key)[0...-1] %>
           <% end %>
-          <% if BentoSearch.get_engine(key).configuration.title == "Theses" %>
+          <% if bento_title(key) == "Theses" %>
             Thesis
           <% end %>
-          <% if BentoSearch.get_engine(key).configuration.title == "Miscellaneous" %>
+          <% if bento_title(key) == "Miscellaneous" %>
             Miscellaneous
           <% end %>
-          <% if BentoSearch.get_engine(key).configuration.title == "Manuscripts / Archives" %>
-            Manuscript / Archive
+          <% if bento_title(key) == "Manuscripts/Archives" %>
+            Manuscript/Archive
           <% end %>
         <% end %>
-        <% BentoSearch.get_engine(key).configuration.title %>
-        <% if BentoSearch.get_engine(key).configuration.title == 'Articles & Full Text' %>
-        <% elsif BentoSearch.get_engine(key).configuration.title == 'Library Guides' %>
+        <% bento_title(key) %>
+        <% if bento_title(key) == 'Articles & Full Text' %>
+        <% elsif bento_title(key) == 'Library Guides' %>
             Research Guides
-        <% elsif BentoSearch.get_engine(key).configuration.title == 'Digital Collections' %>
+        <% elsif bento_title(key) == 'Digital Collections' %>
             Items
-        <% elsif BentoSearch.get_engine(key).configuration.title == 'Repositories' %>
+        <% elsif bento_title(key) == 'Repositories' %>
             Item<%= result.total_items > 1 ? 's' : '' %>
         <% else %>
           from Catalog
@@ -62,10 +62,10 @@
         <% end %>
         <i class="fa fa-angle-double-right"></i>
       <% end %>
-      <% if is_catalog_pane?(BentoSearch.get_engine(key).configuration.title) == true%>
+      <% if is_catalog_pane?(bento_title(key)) == true%>
         <div class="bento_pane_advanced">
-          <% qp2 = "f%5Bformat%5D%5B%5D=#{BentoSearch.get_engine(key).configuration.blacklight_format}&op_row%5B%5D=AND&q_row%5B%5D=#{ss_uri_encode(params[:q]).gsub('&','%26')}&search_field_row%5B%5D=all_fields" %>
-          or use <%= link_to 'advanced search',"edit?#{qp2}", {:onclick => "javascript:_paq.push(['trackEvent', 'advancedLink', '#{BentoSearch.get_engine(key).configuration.blacklight_format}'])"}  %>
+          <% qp2 = "f%5Bformat%5D%5B%5D=#{bento_blacklight_format(key)}&op_row%5B%5D=AND&q_row%5B%5D=#{ss_uri_encode(params[:q]).gsub('&','%26')}&search_field_row%5B%5D=all_fields" %>
+          or use <%= link_to 'advanced search',"edit?#{qp2}", {:onclick => "javascript:_paq.push(['trackEvent', 'advancedLink', '#{bento_blacklight_format(key)}'])"}  %>
         </div>
       <% end %>
     <% end %>
