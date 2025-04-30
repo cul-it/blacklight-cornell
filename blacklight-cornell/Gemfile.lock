@@ -266,6 +266,7 @@ GEM
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
     cgi (0.4.2)
+    chronic (0.10.2)
     citeproc (1.0.10)
       namae (~> 1.0)
     citeproc-ruby (1.1.13)
@@ -542,13 +543,13 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.7.4)
-    nokogiri (1.16.8-aarch64-linux)
+    nokogiri (1.18.8-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.16.8-arm64-darwin)
+    nokogiri (1.18.8-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.8-x86_64-darwin)
+    nokogiri (1.18.8-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.8-x86_64-linux)
+    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     nori (2.7.0)
       bigdecimal
@@ -832,6 +833,8 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     xml-simple (1.1.9)
       rexml
     xmlrpc (0.3.3)
@@ -909,7 +912,7 @@ DEPENDENCIES
   mysql2 (= 0.5.6)
   net-ldap
   net-smtp
-  nokogiri (~> 1.16.7)
+  nokogiri (~> 1.18.8)
   omniauth (~> 2.0)
   omniauth-facebook (~> 5.0)
   omniauth-google-oauth2 (~> 0.8)
@@ -958,6 +961,7 @@ DEPENDENCIES
   view_component
   webmock
   webrat
+  whenever
   xmlrpc
   yaml_db
 
