@@ -145,5 +145,7 @@ gem "status-page"
 gem "concurrent-ruby", "1.2.3", require: "concurrent"
 gem "rack-cors", require: "rack/cors"
 gem "rexml", "3.2.6"
-# rexml v3.3.9 is more stringent on acceptable xml. Fails with current xml format
+# TODO: rexml v3.3.9 is more stringent on acceptable xml. Fails with current xml format
+# Before implementing, the xml structure will need to be modified to work with rexml v3.3.9
+# example: Bad ❌ <"xml version='1.0'" Good ✅ <?xml version='1.0'"
 # gem "rexml", "3.3.9"
