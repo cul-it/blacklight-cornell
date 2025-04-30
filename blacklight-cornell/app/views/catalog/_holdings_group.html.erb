@@ -7,47 +7,46 @@
 <% multi_vol = @document["multivol_b"] %>
 <% on_site_count = 0 %>
 <% reserve_item = false %>
+<% reserve_item_count = 0 %>
 <% noncirc = false %>
 <% aeon_codes = [] %>
 <% not_spif = 0 %>
-<% spif = 0 %>
 
 <% if group == "Rare" %>
-<% reading = " for Reading Room Delivery" %>
-<% noncirc = true %>
+  <% reading = " for Reading Room Delivery" %>
+  <% noncirc = true %>
 <% end %>
 
 <% #= @document.inspect %>
 
 <% items.each do |i| %>
-<div class="holding">
-  <% # <%= i.inspect %>
-  <% if group == "Rare" %>
-    <% aeon_codes << i["location"]["code"] unless aeon_codes.include?(i["location"]["code"]) %>
-  <% end %>
-
-  <% if !i["circ"].present? %>
-  <% noncirc = true %>
-  <% end %>
-
-  <% reserve_item = (i["location"]["code"].include?(",res") || i["location"]["code"].include?("oclc,afrp") || i["location"]["name"].include?("Reserve")) %>
-  <% if i["location"]["name"] !~ /Spacecraft Planetary Imaging Facility/ %>
-    <% not_spif += 1 %>
-  <% end %>
-  <% if i["location"]["name"] =~ /Non-Circulating/ %>
-    <% noncirc = true %>
-  <% end %>
-  <% if i["location"]["name"] =~ /Spacecraft Planetary Imaging Facility/ %>
-    <% noncirc = true %>
-    <% spif += 1 %>
-  <% end %>
-    <!-- location -->
-
-    <% if !i["call"].blank? && !i["call"].include?("No call number") && i["call"] == "Available for the Library to Purchase" %>
-      <% pda = "yes" %>
+  <div class="holding">
+    <% # <%= i.inspect %>
+    <% if group == "Rare" %>
+      <% aeon_codes << i["location"]["code"] unless aeon_codes.include?(i["location"]["code"]) %>
     <% end %>
 
-    <% if pda == "yes" %>
+    <% if !i["circ"].present? %>
+      <% noncirc = true %>
+    <% end %>
+
+    <% reserve_item = (i["location"]["code"].include?(",res") || i["location"]["code"].include?("oclc,afrp") || i["location"]["name"].include?("Reserve")) %>
+    <% reserve_item_count += 1 if reserve_item %>
+
+    <% if i["location"]["name"] !~ /Spacecraft Planetary Imaging Facility/ %>
+      <% not_spif += 1 %>
+    <% end %>
+    <% if i["location"]["name"] =~ /Non-Circulating/ %>
+      <% noncirc = true %>
+    <% end %>
+    <% if i["location"]["name"] =~ /Spacecraft Planetary Imaging Facility/ %>
+      <% noncirc = true %>
+    <% end %>
+    <!-- location -->
+
+    <% pda = i["call"] == "Available for the Library to Purchase" %>
+
+    <% if pda %>
       <div class="location">
         <%= "Available for the Library to purchase" %>
         </br>
@@ -73,93 +72,93 @@
       </div>
     <% end %>
 
-    <% if !i["call"].blank? && !i["call"].include?("No call number") && i["call"] == "Available for the Library to Purchase" %>
-      <% pda = "yes" %>
-    <% end %>
-
     <% if !i["call"].blank? && !i["call"].include?("No call number") && i["call"] != "" %>
       <div class="call-number">
-      <% if pda != "yes" %>
-        <%= i["call"] %>
-      <% end %>
-    </div>
-  <% end %>
+          <%= i["call"] unless pda  %>
+      </div>
+    <% end %>
 
-      <!-- holding description, notes, status -->
-      <div class="group">
-        <% if i["items"].present? %>
+    <!-- holding description, notes, status -->
+    <div class="group">
+      <% if i["items"].present? %>
         <% if i["items"]["tempLoc"].present? %>
-        <% i["items"]["tempLoc"].each do |t| %>
-          <div class="message">
-            <%= t["enum"] %> Temporarily shelved in <%= t["location"]["name"] %>
-          </div>
-        <% end %>
-        <% end %>
-        <% end %>
-
-
-          <% if i["boundWith"].present? %>
-            <% bw = i["boundWith"] %>
-            <% bwenums = [] %>
-              <% bw.each do |k, v| %>
-                  <% @mi = v["masterBibId"] %>
-                  <% @mt = v["masterTitle"] %>
-                  <% bwenums << v["masterEnum"] %>
+          <% i["items"]["tempLoc"].each do |t| %>
+            <div class="message">
+              <%= t["enum"] %> Temporarily shelved in <%= t["location"]["name"] %>
+              <% if t["location"]["name"] =~ /Reserve/ %>
+                 (Cannot be requested for delivery)
               <% end %>
-                  <div class="message">
-                     <a href="/catalog/<%= @mi %>">This item is bound with another item. Requests must be made to that item: <%= @mt %>
-                       <%= bwenums.join(", ").html_safe %></a>
-                  </div>
-            <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
 
 
+      <% if i["boundWith"].present? %>
+        <% bw = i["boundWith"] %>
+        <% bwenums = [] %>
+        <% bw.each do |k, v| %>
+          <% @mi = v["masterBibId"] %>
+          <% @mt = v["masterTitle"] %>
+          <% bwenums << v["masterEnum"] %>
+        <% end %>
         <div class="message">
+          <a href="/catalog/<%= @mi %>">This item is bound with another item. Requests must be made to that item: <%= @mt %>
+          <%= bwenums.join(", ").html_safe %></a>
+        </div>
+      <% end %>
+
+
+      <div class="message">
         <% if i["order"].present? %>
           <%= i["order"] %>
         <% end %>
-        </div>
-
-        <% #= i.inspect %>
-        <div class="message">
-          <% if i["holdings"].present? %>
-            Library has: <% if i["holdings"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["holdings"]) %>
-          <% end %>
-        </div>
-
-        <div class="message">
-          <% if i["indexes"].present? %>
-
-            Indexes: <% if i["indexes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["indexes"]) %>
-          <% end %>
-        </div>
-
-        <div class="message">
-          <% if i["supplements"].present? %>
-            Supplements: <% if i["supplements"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["supplements"]) %>
-          <% end %>
-        </div>
-
-        <div class="message">
-          <% if i["notes"].present? %>
-          Notes: <% if i["notes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["notes"]) %>
-          <% end %>
-        </div>
-
-        <div class="message">
-          <% if !i["recents"].nil? and i["recents"].size == 1 %>
-             Current Issues: <%= i["recents"][0] %>
-          <% else %>
-             <% if !i["recents"].nil? and i["recents"].size > 1 %>
-               Current Issues:<br><%= i["recents"].join("<br>").html_safe %>
-             <% end %>
-          <% end %>
-        </div>
-
       </div>
+
+      <% #= i.inspect %>
+      <div class="message">
+        <% if i["holdings"].present? %>
+          Library has: <% if i["holdings"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["holdings"]) %>
+        <% end %>
+      </div>
+
+      <div class="message">
+        <% if i["indexes"].present? %>
+
+          Indexes: <% if i["indexes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["indexes"]) %>
+        <% end %>
+      </div>
+
+      <div class="message">
+        <% if i["supplements"].present? %>
+          Supplements: <% if i["supplements"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["supplements"]) %>
+        <% end %>
+      </div>
+
+      <div class="message">
+        <% if i["notes"].present? %>
+          Notes: <% if i["notes"].size > 1 %> <br /> <% end %><%= holdings_html_safe(i["notes"]) %>
+        <% end %>
+      </div>
+
+      <div class="message">
+        <% if !i["recents"].nil? and i["recents"].size == 1 %>
+          Current Issues: <%= i["recents"][0] %>
+        <% else %>
+          <% if !i["recents"].nil? and i["recents"].size > 1 %>
+            Current Issues:<br><%= i["recents"].join("<br>").html_safe %>
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+
     <%= render "solr_status", :i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc => noncirc, :multi_vol => multi_vol, :on_site_count => on_site_count %>
     <% #= render 'solr_status',:i => i, :location => i["location"]["name"], :pda => pda, :callnumber => i["call"], :noncirc=>noncirc,:multi_vol =>multi_vol,:bwith=>bwith,:on_site_count=>on_site_count %>
   </div>
 
-  <% end %>
+<% end %>
 
-  <%= render "request_buttons", :group => group, :noncirc => noncirc, :@document => @document, :aeon_codes => aeon_codes, :not_spif => not_spif, :spif => :spif, :reading => reading, :reserve_item => reserve_item %>
+<% reserve_items_only = reserve_item_count == items.count %>
+
+<%= render "request_buttons", :group => group, :noncirc => noncirc, :aeon_codes => aeon_codes, :not_spif => not_spif, :reading => reading, :reserve_item => reserve_item, :reserve_only => reserve_items_only %>
