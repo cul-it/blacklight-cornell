@@ -13,6 +13,7 @@ gem "activerecord-session_store", ">= 2.0.0"
 gem "protected_attributes_continued"
 #gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
 gem 'net-smtp'
+gem "whenever", require: false
 
 group :development, :test, :integration do
   gem "rspec_junit_formatter"
@@ -115,7 +116,7 @@ gem "omniauth-google-oauth2", "~> 0.8"
 gem "omniauth-facebook", "~> 5.0"
 gem "repost"
 gem "xmlrpc"
-gem "bootstrap", "~> 4.3"
+gem "bootstrap", "~> 4.6"
 gem "bootstrap-sass", "~> 3.4.1"
 gem "sassc-rails", ">= 2.1.0"
 gem "sassc", "~> 2.4"
