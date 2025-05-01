@@ -14,7 +14,17 @@ FROM ruby:${RUBY_VERSION}-slim-bookworm AS ruby_base
 
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
-    default-libmysqlclient-dev=1.1.0 cron && \
+    default-libmysqlclient-dev=1.1.0 cron \
+    # CVE-2024-5535
+    openssl=3.0.15-1~deb12u1 \
+    # CVE-2024-37371
+    libkrb5-3=1.20.1-2+deb12u2 \
+    # CVE-2024-33599
+    libc6=2.36-9+deb12u10 \
+    # CVE-2024-0567
+    libgnutls30=3.7.9-2+deb12u4 \
+    # CVE-2023-50387
+    libsystemd0=252.36-1~deb12u1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man && \
     # CVE-2023-36617⁠
