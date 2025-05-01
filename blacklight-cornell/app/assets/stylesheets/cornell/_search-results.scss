@@ -181,6 +181,22 @@ body.book_bags-index #documents .document {
   }
 }
 
+.filter-values {
+	text-decoration: underline;
+}
+.constraint:hover .filter-values {
+	text-decoration: none;
+}
+
+td.query {
+	display: flex;
+}
+
+td.query::before {
+	content: "•";
+	font-size: 1em;
+}
+
 // Did you mean
 // ------------------------------------------
 #spell {
