@@ -196,6 +196,18 @@ td.query::before {
 	content: "•";
 	font-size: 1em;
 }
+.field-label {
+	text-transform: uppercase;
+}
+
+.constraint:hover .field-label{
+	text-decoration: none;
+}
+
+.field-label::after {
+	content: ":";
+	font-size: 1em;
+}
 
 // Did you mean
 // ------------------------------------------
