@@ -166,26 +166,5 @@ module Blacklight
         solr_response = repository.find id, extra_controller_params
         [solr_response, solr_response.documents.first]
       end
-
-      # ========================================================================
-      # Filters query parameters by removing rows with blank values,
-      # ensuring consistency and only valid entries across related fields.
-      # ------------------------------------------------------------------------
-      def self.filter_query_params(query_params)
-        advanced_query   = query_params["q_row"]
-        search_field_row = query_params["search_field_row"]
-        boolean_row      = query_params["boolean_row"]
-        operator_row     = query_params["op_row"]
-
-        return query_params if advanced_query.nil?
-
-        filtered_indices = advanced_query.each_with_index.reject { |value, _| value.strip.empty? }.map(&:last)
-        query_params["search_field_row"] = filtered_indices.map { |i| search_field_row[i] } if search_field_row.present?
-        query_params["q_row"]            = filtered_indices.map { |i| advanced_query[i] }
-        query_params["boolean_row"]      = boolean_row.select   { |key, _| filtered_indices.include?(key.to_i) } if boolean_row.present?
-        query_params["op_row"]           = filtered_indices.map { |i| operator_row[i] }
-        
-        query_params
-      end
     end
   end
