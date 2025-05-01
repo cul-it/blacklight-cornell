@@ -2,8 +2,6 @@
 ## Override Blacklight::SearchHistoryConstraintsHelperBehavior Methods  ##
 #########################################################################
 module CornellSearchHistoryConstraintsHelper
-
-
   # ============================================================================
   # Formats operators and boolean values for display in the search history.
   # Custom logic for advanced searches.
@@ -12,7 +10,7 @@ module CornellSearchHistoryConstraintsHelper
   # ----------------------------------------------------------------------------
   def render_search_to_s_element(label, query_text, options = {})
     if options[:search_type] == "advanced search"
-      search_history_node = ""
+      search_history_spans = []
       query_text.each_with_index do |text, index|
         next if text.blank? || text.strip.empty? #Skip search section if text blank
 
@@ -20,7 +18,7 @@ module CornellSearchHistoryConstraintsHelper
         operator = case op_val
                    when "AND"         then ""
                    when "OR"          then "ANY"
-                   when "phrase"      then "CONTAINS PHRASE"
+                   when "phrase"      then "CONTAINS PHRASE WITH"
                    when "NOT"         then "NOT"
                    when "begins_with" then "BEGINS WITH"
                    else
@@ -42,22 +40,36 @@ module CornellSearchHistoryConstraintsHelper
         label_parts << field_label
 
         # Render the label parts in a span for styling
-        space = " " if index > 0
-        label_span = render_filter_name("#{space}#{label_parts.join(" ")}")
-
-        # Render the query text in a separate span with 'filter-values' class
-        query_span = tag.span(" #{text}", class: 'filter-values')
+        label_span = render_filter_name("#{label_parts.join(" ")}")
+        # Render the query text parts in a span for styling
+        query_span = tag.span(text, class: 'filter-values')
 
         # Combine both spans in a constraint container
-        search_history_node += tag.span(
+        search_text = tag.span(
           label_span + query_span,
-          class: 'constraint',
-          style: 'display: inline-block; margin-right: -8px; text-decoration: underline;'
+          style: 'margin-right: 8px;'
         )
+        search_history_spans << search_text
       end
+      # Advanced Searches
+      search_history_node = tag.div(
+        safe_join(search_history_spans, " "),
+        class: 'constraint',
+        style: 'display: inline-block; text-indent: 0rem; padding-left: 8px !important;'
+      )
+
       search_history_node.html_safe
     else
-      tag.span(render_filter_name(label) + tag.span(query_text, class: 'filter-values'), class: 'constraint')
+      # Non-Advanced Searches
+      label_span = render_filter_name(label)
+      query_span = tag.span(query_text, class: 'filter-values')
+
+      tag.div(
+        label_span + query_span,
+        class: 'constraint',
+        style: 'display: inline-block; text-indent: 0rem; padding-left: 8px !important;'
+      )
+      # tag.span(render_filter_name(label) + tag.span(query_text, class: 'filter-values'), class: 'constraint')
     end
   end
 end
