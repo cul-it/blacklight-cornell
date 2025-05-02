@@ -5,6 +5,7 @@ class AdvancedSearchController < ApplicationController
   delegate :blacklight_config, to: :default_catalog_controller
 
   before_action :set_facets, only: [:edit, :index]
+  after_action :update_facets, only: [:edit, :index]
 
   if ENV["SAML_IDP_TARGET_URL"]
     prepend_before_action :set_return_path
@@ -60,7 +61,7 @@ class AdvancedSearchController < ApplicationController
   private
 
   def set_facets
-    advanced_facet_fields = blacklight_config.facet_fields.select { |_k, config| config.include_in_advanced_search }
+    @old_advanced_facet_fields = advanced_facet_fields.deep_dup
     advanced_facet_fields.each do |_k, config|
       config.limit = -1
       # Sort by most common instead of alphabetical:
@@ -72,5 +73,16 @@ class AdvancedSearchController < ApplicationController
     @facets = advanced_facet_fields.each_with_object({}) do |(k, config), h|
       h[k] = { field_config: config, display_facet: @response.aggregations[k] }
     end
+  end
+
+  # Extremely sad hack to reset the default facet limit for search results - need to revisit as part of DACCESS-289
+  def update_facets
+    advanced_facet_fields.each do |k, config|
+      config.limit = @old_advanced_facet_fields[k].limit
+    end
+  end
+
+  def advanced_facet_fields
+    blacklight_config.facet_fields.select { |_k, config| config.include_in_advanced_search }
   end
 end
