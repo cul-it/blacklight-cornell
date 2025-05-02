@@ -30,10 +30,8 @@ class SearchHistoryController < ApplicationController
     return true
   end
 
-  # ============================================================================
   # The following code is executed when someone includes blacklight::catalog in
   # their own controller.
-  # ----------------------------------------------------------------------------
   if   ENV['SAML_IDP_TARGET_URL']
       prepend_before_action :set_return_path
   end
