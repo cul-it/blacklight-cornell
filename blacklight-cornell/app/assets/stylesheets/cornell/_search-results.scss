@@ -179,13 +179,9 @@ body.book_bags-index #documents .document {
   .constraints-container {
     display: block;
   }
-}
 
-.filter-values {
-	text-decoration: underline;
-}
-.constraint:hover .filter-values {
-	text-decoration: none;
+
+
 }
 
 td.query {
@@ -195,18 +191,39 @@ td.query {
 td.query::before {
 	content: "•";
 	font-size: 1em;
+	padding-top: 6px;
 }
-.field-label {
+
+.query-text {
+	font-weight: bold;
+}
+
+.label-text {
 	text-transform: uppercase;
 }
 
-.constraint:hover .field-label{
+.label-text::after {
+	content: ":";
+	font-size: 1em;
+}
+
+.combined-label-query {
+	margin: 2px 0 2px 0;
+}
+
+.constraint:hover .label-text{
 	text-decoration: none;
 }
 
-.field-label::after {
-	content: ":";
-	font-size: 1em;
+.constraint:hover .combined-label-query {
+	text-decoration: none;
+}
+
+.constraint:hover .btn.btn-light{
+	text-decoration: none;
+	color: #212529;
+	background-color: #e2e6ea;
+	border-color: #dae0e5;
 }
 
 // Did you mean
