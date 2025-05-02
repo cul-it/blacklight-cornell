@@ -98,7 +98,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
 
       # Build solr q param for simple and bento search
-      solr_parameters[:q] = build_simple_search_query(blacklight_params, blacklight_params[:bento])
+      solr_parameters[:q] = build_simple_search_query(blacklight_params)
     end
   end
 
@@ -153,18 +153,13 @@ class SearchBuilder < Blacklight::SearchBuilder
     params.merge(cleaned_params)
   end
 
-  def build_simple_search_query(params, bento=false)
+  def build_simple_search_query(params)
     return '' if params[:q].blank? || !params[:q].is_a?(String)
 
     query = clean_q(params[:q])
 
-    # Ideally, bento and simple search would use the same logic: https://culibrary.atlassian.net/browse/DACCESS-519
-    if bento && query =~ /AND|OR|NOT/
-      query
-    else
-      search_field = params[:search_field]
-      set_q_with_search_fields(query: query, search_field: search_field)
-    end
+    search_field = params[:search_field]
+    set_q_with_search_fields(query: query, search_field: search_field)
   end
 
   def build_advanced_search_query(params)
