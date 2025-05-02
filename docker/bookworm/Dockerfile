@@ -14,7 +14,17 @@ FROM ruby:${RUBY_VERSION}-slim-bookworm AS ruby_base
 
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
-    default-libmysqlclient-dev=1.1.0 cron && \
+    default-libmysqlclient-dev=1.1.0 cron \
+    # CVE-2024-5535
+    openssl=3.0.15-1~deb12u1 \
+    # CVE-2024-37371
+    libkrb5-3=1.20.1-2+deb12u2 \
+    # CVE-2024-33599
+    libc6=2.36-9+deb12u10 \
+    # CVE-2024-0567
+    libgnutls30=3.7.9-2+deb12u4 \
+    # CVE-2023-50387
+    libsystemd0=252.36-1~deb12u1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man && \
     # CVE-2023-36617⁠
@@ -117,7 +127,7 @@ RUN bundle exec rake assets:precompile && rm .env
 FROM ruby_base AS test
 ARG GIT_COMMIT
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 # It was reported that features/catalog_search/advanced_search.feature fails
 #   with libfontconfig.so.1 missing.
 #   Does prod code use this library or is it OK to only put it in test image?
@@ -159,12 +169,10 @@ ENV RAILS_ENV=${RAILS_ENV} \
     AWS_DEFAULT_REGION=us-east-1 \
     BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell
-COPY ./cron/crontab.txt /etc/cron.d/yaml_alert_cron
 RUN groupadd -r ${GROUP} && useradd -r -g ${GROUP} ${USER} && \
     mkdir -p /home/crunner/.aws && \
     chown ${USER}:${GROUP} /home/crunner/.aws && \
-    crontab -u ${USER} /etc/cron.d/yaml_alert_cron && \
-    chmod u+s /usr/sbin/cron && \
+    chmod gu+rw /var/run && chmod gu+s /usr/sbin/cron && \
     touch /var/log/cron.log
 
 # Copy application code from builder

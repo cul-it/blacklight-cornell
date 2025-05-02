@@ -16,6 +16,7 @@ module BlacklightCornell::VirtualBrowse extend Blacklight::Catalog
                                      rows: rows,
                                      fq: location,
                                      browse_type: 'Call-Number')
+    @browse_locations = call_number_locations
     solr_response_full['response']['docs'].map do |doc|
       get_document_details(doc)
     end

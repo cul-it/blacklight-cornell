@@ -24,6 +24,7 @@ bundle exec rake db:migrate
 
 if [ "${RUN_CRON}" != "false" ]
   then
+    bundle exec whenever --update-crontab
     service cron start
 fi
 

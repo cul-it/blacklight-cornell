@@ -2,6 +2,13 @@ require 'rails_helper'
 
 describe BrowseController do
   describe 'GET #index' do
+    let(:callnum_locations) {
+      ['All', 'Online', 'Adelson Library','Africana Library', 'Bailey Hortorium', 'CISER Data Archive',
+      'Fine Arts Library', 'ILR Library', 'Kroch Library Asia', 'Kroch Library Rare & Manuscripts', 'Law Library',
+      'Library Annex', 'Mann Library', 'Mathematics Library', 'Music Library', 'Olin Library',
+      'Space Sciences Building', 'Uris Library', 'Veterinary Library']
+    }
+
     context 'authq is Author' do
       it 'renders index and assigns @headingsResponse' do
         get :index, params: { authq: 'English Chamber Orchestra', browse_type: 'Author' }
@@ -43,20 +50,22 @@ describe BrowseController do
     end
 
     context 'authq is Call-Number' do
-      it 'renders index and assigns @headingsResponse' do
+      it 'renders index and assigns @headingsResponse and @browse_locations' do
         get :index, params: { authq: 'QA1 .I31', fq: 'location:"Library Annex"', browse_type: 'Call-Number' }
         expect(response).to render_template(:index)
         expect(assigns(:headingsResponse)['response']['docs'][0]['callnum_display']).to eq('QA1 .I31')
+        expect(assigns(:browse_locations)).to eq(callnum_locations)
       end
     end
 
     context 'authq is virtual' do
-      it 'renders index and assigns @headingsResponse' do
+      it 'renders index and assigns @headingsResponse and @browse_locations' do
         get :index, params: { authq: 'QA1 .I31', browse_type: 'virtual' }
         expect(response).to render_template(:index)
         headingsResponse = assigns(:headingsResponse)
         center_item_index = headingsResponse.count / 2
         expect(headingsResponse[center_item_index]['callnumber']).to eq('QA1 .I31')
+        expect(assigns(:browse_locations)).to eq(callnum_locations)
       end
     end
 
