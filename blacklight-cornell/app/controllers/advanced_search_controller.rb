@@ -83,6 +83,6 @@ class AdvancedSearchController < ApplicationController
   end
 
   def advanced_facet_fields
-    blacklight_config.facet_fields.select { |_k, config| config.include_in_advanced_search }
+    @advanced_facet_fields ||= blacklight_config.facet_fields.select { |_k, config| config.include_in_advanced_search }
   end
 end
