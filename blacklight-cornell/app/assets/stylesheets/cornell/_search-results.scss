@@ -165,65 +165,74 @@ body.book_bags-index #documents .document {
 
 // Search history
 // ------------------------------------------
+// Search history
+// ------------------------------------------
 .search-history {
-	a:hover { text-decoration: none;}
+	a:hover {
+		text-decoration: none;
+	}
+
+	.label {
+		display: inline;
+		color: white;
+		margin: 0 0.5em;
+	}
+
+	.constraints-container {
+		display: block;
+	}
+
+	td.query {
+		display: flex;
+
+		&::before {
+			content: "•";
+			font-size: 1em;
+			padding-top: 6px;
+		}
+	}
+
 	.filter-name {
 		margin-right: 0.25em;
 		color: #6B6B6B; // DACCESS-488 - accessibility color contrast
 	}
-	.label {
-		display: inline;
-		color: white;
-		margin: 0 .5em; }
 
-  .constraints-container {
-    display: block;
-  }
+	.query-text {
+		font-weight: bold;
+	}
 
+	.label-text {
+		text-transform: uppercase;
 
+		&::after {
+			content: ":";
+			font-size: 1em;
+		}
+	}
 
-}
+	.combined-label-query {
+		margin: 2px 0;
+	}
 
-td.query {
-	display: flex;
-}
+	.btn.btn-light {
+		color: #3783b4;
+		font-size: 1rem;
+	}
 
-td.query::before {
-	content: "•";
-	font-size: 1em;
-	padding-top: 6px;
-}
+	.constraint:hover {
+		.label-text,
+		.combined-label-query {
+			text-decoration: none;
+		}
 
-.query-text {
-	font-weight: bold;
-}
-
-.label-text {
-	text-transform: uppercase;
-}
-
-.label-text::after {
-	content: ":";
-	font-size: 1em;
-}
-
-.combined-label-query {
-	margin: 2px 0 2px 0;
-}
-
-.constraint:hover .label-text{
-	text-decoration: none;
-}
-
-.constraint:hover .combined-label-query {
-	text-decoration: none;
-}
-
-.constraint:hover .btn.btn-light{
-	text-decoration: none;
-	color: #212529;
-	background-color: #e2e6ea;
-	border-color: #dae0e5;
+		.btn.btn-light {
+			text-decoration: none;
+			color: #3c4349;
+			//color: #212529;
+			background-color: #e2e6ea;
+			border-color: #dae0e5;
+		}
+	}
 }
 
 // Did you mean
