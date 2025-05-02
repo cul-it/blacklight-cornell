@@ -1287,6 +1287,7 @@ end
     end
     ## Sends 'correct' q param to link_link_to_previous_search
     params[:q] = showText
+
     # Uses newer version of #link_to_previous_search from blacklight to include f_inclusive filters
     showText = link_to_previous_search_override(params)
 
