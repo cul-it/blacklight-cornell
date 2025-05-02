@@ -98,7 +98,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       end
 
       # Build solr q param for simple and bento search
-      solr_parameters[:q] = build_simple_search_query(blacklight_params, bento: blacklight_params[:bento])
+      solr_parameters[:q] = build_simple_search_query(blacklight_params, blacklight_params[:bento])
     end
   end
 
