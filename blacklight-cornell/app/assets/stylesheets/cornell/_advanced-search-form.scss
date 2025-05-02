@@ -20,6 +20,13 @@ form.advanced {
       margin-bottom: .25rem;
     }
   }
+
+  .adv-range {
+    .form-control {
+      display: inline-block;
+      width: 100px;
+    }
+  }
 }
 
 // TODO: if possible (BL8 upgrade?) remove this global style and add more specificity to individual form controls; removing this now affects other parts of the app (12/3/24, mhk33)

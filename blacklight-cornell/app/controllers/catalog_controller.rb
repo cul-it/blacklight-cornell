@@ -190,17 +190,33 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'availability_facet', :label => 'Availability Status', :limit => 30, :collapse => false
     #end
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
-    config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
+    config.add_facet_field 'format',
+                           label: 'Format',
+                           limit: 10,
+                           collapse: false,
+                           include_in_advanced_search: true,
+                           advanced_search_order: 1
     config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
-    config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
-      :num_segments => 6,
-      :assumed_boundaries => [1300, Time.now.year + 1],
-      :segments => true,
-      :include_in_advanced_search => false
-    }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters?
+    config.add_facet_field 'pub_date_facet',
+                           label: 'Publication Year',
+                           range: {
+                             num_segments: 6,
+                             assumed_boundaries: [0, Time.now.year + 1],
+                             segments: true,
+                           },
+                           show: true,
+                           include_in_advanced_search: true,
+                           if: :has_search_parameters?,
+                           advanced_search_component: AdvancedRangeLimitComponent,
+                           advanced_search_order: 0
 
     config.add_facet_field 'workid_facet', :label => 'Work', :show => false
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true, :include_in_advanced_search => true
+    config.add_facet_field 'language_facet',
+                           label: 'Language',
+                           limit: 5,
+                           show: true,
+                           include_in_advanced_search: true,
+                           advanced_search_order: 2
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?

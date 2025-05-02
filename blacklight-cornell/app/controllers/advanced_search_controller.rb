@@ -5,7 +5,9 @@ class AdvancedSearchController < ApplicationController
   delegate :blacklight_config, to: :default_catalog_controller
 
   before_action :set_facets, only: [:edit, :index]
-  after_action :update_facets, only: [:edit, :index]
+  after_action :reset_facets, only: [:edit, :index]
+
+  rescue_from RSolr::Error::Http, :with => :handle_request_error
 
   if ENV["SAML_IDP_TARGET_URL"]
     prepend_before_action :set_return_path
@@ -61,25 +63,23 @@ class AdvancedSearchController < ApplicationController
   private
 
   def set_facets
-    @old_advanced_facet_fields = advanced_facet_fields.deep_dup
-    advanced_facet_fields.each do |_k, config|
-      config.limit = -1
-      # Sort by most common instead of alphabetical:
-      # config.sort = 'count'
-    end
+    # Override facet field limits in blacklight_config to display all facet values
+    @default_facet_fields = advanced_facet_fields.deep_dup
+    advanced_facet_fields.each { |_k, config| config.limit = -1 }
 
+    # Get facet values from solr
     (@response, _deprecated_document_list) = blacklight_advanced_search_form_search_service.search_results
 
-    @facets = advanced_facet_fields.each_with_object({}) do |(k, config), h|
-      h[k] = { field_config: config, display_facet: @response.aggregations[k] }
+    # Order the facets by advanced_search_order for display, overrides add_facet_field order in blacklight_config
+    ordered_advanced_facet_fields = advanced_facet_fields.sort_by { |_k, config| config.advanced_search_order }.to_h
+    @facets = ordered_advanced_facet_fields.each_with_object({}) do |(k, config), h|
+      h[config.field] = { field_config: config, display_facet: @response.aggregations[config.field] }
     end
   end
 
-  # Extremely sad hack to reset the default facet limit for search results - need to revisit as part of DACCESS-289
-  def update_facets
-    advanced_facet_fields.each do |k, config|
-      config.limit = @old_advanced_facet_fields[k].limit
-    end
+  # Resets the default facet limit for blacklight_config facet fields
+  def reset_facets
+    advanced_facet_fields.each { |k, config| config.limit = @default_facet_fields[k].limit }
   end
 
   def advanced_facet_fields

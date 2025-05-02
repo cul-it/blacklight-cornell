@@ -538,8 +538,10 @@ private
   end
 
   def check_dates(params)
-    # check for Publication Year 'Unknown' - handled ok
-    if params[:range][:pub_date_facet][:missing].present?
+    pub_date_facet = params[:range][:pub_date_facet]
+    unknown_pub_date_facet = params[:range]['-pub_date_facet']
+    # check for missing or unknown Publication Year
+    if unknown_pub_date_facet.present? || pub_date_facet[:missing].present? || (pub_date_facet[:begin].blank? && pub_date_facet[:end].blank?)
       return
     end
     # crashes later on if begin > end so raise exception here
