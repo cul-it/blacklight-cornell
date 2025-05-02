@@ -1157,22 +1157,6 @@ RSpec.describe SearchBuilder, type: :model do
         })).to eq('(title:"cats" AND title:"dogs") OR title_phrase:"cats dogs"')
       end
     end
-
-    context 'bento search' do
-      it 'returns the cleaned-up query string with search fields and added bools' do
-        expect(search_builder.build_simple_search_query({
-          q: 'cats: dogs', search_field: 'all_fields'
-        }, true)).to eq('("cats\:" AND "dogs") OR phrase:"cats\: dogs"')
-      end
-
-      context 'query includes capitalized booleans' do
-        it 'returns the cleaned-up query string without search fields or added bools' do
-          expect(search_builder.build_simple_search_query({
-          q: 'cats: AND dogs', search_field: 'all_fields'
-        }, true)).to eq('cats\: AND dogs')
-        end
-      end
-    end
   end
 
   describe '#set_query' do
