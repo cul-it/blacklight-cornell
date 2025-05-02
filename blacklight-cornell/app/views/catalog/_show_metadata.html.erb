@@ -44,15 +44,15 @@
 	    <div class="card-block">
 			<%# Determine if the request should be made through the catalog or the Aspace PUI %>
 			<%# Search for the Aspace PUI resources ID in the MARC 035 field %>
+			<% url = ENV['AEON_PUI_REQUEST'] %>
 			<% if @document['marc_display']
 				item_field_035_values = @document['marc_display'].scan(/<datafield tag="035".*?>.*?<subfield code="a">(.*?)<\/subfield>/m).flatten
 				itemid = item_field_035_values.find { |value| value.include?('CULAspaceURI') }&.match(/\(CULAspaceURI\)(.+)/)&.captures&.first
 			   end %> 
-			<% if itemid.presence 
+			<% if itemid.presence && url.present?
 				# Item is in Aspace so render finding aids to direct to the PUI
 				# PUI repositories: Kheel = 4, RMC = 2
 				repoid = @document["location"].any? { |val| val.downcase.include?('kheel') } ? "4" : "2"
-				url = ENV['AEON_PUI_REQUEST']
 				aeon_req = url.gsub('~repoid~', repoid).gsub('~itemid~', itemid.to_s)
 				url_findingaid_displays = render_display_link :value => [aeon_req], :field => 'url_findingaid_display', :format => 'default' 
 				%>

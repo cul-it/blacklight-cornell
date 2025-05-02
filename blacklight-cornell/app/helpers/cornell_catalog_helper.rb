@@ -1424,7 +1424,7 @@ end
 	return false unless document['marc_display']
 	item_field_035_values = document['marc_display'].scan(/<datafield tag="035".*?>.*?<subfield code="a">(.*?)<\/subfield>/m).flatten
 	itemid = item_field_035_values.find { |value| value.include?('CULAspaceURI') }&.match(/\(CULAspaceURI\)(.+)/)&.captures&.first
-	itemid.present?
+	itemid.present? && ENV['AEON_PUI_REQUEST'].present?
   end
 
   # Generates the target url
