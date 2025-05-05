@@ -169,7 +169,7 @@ body.book_bags-index #documents .document {
 	a:hover { text-decoration: none;}
 	.filter-name {
 		margin-right: 0.25em;
-		color: #6B6B6B; // DACCESS-488 - accessibility color contrast
+		color: #6B6B6B !important; // DACCESS-488 - accessibility color contrast
 	}
 	.label {
 		display: inline;
