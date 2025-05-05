@@ -2,6 +2,6 @@
   <%= render :partial => 'expand_search' %>
 <% end %>
 
-<% if params[:q_row].present? %>
+<% if advanced_search? %>
   <%= render :partial => 'expand_advanced_search' %>
 <% end %>
