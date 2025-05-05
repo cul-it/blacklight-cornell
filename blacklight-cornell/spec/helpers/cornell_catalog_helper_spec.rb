@@ -35,12 +35,29 @@ RSpec.describe CornellCatalogHelper, type: :helper do
       }
     end
 
-    it 'returns true if the document contains a CULAspaceURI item ID' do
-      expect(helper.aspace_pui_id?(document_with_aspace)).to be true
+    context 'when the environment var AEON_PUI_REQUEST is present' do
+        before do
+          allow(ENV).to receive(:[]).with('AEON_PUI_REQUEST').and_return('http://example.com')
+        end
+        
+        it 'returns true if the document contains a CULAspaceURI item ID' do
+          expect(helper.aspace_pui_id?(document_with_aspace)).to be true
+        end
+    
+        it 'returns false if the document does not contain a CULAspaceURI item ID' do
+          expect(helper.aspace_pui_id?(document_without_aspace)).to be false
+        end
     end
 
-    it 'returns false if the document does not contain a CULAspaceURI item ID' do
-      expect(helper.aspace_pui_id?(document_without_aspace)).to be false
+    context 'when the environment var AEON_PUI_REQUEST is NOT present' do
+        before do
+          allow(ENV).to receive(:[]).with('AEON_PUI_REQUEST').and_return(nil)
+        end
+        
+        it 'returns false regardless of the marc 035 field value' do
+          expect(helper.aspace_pui_id?(document_with_aspace)).to be false
+          expect(helper.aspace_pui_id?(document_without_aspace)).to be false
+        end
     end
 
     it 'returns false if the document does not have a marc_display field' do
