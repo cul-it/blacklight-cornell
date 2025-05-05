@@ -1,6 +1,7 @@
 <div class='card card-body card-well'>
   <%= form_with url: search_catalog_path, class: 'advanced', method: :get do |form| %>
     <div class='query_zone'>
+      <h3>Enter search terms</h3>
       <%# Display at least 2 search rows %>
       <% [form_row_values.count, 2].max().times do |i| %>
         <% form_values_for_row = form_row_values[i] || {} %>
@@ -12,11 +13,14 @@
       <div class='add-row'>
         <a href='#' id='add-row'><i class='fa fa-plus-circle'></i> Add a row</a>
       </div>
-      <% if params['action'] == 'edit' %>
+      <h3>Limit your results</h3>
+      <% if params[:f].present? %>
         <div class='advanced-facets'>
           <%= render_edit_advanced_constraints_filters(params) %>
       	</div>
       <% end %>
+      <%= render 'facets', form: form %>
+      <h3>Sort results</h3>
       <div class='form-group'>
         <%= form.label :sort, t('blacklight.search.form.sort'), class: 'sort-results' %>
         <%= form.select :sort, advanced_search_sort_opts, {}, { class: 'form-control adv-search-control' } %>
@@ -38,4 +42,3 @@
 </div>
 
 <%= render 'search_tips' %>
-<%= render 'survey' %>

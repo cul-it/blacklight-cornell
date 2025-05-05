@@ -111,7 +111,6 @@ BlacklightCornell::Application.routes.draw do
 
   get "/databases/erm_update" => "databases#erm_update", :as => "erm_update"
   get "/search", :to => "search#index", :as => "search_index"
-  match "search/:engine", :to => "search#single_search", :as => "single_search", via: [:get]
   get "/digitalcollections" => "digitalcollections#index", :as => "digitalcollections_index"
   get "/digitalcollections/searchdigreg/" => "digitalcollections#searchdigreg", :as => "digitalcollections_searchdigreg"
 

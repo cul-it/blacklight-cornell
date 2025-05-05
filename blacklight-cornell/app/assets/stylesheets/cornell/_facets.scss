@@ -41,6 +41,13 @@
 	font-size: 1.25rem;
 }
 
+// DACCESS-290; label for multiple language values
+#facet-language_facet {
+	h4 {
+		font-size: 1rem;
+	}
+}
+
 .sidenav {
 	.navbar-toggler {
 		margin-bottom: 1rem;

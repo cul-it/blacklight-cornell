@@ -42,13 +42,15 @@ port="9292:9292"
 rails_env="production"
 rails_env_file=""
 run_cmd="up"
-# run_cron="false"
+run_cron="false"
 # while getopts "cdhipt:a:r:" options; do
-while getopts "dhitp:a:m:r:" options; do
+while getopts "cdhitp:a:e:m:r:" options; do
   case "${options}" in
     a) aws_creds=$(resolve_relative_path "${OPTARG}") ;; # -a aws_creds
+    c) run_cron="true" ;;
     d) rails_env="development"
        development="-f docker-compose-development.yaml" ;;
+    e) rails_env="${OPTARG}" ;; # -e rails_env
     h) usage
        exit 0 ;;
     i) run_cmd="run --entrypoint=bash webapp" ;;
@@ -98,10 +100,10 @@ fi
 export IMAGE_NAME=${image_name}
 export RAILS_ENV=${rails_env}
 export RAILS_ENV_FILE=${rails_env_file}
-# if [ "${run_cron}" == "true" ]
-#   then
-#     export RUN_CRON="true"
-# fi
+if [ "${run_cron}" == "true" ]
+  then
+    export RUN_CRON="true"
+fi
 
 # img_id=$(git rev-parse head)
 # echo "Running ${target}:${img_id} ${feature}"
@@ -117,4 +119,4 @@ unset AWS_CREDENTIALS
 unset IMAGE_NAME
 unset RAILS_ENV
 unset RAILS_ENV_FILE
-# unset RUN_CRON
+unset RUN_CRON

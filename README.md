@@ -90,3 +90,22 @@ Testing has been updated to allow for parallel testing with cucumber tests.
 * Update constant `NUM_PROCESSES=1` in  `jenkins/cucumber-features.sh` to the number of processes you want to run in parallel.
 * Currently, Jenkins has a maximum of 4 processes.
 * Set to `NUM_PROCESSES=$(nproc --all)` to use all available processors.
+
+## Colorful Log Methods
+* To enable the ConsoleColors module and to use it's methods, set `CONSOLE_COLORS_ENABLED=true` in `dev.env`
+  module located at: `blacklight-cornell/lib/console_colors.rb`
+* [ConsoleColors documentation with examples](https://confluence.cornell.edu/display/~jpd294/ConsoleColors+Module+Documentation)
+
+#### Methods:
+* #debug
+    * Render colorful, easy to read variable data in log.
+* #print_colored_line
+    * Prints line separator in log.
+* #print_header
+    * Print a main header message.
+* #print_colored_message
+    * Print colorful text.
+* #print_colored_announcement
+    * Print colorful text with line separators.
+* #print_row
+    * Used to print data in a table format.
