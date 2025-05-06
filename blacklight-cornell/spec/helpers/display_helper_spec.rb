@@ -89,7 +89,7 @@ RSpec.describe DisplayHelper, type: :helper do
         allow(helper).to receive(:search_field_def_for_key).and_return(all_fields_config)
         allow(helper).to receive(:default_search_field).and_return(all_fields_config)
         allow(helper).to receive(:search_action_path) { |*args| search_catalog_url *args }
-        allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
+        allow(controller).to receive(:search_state_class).and_return(BlacklightCornell::SearchState)
         allow(helper).to receive(:search_state).and_return(CatalogController.search_state_class.new(params, blacklight_config, helper))
       end
     end
