@@ -4,7 +4,7 @@ module Blacklight
     class SearchService
       def initialize(config:, search_state: nil, user_params: nil, search_builder_class: config.search_builder_class, **context)
         @blacklight_config = config
-        @search_state = search_state || Blacklight::SearchState.new(user_params || {}, config)
+        @search_state = search_state || BlacklightCornell::SearchState.new(user_params || {}, config)
         @user_params = @search_state.params
         @search_builder_class = search_builder_class
         @context = context
@@ -75,7 +75,7 @@ module Blacklight
       # @return [Blacklight::Solr::Response, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
       def previous_and_next_documents_for_search(index, request_params, extra_controller_params = {})
         p = previous_and_next_document_params(index)
-        new_state = request_params.is_a?(Blacklight::SearchState) ? request_params : Blacklight::SearchState.new(request_params, blacklight_config)
+        new_state = request_params.is_a?(BlacklightCornell::SearchState) ? request_params : BlacklightCornell::SearchState.new(request_params, blacklight_config)
         query = search_builder.with(new_state).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
         response = repository.search(query)
         document_list = response.documents

@@ -1,5 +1,11 @@
-<% @facets.each do |_k, facet| %>
-  <% presenter = Blacklight::FacetFieldPresenter.new(facet[:field_config], facet[:display_facet], self) %>
-  <%# TODO: render Blacklight::FacetFieldCheckboxesComponent after upgrading to blacklight >= v8.4.0 %>
-  <%= render AdvancedFacetFieldCheckboxesComponent.new(facet_field: presenter) %>
-<% end %>
+<div id="advanced_search_facets" class="limit_input">
+  <div class="advanced-facet-limits panel-group">
+    <% @facets.each do |_k, facet| %>
+      <%# TODO: after upgrading to blacklight >= 8.0, should be able to use: facet[:field_config].presenter || AdvancedFacetFieldPresenter %>
+      <% presenter_class = facet[:field_config][:range].present? ? facet[:field_config].presenter : AdvancedFacetFieldPresenter %>
+      <% presenter = presenter_class.new(facet[:field_config], facet[:display_facet], self) %>
+      <%# TODO: render Blacklight::FacetFieldCheckboxesComponent after upgrading to blacklight >= v8.4.0 %>
+      <%= render (facet[:field_config].advanced_search_component || AdvancedFacetFieldCheckboxesComponent).new(facet_field: presenter) %>
+    <% end %>
+  </div>
+</div>

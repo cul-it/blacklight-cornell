@@ -121,7 +121,7 @@ describe BrowseHelper do
     before do
       without_partial_double_verification do
         allow(helper).to receive(:blacklight_config) { blacklight_config }
-        allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
+        allow(controller).to receive(:search_state_class).and_return(BlacklightCornell::SearchState)
         allow(helper).to receive(:search_state).and_return(CatalogController.search_state_class.new(params, blacklight_config, helper))
         allow(helper).to receive(:search_action_path) { |*args| search_catalog_url *args }
       end

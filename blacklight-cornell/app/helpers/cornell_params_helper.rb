@@ -365,17 +365,6 @@ def make_show_query(params)
   params[:show_query] = showquery
 end
 
- ##
-  # Check if the query has any constraints defined (a query, facet, etc)
-  #
-  # @param [Hash] query parameters
-  # @return [Boolean]
-  def query_has_constraints?(localized_params = params)
-    #y = !(localized_params[:q].blank? and localized_params[:f].blank?)
-    y = !(localized_params[:q].blank? and localized_params[:f].blank? and localized_params[:click_to_search].blank?) || (!localized_params[:search_field].blank? and (localized_params[:search_field] != 'all_fields'))
-    y
-  end
-
   def qtoken(q_string)
     qnum = q_string.count('"')
     if qnum % 2 == 1
