@@ -9,7 +9,11 @@ module CornellCatalogHelper
 
   # Determine if user query can be expanded to WCL & Summon
   def expandable_search?
-    params[:q].present? and !params[:advanced_search] and !params[:click_to_search]
+    params[:q].present? && !advanced_search? && !params[:click_to_search]
+  end
+
+  def advanced_search?
+    params[:q_row].present? || params[:f_inclusive].present?
   end
 
   def process_online_title(title)
