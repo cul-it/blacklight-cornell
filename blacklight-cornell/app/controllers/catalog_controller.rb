@@ -199,10 +199,10 @@ class CatalogController < ApplicationController
     config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'pub_date_facet',
                            label: 'Publication Year',
-                           range: {
+                           range: true,
+                           range_config: {
                              num_segments: 6,
-                             assumed_boundaries: [0, Time.now.year + 1],
-                             segments: true,
+                             segments: true
                            },
                            show: true,
                            include_in_advanced_search: true,
