@@ -72,17 +72,31 @@ document.addEventListener("DOMContentLoaded", function () {
             const searchFieldRow = document.querySelectorAll("[name='search_field_row[]']");
             const booleanRow = document.querySelectorAll("[name='boolean_row[]']");
             const facetFields = document.querySelectorAll("[name^='f[']");
+            const rangeFacetFields = document.querySelectorAll("[name^='range['][type='number']");
 
             opRow.forEach((field, index) => params.append(`op_row[${index}]`, field.value));
             searchFieldRow.forEach((field, index) => params.append(`search_field_row[${index}]`, field.value));
             booleanRow.forEach((field, index) => params.append(`boolean_row[${index}]`, field.value));
 
-            // Handle facets, including f[format]
+            // Handle facets, including f[format] and range[pub_date_facet]
             const uniqueFacets = new Set();
             facetFields.forEach((field) => {
                 const match = field.name.match(/^f\[(.+)\]$/); // Match f[key] format
                 if (match && match[1]) {
                     const key = `f[${match[1]}]`;
+                    const value = field.value;
+                    const facetEntry = `${key}=${value}`;
+
+                    if (!uniqueFacets.has(facetEntry)) {
+                        uniqueFacets.add(facetEntry);
+                        params.append(key, value);
+                    }
+                }
+            });
+            rangeFacetFields.forEach((field) => {
+                const match = field.name.match(/^range\[([^\]]+)\]\[(begin|end)\]$/);
+                if (match && match[1] && match[2]) {
+                    const key = `range[${match[1]}][${match[2]}]`;
                     const value = field.value;
                     const facetEntry = `${key}=${value}`;
 
