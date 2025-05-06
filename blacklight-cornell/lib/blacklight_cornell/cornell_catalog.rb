@@ -15,7 +15,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   #  include ActsAsTinyURL
   Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
-
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath

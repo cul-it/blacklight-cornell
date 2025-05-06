@@ -1,8 +1,8 @@
 <%params[:y] = params[:q] %>
 <% params[:q] = params[:show_query] if  params[:show_query]%>
-<% if params[:action] != 'edit' && query_has_constraints? || params[:range].present? %>
+<% if params[:controller] != 'advanced_search' && query_has_constraints? %>
   <div class="selected-facets">
-    <% if advanced_search? && params[:action] != 'edit'%>
+    <% if advanced_search? && params[:controller] != 'advanced_search' %>
       <div class="modify-search-link">
         <%= link_to 'Modify advanced search »', url_for(:controller=>"advanced_search", :action=>"edit", :q_row=>params[:q_row], :op_row=>params[:op_row], :search_field_row=>params[:search_field_row], :boolean_row=>params[:boolean_row], :f=>params[:f], :f_inclusive=>params[:f_inclusive], :range=>params[:range]), :class=>"btn btn-search" %>
       </div>

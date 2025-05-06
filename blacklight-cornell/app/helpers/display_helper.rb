@@ -1113,33 +1113,15 @@ end
       when 1
         search_state.params_for_search(args.first)
       when 2
-        Blacklight::SearchState.new(args.first, blacklight_config).params_for_search(args.last)
+        controller.search_state_class.new(args.first, blacklight_config).params_for_search(args.last)
       else
         raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
       end
     end
 
-    def cornell_sanitize_search_params(source_params)
-      Blacklight::Parameters.sanitize(source_params)
-    end
-    deprecation_deprecate :sanitize_search_params
-
-    def cornell_reset_search_params(source_params)
-      Blacklight::SearchState.new(source_params, blacklight_config).send(:reset_search_params)
-    end
-
-    def cornell_add_facet_params(field, item, source_params = nil)
-      if source_params
-
-        Blacklight::SearchState.new(source_params, blacklight_config).add_facet_params(field, item)
-      else
-        search_state.add_facet_params(field, item)
-      end
-    end
-
     def cornell_remove_facet_params(field, item, source_params = nil)
       if source_params
-        Blacklight::SearchState.new(source_params, blacklight_config).remove_facet_params(field, item)
+        controller.search_state_class.new(source_params, blacklight_config).remove_facet_params(field, item)
       else
         search_state.remove_facet_params(field, item)
       end
