@@ -1137,6 +1137,11 @@ RSpec.describe SearchBuilder, type: :model do
       it 'returns empty string if q is missing' do
         expect(search_builder.build_simple_search_query({ })).to eq('')
       end
+
+      it 'returns empty string if q is not a String' do
+        expect(search_builder.build_simple_search_query({ q: ['falala'] })).to eq('')
+        expect(search_builder.build_simple_search_query({ q: { thing1: 'chaos', thing2: 'destruction' } })).to eq('')
+      end
     end
 
     context 'q only has characters that will be stripped' do
@@ -2223,6 +2228,42 @@ RSpec.describe SearchBuilder, type: :model do
         solr_params = {}
         search_builder.set_fq(solr_params)
         expect(solr_params[:fq]).to eq(['{!term f=subject_topic_lc_facet}Block-books, Tibetan'])
+      end
+    end
+  end
+
+  describe '#group_bento_results' do
+    let(:solr_params) { {
+      q: '(("cats" AND "dogs") OR phrase:"cats dogs")',
+      fl: '*',
+      facet: true,
+      stats: true
+    } }
+
+    before do
+      allow(search_builder).to receive(:blacklight_params) { blacklight_params }
+    end
+
+    context 'bento param provided' do
+      let(:blacklight_params) { { bento: true } }
+
+      it 'sets result grouping solr params' do
+        old_solr_params = solr_params.dup
+        search_builder.group_bento_results(solr_params)
+        expect(solr_params[:group]).to eq(true)
+        expect(solr_params[:facet]).to eq(false)
+        expect(solr_params[:fl]).to include('fulltitle_display')
+        expect(solr_params[:q]).to eq(old_solr_params[:q])
+      end
+    end
+
+    context 'bento param not provided' do
+      let(:blacklight_params) { {} }
+
+      it 'does not alter solr params' do
+        old_solr_params = solr_params.dup
+        search_builder.group_bento_results(solr_params)
+        expect(old_solr_params).to eq(solr_params)
       end
     end
   end

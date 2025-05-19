@@ -495,9 +495,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
-    Then it should have link "Title: beef" with value 'catalog?&q_row[]=100%25&boolean_row[1]=AND&op_row[]=AND&search_field_row[]=title&search_field=advanced&action=index&commit=Search'
-    #Then it should have link "Title: beef" with value 'catalog?&q=100%25&search_field=title&action=index&commit=Search'
-    #Then it should have link "Title: beef" with value 'catalog?&amp;q=100%&amp;search_field=title&amp;action=index&amp;commit=Search'
+    Then it should have link "Title: beef" with value '/catalog?action=index&advanced_query=yes&commit=Search&controller=catalog&op_row%5B%5D=AND&q=title+%3D+100%25&q_row%5B%5D=100%25&search_field=advanced&search_field_row%5B%5D=title&show_query=title+%3D+100%25&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&utf8=%E2%9C%93'
     Then I remove facet constraint "beef"
 
 
@@ -758,3 +756,13 @@ Scenario: Empty searches produce empty solr queries in advanced and simple searc
     And I fill in "q_row0" with ''
     And I press 'advanced_search'
     Then the solr query should be ''
+
+@javascript
+Scenario: I can filter advanced searches by multiple languages
+  When I literally go to advanced
+  And I fill in "q_row0" with 'Canada'
+  And I press 'Language'
+  And I should select checkbox "f_inclusive_language_facet_6"
+  And I should select checkbox "f_inclusive_language_facet_7"
+  And I press 'advanced_search'
+  Then I should get 4 results

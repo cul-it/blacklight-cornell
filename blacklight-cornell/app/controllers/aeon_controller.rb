@@ -23,12 +23,13 @@ class AeonController < ApplicationController
   end
 
   def set_variables
-    @finding_aid = params[:finding] || ''
+    # @finding_aid = params[:finding] || ''
     @bibid = params[:id]
     _, @document = search_service.fetch(params[:id])
     @title = @document['fulltitle_display']
     @author = @document['author_display']
     @re506 = @document['restrictions_display']&.first&.delete_suffix("'") || ''
+    @finding_aids = @document['url_findingaid_display']
     @disclaimer = 'Once your order is reviewed by our staff you will then be sent an invoice. ' \
     'Your invoice will include information on how to pay for your order. You must pre-pay; ' \
     'staff cannot fulfill your request until you pay the charges.'

@@ -167,11 +167,18 @@ body.book_bags-index #documents .document {
 // ------------------------------------------
 .search-history {
 	a:hover { text-decoration: none;}
-	.filter-name { margin-right: 0.25em;}
+	.filter-name {
+		margin-right: 0.25em;
+		color: #6B6B6B !important; // DACCESS-488 - accessibility color contrast
+	}
 	.label {
 		display: inline;
 		color: white;
 		margin: 0 .5em; }
+
+  .constraints-container {
+    display: block;
+  }
 }
 
 // Did you mean

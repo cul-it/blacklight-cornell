@@ -1,3 +1,0 @@
-PATH=/usr/local/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
-* * * * * /blacklight-cornell/yaml_alerts/cron.sh > /proc/1/fd/1 2>/proc/1/fd/2
