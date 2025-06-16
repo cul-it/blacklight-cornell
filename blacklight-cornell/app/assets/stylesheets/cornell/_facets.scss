@@ -186,6 +186,13 @@
 		font-weight: 700;
 	}
 }
+
+// Add a little space under each constraint for when they wrap onto multiple lines
+.selected-facets {
+	.btn {
+		margin-bottom: 5px;
+	}
+}
 .selected-facet {
 	padding: 0 10px;
 	background: $cornell-blue;
@@ -205,7 +212,9 @@
 }
 
 .modify-search-link {
-	float: right;
+	@include media-breakpoint-up(md) {
+		float: right;
+	}
 }
 
 // MEDIA QUERIES
