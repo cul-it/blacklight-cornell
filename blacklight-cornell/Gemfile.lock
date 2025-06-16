@@ -48,10 +48,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 81a6040fff2fe0e2e534cd32deb68a7fa0e926be
-  tag: v2.3.4
+  revision: 0095db433eb684a632eba0933025273e34fdbe5a
+  tag: v2.3.5
   specs:
-    my_account (2.3.4)
+    my_account (2.3.5)
       blacklight (>= 7.0)
       cul-folio-edge (~> 3.2)
       rails (~> 6.1)
@@ -266,6 +266,7 @@ GEM
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
     cgi (0.4.2)
+    chronic (0.10.2)
     citeproc (1.0.10)
       namae (~> 1.0)
     citeproc-ruby (1.1.13)
@@ -832,6 +833,8 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     xml-simple (1.1.9)
       rexml
     xmlrpc (0.3.3)
@@ -958,6 +961,7 @@ DEPENDENCIES
   view_component
   webmock
   webrat
+  whenever
   xmlrpc
   yaml_db
 
