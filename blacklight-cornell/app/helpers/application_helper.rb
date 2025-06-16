@@ -9,4 +9,20 @@ module ApplicationHelper
       debug(var, description)
     end
   end
+
+  def tooltip(title, content)
+    id = title.parameterize
+    debug(id, "id")
+    link_to '#', id: id, data: {
+      toggle: 'popover',
+      trigger: 'hover',
+      placement: 'bottom',
+      html: true,
+      title: title,
+      content: "<p>#{content}</p>"
+    } do
+      content_tag(:i, '', class: 'fa fa-info-circle')
+    end
+  end
+
 end
