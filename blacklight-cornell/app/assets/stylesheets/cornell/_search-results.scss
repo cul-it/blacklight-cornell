@@ -189,6 +189,7 @@ body.book_bags-index #documents .document {
 			content: "•";
 			font-size: 1em;
 			padding-top: 6px;
+			margin-right: 8px;
 		}
 	}
 
@@ -201,9 +202,12 @@ body.book_bags-index #documents .document {
 		font-weight: bold;
 	}
 
-	.label-text {
-		text-transform: uppercase;
+	.query-boolean {
+		font-weight: bold;
+		color: black;
+	}
 
+	.label-text {
 		&::after {
 			content: ":";
 			font-size: 1em;
