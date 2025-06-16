@@ -33,15 +33,19 @@
         <%= render "solr_query" %>
 
         <% if @response.total_count < 1 && !@expanded_results.nil? %>
-        <p>Your search returned <%= content_tag :span, "0", id: "total-search-results" %> results. Try searching
+				<p>
+					<%= tooltip("Advanced Search Logic", "#{@response["responseHeader"]["params"]["q"]}") %>
+					Your search returned <%= content_tag :span, "0", id: "total-search-results" %> results. Try searching
           <% if params[:q_row].nil? && params[:click_to_search].nil? && params[:f].nil? %>
             <a href="<%= @expanded_results["worldcat"][:url] %>">
           <% else %>
             <a href="<%= ENV["WORLDCAT_URL"] %>">
           <% end %>
-          Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/collections/recommend-a-purchase/"> recommend a purchase</a>.</p>
+          Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/collections/recommend-a-purchase/"> recommend a purchase</a>.
+				</p>
         <% else %>
-          <%= content_tag :span, @response.total_count.to_s, id: "total-search-results" %>
+				<%= tooltip("Advanced Search Logic", "#{@response["responseHeader"]["params"]["q"]}") %>
+				<%= content_tag :span, @response.total_count.to_s, id: "total-search-results" %>
           <% r = "catalog result".pluralize(@response.total_count) %>
           <%= "#{r}" %>
           <% rss_icon = '<i class="fa fa-rss-square aria-hidden="true"></i>' + '<span class="sr-only">RSS</span>' %>
@@ -72,5 +76,14 @@
 	<%= javascript_tag do %>
 		var search_exceeded = false;
 	<% end %>
+	<%= javascript_tag do %>
+		document.addEventListener('DOMContentLoaded', function () {
+			const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'));
+			popoverTriggerList.forEach(function (el) {
+			new bootstrap.Popover(el);
+			});
+		});
+	<% end %>
+
 <% end %>
 
