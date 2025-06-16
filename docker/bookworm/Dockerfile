@@ -16,9 +16,9 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     default-libmysqlclient-dev=1.1.0 cron \
     # CVE-2024-5535
-    openssl=3.0.15-1~deb12u1 \
+    openssl=3.0.16-1~deb12u1 \
     # CVE-2024-37371
-    libkrb5-3=1.20.1-2+deb12u2 \
+    libkrb5-3=1.20.1-2+deb12u3 \
     # CVE-2024-33599
     libc6=2.36-9+deb12u10 \
     # CVE-2024-0567
