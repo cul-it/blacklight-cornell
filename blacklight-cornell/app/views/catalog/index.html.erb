@@ -1,4 +1,4 @@
-<% search_query_used = @response["responseHeader"]["params"]["q"] %>
+<% solr_query_used = @response["responseHeader"]["params"]["q"] %>
 
 <div class="row">
 	<% # TODO: delete this bit, old call to sidebar partial in BL4 %>
@@ -27,11 +27,11 @@
 				<%= render :partial => "did_you_mean" %>
 			<% end %>
 
-			<%= render "solr_query", search_query_used: search_query_used %>
+			<%= render "solr_query", solr_query_used: solr_query_used %>
 
 			<% if @response.total_count < 1 && !@expanded_results.nil? %>
 				<p>
-					<%= tooltip("Advanced Search Logic", "#{search_query_used}") %>
+					<%= tooltip("Advanced Search Logic", "#{solr_query_used}") %>
 					Your search returned <%= content_tag :span, "0", id: "total-search-results" %> results. Try searching
 					<% if params[:q_row].nil? && params[:click_to_search].nil? && params[:f].nil? %>
 						<a href="<%= @expanded_results["worldcat"][:url] %>">
@@ -44,7 +44,7 @@
 				<%= content_tag :span, @response.total_count.to_s, id: "total-search-results" %>
 				<% r = "catalog result".pluralize(@response.total_count) %>
 				<%= "#{r}" %>
-				<%= tooltip("Advanced Search Logic", "#{search_query_used}") %>
+				<%= tooltip("Advanced Search Logic", "#{solr_query_used}") %>
 				<% rss_icon = '<i class="fa fa-rss-square aria-hidden="true"></i>' + '<span class="sr-only">RSS</span>' %>
 				<%= link_to(url_for(params.merge(:format => "rss")), :class => "rss-icon", :title => "RSS feed") do %>
 					<%= rss_icon.html_safe %>
