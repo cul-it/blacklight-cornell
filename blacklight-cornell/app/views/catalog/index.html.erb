@@ -27,7 +27,7 @@
 				<%= render :partial => "did_you_mean" %>
 			<% end %>
 
-			<%= render "solr_query", solr_query_used: solr_query_used %>
+			<%#= render "solr_query", solr_query_used: solr_query_used %>
 
 			<% if @response.total_count < 1 && !@expanded_results.nil? %>
 				<p>

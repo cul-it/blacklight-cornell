@@ -1109,12 +1109,17 @@ module DisplayHelper
       end
       i += 1
     end
-    ## Sends 'correct' q param to link_link_to_previous_search
-    params[:q] = showText
 
     params[:q] = showText # Sends 'correct' q param to link_link_to_previous_search
 
+    # **************************************************************************
+    #TODO: Figure out the difference between #link_to_previous_search_override and #link_to_previous_search
+    # **************************************************************************
+    # Uses overridden render_search_to_s_q(params) function below originally
+    # from app/helper/blacklight/search_history_constraints_helper_behavior.rb
     link_to_previous_search(params) # => Older method
+    # --------------------------------------------------------------------------
+    ############################################################################
     # Uses newer version of #link_to_previous_search from blacklight to include f_inclusive filters
     # link_to_previous_search_override(params)
   end
