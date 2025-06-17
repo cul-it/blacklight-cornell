@@ -1480,6 +1480,24 @@ module DisplayHelper
     val
   end
 
+  # ============================================================================
+  # Renders info icon with tooltip on mouse hover. contains title and content.
+  # ----------------------------------------------------------------------------
+  def tooltip(title, content)
+    id = title.parameterize
+    debug(id, "id")
+    link_to '#', id: id, data: {
+      toggle: 'popover',
+      trigger: 'hover',
+      placement: 'bottom',
+      html: true,
+      title: title,
+      content: "<p>#{content}</p>"
+    } do
+      content_tag(:i, '', class: 'fa fa-info-circle')
+    end
+  end
+
   # TODO: no longer needed? commented out 5/31/23 to see if it breaks anything - mhk33, DISCOVERYACCESS-7501
   # Clean up isbn in prep for bookcovers via Google Books API
   # def bookcover_isbn(document)

@@ -1,6 +1,7 @@
+<% search_query_used ||= "" %>
 <% if ENV["DISPLAY_SOLR_QUERY"] %>
     <%= content_tag(:dl, :class => "solr-query alert alert-info", :id => "solr-query-display") do %>
         <%= content_tag(:dt, "Solr Query") %>
-        <%= content_tag(:dd, @response["responseHeader"]["params"]["q"]) %>
+        <%= content_tag(:dd, search_query_used) %>
     <% end %>
 <% end %>
