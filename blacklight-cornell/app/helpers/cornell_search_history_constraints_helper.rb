@@ -2,7 +2,6 @@
 ## Override Blacklight::SearchHistoryConstraintsHelperBehavior Methods  ##
 #########################################################################
 module CornellSearchHistoryConstraintsHelper
-
   # ============================================================================
   # Formats operators and boolean values for display in the search history.
   # Custom logic for advanced searches.
@@ -20,11 +19,11 @@ module CornellSearchHistoryConstraintsHelper
 
         op_val = options[:op_row][index]
         operator = case op_val
-                   when "AND"         then ""
-                   when "OR"          then "ANY"
-                   when "phrase"      then "CONTAINS PHRASE WITH"
+                   when "AND"         then "All"
+                   when "OR"          then "Any of"
+                   when "phrase"      then "Phrase"
                    when "NOT"         then "NOT"
-                   when "begins_with" then "BEGINS WITH"
+                   when "begins_with" then "Begins with"
                    else
                      ""
                    end
@@ -39,16 +38,19 @@ module CornellSearchHistoryConstraintsHelper
 
         # Build the boolean + operator + field label part
         label_parts = []
-        label_parts << boolean unless boolean.blank?
-        label_parts << operator unless operator.blank?
         label_parts << field_label
+        label_parts << operator unless operator.blank?
+
+        boolean_parts = ""
+        boolean_parts << boolean unless boolean.blank?
 
         # Create label, and text spans, then combine into search_text span
-        label_span  = tag.span(safe_join(label_parts, " "), class: 'filter-name')
-        query_span  = tag.span(text, class: 'query-text')
-        search_text = tag.span(label_span + query_span, class: 'combined-label-query btn btn-light')
+        label_span   = tag.span(safe_join(label_parts, " "), class: 'filter-name')
+        boolean_span = tag.span(boolean_parts, class: 'query-boolean')
+        query_span   = tag.span(text, class: 'query-text')
+        search_text  = tag.span(label_span + query_span, class: 'combined-label-query btn btn-light')
 
-        search_history_spans << search_text
+        search_history_spans << boolean_span + search_text
       end
       # Advanced Searches
       advanced_search_history_node = tag.div(
