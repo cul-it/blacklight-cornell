@@ -71,6 +71,18 @@
 
   </div><!--/.main-content -->
 </div>
+
+
+<!--Add event listener for popovers-->
+<%= javascript_tag do %>
+	document.addEventListener('DOMContentLoaded', function () {
+		const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'));
+		popoverTriggerList.forEach(function (el) {
+		new bootstrap.Popover(el);
+		});
+	});
+<% end %>
+
 <% if session["search_limit_exceeded"] %>
 	<%= javascript_tag do %>
 		var search_exceeded = true;
@@ -79,14 +91,5 @@
 	<%= javascript_tag do %>
 		var search_exceeded = false;
 	<% end %>
-	<%= javascript_tag do %>
-		document.addEventListener('DOMContentLoaded', function () {
-			const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'));
-			popoverTriggerList.forEach(function (el) {
-			new bootstrap.Popover(el);
-			});
-		});
-	<% end %>
-
 <% end %>
 
