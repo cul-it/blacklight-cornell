@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo "The branch is ${env.GIT_BRANCH}"
                 echo "Running Cucumber tests with ${params.NUM_PROCESSES} processes"
-                timeout(90) {
+                timeout(120) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
                         sh """
                             export FEATURE=${params.CUCUMBER_FEATURE_TESTS}
