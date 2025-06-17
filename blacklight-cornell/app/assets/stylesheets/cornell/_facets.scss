@@ -53,6 +53,24 @@
     max-height: 16rem;
     overflow-y: scroll;
   }
+  // DACCESS-575 - Adjust the width of the facet panels on advanced search form
+  @include media-breakpoint-up(lg) {
+	.facet-limit {
+		width: 60%;
+  	}
+  }
+  // DACCESS-575 - Display facet counts inline on advanced search form
+  .facet-values {
+	.label-and-count {
+		display: inline;
+	}
+	.facet-count {
+		vertical-align: initial;
+	}
+	.facet-label {
+		padding-bottom: .5rem;
+	}
+  }
 }
 
 .sidenav {
