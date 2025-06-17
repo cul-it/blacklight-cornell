@@ -1,52 +1,46 @@
 <% search_query_used = @response["responseHeader"]["params"]["q"] %>
 
 <div class="row">
-  <% # TODO: delete this bit, old call to sidebar partial in BL4 %>
-  <% #= render :partial=>'sidebar' %>
-  <div id="sidebar" class="col-md-4">
-    <%= render "search_sidebar" %>
-  </div>
+	<% # TODO: delete this bit, old call to sidebar partial in BL4 %>
+	<% #= render :partial=>'sidebar' %>
+	<div id="sidebar" class="col-md-4">
+		<%= render "search_sidebar" %>
+	</div>
 
+	<div class="col-md-8" id="results">
+		<% unless has_search_parameters? %>
+			<% # if there are no input/search related params, display the "home" partial -%>
+			<%= render "home" %>
+		<% else %>
+			<h2 class="sr-only top-content-title"><%= t("blacklight.search.search_results_header") %></h2>
+			<% @page_title = t("blacklight.search.title", :application_name => application_name) %>
 
+			<% content_for(:head) do -%>
+				<%= render_opensearch_response_metadata %>
+				<%= auto_discovery_link_tag(:rss, url_for(params.permit.merge(:format => "rss")), :title => t("blacklight.search.rss_feed")) %>
+				<%= auto_discovery_link_tag(:atom, url_for(params.permit.merge(:format => "atom")), :title => t("blacklight.search.atom_feed")) %>
+				<%= render_extra_head_content %>
+			<% end -%>
 
-  <div class="col-md-8" id="results">
-      <% unless has_search_parameters? %>
-        <% # if there are no input/search related params, display the "home" partial -%>
-        <%= render "home" %>
-      <% else %>
-
-        <h2 class="sr-only top-content-title"><%= t("blacklight.search.search_results_header") %></h2>
-
-        <% @page_title = t("blacklight.search.title", :application_name => application_name) %>
-
-
-      <% content_for(:head) do -%>
-        <%= render_opensearch_response_metadata %>
-        <%= auto_discovery_link_tag(:rss, url_for(params.permit.merge(:format => "rss")), :title => t("blacklight.search.rss_feed")) %>
-        <%= auto_discovery_link_tag(:atom, url_for(params.permit.merge(:format => "atom")), :title => t("blacklight.search.atom_feed")) %>
-        <%= render_extra_head_content %>
-      <% end -%>
-
-        <% #= render :partial => 'search_form' %>
-        <% unless ((request.referer).present? && (request.referer).include?("browse")) || params[:click_to_search] == "true" %>
-        <%= render :partial => "did_you_mean" %>
-        <% end %>
+			<% #= render :partial => 'search_form' %>
+			<% unless ((request.referer).present? && (request.referer).include?("browse")) || params[:click_to_search] == "true" %>
+				<%= render :partial => "did_you_mean" %>
+			<% end %>
 
 			<%= render "solr_query", search_query_used: search_query_used %>
 
-        <% if @response.total_count < 1 && !@expanded_results.nil? %>
+			<% if @response.total_count < 1 && !@expanded_results.nil? %>
 				<p>
 					<%= tooltip("Advanced Search Logic", "#{search_query_used}") %>
 					Your search returned <%= content_tag :span, "0", id: "total-search-results" %> results. Try searching
-          <% if params[:q_row].nil? && params[:click_to_search].nil? && params[:f].nil? %>
-            <a href="<%= @expanded_results["worldcat"][:url] %>">
-          <% else %>
-            <a href="<%= ENV["WORLDCAT_URL"] %>">
-          <% end %>
-          Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/collections/recommend-a-purchase/"> recommend a purchase</a>.
+					<% if params[:q_row].nil? && params[:click_to_search].nil? && params[:f].nil? %>
+						<a href="<%= @expanded_results["worldcat"][:url] %>">
+					<% else %>
+						<a href="<%= ENV["WORLDCAT_URL"] %>">
+					<% end %>
+					Libraries Worldwide</a> or <a href="https://www.library.cornell.edu/collections/recommend-a-purchase/"> recommend a purchase</a>.
 				</p>
-        <% else %>
-				<%= tooltip("Advanced Search Logic", "#{@response["responseHeader"]["params"]["q"]}") %>
+			<% else %>
 				<%= content_tag :span, @response.total_count.to_s, id: "total-search-results" %>
 				<% r = "catalog result".pluralize(@response.total_count) %>
 				<%= "#{r}" %>
@@ -56,20 +50,15 @@
 					<%= rss_icon.html_safe %>
 				<% end %>
 
+				<%= render "sort_and_per_page" %>
 
-        <%= render "sort_and_per_page" %>
-
-        <h2 class="sr-only"><%= t("blacklight.search.search_results") %></h2>
-        <%= render_document_index %>
-        <%= render "results_pagination" %>
-
-        <% end %>
-
-        <%= render "search_more" %>
-
-      <% end %>
-
-  </div><!--/.main-content -->
+				<h2 class="sr-only"><%= t("blacklight.search.search_results") %></h2>
+				<%= render_document_index %>
+				<%= render "results_pagination" %>
+			<% end %>
+			<%= render "search_more" %>
+		<% end %>
+	</div><!--/.main-content -->
 </div>
 
 
