@@ -1313,7 +1313,11 @@ module DisplayHelper
     search_field     = params[:search_field]
     search_field_row = params[:search_field_row]
 
-    return "".html_safe if basic_query.blank?
+    # return "".html_safe if basic_query.blank?
+
+    if advanced_query.blank? && basic_query.blank?
+      return "".html_safe
+    end
 
     # Advanced Search Options --------------------------------------------------
     if advanced_query.present?
