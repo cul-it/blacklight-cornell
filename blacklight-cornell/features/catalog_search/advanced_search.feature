@@ -765,11 +765,11 @@ Scenario: I can filter advanced searches by facets
   And I fill in "range_pub_date_facet_end" with '2000'
   And I should not see the text "French"
   And I press 'Language'
-  And I should select checkbox "f_inclusive_language_facet_6"
-  And I should select checkbox "f_inclusive_language_facet_7"
+  And I should select checkbox "f_inclusive_language_facet_0"
+  And I should select checkbox "f_inclusive_language_facet_2"
   And I should not see the text "Journal/Periodical"
   And I press 'Format'
   And I should select checkbox "f_inclusive_format_0"
-  And I should select checkbox "f_inclusive_format_4"
+  And I should select checkbox "f_inclusive_format_1"
   And I press 'advanced_search'
   Then I should get 2 results

@@ -195,7 +195,8 @@ class CatalogController < ApplicationController
                            limit: 10,
                            collapse: false,
                            include_in_advanced_search: true,
-                           advanced_search_order: 1
+                           advanced_search_order: 1,
+                           sort: 'count'
     config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'pub_date_facet',
                            label: 'Publication Year',
@@ -216,7 +217,8 @@ class CatalogController < ApplicationController
                            limit: 5,
                            show: true,
                            include_in_advanced_search: true,
-                           advanced_search_order: 2
+                           advanced_search_order: 2,
+                           sort: 'count'
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?

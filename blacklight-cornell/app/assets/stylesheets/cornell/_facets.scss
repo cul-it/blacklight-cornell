@@ -48,6 +48,13 @@
 	}
 }
 
+#advanced_search_facets {
+  .card-body {
+    max-height: 16rem;
+    overflow-y: scroll;
+  }
+}
+
 .sidenav {
 	.navbar-toggler {
 		margin-bottom: 1rem;
