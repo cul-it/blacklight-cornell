@@ -4,7 +4,7 @@
   <div class="selected-facets">
     <% if advanced_search? && params[:action] != 'edit'%>
       <div class="modify-search-link">
-        <%= link_to 'Modify advanced search &raquo;'.html_safe, url_for(:controller=>"advanced_search", :action=>"edit", :q_row=>params[:q_row], :op_row=>params[:op_row], :search_field_row=>params[:search_field_row], :boolean_row=>params[:boolean_row], :f=>params[:f], :f_inclusive=>params[:f_inclusive]), :class=>"btn btn-search" %>
+        <%= link_to 'Modify advanced search »', url_for(:controller=>"advanced_search", :action=>"edit", :q_row=>params[:q_row], :op_row=>params[:op_row], :search_field_row=>params[:search_field_row], :boolean_row=>params[:boolean_row], :f=>params[:f], :f_inclusive=>params[:f_inclusive]), :class=>"btn btn-outline-secondary" %>
       </div>
     <% end %>
   	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn btn-light" %>
