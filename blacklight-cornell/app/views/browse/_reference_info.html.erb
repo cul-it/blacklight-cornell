@@ -23,7 +23,7 @@
       <% loop_count = 0 %>
       <% h.each do |headingInfo| %>
         <dd <% if h.count > 20 and loop_count >= 20 %>style="margin-left:0;display:none;"  class="toggled-cr-refs"<% elsif h.count > 20  %>style="margin-left:0;"<%end%>>
-        <%= link_to "/browse?authq=" + headingInfo["heading"].gsub('&', '%26').gsub("\"", "'") + "&start=0" + "&browse_type=" + params[:browse_type] do %>
+        <%= link_to browse_url(headingInfo["heading"].gsub('&', '%26').gsub("\"", "'"), params[:browse_type]) do %>
           <%= headingInfo["heading"] %>
         <% end %>
         <% if headingInfo["worksBy"].present? %>

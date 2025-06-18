@@ -1,15 +1,13 @@
 module BrowseHelper
 
-def browse_uri_encode (link_url)
-    link_url = link_url.gsub('&','%26')
-    link_url = link_url.gsub('"','%22')
-end
-	
-def call_number_browse_link(call_number)
-	link_url = '/browse?start=0&browse_type=Call-Number&authq=' + call_number
-	link_to(h(call_number), link_url)
-end
-
+  def browse_url(authq, browse_type, start=0, order=nil)
+    url = "/browse?authq=#{CGI.escape authq}&browse_type=#{browse_type}&start=#{start}"
+    if order.present?
+      url += "&order=#{order}"
+    end
+    return url
+  end
+  
   def cleanup_bio_data(bd)
     bd.reject { |k, v| k == 'Field' if bd.key?('Occupation') }
   end
