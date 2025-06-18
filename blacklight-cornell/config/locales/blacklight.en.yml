@@ -227,7 +227,7 @@ en:
         q_row: 'Term'
         search_field_row: 'Field'
         search_field_advanced: 'Field'
-        sort: Sort results by
+        sort: Sort by
         op_row: 'Operator'
         submit: 'Search'
       pagination:
