@@ -93,6 +93,25 @@ module DisplayHelper
     "Map/Globe" => "map_globe",
     "Book" => "book"
   }
+  # ============================================================================
+  # Map solr facet field names to display-friendly labels
+  # ----------------------------------------------------------------------------
+  FACET_LABEL_MAPPINGS = {
+    'language_facet' => 'Language',
+    'format' => 'Format',
+    'pub_date_facet' => 'Publication Year',
+    'fast_topic_facet' => 'Subject',
+    'author_facet' => 'Author',
+    'fast_genre_facet' => 'Genre',
+    'lc_callnum_facet' => 'Call Number',
+    'acquired_dt_query' => 'Acquired Date',
+    'fast_geo_facet' => 'Subject Region',
+    'subject_content_facet' => 'Fiction/Non-fiction Type',
+    'fast_era_facet' => 'Subject Era',
+    'last_1_week' => 'Since last week',
+    'last_1_month' => 'Since last month',
+    'last_1_years' => 'Since last year',
+  }
 
   # Following line needed for determin_formats method, replace with removed clio array element. See https://issues.library.cornell.edu/browse/DISCOVERYACCESS-310
   FORMAT_RANKINGS = ["ac", "database", "map_globe", "manuscript_archive", "video", "music_recording", "music", "newspaper", "serial", "book", "ebooks", "article", "lweb"]
