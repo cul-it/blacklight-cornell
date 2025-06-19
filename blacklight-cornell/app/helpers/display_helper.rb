@@ -1105,9 +1105,98 @@ module DisplayHelper
   # ============================================================================
   # Advanced Search History and Advanced Saved Searches display
   # ----------------------------------------------------------------------------
+  # - Builds a visual label (query_texts) with proper span/button layout
+  # - Uses parseHistoryQueryString(params) to generate the URL
+  # - Renders the label HTML inside a styled <div> block inside the link
+  # ============================================================================
   def link_to_previous_advanced_search(params)
-    link_to(parseHistoryShowString(params), parseHistoryQueryString(params))
+    query_texts = build_advanced_search_query_tags(params)
+    link_to(parseHistoryQueryString(params)) do
+      content_tag(:div, safe_join(query_texts, ' '),
+                  class: 'constraint',
+                  style: 'display: inline-block; text-indent: 0rem; padding-left: 8px !important;')
+    end
   end
+
+  # =========================================================================
+  # Generates query text nodes for advanced search params, including boolean,
+  # facet, and range filters formatted for display
+  # -------------------------------------------------------------------------
+  def build_advanced_search_query_tags(params)
+    query_texts      = []
+    q_row            = params[:q_row]
+    search_field_row = params[:search_field_row]
+    boolean_row      = params[:boolean_row] || {}
+
+    if q_row.count > 1
+      title_label = "SEARCH TERMS: "
+    else
+      title_label = "SEARCH TERM: "
+    end
+
+    query_texts << content_tag(:span, "#{title_label}", class: 'query-boolean ms-2')
+
+    # Render query text --------------------------------------------------------
+    q_row.each_with_index do |query, i|
+      boolean = i.positive? ? boolean_row[i.to_s.to_sym] : nil
+      field_label = search_field_def_for_key(search_field_row[i])[:label] rescue 'All Fields'
+      query_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
+
+        content_tag(:span, class: 'filter-name') do
+          content_tag(:span, field_label, class: 'label-text') + ' All'
+        end +
+          content_tag(:span, query, class: 'query-text')
+      end
+
+      query_texts << content_tag(:span, boolean, class: 'query-boolean') if boolean.present?
+      query_texts << query_html
+    end
+
+    # Add facet filters if present ---------------------------------------------
+    if params[:f].present?
+      query_texts << tag.div(class: 'w-100') # ⬅️ Line break before FILTERED BY
+      query_texts << content_tag(:span, 'FILTERED BY: ', class: 'query-boolean ms-2')
+
+      params[:f].each_with_index do |(facet_key, values), fidx|
+        values.each_with_index do |val, vidx|
+          query_texts << content_tag(:span, 'AND', class: 'query-boolean') if fidx.positive? || vidx.positive?
+
+          facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
+            mapped_value = FACET_LABEL_MAPPINGS[val] || val
+            content_tag(:span, class: 'filter-name') do
+              mapped_label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.titleize
+              content_tag(:span, mapped_label, class: 'label-text')
+            end +
+              content_tag(:span, mapped_value, class: 'query-text')
+          end
+          query_texts << facet_html
+        end
+      end
+    end
+
+    # Add range facets ---------------------------------------------------------
+    if params[:range].present?
+      query_texts << tag.div(class: 'w-100') # ⬅️ Line break before DATED BETWEEN
+      query_texts << content_tag(:span, 'DATED BETWEEN: ', class: 'query-boolean ms-2')
+
+      params[:range].each_with_index do |(facet_key, values), fidx|
+        if values['begin'].present? && values['end'].present?
+          query_texts << content_tag(:span, 'AND', class: 'query-boolean') if fidx.positive?
+
+          facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
+            content_tag(:span, class: 'filter-name') do
+              mapped_label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.titleize
+              content_tag(:span, mapped_label, class: 'label-text')
+            end +
+              content_tag(:span, "#{values['begin']} - #{values['end']}", class: 'query-text')
+          end
+          query_texts << facet_html
+        end
+      end
+    end
+    query_texts
+  end
+
 
   # ============================================================================
   # Render Basic and Advanced Query Constraint
