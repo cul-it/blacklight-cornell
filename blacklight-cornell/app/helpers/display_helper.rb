@@ -1223,36 +1223,6 @@ module DisplayHelper
     link_to_previous_search_override(params) # Newer version of #link_to_previous_search from blacklight to include f_inclusive filters
   end
 
-  # TODO LOOK INTO
-  # # ============================================================================
-  # # Render Basic and Advanced Query Constraint
-  # # ----------------------------------------------------------------------------
-  # def parseHistoryShowString(params)
-  #   showText = ''
-  #   sf_row   = params[:search_field_row]
-  #   q_row    = params[:q_row]
-  #   b_row    = params[:boolean_row]
-  #   i        = 0
-  #   num      = sf_row.length
-  #
-  #   while i < num do
-  #     if i > 0
-  #       showText = showText + " " + "#{b_row[i.to_s.to_sym] if b_row[i].present? }" + ", " + q_row[i]
-  #     else
-  #       showText = showText + q_row[i]
-  #     end
-  #     i += 1
-  #   end
-  #
-  #   params[:q] = showText # Sends 'correct' q param to link_link_to_previous_search
-  #
-  #   # Uses overridden render_search_to_s_q(params) function below originally
-  #   # from app/helper/blacklight/search_history_constraints_helper_behavior.rb
-  #   link_to_previous_search(params)
-  # end
-
-
-
   # Can remove and replace with #link_to_previous_search in blacklight >= v8.0.0: https://github.com/projectblacklight/blacklight/pull/2626
   # Use in e.g. the search history display, where we want something more like text instead of the normal constraints
   def link_to_previous_search_override(params)
@@ -1300,6 +1270,8 @@ module DisplayHelper
     linkText = start + linkText + f_linkText + finish
     linkText
   end
+
+
 
   # ============================================================================
   # switch to determine if a view is part of the main catalog and should get the header
@@ -1411,48 +1383,6 @@ module DisplayHelper
     result.to_sentence.html_safe
   end
 
-  # ============================================================================
-  # Render Basic and Advanced Query Constraint
-  # ----------------------------------------------------------------------------
-  def render_search_to_s_q(params)
-    basic_query      = params[:q]
-    advanced_query   = params[:q_row]
-    boolean_row      = params[:boolean_row]
-    operator_row     = params[:op_row]
-    search_field     = params[:search_field]
-    search_field_row = params[:search_field_row]
-
-    # return "".html_safe if basic_query.blank?
-
-    if advanced_query.blank? && basic_query.blank?
-      return "".html_safe
-    end
-
-    # Advanced Search Options --------------------------------------------------
-    if advanced_query.present?
-      label, search_type, query_text = [search_field_row, 'advanced search', advanced_query]
-      # Basic Search Options -----------------------------------------------------
-    else
-      label = (label_for_search_field(search_field) unless default_search_field && search_field == default_search_field[:key])
-      search_type, query_text = ['basic search', render_filter_value(basic_query)]
-    end
-
-    options = { search_type: search_type, op_row: operator_row, boolean_row: boolean_row }
-
-    render_search_to_s_element(label, query_text, options) # to => SearchHistoryConstraintsHelperBehavior
-  end
-
-  #TODO OLD VERSION
-  # def render_search_to_s_q(params)
-  #   return "".html_safe if params['q'].blank?
-  #   if params[:q_row].nil?
-  #
-  #     label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
-  #   else
-  #     label = ""
-  #   end
-  #   render_search_to_s_element(label , render_filter_value(params['q']) )
-  # end
 
   def access_url_is_list?(args)
     args['url_access_json'].present? && args['url_access_json'].size != 1
@@ -1598,7 +1528,6 @@ module DisplayHelper
   # ----------------------------------------------------------------------------
   def tooltip(title, content)
     id = title.parameterize
-    debug(id, "id")
     link_to '#', id: id, data: {
       toggle: 'popover',
       trigger: 'hover',
