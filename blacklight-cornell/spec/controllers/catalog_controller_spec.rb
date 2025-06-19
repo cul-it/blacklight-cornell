@@ -187,4 +187,36 @@ RSpec.describe CatalogController, type: :controller do
       end
     end
   end
+
+  describe 'GET index' do
+    before do
+      allow(controller).to receive(:current_user).and_return(nil)
+    end
+
+    describe 'publication year range facet' do
+      context 'range provided' do
+        it 'returns expected response with documents' do
+          get :index, params: { q: '', search_field: 'all_fields', range: { 'pub_date_facet' => { begin: '2000', end: '2020' } } }
+          expect(response).to be_successful
+          expect(assigns(:response).total).to eq(84)
+        end
+      end
+
+      context 'range not provided' do
+        it 'returns expected response with documents' do
+          get :index, params: { q: '', search_field: 'all_fields' }
+          expect(response).to be_successful
+          expect(assigns(:response).total).to eq(233)
+        end
+      end
+
+      context 'range provided but missing begin and end vals' do
+        it 'returns expected response with documents' do
+          get :index, params: { q: '', search_field: 'all_fields', range: { 'pub_date_facet' => { begin: nil, end: nil } } }
+          expect(response).to be_successful
+          expect(assigns(:response).total).to eq(233)
+        end
+      end
+    end
+  end
 end

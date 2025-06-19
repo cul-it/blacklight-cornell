@@ -30,7 +30,7 @@ RSpec.describe AdvancedHelper, type: :helper do
   describe '#advanced_search_sort_opts' do
     let(:query_params) { { controller: 'catalog', action: 'index' } }
     let(:config) { CatalogController.blacklight_config }
-    let(:search_state) { Blacklight::SearchState.new(query_params, config, CatalogController) }
+    let(:search_state) { BlacklightCornell::SearchState.new(query_params, config, CatalogController) }
 
     before do
       without_partial_double_verification do

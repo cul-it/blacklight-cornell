@@ -13,17 +13,24 @@
       <div class='add-row'>
         <a href='#' id='add-row'><i class='fa fa-plus-circle'></i> Add a row</a>
       </div>
-      <h3>Limit your results</h3>
-      <% if params[:f].present? %>
-        <div class='advanced-facets'>
-          <%= render_edit_advanced_constraints_filters(params) %>
-      	</div>
-      <% end %>
-      <%= render 'facets', form: form %>
-      <h3>Sort results</h3>
-      <div class='form-group'>
-        <%= form.label :sort, t('blacklight.search.form.sort'), class: 'sort-results' %>
-        <%= form.select :sort, advanced_search_sort_opts, {}, { class: 'form-control adv-search-control' } %>
+
+      <div class='row'>
+        <div class='col-md-6'>
+          <h3>Limit your results</h3>
+          <% if params[:f].present? %>
+            <div class='advanced-facets'>
+              <%= render_edit_advanced_constraints_filters(params) %>
+            </div>
+          <% end %>
+          <%= render 'facets', form: form %>
+        </div>
+        <div class='col-md-6'>
+          <h3>Sort results</h3>
+          <div class='form-group'>
+            <%= form.label :sort, t('blacklight.search.form.sort'), class: 'sort-results' %>
+            <%= form.select :sort, advanced_search_sort_opts, {}, { class: 'form-control adv-search-control' } %>
+          </div>
+        </div>
       </div>
       <% hidden_form_values.each do |h| %>
         <%= form.hidden_field h[:name], value: h[:value] %>
@@ -31,7 +38,6 @@
       <%= form.hidden_field :search_field, value: 'advanced' %>
       <%= form.hidden_field :advanced_query, value: 'yes' %>
     </div>
-
     <div class='submit-reset'>
       <%= form.submit 'Search', class: 'btn btn-search', id: 'advanced_search' %>
       <span class='form-alternative-action'>
