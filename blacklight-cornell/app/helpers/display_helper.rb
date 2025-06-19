@@ -1161,6 +1161,9 @@ module DisplayHelper
     link_to(render(Blacklight::ConstraintsComponent.for_search_history(search_state: search_state)), search_action_path(params))
   end
 
+  # ============================================================================
+  # Builds formatted search URL from session params
+  # ----------------------------------------------------------------------------
   def parseHistoryQueryString(params)
     start = "catalog?only_path=true&utf8=✓&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes"
     if params[:sort].nil?
