@@ -1105,10 +1105,26 @@ module DisplayHelper
   # facet, and range filters formatted for display
   # -------------------------------------------------------------------------
   def build_advanced_search_query_tags(params)
-    query_texts      = []
-    q_row            = params[:q_row]
-    search_field_row = params[:search_field_row]
-    boolean_row      = params[:boolean_row] || {}
+    # debug(params, "build_advanced_search_query_tags PARAMS")
+    debug(params, "build_advanced_search_query_tags PARAMS")
+    query_texts = []
+    q_row       = params[:q_row]              # Query Terms
+    op_row      = params[:op_row]             # Operators
+    sf_row      = params[:search_field_row]   # Search Fields
+    b_row       = params[:boolean_row] || {}  # Booleans
+    f_row       = params[:f] || {}            # Filters
+    dr_row      = params[:range] || {}        # Date Range
+    f_inclusive = params[:f_inclusive] || {} # Inclusive Filters
+
+    f_row.merge!(f_inclusive) if f_inclusive.present? # Merge inclusive filters into main filter row
+
+    info_msg("q_row: #{q_row}")
+    info_msg("op_row: #{op_row}")
+    info_msg("sf_row: #{sf_row}")
+    info_msg("b_row: #{b_row}")
+    info_msg("f_row: #{f_row}")
+    info_msg("dr_row: #{dr_row}")
+
 
     if q_row.count > 1
       title_label = "SEARCH TERMS: "
@@ -1120,8 +1136,8 @@ module DisplayHelper
 
     # Render query text --------------------------------------------------------
     q_row.each_with_index do |query, i|
-      boolean = i.positive? ? boolean_row[i.to_s.to_sym] : nil
-      field_label = search_field_def_for_key(search_field_row[i])[:label] rescue 'All Fields'
+      boolean = i.positive? ? b_row[i.to_s.to_sym] : nil
+      field_label = search_field_def_for_key(sf_row[i])[:label] rescue 'All Fields'
       query_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
 
         content_tag(:span, class: 'filter-name') do
@@ -1135,13 +1151,13 @@ module DisplayHelper
     end
 
     # Add facet filters if present ---------------------------------------------
-    if params[:f].present?
+    if f_row.present? || f_inclusive.present?
       query_texts << tag.div(class: 'w-100') # ⬅️ Line break before FILTERED BY
       query_texts << content_tag(:span, 'FILTERED BY: ', class: 'query-boolean ms-2')
 
-      params[:f].each_with_index do |(facet_key, values), fidx|
-        values.each_with_index do |val, vidx|
-          query_texts << content_tag(:span, 'AND', class: 'query-boolean') if fidx.positive? || vidx.positive?
+      f_row.each_with_index do |(facet_key, values), filter_index|
+        values.each_with_index do |val, value_index|
+          query_texts << content_tag(:span, 'AND', class: 'query-boolean') if filter_index.positive? || value_index.positive?
 
           facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
             mapped_value = FACET_LABEL_MAPPINGS[val] || val
@@ -1157,13 +1173,13 @@ module DisplayHelper
     end
 
     # Add range facets ---------------------------------------------------------
-    if params[:range].present?
+    if dr_row.present? && dr_row[:pub_date_facet][:begin].present? && dr_row[:pub_date_facet][:end].present?
       query_texts << tag.div(class: 'w-100') # ⬅️ Line break before DATED BETWEEN
       query_texts << content_tag(:span, 'DATED BETWEEN: ', class: 'query-boolean ms-2')
 
-      params[:range].each_with_index do |(facet_key, values), fidx|
+      dr_row.each_with_index do |(facet_key, values), filter_index|
         if values['begin'].present? && values['end'].present?
-          query_texts << content_tag(:span, 'AND', class: 'query-boolean') if fidx.positive?
+          query_texts << content_tag(:span, 'AND', class: 'query-boolean') if filter_index.positive?
 
           facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
             content_tag(:span, class: 'filter-name') do
