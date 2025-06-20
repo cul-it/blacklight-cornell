@@ -108,11 +108,24 @@ form.advanced {
 .as-tips {
   padding-left: 1rem;
 }
+// TODO: remove if updating adv tips to a <ul> = DACCESS-589
 // TODO: Bootstrap 4 temp fix - remove floats and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
 .dl-horizontal dt {
   float: left;
   clear: left;
   text-align: right;
+}
+.adv-tips-heading {
+  color: $dark-gray;
+}
+.adv-tips-heading::after {
+  content: "❯";
+  float: right;
+  transform: rotate(90deg);
+}
+.adv-tips-heading.collapsed::after {
+  transform: rotate(0deg);
+  transition: transform 0.1s ease;
 }
 
 // MEDIA QUERIES

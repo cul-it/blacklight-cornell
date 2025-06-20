@@ -1,20 +1,29 @@
-<div class="card">
-  <div class="card-header">
-    Advanced Search Tips
-  </div>
-  <div class="card-body">
-    <ul class="as-tips">
-      <li><strong>all</strong> contains every word, regardless of order</li>
-      <li><strong>any</strong> contains any of the words, but not necessarily all of them</li>
-      <li><strong>begins with</strong> - at least one field begins with the words in the search box</li>
-      <li><strong>phrase</strong> contains all the words, in exact order</li>
-      <li><strong>and</strong> contains the terms in both rows</li>
-      <li><strong>or</strong> contains the terms in either row</li>
-      <li><strong>not</strong> does not contain the terms in this row</li>
-      <li>Rows are processed from top to bottom. Use <strong>or</strong> before <strong>and</strong> or <strong>not</strong>.</li>
-      <li>Terms with common suffixes are often automatically searched (e.g. <strong>star</strong> will include <strong>stars</strong>, <strong>starred</strong> and <strong>starring</strong>)</li>
-      <li>Parentheses and Boolean operators within the search box are not supported.</li>
-    </ul>
-    <p><a href="https://guides.library.cornell.edu/librarysearch/catalog#s-lg-box-wrapper-35228990">More advanced search help &raquo;</a></p>
+<div class="accordion" id="searchTipsAccordion">
+  <div class="card">
+    <div class="card-header" id="tipsHeading">
+      <h2 class="mb-0">
+        <button class="btn btn-link btn-block text-left adv-tips-heading collapsed" type="button" data-toggle="collapse" data-target="#searchTips" aria-expanded="true" aria-controls="searchTips">
+          Advanced Search Tips
+        </button>
+      </h2>
+    </div>
+
+    <div id="searchTips" class="collapse" aria-labelledby="tipsHeading" data-parent="#searchTipsAccordion">
+      <div class="card-body">
+        <ul class="as-tips">
+          <li><strong>all</strong> contains every word, regardless of order</li>
+          <li><strong>any</strong> contains any of the words, but not necessarily all of them</li>
+          <li><strong>begins with</strong> - at least one field begins with the words in the search box</li>
+          <li><strong>phrase</strong> contains all the words, in exact order</li>
+          <li><strong>and</strong> contains the terms in both rows</li>
+          <li><strong>or</strong> contains the terms in either row</li>
+          <li><strong>not</strong> does not contain the terms in this row</li>
+          <li>Rows are processed from top to bottom. Use <strong>or</strong> before <strong>and</strong> or <strong>not</strong>.</li>
+          <li>Terms with common suffixes are often automatically searched (e.g. <strong>star</strong> will include <strong>stars</strong>, <strong>starred</strong> and <strong>starring</strong>)</li>
+          <li>Parentheses and Boolean operators within the search box are not supported.</li>
+        </ul>
+        <p><a href="https://guides.library.cornell.edu/librarysearch/catalog#s-lg-box-wrapper-35228990">More advanced search help &raquo;</a></p>
+      </div>
+    </div>
   </div>
 </div>
