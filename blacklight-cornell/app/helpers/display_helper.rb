@@ -1105,48 +1105,33 @@ module DisplayHelper
   # facet, and range filters formatted for display
   # -------------------------------------------------------------------------
   def build_advanced_search_query_tags(params)
-    # debug(params, "build_advanced_search_query_tags PARAMS")
-    debug(params, "build_advanced_search_query_tags PARAMS")
     query_texts = []
     q_row       = params[:q_row]              # Query Terms
-    op_row      = params[:op_row]             # Operators
     sf_row      = params[:search_field_row]   # Search Fields
     b_row       = params[:boolean_row] || {}  # Booleans
-    f_row       = params[:f] || {}            # Filters
     dr_row      = params[:range] || {}        # Date Range
-    f_inclusive = params[:f_inclusive] || {} # Inclusive Filters
-
+    f_row       = params[:f] || {}            # Filters
+    f_inclusive = params[:f_inclusive] || {}  # Inclusive Filters
     f_row.merge!(f_inclusive) if f_inclusive.present? # Merge inclusive filters into main filter row
 
-    info_msg("q_row: #{q_row}")
-    info_msg("op_row: #{op_row}")
-    info_msg("sf_row: #{sf_row}")
-    info_msg("b_row: #{b_row}")
-    info_msg("f_row: #{f_row}")
-    info_msg("dr_row: #{dr_row}")
-
-
-    if q_row.count > 1
-      title_label = "SEARCH TERMS: "
-    else
-      title_label = "SEARCH TERM: "
-    end
-
+    title_label = q_row.count { |q| q.present? } > 1 ? "SEARCH TERMS: " : "SEARCH TERM: "
     query_texts << content_tag(:span, "#{title_label}", class: 'query-boolean ms-2')
 
     # Render query text --------------------------------------------------------
     q_row.each_with_index do |query, i|
-      boolean = i.positive? ? b_row[i.to_s.to_sym] : nil
-      field_label = search_field_def_for_key(sf_row[i])[:label] rescue 'All Fields'
-      query_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
+      if query.present?
+        boolean     = i.positive? ? b_row[i.to_s.to_sym] : nil
+        field_label = search_field_def_for_key(sf_row[i])[:label] rescue 'All Fields'
 
-        content_tag(:span, class: 'filter-name') do
-          content_tag(:span, field_label, class: 'label-text') + ' All'
-        end +
-          content_tag(:span, query, class: 'query-text')
+        query_html  = content_tag(:span, class: 'combined-label-query btn btn-light') do
+          content_tag(:span, class: 'filter-name') do
+            content_tag(:span, field_label, class: 'label-text') + ' All'
+          end +
+            content_tag(:span, query, class: 'query-text')
+        end
       end
 
-      query_texts << content_tag(:span, boolean, class: 'query-boolean') if boolean.present?
+      query_texts << content_tag(:span, boolean, class: 'query-boolean') if boolean.present? && q_row[i -1].present?
       query_texts << query_html
     end
 
