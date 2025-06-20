@@ -22,10 +22,7 @@
       <div class="card card-well">
         <div class="card-body">
           <div class="search-info">
-            <a href="#" class="float-right" data-placement="bottom" data-toggle="tooltip" title="Search the Library Catalog, Articles and Full Text, and more. WorldCat is available through the Libraries Worldwide link in the search results.">
-              <i class="fa fa-info-circle" aria-hidden="true"></i>
-              About this search
-            </a>
+            <%= tooltip("Search the Library Catalog, Articles and Full Text, and more. WorldCat is available through the Libraries Worldwide link in the search results.", link_name: "About this search", class_name: "float-right") %>
           </div>
           <h2>Search</h2>
           <%= render 'single_search/search_form' %>

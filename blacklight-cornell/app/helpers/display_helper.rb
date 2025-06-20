@@ -1318,7 +1318,7 @@ module DisplayHelper
   # ============================================================================
   # Renders info icon with tooltip on mouse hover.
   # ----------------------------------------------------------------------------
-  def tooltip(tooltip_text, class_name: "")
+  def tooltip(tooltip_text, link_name: "", class_name: "")
     link_to '#',
             class: class_name,
             role: 'button',
@@ -1328,10 +1328,9 @@ module DisplayHelper
               html: "true"
             },
             title: tooltip_text do
-      content_tag(:i, '', class: 'fa fa-info-circle', aria: { hidden: true })
+      content_tag(:i, '', class: 'fa fa-info-circle', aria: { hidden: true }) + ((" #{link_name}") if link_name.present?)
     end
   end
-
 
   # TODO: no longer needed? commented out 5/31/23 to see if it breaks anything - mhk33, DISCOVERYACCESS-7501
   # Clean up isbn in prep for bookcovers via Google Books API
