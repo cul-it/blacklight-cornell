@@ -1,3 +1,20 @@
+// Typography
+// ------------------------
+
+.browse {
+	h3 {
+		border-bottom: 1px solid $tan;
+		padding-bottom: .25rem;
+		margin-bottom: 1.5rem;
+	}
+	.card-header {
+		h3 {
+			border-bottom: 0;
+		}
+	}
+}
+
+
 // Headings browse-search box
 // ------------------------------------------
 .browse-index {

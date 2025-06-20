@@ -5,7 +5,7 @@
       @heading_document['headingTypeDesc'].present? ||
       !@loc_localname.blank? %>
 <h3>Reference Information</h3>
-<div id='reference-info' class='col-sm-12 col-md-12 col-lg-12'>
+<div id='reference-info'>
   <%# display any seeAlso info first %>
   <% if @heading_document["seeAlso"].present?  %>
     <dl class="dl-horizontal">
