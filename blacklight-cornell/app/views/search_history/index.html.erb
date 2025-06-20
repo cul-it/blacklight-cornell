@@ -12,16 +12,16 @@
   <table class="table table-striped search-history">
     <%- @searches.each_with_index do |search,index| -%>
     <!-- display searches unless they are advanced searches -->
-      <%-unless !link_to_previous_search_override(search.query_params).include?("span") || search.query_params["advanced_query"] == "yes" %>
+      <%-unless !link_to_custom_search_history_link(search.query_params).include?("span") || search.query_params["advanced_query"] == "yes" %>
         <%= content_tag :tr, :id => "document_#{index + 1}" do %>
-          <td class="query"><span><%= link_to_previous_search_override(search.query_params) %></span></td>
+          <td class="query"><span><%= link_to_custom_search_history_link(search.query_params) %></span></td>
         <% end #content_tag %>
       <%end %>
       <%-unless search.query_params["q_row"].nil? %>
       <!-- display advanced searches -->
       <%#= search.query_params = search.query_params.to_hash() %>
         <%= content_tag :tr, :id => "document_#{index + 1}" do %>
-          <td class="query"><span><%= link_to_previous_advanced_search(search.query_params) %></span></td>
+          <td class="query"><span><%= link_to_custom_search_history_link(search.query_params) %></span></td>
         <% end #content_tag %>
       <%end %>
             
