@@ -4,45 +4,49 @@ gem "rails", "~> 6.1.7"
 gem "dotenv-rails", "2.8.1" # NOTE: unpinning this and letting it drift to latest (v3.x) breaks SAML login!
 gem "appsignal", "~> 3.3.2" #, '2.11.10'
 gem "sprockets" #, '~> 3.7.2'
-
 gem "ffi"
-# added for rails 4.
-gem "activerecord-session_store", ">= 2.0.0"
-gem "protected_attributes_continued"
-#gem 'mini_racer', github: 'sqreen/mini_racer', branch: 'use-libv8-node'
-gem 'net-smtp'
-gem "whenever", require: false
+
 
 group :development, :test, :integration do
-  gem "rspec_junit_formatter"
-  gem "sqlite3", "~> 1.7.3"
-  gem "spreewald", :git => "https://github.com/makandra/spreewald.git"
   gem "brakeman"
+  gem "rspec_junit_formatter"
+  gem "spreewald", :git => "https://github.com/makandra/spreewald.git"
+  gem "sqlite3", "~> 1.7.3"
 end
 
 group :production, :staging do
-  gem "mysql2", "0.5.6"
+  gem "mysql2", "~> 0.5.6"
 end
 
-gem "savon", "~> 2.11.1"
-gem "parslet"
-gem "ultraviolet"
-gem "yaml_db"
+gem "activerecord-session_store", ">= 2.0.0"
 gem "blacklight" # , '7.29.0'
+gem "blacklight-hierarchy"
+gem "blacklight-marc", "~> 6.3"
 gem "blacklight_range_limit", "~> 8.5.0"
 gem "blacklight_unapi", :git => "https://github.com/cul-it/blacklight-unapi", :branch => "BL7-upgrade"
-gem "kaminari", ">= 0.15"
-gem "view_component" # , '2.83.0' # ( was 2.72.0)
-gem "blacklight-hierarchy"
-gem "htmlentities"
-gem "json"
-gem "httpclient"
-gem "haml"
+gem "haml", 
 gem "haml-rails"
+gem "htmlentities", "~> 4.3.4"
+gem "httpclient", "~> 2.10.0"
 gem "marc"
-gem "blacklight-marc", "~> 6.3"
+gem "net-smtp"
+gem "protected_attributes_continued"
 gem "rb-readline", "~> 0.5.x"
-gem "net-ldap"
+gem "whenever", require: false
+
+gem "savon", "~> 2.11.1"  # TODO: We might not need this
+gem "parslet" # TODO: We might not need this
+gem "ultraviolet" # TODO: We might not need this
+gem "yaml_db" # TODO: We might not need this
+
+gem "kaminari", ">= 0.15" # TODO: We might not need this
+gem "view_component" # , '2.83.0' # ( was 2.72.0) # TODO: We might not need this
+
+
+
+
+
+
 gem "nokogiri", "~> 1.16.7"
 gem "rufus-scheduler"
 gem "addressable", ">= 2.8.0"
