@@ -1,12 +1,10 @@
 source "https://rubygems.org"
 ruby "3.2.2"
-#another try
 gem "rails", "~> 6.1.7"
 gem "dotenv-rails", "2.8.1" # NOTE: unpinning this and letting it drift to latest (v3.x) breaks SAML login!
 gem "appsignal", "~> 3.3.2" #, '2.11.10'
 gem "sprockets" #, '~> 3.7.2'
-gem "actionview" #, ">= 5.2.7.1"
-gem "byebug"
+
 gem "ffi"
 # added for rails 4.
 gem "activerecord-session_store", ">= 2.0.0"
@@ -55,7 +53,10 @@ gem "mini_racer", "0.6.2", platforms: :ruby
 gem "libv8-node"
 # Gems used only for assets and not required
 # in production environments by default.
+# NOTE: sassc-rails is supposed to be a drop-in replacement for sass-rails, but removing sass-rails
+# causes an error and breaks the site. There must be some dependency that is still requiring sass-rails.
 gem "sass-rails", "~> 5.0"
+gem "sassc-rails", ">= 2.1.0"
 gem "coffee-rails", "~> 4.0"
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -63,6 +64,7 @@ gem "coffee-rails", "~> 4.0"
 gem "terser", "~> 1.1"
 
 group :development, :test do
+  gem "byebug"
   gem "rspec"
   gem "rspec-rails"
   gem "cucumber-rails", :require => false # Set require = false to get rid of a warning message
@@ -117,8 +119,8 @@ gem "omniauth-facebook", "~> 5.0"
 gem "repost"
 gem "xmlrpc"
 gem "bootstrap", "~> 4.6"
-gem "sassc-rails", ">= 2.1.0"
-gem "sassc", "~> 2.4"
+
+
 gem "font-awesome-rails"
 gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.2"
 # gem 'blacklight_cornell_requests', :path => '/Users/matt/code/cul/d&a/blacklight-cornell-requests'
