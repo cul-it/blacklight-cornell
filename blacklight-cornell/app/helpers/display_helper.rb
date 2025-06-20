@@ -1220,43 +1220,53 @@ module DisplayHelper
     sort_param     = params[:sort].presence || 'score desc, pub_date_sort desc, title_sort asc'
     closing_params = "&sort=#{CGI.escape(sort_param)}&search_field=advanced&commit=Search"
 
-    linkText   = ''
-    f_linkText = ''
-    q_row  = params[:q_row]
-    op_row = params[:op_row]
-    sf_row = params[:search_field_row]
-    b_row  = params[:boolean_row] || {}
-    f_row  = params[:f] || {}
-    dr_row = params[:range] || {}
+    link_text   = ''
+    f_link_text = ''
+    f_inclusive_link_text = ''
+
+    q_row       = params[:q_row]              # Query Terms
+    op_row      = params[:op_row]             # Operators
+    sf_row      = params[:search_field_row]   # Search Fields
+    b_row       = params[:boolean_row] || {}  # Booleans
+    f_row       = params[:f] || {}            # Filters
+    f_inclusive = params[:f_inclusive] || {}  # Inclusive Filters
+    dr_row      = params[:range] || {}        # Date Range
 
     # Query facets -------------------------------------------------------------
     q_row.each_with_index do |query, i|
       if i > 0
-        linkText += "&boolean_row[#{i}]=#{b_row[i.to_s.to_sym]}&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
+        link_text += "&boolean_row[#{i}]=#{b_row[i.to_s.to_sym]}&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
       else
-        linkText += "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
+        link_text += "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
       end
     end
 
     # Filter facets ------------------------------------------------------------
     f_row.each do |key, values|
       values.each do |text|
-        f_linkText += "&f[#{key}][]=#{CGI.escape(text)}"
+        f_link_text += "&f[#{key}][]=#{CGI.escape(text)}"
+      end
+    end
+
+    # Inclusive Filter facets --------------------------------------------------
+    f_inclusive.each do |key, values|
+      values.each do |text|
+        f_inclusive_link_text += "&f_inclusive[#{key}][]=#{CGI.escape(text)}"
       end
     end
 
     # Range facets -------------------------------------------------------------
-    if dr_row.present? && dr_row[:begin].present? && dr_row[:end].present?
+    if dr_row.present? && dr_row[:pub_date_facet][:begin].present? && dr_row[:pub_date_facet][:end].present?
       dr_row.each do |field, range_opts|
         range_opts.each do |bound, val|
           next if val.blank?
-          f_linkText += "&range[#{field}][#{bound}]=#{CGI.escape(val)}"
+          f_link_text += "&range[#{field}][#{bound}]=#{CGI.escape(val)}"
         end
       end
     end
 
-    linkText = start_params + linkText + f_linkText + closing_params
-    linkText
+    link_text = start_params + link_text + f_link_text + f_inclusive_link_text + closing_params
+    link_text
   end
 
   # ============================================================================
