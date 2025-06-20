@@ -1216,44 +1216,48 @@ module DisplayHelper
   # Builds formatted search URL from session params
   # ----------------------------------------------------------------------------
   def parseHistoryQueryString(params)
-    start = "catalog?only_path=true&utf8=✓&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes"
-    if params[:sort].nil?
-      finish = "&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&search_field=advanced&commit=Search"
-    else
-      finish = "&" + params[:sort]
-    end
-    linkText = ''
+    start_params   = "catalog?only_path=true&utf8=✓&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes"
+    sort_param     = params[:sort].presence || 'score desc, pub_date_sort desc, title_sort asc'
+    closing_params = "&sort=#{CGI.escape(sort_param)}&search_field=advanced&commit=Search"
+
+    linkText   = ''
     f_linkText = ''
     q_row  = params[:q_row]
     op_row = params[:op_row]
     sf_row = params[:search_field_row]
-    b_row  = params[:boolean_row]
-    if !params[:f].nil?
-      f_row = params[:f]
-    else
-      f_row = {}
+    b_row  = params[:boolean_row] || {}
+    f_row  = params[:f] || {}
+    dr_row = params[:range] || {}
+
+    # Query facets -------------------------------------------------------------
+    q_row.each_with_index do |query, i|
+      if i > 0
+        linkText += "&boolean_row[#{i}]=#{b_row[i.to_s.to_sym]}&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
+      else
+        linkText += "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
+      end
     end
 
-    i = 0
-    num = q_row.length
-    while i < num do
-      if i > 0
-        linkText = linkText + "&boolean_row[#{i}]=" + "#{b_row[i.to_s.to_sym]}" + "&q_row[]=" + CGI.escape(q_row[i]) + "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
-      else
-        linkText = linkText + "&q_row[]=" + CGI.escape(q_row[i]) + "&op_row[]=" + op_row[i] + "&search_field_row[]=" + sf_row[i]
-      end
-      i += 1
-    end
-    f_row.each do |key, value|
-      value.each do |text|
-        f_linkText = f_linkText + "&f[" + key + "][]=" + text
+    # Filter facets ------------------------------------------------------------
+    f_row.each do |key, values|
+      values.each do |text|
+        f_linkText += "&f[#{key}][]=#{CGI.escape(text)}"
       end
     end
-    linkText = start + linkText + f_linkText + finish
+
+    # Range facets -------------------------------------------------------------
+    if dr_row.present? && dr_row[:begin].present? && dr_row[:end].present?
+      dr_row.each do |field, range_opts|
+        range_opts.each do |bound, val|
+          next if val.blank?
+          f_linkText += "&range[#{field}][#{bound}]=#{CGI.escape(val)}"
+        end
+      end
+    end
+
+    linkText = start_params + linkText + f_linkText + closing_params
     linkText
   end
-
-
 
   # ============================================================================
   # switch to determine if a view is part of the main catalog and should get the header
