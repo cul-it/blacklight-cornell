@@ -105,9 +105,12 @@ form.advanced {
 // Search tips
 // -------------------------
 
+
 .as-tips {
   padding-left: 1rem;
 }
+// TODO: DACCESS-589 - remove <dl> if using </ul>
+// TODO: DACCESS-589 - add responsive styles for more narrow form fields
 // TODO: Bootstrap 4 temp fix - remove floats and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
 .dl-horizontal dt {
   float: left;
