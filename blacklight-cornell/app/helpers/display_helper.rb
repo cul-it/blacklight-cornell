@@ -1092,7 +1092,7 @@ module DisplayHelper
   # - Renders the label HTML inside a styled <div> block inside the link
   # ============================================================================
   def link_to_previous_advanced_search(params)
-    query_texts = build_advanced_search_query_tags(params)
+    query_texts = build_search_query_tags(params)
     link_to(parseHistoryQueryString(params)) do
       content_tag(:div, safe_join(query_texts, ' '),
                   class: 'constraint',
@@ -1104,82 +1104,81 @@ module DisplayHelper
   # Generates query text nodes for advanced search params, including boolean,
   # facet, and range filters formatted for display
   # -------------------------------------------------------------------------
-  def build_advanced_search_query_tags(params)
+  def build_search_query_tags(params)
     query_texts = []
-    q_row       = params[:q_row]              # Query Terms
-    sf_row      = params[:search_field_row]   # Search Fields
-    b_row       = params[:boolean_row] || {}  # Booleans
-    dr_row      = params[:range] || {}        # Date Range
-    f_row       = params[:f] || {}            # Filters
-    f_inclusive = params[:f_inclusive] || {}  # Inclusive Filters
-    f_row.merge!(f_inclusive) if f_inclusive.present? # Merge inclusive filters into main filter row
+    q_row       = params[:q_row] || [params[:q]].compact
+    sf_row      = params[:search_field_row] || [params[:search_field]].compact
+    op_row      = params[:op_row] || ['AND']
+    b_row       = params[:boolean_row] || {}
+    dr_row      = params[:range] || {}
+    f_row       = params[:f] || {}
+    f_inclusive = params[:f_inclusive] || {}
+    f_row.merge!(f_inclusive) if f_inclusive.present?
+    op_row_mappings = { 'begins_with' => 'Begins With', 'phrase' => 'Phrase', 'OR' => 'Any', 'AND' => 'All', }
 
-    title_label = q_row.count { |q| q.present? } > 1 ? "SEARCH TERMS: " : "SEARCH TERM: "
-    query_texts << content_tag(:span, "#{title_label}", class: 'query-boolean ms-2')
+    title_label = q_row.count(&:present?) > 1 ? "SEARCH TERMS: " : "SEARCH TERM: "
+    query_texts << content_tag(:span, title_label, class: 'query-boolean ms-2')
 
-    # Render query text --------------------------------------------------------
+    # Queries ------------------------------------------------------------------
     q_row.each_with_index do |query, i|
-      if query.present?
-        boolean     = i.positive? ? b_row[i.to_s.to_sym] : nil
-        field_label = search_field_def_for_key(sf_row[i])[:label] rescue 'All Fields'
+      next if query.blank?
+      boolean     = i.positive? ? b_row[i.to_s.to_sym] : nil
+      field_key   = sf_row[i] || 'all_fields'
+      field_label = search_field_def_for_key(field_key)[:label] rescue 'All Fields'
+      op_label    = op_row_mappings[op_row[i]] || op_row[i] || ''
 
-        query_html  = content_tag(:span, class: 'combined-label-query btn btn-light') do
-          content_tag(:span, class: 'filter-name') do
-            content_tag(:span, field_label, class: 'label-text') + ' All'
-          end +
-            content_tag(:span, query, class: 'query-text')
-        end
+      query_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
+        content_tag(:span, class: 'filter-name') do
+          content_tag(:span, field_label, class: 'label-text') + " #{op_label} "
+        end + content_tag(:span, query, class: 'query-text')
       end
 
-      query_texts << content_tag(:span, boolean, class: 'query-boolean') if boolean.present? && q_row[i -1].present?
+      query_texts << content_tag(:span, boolean, class: 'query-boolean') if boolean.present? && q_row[i - 1].present?
       query_texts << query_html
     end
 
-    # Add facet filters if present ---------------------------------------------
-    if f_row.present? || f_inclusive.present?
-      query_texts << tag.div(class: 'w-100') # ⬅️ Line break before FILTERED BY
+    # Filters ------------------------------------------------------------------
+    if f_row.present?
+      query_texts << tag.div(class: 'w-100')
       query_texts << content_tag(:span, 'FILTERED BY: ', class: 'query-boolean ms-2')
 
       f_row.each_with_index do |(facet_key, values), filter_index|
         values.each_with_index do |val, value_index|
           query_texts << content_tag(:span, 'AND', class: 'query-boolean') if filter_index.positive? || value_index.positive?
+          label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.titleize
+          value = FACET_LABEL_MAPPINGS[val] || val
 
           facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
-            mapped_value = FACET_LABEL_MAPPINGS[val] || val
             content_tag(:span, class: 'filter-name') do
-              mapped_label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.titleize
-              content_tag(:span, mapped_label, class: 'label-text')
-            end +
-              content_tag(:span, mapped_value, class: 'query-text')
+              content_tag(:span, label, class: 'label-text')
+            end + content_tag(:span, value, class: 'query-text')
           end
           query_texts << facet_html
         end
       end
     end
 
-    # Add range facets ---------------------------------------------------------
-    if dr_row.present? && dr_row[:pub_date_facet][:begin].present? && dr_row[:pub_date_facet][:end].present?
-      query_texts << tag.div(class: 'w-100') # ⬅️ Line break before DATED BETWEEN
+    # Date range ---------------------------------------------------------------
+    if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
+      query_texts << tag.div(class: 'w-100')
       query_texts << content_tag(:span, 'DATED BETWEEN: ', class: 'query-boolean ms-2')
 
-      dr_row.each_with_index do |(facet_key, values), filter_index|
-        if values['begin'].present? && values['end'].present?
-          query_texts << content_tag(:span, 'AND', class: 'query-boolean') if filter_index.positive?
+      dr_row.each_with_index do |(facet_key, values), ridx|
+        next unless values['begin'].present? && values['end'].present?
+        query_texts << content_tag(:span, 'AND', class: 'query-boolean') if ridx.positive?
+        label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.titleize
 
-          facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
-            content_tag(:span, class: 'filter-name') do
-              mapped_label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.titleize
-              content_tag(:span, mapped_label, class: 'label-text')
-            end +
-              content_tag(:span, "#{values['begin']} - #{values['end']}", class: 'query-text')
-          end
-          query_texts << facet_html
+        facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
+          content_tag(:span, class: 'filter-name') do
+            content_tag(:span, label, class: 'label-text')
+          end + content_tag(:span, "#{values['begin']} - #{values['end']}", class: 'query-text')
         end
+        query_texts << facet_html
       end
     end
+
     query_texts
   end
-
 
   # ============================================================================
   # Render Basic and Advanced Query Constraint
@@ -1209,8 +1208,12 @@ module DisplayHelper
   # Can remove and replace with #link_to_previous_search in blacklight >= v8.0.0: https://github.com/projectblacklight/blacklight/pull/2626
   # Use in e.g. the search history display, where we want something more like text instead of the normal constraints
   def link_to_previous_search_override(params)
-    search_state = controller.search_state_class.new(params, blacklight_config, self)
-    link_to(render(Blacklight::ConstraintsComponent.for_search_history(search_state: search_state)), search_action_path(params))
+    query_texts = build_search_query_tags(params)
+    link_to(parseHistoryQueryString(params)) do
+      content_tag(:div, safe_join(query_texts, ' '),
+                  class: 'constraint',
+                  style: 'display: inline-block; text-indent: 0rem; padding-left: 8px !important;')
+    end
   end
 
   # ============================================================================
@@ -1225,39 +1228,32 @@ module DisplayHelper
     f_link_text = ''
     f_inclusive_link_text = ''
 
-    q_row       = params[:q_row]              # Query Terms
-    op_row      = params[:op_row]             # Operators
-    sf_row      = params[:search_field_row]   # Search Fields
-    b_row       = params[:boolean_row] || {}  # Booleans
-    f_row       = params[:f] || {}            # Filters
-    f_inclusive = params[:f_inclusive] || {}  # Inclusive Filters
-    dr_row      = params[:range] || {}        # Date Range
+    q_row       = params[:q_row] || [params[:q]].compact
+    sf_row      = params[:search_field_row] || [params[:search_field]].compact
+    op_row      = params[:op_row] || ['AND']
+    b_row       = params[:boolean_row] || {}
+    dr_row      = params[:range] || {}
+    f_row       = params[:f] || {}
+    f_inclusive = params[:f_inclusive] || {}
+    f_row.merge!(f_inclusive) if f_inclusive.present?
 
-    # Query facets -------------------------------------------------------------
+    # Query --------------------------------------------------------------------
     q_row.each_with_index do |query, i|
-      if i > 0
-        link_text += "&boolean_row[#{i}]=#{b_row[i.to_s.to_sym]}&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
-      else
-        link_text += "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
-      end
+      next if query.blank?
+      boolean = i.positive? ? b_row[i.to_s.to_sym] : nil
+      link_text += "&boolean_row[#{i}]=#{boolean}" if boolean
+      link_text += "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
     end
 
-    # Filter facets ------------------------------------------------------------
+    # Filters ------------------------------------------------------------------
     f_row.each do |key, values|
       values.each do |text|
         f_link_text += "&f[#{key}][]=#{CGI.escape(text)}"
       end
     end
 
-    # Inclusive Filter facets --------------------------------------------------
-    f_inclusive.each do |key, values|
-      values.each do |text|
-        f_inclusive_link_text += "&f_inclusive[#{key}][]=#{CGI.escape(text)}"
-      end
-    end
-
-    # Range facets -------------------------------------------------------------
-    if dr_row.present? && dr_row[:pub_date_facet][:begin].present? && dr_row[:pub_date_facet][:end].present?
+    # Date range ---------------------------------------------------------------
+    if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
       dr_row.each do |field, range_opts|
         range_opts.each do |bound, val|
           next if val.blank?
@@ -1266,8 +1262,7 @@ module DisplayHelper
       end
     end
 
-    link_text = start_params + link_text + f_link_text + f_inclusive_link_text + closing_params
-    link_text
+    start_params + link_text + f_link_text + f_inclusive_link_text + closing_params
   end
 
   # ============================================================================
