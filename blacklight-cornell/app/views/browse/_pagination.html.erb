@@ -17,12 +17,12 @@
       <% if !@has_previous %>
         &laquo; Previous |
       <% elsif params[:order] != "reverse" %>
-        <%= link_to browse_url(params[:authq], params[:browse_type], 0, "reverse") + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: 0, order: "reverse") + location do %>
           &laquo; Previous 
         <% end %>
         | 
       <% else %>
-        <%= link_to browse_url(params[:authq], params[:browse_type], previous, "reverse") + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: previous, order: "reverse") + location do %>
           &laquo; Previous 
         <% end %>
         | 
@@ -30,21 +30,21 @@
       <% if !@has_next%>
         Next &raquo;
       <% elsif params[:order] != "reverse" %>
-        <%= link_to browse_url(params[:authq], params[:browse_type], nextpage, "forward") + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: nextpage, order: "forward") + location do %>
           Next &raquo;
         <% end %>
       <% else %>
-        <%= link_to browse_url(params[:authq], params[:browse_type], 0, "forward") + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: 0, order: "forward") + location do %>
           Next &raquo;        
         <% end %>
       <% end %>
     <% else   %>
       <% if !params[:authq].nil? and !params[:browse_type].nil? and !params[:order].nil? %>
-        <%= link_to browse_url(params[:authq], params[:browse_type], previous, params[:order]) + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: previous, order: params[:order]) + location do %>
           &laquo; Previous 
         <% end %>
         | 
-        <%= link_to browse_url(params[:authq], params[:browse_type], nextpage, params[:order]) + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: nextpage, order: params[:order]) + location do %>
           Next &raquo;
         <% end %>
       <% end %>

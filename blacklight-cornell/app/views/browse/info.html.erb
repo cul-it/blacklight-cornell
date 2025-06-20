@@ -9,7 +9,7 @@
           Back to item
         <% end %>        
       <% else %>
-        <%= link_to browse_url(params[:authq],params[:browse_type]) do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: 0) do %>
           <i class="fa fa-arrow-circle-left"></i>
           Back to list
         <% end %>

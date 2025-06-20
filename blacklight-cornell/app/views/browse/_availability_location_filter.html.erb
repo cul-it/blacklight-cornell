@@ -4,7 +4,7 @@
     <% 
 	  start = params.has_key?(:start) ? params[:start] : 0
 	  order = params.has_key?(:order) ? params[:order] : 'forward'
-      url = browse_url(params[:authq], 'virtual', start, order)%>
+    url = browse_index_path(authq: params[:authq], start: 0, browse_type: 'virtual', start: , order: )%>
       <label for="vb-lib-select" class="sr-only">Select library</label>
       <select id="vb-lib-select" class="form-control w-100" onchange="location = this.value;">
           <% @browse_locations.each do |lib| %>

@@ -1,12 +1,4 @@
 module BrowseHelper
-
-  def browse_url(authq, browse_type, start=0, order=nil)
-    url = "/browse?authq=#{CGI.escape authq}&browse_type=#{browse_type}&start=#{start}"
-    if order.present?
-      url += "&order=#{order}"
-    end
-    return url
-  end
   
   def cleanup_bio_data(bd)
     bd.reject { |k, v| k == 'Field' if bd.key?('Occupation') }
