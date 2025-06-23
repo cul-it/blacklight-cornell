@@ -262,9 +262,19 @@ padding-left: 6em;
 }
 // Styles apply to item view and browse pages for Author, Author-Title, Subject
 .info-button {
-	margin-left: .25rem;
-	padding: .1rem .4rem;
+	margin-left: .4rem;
 	font-size: .8rem;
+}
+.info-button.btn-xs {
+	padding: .4rem .3rem;
+}
+
+// DACCESS-84: spacing for crowded Work info values + buttons
+.blacklight-included_work_display {
+	.info-button {
+		margin-bottom: .75rem;
+		margin-top: .25rem;
+	}
 }
 
 // Metadata

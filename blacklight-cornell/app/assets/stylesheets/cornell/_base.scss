@@ -97,6 +97,12 @@ h3 { font-size: 20px; line-height: 1.5em;}
 		border-bottom: 1px solid $dark-green;
 	}
 }
+.btn-group-xs > .btn, .btn-xs {
+  padding: .25rem .4rem;
+  font-size: .875rem;
+  line-height: .5;
+  border-radius: .2rem;
+}
 
 // Card customization
 // ------------------------
