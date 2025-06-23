@@ -3,7 +3,6 @@
   bio_data = @heading_document['rda_json'].present? ? JSON.parse(@heading_document['rda_json']) : {}
 	display_info_details = bio_data.present? || @heading_document['notes'].present?
 %>
-<h1><%=@heading_document['headingTypeDesc']%></h1>
 
 <div id='author-title-heading' class='row info-row mb-4 mt-4' data-heading="<%=encoded_heading%>" >
   <div id='left-container' class='col-sm-8'>
