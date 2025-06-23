@@ -40,3 +40,14 @@ ul.nav-tabs li {
         margin-left: .25rem;
     }
 }
+#bio-with-ld {
+    img {
+        max-width: 200px;
+    }
+    // Medium devices (tablets, 768px and up)
+    @include media-breakpoint-up(md) {
+        img {
+            max-width: 100%;
+        }
+    }
+}
