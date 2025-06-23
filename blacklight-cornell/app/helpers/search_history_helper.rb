@@ -3,33 +3,33 @@ module SearchHistoryHelper
   # Map solr facet field names to display-friendly labels
   # ----------------------------------------------------------------------------
   FACET_LABEL_MAPPINGS = {
-    'language_facet'        => 'Language',
-    'format'                => 'Format',
-    'pub_date_facet'        => 'Publication Year',
-    'fast_topic_facet'      => 'Subject',
-    'author_facet'          => 'Author',
-    'fast_genre_facet'      => 'Genre',
-    'lc_callnum_facet'      => 'Call Number',
-    'acquired_dt_query'     => 'Acquired Date',
-    'fast_geo_facet'        => 'Subject Region',
-    'subject_content_facet' => 'Fiction/Non-fiction Type',
-    'fast_era_facet'        => 'Subject Era',
-    'last_1_week'           => 'Since last week',
-    'last_1_month'          => 'Since last month',
-    'last_1_years'          => 'Since last year',
+    language_facet:         'Language',
+    format:                 'Format',
+    pub_date_facet:         'Publication Year',
+    fast_topic_facet:       'Subject',
+    author_facet:           'Author',
+    fast_genre_facet:       'Genre',
+    lc_callnum_facet:       'Call Number',
+    acquired_dt_query:      'Acquired Date',
+    fast_geo_facet:         'Subject Region',
+    subject_content_facet:  'Fiction/Non-fiction Type',
+    fast_era_facet:         'Subject Era',
+    last_1_week:            'Since last week',
+    last_1_month:           'Since last month',
+    last_1_years:           'Since last year',
   }
 
   # ============================================================================
   # Map Advanced Search Operators to display-friendly labels
   # ----------------------------------------------------------------------------
   OP_ROW_MAPPINGS = {
-    'begins_with' => 'Begins With',
-    'phrase'      => 'Phrase',
-    'OR'          => 'Any',
-    'AND'         => 'All',
+    begins_with: 'Begins With',
+    phrase:      'Phrase',
+    OR:          'Any',
+    AND:         'All',
   }
 
-
+  
   # ============================================================================
   # - Builds a visual label (query_texts) with proper span/button layout
   # - Uses parseHistoryQueryString(params) to generate the URL
@@ -68,7 +68,7 @@ module SearchHistoryHelper
       boolean     = i.positive? ? b_row[i.to_s.to_sym] : nil
       field_key   = sf_row[i] || 'all_fields'
       field_label = search_field_def_for_key(field_key)[:label] rescue 'All Fields'
-      op_label    = OP_ROW_MAPPINGS[op_row[i]] || op_row[i] || ''
+      op_label    = OP_ROW_MAPPINGS[op_row[i].to_sym] || op_row[i] || ''
 
       query_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
         content_tag(:span, class: 'filter-name') do
@@ -88,8 +88,8 @@ module SearchHistoryHelper
       f_row.each_with_index do |(facet_key, values), filter_index|
         values.each_with_index do |val, value_index|
           query_texts << content_tag(:span, 'AND', class: 'query-boolean') if filter_index.positive? || value_index.positive?
-          label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.to_s.titleize
-          value = FACET_LABEL_MAPPINGS[val] || val.to_s
+          label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
+          value = val.to_s
 
           facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
             content_tag(:span, class: 'filter-name') do
@@ -109,8 +109,8 @@ module SearchHistoryHelper
       f_inclusive.each_with_index do |(facet_key, values), filter_index|
         values.each_with_index do |val, value_index|
           query_texts << content_tag(:span, 'OR', class: 'query-boolean') if filter_index.positive? || value_index.positive?
-          label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.to_s.titleize
-          value = FACET_LABEL_MAPPINGS[val] || val.to_s
+          label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
+          value = val.to_s
 
           facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
             content_tag(:span, class: 'filter-name') do
@@ -130,7 +130,7 @@ module SearchHistoryHelper
       dr_row.each_with_index do |(facet_key, values), ridx|
         next unless values['begin'].present? && values['end'].present?
         query_texts << content_tag(:span, 'AND', class: 'query-boolean') if ridx.positive?
-        label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.titleize
+        label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.titleize
 
         facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
           content_tag(:span, class: 'filter-name') do
