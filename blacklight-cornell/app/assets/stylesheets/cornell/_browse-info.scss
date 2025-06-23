@@ -19,10 +19,12 @@ ul.nav-tabs li {
   display: none;
   margin-bottom: 16px;
 }
-.ld-acknowledge {
+div.ld-acknowledge {
     margin-top: 2rem;
     padding-top: 1rem;
     border-top: 1px solid $tan;
+}
+.ld-acknowledge {
     font-size: .8rem;
     i {
         margin-left: .25rem;
