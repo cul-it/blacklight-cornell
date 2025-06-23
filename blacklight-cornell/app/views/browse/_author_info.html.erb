@@ -9,7 +9,7 @@
 <input id='exclusions' type='hidden' value="<%= exclusions_JSON %>" />
 
 <div class='row info-row mb-4 mt-4'>
-  <div id='left-container' class='col-sm-8 col-md-8 col-lg-8'>
+  <div id='left-container' class='col-sm-8'>
 		<%= render 'bio_info', heading_type: 'author', bio_data: bio_data do %>
 			<% if bio_data['Occupation'].present? %>
 				<dt>Occupation:</dt>
@@ -61,7 +61,7 @@
       <%= render 'reference_info' %>
     </div>
 	</div>
-	<div class='col-sm-4 col-md-4 col-lg-4'>
+	<div class='col-sm-4'>
 		<%= render 'holdings' %>
 		<%# Will display relevant call numbers for the author if they're available. %>
 		<div id='callnumberbrowselink' class='mb-4 mt-4 ml-2' localname="<%=@loc_localname.gsub('"','')%>"></div>

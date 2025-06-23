@@ -12,13 +12,6 @@ ul.nav-tabs li {
     background: #edebe7;
     border-bottom:1px solid #dee2e6;
 }
-#bio-with-ld {
-  background: #edebe7;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
-}
 #ref-info-heading, #lcnaf-link {
   padding: 10px 0 0 0;
 }
@@ -26,10 +19,19 @@ ul.nav-tabs li {
   display: none;
   margin-bottom: 16px;
 }
+div.ld-acknowledge {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid $tan;
+}
 .ld-acknowledge {
-    font-size: 14px;
+    font-size: .8rem;
     i {
         margin-left: .25rem;
+    }
+    span {
+        margin-bottom: .5rem;
+        display: inline-block;
     }
 }
 #item-details > dt {
@@ -38,5 +40,16 @@ ul.nav-tabs li {
 #lcnaf-link {
     i {
         margin-left: .25rem;
+    }
+}
+#bio-with-ld {
+    img {
+        max-width: 200px;
+    }
+    // Medium devices (tablets, 768px and up)
+    @include media-breakpoint-up(md) {
+        img {
+            max-width: 100%;
+        }
     }
 }
