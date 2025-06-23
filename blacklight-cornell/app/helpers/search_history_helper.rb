@@ -88,8 +88,29 @@ module SearchHistoryHelper
       f_row.each_with_index do |(facet_key, values), filter_index|
         values.each_with_index do |val, value_index|
           query_texts << content_tag(:span, 'AND', class: 'query-boolean') if filter_index.positive? || value_index.positive?
-          label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.titleize
-          value = FACET_LABEL_MAPPINGS[val] || val
+          label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.to_s.titleize
+          value = FACET_LABEL_MAPPINGS[val] || val.to_s
+
+          facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
+            content_tag(:span, class: 'filter-name') do
+              content_tag(:span, label, class: 'label-text')
+            end + content_tag(:span, value, class: 'query-text')
+          end
+          query_texts << facet_html
+        end
+      end
+    end
+
+    # Inclusive Filters --------------------------------------------------------
+    if f_inclusive.present?
+      query_texts << tag.div(class: 'w-100')
+      query_texts << content_tag(:span, 'INCLUDE ANY: ', class: 'query-boolean ms-2')
+
+      f_inclusive.each_with_index do |(facet_key, values), filter_index|
+        values.each_with_index do |val, value_index|
+          query_texts << content_tag(:span, 'OR', class: 'query-boolean') if filter_index.positive? || value_index.positive?
+          label = FACET_LABEL_MAPPINGS[facet_key] || facet_key.to_s.titleize
+          value = FACET_LABEL_MAPPINGS[val] || val.to_s
 
           facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
             content_tag(:span, class: 'filter-name') do
@@ -152,16 +173,16 @@ module SearchHistoryHelper
     end
 
     # Filters ------------------------------------------------------------------
-    f_inclusive.each do |key, values|
-      values.each do |text|
-        f_inclusive_link_text += "&f_inclusive[#{key}][]=#{CGI.escape(text)}"
-      end
-    end
-
-    # Filters ------------------------------------------------------------------
     f_row.each do |key, values|
       values.each do |text|
         f_link_text += "&f[#{key}][]=#{CGI.escape(text)}"
+      end
+    end
+
+    # Inclusive Filters --------------------------------------------------------
+    f_inclusive.each do |key, values|
+      values.each do |text|
+        f_inclusive_link_text += "&f_inclusive[#{key}][]=#{CGI.escape(text)}"
       end
     end
 
