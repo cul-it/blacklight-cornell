@@ -6,7 +6,7 @@
 <h1><%=@heading_document['headingTypeDesc']%></h1>
 
 <div id='author-title-heading' class='row info-row mb-4 mt-4' data-heading="<%=encoded_heading%>" >
-  <div id='left-container' class='col-8'>
+  <div id='left-container' class='col-sm-8'>
 		<%= render 'bio_info', heading_type: 'authortitle', bio_data: bio_data do %>
       <% if bio_data.present? %>
 				<%
@@ -37,7 +37,7 @@
       <%= render partial: 'reference_info' %>
     </div>
 	</div>
-	<div class='col-4'>
+	<div class='col-sm-4'>
 		<%= render 'holdings' %>
 	</div>
 </div>
