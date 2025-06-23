@@ -58,7 +58,6 @@ module SearchHistoryHelper
     dr_row      = params[:range] || {}
     f_row       = params[:f] || {}
     f_inclusive = params[:f_inclusive] || {}
-    f_row.merge!(f_inclusive) if f_inclusive.present?
 
     title_label = q_row.count(&:present?) > 1 ? "SEARCH TERMS: " : "SEARCH TERM: "
     query_texts << content_tag(:span, title_label, class: 'query-boolean ms-2')
