@@ -79,7 +79,7 @@
                           <% h.each do |headingInfo| %>
 							<% if loop_count < 4 %>
                             	<li style="display:inline;padding-left:6px">
-                                <%= link_to browse_index_path(authq: headingInfo["heading"].gsub('&', '%26').gsub("\"", "'"), start: 0, browse_type: params[:browse_type]) do %>
+                                <%= link_to browse_index_path(authq: headingInfo["heading"].gsub("\"", "'"), start: 0, browse_type: params[:browse_type]) do %>
                             	    <%= headingInfo["heading"] %>
 								  <% end %>
                             	  <span class="see-ref-count"><%= "(" + headingInfo["count"].to_s + ")"  %></span>
@@ -102,7 +102,7 @@
                     <% else %>
                       <% h.each do |headingInfo| %>
                         <div class="see-also-author-title">
-                          <%= link_to browse_index_path(authq: headingInfo["heading"].gsub('&', '%26').gsub("\"", "'"), start: 0, browse_type: params[:browse_type]) do %>
+                          <%= link_to browse_index_path(authq: headingInfo["heading"].gsub("\"", "'"), start: 0, browse_type: params[:browse_type]) do %>
                                 <%= headingInfo["heading"] %><% end %>
                               <%= "(" + headingInfo["count"].to_s + ")"  %>
                         </div>

@@ -43,7 +43,7 @@
 	<div class="">
 	  <div id="classification" class="row class-heading" data-anchor-label="<%= internal_class%>" data-keep-count="true" data-next-count="0" data-prev-count="0">
         <div class="vb-browse-link">
-	  		<%= link_to "Expanded view", browse_index_path(authq: callnumbers[0], browse_type: "virtual", start: 0), {:onclick => "javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'expanded_view_link']);"} %>
+	  		<%= link_to "Expanded view", browse_index_path(authq: callnumbers[0], browse_type: "virtual"), {:onclick => "javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'expanded_view_link']);"} %>
 		</div>
         <div class="vb-scroll-nav">
 	        <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'scroll_left']);">
