@@ -11,8 +11,3 @@ Before do |scenario|
         @url = nil
     end
 end
-
-def do_visit(path)
-    # didn't actually need @url once app_host is set
-    visit "#{path}"
-end

@@ -1134,34 +1134,6 @@ end
 
 ##########
 
-  # Display the Solr core for everything but production instance
-  def render_solr_core
-    unless request.host == 'search.library.cornell.edu' or request.host == 'catalog.library.cornell.edu'
-      core = Blacklight.connection_config[:url]
-      # Remove http protocol string
-      start = core.rindex(/:\/\//) + 3
-      display = '<p class="solr-core">Solr core: ' + core[start..-1] + '</p>'
-      display.html_safe
-    end
-  end
-
-  # TODO: no longer needed? commented out 5/31/23 to see if it breaks anything - mhk33, DISCOVERYACCESS-7501
-  # Clean up isbn in prep for bookcovers via Google Books API
-  # def bookcover_isbn(document)
-  #   isbn = document['isbn_display']
-  #   unless isbn.blank?
-  #     isbn = isbn.first
-  #     # Find first occurence of a space (remove non integer chars)
-  #     space = isbn.index(' ')
-  #     unless space.blank?
-  #       stop = space - 1
-  #       isbn[0..stop]
-  #     else
-  #       isbn
-  #     end
-  #   end
-  # end
-
   def bookcover_oclc(document)
     if document['oclc_id_display'].nil?
       oclc_id = ''

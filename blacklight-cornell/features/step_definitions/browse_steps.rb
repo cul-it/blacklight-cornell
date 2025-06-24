@@ -4,15 +4,15 @@ When /^I fill in the authorities search box with '(.*?)'$/ do |query|
 end
 
 Given /^I request the personal name author item view for (.*?)$/ do |author|
-	do_visit "/browse/info?authq=#{CGI.escape(author)}&browse_type=Author&headingtype=Personal%20Name"
+	visit "/browse/info?authq=#{CGI.escape(author)}&browse_type=Author&headingtype=Personal%20Name"
 end
 
 Given /^I request the geographic name subject item view for (.*?)$/ do |subject|
-	do_visit "/browse/info?authq=#{CGI.escape(subject)}&browse_type=Subject&headingtype=Geographic%20Name"
+	visit "/browse/info?authq=#{CGI.escape(subject)}&browse_type=Subject&headingtype=Geographic%20Name"
 end
 
 Given /^I request the author title item view for (.*?)$/ do |at|
-	do_visit "/browse/info?authq=#{CGI.escape(at)}&browse_type=Author-Title"
+  visit browse_info_path(authq: at, browse_type: 'Author-Title')
 end
 
 Given /^I click a link with text '(.*?)' within '(.*?)'$/ do |text, id|

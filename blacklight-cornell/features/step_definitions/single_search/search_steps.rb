@@ -85,7 +85,7 @@ Then(/^facet "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/
        numx.match(/of\s+(\d+)/)[1].should_not be_nil
        num2 = numx.match(/of\s+(\d+)/)[1]
      else
-	do_visit(href)
+	visit href
       sleep 3
        total2 = find('.'+divtag,match: :first)
        total2.should_not be_nil
@@ -152,7 +152,7 @@ Then(/^box "(.*?)" should match "(.*?)" (nth|th|rd|st|nd) "(.*?)" in "(.*?)"$/) 
       end
       #print "num2 on view (line #{__LINE__} all page is #{num2}\n"
     else
-	do_visit(href)
+	visit href
       sleep 3
       #print "HREF is #{href}\n"
       total2 = find('.'+divtag,match: :first)

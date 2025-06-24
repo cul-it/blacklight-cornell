@@ -82,8 +82,7 @@ Then("I click on the first search result") do
 end
 
 Then (/^I visit Books page '(.*)' with '(.*)' per page$/) do |page, perpage|
-  href = "/?f[format][]=Book&page=#{page}&per_page=#{perpage}"
-	do_visit(href)
+  visit "/?f[format][]=Book&page=#{page}&per_page=#{perpage}"
 end
 
 Then("I should see a thumbnail image for {string}") do |string|
