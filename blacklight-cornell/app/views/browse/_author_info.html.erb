@@ -40,7 +40,7 @@
 					<ul class='agent-notes'>
 						<% the_notes.each do |n| %>
 							<% if n.class.inspect == 'Hash'%>
-								<li><a href="/browse?authq=<%=n['header']%>&start=0&browse_type=Author"><%= n['header']%></a></li>
+								<li><%= link_to n['header'], browse_index_path(authq: n['header'], start: 0, browse_type: 'Author') %></li>
 							<% end %>
 						<% end %>
 					</ul>
@@ -52,7 +52,7 @@
 				<% if pseudonym.present? %>
 					<dt>Pseudonym for:</dt>
 					<dd>
-						<a href="/browse?authq=<%=pseudonym%>&start=0&browse_type=Author"><%=pseudonym%></a>
+						<%= link_to pseudonym, browse_index_path(authq: pseudonym, start: 0, browse_type: 'Author') %><
 					</dd>
 				<% end %>
 			<% end %>
