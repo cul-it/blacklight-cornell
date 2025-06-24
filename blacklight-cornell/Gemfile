@@ -1,71 +1,57 @@
 source "https://rubygems.org"
 ruby "3.2.2"
 gem "rails", "~> 6.1.7"
-gem "dotenv-rails", "2.8.1" # NOTE: unpinning this and letting it drift to latest (v3.x) breaks SAML login!
-gem "appsignal", "~> 3.3.2" #, '2.11.10'
-gem "sprockets" #, '~> 3.7.2'
-gem "ffi"
-
-
-group :development, :test, :integration do
-  gem "brakeman"
-  gem "rspec_junit_formatter"
-  gem "spreewald", :git => "https://github.com/makandra/spreewald.git"
-  gem "sqlite3", "~> 1.7.3"
-end
-
-group :production, :staging do
-  gem "mysql2", "~> 0.5.6"
-end
 
 gem "activerecord-session_store", ">= 2.0.0"
+gem "addressable", ">= 2.8.0"
+gem "appsignal", "~> 3.3.2" #, '2.11.10'
+gem "aws-sdk-s3", "~> 1.143"
 gem "blacklight" # , '7.29.0'
 gem "blacklight-hierarchy"
 gem "blacklight-marc", "~> 6.3"
 gem "blacklight_range_limit", "~> 8.5.0"
 gem "blacklight_unapi", :git => "https://github.com/cul-it/blacklight-unapi", :branch => "BL7-upgrade"
-gem "haml", 
+gem "celluloid", "0.17.4" # Required for bento_search multisearcher
+gem "coffee-rails", "~> 4.0"
+gem "concurrent-ruby", "1.2.3", require: "concurrent"
+gem "dotenv-rails", "2.8.1" # NOTE: unpinning this and letting it drift to latest (v3.x) breaks SAML login!
+gem "ffi"
+gem "haml" 
 gem "haml-rails"
 gem "htmlentities", "~> 4.3.4"
-gem "httpclient", "~> 2.10.0"
+gem "httpclient", "~> 2.9.0"
+gem "jquery-rails"
+gem "jquery-ui-rails", "6.0.0"
+gem "libv8-node"
 gem "marc"
+gem "mini_racer", "0.6.2", platforms: :ruby
 gem "net-smtp"
+gem "nokogiri", "~> 1.16.7"
 gem "protected_attributes_continued"
+gem "puma", "~> 6.4"
 gem "rb-readline", "~> 0.5.x"
+gem "redis-session-store"
+gem "rsolr"
+# NOTE: sassc-rails is supposed to be a drop-in replacement for sass-rails, but removing sass-rails
+# causes an error and breaks the site. There must be some dependency that is still requiring sass-rails.
+gem "sass-rails", "~> 5.0"
+gem "sassc-rails", ">= 2.1.0"
+gem "sprockets" #, '~> 3.7.2'
+gem "status-page"
+gem "terser", "~> 1.1"
+gem "utf8-cleaner"
 gem "whenever", require: false
 
 gem "savon", "~> 2.11.1"  # TODO: We might not need this
 gem "parslet" # TODO: We might not need this
 gem "ultraviolet" # TODO: We might not need this
 gem "yaml_db" # TODO: We might not need this
-
 gem "kaminari", ">= 0.15" # TODO: We might not need this
 gem "view_component" # , '2.83.0' # ( was 2.72.0) # TODO: We might not need this
+gem "rufus-scheduler" # TODO: We might not need this
+gem "unicode_utils" # TODO: We might not need this
 
 
-
-
-
-
-gem "nokogiri", "~> 1.16.7"
-gem "rufus-scheduler"
-gem "addressable", ">= 2.8.0"
-gem "redis-session-store"
-gem "rsolr"
-gem "utf8-cleaner"
-gem "mini_racer", "0.6.2", platforms: :ruby
-gem "libv8-node"
-# Gems used only for assets and not required
-# in production environments by default.
-# NOTE: sassc-rails is supposed to be a drop-in replacement for sass-rails, but removing sass-rails
-# causes an error and breaks the site. There must be some dependency that is still requiring sass-rails.
-gem "sass-rails", "~> 5.0"
-gem "sassc-rails", ">= 2.1.0"
-gem "coffee-rails", "~> 4.0"
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-
-gem "terser", "~> 1.1"
 
 group :development, :test do
   gem "byebug"
@@ -82,6 +68,18 @@ group :development, :test do
   gem "awesome_print"
   gem "selenium-webdriver"
 end
+
+group :development, :test, :integration do
+  gem "brakeman"
+  gem "rspec_junit_formatter"
+  gem "spreewald", :git => "https://github.com/makandra/spreewald.git"
+  gem "sqlite3", "~> 1.7.3"
+end
+
+group :production, :staging do
+  gem "mysql2", "~> 0.5.6"
+end
+
 
 group :test do
   gem "capybara", "3.39.2"
@@ -101,13 +99,11 @@ group :test do
   gem 'rails-controller-testing'
 end
 
-gem "jquery-rails"
-gem "jquery-ui-rails", "6.0.0"
+
 gem "capistrano", "~> 3.18"
 gem "capistrano-rails", "~> 1.6"
 gem 'capistrano-rvm'
 gem 'capistrano-ext'
-gem 'unicode', :platforms => [:mri_18, :mri_19, :mri_20]
 gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'
 
@@ -133,22 +129,22 @@ gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.
 gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.5"
 gem "ruby-saml", "~>1.18"
 gem "bento_search", "~> 2.0.0.rc1"
-gem "celluloid", "0.17.4" # Required for bento_search multisearcher
+
 gem "exception_notification"
 gem "piwik_analytics", "~> 1.0.1"
 gem "csl-styles", :git => "https://github.com/cul-it/csl-styles", :branch => "master", :submodules => true
 #gem 'csl-styles', :git => 'git://github.com/cul-it/csl-styles', :branch => 'master', :submodules => true
-gem "unicode_utils"
+
 gem "ebsco-eds"
 #gem 'loofah', '~> 2.0', '>= 2.3'
 gem "loofah", "2.19.1"
 
-gem "puma", "~> 6.4"
-gem "aws-sdk-s3", "~> 1.143"
+
+
 gem "uri", "0.12.4"
 # gem 'pkg-config', '1.5.4'
-gem "status-page"
-gem "concurrent-ruby", "1.2.3", require: "concurrent"
+
+
 gem "rack-cors", require: "rack/cors"
 gem "rexml", "3.2.6"
 # TODO: rexml v3.3.9 is more stringent on acceptable xml. Fails with current xml format
