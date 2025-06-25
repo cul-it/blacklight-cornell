@@ -315,7 +315,8 @@ end
                                       browse_info_path(authq: authq,
                                                        bib: args[:document]['id'],
                                                        browse_type: related_auth_label),
-                                      class: 'info-button d-inline-block btn btn-sm btn-outline-secondary')
+                                      class: 'info-button d-inline-block btn btn-xs btn-outline-secondary',
+                                      'aria-label' => 'Work info for ' + authq)
                 search_link + browse_link
               else
                 search_link
