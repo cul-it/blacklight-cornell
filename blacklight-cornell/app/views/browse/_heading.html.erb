@@ -46,13 +46,13 @@
             <% if !data["seeAlso"].nil? || !data["notes"].nil?  || data["mainEntry"] == true %>
               <% unless params[:browse_type] == 'Author-Title' %>
 				<% if %>
-                  <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"], { :class => "info-button btn btn-sm btn-outline-secondary", :onclick => "javascript:_paq.push(['trackEvent', 'browse', 'info-btn']);"} do %>
+                  <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type]+"&headingtype=" + data["headingTypeDesc"], { :class => "info-button btn btn-xs btn-outline-secondary", :onclick => "javascript:_paq.push(['trackEvent', 'browse', 'info-btn']);", 'aria-label' => params[:browse_type] + ' info for ' + data["heading"]} do %>
                       <%=params[:browse_type]%> info »
                   <% end %>
 				<% end %>
               <% end %>
               <% if params[:browse_type] == 'Author-Title' %>
-                <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type], { :class => "info-button btn btn-sm btn-outline-secondary", :onclick => "javascript:_paq.push(['trackEvent', 'browse', 'info-btn']);"} do %>
+                <%= link_to '/browse/info?authq=' + encoded_heading +'&browse_type=' + params[:browse_type], { :class => "info-button btn btn-xs btn-outline-secondary", :onclick => "javascript:_paq.push(['trackEvent', 'browse', 'info-btn']);", 'aria-label' => 'Author-Title info for ' + data["heading"]} do %>
                     <%=params[:browse_type]%> info »
                 <% end %>
               <% end %>
