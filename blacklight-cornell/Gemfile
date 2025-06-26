@@ -53,13 +53,16 @@ gem "repost", "~> 0.4.2"
 gem "rexml", "~> 3.2.6"
 gem "rsolr"
 gem "ruby-saml", "~>1.18"
+gem "rufus-scheduler"
 # NOTE: sassc-rails is supposed to be a drop-in replacement for sass-rails, but removing sass-rails
 # causes an error and breaks the site. There must be some dependency that is still requiring sass-rails.
 gem "sass-rails", "~> 5.0"
 gem "sassc-rails", ">= 2.1.0"
+gem "savon", "~> 2.11.1"  # TODO: We might not need this - see https://culibrary.atlassian.net/browse/DACCESS-605 (SerialsSolutions?)
 gem "sprockets" #, '~> 3.7.2'
 gem "status-page"
 gem "terser", "~> 1.1"
+gem "ultraviolet"
 gem "utf8-cleaner"
 # NOTE: The URI gem is now part of the standard library in Ruby 3 and
 # shouldn't need to be included explicitly. However, the bl_monkeys.rb
@@ -67,15 +70,12 @@ gem "utf8-cleaner"
 # This needs to be fixed before we can remove the URI gem.
 gem "uri", "0.12.4"
 gem "whenever", require: false
+gem "yaml_db"
 
-gem "savon", "~> 2.11.1"  # TODO: We might not need this - see databases.rb (SerialsSolutions?)
-gem "parslet" # TODO: We might not need this
-gem "ultraviolet" # TODO: We might not need this
-gem "yaml_db" # TODO: We might not need this
+
+
 gem "kaminari", ">= 0.15" # TODO: We might not need this
-gem "view_component" # , '2.83.0' # ( was 2.72.0) # TODO: We might not need this
-gem "rufus-scheduler" # TODO: We might not need this
-gem "unicode_utils" # TODO: We might not need this
+
 gem "xmlrpc" # TODO: We might not need this
 gem "loofah", "2.19.1" # TODO: We might not need this
 
