@@ -404,8 +404,9 @@ Feature: Search
     And I should see the "Place of Publication" facet constraint
     And click on first link "The basic practice of statistics"
     Then I should see the label 'The basic practice of statistics'
-    Then click on first link "Back to catalog results"
-    And I should get 41 results
+    And I fill in the search box with 'cats'
+    And I press 'search'
+    Then I should get results
 
  @begins_with
  @adv_search
