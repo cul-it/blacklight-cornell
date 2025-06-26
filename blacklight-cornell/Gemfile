@@ -68,7 +68,7 @@ gem "utf8-cleaner"
 gem "uri", "0.12.4"
 gem "whenever", require: false
 
-gem "savon", "~> 2.11.1"  # TODO: We might not need this
+gem "savon", "~> 2.11.1"  # TODO: We might not need this - see databases.rb (SerialsSolutions?)
 gem "parslet" # TODO: We might not need this
 gem "ultraviolet" # TODO: We might not need this
 gem "yaml_db" # TODO: We might not need this
@@ -86,19 +86,19 @@ gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.5"
 # gem 'my_account', :path => '/Users/matt/code/cul/d&a/cul-my-account'
 
 group :development, :test do
+  gem "awesome_print"
   gem "byebug"
-  gem "rspec"
-  gem "rspec-rails"
-  gem "cucumber-rails", :require => false # Set require = false to get rid of a warning message
   gem "cucumber", "~> 3.1"
+  gem "cucumber-rails", :require => false # Set require = false to get rid of a warning message
   gem "database_cleaner"
-  gem "webrat"
   gem "guard-rspec"
+  gem "meta_request"
   gem "pry"
   gem "pry-byebug"
-  gem "meta_request"
-  gem "awesome_print"
+  gem "rspec"
+  gem "rspec-rails"
   gem "selenium-webdriver"
+  gem "webrat"
 end
 
 group :development, :test, :integration do
@@ -114,18 +114,15 @@ end
 
 group :test do
   gem "capybara", "3.39.2"
+  gem "capybara-email"
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
-  gem "rb-inotify", :require => false
   gem "libnotify", :require => false
-  # Spork support
-  #gem 'guard-spork', '0.3.2'
-  #gem 'spork', '0.9.0'
-  gem "webmock"
-  gem "vcr"
-  gem "capybara-email"
+  gem "rb-inotify", :require => false
+  gem "parallel_tests"
+  gem "rails-controller-testing"
   gem "simplecov", :require => false
   gem "simplecov-rcov", :require => false
-  gem 'parallel_tests'
-  gem 'rails-controller-testing'
+  gem "vcr"
+  gem "webmock"
 end
