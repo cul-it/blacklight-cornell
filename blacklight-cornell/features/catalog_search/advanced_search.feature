@@ -404,9 +404,8 @@ Feature: Search
     And I should see the "Place of Publication" facet constraint
     And click on first link "The basic practice of statistics"
     Then I should see the label 'The basic practice of statistics'
-    And I fill in the search box with 'cats'
-    And I press 'search'
-    Then I should get results
+    Then click on first link "Back to catalog results"
+    And I should get 41 results
 
  @begins_with
  @adv_search
@@ -774,3 +773,8 @@ Scenario: I can filter advanced searches by facets
   And I should select checkbox "f_inclusive_format_1"
   And I press 'advanced_search'
   Then I should get 2 results
+  Then click on first link "International wildlife"
+  Then I should see the label 'International wildlife'
+  And I fill in the search box with 'wildlife'
+  And I press 'search'
+  Then I should get results
