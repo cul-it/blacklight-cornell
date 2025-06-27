@@ -32,6 +32,7 @@ gem "htmlentities", "~> 4.3.4"
 gem "httpclient", "~> 2.9.0"
 gem "jquery-rails"
 gem "jquery-ui-rails", "6.0.0"
+gem "kaminari", ">= 0.15"
 gem "libv8-node"
 gem "marc"
 gem "mini_racer", "0.6.2", platforms: :ruby
@@ -71,13 +72,6 @@ gem "utf8-cleaner"
 gem "uri", "0.12.4"
 gem "whenever", require: false
 gem "yaml_db"
-
-
-
-gem "kaminari", ">= 0.15" # TODO: We might not need this
-
-gem "xmlrpc" # TODO: We might not need this
-gem "loofah", "2.19.1" # TODO: We might not need this
 
 gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.2"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
