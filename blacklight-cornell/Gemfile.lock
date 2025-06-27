@@ -1,4 +1,26 @@
 GIT
+  remote: https://github.com/cul-it/blacklight-cornell-requests
+  revision: 43127a142f8d689f5d834f31c473ffa0535d7537
+  tag: v5.2
+  specs:
+    blacklight_cornell_requests (5.2)
+      activerecord-oracle_enhanced-adapter
+      blacklight
+      dotenv
+      dotenv-deployment
+      dotenv-rails
+      exception_notification
+      haml (>= 3.0.0)
+      haml-rails
+      httpclient
+      i18n
+      net-ldap
+      protected_attributes_continued
+      rails (~> 6.1)
+      repost
+      rest-client
+
+GIT
   remote: https://github.com/cul-it/blacklight-unapi
   revision: 8774c50cdd9ffce42a9b6f4e3a1318791c5aff55
   branch: BL7-upgrade
@@ -37,26 +59,6 @@ GIT
       cucumber_priority (>= 0.3.0)
       rspec (>= 2.13.0)
       xpath
-
-PATH
-  remote: /Users/matt/code/cul/d&a/blacklight-cornell-requests
-  specs:
-    blacklight_cornell_requests (5.2)
-      activerecord-oracle_enhanced-adapter
-      blacklight
-      dotenv
-      dotenv-deployment
-      dotenv-rails
-      exception_notification
-      haml (>= 3.0.0)
-      haml-rails
-      httpclient
-      i18n
-      net-ldap
-      protected_attributes_continued
-      rails (~> 6.1)
-      repost
-      rest-client
 
 GEM
   remote: https://rubygems.org/
