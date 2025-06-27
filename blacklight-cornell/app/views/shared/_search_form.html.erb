@@ -6,10 +6,7 @@
       <% hidden_params = cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
       <% if hidden_params.empty? %>
         <% session_params = session[:search] ? session[:search].dup : {} %>
-		<%# In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that %>
-		<%# are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.%>
-		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>
-        <% hidden_params = session_params.except(:q_row, :op_row, :boolean_row, :search_field, :qt, :page, :utf8) %>
+        <% hidden_params = session_params_for_search(session_params).except(:q_row, :op_row, :boolean_row, :search_field, :qt, :page, :utf8) %>
       <% end %>
       <%= render_hash_as_hidden_fields(hidden_params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
@@ -58,11 +55,8 @@
       <% hidden_params = cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
       <% if hidden_params.empty? %>
         <% session_params = session[:search] ? session[:search].dup : {} %>
-		<%# In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that %>
-		<%# are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.%>
-		<% session_params[:f] = session_params[:f].to_h if session_params[:f].present? && session_params[:f].is_a?(ActionController::Parameters) %>
         <% if params[:controller] != 'search_history' %>
-          <% hidden_params = session_params.except(:q, :search_field, :qt, :page, :utf8) %>
+          <% hidden_params = session_params_for_search(session_params).except(:q, :search_field, :qt, :page, :utf8) %>
         <% end %>
       <% end %>
       <% if params[:controller] == 'blacklight_cornell_requests/request' %>

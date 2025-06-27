@@ -22,7 +22,7 @@
 
 		<div class="browse-buttons">
 	      <% callnumbers.each do |callnumber| %>
-	          <%= link_to callnumber, '/browse?' + {:browse_type => 'Call-Number', :authq => callnumber}.to_query, {:class => "btn btn-cul mb-2"} %>
+			<%= link_to callnumber, browse_index_path(authq: callnumber, browse_type: "Call-Number", start: 0), {:class => "btn btn-cul my-1"} %>
 	      <% end %>
 	    </div>
     </div>
@@ -42,7 +42,9 @@
 	%>
 	<div class="">
 	  <div id="classification" class="row class-heading" data-anchor-label="<%= internal_class%>" data-keep-count="true" data-next-count="0" data-prev-count="0">
-        <div class="vb-browse-link"><a href="/browse?authq=<%=callnumbers[0]%>&browse_type=virtual" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'expanded_view_link']);">Expanded view</a></div>
+        <div class="vb-browse-link">
+	  		<%= link_to "Expanded view", browse_index_path(authq: callnumbers[0], browse_type: "virtual"), {:onclick => "javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'expanded_view_link']);"} %>
+		</div>
         <div class="vb-scroll-nav">
 	        <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_itemview', 'scroll_left']);">
 		        <span class="fa fa-chevron-left" aria-hidden="true"></span>

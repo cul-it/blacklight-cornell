@@ -2,9 +2,9 @@
   <%= label_tag "#{field}", :class => 'col-form-label col-lg-4' do %><%= label %><% end %>
   <div class="col-lg-8 form-inline">
     <%= label_tag("range[#{field}][begin]", 'from year', class: 'sr-only visually-hidden') %>
-    <%= number_field_tag("range[#{field}][begin]", begin_val, maxlength: 6, placeholder: 0, class: 'form-control text-center range_begin') %>
+    <%= number_field_tag("range[#{field}][begin]", begin_val, maxlength: 6, class: 'form-control text-center range_begin') %>
     <span class="col-form-label"> - </span>
     <%= label_tag("range[#{field}][end]", 'to year', class: 'sr-only visually-hidden') %>
-    <%= number_field_tag("range[#{field}][end]", end_val, maxlength: 6, placeholder: Time.now.year + 1, class: 'form-control text-center range_end') %>
+    <%= number_field_tag("range[#{field}][end]", end_val, maxlength: 6, class: 'form-control text-center range_end') %>
   </div>
 </div>

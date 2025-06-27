@@ -7,6 +7,15 @@ module CornellCatalogHelper
 # require 'pry'
 # require 'pry-byebug'
 
+  # In Rails 5 ActionController::Params are an object, so to_h is needed. But in some cases the session contains params that
+  # are already a hash. So we need the check. Probably better to do this where the params are getting added to the search.
+  def session_params_for_search(session_params)
+    session_params.each do |key, value|
+      session_params[key] = value.to_h if value.present? && value.is_a?(ActionController::Parameters)
+    end
+    session_params
+  end
+
   # Determine if user query can be expanded to WCL & Summon
   def expandable_search?
     params[:q].present? && !advanced_search? && !params[:click_to_search]
