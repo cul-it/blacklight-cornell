@@ -773,3 +773,8 @@ Scenario: I can filter advanced searches by facets
   And I should select checkbox "f_inclusive_format_1"
   And I press 'advanced_search'
   Then I should get 2 results
+  Then click on first link "International wildlife"
+  Then I should see the label 'International wildlife'
+  And I fill in the search box with 'wildlife'
+  And I press 'search'
+  Then I should get results
