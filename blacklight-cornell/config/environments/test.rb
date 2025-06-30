@@ -31,7 +31,7 @@ BlacklightCornell::Application.configure do
   config.active_support.deprecation = :log
   # See everything in the log (default is :info)
   config.logger = ActiveSupport::Logger.new(STDOUT)
-  config.log_level = :info
+  config.log_level = :warn
 
   config.active_record.yaml_column_permitted_classes = [
     ActiveSupport::HashWithIndifferentAccess,
