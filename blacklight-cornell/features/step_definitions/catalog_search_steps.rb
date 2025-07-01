@@ -146,7 +146,7 @@ end
 
 # this step requires .env to include DEBUG_USER and the development environment
 When("I sign in to BookBag") do
-	do_visit 'book_bags/index'
+	visit 'book_bags/index'
   # 'Sign In' blacklight-nav link is not available on Jenkins since
   # ENV['SAML_IDP_TARGET_URL’] is undefined there
   within "#main-container" do
@@ -154,22 +154,6 @@ When("I sign in to BookBag") do
   end
   # wait for the redirect to happen
   expect(page).not_to have_content("Sign in to email items or save them to Book Bag")
-end
-
-Given("we are in the development environment") do
-  expect(ENV['COLLECTIONS']).to eq('development')
-end
-
-Given("we are in any development or test environment") do
-  expect(ENV['COLLECTIONS']).not_to eq('production')
-end
-
-Given("I enable the {string} environment") do |string|
-  if ['development', 'test', 'production'].include?(string)
-      ENV["COLLECTIONS"]=string
-  else
-      expect(false)
-  end
 end
 
 Then("I should see {int} as the result number") do |int|

@@ -1,7 +1,7 @@
 require 'spreewald/web_steps'
 
 Given /^(?:|I )am on (.+)$/ do |page_name|
-	do_visit path_to(page_name)
+	visit path_to(page_name)
 end
 
 When /^(?:|I )fill in "([^"]*)" with ['"]([^'"]*)['"]$/ do |field, value|
@@ -36,11 +36,11 @@ When /^(?:|I )select radio "([^"]*)"$/ do |button|
 end
 
 When /^(?:|I )go to (.+)$/ do |page_name|
-	do_visit path_to(page_name)
+	visit path_to(page_name)
 end
 
 When /^(?:|I )literally go to (.+)$/ do |page_name|
-	do_visit page_name
+	visit page_name
 end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
@@ -188,7 +188,7 @@ Then("navigation should show the BookBag with no item count") do
 end
 
 Given("I empty the BookBag") do
-	do_visit 'book_bags/clear'
+	visit 'book_bags/clear'
 end
 
 Then("Sign in should link to the SAML login system") do
@@ -208,11 +208,11 @@ Then("I should see a link to Book Bags") do
 end
 
 When("I view my selected items") do
-	do_visit '/bookmarks'
+	visit '/bookmarks'
 end
 
 When("I view my bookmarks") do
-	do_visit '/bookmarks'
+	visit '/bookmarks'
 end
 
 Then("I disable ajax activity completion") do
@@ -275,57 +275,6 @@ Then /^show me hidden xpath "(.*)"$/ do |string|
   what_is(@chunk)
 end
 
-When("I expect Javascript _paq to be defined") do
-  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
-end
-
-When("I am certain Javascript _paq is defined") do
-  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be false
-  page.execute_script("var _paq = _paq || [];")
-  expect(page.evaluate_script("typeof _paq !== 'undefined'")).to be true
-end
-
-def find_popup_window
-  patiently do
-     popup = page.find(:xpath, '//*[@id="blacklight-modal"]', :visible => :all)
-     popup.visible?
-     @content = popup.find('div.modal-content', :visible => :all)
-     @content.visible?
-  end
-  @content
-end
-
-# this is for blacklight-modal style modal regions within the page
-Then("the popup should include {string}") do |string|
-  begin
-    @popup = find_popup_window
-    patiently do
-      @popup.find(:css, "p", :visible => :all, normalize_ws: true, text: string)
-    end
-  rescue Exception => e
-    puts "popup exception: #{e}"
-    fail("now")
-  end
-end
-
-Then("the modal opened by the {string} link should include {string}") do |string, string2|
-  patiently do
-    wait_cache = Capybara.default_max_wait_time
-    Capybara.default_max_wait_time = 20
-    modal = page.window_opened_by{page.click_link(string)}
-    Capybara.default_max_wait_time = wait_cache
-    within_window modal do
-      page.should have_content(string2)
-    end
-  end
-end
-
-Then("I close the popup") do
-  # @popup = find_popup_window
-  # @popup.find('button.blacklight-modal-close', :visible => :all).trigger('click')
-	do_visit current_path
-end
-
 Then("the url of link {string} should contain {string}") do |string, string2|
   urls = page.all(:xpath, "//a[text()=\"#{string}\"]", count: 1).map do |link|
     expect(link[:href]).to include("#{string2}")
@@ -336,27 +285,22 @@ Then /^I should get a response with content-type "([^"]*)"$/ do |content_type|
   page.response_headers['Content-Type'].should == content_type
 end
 
+When("I view the search results list for {string}") do |string|
+  visit search_catalog_path(q: string, search_field: 'all_fields')
+end
+
+When("I view the search results list for {string}={string}") do |search_field, query|
+  visit search_catalog_path(q: query, search_field:)
+end
+
 When("I select {int} items per page") do |int|
   page.find(:css, "div#per_page-dropdown button.dropdown-toggle", visible: false).click
   click_link("#{int} per page")
 end
 
-Then("I should see {int} selected items") do |int|
-  patiently do
-    page.find(:xpath, "//a[@id='bookmarks_nav']/span")
-    page.find(:xpath, "//a[@id='bookmarks_nav']/span", :text => "#{int}")
-  end
-end
-
 Then("load {int} selected items") do |int|
   docs = page.find(:xpath, "//div[@id='documents']")
   docs.find(:xpath, "div[#{int}]")
-end
-
-Then("I check Select all") do
-  patiently do
-    page.find(:css, "input#select_all_input").click
-  end
 end
 
 Then("the link {string} should go to {string}") do |string, string2|
@@ -383,12 +327,8 @@ Then("there should be a print bookmarks button") do
   end
 end
 
-Then("I sign in") do
-	do_visit "/users/auth/saml"
-end
-
 Then("I sign out") do
-	do_visit "/users/sign_out"
+	visit "/users/sign_out"
 end
 
 
@@ -400,33 +340,6 @@ end
 
 Then("I clear transactions") do
   clear_sqlite
-end
-
-Given("I click on the Sign in link") do
-  within page.find("ul.blacklight-nav") do
-    click_button("Sign in")
-  end
-end
-
-Given("I click on the first {string}") do |string|
-    first("a", :text => "#{string}").click
-end
-
-Then("I should be required to sign in") do
-  # detect that the user would have to log in
-  expect(page.find("#main-article")).to have_selector("form#login")
-  expect(page.find(".cu-unit")).to have_text("CUWebLogin")
-end
-
-Given("I select {string} from the Library Menu") do |string|
-  within "div.library-menu" do
-    find("#library-menu").click
-    click_link "#{string}"
-  end
-end
-
-Given /^our host is "([^\"]+)"$/ do |host|
-  Capybara.app_host = host
 end
 
 Then("I did not catch any javascript errors") do

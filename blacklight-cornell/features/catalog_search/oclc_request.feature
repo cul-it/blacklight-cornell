@@ -7,7 +7,7 @@ As a user
 # best way to test these is by running them
 # where '/request' is NOT protected by CUWEBauth
 # otherwise you get a JSON error parse during the login redirections.
-# by default you should run cucumber with -t ~@oclc_request
+# by default you should run cucumber with --tags not @oclc_request
 @oclc_request
   Scenario: Request an item by oclc id when oclc id is valid 
     When I literally go to /oclc/970658422

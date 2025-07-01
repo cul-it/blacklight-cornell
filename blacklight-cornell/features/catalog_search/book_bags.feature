@@ -6,16 +6,14 @@ Feature: Book Bags for logged in users
 
     @book_bags_sign_in
     Scenario: I can sign in to book bags
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
 
     @book_bags_navigation
     Scenario: The navigation area reminds me if I am logged in to Book Bags
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And I go to the home page
         And navigation should show 'Selected Items'
         And navigation should not show 'Book Bag'
@@ -27,8 +25,7 @@ Feature: Book Bags for logged in users
 
 #    @book_bags_select
 #    Scenario Outline: Items I select can be added to my book bag
-#        Given we are in any development or test environment
-#        And I sign in to BookBag
+#        When I sign in to BookBag
 #        And I empty the BookBag
 #        Then the BookBag should be empty
 #        When I go to the home page
@@ -53,8 +50,7 @@ Feature: Book Bags for logged in users
     @book_bags_bookmarks_redirect
     @javascript
     Scenario: Bookmarks redirect logged in users to Book Bags
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
         And navigation should show 'Book Bag'
@@ -66,8 +62,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_persisit
     Scenario: Items in the book bag should persist through logout
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And I sign in to BookBag
         And I empty the BookBag
         Then the BookBag should be empty
@@ -91,8 +86,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_sign_in_anywhere
     Scenario Outline: I should be able to log in with the test user from any page
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         Then I should see "You are logged in as Diligent Tester."
@@ -111,10 +105,8 @@ Feature: Book Bags for logged in users
 
     @book_bags_cite_selected
     Scenario: I should NOT be able to view citations for selected items
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
-        And I am on the home page
         And I sign in to BookBag
         And I empty the BookBag
 		When I fill in the search box with '100 poems'
@@ -131,8 +123,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_export_selected
     Scenario: I should be able to export selected bookmarks
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         And I empty the BookBag
@@ -151,10 +142,8 @@ Feature: Book Bags for logged in users
 
     @book_bags_print_selected
     Scenario: I should be able to print selected items
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
-        And I am on the home page
         And I sign in to BookBag
         And I empty the BookBag
 		When I fill in the search box with 'the'
@@ -171,8 +160,7 @@ Feature: Book Bags for logged in users
 
     @book_bags_save_bookmarks_to_book_bag
     Scenario: When I have Selected Items I should be able to add them to my Book Bag
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         And I empty the BookBag
@@ -198,8 +186,7 @@ Feature: Book Bags for logged in users
     @DISCOVERYACCESS-6653
     @book_bags_initial_count
     Scenario: The correct Book Bags count should display in navigation area before going to book bags
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         And I empty the BookBag
@@ -218,8 +205,7 @@ Feature: Book Bags for logged in users
     @DISCOVERYACCESS-6653
     @book_bags_initial_count_quality
     Scenario: The correct Book Bags count should display after login from asset page
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         And I empty the BookBag
@@ -242,8 +228,7 @@ Feature: Book Bags for logged in users
 
     @DISCOVERYACCESS-7028
     Scenario: No stray percent sign in book bag count
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         And I empty the BookBag
@@ -259,8 +244,7 @@ Feature: Book Bags for logged in users
 
     @DISCOVERYACCESS-8231
     Scenario: Article links from book bags lead to the article
-        Given we are in any development or test environment
-        And I clear the SQLite transactions
+        When I clear the SQLite transactions
         And the test user is available
         And I sign in to BookBag
         And I empty the BookBag
