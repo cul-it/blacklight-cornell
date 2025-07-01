@@ -58,11 +58,13 @@
 			
 				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
 			
-				<form id="RequestForm" method="POST" action="https://rmc-aeon.library.cornell.edu/<%= @form_source %>/aeon.dll">	
+				<form id="RequestForm" method="POST" accept-charset="UTF-8"
+					action="https://rmc-aeon.library.cornell.edu/logon?action=10&amp;form=35">
 					<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
 					<input type="hidden" name="WebRequestForm" value="GenericRequestManuscript"/>
-					<input type="hidden" id="AeonForm" name="AeonForm" value="EADRequest"/>
+					<input type="hidden" name="SystemID" value="Aeon Copy">
+					<input type="hidden" id="AeonForm" name="AeonForm" value="ExternalRequest"/>
 					<input type="hidden" id="SubmitButton" name="SubmitButton" value="Submit Request">
 					<input type="hidden" id="DocumentType" name="DocumentType" value="Manuscript"/>
 					<%= render :partial => 'aeon/holdings' %>
