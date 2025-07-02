@@ -1,0 +1,103 @@
+@media print {
+
+	body {
+		font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif;
+		margin: 0;
+		color: #000;
+		background-color: #fff;
+	}
+
+	// Hide this stuff - TODO: some of these selectors may have been used in BL4, but not needed in BL5
+	.search-home {
+		display: none !important;
+	}
+
+	#skiptocontent,
+	.navbar,
+	.blacklight-nav,
+	.facets,
+	.search-bar,
+	.expand-search,
+	.results-info .dropdown,
+	.results-info .results-count,
+	.help-menu,
+	.modify-search-link,
+	.select-item,
+	.top-content-title,
+	.return-link,
+	.item-tools,
+	.holdings .btn,
+	footer,
+	.librarian-view,
+	.item-pagination,
+	.clear-bookmarks,
+	#startOverLink,
+	.search-widgets,
+	.pagination,
+    .bookmarks-login,
+	.lcs_slide_out,
+	#syndetics_unbound, // TODO: does this actually hide syndetics?
+	.databases-search,
+	.databases-az,
+	.digitalcollections-search .card,
+	.toplink,
+	.facet-pagination,
+	.navbar-toggler {
+		display: none;
+	}
+
+	// TODO: want to hide these classes but it doesn't work; possibly because it is loaded via js after the print stylesheet is applied
+	// .call-number-browse
+	// .checkbox.select_all
+
+	// Hide dropdowns on Selected Items
+	.bookmarks {
+		#per_page-dropdown, #sort-dropdown {
+			display: none;
+		}
+	}
+
+	// Remove Catalog header link
+	.catalog-name {
+		a { text-decoration: none;}
+	}
+
+	// Don't print URLs
+	a[href]:after {
+	    content: ""
+	  }
+	abbr[title]:after {
+	    content: "";
+	  }
+
+	// hides covers on results
+	.document {
+		.iconcover, .bookcover { display: none; } 
+	}
+
+	.blacklight-title_display {
+		margin: 1rem 0 0;
+	}
+
+	// .modal-header button { display: none; } // TODO: not needed?
+
+	// print  librarian view in monospace font
+	#marc_view { font-family: courier, monospace; }
+
+	// remove border above request buttons (which we do not display in print)
+	.item-requests {
+		border-top: 0;
+	}
+
+	// Cut spacing in search results
+	body.catalog-index #documents .document, body.bookmarks-index #documents .document {
+		padding: 0 0 .5em 0;
+	}
+
+	// make badges readable
+	.badge {
+		background: white;
+		color: black;
+		border: 0;
+	}
+}

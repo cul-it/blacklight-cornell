@@ -11,7 +11,7 @@ pipeline {
         TEST_ID = sh(script: 'openssl rand -hex 8', returnStdout: true).trim()
     }
     parameters {
-        string(name: 'NUM_PROCESSES', defaultValue: '1', description: 'Number of processes to use for parallel cucumber tests')
+        string(name: 'NUM_PROCESSES', defaultValue: '2', description: 'Number of processes to use for parallel cucumber tests')
         string(name: 'CUCUMBER_FEATURE_TESTS', defaultValue: '', description: "Leave blank to run all tests.\nTo run a specific suite, add file argument like features/catalog_search/results_list.feature\nTo run a specific test, add line argument like features/catalog_search/results_list.feature:317")
     }
     stages {
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo "The branch is ${env.GIT_BRANCH}"
                 echo "Running Cucumber tests with ${params.NUM_PROCESSES} processes"
-                timeout(90) {
+                timeout(120) {
                     wrap([$class: 'Xvfb', additionalOptions: '', assignedLabels: '', autoDisplayName: true, debug: true, displayNameOffset: 0, installationName: 'default', parallelBuild: true, screen: '1024x758x24', timeout: 25]) {
                         sh """
                             export FEATURE=${params.CUCUMBER_FEATURE_TESTS}

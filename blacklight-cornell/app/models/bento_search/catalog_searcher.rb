@@ -17,7 +17,7 @@ class BentoSearch::CatalogSearcher
   end
 
   def search_state
-    Blacklight::SearchState.new(@search_params, blacklight_config)
+    CatalogController.search_state_class.new(@search_params, blacklight_config)
   end
 
   def search_service_class

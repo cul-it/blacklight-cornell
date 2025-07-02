@@ -10,19 +10,18 @@
   <% previous = Integer(params[:start]) - 20 %>
 <% end %>
 <% previous = previous.to_s %>
-<% location = params[:fq] ? '&fq=' + CGI::escape(params[:fq]) : '' %>
 <div class="results-info">
   <div class="results-count">
     <% if Integer(params[:start]) == 0 %>
       <% if !@has_previous %>
         &laquo; Previous |
       <% elsif params[:order] != "reverse" %>
-        <%= link_to "/browse?authq=" + params[:authq] + "&start=0" +"&browse_type=" + params[:browse_type] + '&order=reverse' + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: 0, order: "reverse", fq: params[:fq]) do %>
           &laquo; Previous 
         <% end %>
         | 
       <% else %>
-        <%= link_to "/browse?authq=" + params[:authq] + "&start=" + previous +"&browse_type=" + params[:browse_type] + '&order=reverse' + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: previous, order: "reverse", fq: params[:fq]) do %>
           &laquo; Previous 
         <% end %>
         | 
@@ -30,22 +29,21 @@
       <% if !@has_next%>
         Next &raquo;
       <% elsif params[:order] != "reverse" %>
-        <%= link_to "/browse?authq=" + params[:authq] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] + '&order=forward' + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: nextpage, order: "forward", fq: params[:fq]) do %>
           Next &raquo;
         <% end %>
       <% else %>
-        <%= link_to "/browse?authq=" + params[:authq] + "&start=0" + "&browse_type=" + params[:browse_type] + '&order=forward' + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: 0, order: "forward", fq: params[:fq]) do %>
           Next &raquo;        
         <% end %>
       <% end %>
     <% else   %>
       <% if !params[:authq].nil? and !params[:browse_type].nil? and !params[:order].nil? %>
-      
-        <%= link_to "/browse?authq=" + params[:authq] + "&start=" + previous +"&browse_type=" + params[:browse_type] +  "&order=" + params[:order] + location do %>
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: previous, order: params[:order], fq: params[:fq]) do %>
           &laquo; Previous 
         <% end %>
-      | 
-        <%= link_to "/browse?authq=" + params[:authq] + "&start=" + nextpage +"&browse_type=" + params[:browse_type] + "&order=" + params[:order] + location do %>
+        | 
+        <%= link_to browse_index_path(authq: params[:authq], browse_type: params[:browse_type], start: nextpage, order: params[:order], fq: params[:fq]) do %>
           Next &raquo;
         <% end %>
       <% end %>

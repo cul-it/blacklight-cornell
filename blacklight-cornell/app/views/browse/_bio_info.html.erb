@@ -2,27 +2,33 @@
 <% if bio_data.present? %>
   <div id='bio-without-ld' class='d-none'>
     <h3>Description</h3>
-    <dl class='dl-horizontal ml-3'>
+    <dl class='dl-horizontal'>
       <%= render_bio_data(bio_data) %>
     </dl>
   </div>
 <% end %>
 
 <%# js displays this section in grey box if linked data found %>
-<div id='bio-with-ld' class='row info-row ml-0 d-none'>
-  <div id='img-container' class='col-sm-5 col-md-4 col-lg-3 text-center d-none'>
-    <img id='bio-image' src='' title="<%= heading_type %> image" width='120px'/><br/>
-  </div>
-  <div id='comment-container' class='col-sm-7 col-md-8 col-lg-9'>
-  <div id='dbp-comment'></div>
-    <dl class='dl-horizontal' id='item-details'>
-      <%# display different data per heading type in <HEADING_TYPE>_info.html.erb %>
-      <%= yield %>
-    </dl>
-    <%# filled in by javascript when needed %>
-    <div class='text-right ld-acknowledge'>
-      <span id='wiki-acknowledge'></span>
-      <span id='wiki-image-acknowledge'></span>
+<div id='bio-with-ld' class='d-none'>
+  <div class='card card-well'>
+    <div class='card-body'>
+      <div class='row'>
+        <div id='img-container' class='col-md-4 col-lg-3 text-center d-none'>
+          <img id='bio-image' src='' title="<%= heading_type %> image" alt='' class='img-fluid mb-4'>
+        </div>
+        <div id='comment-container' class='col-md-8 col-lg-9'>
+          <div id='dbp-comment'></div>
+          <dl class='dl-horizontal' id='item-details'>
+            <%# display different data per heading type in <HEADING_TYPE>_info.html.erb %>
+            <%= yield %>
+          </dl>
+          <%# filled in by javascript when needed %>
+          <div class='ld-acknowledge'>
+            <span id='wiki-acknowledge'></span>
+            <span id='wiki-image-acknowledge'></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
