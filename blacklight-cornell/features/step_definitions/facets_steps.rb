@@ -102,5 +102,5 @@ Then("I also open the {string} facet and choose {string}") do |facet, choice|
 end
 
 Given("I visit the facet page for {string}") do |string|
-	do_visit "/catalog/facet/#{string}"
+	visit "/catalog/facet/#{string}"
 end

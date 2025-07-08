@@ -9,8 +9,6 @@ Feature: Results list
  Scenario: Empty search
    Given I literally go to search
    And I press 'Search'
-   Given I literally go to search
-   And I press 'Search'
    And I sleep 8 seconds
    Then I should be on 'the single search results page'
    And I should get bento results
