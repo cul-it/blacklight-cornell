@@ -59,7 +59,7 @@
 				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
 			
 				<form id="RequestForm" method="POST" accept-charset="UTF-8"
-					action="https://rmc-aeon.library.cornell.edu/logon?action=10&amp;form=35">
+					action="https://rmc-aeon.library.cornell.edu/logon">
 					<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 					<input type="hidden" id="ReferenceNumber" name="ReferenceNumber" value="<%= @bibid %>"/>
 					<input type="hidden" name="WebRequestForm" value="GenericRequestManuscript"/>
