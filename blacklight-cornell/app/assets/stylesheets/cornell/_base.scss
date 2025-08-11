@@ -39,7 +39,7 @@ footer {
 // ------------------------
 
 h2 { 
-	margin-bottom: .5em;
+	margin: 1rem 0;
 	font-size: 26px;
 }
 h3 { font-size: 20px; line-height: 1.5em;}
@@ -96,6 +96,12 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	.btn-cul {
 		border-bottom: 1px solid $dark-green;
 	}
+}
+.btn-group-xs > .btn, .btn-xs {
+  padding: .25rem .4rem;
+  font-size: .875rem;
+  line-height: .5;
+  border-radius: .2rem;
 }
 
 // Card customization

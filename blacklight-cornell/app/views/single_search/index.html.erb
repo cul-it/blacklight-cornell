@@ -230,8 +230,14 @@
                     <%# EBSCO results %>
                     <% @top_4_results.to(0).each do |key, result, position| %>
                       <div id="<%= key+"-Bento2" %>">
-                        <% unless result.nil? or result[0].nil? %>
+                        <% if result.present? && result[0].present? %>
                           <%= render 'single_search/pane_results', :key => key, :result => result %>
+                        <% else %>
+                          <div class="card card-body">
+                            <p>
+                              No results from <%= link_to bento_title(key), bento_all_results_link(key) %>. Try a different search input.
+                            </p>
+                          </div>
                         <% end %>
                       </div>
                     <% end %>

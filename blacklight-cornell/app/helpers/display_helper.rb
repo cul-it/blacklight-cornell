@@ -342,7 +342,8 @@ module DisplayHelper
                                       browse_info_path(authq: authq,
                                                        bib: args[:document]['id'],
                                                        browse_type: related_auth_label),
-                                      class: 'info-button d-inline-block btn btn-sm btn-outline-secondary')
+                                      class: 'info-button d-inline-block btn btn-xs btn-outline-secondary',
+                                      'aria-label' => 'Work info for ' + authq)
                 search_link + browse_link
               else
                 search_link
@@ -946,41 +947,29 @@ module DisplayHelper
     Blacklight::ShowPresenter.new(@document, self).field_value field_config
   end
 
- def cornell_params_for_search(*args, &block)
-      source_params, params_to_merge = case args.length
-      when 0
-        search_state.params_for_search
-      when 1
-        search_state.params_for_search(args.first)
-      when 2
-        controller.search_state_class.new(args.first, blacklight_config).params_for_search(args.last)
-      else
-        raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
-      end
+  def cornell_params_for_search(*args, &block)
+    source_params, params_to_merge = case args.length
+    when 0
+      search_state.params_for_search
+    when 1
+      search_state.params_for_search(args.first)
+    when 2
+      controller.search_state_class.new(args.first, blacklight_config).params_for_search(args.last)
+    else
+      raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
     end
+  end
 
-    def cornell_remove_facet_params(field, item, source_params = nil)
-      if source_params
-        controller.search_state_class.new(source_params, blacklight_config).remove_facet_params(field, item)
-      else
-        search_state.remove_facet_params(field, item)
-      end
+  def cornell_remove_facet_params(field, item, source_params = nil)
+    if source_params
+      controller.search_state_class.new(source_params, blacklight_config).remove_facet_params(field, item)
+    else
+      search_state.remove_facet_params(field, item)
     end
+  end
 
   def cornell_add_facet_params_and_redirect(field, item)
     search_state.add_facet_params_and_redirect(field, item)
-  end
-
-  # ============================================================================
-  # Display the Solr core for everything but production instance
-  # ----------------------------------------------------------------------------
-  def render_solr_core
-    unless request.host == 'search.library.cornell.edu' or request.host == 'catalog.library.cornell.edu'
-      core    = Blacklight.connection_config[:url]
-      start   = core.rindex(/:\/\//) + 3 # Remove http protocol string
-      display = '<p class="solr-core">Solr core: ' + core[start..-1] + '</p>'
-      display.html_safe
-    end
   end
 
   def bookcover_oclc(document)
@@ -1174,7 +1163,6 @@ module DisplayHelper
     end
     result.to_sentence.html_safe
   end
-
 
   def access_url_is_list?(args)
     args['url_access_json'].present? && args['url_access_json'].size != 1

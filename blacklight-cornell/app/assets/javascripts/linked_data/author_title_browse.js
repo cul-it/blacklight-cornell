@@ -94,9 +94,7 @@ function AuthorTitleBrowse() {
   function generateWikidataSourceLinks(data) {
     if (!('entity' in data)) return '';
     return (
-      `  <span class="ld-acknowledge">
-        * <a href="${data.entity}">From Wikidata<i class="fa fa-external-link" aria-hidden="true"></i></a>
-      </span>`
+      `* <a href="${data.entity}">From Wikidata<i class="fa fa-external-link" aria-hidden="true"></i></a>`
     );
   }
 
