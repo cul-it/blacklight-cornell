@@ -40,4 +40,3 @@ echo "PATH is:$PATH"
 
 echo "Xvfb DISPLAY value is $DISPLAY"
 echo "Diligent Tester: $DEBUG_USER"
-grep ^SOLR_URL .env
