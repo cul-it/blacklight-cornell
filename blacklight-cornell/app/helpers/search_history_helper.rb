@@ -129,7 +129,7 @@ module SearchHistoryHelper
           end
         end
 
-        chip_html = content_tag(:span, class: 'combined-label-query btn btn-light', style: "padding: 0 6px 0 6px;") do
+        chip_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
           content_tag(:span, class: 'filter-name') do
             content_tag(:span, label, class: 'label-text')
           end + safe_join(pieces)

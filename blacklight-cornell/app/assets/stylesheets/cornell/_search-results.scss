@@ -167,65 +167,66 @@ body.book_bags-index #documents .document {
 // Search history
 // ------------------------------------------
 .search-history {
-	a:hover {
-		text-decoration: none;
-	}
+  a:hover {
+    text-decoration: none;
+  }
 
-	.label {
-		display: inline;
-		color: white;
-		margin: 0 0.5em;
-	}
+  .label {
+    display: inline;
+    color: white;
+    margin: 0 0.5em;
+  }
 
-	.constraints-container {
-		display: block;
-	}
+  .constraints-container {
+    display: block;
+  }
 
-	.filter-name {
-		margin-right: 0.25em;
-		color: #6B6B6B !important; // DACCESS-488 - accessibility color contrast
-	}
+  .filter-name {
+    margin-right: 0.25em;
+    color: #6B6B6B !important; // DACCESS-488 - accessibility color contrast
+  }
 
-	.query-text {
-		font-weight: bold;
-	}
+  .query-text {
+    font-weight: bold;
+  }
 
-	.query-boolean {
-		font-weight: bold;
-		color: black;
-		padding-left: 2px;
-		padding-right: 2px;
-	}
+  .query-boolean {
+    font-weight: bold;
+    color: black;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
 
-	.label-text {
-		&::after {
-			content: ":";
-			font-size: 1em;
-		}
-	}
+  .label-text {
+    &::after {
+      content: ":";
+      font-size: 1em;
+    }
+  }
 
-	.combined-label-query {
-		margin: 2px 0;
-	}
+  .combined-label-query {
+    margin: 2px 0;
+    padding: 0 6px 0 6px;
+  }
 
-	.btn.btn-light {
-		color: #3783b4;
-		font-size: 1rem;
-	}
+  .btn.btn-light {
+    color: #3783b4;
+    font-size: 1rem;
+  }
 
-	.constraint:hover {
-		.label-text,
-		.combined-label-query {
-			text-decoration: none;
-		}
+  .constraint:hover {
+    .label-text,
+    .combined-label-query {
+      text-decoration: none;
+    }
 
-		.btn.btn-light {
-			text-decoration: none;
-			color: #3c4349;
-			background-color: #e2e6ea;
-			border-color: #dae0e5;
-		}
-	}
+    .btn.btn-light {
+      text-decoration: none;
+      color: #3c4349;
+      background-color: #e2e6ea;
+      border-color: #dae0e5;
+    }
+  }
 }
 
 // Subtle border shadow for all chips in search history rows
