@@ -6,7 +6,7 @@ module SearchHistoryHelper
     language_facet:         'Language',
     format:                 'Format',
     pub_date_facet:         'Publication Year',
-    "-pub_date_facet":      'Publication Dates',
+    "-pub_date_facet":      'Publication Year',
     fast_topic_facet:       'Subject',
     author_facet:           'Author',
     fast_genre_facet:       'Genre',
