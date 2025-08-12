@@ -269,7 +269,7 @@ class CatalogController < ApplicationController
 
    config.facet_display = {
      :hierarchy => {
-       'lc_callnum' => [['facet'], ':'],
+       'lc_callnum' => [['facet'], ' > '],
        'location' => [[nil],' > ']
      }
  }
