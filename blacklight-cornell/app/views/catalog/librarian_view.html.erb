@@ -2,7 +2,7 @@
 	<i class="fa fa-arrow-circle-left"></i> Back to item
 </a>
 <h2><%= t('blacklight.search.librarian_view.title') %></h2>
-<%- if @document.to_marc.kind_of?(MARC::Record) -%>
+<%- if @document.try(:to_marc).kind_of?(MARC::Record) -%>
   <%= render "marc_view" %>
 <%- else %>
       No MARC data found.
