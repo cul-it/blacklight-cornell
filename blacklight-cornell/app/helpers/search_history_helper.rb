@@ -40,8 +40,7 @@ module SearchHistoryHelper
     query_texts = build_search_query_tags(params)
     link_to(parseHistoryQueryString(params)) do
       content_tag(:div, safe_join(query_texts, ' '),
-                  class: 'constraint',
-                  style: 'display: inline-block; text-indent: 0rem; padding-left: 8px !important;')
+                  class: 'constraint custom-search-history-link')
     end
   end
 

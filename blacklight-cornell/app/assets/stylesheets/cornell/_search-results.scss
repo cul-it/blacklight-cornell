@@ -166,6 +166,12 @@ body.book_bags-index #documents .document {
 // ------------------------------------------
 // Search history
 // ------------------------------------------
+.custom-search-history-link {
+  display: inline-block !important;
+  text-indent: 0rem !important;
+  padding-left: 8px !important;
+}
+
 .search-history {
   a:hover {
     text-decoration: none;
@@ -252,8 +258,6 @@ body.book_bags-index #documents .document {
     display: inline-block;
   }
 }
-
-
 
 // Subtle border shadow for all chips in search history rows
 .table.search-history tbody tr[id^="document_"]
