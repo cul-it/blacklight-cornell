@@ -198,18 +198,31 @@ module CornellCatalogHelper
 	LOC_CODES[code]
 	end
 
-  # Determines if the request buttons should be hidden because item is in Aspace
-  # searches for the Aspace PUI resources id in the marc 035 field
-  # resource id: is the value after (CULAspaceURI)in the marc 035 field
+  # returns the PUI Aspace url if resource id and repo id exist in the marc 035 field
+  # (CULAspaceURI) in the marc 035 field must have:
+  #   - resource id: is the value after /resources/
+  #   - repo id: is the value after /repositories/
   #
   # @param [Hash] document - metadata for the item
   #
-  # @return [Boolean] true if the PUI resources item ID exists
-  def aspace_pui_id?(document)
-	return false unless document['marc_display']
-	item_field_035_values = document['marc_display'].scan(/<datafield tag="035".*?>.*?<subfield code="a">(.*?)<\/subfield>/m).flatten
-	itemid = item_field_035_values.find { |value| value.include?('CULAspaceURI') }&.match(/\(CULAspaceURI\)(.+)/)&.captures&.first
-	itemid.present? && ENV['AEON_PUI_REQUEST'].present?
+  # @return [string] url or nil
+  def aspace_pui_url(document)
+	# return early if marc fields and environment variable are not present
+	return nil unless document['marc_display'] && ENV['AEON_PUI_REQUEST'].present?
+
+	# return nil if CULAspaceURI is not found in the marc 035 field
+	culaspace_uri_value = document['marc_display']
+		.scan(/<datafield tag="035".*?>.*?<subfield code="a">(.*?)<\/subfield>/m)
+		.flatten
+		.find { |value| value.include?('CULAspaceURI') }
+	return nil unless culaspace_uri_value
+
+	# return nil if the repo ID and resource ID do not exist
+	match = culaspace_uri_value.match(/\(CULAspaceURI\)\/repositories\/(\d+)\/resources\/(\d+)/)
+	return nil unless match && match[1].present? && match[2].present?
+
+	# Construct and return the finding aid link
+	"#{ENV['AEON_PUI_REQUEST']}#{culaspace_uri_value.gsub('(CULAspaceURI)', '')}"
   end
 
   # Generates the target url

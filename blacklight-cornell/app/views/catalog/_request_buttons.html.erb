@@ -22,7 +22,7 @@
     <% elsif counter.blank? %>
       <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' }   Delete this? Or keep around for post-covid?%>
       <% if !@document['etas_facet'].present? %>
-          <% if !@document["location"].nil? && !aspace_pui_id?(@document) %>
+          <% if !@document["location"].nil? && aspace_pui_url(@document).nil? %>
             <% if reserve_only %>
               <%= link_to "Request item#{reading}", "#", { :title => 'Request', :class => 'btn btn-danger disabled', :id => 'id_request', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;' } %>
             <% else %>
@@ -36,7 +36,7 @@
     <% else %>
       <%#= link_to "Request item#{reading}", request_context_path, { :title => 'Request', :class => 'btn btn-danger', 'data-counter'.to_sym => counter, :id => 'id_request' } Delete this?%>
        <% if !@document['etas_facet'].present? %>
-          <% if !@document["location"].nil? && !aspace_pui_id?(@document) %>
+          <% if !@document["location"].nil? && !aspace_pui_url(@document).nil? %>
             <% if reserve_only %>
               <%= link_to "Request item#{reading}", "#", { :title => 'Request', :class => 'btn btn-danger disabled', :id => 'id_request', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;' } %>
             <% else %>
