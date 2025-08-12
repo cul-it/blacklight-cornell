@@ -227,7 +227,33 @@ body.book_bags-index #documents .document {
       border-color: #dae0e5;
     }
   }
+
+  .inclusive-or {
+    font-weight:700;
+    color:#000;
+    text-decoration:none;
+    font-size:.85rem
+  }
+
+  .history-group {
+    display: grid;
+    grid-template-columns:  7.5rem 1fr; // adjust to shift history cards
+    align-items: start;
+  }
+
+  .history-group .group-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .history-group .group-body .bool-pair {
+    white-space: nowrap;
+    display: inline-block;
+  }
 }
+
+
 
 // Subtle border shadow for all chips in search history rows
 .table.search-history tbody tr[id^="document_"]
@@ -247,20 +273,40 @@ body.book_bags-index #documents .document {
 
 // Mobile Search History -----------------
 @media (max-width: 576px) {
-  .search-history .constraint > .query-boolean.ms-2 {
+  // collapse the 2-column groups into one column
+  .search-history .history-group { display: block; }
+
+  // section headings with divider
+  .search-history .history-group .group-label {
     display: block;
     margin: 1rem 0 .35rem;
     padding-top: .4rem;
     border-top: 1px dashed #e5e7eb;
   }
-  .search-history .constraint > .query-boolean.ms-2:first-of-type {
+  .search-history .history-group:first-of-type .group-label {
     border-top: 0;
     margin-top: 0;
     padding-top: 0;
   }
 
+  // body column stacks
+  .search-history .history-group .group-body { display: block; }
+
+  // chips
+  .search-history .history-group .group-body
+  .combined-label-query.btn.btn-light {
+    text-align: left;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  /* keep each AND/OR + its chip on its own line */
+  .search-history .history-group .group-body .bool-pair {
+    display: block !important;
+  }
+
   // Boolean operators (AND/OR) as dividers
-  .search-history .query-boolean:not(.ms-2) {
+  .search-history .history-group .group-body .bool-pair > .query-boolean {
     // operator divider layout
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -271,10 +317,10 @@ body.book_bags-index #documents .document {
     font-size: .85rem; // operator size
     color: #656565 !important; //operator color
   }
-  .search-history .query-boolean:not(.ms-2)::before,
-  .search-history .query-boolean:not(.ms-2)::after {
-    // content: ""; //comment in to add line dividers
-    border-top: 1px solid #d1d5db !important;
+  .search-history .history-group .group-body .bool-pair > .query-boolean::before,
+  .search-history .history-group .group-body .bool-pair > .query-boolean::after {
+    //content: ""; //comment in to add line dividers
+    border-top: 1px solid #d1d5db;
   }
 }
 

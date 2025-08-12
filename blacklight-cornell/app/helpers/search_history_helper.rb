@@ -59,104 +59,115 @@ module SearchHistoryHelper
     f_row       = params[:f] || {}
     f_inclusive = params[:f_inclusive] || {}
 
-    title_label = q_row.count(&:present?) > 1 ? "Search Terms: " : "Search Term: "
-    query_texts << content_tag(:span, title_label, class: 'query-boolean ms-2')
+    # LAMBDA HELPER SECTION ----------------------------------------------------
+    mk_value = ->(text) { content_tag(:span, text, class: 'query-text') }
 
-    # Queries ------------------------------------------------------------------
-    q_row.each_with_index do |query, i|
-      next if query.blank?
-      boolean     = i.positive? ? b_row[i.to_s.to_sym] : nil
-      field_key   = sf_row[i] || 'all_fields'
-      field_label = search_field_def_for_key(field_key)[:label] rescue 'All Fields'
-      op_label    = OP_ROW_MAPPINGS[op_row[i].to_sym] || op_row[i] || ''
-
-      query_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
+    mk_chip = ->(label_text, inner_html) do
+      content_tag(:span, class: 'combined-label-query btn btn-light', style: 'padding: 0 6px;') do
         content_tag(:span, class: 'filter-name') do
-          content_tag(:span, field_label, class: 'label-text') + " #{op_label} "
-        end + content_tag(:span, query, class: 'query-text')
+          content_tag(:span, label_text, class: 'label-text')
+        end + inner_html
       end
-
-      query_texts << content_tag(:span, boolean, class: 'query-boolean') if boolean.present? && q_row[i - 1].present?
-      query_texts << query_html
     end
 
-    # Filters (exclusive) ------------------------------------------------------
+    mk_chip_with_op = ->(label_text, op_text, value_text) do
+      content_tag(:span, class: 'combined-label-query btn btn-light', style: 'padding:0 6px;') do
+        content_tag(:span, class: 'filter-name') do
+          content_tag(:span, label_text, class: 'label-text') +
+            (op_text.present? ? content_tag(:span, " #{op_text}", class: 'op-label') : ''.html_safe)
+        end + content_tag(:span, value_text, class: 'query-text')
+      end
+    end
+
+    mk_inclusive_chip = ->(label_text, values) do
+      pieces = []
+      values.each_with_index do |val, index|
+        pieces << mk_value.call(val.to_s)
+        pieces << content_tag(:span, ' OR ', class: 'inclusive-or') if index < values.length - 1
+      end
+      mk_chip.call(label_text, safe_join(pieces))
+    end
+
+    pair_with_boolean = ->(bool_text, chip_node) do
+      nbsp = "\u00A0" # non-breaking space
+      content_tag(:span, class: 'bool-pair', style: 'display:inline-block;') do
+        content_tag(:span, "#{nbsp}#{bool_text}#{nbsp}", class: 'query-boolean') + chip_node
+      end
+    end
+
+    wrap_group = ->(label_text, nodes) do
+      return nil if nodes.blank?
+      content_tag(:div, class: 'history-group') do
+        content_tag(:span, label_text, class: 'query-boolean ms-2 group-label') +
+          content_tag(:div, safe_join(nodes, ' '), class: 'group-body')
+      end
+    end
+
+    # SEARCH TERMS SECTION -----------------------------------------------------
+    terms_nodes = []
+    q_row.each_with_index do |query, index|
+      next if query.blank?
+      field_key = sf_row[index] || 'all_fields'
+      field_lbl = (search_field_def_for_key(field_key)[:label] rescue 'All Fields')
+      op_lbl    = OP_ROW_MAPPINGS[op_row[index].to_sym] || op_row[index] || ''
+      chip      = mk_chip_with_op.call(field_lbl, op_lbl, query.to_s)
+
+      if index.zero?
+        terms_nodes << chip
+      else
+        bool = b_row[index.to_s.to_sym].presence || ' AND '
+        terms_nodes << pair_with_boolean.call(bool, chip)
+      end
+    end
+
+    title_label = q_row.count(&:present?) > 1 ? 'Search Terms:' : 'Search Term:'
+    grp = wrap_group.call(title_label, terms_nodes)
+    query_texts << grp if grp
+
+    # FILTERED BY SECTION (exclusive facets) -----------------------------------
+    filters_nodes = []
     if f_row.present?
-      query_texts << tag.div(class: 'w-100')
-      query_texts << content_tag(:span, 'Filtered By: ', class: 'query-boolean ms-2')
-
-      f_row.each_with_index do |(facet_key, values), filter_index|
-        values.each_with_index do |val, value_index|
-          query_texts << content_tag(:span, 'AND', class: 'query-boolean') if filter_index.positive? || value_index.positive?
+      first = true
+      f_row.each do |facet_key, values|
+        Array(values).each do |val|
           label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
-          value = val.to_s
-
-          facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
-            content_tag(:span, class: 'filter-name') do
-              content_tag(:span, label, class: 'label-text')
-            end + content_tag(:span, value, class: 'query-text')
-          end
-          query_texts << facet_html
+          chip  = mk_chip.call(label, mk_value.call(val.to_s))
+          first ? (filters_nodes << chip; first = false) : filters_nodes << pair_with_boolean.call('AND', chip)
         end
       end
     end
+    grp = wrap_group.call('Filtered By:', filters_nodes)
+    query_texts << grp if grp
 
-    # Inclusive Filters --------------------------------------------------------
+    # INCLUDE ANY SECTION (inclusive facets) -----------------------------------
+    includes_nodes = []
     if f_inclusive.present?
-      query_texts << tag.div(class: 'w-100')
-      query_texts << content_tag(:span, 'Include Any: ', class: 'query-boolean ms-2')
-
-      f_inclusive.each_with_index do |(facet_key, values), group_index|
+      index = 0
+      f_inclusive.each do |facet_key, values|
         vals = Array(values).map(&:to_s).reject(&:blank?)
         next if vals.empty?
-
-        # AND between different inclusive facet groups
-        query_texts << content_tag(:span, 'AND', class: 'query-boolean') if group_index.positive?
-
         label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
-
-        # Build value + styled OR pieces as separate nodes inside the chip
-        pieces = []
-        vals.each_with_index do |v, idx|
-          pieces << content_tag(:span, v, class: 'query-text', style: "")
-          if idx < vals.length - 1
-            pieces << content_tag(
-              :span,
-              ' OR ',
-              class: 'boolean-or',
-              style: 'font-weight:700;color:#000;text-decoration:none; font-size: 0.85rem'
-            )
-          end
-        end
-
-        chip_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
-          content_tag(:span, class: 'filter-name') do
-            content_tag(:span, label, class: 'label-text')
-          end + safe_join(pieces)
-        end
-
-        query_texts << chip_html
+        chip  = mk_inclusive_chip.call(label, vals)
+        index.zero? ? includes_nodes << chip : includes_nodes << pair_with_boolean.call('AND', chip)
+        index += 1
       end
     end
+    grp = wrap_group.call('Include Any:', includes_nodes)
+    query_texts << grp if grp
 
-    # Date range ---------------------------------------------------------------
-    if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
-      query_texts << tag.div(class: 'w-100')
-      query_texts << content_tag(:span, 'Dated Between: ', class: 'query-boolean ms-2')
-
-      dr_row.each_with_index do |(facet_key, values), ridx|
+    # DATED BETWEEN (range) ----------------------------------------------------
+    dates_nodes = []
+    if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? &&
+       dr_row[:pub_date_facet]&.[](:end).present?
+      dr_row.each_with_index do |(facet_key, values), row_index|
         next unless values['begin'].present? && values['end'].present?
-        query_texts << content_tag(:span, 'AND', class: 'query-boolean') if ridx.positive?
-        label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.titleize
-
-        facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
-          content_tag(:span, class: 'filter-name') do
-            content_tag(:span, label, class: 'label-text')
-          end + content_tag(:span, "#{values['begin']} - #{values['end']}", class: 'query-text')
-        end
-        query_texts << facet_html
+        label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
+        chip  = mk_chip.call(label, mk_value.call("#{values['begin']} - #{values['end']}"))
+        row_index.zero? ? dates_nodes << chip : dates_nodes << pair_with_boolean.call('AND', chip)
       end
     end
+    grp = wrap_group.call('Dated Between:', dates_nodes)
+    query_texts << grp if grp
 
     query_texts
   end
@@ -182,11 +193,11 @@ module SearchHistoryHelper
     f_inclusive = params[:f_inclusive] || {}
 
     # Query --------------------------------------------------------------------
-    q_row.each_with_index do |query, i|
+    q_row.each_with_index do |query, index|
       next if query.blank?
-      boolean = i.positive? ? b_row[i.to_s.to_sym] : nil
-      link_text += "&boolean_row[#{i}]=#{boolean}" if boolean
-      link_text += "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[i]}&search_field_row[]=#{sf_row[i]}"
+      boolean = index.positive? ? b_row[index.to_s.to_sym] : nil
+      link_text += "&boolean_row[#{index}]=#{boolean}" if boolean
+      link_text += "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[index]}&search_field_row[]=#{sf_row[index]}"
     end
 
     # Filters ------------------------------------------------------------------
