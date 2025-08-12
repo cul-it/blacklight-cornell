@@ -6,6 +6,7 @@ module SearchHistoryHelper
     language_facet:         'Language',
     format:                 'Format',
     pub_date_facet:         'Publication Year',
+    "-pub_date_facet":      'Publication Dates',
     fast_topic_facet:       'Subject',
     author_facet:           'Author',
     fast_genre_facet:       'Genre',
@@ -126,6 +127,17 @@ module SearchHistoryHelper
 
     # FILTERED BY SECTION (exclusive facets) -----------------------------------
     filters_nodes = []
+
+    no_date = Array(dr_row['-pub_date_facet']).include?('[* TO *]')
+    if no_date
+      dr_row.each_with_index do |(facet_key, values), row_index|
+        next unless no_date
+        label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
+        chip  = mk_chip.call(label, mk_value.call("Missing"))
+        row_index.zero? ? filters_nodes << chip : filters_nodes << pair_with_boolean.call('AND', chip)
+      end
+    end
+
     if f_row.present?
       first = true
       f_row.each do |facet_key, values|
@@ -157,8 +169,7 @@ module SearchHistoryHelper
 
     # DATED BETWEEN (range) ----------------------------------------------------
     dates_nodes = []
-    if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? &&
-       dr_row[:pub_date_facet]&.[](:end).present?
+    if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
       dr_row.each_with_index do |(facet_key, values), row_index|
         next unless values['begin'].present? && values['end'].present?
         label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
@@ -214,7 +225,16 @@ module SearchHistoryHelper
       end
     end
 
-    # Date range ---------------------------------------------------------------
+    # Dates --------------------------------------------------------------------
+    # No dates facet
+    if dr_row['-pub_date_facet'].present?
+      Array(dr_row['-pub_date_facet']).each do |val|
+        next if val.blank?
+        f_link_text << "&range[-pub_date_facet][]=#{CGI.escape(val.to_s)}"
+      end
+    end
+
+    # Date range facets
     if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
       dr_row.each do |field, range_opts|
         range_opts.each do |bound, val|
