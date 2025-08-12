@@ -110,19 +110,32 @@ module SearchHistoryHelper
         vals = Array(values).map(&:to_s).reject(&:blank?)
         next if vals.empty?
 
-      f_inclusive.each_with_index do |(facet_key, values), filter_index|
-        values.each_with_index do |val, value_index|
-          query_texts << content_tag(:span, 'OR', class: 'query-boolean') if filter_index.positive? || value_index.positive?
-          label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
-          value = val.to_s
+        # AND between different inclusive facet groups
+        query_texts << content_tag(:span, 'AND', class: 'query-boolean') if group_index.positive?
 
-          facet_html = content_tag(:span, class: 'combined-label-query btn btn-light') do
-            content_tag(:span, class: 'filter-name') do
-              content_tag(:span, label, class: 'label-text')
-            end + content_tag(:span, value, class: 'query-text')
+        label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
+
+        # Build value + styled OR pieces as separate nodes inside the chip
+        pieces = []
+        vals.each_with_index do |v, idx|
+          pieces << content_tag(:span, v, class: 'query-text', style: "")
+          if idx < vals.length - 1
+            pieces << content_tag(
+              :span,
+              ' OR ',
+              class: 'boolean-or',
+              style: 'font-weight:700;color:#000;text-decoration:none; font-size: 0.85rem'
+            )
           end
-          query_texts << facet_html
         end
+
+        chip_html = content_tag(:span, class: 'combined-label-query btn btn-light', style: "padding: 0 6px 0 6px;") do
+          content_tag(:span, class: 'filter-name') do
+            content_tag(:span, label, class: 'label-text')
+          end + safe_join(pieces)
+        end
+
+        query_texts << chip_html
       end
     end
 
