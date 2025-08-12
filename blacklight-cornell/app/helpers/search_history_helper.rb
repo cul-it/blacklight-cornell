@@ -59,7 +59,7 @@ module SearchHistoryHelper
     f_row       = params[:f] || {}
     f_inclusive = params[:f_inclusive] || {}
 
-    title_label = q_row.count(&:present?) > 1 ? "SEARCH TERMS: " : "SEARCH TERM: "
+    title_label = q_row.count(&:present?) > 1 ? "Search Terms: " : "Search Term: "
     query_texts << content_tag(:span, title_label, class: 'query-boolean ms-2')
 
     # Queries ------------------------------------------------------------------
@@ -80,10 +80,10 @@ module SearchHistoryHelper
       query_texts << query_html
     end
 
-    # Filters ------------------------------------------------------------------
+    # Filters (exclusive) ------------------------------------------------------
     if f_row.present?
       query_texts << tag.div(class: 'w-100')
-      query_texts << content_tag(:span, 'FILTERED BY: ', class: 'query-boolean ms-2')
+      query_texts << content_tag(:span, 'Filtered By: ', class: 'query-boolean ms-2')
 
       f_row.each_with_index do |(facet_key, values), filter_index|
         values.each_with_index do |val, value_index|
@@ -104,7 +104,11 @@ module SearchHistoryHelper
     # Inclusive Filters --------------------------------------------------------
     if f_inclusive.present?
       query_texts << tag.div(class: 'w-100')
-      query_texts << content_tag(:span, 'INCLUDE ANY: ', class: 'query-boolean ms-2')
+      query_texts << content_tag(:span, 'Include Any: ', class: 'query-boolean ms-2')
+
+      f_inclusive.each_with_index do |(facet_key, values), group_index|
+        vals = Array(values).map(&:to_s).reject(&:blank?)
+        next if vals.empty?
 
       f_inclusive.each_with_index do |(facet_key, values), filter_index|
         values.each_with_index do |val, value_index|
@@ -125,7 +129,7 @@ module SearchHistoryHelper
     # Date range ---------------------------------------------------------------
     if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
       query_texts << tag.div(class: 'w-100')
-      query_texts << content_tag(:span, 'DATED BETWEEN: ', class: 'query-boolean ms-2')
+      query_texts << content_tag(:span, 'Dated Between: ', class: 'query-boolean ms-2')
 
       dr_row.each_with_index do |(facet_key, values), ridx|
         next unless values['begin'].present? && values['end'].present?
