@@ -55,10 +55,10 @@
 	  <div id="outer-container" class="slides-full" tabindex="0">
 		<div class="inner-container" id="prev-reroute" style="display:none;">
 			<div class="vb-reroute">
-				<a href="/browse?authq=<%=response[0]['callnumber']%>&browse_type=virtual">
+				<%= link_to browse_index_path(authq: response[0]['callnumber'], browse_type: "virtual") do %>
 					<div> <i class="fa fa-chevron-left"></i> </div>
 					<div> View more browse results</div>
-				</a>
+				<% end %>
 			</div>
 		</div>
 	<% count = 0 %>
@@ -109,10 +109,10 @@
 	<% end %>
 	<div class="inner-container" id="next-reroute" style="display:none">
 		<div class="vb-reroute"><%# [response.size-1] %>
-			<a href="/browse?authq=<%=response[response.size-1]['callnumber']%>&browse_type=virtual">
+			<%= link_to browse_index_path(authq: response[response.size-1]['callnumber'], browse_type: "virtual") do %>
 				<div>View more browse results </div>
 				<div> <i class="fa fa-chevron-right"></i></div>
-			</a>
+			<% end %>
 		</div>
 	</div>
   </div>

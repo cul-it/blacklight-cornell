@@ -36,6 +36,17 @@ end
 # This overrides the DEFAULT_PARSER with the UNRESERVED key, including '|'
 # DEFAULT_PARSER is used everywhere, so its better to override it once
 ################################################################################
+# June 2025 - updated note from Copilot:
+# In Ruby 3.x, URI::Parser.new no longer accepts keyword arguments like :UNRESERVED. 
+# The parser is now frozen and expects zero arguments.
+# If you need to allow | in URIs:
+# Consider replacing | with %7C before parsing, e.g.:
+#
+# Summary:
+#
+# The monkey patch is incompatible with Ruby 3.x.
+# Remove or comment it out.
+# Pre-encode | as %7C if needed.
  module URI
    remove_const :DEFAULT_PARSER
    unreserved = REGEXP::PATTERN::UNRESERVED

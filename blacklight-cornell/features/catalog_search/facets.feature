@@ -36,28 +36,6 @@ Feature: Facets
 		And I should not see a facet called 'Call Number'
 
 	@DISCOVERYACCESS-7221
-		Scenario Outline: Facet counts in search for everything
-		Given I am on the home page
-		And I search for everything
-		#	Then the count for category '<category>' facet '<facet>' should be '<count>'
-		#	And I choose category '<category>' facet '<facet>'
-		#Then I should get <count> results
-
-		#	Examples:
-		#| category | facet | count |
-		#| Access | At the Library  | 181  |
-		#| Format | Book | 166 |
-		#| Author, etc. | Rowling, J. K. | 8 |
-		#| Language | English | 169 |
-		#| Subject | Magic | 8 |
-		#| Subject: Region | United States | 25 |
-		#| Subject: Era | 1900 - 1999 | 5 |
-		#| Genre | Periodicals | 26 |
-		#| Fiction/Non-Fiction | Non-Fiction (books) | 136 |
-		#| Date Acquired | Since last year | 4 |
-
-
-	@DISCOVERYACCESS-7221
 	Scenario Outline: Facet counts in search for everything special
 		Given I am on the home page
 		And I search for everything
@@ -66,7 +44,7 @@ Feature: Facets
 
 	Examples:
 		| category | facet | count |
-		| Publication Year | Unknown | 3 |
+		| Publication Year | [Missing] | 3 |
 		| Library Location | Adelson Library | 2 |
 		| Call Number | A - General | 8 |
 
@@ -74,7 +52,7 @@ Feature: Facets
 	Scenario Outline: Handling valid Publication Year date ranges
 		Given I am on the home page
 		And I search for everything
-		Then I limit the publcation year from <begin> to <end>
+		Then I limit the publication year from <begin> to <end>
 		Then I should get <count> results
 		And I should not see 'Publication Year facet out of range'
 
@@ -87,7 +65,7 @@ Feature: Facets
 	Scenario Outline: Handling invalid Publication Year date ranges
 		Given I am on the home page
 		And I search for everything
-		Then I limit the publcation year from <begin> to <end>
+		Then I limit the publication year from <begin> to <end>
 		And I should see 'Publication Year facet out of range'
 
 	Examples:
@@ -101,7 +79,7 @@ Feature: Facets
 		Given I open the 'Language' facet and choose 'English'
 		And I also open the 'Format' facet and choose 'Book'
 		And I also open the 'Access' facet and choose 'At the Library'
-		And I limit the publcation year from 2001 to 2018
+		And I limit the publication year from 2001 to 2018
 		Then I should have about 29 results
 
 	@DISCOVERYACCESS-7869

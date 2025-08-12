@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
 
   # Adds a few additional behaviors into the application controller
   include Blacklight::Controller
+
+  # Overrides search_state_class with customized subclass
+  self.search_state_class = BlacklightCornell::SearchState
+
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.
   #prepend_before_filter :set_return_path

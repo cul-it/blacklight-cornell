@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 class SearchHistoryController < ApplicationController
   include Blacklight::SearchHistory
-  helper BlacklightRangeLimit::ViewHelperOverride
-  helper RangeLimitHelper
 
   def set_return_path
     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")

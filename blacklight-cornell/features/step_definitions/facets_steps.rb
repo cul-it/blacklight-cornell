@@ -71,11 +71,11 @@ Then("I choose category {string} link {string}") do |category, facet|
 	end
 end
 
-Then("I limit the publcation year from {int} to {int}") do |int, int2|
+Then("I limit the publication year from {int} to {int}") do |int, int2|
 	within (find("form.range_pub_date_facet")) do
 		fill_in 'range_pub_date_facet_begin', :with => int
 		fill_in 'range_pub_date_facet_end', :with => int2
-		click_button "Limit"
+		first('input[type="submit"]').click
 	end
 end
 
@@ -102,5 +102,5 @@ Then("I also open the {string} facet and choose {string}") do |facet, choice|
 end
 
 Given("I visit the facet page for {string}") do |string|
-	do_visit "/catalog/facet/#{string}"
+	visit "/catalog/facet/#{string}"
 end

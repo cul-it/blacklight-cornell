@@ -9,7 +9,7 @@
 <input id='exclusions' type='hidden' value="<%= exclusions_JSON %>" />
 
 <div class='row info-row mb-4 mt-4'>
-  <div id='left-container' class='col-sm-8 col-md-8 col-lg-8'>
+  <div id='left-container' class='col-sm-8'>
 		<%= render 'bio_info', heading_type: 'author', bio_data: bio_data do %>
 			<% if bio_data['Occupation'].present? %>
 				<dt>Occupation:</dt>
@@ -40,7 +40,7 @@
 					<ul class='agent-notes'>
 						<% the_notes.each do |n| %>
 							<% if n.class.inspect == 'Hash'%>
-								<li><a href="/browse?authq=<%=n['header']%>&start=0&browse_type=Author"><%= n['header']%></a></li>
+								<li><%= link_to n['header'], browse_index_path(authq: n['header'], start: 0, browse_type: 'Author') %></li>
 							<% end %>
 						<% end %>
 					</ul>
@@ -52,7 +52,7 @@
 				<% if pseudonym.present? %>
 					<dt>Pseudonym for:</dt>
 					<dd>
-						<a href="/browse?authq=<%=pseudonym%>&start=0&browse_type=Author"><%=pseudonym%></a>
+						<%= link_to pseudonym, browse_index_path(authq: pseudonym, start: 0, browse_type: 'Author') %><
 					</dd>
 				<% end %>
 			<% end %>
@@ -61,7 +61,7 @@
       <%= render 'reference_info' %>
     </div>
 	</div>
-	<div class='col-sm-4 col-md-4 col-lg-4'>
+	<div class='col-sm-4'>
 		<%= render 'holdings' %>
 		<%# Will display relevant call numbers for the author if they're available. %>
 		<div id='callnumberbrowselink' class='mb-4 mt-4 ml-2' localname="<%=@loc_localname.gsub('"','')%>"></div>

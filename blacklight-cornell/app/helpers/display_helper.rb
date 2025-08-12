@@ -315,7 +315,8 @@ end
                                       browse_info_path(authq: authq,
                                                        bib: args[:document]['id'],
                                                        browse_type: related_auth_label),
-                                      class: 'info-button d-inline-block btn btn-sm btn-outline-secondary')
+                                      class: 'info-button d-inline-block btn btn-xs btn-outline-secondary',
+                                      'aria-label' => 'Work info for ' + authq)
                 search_link + browse_link
               else
                 search_link
@@ -1113,33 +1114,15 @@ end
       when 1
         search_state.params_for_search(args.first)
       when 2
-        Blacklight::SearchState.new(args.first, blacklight_config).params_for_search(args.last)
+        controller.search_state_class.new(args.first, blacklight_config).params_for_search(args.last)
       else
         raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
       end
     end
 
-    def cornell_sanitize_search_params(source_params)
-      Blacklight::Parameters.sanitize(source_params)
-    end
-    deprecation_deprecate :sanitize_search_params
-
-    def cornell_reset_search_params(source_params)
-      Blacklight::SearchState.new(source_params, blacklight_config).send(:reset_search_params)
-    end
-
-    def cornell_add_facet_params(field, item, source_params = nil)
-      if source_params
-
-        Blacklight::SearchState.new(source_params, blacklight_config).add_facet_params(field, item)
-      else
-        search_state.add_facet_params(field, item)
-      end
-    end
-
     def cornell_remove_facet_params(field, item, source_params = nil)
       if source_params
-        Blacklight::SearchState.new(source_params, blacklight_config).remove_facet_params(field, item)
+        controller.search_state_class.new(source_params, blacklight_config).remove_facet_params(field, item)
       else
         search_state.remove_facet_params(field, item)
       end
@@ -1150,34 +1133,6 @@ end
     end
 
 ##########
-
-  # Display the Solr core for everything but production instance
-  def render_solr_core
-    unless request.host == 'search.library.cornell.edu' or request.host == 'catalog.library.cornell.edu'
-      core = Blacklight.connection_config[:url]
-      # Remove http protocol string
-      start = core.rindex(/:\/\//) + 3
-      display = '<p class="solr-core">Solr core: ' + core[start..-1] + '</p>'
-      display.html_safe
-    end
-  end
-
-  # TODO: no longer needed? commented out 5/31/23 to see if it breaks anything - mhk33, DISCOVERYACCESS-7501
-  # Clean up isbn in prep for bookcovers via Google Books API
-  # def bookcover_isbn(document)
-  #   isbn = document['isbn_display']
-  #   unless isbn.blank?
-  #     isbn = isbn.first
-  #     # Find first occurence of a space (remove non integer chars)
-  #     space = isbn.index(' ')
-  #     unless space.blank?
-  #       stop = space - 1
-  #       isbn[0..stop]
-  #     else
-  #       isbn
-  #     end
-  #   end
-  # end
 
   def bookcover_oclc(document)
     if document['oclc_id_display'].nil?
@@ -1287,6 +1242,7 @@ end
     end
     ## Sends 'correct' q param to link_link_to_previous_search
     params[:q] = showText
+
     # Uses newer version of #link_to_previous_search from blacklight to include f_inclusive filters
     showText = link_to_previous_search_override(params)
 

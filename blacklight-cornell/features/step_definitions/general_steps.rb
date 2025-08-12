@@ -54,11 +54,7 @@ Then /^I should see the text '(.*?)'$/i do |text|
   page.should have_content(text)
 end
 
-Then /^I should not see the text '(.*?)'$/i do |text|
-  page.should_not have_content(text)
-end
-
-Then /^I should not see the text "(.*?)"$/i do |text|
+Then "I should not see the text {string}" do |text|
   page.should_not have_content(text)
 end
 

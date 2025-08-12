@@ -7,24 +7,6 @@ Feature: Search
   As a user
   I want to enter terms, select terms for fields fields, and select number of results per page
 
-
-  @all_search
-  @adv_search
-  @searchpage
-  @javascript
-  Scenario: Advanced Search Page search types
-    When I literally go to advanced
-    Then the 'search_field_row0' drop-down should have an option for 'All Fields'
-    Then the 'search_field_row0' drop-down should have an option for 'Title'
-    Then the 'search_field_row0' drop-down should have an option for 'Journal Title'
-    Then the 'search_field_row0' drop-down should have an option for 'Call Number'
-    Then the 'search_field_row0' drop-down should have an option for 'Publisher'
-    Then the 'search_field_row0' drop-down should have an option for 'Subject'
-    Then the 'search_field_row0' drop-down should have an option for 'Series'
-    Then the 'search_field_row0' drop-down should have an option for 'Place of Publication'
-    Then the 'search_field_row0' drop-down should have an option for 'Donor/Provenance'
-    #Then the 'boolean_row\[1\]' radio should have an option for 'or'
-
   @adv_search
   @all_search
   @searchpage
@@ -33,17 +15,27 @@ Feature: Search
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
+    And the 'search_field_row0' drop-down should have an option for 'All Fields'
+    And the 'search_field_row0' drop-down should have an option for 'Title'
+    And the 'search_field_row0' drop-down should have an option for 'Journal Title'
+    And the 'search_field_row0' drop-down should have an option for 'Call Number'
+    And the 'search_field_row0' drop-down should have an option for 'Publisher'
+    And the 'search_field_row0' drop-down should have an option for 'Subject'
+    And the 'search_field_row0' drop-down should have an option for 'Series'
+    And the 'search_field_row0' drop-down should have an option for 'Place of Publication'
+    And the 'search_field_row0' drop-down should have an option for 'Donor/Provenance'
+    And the 'boolean_row[1]' drop-down should have an option for 'OR'
     And I fill in "q_row0" with 'Encyclopedia of railroading'
     And I select 'Title' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'National Text Book Company'
     And I select 'Publisher' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
-    And I sleep 4 seconds
     Then I should get results
     And I should see the label '1 result'
     And I should see the label 'AND Publisher: National Text Book Company'
+    And I should see a facet called 'Call Number'
+    And I should see the label 'Modify advanced'
 
-# Combinatorial Algorithms, Algorithmic Press
   @adv_search
   @all_search
   @search_title_or_publisher
@@ -63,7 +55,6 @@ Feature: Search
     And I should see the label '1 - 2 of'
     And I should see the label 'OR Publisher: Lexington Books'
 
-# Combinatorial Algorithms, Algorithmic Press
   @adv_search
   @all_search
   @searchpage
@@ -78,17 +69,15 @@ Feature: Search
     And I fill in "q_row1" with 'springer'
     And I select 'Publisher' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
-    And I sleep 4 seconds
     Then I should get 3 results
     And I should see the label 'NOT Publisher: springer'
 
-# Combinatorial Algorithms, Algorithmic Press
   @adv_search
   @all_search
   @searchpage
   @javascript
   @DISCOVERYACCESS-5739
-  Scenario: Advanced search with title NOT publisher
+  Scenario: Advanced search with title NOT all fields
     When I literally go to advanced
     And the page title should be "Advanced Search - Cornell University Library Catalog"
     And I should see a stylesheet
@@ -99,17 +88,6 @@ Feature: Search
     And I select 'All Fields' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
-
- @adv_search
- @all_search
- @callnumber
-  @javascript
-  Scenario: Perform an advanced search and see call number facet
-    When I literally go to advanced
-    And I fill in "q_row0" with 'Encyclopedia'
-    And I press 'advanced_search'
-    Then I should get results
-    And I should see a facet called 'Call Number'
 
  @adv_search
  @all_search
@@ -138,17 +116,6 @@ Feature: Search
     Then I should get results
     And I should see the label '1 result'
 
- #
- #@javascript
- # Scenario: Perform an advanced search by title with colon, colon should be ignored.
- #   When I literally go to advanced
- #   And I fill in "q_row0" with 'ethnoarchaeology:'
- #   And I select 'Title' from the 'search_field_row0' drop-down
- #   And I press 'advanced_search'
- #   Then I should get results
- #   And I should see the label '1 - 20 of'
-
-# Combinatorial Algorithms, Algorithmic Press
  @adv_search
  @all_search
  @peabody
@@ -174,14 +141,12 @@ Feature: Search
     Then I should get results
     And I should see the label 'of '
 
-# Frederick the great, by TCW Blanning
  @adv_search
  @all_search
  @issnisbn
  @javascript
   Scenario: Perform an advanced search by isbn
     When I literally go to advanced
-    And I sleep 4 seconds
     And I fill in "q_row0" with '9780571347155'
     And I select 'ISBN/ISSN' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
@@ -189,61 +154,36 @@ Feature: Search
     And I should see the label '1 result'
     And I should see the label '100 poems'
 
-#
- @adv_search
- @all_search
- @notes
- @javascript
-  Scenario: Perform an advanced search by notes
-    When I literally go to advanced
-    And I sleep 4 seconds
-    And I fill in "q_row0" with 'Prepared under the sponsorship of the Propulsion and Energetics Panel.'
-    And I select 'phrase' from the 'op_row0' drop-down
-    And I select 'Notes' from the 'search_field_row0' drop-down
-    And I press 'advanced_search'
-    Then I should get 1 results
-    And I should see the "Notes" facet constraint
-    And click on first link "Annulus wall boundary layers in turbomachines"
-    Then I should see the label 'Annulus wall boundary layers in turbomachines'
-    And click on first link "Back to catalog results"
-    Then I should get 1 results
-
-# purple rain: music
  @adv_search
  @all_search
  @issnisbn
  @javascript
   Scenario: Perform an advanced search by other number
     When I literally go to advanced
-    And I sleep 4 seconds
     And I fill in "q_row0" with '075992511025'
     And I select 'Publisher Number/Other Identifier' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
 
-# . Greek papyri from Montserrat (P.Monts.Roca IV) 2014
  @adv_search
  @all_search
  @series
  @javascript
   Scenario: Perform an advanced search by series
     When I literally go to advanced
-    And I sleep 4 seconds
     And I fill in "q_row0" with 'Scripta Orientalia'
     And I select 'Series' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
     Then I should get results
     And I should see the label '1 result'
 
-#
  @adv_search
  @all_search
  @adv_notes
  @javascript
   Scenario: Perform an advanced search by notes
     When I literally go to advanced
-    And I sleep 4 seconds
     And I fill in "q_row0" with '"Prepared under the sponsorship of the Propulsion and Energetics Panel."'
     And I select 'all' from the 'op_row0' drop-down
     And I select 'Notes' from the 'search_field_row0' drop-down
@@ -253,25 +193,6 @@ Feature: Search
     Then I should get results
     And I should see the label '1 result'
 
-#
- @adv_search
- @all_search
- @adv_donor
- @javascript
-  Scenario: Perform an advanced search by donor
-    When I literally go to advanced
-    And I fill in "q_row0" with 'Class of 1957'
-    And I select 'all' from the 'op_row0' drop-down
-    And I select 'Donor/Provenance' from the 'search_field_row0' drop-down
-    And I press 'advanced_search'
-    Then I should get 2 results
-    And I should see the "Donor/Provenance" facet constraint
-    And click on first link "The annual of the British school at Athens"
-    Then I should see the label 'The annual of the British school at Athens'
-    And click on first link "Back to catalog results"
-    Then I should get 2 results
-
-#
  @adv_search
  @all_search
  @adv_donor
@@ -289,7 +210,6 @@ Feature: Search
     And I should see the label '1 result'
     And I should see the label 'Modify advanced'
 
-# Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
  @all_search
  @adv_subject
@@ -297,7 +217,7 @@ Feature: Search
   Scenario: Perform an advanced search by subject
     When I literally go to advanced
     And I fill in "q_row0" with 'Hales, John'
-    And I select 'all' from the 'op_row0' drop-down
+    And I select 'phrase' from the 'op_row0' drop-down
     And I select 'Subject' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Imprints'
     And I select 'all' from the 'op_row1' drop-down
@@ -306,29 +226,11 @@ Feature: Search
     Then I should get results
     And I should see the label '1 result'
 
-# Subject Molecular Biology and Recombinant DNA as Subjects
  @adv_search
  @all_search
  @adv_subject
  @javascript
-  Scenario: Perform an advanced search by subject
-    When I literally go to advanced
-    And I fill in "q_row0" with 'Ocean thermal power plants'
-    And I select 'phrase' from the 'op_row0' drop-down
-    And I select 'Subject' from the 'search_field_row0' drop-down
-    And I fill in "q_row1" with 'Maritime law'
-    And I select 'phrase' from the 'op_row1' drop-down
-    And I select 'Subject' from the 'search_field_row1' drop-down
-    And I press 'advanced_search'
-    Then I should get results
-    And I should see the label '1 result'
-
-# Subject Molecular Biology and Recombinant DNA as Subjects
- @adv_search
- @all_search
- @adv_subject
- @javascript
-  Scenario: Perform an advanced search by subject
+  Scenario: Perform an advanced search by subject and title
     When I literally go to advanced
     And I fill in "q_row0" with 'Ocean thermal power plants'
     And I select 'phrase' from the 'op_row0' drop-down
@@ -337,7 +239,6 @@ Feature: Search
     And I select 'phrase' from the 'op_row1' drop-down
     And I select 'Subject' from the 'search_field_row1' drop-down
     And click on link "add-row"
-    And I sleep 4 seconds
     And I fill in "q_row2" with 'conversion'
     And I select 'phrase' from the 'op_row2' drop-down
     And I select 'Title' from the 'search_field_row2' drop-down
@@ -346,7 +247,6 @@ Feature: Search
     And I should see the label '1 result'
     And I should see the label 'Ocean thermal energy conversion'
 
-#  fungi, recombinant dna, any publisher
  @adv_search
  @all_search
  @adv_subject
@@ -360,7 +260,6 @@ Feature: Search
     And I select 'phrase' from the 'op_row1' drop-down
     And I select 'All Fields' from the 'search_field_row1' drop-down
     And click on link "add-row"
-    And I sleep 4 seconds
     And I fill in "q_row2" with 'Lexington Books'
     And I select 'any' from the 'op_row2' drop-down
     And I select 'Publisher' from the 'search_field_row2' drop-down
@@ -369,20 +268,17 @@ Feature: Search
     #And I should see the label '1 result'
     #And I should see the label 'Yeast molecular biology--recombinant DNA'
 
-#
  @adv_search
  @all_search
  @adv_place
  @javascript
   Scenario: Perform an advanced search by place of publication
     When I literally go to advanced
-    And I sleep 4 seconds
     And I fill in "q_row0" with 'Ocean'
     And I select 'all' from the 'op_row0' drop-down
     And I select 'Subject' from the 'search_field_row0' drop-down
     And I fill in "q_row1" with 'Lexington'
     And I select 'all' from the 'op_row1' drop-down
-    And I sleep 4 seconds
     And I select 'Place of Publication' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
@@ -395,7 +291,6 @@ Feature: Search
   @javascript
   Scenario: Perform an advanced search by place of publication
     When I literally go to advanced
-    And I sleep 4 seconds
     And I fill in "q_row0" with 'New York'
     And I select 'all' from the 'op_row0' drop-down
     And I select 'Place of Publication' from the 'search_field_row0' drop-down
@@ -426,25 +321,6 @@ Feature: Search
     And I should see the label 'Indian Ocean and regional security'
     And I should see the label '1 result'
 
-
-
- @begins_with
- @adv_search
- @all_search
- @adv_place
- @javascript
-  Scenario: Perform a 1 row  advanced search by begins with Title
-    When I literally go to advanced
-    And I fill in "q_row0" with 'Indian Ocean'
-    And I select 'begins' from the 'op_row0' drop-down
-    And I select 'Title' from the 'search_field_row0' drop-down
-    And I press 'advanced_search'
-    Then I should get results
-    And I should see the label 'Modify advanced'
-    And I should see the label 'Indian Ocean and regional security'
-    And I should see the label '1 result'
-
-
  @wip
  @begins_with
  @adv_search
@@ -469,17 +345,7 @@ Feature: Search
     And I fill in "q_row0" with ' '
     And I fill in "q_row1" with 'we were once'
     And click on link "add-row"
-    And I sleep 4 seconds
     And I fill in "q_row2" with ' '
-    And I press 'advanced_search'
-    Then I should not see the label 'searched'
-
- @javascript
- @DISCOVERYACCESS-3350
-  Scenario: Perform a 2 row  advanced search with a blank in one field.
-    When I literally go to advanced
-    And I fill in "q_row0" with ' '
-    And I fill in "q_row1" with 'we were once'
     And I press 'advanced_search'
     Then I should not see the label 'searched'
 
@@ -495,7 +361,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
-    Then it should have link "Title: beef" with value '/catalog?action=index&advanced_query=yes&commit=Search&controller=catalog&op_row%5B%5D=AND&q=title+%3D+100%25&q_row%5B%5D=100%25&search_field=advanced&search_field_row%5B%5D=title&show_query=title+%3D+100%25&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&utf8=%E2%9C%93'
+    Then it should have link "Title: beef" with value '/catalog?action=index&advanced_query=yes&commit=Search&controller=catalog&op_row%5B%5D=AND&q=title+%3D+100%25&q_row%5B%5D=100%25&range%5Bpub_date_facet%5D%5Bbegin%5D=&range%5Bpub_date_facet%5D%5Bend%5D=&search_field=advanced&search_field_row%5B%5D=title&show_query=title+%3D+100%25&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&utf8=%E2%9C%93&y='
     Then I remove facet constraint "beef"
 
 
@@ -503,7 +369,7 @@ Feature: Search
  @all_search
  @adv_title_percent
  @javascript
-  Scenario: Perform a 2 row  advanced search with Title with percent that must be url encoded.
+  Scenario: Perform a 2 row advanced search with Title with percent that must be url encoded.
     When I literally go to advanced
     And I fill in "q_row0" with 'beef'
     And I select 'Title' from the 'search_field_row0' drop-down
@@ -513,29 +379,20 @@ Feature: Search
     Then I should get results
     And I should see the label 'Modify advanced'
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
-    And I sleep 8 seconds
     Then click on first link "Institutional meat purchase specifications for fresh beef"
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
-    And I sleep 10 seconds
     Then click on first link "Next »"
-    And I sleep 8 seconds
     And I should see the label 'A sea-fight'
-    And I sleep 8 seconds
     Then click on first link "Previous"
-    And I sleep 8 seconds
     And I should see the label 'Institutional meat purchase specifications for fresh beef'
     And I should see the label 'Back to catalog results'
     Then click on first link "Back to catalog results"
-    And I sleep 8 seconds
     And I should see the label '1 - '
     Then I go to the search history page
-    And I sleep 8 seconds
     And I should see the label 'Title: beef AND Title: 100%'
     Then click on first link "Title: beef AND Title: 100%"
-    And I sleep 8 seconds
     And I should see the label '1 - '
     Then I remove facet constraint "beef"
-    And I sleep 8 seconds
     And I should see the label '1 - 5 of'
 
 
@@ -552,7 +409,6 @@ Feature: Search
     And I fill in "q_row1" with 'years “gone by” “full directions” successfully'
     And I select 'any' from the 'op_row1' drop-down
     And click on link "add-row"
-    And I sleep 4 seconds
     And I select 'All Fields' from the 'search_field_row1' drop-down
     And I fill in "q_row2" with 'Cage birds'
     And I select 'any' from the 'op_row2' drop-down
@@ -561,20 +417,6 @@ Feature: Search
     Then I should get results
     And I should see the label 'Modify advanced'
     And I should see the label '2 catalog results'
-
- # DISCOVERYACCESS3298
- @adv_search
- @all_search
- @adv_title_percent
- @javascript
-  Scenario: Perform a 2 row  advanced search with Title, with percent that must be url encoded.
-    When I literally go to advanced
-    And I fill in "q_row0" with 'manual of the trees of north america (exclusive of mexico)'
-    And I fill in "q_row1" with 'sargent, charles sprague'
-    And I select 'Title' from the 'search_field_row0' drop-down
-    And I press 'advanced_search'
-    Then I should get results
-
 
  @adv_search
  @all_search
@@ -620,7 +462,6 @@ Scenario: Try an advanced search with and advanced query
     Given PENDING
     When I literally go to advanced
     And click on link "add-row"
-    And I sleep 4 seconds
     And I use 'Barney Glover' with 'phrase' logic for field 'Author' on line 1 of advanced search
     And I select 'OR' from the boolean dropdown on line 2
     And I use 'Rachna Mataudul' with 'phrase' logic for field 'Author' on line 2 of advanced search
@@ -676,7 +517,6 @@ Scenario: Try an advanced search with and advanced query
     Given PENDING
     When I literally go to advanced
     And click on link "add-row"
-    And I sleep 4 seconds
     And I use 'Barney Glover' with 'phrase' logic for field 'Author' on line 1 of advanced search
     And I select 'OR' from the boolean dropdown on line 2
     And I use 'Rachna Mataudul' with 'phrase' logic for field 'Author' on line 2 of advanced search
@@ -686,29 +526,6 @@ Scenario: Try an advanced search with and advanced query
     Then I should get results
     And I should see the label 'Optimization and related topics'
     And I should see the label 'Tax Treaty Dispute Resolution : lessons from the Law of the Sea'
-
-@DACCESS-174
-@javascript
-Scenario Outline: Testing And Or Not logic with separate Authors
-    When I literally go to advanced
-    And I use '<q1>' with 'all' logic for field '<field>' on line 1 of advanced search
-    Then I select '<boolean>' from the boolean dropdown on line 2
-    And I use '<q2>' with 'all' logic for field '<field>' on line 2 of advanced search
-    And I press 'advanced_search'
-    Then I should get <results> results
-
-Examples:
-  | boolean | results | field | q1 | q2 |
-  | AND | 1 | Author | Simpson | Smith |
-  | OR | 4 | Author | Simpson | Smith |
-  | NOT | 0 | Author | Simpson | Smith |
-  | NOT | 3 | Author | Smith | Simpson |
-  | AND | 1 | All Fields | complete | fire |
-  | NOT | 4 | All Fields | complete | fire |
-  | AND | 1 | Title | 100 | match |
-  | OR | 6 | Title | 100 | match |
-  | NOT | 4 | Title | 100 | match |
-  | NOT | 1 | Title | match | 100 |
 
 @DACCESS-174
 @javascript
@@ -758,11 +575,23 @@ Scenario: Empty searches produce empty solr queries in advanced and simple searc
     Then the solr query should be ''
 
 @javascript
-Scenario: I can filter advanced searches by multiple languages
+Scenario: I can filter advanced searches by facets
   When I literally go to advanced
   And I fill in "q_row0" with 'Canada'
+  And I fill in "range_pub_date_facet_begin" with '1960'
+  And I fill in "range_pub_date_facet_end" with '2000'
+  And I should not see the text "French"
   And I press 'Language'
-  And I should select checkbox "f_inclusive_language_facet_6"
-  And I should select checkbox "f_inclusive_language_facet_7"
+  And I should select checkbox "f_inclusive_language_facet_0"
+  And I should select checkbox "f_inclusive_language_facet_2"
+  And I should not see the text "Journal/Periodical"
+  And I press 'Format'
+  And I should select checkbox "f_inclusive_format_0"
+  And I should select checkbox "f_inclusive_format_1"
   And I press 'advanced_search'
-  Then I should get 4 results
+  Then I should get 2 results
+  Then click on first link "International wildlife"
+  Then I should see the label 'International wildlife'
+  And I fill in the search box with 'wildlife'
+  And I press 'search'
+  Then I should get results

@@ -3,43 +3,19 @@ Feature: Item view
   In order to get information about a specific item
   As a user
   I want to see details from the item's catalog record, holdings, and availability.
-  #  @all_item_view
-  #  @allow-rescue
-  #  @e404
-  #  Scenario: goto an invalid page
 
-  #    When I literally go to abcdefg
-  #    Then I should see an error
-  #    Then it should have link "mlink" with value "mailto:cul-dafeedback-l@cornell.edu"
   @all_item_view
   @availability
   Scenario: View an items holdings
     Given I request the item view for 4759
     Then I should see the label 'Request'
+
   @all_item_view
   @aeon
   @rmcnoitems
   Scenario: View an items holdings
     Given I request the item view for 8753977
     Then I should see the label 'Request'
-  #@all_item_view
-  #@aeon
-  #  @reading_room_delivery
-  #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253
-  #      #And click on link "Request for Reading Room Delivery"
-  #      Then it should have link "Request item for Reading Room Delivery" with value "http://voy-api.library.cornell.edu/aeon/monograph.php?bibid=2083253&libid=rmc,anx&finding="
-  @all_item_view
-  @aeon
-  #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253
-  #      And click on link "Request for Reading Room Delivery"
-  #      Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
-  @all_item_view
-  @aeon
-  #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253
-  #      Then it should have link "Request for Reading Room Delivery" with value "/aeon/2083253"
 
   # DISCOVERYACCESS-136
   @all_item_view
@@ -48,7 +24,6 @@ Feature: Item view
     Given I request the item view for 11499748
     And click on first link "Askew, Anne, 1521-1546."
     Then results should have a "author" that looks sort of like "Askew, Anne"
-  #Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-137
   @all_item_view
@@ -79,27 +54,6 @@ Feature: Item view
     Given I request the item view for 3749
     Then it should contain "pub_info" with value "Berlin ; New York : Springer-Verlag, c1985."
 
-  @aeon
-  @all_item_view
-  #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253
-  #      And click on link "Request"
-  #      Then I should see the label 'Upton, G. B. (George Burr), 1882-1942'
-
-  #@aeon
-  #@all_item_view
-  #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253
-  #      And click on first link "Request"
-  #      Then I should see the label '16-5-268 This rare item may be delivered only to the RMC Reading Room.'
-
-  @aeon
-  @all_item_view
-  #Scenario: View an items holdings, and request from aeon
-  #  Given I request the item view for 2083253
-  #      Then it should have link "Request" with value "/aeon/2083253"
-
-
   # DISCOVERYACCESS-136
   @DISCOVERYACCESS-136
   @all_item_view
@@ -107,8 +61,6 @@ Feature: Item view
     Given I request the item view for 11499748
     And click on first link "Askew, Anne, 1521-1546."
     Then results should have a "author" that looks sort of like "Askew, Anne"
-
-  # Then results should contain "author" with value "Catholic Church. Pope (1939-1958 : Pius XII) Summi pontificatus (20 Oct. 1939) English."
 
   # DISCOVERYACCESS-138
   @all_item_view
@@ -155,20 +107,6 @@ Feature: Item view
   Scenario: As a user I can see the availability for an item
     Given I request the item view for 1208939
     Then I should see the label 'Checked out, due'
-
-  # availability -- several copies,all copy1, checked out.
-  # Directory American Veterinary Medical Association
-  # Temporarily commenting out while the Covid-19 changes are in place
-  #@all_item_view
-  #@availability
-  #@javascript
-  #@bibid1902405
-  #@DISCOVERYACCESS-1659
-  #@request
-  #Scenario: As a user I can see the availability for an item
-  #  Given I request the item view for 1902405
-  #  #Then I should see the label '1950 c. 1 Checked out, due 2017-06-05'
-  #  Then I should see the label 'Request'
 
 
   # when there is a perm location, and temp and all items for holding are at temp
@@ -351,17 +289,6 @@ Feature: Item view
     Then I should not see the label '1 copy'
     Then I should see the label 'Available'
 
-  # DISCOVERYACCESS-1430 -- be more explicit in saying what is available.
-  # Fundamentals of corporate finance Stephen A. Ross, Randolph W. Westerfield, Bradford D. Jordan
-  #@all_item_view
-  #@availability
-  #@holdings
-  #@DISCOVERYACCESS-1430
-  #@DISCOVERYACCESS-1483
-  #Scenario: As a user I can see the how many copies are available
-  #  Given I request the item view for 7728655
-  #  Then I should see the label 'Available 1 copy'
-
   @uniformtitle
   @all_item_view
   Scenario: Item has both series title and uniform title (and they are clickable)
@@ -383,10 +310,8 @@ Feature: Item view
     Then I should see the text 'Superseded by'
 
   # DISCOVERYACCESS-230
-  #
   @linkfields
   @all_item_view
-
   Scenario Outline: Display Linking Title Display Fields
     Given I request the item view for <bibid>
     Then I should see the text <value>
@@ -394,7 +319,6 @@ Feature: Item view
     Examples:
       | bibid  | link                                                                                                                                                       | filter  | value                                                           |
       # test continues_display
-      #    | 45766  | "International Printing and Graphic Communications Union. Convention. Convention proceedings of the International Printing & Graphic Communications Union" | "Title" | "Convention proceedings of the International Printing & Graphic Communications Union" |
       | 45766  | "International Printing and Graphic Communications Union. Convention. Convention proceedings of the International Printing & Graphic Communications Union" | "Title" | "Convention, Graphic Communications International Union"        |
       # test continues_in_part_display
       | 115235 | "Journal of the Institute of Mathematics and its Applications"                                                                                             | "Title" | "Journal of the Institute of Mathematics and its Applications"  |
@@ -414,8 +338,6 @@ Feature: Item view
       | 116073 | "National wildlife (DLC) 65066473 (OCoLC)1587904"                                                                                                          | "Title" | "National wildlife"                                             |
       # test absorbed_in_part_by_display
       | 118111 | "Alabama retail trade"                                                                                                                                     | "Title" | "Alabama retail trade"                                          |
-      # test translation_of_display
-      #| 115516 | "Kvantovai︠a︡ ėlectronika" | "Title" | "Kvantovai︠a︡ ėlectronika" |
       # test has_translation_display
       | 116482 | "Statistical yearbook of the Socialist Republic of Romania, 1966-"                                                                                         | "Title" | "Statistical yearbook of the Socialist Republic of Romania,"    |
       # test has_translation_display
@@ -426,7 +348,6 @@ Feature: Item view
       | 115113 | "United States. Bureau of Foreign and Domestic Commerce. Commerce reports July 1921-July 1925 (OCoLC)1533465"                                              | "Title" | "Survey of current business (Online)"                           |
       # test issued_with_display
       | 115621 | "Online version: Zeitschrift für Kunstgeschichte (OCoLC)565894191"                                                                                         | "Title" | "Zeitschrift für Kunstgeschichte"                               |
-      #| 301950 | "Lincoln law review v. 14, no. 1 (1983)" | "Title" | "Lincoln law review" |
       # test split_into_display
       | 264095 | "Together"                                                                                                                                                 | "Title" | "Together"                                                      |
       | 264095 | "New Christian advocate"                                                                                                                                   | "Title" | "New Christian advocate"                                        |
@@ -443,7 +364,6 @@ Feature: Item view
     Examples:
       | bibid   | yesno      | label                       |
       # Test for links to full content and TOC
-      #| 607   | should     | 'Available from the U.S. Government Printing Office. Adobe Acrobat Reader required' |
       | 608     | should not | 'Access online'             |
       | 8212979 | should     | ' Table of contents'        |
       | 608     | should not | 'Access table of contents'  |
@@ -484,17 +404,6 @@ Feature: Item view
     Given I request the item view for 28297
     Then I should see the label 'This item is bound with'
 
-  #  @all_item_view
-  # @boundwith
-  # @DISCOVERYACCESS-1903
-  # @DISCOVERYACCESS-1328
-  #  Scenario: Show the record properly when it is bound with another item, but there is actually no item record for the bound with
-  #    Given I request the item view for 118111
-  #    Then I should see the label 'This item is bound with'
-
-  # I am not sure why I have to spell out the link completely here.
-  #And it should have link "Calendar of the correspondence" with value "http://www.example.com/catalog/178799"
-  #And it should have link "Supplement to Dr. W. A." with value "http://www.example.com/catalog/748299"
   @all_item_view
   @boundwith
   @DISCOVERYACCESS-1903
@@ -538,12 +447,6 @@ Feature: Item view
     Given I request the item view for 5972895
     Then I should see the label 'bound with'
 
-  @popular
-  #  @all_item_view
-  #    Scenario: Show the record properly when a holding has only a prefix, but no callnumber as such.
-  #    Given I request the item view for 293396
-  #    Then I should see the label 'Popular Reading Area'
-
   # this item is an online item, and has holding notes.
   @DISCOVERYACCESS-3325
   @online_holding_notes
@@ -552,33 +455,6 @@ Feature: Item view
     Given I request the item view for 8797135
     Then I should see the label '17th and 18th century Burney Collection'
 
-  # TODO: need bibids that match these cases
-  # this item is an ordered item, received, and no item record.
-  # (I don't really know what ought to be displayed.)
-  #  @DISCOVERYACCESS-3243
-  #  @all_item_view
-  #    Scenario: Show the status properly for a received item, with no item record.
-  #    Given I request the item view for 9763600
-  #    Then I should see the label 'On-site use'
-  #    Then I should not see the label 'On order'
-
-
-  # TODO: need bibids that match these cases
-
-  # Scenario: Item has series title but not uniform title
-  #   Given I request the item view for 4759
-  #   Then I should see the label 'Series Title'
-  #   And I should not see the label 'Uniform Title'
-
-  # Scenario: Item has uniform title but not series title
-  #   Given I request the item view for 4759
-  #   Then I should not see the label 'Series Title'
-  #   And I should see the label 'Uniform Title'
-
-  # Scenario: Item has neither series nor uniform title
-  #   Given I request the item view for 4759
-  #   Then I should not see the label 'Series Title'
-  #   And I should not see the label 'Uniform Title'
   @all_item_view
   @titlelinking
   @DISCOVERYACCESS-1023
@@ -593,19 +469,6 @@ Feature: Item view
     Given I request the item view for 11493262
     #Then I should see the text 'Terms of use'
     Then I should see the text 'Scholastici orthodoxi specimen'
-
-  # Forró and redemptive regionalism from the Brazilian northeast
-  #@tou
-  #@all_item_view
-  #  Scenario: Show links to multiple terms of use on electronic books
-  #  Given I request the item view for 8445988
-  # Then I should see the text 'Terms of use'
-  #  Then I should see the text '1 online resource'
-  #  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVAVX/C6C"
-  #  And it should have link "Terms of use" with value "/catalog/tou/8445988/PRVPQU/ATCPS"
-  #  And click on first link "Terms of use"
-  #  Then I should see the text 'Course Reserves by link only'
-
 
   @insert_line_breaks
   @all_item_view
@@ -652,10 +515,7 @@ Feature: Item view
   @DISCOVERYACCESS-2881
   Scenario: Show multiple links to other online content
     Given I request the item view for 8913436
-    #  Then I should see the label 'Online'
     Then I should see the label 'American Hospital Association annual survey database'
-  #   And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2012)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2765"
-  #   And it should have link "Restricted access to authorized Cornell-affiliated users through CISER Data Archive (2013)" with value "http://www.ciser.cornell.edu/ASPs/search_athena.asp?IDTITLE=2766"
 
   # availability -- Spacecraft Planetary Imaging Facilty
   # Workshop on Martian Sulfates as Recorders of Atmospheric-Fluid Rock Interactions
@@ -723,24 +583,6 @@ Feature: Item view
   #   Given I request the item view for 330333
   #   Then I should see the label 'On-site use'
   #   And it should have link "Hours" with value "https://rmc.library.cornell.edu"
-
-# item view links to call number browse
-#  @all_item_view
-#  @item_view_call_number_browse_links
-#  @DISCOVERYACCESS-4781
-#  Scenario Outline: View an items holding, and get a link to Call Number Browse for each call number
-#    Given I request the item view for <bibid>
-#      And click on first link "<call_number>"
-#      Then I should see the label 'Browse "<call_number>" in call numbers'
-#      And I should see the text '<related_title>'
-
-#  Examples:
-#  | bibid | call_number | related_title |
-#  | 366639 | ++ U1 .A744 | Army and navy journal. |
-#  | 366639 | Film N6390 | United States army and navy journal. |
-#  | 2557798 | PK2197.D43 T3 | T̤ālib Dihlavī, 1910- Yah thī Dillī. 1975. |
-#  | 8338813 | LD1357.5 .C67 2014 | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
-#  | 8338813 | Archives ARP 1164a | Cornell research. Office of the Vice Provost for Research, Cornell University, January 2014.  |
 
   @all_item_view @javascript
   Scenario: Item has included works that display metadata from Wikidata

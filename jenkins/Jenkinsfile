@@ -4,14 +4,13 @@ pipeline {
         GIT_ACCESS_TOKEN = credentials('be6a5f7e-d674-4265-bdf9-f20267b9cee3')
         JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
         STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
-        COLLECTIONS = "development"
         CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
         DISPLAY_SOLR_QUERY = 1
         NUM_PROCESSES = "${params.NUM_PROCESSES}"
         TEST_ID = sh(script: 'openssl rand -hex 8', returnStdout: true).trim()
     }
     parameters {
-        string(name: 'NUM_PROCESSES', defaultValue: '1', description: 'Number of processes to use for parallel cucumber tests')
+        string(name: 'NUM_PROCESSES', defaultValue: '2', description: 'Number of processes to use for parallel cucumber tests')
         string(name: 'CUCUMBER_FEATURE_TESTS', defaultValue: '', description: "Leave blank to run all tests.\nTo run a specific suite, add file argument like features/catalog_search/results_list.feature\nTo run a specific test, add line argument like features/catalog_search/results_list.feature:317")
     }
     stages {
