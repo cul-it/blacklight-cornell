@@ -42,18 +42,31 @@
 	      Availability
 	    </div>
 	    <div class="card-block">
-	      <%# check the document rather than the finding_aid() method %>
-	      <% if @document['url_findingaid_display'].present? %>
-					<% url_findingaid_displays = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default' %>
-					<div class="url_findingaid_display" id="finding_aid">
-						<% url_findingaid_displays.each do |url_findingaid_display| %>
-							<div class="url_findingaid_link">
-								<i class="fa fa-check" aria-hidden="true"></i>
-								<%= url_findingaid_display %>
-							</div>
-						<% end %>
+			<%# Determine if the request should be made through the catalog or the Aspace PUI %>
+			<% url = aspace_pui_url(@document) %>
+			<% if url.present? %>
+				<%# Item is in Aspace so render finding aids to direct to the PUI %>
+				<% url_findingaid_displays = render_display_link :value => [url], :field => 'url_findingaid_display', :format => 'default' %>
+				<div class="url_findingaid_display" id="finding_aid">
+					<% url_findingaid_displays.each do |url_findingaid_display| %>
+					<div class="url_findingaid_link">
+						<i class="fa fa-check" aria-hidden="true"></i>
+						<%= url_findingaid_display %>
 					</div>
-	      <% end %>
+					<% end %>
+				</div>
+			<% elsif @document['url_findingaid_display'].present? %>
+				<%# Item is not in Aspace so render finding aids from the document %>
+				<% url_findingaid_displays = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default' %>
+				<div class="url_findingaid_display" id="finding_aid">
+					<% url_findingaid_displays.each do |url_findingaid_display| %>
+					<div class="url_findingaid_link">
+						<i class="fa fa-check" aria-hidden="true"></i>
+						<%= url_findingaid_display %>
+					</div>
+					<% end %>
+				</div>
+			<% end %>
 
 	      <%  summary_holdings = '' %>
 	      <% if is_online?(@document) %>
