@@ -49,7 +49,7 @@ RSpec.describe AdvancedFacetFieldCheckboxesComponent, type: :component do
     expect(rendered).to have_field 'f_inclusive[field][]', with: 'c'
   end
 
-  it 'do not render facet count' do
+  it 'does not render facet count' do
     expect(rendered).not_to have_selector 'span.facet-count'
   end
 end
