@@ -4,6 +4,8 @@ RSpec.describe SearchHistoryHelper, type: :helper do
 
     describe '#parseHistoryShowString' do
       it 'returns expected html' do
+        search_type = :advanced
+
         params = {
           advanced_query: 'yes',
           boolean_row: { '1' => 'AND' },
@@ -19,7 +21,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
           only_path: true
         }
 
-        link_html = helper.link_to_custom_search_history_link(params)
+        link_html = helper.link_to_custom_search_history_link(params, search_type)
         link_sans_html = strip_tags(link_html)
         expect(link_sans_html).to include('All Fields All Canada')
         expect(SearchHistoryHelper::FACET_LABEL_MAPPINGS[:language_facet]).to eq('Language')

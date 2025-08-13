@@ -363,7 +363,6 @@ Feature: Search
     Then I should get results
     Then it should have link "Title: beef" with value '/catalog?action=index&advanced_query=yes&commit=Search&controller=catalog&op_row%5B%5D=AND&q=title+%3D+100%25&q_row%5B%5D=100%25&range%5Bpub_date_facet%5D%5Bbegin%5D=&range%5Bpub_date_facet%5D%5Bend%5D=&search_field=advanced&search_field_row%5B%5D=title&show_query=title+%3D+100%25&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&utf8=%E2%9C%93&y='
     Then I remove facet constraint "beef"
-# /features/catalog_search/advanced_search.feature
 
  @adv_search
  @all_search
@@ -394,8 +393,6 @@ Feature: Search
     And I should see the label '1 - '
     Then I remove facet constraint "beef"
     And I should see the label '1 - 5 of'
-
-
 
  @adv_search
  @all_search

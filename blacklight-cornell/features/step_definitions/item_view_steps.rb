@@ -32,16 +32,10 @@ Then /^(?:|I )click on link "(.*?)"$/ do |link|
   click_link link
 end
 
-# Then /^click on first link "(.*?)"$/ do |link|
-#   # click first <a> text that contains link
-#   page.first(:xpath, "//a[contains(.,'#{link}')]").click
-# end
-
 # click first <a> text that contains link
 Then /^click on first link "(.*?)"$/ do |link|
   click_first_link_by_text!(link)
 end
-
 
 # ==============================================================================
 # Clicks the first <a> whose *visible text* includes the given snippet.
@@ -102,14 +96,6 @@ Then /^results should have a "(.*?)" that looks sort of like "(.*?)"/ do |field,
     # page.should have_selector(field_result_to(field), :text => author,:exact =>false)
   end
 end
-
-# Then /^I (should|should not) see the label '(.*?)'$/ do |yesno, label|
-#   if yesno == "should not"
-#     page.should_not have_content(label)
-#   else
-#     page.should have_content(label)
-#   end
-# end
 
 Then(/^I (should|should not) see the label '(.*?)'$/) do |yesno, expected|
   page_text = page.text.tr("\u00A0", ' ') # Normalize NBSPs
