@@ -280,7 +280,7 @@ module Blacklight::Solr::Document::MarcExport
   def get_all_authors(record)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"; author_code = "aut"
-    translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"; author_code = "author"
+    translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"; author_code << "author"
     primary_authors = []; translators = []; editors = []; compilers = []
     meeting_authors = []; secondary_authors = []
     primary_corporate_authors = []; secondary_corporate_authors = [];
