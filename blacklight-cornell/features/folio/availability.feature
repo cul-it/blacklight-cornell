@@ -29,8 +29,8 @@ Feature: Browse search
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item checked out for a short loan
     Given I request the item view for 1077314
-    Then the first availability icon for 'ILR Library (Ives Hall)' should show a clock
-    And the first availability for 'ILR Library (Ives Hall)' should show status 'Checked out, due'
+    Then the first availability icon for 'Catherwood Library' should show a clock
+    And the first availability for 'Catherwood Library' should show status 'Checked out, due'
 
   @DISCOVERYACCESS-7118
   Scenario: View an unavailable item that is missing
