@@ -213,6 +213,7 @@ body.book_bags-index #documents .document {
   .combined-label-query {
     margin: 2px 0;
     padding: 0 6px 0 6px;
+    text-align: left;
   }
 
   .btn.btn-light {
@@ -252,11 +253,6 @@ body.book_bags-index #documents .document {
     flex-wrap: wrap;
     align-items: center;
   }
-
-  .history-group .group-body .bool-pair {
-    white-space: nowrap;
-    display: inline-block;
-  }
 }
 
 // Subtle border shadow for all chips in search history rows
@@ -276,7 +272,7 @@ body.book_bags-index #documents .document {
 }
 
 // Mobile Search History -----------------
-@media (max-width: 576px) {
+@media (max-width: 700px) {
   // collapse the 2-column groups into one column
   .search-history .history-group { display: block; }
 
