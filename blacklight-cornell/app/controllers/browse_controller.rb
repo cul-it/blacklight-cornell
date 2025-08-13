@@ -11,6 +11,11 @@ class BrowseController < ApplicationController
 
   rescue_from RSolr::Error::Http, :with => :handle_request_error
 
+  # Needed to prevent saving when browse field is selected with no query
+  def start_new_search_session?
+    false if controller_name == "browse"
+  end
+
   def heading
    @heading='Browse'
   end
