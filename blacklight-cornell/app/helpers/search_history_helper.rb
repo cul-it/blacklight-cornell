@@ -246,30 +246,4 @@ module SearchHistoryHelper
 
     start_params + link_text + f_link_text + f_inclusive_link_text + closing_params
   end
-
-
-  # todo NOT USED?
-  # # ============================================================================
-  # # Render Basic and Advanced Query Constraint
-  # # ----------------------------------------------------------------------------
-  # def parseHistoryShowString(params)
-  #   # showText = ''
-  #   # sf_row   = params[:search_field_row]
-  #   # q_row    = params[:q_row]
-  #   # b_row    = params[:boolean_row]
-  #   # i        = 0
-  #   # num      = sf_row.length
-  #   #
-  #   # while i < num do
-  #   #   if i > 0
-  #   #     showText = showText + " " + "#{b_row[i.to_s.to_sym]}" + " " + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
-  #   #   else
-  #   #     showText = showText + search_field_def_for_key(sf_row[i])[:label] + ": " + q_row[i]
-  #   #   end
-  #   #   i += 1
-  #   # end
-  #   #
-  #   # params[:q] = showText # Sends 'correct' q param to link_link_to_previous_search
-  #   # link_to_custom_search_history_link(params) # custom version of #link_to_previous_search from blacklight to include f_inclusive filters and visual formatting
-  # end
 end
