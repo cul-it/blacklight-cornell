@@ -22,13 +22,16 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         }
 
         link_html = helper.link_to_custom_search_history_link(params, search_type)
-        link_sans_html = strip_tags(link_html)
-        expect(link_sans_html).to include('All Fields All Canada')
+        # Normalize text
+        link_text = CGI.unescapeHTML(strip_tags(link_html)).gsub(/\u00A0/, ' ').gsub(/\s+/, ' ').strip
+
+        expect(link_text).to match(/All Fields All\s*Canada/)
         expect(SearchHistoryHelper::FACET_LABEL_MAPPINGS[:language_facet]).to eq('Language')
         expect(link_html).to include('<span class="label-text">Language</span>')
         expect(link_html).to include('<span class="query-text">Cebuano</span>')
         expect(link_html).to include('<span class="query-text">English</span>')
         expect(link_html).to include('<span class="query-text">French</span>')
+        expect(link_html).to include('<span class="combined-label-query btn btn-light" style="padding: 0 6px;"><span class="filter-name"><span class="label-text">Language</span></span><span class="query-text">English</span><span class="inclusive-or"> OR </span><span class="query-text">French</span></span>')
       end
     end
   end
