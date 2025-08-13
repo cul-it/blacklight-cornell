@@ -211,10 +211,7 @@ module CornellCatalogHelper
 	return nil unless document['marc_display'] && ENV['AEON_PUI_REQUEST'].present?
 
 	# return nil if CULAspaceURI is not found in the marc 035 field
-	culaspace_uri_value = document['marc_display']
-		.scan(/<datafield tag="035".*?>.*?<subfield code="a">(.*?)<\/subfield>/m)
-		.flatten
-		.find { |value| value.include?('CULAspaceURI') }
+	culaspace_uri_value = Nokogiri::XML(document['marc_display']).at_css('datafield[tag="035"] subfield[code="a"]:contains("CULAspaceURI")')&.text
 	return nil unless culaspace_uri_value
 
 	# return nil if the repo ID and resource ID do not exist
