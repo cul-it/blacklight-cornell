@@ -3,6 +3,7 @@ module SearchHistoryHelper
   # Map solr facet field names to display-friendly labels
   # ----------------------------------------------------------------------------
   FACET_LABEL_MAPPINGS = {
+    online:                 'Access',
     language_facet:         'Language',
     format:                 'Format',
     pub_date_facet:         'Publication Year',
