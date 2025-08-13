@@ -188,7 +188,8 @@ module SearchHistoryHelper
   # ----------------------------------------------------------------------------
   def build_search_history_url(params, search_type)
     sort_param     = params[:sort].presence || 'score desc, pub_date_sort desc, title_sort asc'
-    closing_params = "&sort=#{CGI.escape(sort_param)}&search_field=advanced&commit=Search"
+    start_params   = "catalog?only_path=true&utf8=✓" + (search_type == :advanced ? "&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes" : "")
+    closing_params = "&sort=#{CGI.escape(sort_param)}" + (search_type == :advanced ? "&search_field=advanced&commit=Search" : "")
 
     link_text   = ''
     f_link_text = ''
@@ -207,7 +208,7 @@ module SearchHistoryHelper
       next if query.blank?
       boolean = index.positive? ? b_row[index.to_s.to_sym] : nil
       link_text += "&boolean_row[#{index}]=#{boolean}" if boolean
-      link_text += "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[index]}&search_field_row[]=#{sf_row[index]}"
+      link_text += (search_type == :advanced ? "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[index]}&search_field_row[]=#{sf_row[index]}" : "&q=#{CGI.escape(query)}&search_field=#{sf_row[index]}")
     end
 
     # Filters ------------------------------------------------------------------
