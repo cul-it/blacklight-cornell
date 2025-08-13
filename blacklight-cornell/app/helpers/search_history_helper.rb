@@ -34,12 +34,12 @@ module SearchHistoryHelper
   
   # ============================================================================
   # - Builds a visual label (query_texts) with proper span/button layout
-  # - Uses parseHistoryQueryString(params) to generate the URL
+  # - Uses build_search_history_url(params) to generate the URL
   # - Renders the label HTML inside a styled <div> block inside the link
-  # ============================================================================
-  def link_to_custom_search_history_link(params)
+  # ----------------------------------------------------------------------------
+  def link_to_custom_search_history_link(params, search_type)
     query_texts = build_search_query_tags(params)
-    link_to(parseHistoryQueryString(params)) do
+    link_to(build_search_history_url(params, search_type)) do
       content_tag(:div, safe_join(query_texts, ' '),
                   class: 'constraint custom-search-history-link')
     end
@@ -186,8 +186,7 @@ module SearchHistoryHelper
   # ============================================================================
   # Builds formatted search URL from session params
   # ----------------------------------------------------------------------------
-  def parseHistoryQueryString(params)
-    start_params   = "catalog?only_path=true&utf8=✓&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes"
+  def build_search_history_url(params, search_type)
     sort_param     = params[:sort].presence || 'score desc, pub_date_sort desc, title_sort asc'
     closing_params = "&sort=#{CGI.escape(sort_param)}&search_field=advanced&commit=Search"
 
@@ -248,7 +247,6 @@ module SearchHistoryHelper
   end
 
 
-
   # todo NOT USED?
   # # ============================================================================
   # # Render Basic and Advanced Query Constraint
@@ -273,6 +271,4 @@ module SearchHistoryHelper
   #   # params[:q] = showText # Sends 'correct' q param to link_link_to_previous_search
   #   # link_to_custom_search_history_link(params) # custom version of #link_to_previous_search from blacklight to include f_inclusive filters and visual formatting
   # end
-
-
 end
