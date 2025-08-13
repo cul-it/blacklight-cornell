@@ -279,12 +279,12 @@ module Blacklight::Solr::Document::MarcExport
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
-    translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"
+    translator_code = "trl"; editor_code = "edt"; compiler_code = "com"; author_code = "aut"
+    translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"; author_code = "author"
     primary_authors = []; translators = []; editors = []; compilers = []
-    corporate_authors = []; meeting_authors = []; secondary_authors = []
+    meeting_authors = []; secondary_authors = []
     primary_corporate_authors = []; secondary_corporate_authors = [];
-    # ***
+    # *** 
     offset = 0
     record.find_all{|f| f.tag === "100" }.each do |field|
       as_field = alternate_script(record, field.tag, nil, offset)
@@ -293,24 +293,19 @@ module Blacklight::Solr::Document::MarcExport
     end
     # ***
     offset = 0
-    record.find_all{|f| f.tag === '110' || f.tag === '710'}.each do |field|
-      as_field = alternate_script(record, field.tag, nil, offset)
-      offset += 1
-      corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
-                           (as_field['b'] ? ' ' + as_field['b'] : '')
-    end
-    # ***
-    offset = 0
     record.find_all{|f| f.tag === '110'}.each do |field|
       as_field = alternate_script(record, field.tag, nil, offset)
       offset += 1
       primary_corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
-                           (as_field['b'] ? ' ' + as_field['b'] : '')
+                           (as_field['b'] ? ' ' + clean_end_punctuation(as_field['b']) : '')
     end
     # ***
+    offset = 0
     record.find_all{|f| f.tag === '710'}.each do |field|
-      secondary_corporate_authors << (field['a'] ? clean_end_punctuation(field['a']) : '') +
-                           (field['b'] ? ' ' + field['b'] : '')
+      as_field = alternate_script(record, field.tag, nil, offset)
+      offset += 1
+      secondary_corporate_authors << (as_field['a'] ? clean_end_punctuation(as_field['a']) : '') +
+                           (as_field['b'] ? ' ' + clean_end_punctuation(as_field['b']) : '')
     end
     # ***
     offset = 0
@@ -325,7 +320,6 @@ module Blacklight::Solr::Document::MarcExport
     record.find_all{|f| f.tag === "700" }.each do |field|
       as_field = alternate_script(record, field.tag, nil, offset)
       offset += 1
-      #if field["a"] && field['t'].blank?
       if as_field["a"] && as_field.indicator2 != '2'
         relators = []
         relators << clean_end_punctuation(as_field["e"]) if as_field["e"]
@@ -336,6 +330,8 @@ module Blacklight::Solr::Document::MarcExport
           editors << as_field["a"]
         elsif relators.include?(compiler_code)
           compilers << as_field["a"]
+        elsif relators.include?(author_code)
+          primary_authors << as_field["a"]
         else
           if setup_editors_flag(record)
             editors << as_field["a"]
@@ -353,17 +349,17 @@ module Blacklight::Solr::Document::MarcExport
       secondary_authors[i] = a.gsub(/[\.,]$/,'')
     end
     primary_authors.uniq!
-    corporate_authors.uniq!
+    secondary_authors.uniq!
+    secondary_authors.delete_if { |a| primary_authors.include?(a) }
     primary_corporate_authors.uniq!
     secondary_corporate_authors.uniq!
+    secondary_corporate_authors.delete_if { |a| primary_corporate_authors.include?(a) }
     translators.uniq!
     editors.uniq!
     compilers.uniq!
-    secondary_authors.uniq!
-    secondary_authors.delete_if { |a| primary_authors.include?(a) }
     meeting_authors.uniq!
 
-    ret = {:primary_authors => primary_authors, :corporate_authors => corporate_authors, :translators => translators, :editors => editors, :compilers => compilers,
+    ret = {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers,
     :secondary_authors => secondary_authors, :meeting_authors => meeting_authors, :primary_corporate_authors => primary_corporate_authors, :secondary_corporate_authors => secondary_corporate_authors }
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ret = #{ret.inspect}")
     ret
