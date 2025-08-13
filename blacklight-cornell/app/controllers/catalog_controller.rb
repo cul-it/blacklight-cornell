@@ -19,22 +19,27 @@ class CatalogController < ApplicationController
 
 
 # ==============================================================================
-# Determines whether a new search session should begin. For advanced searches,
-# checks if any query row has content before creating a new session. For regular
-# searches, it checks that at least one of search_field, query, or facet is present.
+# Determines if a new search session should be saved to search history
+# Advanced: true if any q_row has text, or a full date range is set, or
+#           language facet is present, or any inclusive facets are present.
+# Basic:    true if query (q) is present or any facet (f) is present.
 # ------------------------------------------------------------------------------
   def start_new_search_session?
-    # For advanced search, only start a new session if *any* query is present
+    # Advanced search
     if params[:search_field] == "advanced"
+      inclusive_present = params.dig(:f_inclusive).present?
+      language_present  = params.dig(:f, :language_facet).present?
+      dates_present     = params.dig(:range, :pub_date_facet, :begin).present? && params.dig(:range, :pub_date_facet, :end).present?
       query_rows, index = params[:q_row], action_name == "index"
-      any_queries_present = query_rows.present? && query_rows.any? { |q| q.present? }
-      start_new_search_history_record = index && any_queries_present
+      queries_present   = query_rows.present? && query_rows.any? { |q| q.present? }
+
+      start_new_search_history_record = index && (queries_present || dates_present || language_present || inclusive_present)
     else
-      # For regular search, start a new session if query or facet is present
-      search_field, query, facet, index = params["search_field"], params["q"], params["f"], action_name == "index"
-      start_new_search_history_record = index && !(search_field.blank? && query.blank? && facet.blank?)
+      # Basic search
+      query, facet, index = params["q"], params["f"], action_name == "index"
+      start_new_search_history_record = index && (query.present? || facet.present? )
     end
-    start_new_search_history_record
+    start_new_search_history_record # Return true/false
   end
 
   #  DACCESS-215
