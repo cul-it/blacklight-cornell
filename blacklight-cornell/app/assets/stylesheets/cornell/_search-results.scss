@@ -244,14 +244,27 @@ body.book_bags-index #documents .document {
 
   .history-group {
     display: grid;
-    grid-template-columns:  7.5rem 1fr; // adjust to shift history cards
+    grid-template-columns:  4rem 1fr; // adjust to shift history cards
     align-items: start;
+    //display: flex;
+    //align-items: center;
   }
 
   .history-group .group-body {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+  }
+
+ span.bool-pair {
+    align-items: center;
+    display: flex !important;
+  }
+
+  span.query-boolean.ms-2.group-label {
+    display: flex;
+    text-align: center;
+    margin: 2px 0;
   }
 }
 
@@ -310,13 +323,13 @@ body.book_bags-index #documents .document {
     // operator divider layout
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    align-items: center;
     gap: .6rem;
 
     // operator typography
     font-size: .85rem; // operator size
     color: #656565 !important; //operator color
   }
+
   .search-history .history-group .group-body .bool-pair > .query-boolean::before,
   .search-history .history-group .group-body .bool-pair > .query-boolean::after {
     //content: ""; //comment in to add line dividers

@@ -121,7 +121,7 @@ module SearchHistoryHelper
       end
     end
 
-    title_label = q_row.count(&:present?) > 1 ? 'Search Terms:' : 'Search Term:'
+    title_label = q_row.count(&:present?) > 1 ? 'Search:' : 'Search:'
     grp = wrap_group.call(title_label, terms_nodes)
     query_texts << grp if grp
 
@@ -148,7 +148,7 @@ module SearchHistoryHelper
         end
       end
     end
-    grp = wrap_group.call('Filtered By:', filters_nodes)
+    grp = wrap_group.call('Filter:', filters_nodes)
     query_texts << grp if grp
 
     # INCLUDE ANY SECTION (inclusive facets) -----------------------------------
@@ -164,7 +164,7 @@ module SearchHistoryHelper
         index += 1
       end
     end
-    grp = wrap_group.call('Include Any:', includes_nodes)
+    grp = wrap_group.call('Include:', includes_nodes)
     query_texts << grp if grp
 
     # DATED BETWEEN (range) ----------------------------------------------------
@@ -177,7 +177,7 @@ module SearchHistoryHelper
         row_index.zero? ? dates_nodes << chip : dates_nodes << pair_with_boolean.call('AND', chip)
       end
     end
-    grp = wrap_group.call('Dated Between:', dates_nodes)
+    grp = wrap_group.call('Dated:', dates_nodes)
     query_texts << grp if grp
 
     query_texts
