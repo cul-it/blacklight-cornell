@@ -12,8 +12,6 @@ Feature: Search
     Then I should see a search field
     And I should see a selectable list with field choices
     And I should see a "#search-btn" button
-    # And I should not see the "startOverLink" element
-    # And I should see "Welcome!"
     And the page title should be "Cornell University Library Catalog"
     And I should see a stylesheet
 
@@ -169,7 +167,6 @@ Feature: Search
     And I fill in the search box with '"Human rights quarterly"'
     And I press 'search'
     Then I should get results
-    And I sleep 15 seconds
     And I should see the "fa-check" class
     And I should see the label 'Olin Library'
 
@@ -233,8 +230,7 @@ Feature: Search
   @all_search
   @DISCOVERYACCESS-5826
   Scenario Outline: The catalog should not return suppressed records
-    Given I enable the "production" environment
-    And I am on the home page
+    When I am on the home page
     And I attempt the item view for <bibid>
     Then I should see "Sorry, you have requested a record that doesn't exist."
     And I should not see "<title>"

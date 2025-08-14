@@ -4,11 +4,11 @@ class AdvancedRangeLimitComponent < Blacklight::Component
   end
 
   def label
-   "#{@facet_field.facet_field.label} Range"
+    "#{@facet_field.label} Range"
   end
 
   def field
-    @facet_field.facet_field.field
+    @facet_field.key
   end
 
   def begin_val
