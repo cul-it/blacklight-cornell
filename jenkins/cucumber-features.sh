@@ -16,4 +16,4 @@ project_name="container-discovery-test-${TEST_ID}"
 echo "Cucumber tests for ${project_name}"
 docker compose -f docker-compose-test.yaml build
 docker compose -p $project_name -f docker-compose-test.yaml up --exit-code-from webapp
-docker compose -p $project_name -f docker-compose-test.yaml down
+docker compose -p $project_name -f docker-compose-test.yaml down --volumes --remove-orphans
