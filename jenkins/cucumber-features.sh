@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 echo ""
 echo "*********************************************************************************"
 echo "Running cucumber tests in container"
@@ -16,4 +15,6 @@ project_name="container-discovery-test-${TEST_ID}"
 echo "Cucumber tests for ${project_name}"
 docker compose -f docker-compose-test.yaml build
 docker compose -p $project_name -f docker-compose-test.yaml up --exit-code-from webapp
+EXIT_CODE=$?
 docker compose -p $project_name -f docker-compose-test.yaml down --volumes --remove-orphans
+exit $EXIT_CODE
