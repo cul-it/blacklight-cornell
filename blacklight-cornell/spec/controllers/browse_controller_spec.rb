@@ -3,7 +3,7 @@ require 'rails_helper'
 describe BrowseController do
   describe 'GET #index' do
     let(:callnum_locations) {
-      ['All', 'Online', 'Adelson Library','Africana Library', 'Bailey Hortorium', 'CISER Data Archive',
+      ['All', 'Online', 'Lab of Ornithology','Africana Library', 'Bailey Hortorium', 'CISER Data Archive',
       'Fine Arts Library', 'ILR Library', 'Kroch Library Asia', 'Kroch Library Rare & Manuscripts', 'Law Library',
       'Library Annex', 'Mann Library', 'Mathematics Library', 'Music Library', 'Olin Library',
       'Space Sciences Building', 'Uris Library', 'Veterinary Library']
