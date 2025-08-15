@@ -66,7 +66,7 @@ module SearchHistoryHelper
     mk_chip = ->(label_text, inner_html) do
       content_tag(:span, class: 'combined-label-query btn btn-light', style: 'padding: 0 6px;') do
         content_tag(:span, class: 'filter-name') do
-          content_tag(:span, label_text, class: 'label-text')
+          content_tag(:span, " #{label_text}: ", class: 'label-text')
         end + inner_html
       end
     end
@@ -74,8 +74,8 @@ module SearchHistoryHelper
     mk_chip_with_op = ->(label_text, op_text, value_text) do
       content_tag(:span, class: 'combined-label-query btn btn-light', style: 'padding:0 6px;') do
         content_tag(:span, class: 'filter-name') do
-          content_tag(:span, label_text, class: 'label-text') +
-            (op_text.present? ? content_tag(:span, " #{op_text}", class: 'op-label') : ''.html_safe)
+          content_tag(:span, " #{label_text}: ", class: 'label-text') +
+            (op_text.present? ? content_tag(:span, " #{op_text} ", class: 'op-label') : ''.html_safe)
         end + content_tag(:span, value_text, class: 'query-text')
       end
     end
@@ -159,7 +159,7 @@ module SearchHistoryHelper
         vals = Array(values).map(&:to_s).reject(&:blank?)
         next if vals.empty?
         label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
-        chip  = mk_inclusive_chip.call(label, vals)
+        chip  = mk_inclusive_chip.call(" #{label}", vals)
         index.zero? ? includes_nodes << chip : includes_nodes << pair_with_boolean.call('AND', chip)
         index += 1
       end
