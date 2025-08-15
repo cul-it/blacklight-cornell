@@ -105,10 +105,14 @@ form.advanced {
 // Search tips
 // -------------------------
 
-
-.as-tips {
-  padding-left: 1rem;
+// Medium devices (tablets, 768px and up)
+@include media-breakpoint-up(md) {
+  .as-tips {
+    height: 464px;
+    overflow: auto;
+  }
 }
+
 // TODO: DACCESS-589 - remove <dl> if using </ul>
 // TODO: DACCESS-589 - add responsive styles for more narrow form fields
 // TODO: Bootstrap 4 temp fix - remove floats and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
