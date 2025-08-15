@@ -25,13 +25,15 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         # Normalize text
         link_text = CGI.unescapeHTML(strip_tags(link_html)).gsub(/\u00A0/, ' ').gsub(/\s+/, ' ').strip
 
-        expect(link_text).to match(/All Fields All\s*Canada/)
+        expect(link_text).to match(/Search:\s+All\s+Fields:?\s+All\s+Canada/)
+        expect(link_text).to match(/Filter:\s+Language:?\s+Cebuano/)
+        expect(link_text).to match(/Include:\s+Language:?\s+English\s+OR\s+French/)
         expect(SearchHistoryHelper::FACET_LABEL_MAPPINGS[:language_facet]).to eq('Language')
-        expect(link_html).to include('<span class="label-text">Language</span>')
+        expect(link_html).to match(%r{<span class="label-text">\s*Language:?\s*</span>}m)
         expect(link_html).to include('<span class="query-text">Cebuano</span>')
         expect(link_html).to include('<span class="query-text">English</span>')
         expect(link_html).to include('<span class="query-text">French</span>')
-        expect(link_html).to include('<span class="combined-label-query btn btn-light" style="padding: 0 6px;"><span class="filter-name"><span class="label-text">Language</span></span><span class="query-text">English</span><span class="inclusive-or"> OR </span><span class="query-text">French</span></span>')
+        expect(link_html).to match(%r{<span class="combined-label-query[^>]*>.*?<span class="filter-name">.*?<span class="label-text">\s*Language:?\s*</span>.*?</span>.*?<span class="query-text">English</span>.*?<span class="inclusive-or">\s*OR\s*</span>.*?<span class="query-text">French</span>.*?</span>}m)
       end
     end
   end
