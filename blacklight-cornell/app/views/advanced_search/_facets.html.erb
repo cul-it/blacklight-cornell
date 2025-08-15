@@ -1,4 +1,6 @@
-<div id="advanced_search_facets" class="limit_input">
+<div id="advanced_search_facets"
+     class="limit_input"
+     data-help="Facets narrow results after you search: filter by date, language, format, location, etc. Multiple values in the same facet are inclusive (OR); different facets combine with AND.">
   <div class="advanced-facet-limits panel-group">
     <% @facets.each do |_k, facet| %>
       <%# TODO: after upgrading to blacklight >= 8.0, should be able to use: facet[:field_config].presenter || AdvancedFacetFieldPresenter %>

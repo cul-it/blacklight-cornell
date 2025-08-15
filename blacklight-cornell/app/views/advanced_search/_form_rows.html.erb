@@ -1,21 +1,47 @@
 <div class='input_row'>
   <% if row_num > 0 %>
     <%= form.label "boolean_row[#{row_num}]", t('blacklight.search.form.boolean'), class: 'sr-only' %>
-    <%= form.select "boolean_row[#{row_num}]", ['AND', 'OR', 'NOT'], { selected: form_values[:boolean] || 'AND' },
-                    { id: "boolean_row[#{row_num}]", class: 'form-control adv-search-control w-auto' } %>
+    <%= form.select "boolean_row[#{row_num}]",
+                    ['AND', 'OR', 'NOT'],
+                    { selected: form_values[:boolean] || 'AND' },
+                    {
+                      id: "boolean_row[#{row_num}]",
+                      class: 'form-control adv-search-control w-auto',
+                      'data-help': 'When using multiple rows: AND narrows (both rows), OR broadens (either row), NOT excludes (omit this row). Put OR rows first, then AND/NOT rows (processed top→bottom).',
+                      'data-help-dynamic': 'bool'
+                    } %>
   <% end %>
+
   <%= form.label "q_row#{row_num}", t('blacklight.search.form.q'), class: 'sr-only' %>
-  <%= form.text_field 'q_row[]', { value: form_values[:q],
-                                   placeholder: t('blacklight.search.form.q'),
-                                   autocapitalize: 'off',
-                                   class: 'form-control adv-search-control',
-                                   id: "q_row#{row_num}" } %>
+  <%= form.text_field 'q_row[]',
+                      {
+                        value: form_values[:q],
+                        placeholder: t('blacklight.search.form.q'),
+                        autocapitalize: 'off',
+                        class: 'form-control adv-search-control',
+                        id: "q_row#{row_num}",
+                        'data-help': 'Enter keywords. Exact phrases in quotes ("financial aid"). Truncation/wildcards not supported; common suffixes are auto-searched (star → stars, starred, starring).'
+                      } %>
+
   <%= form.label "op_row#{row_num}", t('blacklight.search.form.op_row'), class: 'sr-only' %>
-  <%= form.select 'op_row[]', [['all', 'AND'], ['any', 'OR'], ['begins with', 'begins_with'], 'phrase'],
+  <%= form.select 'op_row[]',
+                  [['all', 'AND'], ['any', 'OR'], ['begins with', 'begins_with'], 'phrase'],
                   { selected: form_values[:op] },
-                  { id: "op_row#{row_num}", class: 'form-control adv-search-control' } %> in
+                  {
+                    id: "op_row#{row_num}",
+                    class: 'form-control adv-search-control',
+                    'data-help': 'Choose how words in THIS box are matched: all (every word), any (at least one), begins with (field starts with terms), or phrase (words in this order).',
+                    'data-help-dynamic': 'op'
+                  } %> in
+
   <%= form.label "search_field_row#{row_num}", t('blacklight.search.form.search_field_advanced'), class: 'sr-only' %>
-  <%= form.select 'search_field_row[]', advanced_search_field_select_opts,
+  <%= form.select 'search_field_row[]',
+                  advanced_search_field_select_opts,
                   { selected: form_values[:search_field] },
-                  { id: "search_field_row#{row_num}", class: 'advanced-search-field form-control adv-search-control' } %>
+                  {
+                    id: "search_field_row#{row_num}",
+                    class: 'advanced-search-field form-control adv-search-control',
+                    'data-help': 'Limit this row to a specific field (Title, Journal Title, Author, Subject, Call Number, Series, Publisher, Place, IDs, ISBN/ISSN, Notes, Donor).',
+                    'data-help-dynamic': 'field'
+                  } %>
 </div>

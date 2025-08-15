@@ -1,8 +1,19 @@
 <div class='card card-body card-well'>
-  <%= form_with url: search_catalog_path, class: 'advanced', method: :get do |form| %>
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h3 class="m-0">Advanced Search</h3>
+    <!-- Help toggle -->
+    <a href="#" id="help-toggle"
+       class="text-muted"
+       aria-controls="help-drawer"
+       aria-expanded="false"
+       title="Help">
+      <i class="fa fa-question-circle fa-lg"></i>
+    </a>
+  </div>
+
+  <%= form_with url: search_catalog_path, class: 'advanced', method: :get, html: { id: 'advanced-search-form' } do |form| %>
     <div class='query_zone'>
       <h3>Enter search terms</h3>
-      <%# Display at least 2 search rows %>
       <% [form_row_values.count, 2].max().times do |i| %>
         <% form_values_for_row = form_row_values[i] || {} %>
         <%= render 'form_rows', form: form, form_values: form_values_for_row, row_num: i %>
@@ -11,14 +22,16 @@
 
     <div class='add-and-sort'>
       <div class='add-row'>
-        <a href='#' id='add-row'><i class='fa fa-plus-circle'></i> Add a row</a>
+        <a href='#' id='add-row' data-help="Add another search row to combine queries.">
+          <i class='fa fa-plus-circle'></i> Add a row
+        </a>
       </div>
 
       <div class='row'>
         <div class='col-md-6'>
           <h3>Limit your results</h3>
           <% if params[:f].present? %>
-            <div class='advanced-facets'>
+            <div class='advanced-facets' id="advanced-facets" data-help="Use these filters to narrow your results by facets like format, language, or location.">
               <%= render_edit_advanced_constraints_filters(params) %>
             </div>
           <% end %>
@@ -28,7 +41,7 @@
           <h3>Sort results</h3>
           <div class='form-group'>
             <%= form.label :sort, t('blacklight.search.form.sort'), class: 'sort-results' %>
-            <%= form.select :sort, advanced_search_sort_opts, {}, { class: 'form-control adv-search-control' } %>
+            <%= form.select :sort, advanced_search_sort_opts, {}, { class: 'form-control adv-search-control', 'data-help': 'Choose how results are ordered (e.g., relevance, date, title).' } %>
           </div>
         </div>
       </div>
@@ -39,12 +52,28 @@
       <%= form.hidden_field :advanced_query, value: 'yes' %>
     </div>
     <div class='submit-reset'>
-      <%= form.submit 'Search', class: 'btn btn-search', id: 'advanced_search' %>
+      <%= form.submit 'Search', class: 'btn btn-search', id: 'advanced_search', 'data-help': 'Run your advanced search with the criteria you’ve entered.' %>
       <span class='form-alternative-action'>
-        or <%= link_to 'Reset', {:controller => 'advanced_search', :action => 'index'} %>
+        or <%= link_to 'Reset', {:controller => 'advanced_search', :action => 'index'}, 'data-help': 'Reset the form back to defaults.' %>
       </span>
     </div>
   <% end %>
 </div>
+
+<!-- Help Panel -->
+<aside id="help-drawer" class="help-drawer" aria-hidden="true" aria-labelledby="help-drawer-title">
+  <div class="help-drawer__header">
+    <h4 id="help-drawer-title" class="m-0">Help</h4>
+    <button type="button" id="help-close" class="help-drawer__close" aria-label="Close help">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+  <div id="help-content" class="help-drawer__content">
+    Hover, focus, or click any field to see tips here.
+  </div>
+</aside>
+
+<!-- Optional backdrop (click to close) -->
+<div id="help-backdrop" class="help-backdrop" hidden></div>
 
 <%= render 'search_tips' %>

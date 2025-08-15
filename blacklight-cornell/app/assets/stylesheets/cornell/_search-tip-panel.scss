@@ -1,0 +1,61 @@
+// Panel container styling
+.help-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(420px, 92vw);
+  height: 100vh;
+  background: #fff;
+  border-left: 1px solid #ddd;
+  box-shadow: -6px 0 16px rgba(0,0,0,.08);
+  transform: translateX(100%);
+  transition: transform .25s ease-in-out;
+  z-index: 1050; /* above typical content */
+  display: flex;
+  flex-direction: column;
+}
+
+// Visible state
+.help-drawer.is-open {
+  transform: translateX(0);
+}
+
+// Header
+.help-drawer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid #eee;
+  background: #f9f9f9;
+}
+
+.help-drawer__close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+// Content
+.help-drawer__content {
+  padding: 1rem;
+  overflow-y: auto;
+  line-height: 1.4;
+}
+
+// Backdrop
+.help-backdrop[hidden] { display: none; }
+.help-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.25);
+  z-index: 1040;
+  pointer-events: none; /* <-- add this line */
+}
+
+// Highlight target element when active
+.help-target {
+  outline: 2px solid #337ab7;
+  outline-offset: 2px;
+}
