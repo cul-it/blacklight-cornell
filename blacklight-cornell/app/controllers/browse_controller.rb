@@ -13,7 +13,7 @@ class BrowseController < ApplicationController
 
   # Needed to prevent saving when browse field is selected with no query
   def start_new_search_session?
-    false if controller_name == "browse"
+    false
   end
 
   def heading
