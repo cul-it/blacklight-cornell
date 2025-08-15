@@ -974,7 +974,7 @@ end
 
   def is_exportable document
     if document.present? && document.export_formats.present?
-      if document.export_formats.keys.include?(:refworks_marc_txt) || document.export_formats.keys.include?(:endnote)
+      if document.export_formats.keys.include?(:ris) || document.export_formats.keys.include?(:endnote)
         return true
       end
     end
