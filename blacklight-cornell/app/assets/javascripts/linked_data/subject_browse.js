@@ -7,11 +7,11 @@ function SubjectBrowse() {
     $('#cr-refs-toggle').click(function() {
       if ( $('.toggled-cr-refs').first().is(':visible') ) {
         $('.toggled-cr-refs').hide();
-        $('#cr-refs-toggle').html('more &raquo;');
+        $('#cr-refs-toggle').html('Show more &raquo;');
       }
       else {
         $('.toggled-cr-refs').show();
-        $('#cr-refs-toggle').html('&laquo; less');
+        $('#cr-refs-toggle').html('&laquo; Show less');
       }
       return false;
     });
@@ -104,7 +104,7 @@ function SubjectDataBrowse() {
     if (image) {
       $('#bio-image').attr('src', image.url);
       $('#img-container').removeClass('d-none');;
-      $('#wiki-image-acknowledge').html(`<br/>Image: ${wikidataConnector.imageAttributionHtml(image)}`);
+      $('#wiki-image-acknowledge').html(`Image: ${wikidataConnector.imageAttributionHtml(image)}`);
     } else {
       $('#comment-container').removeClass();
       $('#comment-container').addClass('col-sm-12').addClass('col-md-12').addClass('col-lg-12');

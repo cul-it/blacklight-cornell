@@ -36,28 +36,6 @@ Feature: Facets
 		And I should not see a facet called 'Call Number'
 
 	@DISCOVERYACCESS-7221
-		Scenario Outline: Facet counts in search for everything
-		Given I am on the home page
-		And I search for everything
-		#	Then the count for category '<category>' facet '<facet>' should be '<count>'
-		#	And I choose category '<category>' facet '<facet>'
-		#Then I should get <count> results
-
-		#	Examples:
-		#| category | facet | count |
-		#| Access | At the Library  | 181  |
-		#| Format | Book | 166 |
-		#| Author, etc. | Rowling, J. K. | 8 |
-		#| Language | English | 169 |
-		#| Subject | Magic | 8 |
-		#| Subject: Region | United States | 25 |
-		#| Subject: Era | 1900 - 1999 | 5 |
-		#| Genre | Periodicals | 26 |
-		#| Fiction/Non-Fiction | Non-Fiction (books) | 136 |
-		#| Date Acquired | Since last year | 4 |
-
-
-	@DISCOVERYACCESS-7221
 	Scenario Outline: Facet counts in search for everything special
 		Given I am on the home page
 		And I search for everything
