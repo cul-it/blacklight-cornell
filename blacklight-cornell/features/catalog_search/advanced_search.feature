@@ -388,8 +388,8 @@ Feature: Search
     Then click on first link "Back to catalog results"
     And I should see the label '1 - '
     Then I go to the search history page
-    And I should see the label 'Title Allbeef AND Title All100%'
-    Then click on first link "Title Allbeef AND Title All100%"
+    And I should see the label 'Title: All beef AND Title: All 100%'
+    Then click on first link "Title: All beef AND Title: All 100%"
     And I should see the label '1 - '
     Then I remove facet constraint "beef"
     And I should see the label '1 - 5 of'
