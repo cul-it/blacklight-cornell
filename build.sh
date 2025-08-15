@@ -35,15 +35,12 @@ integration=0
 platform=""
 rails_env="production"
 rails_env_file=""
-no_cache=""
-
-while getopts "hptr:c:m:n" options; do
+while getopts "hptr:c:m:" options; do
   case "${options}" in
     c) commit_hash="${OPTARG}" ;;
     m) image="${OPTARG}" ;;
     p) platform="--platform=linux/amd64" ;;
     r) rails_env_file=$(resolve_relative_path "${OPTARG}") ;;
-    n) no_cache="--no-cache" ;;
     h) usage
        exit 0 ;;
     t) integration=1
@@ -88,10 +85,8 @@ echo "Building ${image}:${commit_hash}"
 # echo "docker build -f docker/blacklight/Dockerfile -t ${image}:${img_id} ${platform} --build-arg GIT_COMMIT=${img_id} ${p} ."
 # docker build -f docker/blacklight/Dockerfile -t ${image}:${img_id} -t ${image}:latest ${platform} --build-arg GIT_COMMIT=${img_id} ${p} .
 
-echo "docker compose build ${no_cache} --build-arg GIT_COMMIT=${commit_hash} --build-arg RAILS_ENV=${rails_env}"
-docker compose build ${no_cache} --build-arg GIT_COMMIT="${commit_hash}" --build-arg RAILS_ENV="${rails_env}"
-
-
+echo "docker compose build --build-arg GIT_COMMIT=${commit_hash} --build-arg RAILS_ENV=${rails_env}"
+docker compose build --build-arg GIT_COMMIT=${commit_hash} --build-arg RAILS_ENV=${rails_env}
 echo "tag ${image}:latest ${image}:${commit_hash}"
 docker tag ${image}:latest ${image}:${commit_hash}
 
