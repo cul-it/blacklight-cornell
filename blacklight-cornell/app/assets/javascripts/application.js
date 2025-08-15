@@ -49,5 +49,5 @@
 //= require linked_data/author_title_browse.js
 //= require linked_data/work.js
 //= require retrieve_lcsh.js
-//= require advanced_help_drawer
+//= require advanced_search_tips_panel
 
