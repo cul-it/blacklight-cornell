@@ -38,7 +38,7 @@
           <i class="fa fa-angle-double-right"></i>
         <% end %>
       <% end %>
-      <% if is_catalog_pane?(bento_title(key)) == true %>
+      <% if is_catalog_pane?(key) == true %>
         <div class="bento_pane_advanced">
           <% qp2 = "f%5Bformat%5D%5B%5D=#{bento_blacklight_format(key)}&op_row%5B%5D=AND&q_row%5B%5D=#{ss_uri_encode(params[:q]).gsub('&','%26')}&search_field_row%5B%5D=all_fields" %>
           or use <%= link_to 'advanced search',"edit?#{qp2}", {:onclick => "javascript:_paq.push(['trackEvent', 'advancedLink', '#{bento_blacklight_format(key)}'])"}  %>

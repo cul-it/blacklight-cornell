@@ -30,12 +30,8 @@ module SingleSearchHelper
     link_url = link_url.gsub(')','%29')
   end
 
-  def is_catalog_pane?(pane)
-    if pane == 'Articles & Full Text' || pane == 'Research Guides' || pane == 'Digital Collections' || pane == 'Repositories'
-      false
-    else
-       true
-    end
+  def is_catalog_pane?(key)
+    ['ebsco_eds', 'libguides', 'digitalCollections', 'institutionalRepositories'].exclude?(key)
   end
 
   def bento_all_results_link(key)
