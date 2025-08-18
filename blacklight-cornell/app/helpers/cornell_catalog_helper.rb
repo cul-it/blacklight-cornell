@@ -198,6 +198,31 @@ module CornellCatalogHelper
 	LOC_CODES[code]
 	end
 
+  # returns the PUI Aspace url if resource id and repo id exist in the marc 035 field
+  # (CULAspaceURI) in the marc 035 field must have:
+  #   - resource id: is the value after /resources/
+  #   - repo id: is the value after /repositories/
+  #
+  # @param [Hash] document - metadata for the item
+  #
+  # @return [string] url or nil
+  def aspace_pui_url(document)
+	# return early if marc fields and environment variable are not present
+	return nil unless document['marc_display'] && ENV['AEON_PUI_REQUEST'].present?
+
+	# return nil if CULAspaceURI is not found in the marc 035 field
+	culaspace_uri_value = Nokogiri::XML(document['marc_display'])
+	  .at_css('datafield[tag="035"] subfield[code="a"]:contains("CULAspaceURI")')&.text
+	return nil unless culaspace_uri_value
+
+	# return nil if the repo ID and resource ID do not exist
+	match = culaspace_uri_value.match(/\(CULAspaceURI\)\/repositories\/(\d+)\/resources\/(\d+)/)
+	return nil unless match && match[1].present? && match[2].present?
+
+	# Construct and return the finding aid link
+	"#{ENV['AEON_PUI_REQUEST']}#{culaspace_uri_value.gsub('(CULAspaceURI)', '')}"
+  end
+
   # Generates the target url
   #
   # @param [String] group - "Circulating" or "AEON_SCAN_REQUEST"
