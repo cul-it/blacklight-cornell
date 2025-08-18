@@ -1,25 +1,29 @@
 module SearchHistoryHelper
   # ============================================================================
-  # Map solr facet field names to display-friendly labels
+  # Blacklight config Label Mappings
   # ----------------------------------------------------------------------------
-  FACET_LABEL_MAPPINGS = {
-    online:                 'Access',
-    language_facet:         'Language',
-    format:                 'Format',
-    pub_date_facet:         'Publication Year',
-    "-pub_date_facet":      'Publication Year',
-    fast_topic_facet:       'Subject',
-    author_facet:           'Author',
-    fast_genre_facet:       'Genre',
-    lc_callnum_facet:       'Call Number',
-    acquired_dt_query:      'Acquired Date',
-    fast_geo_facet:         'Subject Region',
-    subject_content_facet:  'Fiction/Non-fiction Type',
-    fast_era_facet:         'Subject Era',
-    last_1_week:            'Since last week',
-    last_1_month:           'Since last month',
-    last_1_years:           'Since last year',
-  }
+  # Fetch facet configuration from blacklight_config for a given key
+  def facet_config_for(key)
+    normalized = key.to_s.sub(/\A-/, '')
+    blacklight_config.facet_configuration_for_field(normalized)
+  end
+
+  # Pull facet label from blacklight_config
+  def facet_label_for(key)
+    cfg = facet_config_for(key)
+    return cfg.display_label(self) if cfg && cfg.respond_to?(:display_label)
+    return cfg.label if cfg && cfg.respond_to?(:label) && cfg.label.present?
+    key.to_s.sub(/\A-/, '').titleize
+  end
+
+  # Pull values from "query" facets
+  def facet_value_label_for(key, value)
+    cfg = facet_config_for(key)
+    return value.to_s unless cfg && cfg.respond_to?(:query) && cfg.query.present?
+
+    item = cfg.query[value.to_s] || cfg.query[value.to_sym]
+    item && item[:label].present? ? item[:label] : value.to_s
+  end
 
   # ============================================================================
   # Map Advanced Search Operators to display-friendly labels
@@ -120,19 +124,17 @@ module SearchHistoryHelper
         terms_nodes << pair_with_boolean.call(bool, chip)
       end
     end
-
-    title_label = q_row.count(&:present?) > 1 ? 'Search:' : 'Search:'
-    grp = wrap_group.call(title_label, terms_nodes)
+    grp = wrap_group.call('Search:', terms_nodes)
     query_texts << grp if grp
 
     # FILTERED BY SECTION (exclusive facets) -----------------------------------
     filters_nodes = []
 
-    no_date = Array(dr_row['-pub_date_facet']).include?('[* TO *]')
+    no_date = Array(dr_row['-pub_date_facet']).include?('[* TO *]') # Missing Publication Year
     if no_date
-      dr_row.each_with_index do |(facet_key, values), row_index|
+      dr_row.each_with_index do |(facet_key, _values), row_index|
         next unless no_date
-        label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
+        label = facet_label_for(facet_key)
         chip  = mk_chip.call(label, mk_value.call("Missing"))
         row_index.zero? ? filters_nodes << chip : filters_nodes << pair_with_boolean.call('AND', chip)
       end
@@ -141,9 +143,10 @@ module SearchHistoryHelper
     if f_row.present?
       first = true
       f_row.each do |facet_key, values|
-        Array(values).each do |val|
-          label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
-          chip  = mk_chip.call(label, mk_value.call(val.to_s))
+        Array(values).each do |raw_val|
+          label = facet_label_for(facet_key)
+          val   = facet_value_label_for(facet_key, raw_val)
+          chip  = mk_chip.call(label, mk_value.call(val))
           first ? (filters_nodes << chip; first = false) : filters_nodes << pair_with_boolean.call('AND', chip)
         end
       end
@@ -156,9 +159,9 @@ module SearchHistoryHelper
     if f_inclusive.present?
       index = 0
       f_inclusive.each do |facet_key, values|
-        vals = Array(values).map(&:to_s).reject(&:blank?)
+        vals = Array(values).map { |v| facet_value_label_for(facet_key, v) }.map(&:to_s).reject(&:blank?)
         next if vals.empty?
-        label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
+        label = facet_label_for(facet_key)
         chip  = mk_inclusive_chip.call(" #{label}", vals)
         index.zero? ? includes_nodes << chip : includes_nodes << pair_with_boolean.call('AND', chip)
         index += 1
@@ -172,7 +175,7 @@ module SearchHistoryHelper
     if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
       dr_row.each_with_index do |(facet_key, values), row_index|
         next unless values['begin'].present? && values['end'].present?
-        label = FACET_LABEL_MAPPINGS[facet_key.to_sym] || facet_key.to_s.titleize
+        label = facet_label_for(facet_key)
         chip  = mk_chip.call(label, mk_value.call("#{values['begin']} - #{values['end']}"))
         row_index.zero? ? dates_nodes << chip : dates_nodes << pair_with_boolean.call('AND', chip)
       end
@@ -213,14 +216,14 @@ module SearchHistoryHelper
 
     # Filters ------------------------------------------------------------------
     f_row.each do |key, values|
-      values.each do |text|
+      Array(values).each do |text|
         f_link_text += "&f[#{key}][]=#{CGI.escape(text)}"
       end
     end
 
     # Inclusive Filters --------------------------------------------------------
     f_inclusive.each do |key, values|
-      values.each do |text|
+      Array(values).each do |text|
         f_inclusive_link_text += "&f_inclusive[#{key}][]=#{CGI.escape(text)}"
       end
     end
