@@ -37,12 +37,8 @@ class DatabasesController < ApplicationController
       flash.now[:error] = "Please enter a query."
       render "index"
     else
-      if params[:q].include?('OR OR')
-        params[:q] = params[:q].gsub('OR OR', 'OR')
-      end
-      if params[:q].include?('AND AND')
-        params[:q] = params[:q].gsub('AND AND', 'AND')
-      end
+      params[:q].gsub!('OR OR', 'OR')
+      params[:q].gsub!('AND AND', 'AND')
       response = Blacklight.default_index.connection.get('databases', params: { q: params[:q], defType: 'edismax' })
       @dbResponse = response['response']['docs']
       params[:q].gsub!('%20', ' ')
