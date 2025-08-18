@@ -1,8 +1,15 @@
 require 'rails_helper'
 RSpec.describe SearchHistoryHelper, type: :helper do
   describe '#render_display_link' do
+    let(:blacklight_config) { CatalogController.blacklight_config }
 
-    describe '#parseHistoryShowString' do
+    before do
+      without_partial_double_verification do
+        allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+      end
+    end
+
+    describe '#build_search_query_tags' do
       it 'returns expected html' do
         search_type = :advanced
 
@@ -28,7 +35,6 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         expect(link_text).to match(/Search:\s+All\s+Fields:?\s+All\s+Canada/)
         expect(link_text).to match(/Filter:\s+Language:?\s+Cebuano/)
         expect(link_text).to match(/Include:\s+Language:?\s+English\s+OR\s+French/)
-        expect(SearchHistoryHelper::FACET_LABEL_MAPPINGS[:language_facet]).to eq('Language')
         expect(link_html).to match(%r{<span class="label-text">\s*Language:?\s*</span>}m)
         expect(link_html).to include('<span class="query-text">Cebuano</span>')
         expect(link_html).to include('<span class="query-text">English</span>')
