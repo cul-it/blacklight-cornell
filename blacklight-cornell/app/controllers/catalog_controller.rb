@@ -18,28 +18,24 @@ class CatalogController < ApplicationController
   end
 
 
-# ==============================================================================
-# Determines if a new search session should be saved to search history
-# Advanced: true if any q_row has text, or a full date range is set, or
-#           language facet is present, or any inclusive facets are present.
-# Basic:    true if query (q) is present or any facet (f) is present.
-# ------------------------------------------------------------------------------
+  # ============================================================================
+  # Determines if a new search session should be saved to search history
+  # Advanced: true if any q_row has text, or a full date range is set, or
+  #           language facet is present, or any inclusive facets are present.
+  # Basic:    true if query (q) is present or any facet (f) is present.
+  # ----------------------------------------------------------------------------
   def start_new_search_session?
-    # Advanced search
-    if params[:search_field] == "advanced"
-      inclusive_present = params.dig(:f_inclusive).present?
-      language_present  = params.dig(:f, :language_facet).present?
-      dates_present     = params.dig(:range, :pub_date_facet, :begin).present? && params.dig(:range, :pub_date_facet, :end).present?
-      query_rows, index = params[:q_row], action_name == "index"
-      queries_present   = query_rows.present? && query_rows.any? { |q| q.present? }
+    return false unless action_name == 'index'
 
-      start_new_search_history_record = index && (queries_present || dates_present || language_present || inclusive_present)
-    else
-      # Basic search
-      query, facet, index = params["q"], params["f"], action_name == "index"
-      start_new_search_history_record = index && (query.present? || facet.present? )
-    end
-    start_new_search_history_record # Return true/false
+    query_present      = search_state.query_param.present?
+    adv_query_present  = params.dig(:q_row).present? && params.dig(:q_row).any? { |q| q.present? }
+    filters_present    = search_state.filters.present?
+    range              = search_state.params[:range] || {}
+    missing_year       = Array(range['-pub_date_facet']).reject(&:blank?).present?
+    ranges_present     = missing_year || (range[:pub_date_facet]&.dig(:begin).present? && range[:pub_date_facet]&.dig(:end).present?)
+
+    # Start a new record if any constraint is present
+    query_present || adv_query_present || filters_present || ranges_present
   end
 
   #  DACCESS-215
