@@ -52,7 +52,7 @@ module SearchHistoryHelper
     no_date = Array(dr_row['-pub_date_facet']).include?('[* TO *]') # Missing Publication Year
     if no_date
       dr_row.each_with_index do |(facet_key, _values), row_index|
-        next unless no_date
+        next unless no_date && facet_key == "-pub_date_facet"
         label = facet_label_for(facet_key)
         chip  = mk_chip(label, mk_value("Missing"))
         row_index.zero? ? filters_nodes << chip : filters_nodes << pair_with_boolean('AND', chip)
