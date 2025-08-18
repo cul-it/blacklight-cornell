@@ -109,13 +109,9 @@ module SearchHistoryHelper
   # Builds formatted search URL from session params
   # ----------------------------------------------------------------------------
   def build_search_history_url(params, search_type)
-    sort_param     = params[:sort].presence || 'score desc, pub_date_sort desc, title_sort asc'
-    start_params   = "catalog?only_path=true&utf8=✓" + (search_type == :advanced ? "&advanced_query=yes&omit_keys[]=page&params[advanced_query]=yes" : "")
-    closing_params = "&sort=#{CGI.escape(sort_param)}" + (search_type == :advanced ? "&search_field=advanced&commit=Search" : "")
-
-    link_text   = ''
-    f_link_text = ''
-    f_inclusive_link_text = ''
+    base_path   = 'catalog'
+    sort_param  = params[:sort].presence || 'score desc, pub_date_sort desc, title_sort asc'
+    query       = { only_path: true, utf8: '✓', sort: sort_param }
 
     q_row       = params[:q_row] || [params[:q]].compact
     sf_row      = params[:search_field_row] || [params[:search_field]].compact
@@ -125,48 +121,74 @@ module SearchHistoryHelper
     f_row       = params[:f] || {}
     f_inclusive = params[:f_inclusive] || {}
 
-    # Query --------------------------------------------------------------------
-    q_row.each_with_index do |query, index|
-      next if query.blank?
-      boolean = index.positive? ? b_row[index.to_s.to_sym] : nil
-      link_text += "&boolean_row[#{index}]=#{boolean}" if boolean
-      link_text += (search_type == :advanced ? "&q_row[]=#{CGI.escape(query)}&op_row[]=#{op_row[index]}&search_field_row[]=#{sf_row[index]}" : "&q=#{CGI.escape(query)}&search_field=#{sf_row[index]}")
+
+    if search_type == :advanced
+      query[:q_row], query[:op_row], query[:search_field_row] = [], [], []
+      query[:advanced_query]   = 'yes'
+      query[:omit_keys]        = ['page']
+      query[:params]           = { advanced_query: 'yes' }
+      query[:search_field]     = 'advanced'
+      query[:commit]           = 'Search'
     end
 
-    # Filters ------------------------------------------------------------------
-    f_row.each do |key, values|
-      Array(values).each do |text|
-        f_link_text += "&f[#{key}][]=#{CGI.escape(text)}"
+    # Query --------------------------------------------------------------------
+    boolean_row_hash = {}
+
+    q_row.each_with_index do |q, index|
+      next if q.blank?
+      if search_type == :advanced
+        query[:q_row]            << q
+        query[:op_row]           << op_row[index]
+        query[:search_field_row] << (sf_row[index] || 'all_fields')
+        boolean_row_hash[index] = b_row[index.to_s.to_sym].presence if index.positive?
+      else
+        # Basic search: single q + field
+        query[:q] = q
+        query[:search_field] = (sf_row[index] || 'all_fields')
       end
+    end
+    query[:boolean_row] = boolean_row_hash if boolean_row_hash.present?
+
+    # Filters ------------------------------------------------------------------
+    unless f_row.blank?
+      query[:f] = {}
+      f_row.each do |key, values|
+        vals = Array(values).reject(&:blank?)
+        query[:f][key] = vals if vals.any?
+      end
+      query.delete(:f) if query[:f].blank?
     end
 
     # Inclusive Filters --------------------------------------------------------
-    f_inclusive.each do |key, values|
-      Array(values).each do |text|
-        f_inclusive_link_text += "&f_inclusive[#{key}][]=#{CGI.escape(text)}"
+    unless f_inclusive.blank?
+      query[:f_inclusive] = {}
+      f_inclusive.each do |key, values|
+        vals = Array(values).reject(&:blank?)
+        query[:f_inclusive][key] = vals if vals.any?
       end
+      query.delete(:f_inclusive) if query[:f_inclusive].blank?
     end
 
     # Dates --------------------------------------------------------------------
     # No dates facet
     if dr_row['-pub_date_facet'].present?
-      Array(dr_row['-pub_date_facet']).each do |val|
-        next if val.blank?
-        f_link_text << "&range[-pub_date_facet][]=#{CGI.escape(val.to_s)}"
-      end
+      query[:range] ||= {}
+      query[:range]['-pub_date_facet'] = Array(dr_row['-pub_date_facet']).reject(&:blank?)
     end
 
     # Date range facets
-    if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
-      dr_row.each do |field, range_opts|
-        range_opts.each do |bound, val|
-          next if val.blank?
-          f_link_text += "&range[#{field}][#{bound}]=#{CGI.escape(val)}"
-        end
+    if dr_row.present? && dr_row[:pub_date_facet].is_a?(Hash)
+      begin_val = dr_row[:pub_date_facet][:begin]
+      end_val   = dr_row[:pub_date_facet][:end]
+      if begin_val.present? || end_val.present?
+        query[:range] ||= {}
+        query[:range][:pub_date_facet] = {}
+        query[:range][:pub_date_facet][:begin] = begin_val if begin_val.present?
+        query[:range][:pub_date_facet][:end]   = end_val   if end_val.present?
       end
     end
 
-    start_params + link_text + f_link_text + f_inclusive_link_text + closing_params
+    "#{base_path}?#{query.to_query}" # Search URL with query params
   end
 
 
