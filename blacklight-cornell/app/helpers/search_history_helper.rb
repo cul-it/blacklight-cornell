@@ -1,16 +1,5 @@
 module SearchHistoryHelper
   # ============================================================================
-  # Map Advanced Search Operators to display-friendly labels
-  # ----------------------------------------------------------------------------
-  OP_ROW_MAPPINGS = {
-    begins_with: 'Begins With',
-    phrase:      'Phrase',
-    OR:          'Any',
-    AND:         'All',
-  }
-
-  
-  # ============================================================================
   # - Builds a visual label (query_texts) with proper span/button layout
   # - Uses build_search_history_url(params) to generate the URL
   # - Renders the label HTML inside a styled <div> block inside the link
@@ -44,7 +33,7 @@ module SearchHistoryHelper
       next if query.blank?
       field_key = sf_row[index] || 'all_fields'
       field_lbl = (search_field_def_for_key(field_key)[:label] rescue 'All Fields')
-      op_lbl    = OP_ROW_MAPPINGS[op_row[index].to_sym] || op_row[index] || ''
+      op_lbl    = op_row_label_for(op_row[index])
       chip      = mk_chip_with_op(field_lbl, op_lbl, query.to_s)
 
       if index.zero?
@@ -183,6 +172,22 @@ module SearchHistoryHelper
 
 
   private
+
+  # ============================================================================
+  # Return display Operator (AND, OR, begins_with, phrase)
+  # Uses blacklight.search.form.op_row.<key>, with mapped display values
+  # ----------------------------------------------------------------------------
+  def op_row_label_for(value)
+    key = value.to_s
+    mapped = {
+      'AND'         => 'All',
+      'OR'          => 'Any',
+      'begins_with' => 'Begins with',
+      'phrase'      => 'Phrase'
+    }
+    I18n.t("blacklight.search.form.op_row.#{key}", default: mapped[key] || key)
+  end
+
 
   # ============================================================================
   # Blacklight config Label Mappings
