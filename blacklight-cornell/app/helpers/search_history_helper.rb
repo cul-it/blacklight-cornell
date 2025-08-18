@@ -93,9 +93,9 @@ module SearchHistoryHelper
     dates_nodes = []
     if dr_row.present? && dr_row[:pub_date_facet]&.[](:begin).present? && dr_row[:pub_date_facet]&.[](:end).present?
       dr_row.each_with_index do |(facet_key, values), row_index|
-        next unless values['begin'].present? && values['end'].present?
+        next unless values[:begin].present? && values[:end].present?
         label = facet_label_for(facet_key)
-        chip  = mk_chip(label, mk_value("#{values['begin']} - #{values['end']}"))
+        chip  = mk_chip(label, mk_value("#{values[:begin]} - #{values[:end]}"))
         row_index.zero? ? dates_nodes << chip : dates_nodes << pair_with_boolean('AND', chip)
       end
     end
