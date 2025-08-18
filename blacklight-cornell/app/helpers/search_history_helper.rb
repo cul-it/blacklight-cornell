@@ -1,31 +1,5 @@
 module SearchHistoryHelper
   # ============================================================================
-  # Blacklight config Label Mappings
-  # ----------------------------------------------------------------------------
-  # Fetch facet configuration from blacklight_config for a given key
-  def facet_config_for(key)
-    normalized = key.to_s.sub(/\A-/, '')
-    blacklight_config.facet_configuration_for_field(normalized)
-  end
-
-  # Pull facet label from blacklight_config
-  def facet_label_for(key)
-    cfg = facet_config_for(key)
-    return cfg.display_label(self) if cfg && cfg.respond_to?(:display_label)
-    return cfg.label if cfg && cfg.respond_to?(:label) && cfg.label.present?
-    key.to_s.sub(/\A-/, '').titleize
-  end
-
-  # Pull values from "query" facets
-  def facet_value_label_for(key, value)
-    cfg = facet_config_for(key)
-    return value.to_s unless cfg && cfg.respond_to?(:query) && cfg.query.present?
-
-    item = cfg.query[value.to_s] || cfg.query[value.to_sym]
-    item && item[:label].present? ? item[:label] : value.to_s
-  end
-
-  # ============================================================================
   # Map Advanced Search Operators to display-friendly labels
   # ----------------------------------------------------------------------------
   OP_ROW_MAPPINGS = {
@@ -64,50 +38,6 @@ module SearchHistoryHelper
     f_row       = params[:f] || {}
     f_inclusive = params[:f_inclusive] || {}
 
-    # LAMBDA HELPER SECTION ----------------------------------------------------
-    mk_value = ->(text) { content_tag(:span, text, class: 'query-text') }
-
-    mk_chip = ->(label_text, inner_html) do
-      content_tag(:span, class: 'combined-label-query btn btn-light', style: 'padding: 0 6px;') do
-        content_tag(:span, class: 'filter-name') do
-          content_tag(:span, " #{label_text}: ", class: 'label-text')
-        end + inner_html
-      end
-    end
-
-    mk_chip_with_op = ->(label_text, op_text, value_text) do
-      content_tag(:span, class: 'combined-label-query btn btn-light', style: 'padding:0 6px;') do
-        content_tag(:span, class: 'filter-name') do
-          content_tag(:span, " #{label_text}: ", class: 'label-text') +
-            (op_text.present? ? content_tag(:span, " #{op_text} ", class: 'op-label') : ''.html_safe)
-        end + content_tag(:span, value_text, class: 'query-text')
-      end
-    end
-
-    mk_inclusive_chip = ->(label_text, values) do
-      pieces = []
-      values.each_with_index do |val, index|
-        pieces << mk_value.call(val.to_s)
-        pieces << content_tag(:span, ' OR ', class: 'inclusive-or') if index < values.length - 1
-      end
-      mk_chip.call(label_text, safe_join(pieces))
-    end
-
-    pair_with_boolean = ->(bool_text, chip_node) do
-      nbsp = "\u00A0" # non-breaking space
-      content_tag(:span, class: 'bool-pair', style: 'display:inline-block;') do
-        content_tag(:span, "#{nbsp}#{bool_text}#{nbsp}", class: 'query-boolean') + chip_node
-      end
-    end
-
-    wrap_group = ->(label_text, nodes) do
-      return nil if nodes.blank?
-      content_tag(:div, class: 'history-group') do
-        content_tag(:span, label_text, class: 'query-boolean ms-2 group-label') +
-          content_tag(:div, safe_join(nodes, ' '), class: 'group-body')
-      end
-    end
-
     # SEARCH TERMS SECTION -----------------------------------------------------
     terms_nodes = []
     q_row.each_with_index do |query, index|
@@ -115,16 +45,16 @@ module SearchHistoryHelper
       field_key = sf_row[index] || 'all_fields'
       field_lbl = (search_field_def_for_key(field_key)[:label] rescue 'All Fields')
       op_lbl    = OP_ROW_MAPPINGS[op_row[index].to_sym] || op_row[index] || ''
-      chip      = mk_chip_with_op.call(field_lbl, op_lbl, query.to_s)
+      chip      = mk_chip_with_op(field_lbl, op_lbl, query.to_s)
 
       if index.zero?
         terms_nodes << chip
       else
         bool = b_row[index.to_s.to_sym].presence || ' AND '
-        terms_nodes << pair_with_boolean.call(bool, chip)
+        terms_nodes << pair_with_boolean(bool, chip)
       end
     end
-    grp = wrap_group.call('Search:', terms_nodes)
+    grp = wrap_group('Search:', terms_nodes)
     query_texts << grp if grp
 
     # FILTERED BY SECTION (exclusive facets) -----------------------------------
@@ -135,8 +65,8 @@ module SearchHistoryHelper
       dr_row.each_with_index do |(facet_key, _values), row_index|
         next unless no_date
         label = facet_label_for(facet_key)
-        chip  = mk_chip.call(label, mk_value.call("Missing"))
-        row_index.zero? ? filters_nodes << chip : filters_nodes << pair_with_boolean.call('AND', chip)
+        chip  = mk_chip(label, mk_value("Missing"))
+        row_index.zero? ? filters_nodes << chip : filters_nodes << pair_with_boolean('AND', chip)
       end
     end
 
@@ -146,12 +76,12 @@ module SearchHistoryHelper
         Array(values).each do |raw_val|
           label = facet_label_for(facet_key)
           val   = facet_value_label_for(facet_key, raw_val)
-          chip  = mk_chip.call(label, mk_value.call(val))
-          first ? (filters_nodes << chip; first = false) : filters_nodes << pair_with_boolean.call('AND', chip)
+          chip  = mk_chip(label, mk_value(val))
+          first ? (filters_nodes << chip; first = false) : filters_nodes << pair_with_boolean('AND', chip)
         end
       end
     end
-    grp = wrap_group.call('Filter:', filters_nodes)
+    grp = wrap_group('Filter:', filters_nodes)
     query_texts << grp if grp
 
     # INCLUDE ANY SECTION (inclusive facets) -----------------------------------
@@ -162,12 +92,12 @@ module SearchHistoryHelper
         vals = Array(values).map { |v| facet_value_label_for(facet_key, v) }.map(&:to_s).reject(&:blank?)
         next if vals.empty?
         label = facet_label_for(facet_key)
-        chip  = mk_inclusive_chip.call(" #{label}", vals)
-        index.zero? ? includes_nodes << chip : includes_nodes << pair_with_boolean.call('AND', chip)
+        chip  = mk_inclusive_chip(" #{label}", vals)
+        index.zero? ? includes_nodes << chip : includes_nodes << pair_with_boolean('AND', chip)
         index += 1
       end
     end
-    grp = wrap_group.call('Include:', includes_nodes)
+    grp = wrap_group('Include:', includes_nodes)
     query_texts << grp if grp
 
     # DATED BETWEEN (range) ----------------------------------------------------
@@ -176,11 +106,11 @@ module SearchHistoryHelper
       dr_row.each_with_index do |(facet_key, values), row_index|
         next unless values['begin'].present? && values['end'].present?
         label = facet_label_for(facet_key)
-        chip  = mk_chip.call(label, mk_value.call("#{values['begin']} - #{values['end']}"))
-        row_index.zero? ? dates_nodes << chip : dates_nodes << pair_with_boolean.call('AND', chip)
+        chip  = mk_chip(label, mk_value("#{values['begin']} - #{values['end']}"))
+        row_index.zero? ? dates_nodes << chip : dates_nodes << pair_with_boolean('AND', chip)
       end
     end
-    grp = wrap_group.call('Dated:', dates_nodes)
+    grp = wrap_group('Dated:', dates_nodes)
     query_texts << grp if grp
 
     query_texts
@@ -248,5 +178,85 @@ module SearchHistoryHelper
     end
 
     start_params + link_text + f_link_text + f_inclusive_link_text + closing_params
+  end
+
+
+
+  private
+
+  # ============================================================================
+  # Blacklight config Label Mappings
+  # ----------------------------------------------------------------------------
+  # Fetch facet configuration from blacklight_config for a given key
+  def facet_config_for(key)
+    normalized = key.to_s.sub(/\A-/, '')
+    blacklight_config.facet_configuration_for_field(normalized)
+  end
+
+  # Pull facet label from blacklight_config
+  def facet_label_for(key)
+    cfg = facet_config_for(key)
+    return cfg.display_label(self) if cfg && cfg.respond_to?(:display_label)
+    return cfg.label if cfg && cfg.respond_to?(:label) && cfg.label.present?
+    key.to_s.sub(/\A-/, '').titleize
+  end
+
+  # Pull values from "query" facets
+  def facet_value_label_for(key, value)
+    cfg = facet_config_for(key)
+    return value.to_s unless cfg && cfg.respond_to?(:query) && cfg.query.present?
+
+    item = cfg.query[value.to_s] || cfg.query[value.to_sym]
+    item && item[:label].present? ? item[:label] : value.to_s
+  end
+
+
+  # ============================================================================
+  # Search history helper methods
+  # ----------------------------------------------------------------------------
+  def mk_value(text)
+    content_tag(:span, text, class: 'query-text')
+  end
+
+  def mk_chip(label_text, inner_html)
+    content_tag(:span, class: 'combined-label-query btn btn-light', style: 'padding: 0 6px;') do
+      content_tag(:span, class: 'filter-name') do
+        content_tag(:span, " #{label_text}: ", class: 'label-text')
+      end + inner_html
+    end
+  end
+
+  def mk_chip_with_op(label_text, op_text, value_text)
+    content_tag(:span, class: 'combined-label-query btn btn-light', style: 'padding:0 6px;') do
+      content_tag(:span, class: 'filter-name') do
+        content_tag(:span, " #{label_text}: ", class: 'label-text') +
+          (op_text.present? ? content_tag(:span, " #{op_text} ", class: 'op-label') : ''.html_safe)
+      end + content_tag(:span, value_text, class: 'query-text')
+    end
+  end
+
+  def mk_inclusive_chip(label_text, values)
+    pieces = []
+    values.each_with_index do |val, index|
+      pieces << mk_value(val.to_s)
+      pieces << content_tag(:span, ' OR ', class: 'inclusive-or') if index < values.length - 1
+    end
+    mk_chip(label_text, safe_join(pieces))
+  end
+
+  def pair_with_boolean(bool_text, chip_node)
+    nbsp = "\u00A0" # non-breaking space
+    content_tag(:span, class: 'bool-pair', style: 'display:inline-block;') do
+      content_tag(:span, "#{nbsp}#{bool_text}#{nbsp}", class: 'query-boolean') + chip_node
+    end
+  end
+
+  def wrap_group(label_text, nodes)
+    return nil if nodes.blank?
+
+    content_tag(:div, class: 'history-group') do
+      content_tag(:span, label_text, class: 'query-boolean ms-2 group-label') +
+        content_tag(:div, safe_join(nodes, ' '), class: 'group-body')
+    end
   end
 end
