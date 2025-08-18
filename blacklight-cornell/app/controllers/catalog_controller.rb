@@ -27,15 +27,21 @@ class CatalogController < ApplicationController
   def start_new_search_session?
     return false unless action_name == 'index'
 
+    # Validate date range first; if invalid, don't start/save a session
+    if params[:range].present?
+      begin
+        check_dates(params)
+      rescue ArgumentError
+        return false
+      end
+    end
+
     query_present     = search_state.query_param.present?
     adv_query_present = params.dig(:q_row).present? && params.dig(:q_row).any? { |q| q.present? }
     filters_present   = search_state.filters.present?
-    range             = search_state.params[:range] || {}
-    missing_year      = Array(range['-pub_date_facet']).reject(&:blank?).present?
-    ranges_present    = missing_year || (range[:pub_date_facet]&.dig(:begin).present? && range[:pub_date_facet]&.dig(:end).present?)
 
     # Start a new record if any constraint is present
-    query_present || adv_query_present || filters_present || ranges_present
+    query_present || adv_query_present || filters_present
   end
 
   #  DACCESS-215
