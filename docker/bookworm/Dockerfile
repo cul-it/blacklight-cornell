@@ -74,11 +74,9 @@ ENV RAILS_LOG_TO_STDOUT="1" \
     BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell
 
-# I had some issue fixing aws-sdk-s3 gem and will not specify version for now.
 WORKDIR ${APP_PATH}
 COPY ./blacklight-cornell/Gemfile ./blacklight-cornell/Gemfile.lock ./
 RUN bundle install
-# && gem install aws-sdk-s3
 
 # Copy blacklight-cornell app
 COPY ./blacklight-cornell ${APP_PATH}
@@ -87,26 +85,25 @@ COPY ./exe/set_env.sh ${APP_PATH}/set_env.sh
 COPY ./exe/puma.sh ${APP_PATH}/puma.sh
 
 
-######################
-# prod bundler stage #
-######################
+##########################
+# web_app bundler stage #
+##########################
 
-FROM base_bundler AS prod_bundler
+FROM base_bundler AS web_app_bundler
 ARG RAILS_ENV
+ARG BUNDLE_WITHOUT=""
 
 ENV RAILS_LOG_TO_STDOUT="1" \
     RAILS_ENV=${RAILS_ENV} \
-    BUNDLE_WITHOUT="development test" \
+    BUNDLE_WITHOUT=${BUNDLE_WITHOUT} \
     BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell
 
 WORKDIR ${APP_PATH}
 COPY ./blacklight-cornell/Gemfile ./blacklight-cornell/Gemfile.lock ./
-# I had some issue fixing aws-sdk-s3 gem and will not specify version for now.
 RUN bundle config set --local with "${RAILS_ENV}" && \
-    bundle config set --local without 'development test' && \
+    bundle config set --local without "${BUNDLE_WITHOUT}" && \
     bundle install && \
-    gem install aws-sdk-s3 && \
     rm -rf ${BUNDLE_PATH}/cache/*.gem && \
     find ${BUNDLE_PATH}/ -name "*.c" -delete && \
     find ${BUNDLE_PATH}/ -name "*.o" -delete
@@ -171,13 +168,13 @@ ENV RAILS_ENV=${RAILS_ENV} \
     APP_PATH=/blacklight-cornell
 RUN groupadd -r ${GROUP} && useradd -r -g ${GROUP} ${USER} && \
     mkdir -p /home/crunner/.aws && \
-    chown ${USER}:${GROUP} /home/crunner/.aws && \
+    chown -R ${USER}:${GROUP} /home/crunner && \
     chmod gu+rw /var/run && chmod gu+s /usr/sbin/cron && \
     touch /var/log/cron.log
 
 # Copy application code from builder
-COPY --from=prod_bundler --chown=${USER}:${GROUP} ${BUNDLE_PATH} ${BUNDLE_PATH}
-COPY --from=prod_bundler --chown=${USER}:${GROUP} ${APP_PATH} ${APP_PATH}
+COPY --from=web_app_bundler --chown=${USER}:${GROUP} ${BUNDLE_PATH} ${BUNDLE_PATH}
+COPY --from=web_app_bundler --chown=${USER}:${GROUP} ${APP_PATH} ${APP_PATH}
 
 USER ${USER}
 WORKDIR ${APP_PATH}

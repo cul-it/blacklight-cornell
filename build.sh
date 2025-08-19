@@ -29,16 +29,21 @@ resolve_relative_path() (
     fi
 )
 
+bundle_without="development test"
 commit_hash=""
 image="container-discovery"
 integration=0
+nocache=""
 platform=""
 rails_env="production"
 rails_env_file=""
-while getopts "hptr:c:m:" options; do
+while getopts "dhnptr:c:m:" options; do
   case "${options}" in
     c) commit_hash="${OPTARG}" ;;
+    d) rails_env="development"
+       bundle_without="test";;
     m) image="${OPTARG}" ;;
+    n) nocache="--no-cache" ;;
     p) platform="--platform=linux/amd64" ;;
     r) rails_env_file=$(resolve_relative_path "${OPTARG}") ;;
     h) usage
@@ -85,8 +90,8 @@ echo "Building ${image}:${commit_hash}"
 # echo "docker build -f docker/blacklight/Dockerfile -t ${image}:${img_id} ${platform} --build-arg GIT_COMMIT=${img_id} ${p} ."
 # docker build -f docker/blacklight/Dockerfile -t ${image}:${img_id} -t ${image}:latest ${platform} --build-arg GIT_COMMIT=${img_id} ${p} .
 
-echo "docker compose build --build-arg GIT_COMMIT=${commit_hash} --build-arg RAILS_ENV=${rails_env}"
-docker compose build --build-arg GIT_COMMIT=${commit_hash} --build-arg RAILS_ENV=${rails_env}
+echo "docker compose build --build-arg GIT_COMMIT=${commit_hash} --build-arg RAILS_ENV=${rails_env} --build-arg BUNDLE_WITHOUT='${bundle_without}' ${nocache}"
+docker compose build --build-arg GIT_COMMIT=${commit_hash} --build-arg RAILS_ENV=${rails_env} --build-arg BUNDLE_WITHOUT="${bundle_without}" ${nocache}
 echo "tag ${image}:latest ${image}:${commit_hash}"
 docker tag ${image}:latest ${image}:${commit_hash}
 
