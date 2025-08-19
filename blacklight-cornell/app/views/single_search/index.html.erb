@@ -100,7 +100,7 @@
                           <li>
                             <i class="fa fa-<%= formats_icon_mapping(bento_title(key)) %>"></i>
                             <% link_url = bento_all_results_link(key) %>
-                            <%= link_to link_url ,:id => "facet_link_" + downcast(key), :onclick => "javascript:_paq.push(['trackEvent', 'sidebarLink', '#{bento_blacklight_format(key)}'])", :class => "facet_link_" + downcast(key) do %>
+                            <%= link_to link_url ,:id => "facet_link_" + downcast(key), :onclick => "javascript:_paq.push(['trackEvent', 'sidebarLink', '#{bento_blacklight_format(key) || bento_title(key)}'])", :class => "facet_link_" + downcast(key) do %>
                               <%= bento_title(key) %>
                               <!-- ='(r%2.3f)' % (@scores[key].nil? ? 0 : @scores[key])
                               -->
