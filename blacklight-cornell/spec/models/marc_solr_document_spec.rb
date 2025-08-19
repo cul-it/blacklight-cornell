@@ -99,11 +99,6 @@ describe Blacklight::Solr::Document::MarcExport do
   before(:all) do
     @book_recs = {}
     # descriptive strings from the csl files.
-    @apa_match_style = "American Psychological Association 6th edition"
-    @cse_match_style = "The Council of Science Editors style 8th edition, Citation-Sequence system: numbers in text, sorted by order of appearance in text."
-    @chicago_match_style = "Chicago format with full notes and bibliography"
-    @mla_match_style = "This style adheres to the MLA 7th edition handbook and contains modifications to these types of sources: e-mail, forum posts, interviews, manuscripts, maps, presentations, TV broadcasts, and web pages."
-    @mla8_match_style = "This style adheres to the MLA 8th edition handbook. Follows the structure of references as outlined in the MLA Manual closely"
     dclass = MockMarcDocument
     dclass.use_extension(Blacklight::Solr::Document::Endnote)
     ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
@@ -193,23 +188,6 @@ describe Blacklight::Solr::Document::MarcExport do
   describe "export_as_xml" do
     it "should export marcxml as xml" do
       expect(marc_from_xml(@typical_record.export_as_xml)).to eq(marc_from_xml(@typical_record.export_as_marcxml))
-    end
-  end
-
-  describe "export_as_refworks_marc_txt" do
-    it "should export correctly" do
-      expect(@music_record.export_as_refworks_marc_txt).to match("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n")
-    end
-
-    describe "for UTF-8 record" do
-      it "should export in Unicode normalized C form" do
-        @utf8_exported = @record_utf8_decomposed.export_as_refworks_marc_txt
-
-        if defined? Unicode
-          expect(@utf8_exported).not_to include("\314\204\312\273") # decomposed
-          expect(@utf8_exported).to include("\304\253\312\273") # C-form normalized
-        end
-      end
     end
   end
 

@@ -15,6 +15,7 @@ module SingleSearchHelper
     tr(" -", "_").
     downcase
   end
+  
   def ss_uri_encode (link_url)
     link_url = link_url.gsub('% ','%25%20') unless link_url.match('%25')
     link_url = link_url.gsub('$','%24')
@@ -29,12 +30,8 @@ module SingleSearchHelper
     link_url = link_url.gsub(')','%29')
   end
 
-  def is_catalog_pane?(pane)
-    if pane == 'Articles & Full Text' || pane == 'Library Guides' || pane == 'Digital Collections' || pane == 'Repositories'
-      false
-    else
-       true
-    end
+  def is_catalog_pane?(key)
+    ['ebsco_eds', 'libguides', 'digitalCollections', 'institutionalRepositories'].exclude?(key)
   end
 
   def bento_all_results_link(key)
@@ -59,20 +56,6 @@ module SingleSearchHelper
     end
 
     link_url = ss_uri_encode(link)
-  end
-
-  def bento_eds_count()
-    eds_total = 0
-    bq = params[:q] || params[:query]
-    if bq.present?
-      searcher = BentoSearch::ConcurrentSearcher.new(:ebsco_eds)
-      searcher.search(bq, :per_page => 0)
-      searcher.results.each_pair do |key, result|
-        eds_total = result.total_items.to_s
-        break
-      end
-    end
-    return eds_total
   end
 
   def bento_title(key)

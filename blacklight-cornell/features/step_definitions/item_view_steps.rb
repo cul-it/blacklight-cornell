@@ -32,10 +32,32 @@ Then /^(?:|I )click on link "(.*?)"$/ do |link|
   click_link link
 end
 
+# click first <a> text that contains link
 Then /^click on first link "(.*?)"$/ do |link|
-  # click first <a> text that contains link
-  page.first(:xpath, "//a[contains(.,'#{link}')]").click
+  click_first_link_by_text!(link)
 end
+
+# ==============================================================================
+# Clicks the first <a> whose *visible text* includes the given snippet.
+# Normalizes whitespace *and* non-breaking spaces (&nbsp;) so DOM formatting
+# (nested spans, linebreaks, NBSPs) won't break text matching.
+# ------------------------------------------------------------------------------
+def click_first_link_by_text!(snippet)
+  normalize = ->(s) { s.gsub(/\u00A0/, ' ').gsub(/\s+/, ' ').strip }
+
+  target = normalize.call(snippet)
+  link = all('a').find { |a| normalize.call(a.text).include?(target) }
+
+  unless link
+    puts "[DEBUG] Wanted link containing: #{target.inspect}"
+    puts "[DEBUG] Available <a> texts (normalized):"
+    all('a').each { |a| puts "- #{normalize.call(a.text)}" }
+    raise Capybara::ExpectationNotMet, "No link containing #{target.inspect}"
+  end
+
+  link.click
+end
+
 
 Then("I click and confirm {string}") do |string|
   accept_confirm do
@@ -75,11 +97,23 @@ Then /^results should have a "(.*?)" that looks sort of like "(.*?)"/ do |field,
   end
 end
 
-Then /^I (should|should not) see the label '(.*?)'$/ do |yesno, label|
-  if yesno == "should not"
-    page.should_not have_content(label)
+Then(/^I (should|should not) see the label '(.*?)'$/) do |yesno, expected|
+  page_text = page.text.tr("\u00A0", ' ') # Normalize NBSPs
+  # Start from an escaped version of the expected text
+  pattern = Regexp.escape(expected)
+  # Allow optional colon and optional operator between label and value
+  pattern = pattern.gsub(/\\:/, ':?\\s*(?:All|Any|Begins\\ With|Phrase)?\\s*')
+  # turn *escaped spaces* (`\ `) into `\s+`
+  pattern = pattern.gsub(/\\[[:space:]]+/, '\\s+')
+  # collapse multiple \s+
+  pattern = pattern.gsub(/(?:\\s\+){2,}/, '\\s+')
+
+  regex = Regexp.new(pattern, Regexp::MULTILINE)
+
+  if yesno == 'should'
+    expect(page_text).to match(regex)
   else
-    page.should have_content(label)
+    expect(page_text).not_to match(regex)
   end
 end
 

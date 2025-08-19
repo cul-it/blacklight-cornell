@@ -14,10 +14,7 @@ module Blacklight::Solr::Document::MarcExport
     # http://tools.ietf.org/html/draft-denenberg-mods-etc-media-types-00
     document.will_export_as(:marcxml, "application/marcxml+xml")
     document.will_export_as(:openurl_ctx_kev, "application/x-openurl-ctx-kev")
-    document.will_export_as(:refworks_marc_txt, "text/plain")
-    #document.will_export_as(:endnote, "application/x-endnote-refer")
   end
-
 
   def export_as_marc
     to_marc.to_marc
@@ -80,129 +77,7 @@ module Blacklight::Solr::Document::MarcExport
      export_text.html_safe unless export_text.blank?
   end
 
-  # This format used to be called 'refworks', which wasn't really
-  # accurate, sounds more like 'refworks tagged format'. Which this
-  # is not, it's instead some weird under-documented Refworks
-  # proprietary marc-ish in text/plain format. See
-  # http://robotlibrarian.billdueber.com/sending-marcish-data-to-refworks/
-  def export_as_refworks_marc_txt
-    fields = to_marc.find_all { |f| ('000'..'999') === f.tag }
-    text = "LEADER #{to_marc.leader}"
-    fields.each do |field|
-    unless ["940","999"].include?(field.tag)
-      if field.is_a?(MARC::ControlField)
-        text << "#{field.tag}    #{field.value}\n"
-      else
-        text << "#{field.tag} "
-        text << (field.indicator1 ? field.indicator1 : " ")
-        text << (field.indicator2 ? field.indicator2 : " ")
-        text << " "
-          field.each {|s| s.code == 'a' ? text << "#{s.value}" : text << " |#{s.code}#{s.value}"}
-        text << "\n"
-       end
-        end
-    end
-
-    # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
-    # it seems to want C form normalization, although RefWorks support
-    # couldn't tell me that. -jrochkind
-    text = text.unicode_normalize
-
-    return text
-  end
-
- FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
-   "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
-   "Book"=>"Book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"Map",
-   "CLSWK"=>"CLSWK", "Computer File"=>"Computer Program", "CONF"=>"CONF", "CPAPER"=>"Conference Paper",
-   "CTLG"=>"CTLG", "DATA"=>"DATA", "Database"=>"DBASE", "DICT"=>"DICT",
-   "EBOOK"=>"Electronic Book", "ECHAP"=>"ECHAP", "EDBOOK"=>"EDBOOK", "EJOUR"=>"EJOUR",
-   "ELEC"=>"ELEC", "ENCYC"=>"ENCYC", "EQUA"=>"EQUA", "FIGURE"=>"FIGURE",
-   "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"Heading",
-   "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
-   "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"Manuscript", "Map or Globe"=>"Map", "MGZN"=>"MGZN",
-   "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"GENERIC", "NEWS"=>"NEWS",
-   "PAMP"=>"Pamphlet", "PAT"=>"Patent", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
-   "SER"=>"Serial Publication", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"Audiovisual Material", "Musical Recording"=>"Music",
-   "STAND"=>"Standard",
-   "STAT"=>"Statute", "Thesis"=>"Thesis", "UNPB"=>"UNPB", "Video"=>"Film or Broadcast",
-   "Website" => "Web Page"
-   }
-
   protected
-  def apa_citation(record)
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    text = ''
-    authors_list = []
-    authors_list_final = []
-
-    #setup formatted author list
-    authors = apa_get_author_list(record)
-    authors.each do |l|
-      authors_list.push(abbreviate_name(l)) unless l.blank?
-    end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors = #{authors.inspect}")
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} authors_list = #{authors_list.inspect}")
-    authors_list.each do |l|
-      if l == authors_list.first #first
-        authors_list_final.push(l.strip)
-      elsif l == authors_list.last #last
-        authors_list_final.push(", &amp; " + l.strip)
-      else #all others
-        authors_list_final.push(", " + l.strip)
-      end
-    end
-    text += authors_list_final.join
-    unless text.blank?
-      if text[-1,1] != "."
-        text += ". "
-      else
-        text += " "
-      end
-    end
-    # Get Pub Date
-    text += "(" + setup_pub_date(record) + "). " unless setup_pub_date(record).nil?
-
-    # setup title info
-    title = setup_title_info(record)
-    text += "<i>" + title + "</i> " unless title.nil?
-
-    # Edition
-    edition_data = setup_edition(record)
-    text += edition_data + " " unless edition_data.nil?
-
-    # Publisher info
-    text += setup_pub_info(record) unless setup_pub_info(record).nil?
-    unless text.blank?
-      if text[-1,1] != "."
-        text += "."
-      end
-    end
-    text
-  end
-
-  def setup_pub_info_mla8(record)
-    text = ''
-    # ***
-    pub_info_field = alternate_script(record, '260')
-    if pub_info_field.nil?
-      # ***
-      pub_info_field = alternate_script(record, '264', '1')
-    end
-    if !pub_info_field.nil?
-      b_pub_info = pub_info_field.find{|s| s.code == 'b'}
-      a_pub_info = clean_end_punctuation(a_pub_info.value.strip) unless a_pub_info.nil?
-      b_pub_info = b_pub_info.value.strip unless b_pub_info.nil?
-      text += a_pub_info.strip unless a_pub_info.nil?
-      if !a_pub_info.nil? and !b_pub_info.nil?
-        text += ": "
-      end
-      text += b_pub_info.strip unless b_pub_info.nil?
-    end
-    #print STANDARD_INFO  + "text = #{text}"
-    return nil if text.strip.blank?
-    clean_end_punctuation(text.strip)
-  end
   def setup_pub_info(record)
     text = ''
     # ***
@@ -247,6 +122,7 @@ module Blacklight::Solr::Document::MarcExport
     end
     clean_end_punctuation(date_value) if date_value
   end
+
   # process 100,110,111 and 700, 710, 711
   # putting together role indicators.
   def get_contrib_roles(record)
@@ -274,8 +150,6 @@ module Blacklight::Solr::Document::MarcExport
     relators
   end
 
-
-  # Original comment:
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
     Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
@@ -365,37 +239,6 @@ module Blacklight::Solr::Document::MarcExport
     ret
   end
 
-
-  def mla_citation_title(text)
-    no_upcase = ["a","an","and","but","by","for","it","of","the","to","with"]
-    new_text = []
-    word_parts = text.split(" ")
-    word_parts.each do |w|
-      if !no_upcase.include? w
-        new_text.push(w.capitalize)
-      else
-        new_text.push(w)
-      end
-    end
-    new_text.join(" ")
-  end
-
-  # This will replace the mla_citation_title method with a better understanding of how MLA and Chicago citation titles are formatted.
-  # This method will take in a string and capitalize all of the non-prepositions.
-  def citation_title(title_text)
-    prepositions = ["a","about","across","an","and","before","but","by","for","it","of","the","to","with","without"]
-    new_text = []
-    title_text.split(" ").each_with_index do |word,index|
-      if (index == 0 and word != word.upcase) or (word.length > 1 and word != word.upcase and !prepositions.include?(word))
-        # the split("-") will handle the capitalization of hyphenated words
-        new_text << word.split("-").map!{|w| w.capitalize }.join("-")
-      else
-        new_text << word
-      end
-    end
-    new_text.join(" ")
-  end
-
   # I hope this can guide the interpretation of 700 when no role is encoded.
   def setup_editors_flag(record)
     # ***
@@ -465,13 +308,6 @@ module Blacklight::Solr::Document::MarcExport
     clean_end_punctuation(text.strip) + "."
   end
 
-  def apa_clean_end_punctuation(text)
-    if [".,"].include? text[-2,2]
-      return text[0,text.length-1]
-    end
-    text
-  end
-
   def clean_end_punctuation(text)
     text = "" if text.nil?
     if [".",",",":",";","/"].include? text[-1,1]
@@ -507,96 +343,6 @@ module Blacklight::Solr::Document::MarcExport
       return data
     end
   end
-
-
-  def apa_get_author_list(record)
-    author_list = []
-    authors_primary = alternate_script(record, '100')
-    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
-    author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
-    authors_secondary = record.find_all{|f| ('700') === f.tag}
-    if !authors_secondary.nil?
-      authors_secondary.each do |l|
-        asl = alternate_script(record, l.tag)
-        auth = asl.find{|s| s.code == 'a'}.value
-        author_list.push(apa_clean_end_punctuation(auth)) unless auth.nil?
-      end
-    end
-    author_list.uniq!
-    if author_list.blank?
-      authors_primary = alternate_script(record, '110')
-      author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
-      author_list.push(apa_clean_end_punctuation(author_primary)) unless author_primary.nil?
-      author_list.uniq!
-    end
-    author_list
-  end
-
-  def get_author_list(record)
-    author_list = []
-    authors_primary = alternate_script(record, '100')
-    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
-    author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
-    authors_secondary = record.find_all{|f| ('700') === f.tag}
-    if !authors_secondary.nil?
-      authors_secondary.each do |l|
-        asl = alternate_script(record, l.tag)
-        auth = asl.find{|s| s.code == 'a'}.value
-        author_list.push(clean_end_punctuation(auth)) unless auth.nil?
-      end
-    end
-
-    author_list.uniq!
-    author_list
-  end
-
-  # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
-  def old_get_all_authors(record)
-    translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
-    primary_authors = []; translators = []; editors = []; compilers = []
-    # ***
-    record.find_all{|f| f.tag === "100" }.each do |field|
-      as_field = alternate_script(record, field.tag)
-      primary_authors << as_field["a"] if as_field["a"]
-    end
-    # ***
-    record.find_all{|f| f.tag === "700" }.each do |field|
-      as_field = alternate_script(record, field.tag)
-      if as_field["a"]
-        relators = []
-        relators << clean_end_punctuation(as_field["e"]) if as_field["e"]
-        relators << clean_end_punctuation(as_field["4"]) if as_field["4"]
-        if relators.include?(translator_code)
-          translators << as_field["a"]
-        elsif relators.include?(editor_code)
-          editors << as_field["a"]
-        elsif relators.include?(compiler_code)
-          compilers << as_field["a"]
-        else
-          primary_authors << as_field["a"]
-        end
-      end
-    end
-    {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers}
-  end
-
-  def abbreviate_name(name)
-    return name unless name =~ /,/
-    name_parts = name.split(", ")
-    first_name_parts = name_parts.last.split(" ")
-    temp_name = name_parts.first + ", " + first_name_parts.first[0,1] + "."
-    first_name_parts.shift
-    temp_name += " " + first_name_parts.join(" ") unless first_name_parts.empty?
-    temp_name
-  end
-
-  def name_reverse(name)
-    name = clean_end_punctuation(name)
-    return name unless name =~ /,/
-    temp_name = name.split(", ")
-    return temp_name.last + " " + temp_name.first
-  end
-
 
 # dvd sample:
 # sort of bare bones,only a 300
@@ -659,26 +405,6 @@ module Blacklight::Solr::Document::MarcExport
     medium
   end
 
-  def setup_citeas(record,ty)
-    citeas = ''
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty = #{ty.inspect}")
-    if (ty == 'manuscript')
-        field = alternate_script(record, '524')
-        citeas = field['a'] unless field.nil?
-    end
-  citeas.to_s
-  end
-
-  def setup_fmt(record)
-    ty = 'book'
-    fmt = self['format'].first
-    if (FACET_TO_CITEPROC_TYPE.keys.include?(fmt))
-      ty =  "#{FACET_TO_CITEPROC_TYPE[fmt]}"
-     end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty = #{ty.inspect}")
-    ty
-  end
-
   def setup_thesis_info(record)
     thesis = {type: "", inst: "", date: ""}
     field = alternate_script(record, '502')
@@ -715,7 +441,6 @@ module Blacklight::Solr::Document::MarcExport
   def code_for_relation(r)
     RELATORS[r.downcase]
   end
-
 
   RELATORS = {
     "abridger" => "abr",
@@ -987,23 +712,4 @@ module Blacklight::Solr::Document::MarcExport
     "writer of preface" => "wpr",
     "writer of supplementary textual content" => "wst"
   }
-
-
-FACET_TO_CITEPROC_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
-  "ANCIENT"=>"ANCIENT", "ART"=>"ART", "BILL"=>"BILL", "BLOG"=>"BLOG",
-  "Book"=>"book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"CHART",
-  "CLSWK"=>"CLSWK", "COMP"=>"COMP", "CONF"=>"CONF", "CPAPER"=>"CPAPER",
-  "CTLG"=>"CTLG", "DATA"=>"DATA", "Database"=>"database", "DICT"=>"DICT",
-  "EBOOK"=>"EBOOK", "ECHAP"=>"ECHAP", "EDBOOK"=>"EDBOOK", "EJOUR"=>"EJOUR",
-  "ELEC"=>"ELEC", "ENCYC"=>"ENCYC", "EQUA"=>"EQUA", "FIGURE"=>"FIGURE",
-  "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"HEAR",
-  "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"journal",
-  "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"manuscript", "Map or Globe"=>"map", "MGZN"=>"MGZN",
-   "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"book", "NEWS"=>"NEWS",
-   "PAMP"=>"PAMP", "PAT"=>"PAT", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
-   "SER"=>"SER", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"song", "Musical Recording"=>"song",
-   "STAND"=>"STAND",
-   "STAT"=>"STAT", "Thesis"=>"thesis", "UNPB"=>"UNPB",
-   "Video"=>"motion_picture"
-   }
 end
