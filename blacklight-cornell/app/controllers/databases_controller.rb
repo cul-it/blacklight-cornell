@@ -58,6 +58,7 @@ class DatabasesController < ApplicationController
 
 
 
+  #todo: Look into
    def searchdb
        Appsignal.increment_counter('db_search_db', 1)
       if params[:q].nil? or params[:q] == "" or params[:q] == "+" or params[:q] == "-"
@@ -144,7 +145,24 @@ end
     @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
    end
    @column_names = ::Erm_data.column_names.collect(&:to_sym)
+  end
 
+  # TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
+  # Solr, the latter from FOLIO. Why do we have two sources of metadata?
+  def new_tou
+    folio = FolioApiService.new(session: session)
+    @newTouResult = folio.get_folio_terms_of_use(params[:title_id])
+
+
+    # TODO: Research into this will be used in the future (gets more detailed info)
+    clnt = HTTPClient.new
+    Appsignal.increment_counter('db_tou', 1)
+    Rails.logger.info("JAC244 #{__FILE__} #{__LINE__}  = #{Blacklight.connection_config.inspect}")
+    solr = Blacklight.connection_config[:url]
+    p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
+    @dbString = clnt.get_content("#{solr}/database?"+p.to_param)
+    @dbResponse = JSON.parse(@dbString)
+    @db = @dbResponse['response']['docs']
   end
  
   def erm_update
