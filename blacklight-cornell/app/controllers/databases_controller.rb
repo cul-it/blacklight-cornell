@@ -84,6 +84,8 @@ class DatabasesController < ApplicationController
            @dbResponseFull = eval("Could not find")
         end
         @dbResponse = @dbResponseFull['response']['docs']
+
+        session[:database] = params[:q]
         params[:q].gsub!('%20', ' ')
       end
     end
