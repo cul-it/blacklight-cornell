@@ -106,6 +106,8 @@ BlacklightCornell::Application.routes.draw do
   # replaced by /databases/tou
   # # get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
   get "/databases/tou/:id" => "databases#tou", :as => "databases_tou"
+  get "/databases/new_tou/:title_id/:id" => "databases#new_tou", :as => "databases_new_tou"
+
   get "/catalog/tou/:id/:providercode/:dbcode" => "catalog#tou", :as => "catalog_tou"
   get "/catalog/new_tou/:title_id/:id" => "catalog#new_tou", :as => "catalog_new_tou"
 
