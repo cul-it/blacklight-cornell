@@ -3,6 +3,37 @@ module CornellParamsHelper
   DEFAULT_OP = 'AND'
   DEFAULT_SEARCH_FIELD = 'all_fields'
 
+  # Convert simple and browse search params to params suitable for prefilling advanced search form
+  def convert_to_advanced_params(params)
+    relevant_params = params.slice(:f, :range, :f_inclusive, :q, :search_field, :authq, :browse_type)
+    return {} if relevant_params.blank?
+
+    advanced_params = relevant_params.slice(:f, :range, :f_inclusive).merge(q_row: [params[:q] || params[:authq] || ''])
+    if relevant_params[:search_field] == 'title_starts'
+      # Set op_row and search_field_row
+      advanced_params.merge(
+        op_row: ['begins_with'],
+        search_field_row: ['title']
+      )
+    else
+      # Set search_field_row
+      if relevant_params[:browse_type].present?
+        # Set search_field_row based on browse_type
+        browse_type_to_search_field_map = {
+          'Author' => 'author',
+          'Author-Title' => 'author',
+          'Subject' => 'subject',
+          'Call-Number' => 'lc_callnum'
+        }
+        search_field = browse_type_to_search_field_map[relevant_params[:browse_type]]
+      else
+        # Set search_field_row based on search_field
+        search_field = relevant_params[:search_field] || DEFAULT_SEARCH_FIELD
+      end
+      advanced_params.merge(search_field_row: [search_field])
+    end
+  end
+
   # TODO: Similar to SearchBuilder#remove_blank_rows - can this be DRY-ed up?
   def remove_blank_rows(my_params = params || {})
     cleaned_params = { q_row: [], op_row: [], search_field_row: [], boolean_row: {} }
