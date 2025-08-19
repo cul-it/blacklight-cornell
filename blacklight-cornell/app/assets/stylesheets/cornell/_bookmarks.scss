@@ -5,17 +5,12 @@
 	.item-tools {
 		margin-top: .5em;
 	}
-}	
+}
+	
 .clear-bookmarks {
 	margin-left: 1em;
 }
 
-
-.bookmarks-refworks input.submit {display:none;}
-
-// Wanted to extend Bootstrap's default like this:
-// .bookmarks-refworks a { @extend .dropdown-menu > li > form > a; }
-// -- but you can't extend nested selectors :(
 .dropdown-menu {
 	> li > form > a {
 		display: block;
