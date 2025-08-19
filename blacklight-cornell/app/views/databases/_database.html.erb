@@ -6,6 +6,11 @@
     <div class="document blacklight-database-name clearfix">
       <div class="document-data">
         <h3 class="blacklight-title_display">
+          <% debug_console(data , "VIEW data") %>
+          <% debug_console(params , "VIEW params") %>
+          <% debug_console(session[:q] , "VIEW session") %>
+
+
           <% if access_url_is_list?(data) %>
             <% dbid = data["id"] %>
             <%= link_to "/catalog/#{dbid}" do %>
@@ -58,7 +63,14 @@
           <% else %>
             <% providercode = data["providercode"][0] %>
           <% end %>
-          <%= link_to 'Terms of Use', "/databases/tou/#{dbid}", "aria-label" => "Terms of use for record #{dbid}" %>
+
+          <% titleid = access_titleid(data) %>
+          <% if  titleid.present?%>
+            <%= link_to '🚧 Terms of Use', "/databases/new_tou/#{titleid}/#{dbid}", "aria-label" => "Terms of use for record #{dbid}" %>
+          <%else %>
+            <%= link_to 'Terms of Use', "/databases/tou/#{dbid}", "aria-label" => "Terms of use for record #{dbid}" %>
+          <% end %>
+
         </div>
       </div>
     </div>
