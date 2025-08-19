@@ -937,96 +937,9 @@ def tou
   # TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
   # Solr, the latter from FOLIO. Why do we have two sources of metadata?
   def new_tou
-    packageName = ""
-    title_id = params[:title_id]
-    id = params[:id]
-    @newTouResult = []
-    # okapi_url = ENV['OKAPI_URL']
-    record = eholdings_record(title_id) || []
-    if record
-      # recordTitle = record["data"]["attributes"]["name"]
-      record["included"].each do |package|
-        attrs = package['attributes']
-        if attrs["isSelected"] == true
-          packageID = attrs["packageId"]
-          packageName = attrs["packageName"]
-          # packageUrl = attrs["url"]
-          # package_providerID = attrs["providerName"]
-          subscription = subscription_agreements(packageID)
-          if subscription.present?
-            if subscription[0]["linkedLicenses"][0]
-              remoteID = subscription[0]["linkedLicenses"][0]["remoteId"]
-              license = license(remoteID)
-              if license
-                license['packageName'] = packageName
-                @newTouResult << license unless @newTouResult.any? {|h| h["id"] == license['id']}
-              end
-            end
-          end
-        end
-      end
-    end
-
-    @newTouResult
+    folio = FolioApiService.new(session: session)
+    @newTouResult = folio.get_folio_terms_of_use(params[:title_id])
   end
-
-  def eholdings_record(id)
-    # eholdings title JSON response described here:
-    # https://s3.amazonaws.com/foliodocs/api/mod-kb-ebsco-java/r/titles.html#eholdings_titles_get
-    folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources")
-  end
-
-  # Make a FOLIO request to retrieve an array of subscription agreements linked to an e-holdings record
-  # specified by id.
-  def subscription_agreements(id)
-    folio_request("#{ENV['OKAPI_URL']}/erm/sas?filters=items.reference=#{id}&sort=startDate:desc")
-  end
-
-  # Make a FOLIO request to retrieve a license object linked to an e-holdings record
-  # specified by id ('remoteId' in the JSON).
-  def license(id)
-    folio_request("#{ENV['OKAPI_URL']}/licenses/licenses/#{id}")
-  end
-
-  # Given a URL, make a FOLIO request and return the results (or nil in case of a RestClient exception).
-  def folio_request(url)
-    token = folio_token
-    if url && token
-      headers = {
-        'X-Okapi-Tenant' => ENV['OKAPI_TENANT'],
-        'x-okapi-token' => token,
-        :accept => 'application/json, application/vnd.api+json'
-      }
-      response = RestClient.get(url, headers)
-      JSON.parse(response.body) if response && response.code == 200
-    end
-  rescue RestClient::ExceptionWithResponse => err
-    Rails.logger.error "TOU: Error making FOLIO request (#{err})"
-    nil
-  end
-
-  # Return a FOLIO authentication token for API calls -- either from the session if a token
-  # was prevoiusly created, or directly from FOLIO otherwise.
-  #
-  # TODO: Caching is being disabled for now, since it's causing problems with the new expiring
-  # token mechanism in FOLIO. We need to figure out how to cache the token properly. (mjc12)
-  def folio_token
-   #  if session[:folio_token].nil?
-      url = ENV['OKAPI_URL']
-      tenant = ENV['OKAPI_TENANT']
-      response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
-      if response[:code] >= 300
-        Rails.logger.error "TOU error: Could not create a FOLIO token for #{user}"
-      else
-        session[:folio_token] = response[:token]
-      end
-   #  end
-    session[:folio_token]
-  end
-
-  #def oclc_request
-  #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
-  #end
 
   def redirect_browse
     if params[:search_field] && params[:controller] != 'advanced'
@@ -1041,10 +954,6 @@ def tou
       end
     end
   end
-
-#  def range_limit
-#    redirect_to "/"
-#  end
 
   # https://bibwild.wordpress.com/2019/04/30/blacklight-7-current_user-or-other-request-context-in-searchbuilder-solr-query-builder/
   def search_service_context
