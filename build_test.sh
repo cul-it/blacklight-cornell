@@ -33,4 +33,3 @@ docker compose -f docker-compose-test.yaml build
 
 unset COVERAGE_PATH
 unset RAILS_ENV_FILE
-unset SELENIUM_IMAGE
