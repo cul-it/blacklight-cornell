@@ -15,10 +15,59 @@
   flex-direction: column;
 }
 
-// Visible state
+// Default (desktop) → from the right
+//.help-drawer {
+//  position: fixed;
+//  top: 0;
+//  right: 0;
+//  width: min(420px, 92vw);
+//  height: 100vh;
+//  background: #fff;
+//  border-left: 1px solid #ddd;
+//  box-shadow: -6px 0 16px rgba(0,0,0,.08);
+//  transform: translateX(100%);
+//  transition: transform .25s ease-in-out;
+//  z-index: 1050;
+//  display: flex;
+//  flex-direction: column;
+//}
+
+// Default (desktop) → from the bottom
+.help-drawer {
+  top: auto;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 20vh; // you can adjust: 50–70% works nicely
+  border-left: none;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -6px 16px rgba(0,0,0,.08);
+  transform: translateY(100%);
+}
+
 .help-drawer.is-open {
   transform: translateX(0);
 }
+
+// Mobile override → from the bottom
+@media (max-width: 768px) {
+  .help-drawer {
+    top: auto;
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 30vh; // you can adjust: 50–70% works nicely
+    border-left: none;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -6px 16px rgba(0,0,0,.08);
+    transform: translateY(100%);
+  }
+
+  .help-drawer.is-open {
+    transform: translateY(0);
+  }
+}
+
 
 // Header
 .help-drawer__header {
