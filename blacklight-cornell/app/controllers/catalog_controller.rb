@@ -37,7 +37,7 @@ class CatalogController < ApplicationController
     end
 
     query_present     = search_state.query_param.present?
-    adv_query_present = params.dig(:q_row).present? && params.dig(:q_row).any? { |q| q.present? }
+    adv_query_present = !!search_state.advanced_query_param&.any?(&:present?)
     filters_present   = search_state.filters.present?
 
     # Start a new record if any constraint is present
