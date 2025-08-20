@@ -44,7 +44,7 @@ class CatalogController < ApplicationController
     query_present || adv_query_present || filters_present
   end
 
-#  DACCESS-215
+  #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
       redirect_to params.merge(q: '')
