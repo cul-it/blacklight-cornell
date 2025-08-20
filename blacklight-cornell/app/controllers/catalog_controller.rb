@@ -44,39 +44,6 @@ class CatalogController < ApplicationController
     query_present || adv_query_present || filters_present
   end
 
-  # ============================================================================
-  # Looks for a matching saved search in history, and either returns it or
-  # creates a new Search. Any new Search is added to search history.
-  # ----------------------------------------------------------------------------
-  def find_or_initialize_search_session_from_params(params)
-    params_copy = normalize_saved_search_params(params)
-
-    return if params_copy.blank?
-
-    saved_search = searches_from_history.find do |x|
-      normalize_saved_search_params(x.query_params) == params_copy
-    end
-
-    saved_search || Search.create(query_params: params_copy).tap do |s|
-      add_to_search_history(s)
-    end
-  end
-
-  # ============================================================================
-  # Normalize search params for saving. Ensures consistent comparison for
-  # detecting duplicate saved searches.
-  # ----------------------------------------------------------------------------
-  def normalize_saved_search_params(params)
-    search_params = params.deep_dup.stringify_keys.except("controller", "action", "utf8", "only_path", "commit")
-    search_params.except!("q").delete("params") if search_params["advanced_query"].present?
-    default_sort = blacklight_config&.default_sort_field&.sort&.strip
-    current_sort = search_params["sort"]&.strip
-    search_params.delete("sort") if default_sort.present? && current_sort == default_sort
-
-    search_params
-  end
-
-
 #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
