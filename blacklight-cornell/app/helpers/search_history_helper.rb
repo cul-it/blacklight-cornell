@@ -49,24 +49,28 @@ module SearchHistoryHelper
     # FILTERED BY SECTION (exclusive facets) -----------------------------------
     filters_nodes = []
 
-    no_date = Array(dr_row['-pub_date_facet']).include?('[* TO *]') # Missing Publication Year
+    # Missing Publication Year (-pub_date_facet)
+    no_date = Array(dr_row['-pub_date_facet']).include?('[* TO *]')
     if no_date
-      dr_row.each_with_index do |(facet_key, _values), row_index|
-        next unless no_date && facet_key == "-pub_date_facet"
-        label = facet_label_for(facet_key)
-        chip  = mk_chip(label, mk_value("Missing"))
-        row_index.zero? ? filters_nodes << chip : filters_nodes << pair_with_boolean('AND', chip)
-      end
+      label = facet_label_for('-pub_date_facet')
+      chip = mk_chip(label, mk_value('Missing'))
+      filters_nodes << chip
     end
 
+    # Other exclusive facets
     if f_row.present?
-      first = true
+      first = filters_nodes.empty?
       f_row.each do |facet_key, values|
-        Array(values).each do |raw_val|
+        Array(values).reject(&:blank?).each do |raw_val|
           label = facet_label_for(facet_key)
           val   = facet_value_label_for(facet_key, raw_val)
           chip  = mk_chip(label, mk_value(val))
-          first ? (filters_nodes << chip; first = false) : filters_nodes << pair_with_boolean('AND', chip)
+          if first
+            filters_nodes << chip
+            first = false
+          else
+            filters_nodes << pair_with_boolean('AND', chip)
+          end
         end
       end
     end
