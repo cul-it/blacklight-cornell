@@ -113,7 +113,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # Check for missing pub_date_facet range values
     if (!params[:range].nil?)
-      check_dates(params)
+      bloopity = check_dates(params)
     end
 
     # Sanitize query for constraints display
@@ -150,6 +150,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     @controller = self
     if session['search_limit_exceeded']
       flash.now.alert = I18n.t('blacklight.search.search_limit_exceeded')
+    end
+
+    if bloopity
+      flash[:notice] = I18n.t("blacklight.search.errors.publication_year_range.#{bloopity}")
     end
 
     respond_to do |format|
@@ -536,6 +540,8 @@ private
     silence_warnings { @@cjk_mm_val = '3<86%'}
   end
 
+  # TODO: Double check that search history check in CatalogController still makes sense
+  # TODO: Make sure advanced search history range fields still work (e.g. does it need the begin_test <= end_test check even if the search results sidebar doesn't?)
   def check_dates(params)
     pub_date_facet = params[:range][:pub_date_facet]
     unknown_pub_date_facet = params[:range]['-pub_date_facet']
@@ -547,15 +553,21 @@ private
     begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
     end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
     min_year = 0
+
+    
+    # (begin_test.present? && begin_test >= min_year) && (end_test.present? && end_test >= min_year) && (begin_test <= end_test)
     unless begin_test.present? && begin_test >= min_year
-      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.begin'))
+      return 'begin'
+      # raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.begin'))
     end
     unless end_test.present? && end_test >= min_year
-      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.end'))
+      return 'end'
+      # raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.end'))
     end
-    unless begin_test <= end_test
-      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.order'))
-    end
+    # unless begin_test <= end_test
+    #   return false
+    #   # raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.order'))
+    # end
   end
 
   def sanitize(q)
