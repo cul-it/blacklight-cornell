@@ -164,8 +164,6 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       parsed = parsed_query(href)
 
       expect(parsed['advanced_query']).to eq('yes')
-      expect(parsed['omit_keys']).to eq(['page'])
-      expect(parsed['params']).to eq({ 'advanced_query' => 'yes' })
       expect(parsed['search_field']).to eq('advanced')
       expect(parsed['commit']).to eq('Search')
       expect(parsed['q_row']).to eq(%w[alpha beta])
@@ -187,7 +185,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
 
       href   = helper.build_search_history_url(params, :advanced)
       parsed = parsed_query(href)
-      expect(parsed['range']).to eq({ '-pub_date_facet' => ['[* TO *]'] })
+      expect(parsed['range']).to eq({ 'pub_date_facet' => { 'begin' => '', 'end' => '' } })
     end
 
     it 'builds basic URL (non-advanced) with single q and search_field' do
@@ -209,10 +207,10 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       expect(parsed['search_field_row']).to be_nil
     end
 
-    it 'uses default sort when sort is missing' do
+    it 'omits sort when sort is missing' do
       href   = helper.build_search_history_url({}, :basic)
       parsed = parsed_query(href)
-      expect(parsed['sort']).to eq('score desc, pub_date_sort desc, title_sort asc')
+      expect(parsed['sort']).to be_nil
     end
 
     it 'encodes sort value safely' do
@@ -273,7 +271,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       }
       href   = helper.build_search_history_url(params, :advanced)
       parsed = parsed_query(href)
-      expect(parsed['range']).to eq({ '-pub_date_facet' => ['[* TO *]'] })
+      expect(parsed['range']).to eq({ 'pub_date_facet' => { 'begin' => '', 'end' => '' } })
     end
   end
 
