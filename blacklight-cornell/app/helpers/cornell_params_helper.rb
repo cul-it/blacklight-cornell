@@ -396,16 +396,6 @@ def make_show_query(params)
   params[:show_query] = showquery
 end
 
-  def qtoken(q_string)
-    qnum = q_string.count('"')
-    if qnum % 2 == 1
-      qstring = qstring + '"'
-    end
-      p = q_string.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
-    return p
-
-  end
-
   # DACCESS-215
   def query_has_pub_date_facet?
     return params[:range].present? && params[:range].keys.include?('pub_date_facet')
