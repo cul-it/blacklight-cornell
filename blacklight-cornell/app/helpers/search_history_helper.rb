@@ -189,7 +189,7 @@ module SearchHistoryHelper
     end
 
     # Build Query String -------------------------------------------------------
-    advanced_params = [:utf8, :q_row, :op_row, :search_field_row,:boolean_row, :range,:sort, :search_field, :advanced_query, :commit, :f, :f_inclusive]
+    advanced_params = [:utf8, :q_row, :op_row, :search_field_row, :boolean_row, :range,:sort, :search_field, :advanced_query, :commit, :f, :f_inclusive]
     basic_params    = [:utf8, :q, :search_field, :f, :f_inclusive, :range, :sort]
     desired_order   = search_type == :advanced ? advanced_params : basic_params
 
