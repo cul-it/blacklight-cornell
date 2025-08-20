@@ -109,31 +109,30 @@ module SearchHistoryHelper
   # Builds formatted search URL from session params
   # ----------------------------------------------------------------------------
   def build_search_history_url(params, search_type)
-    base_path   = 'catalog'
-    sort_param  = params[:sort].presence || 'score desc, pub_date_sort desc, title_sort asc'
-    query       = { only_path: true, utf8: '✓', sort: sort_param }
-
-    q_row       = params[:q_row] || [params[:q]].compact
-    sf_row      = params[:search_field_row] || [params[:search_field]].compact
-    op_row      = params[:op_row] || ['AND']
-    b_row       = params[:boolean_row] || {}
-    dr_row      = params[:range] || {}
-    f_row       = params[:f] || {}
-    f_inclusive = params[:f_inclusive] || {}
-
+    query        = { }
+    base_path    = 'catalog'
+    query[:sort] = params[:sort] if params[:sort].present?
+    query[:utf8] = params[:utf8] if params[:utf8].present?
+    q_row        = params[:q_row] || [params[:q]].compact
+    sf_row       = params[:search_field_row] || [params[:search_field]].compact
+    op_row       = params[:op_row] || ['AND']
+    b_row        = params[:boolean_row] || {}
+    dr_row       = params[:range] || {}
+    f_row        = params[:f] || {}
+    f_inclusive  = params[:f_inclusive] || {}
 
     if search_type == :advanced
       query[:q_row], query[:op_row], query[:search_field_row] = [], [], []
-      query[:advanced_query]   = 'yes'
-      query[:omit_keys]        = ['page']
-      query[:params]           = { advanced_query: 'yes' }
-      query[:search_field]     = 'advanced'
-      query[:commit]           = 'Search'
+      query[:advanced_query] = 'yes'
+      query[:omit_keys]      = ['page']
+      query[:params]         = { advanced_query: 'yes' }
+      query[:search_field]   = 'advanced'
+      query[:commit]         = 'Search'
+      query.delete(:q)
     end
 
     # Query --------------------------------------------------------------------
     boolean_row_hash = {}
-
     q_row.each_with_index do |q, index|
       next if q.blank?
       if search_type == :advanced
@@ -177,18 +176,25 @@ module SearchHistoryHelper
     end
 
     # Date range facets
-    if dr_row.present? && dr_row[:pub_date_facet].is_a?(Hash)
-      begin_val = dr_row[:pub_date_facet][:begin]
-      end_val   = dr_row[:pub_date_facet][:end]
-      if begin_val.present? || end_val.present?
-        query[:range] ||= {}
-        query[:range][:pub_date_facet] = {}
-        query[:range][:pub_date_facet][:begin] = begin_val if begin_val.present?
-        query[:range][:pub_date_facet][:end]   = end_val   if end_val.present?
-      end
+    pub_date_facet = dr_row[:pub_date_facet]         || {}
+    begin_val      = pub_date_facet[:begin].presence || ""
+    end_val        = pub_date_facet[:end].presence   || ""
+
+    if search_type == :advanced
+      query[:range] = { pub_date_facet: { begin: begin_val, end: end_val } }
+    else
+      query[:range] = { pub_date_facet: { begin: begin_val, end: end_val } } if begin_val.present? && end_val.present?
     end
 
-    "#{base_path}?#{query.to_query}" # Search URL with query params
+    # Build Query String -------------------------------------------------------
+    advanced_params = [:utf8, :q_row, :op_row, :search_field_row,:boolean_row, :range,:sort, :search_field, :advanced_query, :commit, :f, :f_inclusive]
+    basic_params    = [:utf8, :q, :search_field, :f, :f_inclusive, :range, :sort]
+    desired_order   = search_type == :advanced ? advanced_params: basic_params
+
+    ordered_query = {}
+    desired_order.each { |k| ordered_query[k] = query[k] if query.key?(k) }
+
+    "#{base_path}?#{ordered_query.to_query}" # Search URL with ordered query params
   end
 
 
