@@ -128,8 +128,6 @@ module SearchHistoryHelper
     if search_type == :advanced
       query[:q_row], query[:op_row], query[:search_field_row] = [], [], []
       query[:advanced_query] = 'yes'
-      query[:omit_keys]      = ['page']
-      query[:params]         = { advanced_query: 'yes' }
       query[:search_field]   = 'advanced'
       query[:commit]         = 'Search'
       query.delete(:q)
