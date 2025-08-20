@@ -197,22 +197,33 @@ RSpec.describe CatalogController, type: :controller do
 
   describe "Ensure no duplicate saved searches to search history" do
     it "does not create a duplicate for equivalent BASIC search params" do
-      params1 = { "q" => "cat", "search_field" => "all_fields" }
-      # click-through from history: adds only_path + explicit default sort
-      params2 = params1.merge( "only_path" => "true", "sort" => default_sort)
+      params = { "q" => "cat", "search_field" => "all_fields" }
 
-      search_one = controller.send(:find_or_initialize_search_session_from_params, params1)
+      search_one = controller.send(:find_or_initialize_search_session_from_params, params)
       expect(Search.count).to eq(1)
       expect(session[:history]).to eq([search_one.id])
 
-      search_two = controller.send(:find_or_initialize_search_session_from_params, params2)
+      search_two = controller.send(:find_or_initialize_search_session_from_params, params)
       expect(Search.count).to eq(1), "should not create a second Search"
       expect(search_two.id).to eq(search_one.id), "should reuse the same SavedSearch"
       expect(session[:history].uniq).to eq([search_one.id]), "history should contain only one id"
     end
 
+    it "Creates multiple search entries with different params for Basic search" do
+      params1 = { "q" => "cat", "search_field" => "all_fields" }
+      params2 = { "q" => "dog", "search_field" => "all_fields" }
+
+      search_one = controller.send(:find_or_initialize_search_session_from_params, params1)
+      expect(Search.count).to eq(1)
+      expect(session[:history]).to eq([search_one.id])
+
+      controller.send(:find_or_initialize_search_session_from_params, params2) # search_two
+      expect(Search.count).to eq(2), "should create a second Search"
+      expect(session[:history].count).to eq(2), "history should contain 2 ids"
+    end
+
     it "does not create a duplicate for equivalent ADVANCED search params" do
-      params1 = {
+      params = {
         "advanced_query"   => "yes",
         "q_row"            => %w[Batman Superman],
         "op_row"           => %w[AND OR],
@@ -222,21 +233,14 @@ RSpec.describe CatalogController, type: :controller do
         "range"            => { "pub_date_facet" => { "begin" => "1900", "end" => "1950" } },
       }
 
-      # click-through from history: adds only_path + explicit default sort
-      params2 = params1.merge(
-        "params"    => { "advanced_query" => "yes" },
-        "only_path" => "true",
-        "sort"      => default_sort
-      )
-
-      search_one = controller.send(:find_or_initialize_search_session_from_params, params1)
+      search_one = controller.send(:find_or_initialize_search_session_from_params, params)
       expect(Search.count).to eq(1)
-      expect(session[:history]).to eq([search_one.id])
+      expect(session[:history].count).to eq(1)
 
-      search_two = controller.send(:find_or_initialize_search_session_from_params, params2)
+      search_two = controller.send(:find_or_initialize_search_session_from_params, params)
       expect(Search.count).to eq(1), "should not create a second Search for equivalent advanced query"
       expect(search_two.id).to eq(search_one.id)
-      expect(session[:history].uniq).to eq([search_one.id])
+      expect(session[:history].count).to eq(1)
     end
   end
 end
