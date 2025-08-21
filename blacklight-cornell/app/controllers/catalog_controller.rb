@@ -17,6 +17,33 @@ class CatalogController < ApplicationController
     #prepend_before_action :set_return_path
   end
 
+
+  # ============================================================================
+  # Determines if a new search session should be saved to search history
+  # Advanced: true if any q_row has text, or a full date range is set, or
+  #           language facet is present, or any inclusive facets are present.
+  # Basic:    true if query (q) is present or any facet (f) is present.
+  # ----------------------------------------------------------------------------
+  def start_new_search_session?
+    return false unless action_name == 'index'
+
+    # Validate date range first; if invalid, don't start/save a session
+    if params[:range].present?
+      begin
+        check_dates(params)
+      rescue ArgumentError
+        return false
+      end
+    end
+
+    query_present     = search_state.query_param.present?
+    adv_query_present = !!search_state.advanced_query_param&.any?(&:present?)
+    filters_present   = search_state.filters.present?
+
+    # Start a new record if any constraint is present
+    query_present || adv_query_present || filters_present
+  end
+
   #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
