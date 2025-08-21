@@ -219,7 +219,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       expect(parsed_query(href)['sort']).to eq('title_sort asc, pub_date_sort desc')
     end
 
-    it 'sets :f and :f_inclusive as empty strings when they not set' do
+    it 'sets :f and :f_inclusive as empty strings when they are not set' do
       params = {
         f: { format: [''] },
         f_inclusive: { language_facet: [''] }
