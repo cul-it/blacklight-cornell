@@ -51,7 +51,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
 
       q = parsed_query(html)
       expect(q['advanced_query']).to eq('yes')
-      expect(q['q_row']).to eq(["Canada", ""]) # blank dropped by builder
+      expect(q['q_row']).to eq(["Canada", ""])
       expect(q['op_row']).to eq(["AND", "AND"])
       expect(q['search_field_row']).to eq(["all_fields", "all_fields"])
       expect(q['f']['language_facet']).to eq(['Cebuano'])
