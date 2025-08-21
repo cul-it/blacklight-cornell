@@ -4,7 +4,7 @@ module SearchHistoryHelper
   # - Uses build_search_history_url(params) to generate the URL
   # - Renders the label HTML inside a styled <div> block inside the link
   # ----------------------------------------------------------------------------
-  def link_to_custom_search_history_link(params, search_type)
+  def link_to_custom_search_history_link(params)
     query_texts = build_search_query_tags(params)
     link_to(build_search_history_url(params)) do
       content_tag(:div, safe_join(query_texts, ' '), class: 'constraint custom-search-history-link')
