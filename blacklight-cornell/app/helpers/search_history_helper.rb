@@ -4,11 +4,10 @@ module SearchHistoryHelper
   # - Uses build_search_history_url(params) to generate the URL
   # - Renders the label HTML inside a styled <div> block inside the link
   # ----------------------------------------------------------------------------
-  def link_to_custom_search_history_link(params, search_type)
+  def link_to_custom_search_history_link(params)
     query_texts = build_search_query_tags(params)
-    link_to(build_search_history_url(params, search_type)) do
-      content_tag(:div, safe_join(query_texts, ' '),
-                  class: 'constraint custom-search-history-link')
+    link_to(build_search_history_url(params)) do
+      content_tag(:div, safe_join(query_texts, ' '), class: 'constraint custom-search-history-link')
     end
   end
 
@@ -49,24 +48,28 @@ module SearchHistoryHelper
     # FILTERED BY SECTION (exclusive facets) -----------------------------------
     filters_nodes = []
 
-    no_date = Array(dr_row['-pub_date_facet']).include?('[* TO *]') # Missing Publication Year
+    # Missing Publication Year (-pub_date_facet)
+    no_date = Array(dr_row['-pub_date_facet']).include?('[* TO *]')
     if no_date
-      dr_row.each_with_index do |(facet_key, _values), row_index|
-        next unless no_date && facet_key == "-pub_date_facet"
-        label = facet_label_for(facet_key)
-        chip  = mk_chip(label, mk_value("Missing"))
-        row_index.zero? ? filters_nodes << chip : filters_nodes << pair_with_boolean('AND', chip)
-      end
+      label = facet_label_for('-pub_date_facet')
+      chip = mk_chip(label, mk_value('Missing'))
+      filters_nodes << chip
     end
 
+    # Other exclusive facets
     if f_row.present?
-      first = true
+      first = filters_nodes.empty?
       f_row.each do |facet_key, values|
-        Array(values).each do |raw_val|
+        Array(values).reject(&:blank?).each do |raw_val|
           label = facet_label_for(facet_key)
           val   = facet_value_label_for(facet_key, raw_val)
           chip  = mk_chip(label, mk_value(val))
-          first ? (filters_nodes << chip; first = false) : filters_nodes << pair_with_boolean('AND', chip)
+          if first
+            filters_nodes << chip
+            first = false
+          else
+            filters_nodes << pair_with_boolean('AND', chip)
+          end
         end
       end
     end
@@ -108,89 +111,9 @@ module SearchHistoryHelper
   # ============================================================================
   # Builds formatted search URL from session params
   # ----------------------------------------------------------------------------
-  def build_search_history_url(params, search_type)
-    base_path   = 'catalog'
-    sort_param  = params[:sort].presence || 'score desc, pub_date_sort desc, title_sort asc'
-    query       = { only_path: true, utf8: '✓', sort: sort_param }
-
-    q_row       = params[:q_row] || [params[:q]].compact
-    sf_row      = params[:search_field_row] || [params[:search_field]].compact
-    op_row      = params[:op_row] || ['AND']
-    b_row       = params[:boolean_row] || {}
-    dr_row      = params[:range] || {}
-    f_row       = params[:f] || {}
-    f_inclusive = params[:f_inclusive] || {}
-
-
-    if search_type == :advanced
-      query[:q_row], query[:op_row], query[:search_field_row] = [], [], []
-      query[:advanced_query]   = 'yes'
-      query[:omit_keys]        = ['page']
-      query[:params]           = { advanced_query: 'yes' }
-      query[:search_field]     = 'advanced'
-      query[:commit]           = 'Search'
-    end
-
-    # Query --------------------------------------------------------------------
-    boolean_row_hash = {}
-
-    q_row.each_with_index do |q, index|
-      next if q.blank?
-      if search_type == :advanced
-        query[:q_row]            << q
-        query[:op_row]           << op_row[index]
-        query[:search_field_row] << (sf_row[index] || 'all_fields')
-        boolean_row_hash[index] = b_row[index.to_s.to_sym].presence if index.positive?
-      else
-        # Basic search: single q + field
-        query[:q] = q
-        query[:search_field] = (sf_row[index] || 'all_fields')
-      end
-    end
-    query[:boolean_row] = boolean_row_hash if boolean_row_hash.present?
-
-    # Filters ------------------------------------------------------------------
-    unless f_row.blank?
-      query[:f] = {}
-      f_row.each do |key, values|
-        vals = Array(values).reject(&:blank?)
-        query[:f][key] = vals if vals.any?
-      end
-      query.delete(:f) if query[:f].blank?
-    end
-
-    # Inclusive Filters --------------------------------------------------------
-    unless f_inclusive.blank?
-      query[:f_inclusive] = {}
-      f_inclusive.each do |key, values|
-        vals = Array(values).reject(&:blank?)
-        query[:f_inclusive][key] = vals if vals.any?
-      end
-      query.delete(:f_inclusive) if query[:f_inclusive].blank?
-    end
-
-    # Dates --------------------------------------------------------------------
-    # No dates facet
-    if dr_row['-pub_date_facet'].present?
-      query[:range] ||= {}
-      query[:range]['-pub_date_facet'] = Array(dr_row['-pub_date_facet']).reject(&:blank?)
-    end
-
-    # Date range facets
-    if dr_row.present? && dr_row[:pub_date_facet].is_a?(Hash)
-      begin_val = dr_row[:pub_date_facet][:begin]
-      end_val   = dr_row[:pub_date_facet][:end]
-      if begin_val.present? || end_val.present?
-        query[:range] ||= {}
-        query[:range][:pub_date_facet] = {}
-        query[:range][:pub_date_facet][:begin] = begin_val if begin_val.present?
-        query[:range][:pub_date_facet][:end]   = end_val   if end_val.present?
-      end
-    end
-
-    "#{base_path}?#{query.to_query}" # Search URL with query params
+  def build_search_history_url(params)
+    search_catalog_path(search_state.reset(params).to_hash)
   end
-
 
 
   private

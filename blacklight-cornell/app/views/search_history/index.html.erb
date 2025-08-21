@@ -13,11 +13,10 @@
   <table class="table table-striped search-history">
     <%- @searches.each_with_index do |search, index| -%>
       <% params = search.query_params %>
-      <% search_type = (params['q_row'].present? || params['advanced_query'] == 'yes') ? :advanced : :basic %>
       <!-- display basic or advanced searches -->
       <%= content_tag :tr, id: "document_#{index + 1}" do %>
         <td class="query">
-          <span><%= link_to_custom_search_history_link(params, search_type) %></span>
+          <span><%= link_to_custom_search_history_link(params) %></span>
         </td>
       <% end %>
     <%- end -%>
