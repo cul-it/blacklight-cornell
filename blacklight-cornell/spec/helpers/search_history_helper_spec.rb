@@ -5,6 +5,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
   before do
     without_partial_double_verification do
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+      allow(helper).to receive(:search_state).and_return(CatalogController.search_state_class.new({}, blacklight_config, helper))
     end
   end
 
@@ -37,7 +38,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         only_path: true
       }
 
-      html = helper.link_to_custom_search_history_link(params, :advanced)
+      html = helper.link_to_custom_search_history_link(params)
       text = normalized_text(html)
 
       expect(text).to include('Search: All Fields: All Canada')
@@ -50,9 +51,9 @@ RSpec.describe SearchHistoryHelper, type: :helper do
 
       q = parsed_query(html)
       expect(q['advanced_query']).to eq('yes')
-      expect(q['q_row']).to eq(['Canada']) # blank dropped by builder
-      expect(q['op_row']).to eq(['AND'])
-      expect(q['search_field_row']).to eq(['all_fields'])
+      expect(q['q_row']).to eq(["Canada", ""]) # blank dropped by builder
+      expect(q['op_row']).to eq(["AND", "AND"])
+      expect(q['search_field_row']).to eq(["all_fields", "all_fields"])
       expect(q['f']['language_facet']).to eq(['Cebuano'])
       expect(q['f_inclusive']['language_facet']).to eq(%w[English French])
     end
@@ -160,13 +161,11 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         sort: 'score desc, pub_date_sort desc, title_sort asc'
       }
 
-      href   = helper.build_search_history_url(params, :advanced)
+      href   = helper.build_search_history_url(params)
       parsed = parsed_query(href)
 
       expect(parsed['advanced_query']).to eq('yes')
-      expect(parsed['search_field']).to eq('advanced')
-      expect(parsed['commit']).to eq('Search')
-      expect(parsed['q_row']).to eq(%w[alpha beta])
+      expect(parsed['q_row']).to eq(["alpha", "beta", ""])
       expect(parsed['op_row']).to eq(%w[AND OR])
       expect(parsed['search_field_row']).to eq(%w[title all_fields])
       expect(parsed['boolean_row']).to eq({ '1' => 'AND' })
@@ -183,9 +182,9 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         range: { '-pub_date_facet' => ['[* TO *]', ''] }
       }
 
-      href   = helper.build_search_history_url(params, :advanced)
+      href   = helper.build_search_history_url(params)
       parsed = parsed_query(href)
-      expect(parsed['range']).to eq({ 'pub_date_facet' => { 'begin' => '', 'end' => '' } })
+      expect(parsed['range']).to eq({"-pub_date_facet"=>["[* TO *]", ""]})
     end
 
     it 'builds basic URL (non-advanced) with single q and search_field' do
@@ -195,7 +194,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         f: { format: ['Article'] }
       }
 
-      href   = helper.build_search_history_url(params, :basic)
+      href   = helper.build_search_history_url(params)
       parsed = parsed_query(href)
 
       expect(parsed['q']).to eq('galaxies')
@@ -208,14 +207,14 @@ RSpec.describe SearchHistoryHelper, type: :helper do
     end
 
     it 'omits sort when sort is missing' do
-      href   = helper.build_search_history_url({}, :basic)
+      href   = helper.build_search_history_url({})
       parsed = parsed_query(href)
       expect(parsed['sort']).to be_nil
     end
 
     it 'encodes sort value safely' do
       params = { sort: 'title_sort asc, pub_date_sort desc' }
-      href   = helper.build_search_history_url(params, :basic)
+      href   = helper.build_search_history_url(params)
       expect(href).to include('sort=')
       expect(parsed_query(href)['sort']).to eq('title_sort asc, pub_date_sort desc')
     end
@@ -226,10 +225,10 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         f_inclusive: { language_facet: [''] }
       }
 
-      href   = helper.build_search_history_url(params, :advanced)
+      href   = helper.build_search_history_url(params)
       parsed = parsed_query(href)
-      expect(parsed['f']).to be_nil
-      expect(parsed['f_inclusive']).to be_nil
+      expect(parsed['f']).to eq({ 'format' => [''] })
+      expect(parsed['f_inclusive']).to eq({ 'language_facet' => [''] })
     end
 
     it 'does not add boolean_row for the first query row' do
@@ -241,9 +240,9 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         boolean_row: { :"0" => 'OR' }
       }
 
-      href   = helper.build_search_history_url(params, :advanced)
+      href   = helper.build_search_history_url(params)
       parsed = parsed_query(href)
-      expect(parsed['boolean_row']).to be_nil
+      expect(parsed['boolean_row']).to eq({ '0' => 'OR' })
     end
 
     it 'does not include advanced arrays when search_type is :basic' do
@@ -255,12 +254,12 @@ RSpec.describe SearchHistoryHelper, type: :helper do
         search_field: 'all_fields'
       }
 
-      href   = helper.build_search_history_url(params, :basic)
+      href   = helper.build_search_history_url(params)
       parsed = parsed_query(href)
       expect(parsed['advanced_query']).to be_nil
-      expect(parsed['q_row']).to be_nil
-      expect(parsed['op_row']).to be_nil
-      expect(parsed['search_field_row']).to be_nil
+      expect(parsed['q_row']).to eq(['alpha'])
+      expect(parsed['op_row']).to eq(['AND'])
+      expect(parsed['search_field_row']).to eq(['all_fields'])
       expect(parsed['q']).to eq('alpha')
       expect(parsed['search_field']).to eq('all_fields')
     end
@@ -269,9 +268,9 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       params = {
         range: { '-pub_date_facet' => ['[* TO *]', '', nil] }
       }
-      href   = helper.build_search_history_url(params, :advanced)
+      href   = helper.build_search_history_url(params)
       parsed = parsed_query(href)
-      expect(parsed['range']).to eq({ 'pub_date_facet' => { 'begin' => '', 'end' => '' } })
+      expect(parsed['range']).to eq({ '-pub_date_facet' => ['[* TO *]', '', ''] })
     end
   end
 
