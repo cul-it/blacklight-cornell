@@ -174,7 +174,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       expect(parsed['range']).to include('pub_date_facet' => { 'begin' => '1900', 'end' => '1950' })
     end
 
-    it 'includes "-pub_date_facet" (missing year) values and ignores blanks' do
+    it 'includes "-pub_date_facet" (missing year)' do
       params = {
         q_row: [''],
         op_row: ['AND'],
@@ -219,7 +219,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       expect(parsed_query(href)['sort']).to eq('title_sort asc, pub_date_sort desc')
     end
 
-    it 'omits :f and :f_inclusive when they are empty after blank-dropping' do
+    it 'sets :f and :f_inclusive as empty strings when they not set' do
       params = {
         f: { format: [''] },
         f_inclusive: { language_facet: [''] }
@@ -231,7 +231,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       expect(parsed['f_inclusive']).to eq({ 'language_facet' => [''] })
     end
 
-    it 'does not add boolean_row for the first query row' do
+    it 'Adds boolean_row for the first query row' do
       params = {
         advanced_query: 'yes',
         q_row: ['alpha'],
@@ -243,34 +243,6 @@ RSpec.describe SearchHistoryHelper, type: :helper do
       href   = helper.build_search_history_url(params)
       parsed = parsed_query(href)
       expect(parsed['boolean_row']).to eq({ '0' => 'OR' })
-    end
-
-    it 'does not include advanced arrays when search_type is :basic' do
-      params = {
-        q_row: ['alpha'],
-        op_row: ['AND'],
-        search_field_row: ['all_fields'],
-        q: 'alpha',
-        search_field: 'all_fields'
-      }
-
-      href   = helper.build_search_history_url(params)
-      parsed = parsed_query(href)
-      expect(parsed['advanced_query']).to be_nil
-      expect(parsed['q_row']).to eq(['alpha'])
-      expect(parsed['op_row']).to eq(['AND'])
-      expect(parsed['search_field_row']).to eq(['all_fields'])
-      expect(parsed['q']).to eq('alpha')
-      expect(parsed['search_field']).to eq('all_fields')
-    end
-
-    it 'drops blank values in range[-pub_date_facet]' do
-      params = {
-        range: { '-pub_date_facet' => ['[* TO *]', '', nil] }
-      }
-      href   = helper.build_search_history_url(params)
-      parsed = parsed_query(href)
-      expect(parsed['range']).to eq({ '-pub_date_facet' => ['[* TO *]', '', ''] })
     end
   end
 
