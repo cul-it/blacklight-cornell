@@ -6,9 +6,8 @@ module SearchHistoryHelper
   # ----------------------------------------------------------------------------
   def link_to_custom_search_history_link(params, search_type)
     query_texts = build_search_query_tags(params)
-    link_to(build_search_history_url(params, search_type)) do
-      content_tag(:div, safe_join(query_texts, ' '),
-                  class: 'constraint custom-search-history-link')
+    link_to(build_search_history_url(params)) do
+      content_tag(:div, safe_join(query_texts, ' '), class: 'constraint custom-search-history-link')
     end
   end
 
@@ -112,93 +111,9 @@ module SearchHistoryHelper
   # ============================================================================
   # Builds formatted search URL from session params
   # ----------------------------------------------------------------------------
-  def build_search_history_url(params, search_type)
-    query        = { }
-    base_path    = 'catalog'
-    query[:sort] = params[:sort] if params[:sort].present?
-    query[:utf8] = params[:utf8] if params[:utf8].present?
-    q_row        = params[:q_row] || [params[:q]].compact
-    sf_row       = params[:search_field_row] || [params[:search_field]].compact
-    op_row       = params[:op_row] || ['AND']
-    b_row        = params[:boolean_row] || {}
-    dr_row       = params[:range] || {}
-    f_row        = params[:f] || {}
-    f_inclusive  = params[:f_inclusive] || {}
-
-    if search_type == :advanced
-      query[:q_row], query[:op_row], query[:search_field_row] = [], [], []
-      query[:advanced_query] = 'yes'
-      query[:search_field]   = 'advanced'
-      query[:commit]         = 'Search'
-      query.delete(:q)
-    end
-
-    # Query --------------------------------------------------------------------
-    boolean_row_hash = {}
-    q_row.each_with_index do |q, index|
-      next if q.blank?
-      if search_type == :advanced
-        query[:q_row]            << q
-        query[:op_row]           << op_row[index]
-        query[:search_field_row] << (sf_row[index] || 'all_fields')
-        boolean_row_hash[index] = b_row[index.to_s.to_sym].presence if index.positive?
-      else
-        # Basic search: single q + field
-        query[:q] = q
-        query[:search_field] = (sf_row[index] || 'all_fields')
-      end
-    end
-    query[:boolean_row] = boolean_row_hash if boolean_row_hash.present?
-
-    # Filters ------------------------------------------------------------------
-    unless f_row.blank?
-      query[:f] = {}
-      f_row.each do |key, values|
-        vals = Array(values).reject(&:blank?)
-        query[:f][key] = vals if vals.any?
-      end
-      query.delete(:f) if query[:f].blank?
-    end
-
-    # Inclusive Filters --------------------------------------------------------
-    unless f_inclusive.blank?
-      query[:f_inclusive] = {}
-      f_inclusive.each do |key, values|
-        vals = Array(values).reject(&:blank?)
-        query[:f_inclusive][key] = vals if vals.any?
-      end
-      query.delete(:f_inclusive) if query[:f_inclusive].blank?
-    end
-
-    # Dates --------------------------------------------------------------------
-    # No dates facet
-    if dr_row['-pub_date_facet'].present?
-      query[:range] ||= {}
-      query[:range]['-pub_date_facet'] = Array(dr_row['-pub_date_facet']).reject(&:blank?)
-    end
-
-    # Date range facets
-    pub_date_facet = dr_row[:pub_date_facet]         || {}
-    begin_val      = pub_date_facet[:begin].presence || ""
-    end_val        = pub_date_facet[:end].presence   || ""
-
-    if search_type == :advanced
-      query[:range] = { pub_date_facet: { begin: begin_val, end: end_val } }
-    else
-      query[:range] = { pub_date_facet: { begin: begin_val, end: end_val } } if begin_val.present? && end_val.present?
-    end
-
-    # Build Query String -------------------------------------------------------
-    advanced_params = [:utf8, :q_row, :op_row, :search_field_row, :boolean_row, :range,:sort, :search_field, :advanced_query, :commit, :f, :f_inclusive]
-    basic_params    = [:utf8, :q, :search_field, :f, :f_inclusive, :range, :sort]
-    desired_order   = search_type == :advanced ? advanced_params : basic_params
-
-    ordered_query = {}
-    desired_order.each { |k| ordered_query[k] = query[k] if query.key?(k) }
-
-    "#{base_path}?#{ordered_query.to_query}" # Search URL with ordered query params
+  def build_search_history_url(params)
+    search_catalog_path(search_state.reset(params).to_hash)
   end
-
 
 
   private
