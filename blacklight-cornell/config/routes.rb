@@ -218,7 +218,6 @@ BlacklightCornell::Application.routes.draw do
   #  get 'book_bags' => 'book_bags#index'
 
   scope 'aeon', as: 'aeon' do
-    match 'boom' => 'aeon#boom', :as => 'boom', via: [:get, :post]
     match 'reading_room_request/:id',
           to: 'aeon#reading_room_request',
           as: 'reading_room_request',
@@ -226,10 +225,7 @@ BlacklightCornell::Application.routes.draw do
           # (But do we really need that sort of :id for a reading room request? I'm not sure.)
           constraints: { id: /.+/ },
           via: [:get, :put]
-    match 'aeon_login' => 'aeon#aeon_login', :as => 'aeon_login', via: [:get, :post]
-    match 'new_aeon_login' => 'aeon#new_aeon_login', :as => 'new_aeon_login', via: [:get, :post, :put]
-    match 'redirect_shib' => 'aeon#redirect_shib', :as => 'redirect_shib', via: [:get, :post]
-    match 'redirect_nonshib' => 'aeon#redirect_nonshib', :as => 'redirect_nonshib', via: [:get, :post]
+    
     get 'request_aeon/:id' => 'aeon#request_aeon', :as => 'request_aeon', :constraints => { id: /.+/ }
     get 'scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_aeon', :constraints => { id: /.+/ }
   end

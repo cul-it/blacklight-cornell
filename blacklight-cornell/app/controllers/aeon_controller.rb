@@ -10,10 +10,6 @@ class AeonController < ApplicationController
 
   def index; end
 
-  def aeon_login; end
-
-  def new_aeon_login; end
-
   def reading_room_request
     set_variables
   end
@@ -38,13 +34,4 @@ class AeonController < ApplicationController
     session[:current_user_id] = 1
   end
 
-  def login
-    'woops'
-  end
-
-  def redirect_nonshib; end
-
-  def boom; end
-
-  def redirect_shib; end
 end
