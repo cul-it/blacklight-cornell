@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 43127a142f8d689f5d834f31c473ffa0535d7537
-  tag: v5.2
+  revision: 6ffec662ecdb51961a1f03c4f9327257a99d20a3
+  tag: v5.3
   specs:
-    blacklight_cornell_requests (5.2)
+    blacklight_cornell_requests (5.3)
       activerecord-oracle_enhanced-adapter
       blacklight
       dotenv
@@ -39,10 +39,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 817e294b512e8bdeb2d5af26768d66d2b21610fa
-  tag: v2.3.6
+  revision: d969bd4d40a3b5e93d2dc8c75df60ca2589feecf
+  tag: v2.3.7
   specs:
-    my_account (2.3.6)
+    my_account (2.3.7)
       blacklight (>= 7.0)
       cul-folio-edge (~> 3.2)
       rails (~> 6.1)
