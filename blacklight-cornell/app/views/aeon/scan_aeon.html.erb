@@ -59,7 +59,6 @@
 					</div>
 				</div>
 
-				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
 				<% holdings = JSON.parse(@document['holdings_json']) %>
 				<% rmc_site = true %>
 				<% holdings.each do |_, holding| %>

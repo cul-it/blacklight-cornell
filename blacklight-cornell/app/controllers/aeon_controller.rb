@@ -30,7 +30,6 @@ class AeonController < ApplicationController
     'Your invoice will include information on how to pay for your order. You must pre-pay; ' \
     'staff cannot fulfill your request until you pay the charges.'
     @aeon_request = AeonRequest.new(@document)
-    @form_source = params[:form_source] || 'aeon'
     session[:current_user_id] = 1
   end
 

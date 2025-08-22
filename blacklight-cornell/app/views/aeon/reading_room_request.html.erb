@@ -56,8 +56,6 @@
 					</div>
 				</div>
 			
-				<% @form_source = @form_source.include?("aeon") ? "aeon" : @form_source.include?("nonshib") ? "nonshib" : @form_source %>
-			
 				<form id="RequestForm" method="POST" accept-charset="UTF-8"
 					action="https://rmc-aeon.library.cornell.edu/logon">
 					<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
