@@ -1,4 +1,4 @@
-# froozen_string_literal: true
+# frozen_string_literal: true
 module CornellCatalogHelper
  require "pp"
  require "maybe"

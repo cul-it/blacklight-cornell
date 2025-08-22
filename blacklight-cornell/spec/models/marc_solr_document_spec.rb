@@ -20,15 +20,15 @@ def marc_from_xml(string)
   reader.each { |rec| return rec }
 end
 
-describe Blacklight::Solr::Document::MarcExport do
+describe Blacklight::Document::MarcExport do
   class MockMarcDocument < SolrDocument
     include Blacklight::Solr::Document
     include Blacklight::Document::Extensions
-    include Blacklight::Solr::Document::MarcExport
-    include Blacklight::Solr::Document::Endnote
-    include Blacklight::Solr::Document::RIS
-    include Blacklight::Solr::Document::Endnote_xml
-    include Blacklight::Solr::Document::Zotero
+    include Blacklight::Document::MarcExport
+    include Blacklight::Document::Endnote
+    include Blacklight::Document::RIS
+    include Blacklight::Document::EndnoteXml
+    include Blacklight::Document::Zotero
     #extension_parameters[:marc_source_field] = :marc_display
     #extension_parameters[:marc_format_type] = :marcxml
 
@@ -100,7 +100,7 @@ describe Blacklight::Solr::Document::MarcExport do
     @book_recs = {}
     # descriptive strings from the csl files.
     dclass = MockMarcDocument
-    dclass.use_extension(Blacklight::Solr::Document::Endnote)
+    dclass.use_extension(Blacklight::Document::Endnote)
     ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
            "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
            "8392067", "8696757", "8867518", "8632993", "9305118", "9448862", "9496646", "9939352", "10055679"]

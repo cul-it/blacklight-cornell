@@ -1,3 +1,7 @@
+require_relative '../../app/services/catalog_solr'
+require_relative '../../app/services/repositories_solr'
+require_relative '../../app/services/folio_patron'
+
 StatusPage.configure do
   # Cache check status result 10 seconds
   self.interval = 10

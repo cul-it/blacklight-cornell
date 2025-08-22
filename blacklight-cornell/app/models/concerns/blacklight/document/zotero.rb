@@ -1,10 +1,10 @@
 # This module registers the ZOTERO RDF export format with the system so that
 # we can offer export the option of direct export to  Zotero.
-module Blacklight::Solr::Document::Zotero
+module Blacklight::Document::Zotero
 
   def self.extended(document)
     # Register our exportable formats
-    Blacklight::Solr::Document::Zotero.register_export_formats( document )
+    Blacklight::Document::Zotero.register_export_formats( document )
   end
 
   def self.register_export_formats(document)

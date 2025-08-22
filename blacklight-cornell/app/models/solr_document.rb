@@ -1,11 +1,11 @@
-# froozen_string_literal: true
+# frozen_string_literal: true
 class SolrDocument
 
   include Blacklight::Solr::Document    
       # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_display
   extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Solr::Document::Marc) do |document|
+  use_extension( Blacklight::Marc) do |document|
     document.key?( :marc_display  )
   end
   
@@ -20,9 +20,9 @@ class SolrDocument
       # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_display
   extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Solr::Document::Marc) do |document|
-    document.key?( :marc_display  )
-  end
+  # use_extension( Blacklight::Marc) do |document|
+  #   document.key?( :marc_display  )
+  # end
 
   field_semantics.merge!(
                          :title => "title_display",
@@ -48,10 +48,10 @@ class SolrDocument
   # Recommendation: Use field names from Dublin Core
   use_extension( Blacklight::Document::DublinCore)
 # all of these require MARC format data.
-  use_extension( Blacklight::Solr::Document::RIS )
-  use_extension( Blacklight::Solr::Document::Zotero )
-  use_extension( Blacklight::Solr::Document::Endnote )
-  use_extension( Blacklight::Solr::Document::Endnote_xml )
+  use_extension( Blacklight::Solr::RIS )
+  use_extension( Blacklight::Solr::Zotero )
+  use_extension( Blacklight::Solr::Endnote )
+  use_extension( Blacklight::Solr::Endnote_xml )
 
   # i believe that the 520 should be interpreted as ABSTRACT
   # only when indicator1 is "3", but indicator seems to be rarely present.
