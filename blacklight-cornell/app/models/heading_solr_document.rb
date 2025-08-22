@@ -1,5 +1,5 @@
 class HeadingSolrDocument
-  include Blacklight::Solr::Document
+  include ::Blacklight::Solr::Document
 
   def type
     type_for_desc(fetch('headingTypeDesc', ''))

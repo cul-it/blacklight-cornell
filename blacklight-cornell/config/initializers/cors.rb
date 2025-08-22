@@ -5,4 +5,10 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
+
+  allow do
+    origins "https://amplify-pages.d277og7fvixi1h.amplifyapp.com", "*.library.cornell.edu"
+    resource "/status", headers: :any, methods: [:get]
+    resource '/status.json', headers: :any, methods: [:get]
+  end
 end
