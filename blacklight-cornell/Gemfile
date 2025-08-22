@@ -37,7 +37,7 @@ gem "libv8-node"
 gem "marc"
 gem "mini_racer", "0.6.2", platforms: :ruby
 gem "net-smtp"
-gem "nokogiri", "~> 1.16.7"
+gem "nokogiri", "~> 1.18.9"
 gem "omniauth", "~> 2.0"
 gem "omniauth-saml", "~> 2.2"
 gem "omniauth-rails_csrf_protection"
