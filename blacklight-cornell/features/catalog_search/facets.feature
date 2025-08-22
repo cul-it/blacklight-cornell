@@ -70,8 +70,8 @@ Feature: Facets
 
 	Examples:
 		| begin | end | count |
-		| -1 | 2010 | 187 |
-		| 1910 | -4 | 24 |
+		| nil | 2010 | 187 |
+		| 1910 | nil | 24 |
 		| 1966 | 1800 | 2 |
 
 	@DACCESS-215

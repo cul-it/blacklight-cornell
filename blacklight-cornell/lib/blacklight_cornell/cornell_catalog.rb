@@ -558,11 +558,11 @@ private
     end_year = Integer(pub_date_facet[:end]) rescue nil
     if unknown_pub_date_facet.present? || pub_date_facet[:missing].present? || (pub_date_facet[:begin].blank? && pub_date_facet[:end].blank?)
       alert
-    elsif begin_year.blank? || begin_year.negative?
+    elsif begin_year.blank?
       alert = 'begin'
-    elsif end_year.blank? || end_year.negative?
+    elsif end_year.blank?
       alert = 'end'
-    elsif begin_year >= end_year
+    elsif begin_year > end_year
       alert = 'order'
     end
     return alert
