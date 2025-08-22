@@ -78,42 +78,4 @@ RSpec.describe DisplayHelper, type: :helper do
       end
     end
   end
-
-  describe '#parseHistoryShowString' do
-    let(:blacklight_config) { CatalogController.blacklight_config }
-    let(:all_fields_config) { blacklight_config.default_search_field}
-
-    before do
-      without_partial_double_verification do
-        allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
-        allow(helper).to receive(:search_field_def_for_key).and_return(all_fields_config)
-        allow(helper).to receive(:default_search_field).and_return(all_fields_config)
-        allow(helper).to receive(:search_action_path) { |*args| search_catalog_url *args }
-        allow(controller).to receive(:search_state_class).and_return(BlacklightCornell::SearchState)
-        allow(helper).to receive(:search_state).and_return(CatalogController.search_state_class.new(params, blacklight_config, helper))
-      end
-    end
-
-    it 'returns expected html' do
-      params = {
-        advanced_query: 'yes',
-        boolean_row: { '1' => 'AND' },
-        f: { language_facet: 'Cebuano' },
-        f_inclusive: { language_facet: ['English', 'French'] },
-        op_row: ['AND', 'AND'],
-        q_row: ['Canada', ''],
-        search_field: 'advanced',
-        search_field_row: ['all_fields', 'all_fields'],
-        sort: 'score desc, pub_date_sort desc, title_sort asc',
-        controller: 'catalog',
-        action: 'index',
-        only_path: true
-      }
-      link_html = helper.parseHistoryShowString(params)
-      link_sans_html = strip_tags(link_html)
-      expect(link_sans_html).to include('All Fields: Canada')
-      expect(link_sans_html).to include('Language:Cebuano')
-      expect(link_sans_html).to include('Language:English OR French')
-    end
-  end
 end

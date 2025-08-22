@@ -17,6 +17,33 @@ class CatalogController < ApplicationController
     #prepend_before_action :set_return_path
   end
 
+
+  # ============================================================================
+  # Determines if a new search session should be saved to search history
+  # Advanced: true if any q_row has text, or a full date range is set, or
+  #           language facet is present, or any inclusive facets are present.
+  # Basic:    true if query (q) is present or any facet (f) is present.
+  # ----------------------------------------------------------------------------
+  def start_new_search_session?
+    return false unless action_name == 'index'
+
+    # Validate date range first; if invalid, don't start/save a session
+    if params[:range].present?
+      begin
+        check_dates(params)
+      rescue ArgumentError
+        return false
+      end
+    end
+
+    query_present     = search_state.query_param.present?
+    adv_query_present = !!search_state.advanced_query_param&.any?(&:present?)
+    filters_present   = search_state.filters.present?
+
+    # Start a new record if any constraint is present
+    query_present || adv_query_present || filters_present
+  end
+
   #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
@@ -242,7 +269,7 @@ class CatalogController < ApplicationController
 
    config.facet_display = {
      :hierarchy => {
-       'lc_callnum' => [['facet'], ':'],
+       'lc_callnum' => [['facet'], ' > '],
        'location' => [[nil],' > ']
      }
  }
@@ -360,7 +387,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'issued_with_display', :label => 'Issued with'
     config.add_show_field 'separated_from_display', :label => 'Separated from'
     config.add_show_field 'cast_display', :label => 'Cast'
-    config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'notes_display', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
@@ -853,15 +880,9 @@ class CatalogController < ApplicationController
 end
 
 def tou
-    clnt = HTTPClient.new
-    #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
-    solr = Blacklight.connection_config[:url]
-    p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
-    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
-    @dbResponse = JSON.parse(@dbString)
+    @dbResponse = Blacklight.default_index.connection.get('termsOfUse', params: { id: params[:id] })
     @db = @dbResponse['response']['docs'][0]
-    @dbString2 = clnt.get_content("#{solr}/select?qt=search&fl=*&q=id:#{params[:id]}")
-    @dbResponse2 = JSON.parse(@dbString2)
+    @dbResponse2 = Blacklight.default_index.connection.get('select', params: { qt: 'search', fl: '*', q: "id:#{params[:id]}" })
     @db2 = @dbResponse2['response']['docs'][0]
     @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
     if @dbResponse['response']['numFound'] == 0
@@ -916,7 +937,7 @@ def tou
     @newTouResult = []
     # okapi_url = ENV['OKAPI_URL']
     record = eholdings_record(title_id) || []
-    if record
+    if record.present?
       # recordTitle = record["data"]["attributes"]["name"]
       record["included"].each do |package|
         attrs = package['attributes']

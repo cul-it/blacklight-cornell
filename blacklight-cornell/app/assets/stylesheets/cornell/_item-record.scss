@@ -100,7 +100,7 @@ label.toggle_bookmark {
 	margin-right: 1.5em;
 }
 
-dd.blacklight-notes {
+dd.blacklight-notes_display {
 	// -ms-word-break: break-all; - remove this style to fix word wrap bug in IE 8/9/10 (DNA 741)
 	// word-break: break-all; - remove this style to fix word wrap bug in Firefox (DNA 741)
 	/* Non standard for webkit */
@@ -262,9 +262,19 @@ padding-left: 6em;
 }
 // Styles apply to item view and browse pages for Author, Author-Title, Subject
 .info-button {
-	margin-left: .25rem;
-	padding: .1rem .4rem;
+	margin-left: .4rem;
 	font-size: .8rem;
+}
+.info-button.btn-xs {
+	padding: .4rem .3rem .5rem .3rem;
+}
+
+// DACCESS-84: spacing for crowded Work info values + buttons
+.blacklight-included_work_display {
+	.info-button {
+		margin-bottom: .75rem;
+		margin-top: .25rem;
+	}
 }
 
 // Metadata
