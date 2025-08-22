@@ -35,7 +35,7 @@ Examples:
     | databases |
     | databases/subject/History |
     | credits |
-    | myaccount/login |
+    # | myaccount/login |
     | catalog/6417953 |
 
 @javascript

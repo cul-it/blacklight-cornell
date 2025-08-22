@@ -13,8 +13,6 @@ BlacklightCornell::Application.routes.draw do
   #  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
   match "catalog/unapi", :to => "catalog#unapi", :via => [:get]
 
-  Blacklight::Marc.add_routes(self)
-
   root :to => "catalog#index"
 
   mount Blacklight::Engine => "/"
@@ -22,14 +20,18 @@ BlacklightCornell::Application.routes.draw do
 
   concern :searchable, Blacklight::Routes::Searchable.new
   concern :exportable, Blacklight::Routes::Exportable.new
+  concern :marc_viewable, Blacklight::Marc::Routes::MarcViewable.new
 
   resource :catalog, only: [:index], controller: "catalog" do
     concerns :searchable
     concerns :range_searchable
   end
 
-  resources :solr_documents, except: [:index], path: "/catalog", controller: "catalog" do
-    concerns :exportable
+  # Legacy blacklight-marc endpoint for endnote export
+  get "catalog/endnote", :as => "endnote_solr_document"
+
+  resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
+    concerns [:exportable, :marc_viewable]
   end
 
   #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
@@ -232,7 +234,7 @@ BlacklightCornell::Application.routes.draw do
   end
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
-  mount MyAccount::Engine => '/myaccount', :as => 'my_account'
+  # mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 
   get "/status", to: "status#index"
 end

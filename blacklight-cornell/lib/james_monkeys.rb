@@ -5,10 +5,10 @@ class Object
     collection = (args.length == 1 ? args.first : args)
     collection ? collection.include?(self) : false 
   end
-  
+
   alias_method :one_of?, :in?
-  
-  
+
+
   def listify(opts = {})
     case self
     when NilClass
@@ -18,7 +18,7 @@ class Object
     else
       [self]
     end
-      
+
   end
 
   # returns a sorted list of methods that are unique to an object compared to some other object
@@ -57,13 +57,11 @@ class Hash
   def self.arbitrary_depth
     Hash.new(&(p=lambda{|h,k| h[k] = Hash.new(&p)}))
   end
-  
+
   def recursive_symbolize_keys!
     symbolize_keys!
     values.select{|v| v.is_a? Hash}.each{|h| h.recursive_symbolize_keys!}
     self
   end
-  
+
 end
-
-

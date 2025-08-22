@@ -4,7 +4,7 @@
 class TouLookupService
   def initialize(
     solr: Blacklight.default_index.connection,
-    erm_model: ::Erm_data,
+    erm_model: ::ErmData,
     logger: Rails.logger,
     session: nil,
     token_provider: nil
@@ -126,7 +126,7 @@ class TouLookupService
 
   # ==============================================================
   # Resolve TOU using the "database" core by ID.
-  # Extracts db/provider codes and queries Erm_data with fallbacks
+  # Extracts db/provider codes and queries ErmData with fallbacks
   # --------------------------------------------------------------
   def resolve_for_database_tou(id:)
     increment_metric('db_tou')
