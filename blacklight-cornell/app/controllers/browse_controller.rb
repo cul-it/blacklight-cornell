@@ -164,13 +164,13 @@ class BrowseController < ApplicationController
     ''
   end
 
- def get_formats(query)
+  def get_formats(query)
     browse_fields = @heading_document.browse_fields
     if browse_fields.empty?
       {}
     else
       query = browse_fields.map { |field| "#{field}:\"#{query}\"" }.join(' OR ')
-      solr = RSolr.connect :url => ENV['SOLR_URL']
+      solr = Blacklight.default_index.connection
       solr_response = solr.get 'select',
         :params => {
           :q => query,

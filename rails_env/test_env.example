@@ -6,7 +6,7 @@ MYSQL_HOST=mysql
 MYSQL_DATABASE=blacklightcornell
 MYSQL_PASSWORD=test
 MYSQL_USERNAME=root
-SOLR_URL=http://SOLR_URL_HERE
+SOLR_URL=http://user:pass@SOLR_URL_HERE
 
 
 # Allows use of ConsoleColors module and it's colorful log methods

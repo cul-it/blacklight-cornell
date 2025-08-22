@@ -269,7 +269,7 @@ class CatalogController < ApplicationController
 
    config.facet_display = {
      :hierarchy => {
-       'lc_callnum' => [['facet'], ':'],
+       'lc_callnum' => [['facet'], ' > '],
        'location' => [[nil],' > ']
      }
  }
@@ -387,7 +387,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'issued_with_display', :label => 'Issued with'
     config.add_show_field 'separated_from_display', :label => 'Separated from'
     config.add_show_field 'cast_display', :label => 'Cast'
-    config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'notes_display', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
@@ -880,15 +880,9 @@ class CatalogController < ApplicationController
 end
 
 def tou
-    clnt = HTTPClient.new
-    #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
-    solr = Blacklight.connection_config[:url]
-    p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
-    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
-    @dbResponse = JSON.parse(@dbString)
+    @dbResponse = Blacklight.default_index.connection.get('termsOfUse', params: { id: params[:id] })
     @db = @dbResponse['response']['docs'][0]
-    @dbString2 = clnt.get_content("#{solr}/select?qt=search&fl=*&q=id:#{params[:id]}")
-    @dbResponse2 = JSON.parse(@dbString2)
+    @dbResponse2 = Blacklight.default_index.connection.get('select', params: { qt: 'search', fl: '*', q: "id:#{params[:id]}" })
     @db2 = @dbResponse2['response']['docs'][0]
     @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
     if @dbResponse['response']['numFound'] == 0
