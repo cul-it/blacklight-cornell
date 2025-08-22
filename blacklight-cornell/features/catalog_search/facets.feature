@@ -44,8 +44,8 @@ Feature: Facets
 
 	Examples:
 		| category | facet | count |
-		| Publication Year | [Missing] | 3 |
-		| Library Location | Adelson Library | 2 |
+		| Publication Year | [Missing] | 5 |
+		| Library Location | Lab of Ornithology | 1 |
 		| Call Number | A - General | 8 |
 
 	@DISCOVERYACCESS-7855

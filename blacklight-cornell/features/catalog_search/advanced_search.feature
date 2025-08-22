@@ -392,7 +392,7 @@ Feature: Search
     Then click on first link "Title: All beef AND Title: All 100%"
     And I should see the label '1 - '
     Then I remove facet constraint "beef"
-    And I should see the label '1 - 5 of'
+    And I should see the label '1 - 6 of'
 
  @adv_search
  @all_search
@@ -488,8 +488,8 @@ Examples:
   | AND | 1 | All Fields | complete | fire |
   | NOT | 4 | All Fields | complete | fire |
   | AND | 1 | Title | 100 | match |
-  | OR | 6 | Title | 100 | match |
-  | NOT | 4 | Title | 100 | match |
+  | OR | 7 | Title | 100 | match |
+  | NOT | 5 | Title | 100 | match |
   | NOT | 1 | Title | match | 100 |
 
 @DACCESS-174
