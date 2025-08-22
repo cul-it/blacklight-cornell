@@ -886,13 +886,13 @@ def tou
             l = JSON.parse(link)
             if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]
                 @defaultRightsText = ''
-                @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
+                @ermDBResult = ::ErmData.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
                 if @ermDBResult.size < 1
-                   @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Prevailing: 'true')
+                   @ermDBResult = ::ErmData.where(SSID: l["ssid"], Provider_Code: l["providercode"], Prevailing: 'true')
                    if @ermDBResult.size < 1
-                      @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
+                      @ermDBResult = ::ErmData.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
                       if @ermDBResult.size < 1
-                         @ermDBResult = ::Erm_data.where(Provider_Code: l["providercode"], Prevailing: 'true', Database_Code:  '' )
+                         @ermDBResult = ::ErmData.where(Provider_Code: l["providercode"], Prevailing: 'true', Database_Code:  '' )
                          if @ermDBResult.size < 1
                                   #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
                                   @defaultRightsText = "Use default rights text"
@@ -916,7 +916,7 @@ def tou
             end
             @db = [l]
         end
-    @column_names = ::Erm_data.column_names.collect(&:to_sym)
+    @column_names = ::ErmData.column_names.collect(&:to_sym)
     end
 
   end

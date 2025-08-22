@@ -1,3 +1,6 @@
+# require 'bento_search'
+# $LOAD_PATH.unshift(File.expand_path('app/models', Gem.loaded_specs['bento_search'].full_gem_path))
+
 class BentoSearch::InstitutionalRepositoriesEngine
 
   include BentoSearch::SearchEngine

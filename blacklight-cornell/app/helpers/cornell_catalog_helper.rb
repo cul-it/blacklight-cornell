@@ -1,7 +1,6 @@
-# froozen_string_literal: true
+# frozen_string_literal: true
 module CornellCatalogHelper
  require "pp"
- require "maybe"
  require "htmlentities"
  require "date"
 # require 'pry'
