@@ -192,6 +192,31 @@ RSpec.describe CatalogController, type: :controller do
           expect(assigns(:response).total).to eq(233)
         end
       end
+
+      context 'range provided but missing start date' do
+        it 'returns response with notice' do
+          get :index, params: { q: 'test', search_field: 'all_fields', range: { 'pub_date_facet' => { begin: nil, end: '2000' } } }
+          expect(response).to be_successful
+          expect(request.flash[:notice]).to be_present
+        end
+      end
+  
+      context 'range provided but missing end date' do
+        it 'returns response with notice' do
+          get :index, params: { q: 'test', search_field: 'all_fields', range: { 'pub_date_facet' => { begin: '2000', end: nil } } }
+          expect(response).to be_successful
+          expect(request.flash[:notice]).to be_present
+        end
+      end
+  
+      context 'range provided but in invalid order' do 
+        it 'raises BlacklightRangeLimit::InvalidRange error that redirects to params.except(:range) with notice' do
+          params = { q: 'test', search_field: 'all_fields', range: { 'pub_date_facet' => { begin: '2000', end: '1999' } } }
+          get :index, params: params
+          expect(response).to redirect_to(root_path(params.except(:range)))
+          expect(request.flash[:notice]).to be_present
+        end
+      end
     end
   end
 

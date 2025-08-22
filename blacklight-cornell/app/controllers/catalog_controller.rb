@@ -28,12 +28,8 @@ class CatalogController < ApplicationController
     return false unless action_name == 'index'
 
     # Validate date range first; if invalid, don't start/save a session
-    if params[:range].present?
-      begin
-        check_dates(params)
-      rescue ArgumentError
-        return false
-      end
+    if !params[:range].nil? && check_dates(params)
+      return false
     end
 
     query_present     = search_state.query_param.present?
