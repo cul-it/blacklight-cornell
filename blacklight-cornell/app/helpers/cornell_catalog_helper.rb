@@ -22,7 +22,7 @@ module CornellCatalogHelper
   end
 
   def advanced_search?
-    params[:q_row].present? || params[:f_inclusive].present?
+    params[:q_row].present?
   end
 
   def process_online_title(title)

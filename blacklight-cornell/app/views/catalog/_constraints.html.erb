@@ -7,7 +7,7 @@
         <%= link_to 'Modify advanced search »', url_for(:controller=>"advanced_search", :action=>"edit", :q_row=>params[:q_row], :op_row=>params[:op_row], :search_field_row=>params[:search_field_row], :boolean_row=>params[:boolean_row], :f=>params[:f], :f_inclusive=>params[:f_inclusive], :range=>params[:range]), :class=>"btn btn-search" %>
       </div>
     <% end %>
-  	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn btn-light" %>
+  	<%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink", :class=>"btn" %>
     <span class="constraints-label hidden"><% t('blacklight.search.filters.title') %></span>
     <% if params[:q_row].nil? && params[:f].nil? && params[:f_inclusive].nil? && params[:range].nil? %>
       <% if params[:search_field] && params[:search_field] != 'advanced'%>

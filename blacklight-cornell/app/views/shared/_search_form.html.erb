@@ -111,9 +111,9 @@
     <div class="search-nav col-12 col-lg-5">
       <ul class="nav nav-pills">
         <li>
-          <a id="advanced-search-link" href="/advanced">
+          <%= link_to advanced_search_edit_path(convert_to_advanced_params(params)), id: 'advanced-search-link' do %>
             <i class="fa fa-search" aria-hidden="true"></i>Advanced Search
-          </a>
+          <% end %>
         </li>
       </ul>
     </div>

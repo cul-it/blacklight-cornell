@@ -943,7 +943,7 @@ def tou
     @newTouResult = []
     # okapi_url = ENV['OKAPI_URL']
     record = eholdings_record(title_id) || []
-    if record
+    if record.present?
       # recordTitle = record["data"]["attributes"]["name"]
       record["included"].each do |package|
         attrs = package['attributes']

@@ -3,6 +3,55 @@ require 'rails_helper'
 describe BrowseHelper do
   let(:blacklight_config) { CatalogController.blacklight_config }
 
+  describe '#convert_to_advanced_params' do
+    it 'returns empty hash when params are empty or does not contain relevant keys' do
+      expect(helper.convert_to_advanced_params({})).to eq({})
+      expect(helper.convert_to_advanced_params({ controller: 'catalog' })).to eq({})
+    end
+
+    it 'returns an empty q_row when q and authq are not present' do
+      params = { search_field: 'journaltitle' }
+      expected_params = { q_row: [''], search_field_row: ['journaltitle'] }
+      expect(helper.convert_to_advanced_params(params)).to eq(expected_params)
+    end
+
+    context 'simple search' do
+      it 'converts q to q_row and search_field to search_field_row' do
+        params = { q: 'test query', search_field: 'title' }
+        expected_params = { q_row: ['test query'], search_field_row: ['title'] }
+        expect(helper.convert_to_advanced_params(params)).to eq(expected_params)
+      end
+
+      it 'adds op_row when search_field = title_starts' do
+        params = { q: 'test query', search_field: 'title_starts' }
+        expected_params = { q_row: ['test query'], search_field_row: ['title'], op_row: ['begins_with'] }
+        expect(helper.convert_to_advanced_params(params)).to eq(expected_params)
+      end
+    end
+
+    context 'bento search' do
+      it 'converts q to q_row and sets default search_field' do
+        params = { q: 'test query' }
+        expected_params = { q_row: ['test query'], search_field_row: ['all_fields'] }
+        expect(helper.convert_to_advanced_params(params)).to eq(expected_params)
+      end
+    end
+
+    context 'browse' do
+      it 'converts authq to q_row and browse_type to search_field_row' do
+        params = { authq: 'TP640', browse_type: 'Call-Number' }
+        expected_params = { q_row: ['TP640'], search_field_row: ['lc_callnum'] }
+        expect(helper.convert_to_advanced_params(params)).to eq(expected_params)
+      end
+
+      it 'does not error when invalid browse_type is provided' do
+        params = { authq: 'TP640', browse_type: 'InvalidType' }
+        expected_params = { q_row: ['TP640'], search_field_row: [nil] }
+        expect(helper.convert_to_advanced_params(params)).to eq(expected_params)
+      end
+    end
+  end
+
   describe '#remove_blank_rows' do
     context 'single row query' do
       context 'query is not blank' do
