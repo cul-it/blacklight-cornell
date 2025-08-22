@@ -12,15 +12,19 @@
 #
 
 integration:
+  adapter: solr
   url: <%= ENV['SOLR_URL'] %>
 
 development:
+  adapter: solr
   url: <%= ENV['SOLR_URL'] %>
 
 test: &test
+  adapter: solr
   url: <%= ENV['SOLR_URL'] %>
 
 production:
+  adapter: solr
   url: <%= ENV['SOLR_URL'] %>
 
 #cucumber:
