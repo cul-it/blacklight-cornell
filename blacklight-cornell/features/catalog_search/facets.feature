@@ -36,28 +36,6 @@ Feature: Facets
 		And I should not see a facet called 'Call Number'
 
 	@DISCOVERYACCESS-7221
-		Scenario Outline: Facet counts in search for everything
-		Given I am on the home page
-		And I search for everything
-		#	Then the count for category '<category>' facet '<facet>' should be '<count>'
-		#	And I choose category '<category>' facet '<facet>'
-		#Then I should get <count> results
-
-		#	Examples:
-		#| category | facet | count |
-		#| Access | At the Library  | 181  |
-		#| Format | Book | 166 |
-		#| Author, etc. | Rowling, J. K. | 8 |
-		#| Language | English | 169 |
-		#| Subject | Magic | 8 |
-		#| Subject: Region | United States | 25 |
-		#| Subject: Era | 1900 - 1999 | 5 |
-		#| Genre | Periodicals | 26 |
-		#| Fiction/Non-Fiction | Non-Fiction (books) | 136 |
-		#| Date Acquired | Since last year | 4 |
-
-
-	@DISCOVERYACCESS-7221
 	Scenario Outline: Facet counts in search for everything special
 		Given I am on the home page
 		And I search for everything
@@ -66,8 +44,8 @@ Feature: Facets
 
 	Examples:
 		| category | facet | count |
-		| Publication Year | [Missing] | 3 |
-		| Library Location | Adelson Library | 2 |
+		| Publication Year | [Missing] | 5 |
+		| Library Location | Lab of Ornithology | 1 |
 		| Call Number | A - General | 8 |
 
 	@DISCOVERYACCESS-7855
@@ -76,7 +54,7 @@ Feature: Facets
 		And I search for everything
 		Then I limit the publication year from <begin> to <end>
 		Then I should get <count> results
-		And I should not see 'Publication Year facet out of range'
+		And I should not see 'Publication Year: Please enter'
 
 	Examples:
 		| begin | end | count |
@@ -88,12 +66,12 @@ Feature: Facets
 		Given I am on the home page
 		And I search for everything
 		Then I limit the publication year from <begin> to <end>
-		And I should see 'Publication Year facet out of range'
+		And I should see 'Publication Year: Please enter'
 
 	Examples:
 		| begin | end | count |
-		| -1 | 2010 | 187 |
-		| 1910 | -4 | 24 |
+		| nil | 2010 | 187 |
+		| 1910 | nil | 24 |
 		| 1966 | 1800 | 2 |
 
 	@DACCESS-215
@@ -134,3 +112,27 @@ Feature: Facets
 Scenario: Filtering searches by facets that are not available in the public ui
 	When I literally go to ?f[availability_facet][]=Checked%20out
 	Then I should get 10 results
+
+Scenario: Searching multiple times retains the previous search session's facets
+  When I literally go to ?boolean_row%5B1%5D=AND&f_inclusive%5Bformat%5D%5B%5D=Book&f_inclusive%5Bformat%5D%5B%5D=Journal%2FPeriodical&f_inclusive%5Blanguage_facet%5D%5B%5D=English&f_inclusive%5Blanguage_facet%5D%5B%5D=French&op_row%5B%5D=AND&op_row%5B%5D=AND&q=&q_row%5B%5D=Canada&q_row%5B%5D=&range%5Bpub_date_facet%5D%5Bbegin%5D=1960&range%5Bpub_date_facet%5D%5Bend%5D=2000&search_field=advanced&search_field_row%5B%5D=all_fields&search_field_row%5B%5D=all_fields
+  Then I should get results
+  And it should contain filter "All Fields" with value "Canada"
+  And it should contain filter "Format" with value "Book OR Journal/Periodical"
+  And it should contain filter "Language" with value "English OR French"
+  And I should see the label 'Modify advanced search'
+  And click on first link "Algebras and orders"
+  Then I should see the label 'Algebras and orders'
+  And I fill in the search box with 'beef'
+  And I press 'search'
+  Then I should get results
+  And it should contain filter "All Fields" with value "beef"
+  And it should contain filter "Format" with value "Book OR Journal/Periodical"
+  And it should contain filter "Language" with value "English OR French"
+  And I should not see the label 'Modify advanced search'
+  And I fill in the search box with 'law'
+  And I press 'search'
+  Then I should get results
+  And it should contain filter "All Fields" with value "law"
+  And it should contain filter "Format" with value "Book OR Journal/Periodical"
+  And it should contain filter "Language" with value "English OR French"
+  And I should not see the label 'Modify advanced search'

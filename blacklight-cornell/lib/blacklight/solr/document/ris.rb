@@ -65,12 +65,12 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     # each one is an array. Oddly, though, RIS format doesn't seem to provide
     # for anything except 'author'
     primary_authors = authors[:primary_authors]
-    corp_authors = authors[:corporate_authors]
+    corp_authors = authors[:primary_corporate_authors] + authors[:secondary_corporate_authors]
     editors = authors[:editors]
     if !primary_authors.empty?
       output += "AU  - #{primary_authors[0]}\n"
       if primary_authors.length > 1
-        for i in 1..primary_authors.length
+        for i in 1..(primary_authors.length - 1)
           output += "A#{i}  - #{primary_authors[i]}\n"
         end
       end
@@ -79,7 +79,7 @@ FACET_TO_RIS_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
     if !corp_authors.empty? && editors.empty?
       output += "AU  - #{corp_authors[0]}\n"
       if corp_authors.length > 1
-        for i in 1..corp_authors.length
+        for i in 1..(corp_authors.length - 1)
           output += "A#{i}  - #{corp_authors[i]}\n"
         end
       end

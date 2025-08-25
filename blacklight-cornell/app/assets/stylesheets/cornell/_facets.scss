@@ -217,6 +217,19 @@
 	}
 }
 
+#startOverLink::before {
+	display: inline-block;
+  	text-rendering: auto;
+  	-webkit-font-smoothing: antialiased;
+	font-family: 'FontAwesome';
+	content: '\f0a8';
+	margin-right: .25rem;
+	color: $cornell-primary;
+}
+#startOverLink:hover {
+	background: $light-tan;
+}
+
 // MEDIA QUERIES
 // -------------------------
 

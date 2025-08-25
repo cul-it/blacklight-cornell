@@ -4,7 +4,6 @@ pipeline {
         GIT_ACCESS_TOKEN = credentials('be6a5f7e-d674-4265-bdf9-f20267b9cee3')
         JENKINS_PROJECT = "blacklight-cornell-validate-pull-request"
         STORAGE_URL = "http://digcoll.internal.library.cornell.edu:8080/fcrepo/rest"
-        COLLECTIONS = "development"
         CATALOG = "http://da-prod-solr.library.cornell.edu/solr/blacklight"
         DISPLAY_SOLR_QUERY = 1
         NUM_PROCESSES = "${params.NUM_PROCESSES}"
