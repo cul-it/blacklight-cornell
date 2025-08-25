@@ -42,7 +42,7 @@
 }
 
 // DACCESS-290; label for multiple language values
-#facet-language_facet {
+.facet-limit .inclusive_or {
 	h4 {
 		font-size: 1rem;
 	}
@@ -186,6 +186,13 @@
 		font-weight: 700;
 	}
 }
+
+// Add a little space under each constraint for when they wrap onto multiple lines
+.selected-facets {
+	.btn {
+		margin-bottom: 5px;
+	}
+}
 .selected-facet {
 	padding: 0 10px;
 	background: $cornell-blue;
@@ -205,7 +212,22 @@
 }
 
 .modify-search-link {
-	float: right;
+	@include media-breakpoint-up(md) {
+		float: right;
+	}
+}
+
+#startOverLink::before {
+	display: inline-block;
+  	text-rendering: auto;
+  	-webkit-font-smoothing: antialiased;
+	font-family: 'FontAwesome';
+	content: '\f0a8';
+	margin-right: .25rem;
+	color: $cornell-primary;
+}
+#startOverLink:hover {
+	background: $light-tan;
 }
 
 // MEDIA QUERIES

@@ -17,6 +17,29 @@ class CatalogController < ApplicationController
     #prepend_before_action :set_return_path
   end
 
+
+  # ============================================================================
+  # Determines if a new search session should be saved to search history
+  # Advanced: true if any q_row has text, or a full date range is set, or
+  #           language facet is present, or any inclusive facets are present.
+  # Basic:    true if query (q) is present or any facet (f) is present.
+  # ----------------------------------------------------------------------------
+  def start_new_search_session?
+    return false unless action_name == 'index'
+
+    # Validate date range first; if range is out of order (which triggers BlacklightRangeLimit::InvalidRange), don't start/save a session
+    if !params[:range].nil? && check_dates(params) == 'order'
+      return false
+    end
+
+    query_present     = search_state.query_param.present?
+    adv_query_present = !!search_state.advanced_query_param&.any?(&:present?)
+    filters_present   = search_state.filters.present?
+
+    # Start a new record if any constraint is present
+    query_present || adv_query_present || filters_present
+  end
+
   #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
@@ -190,17 +213,35 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'availability_facet', :label => 'Availability Status', :limit => 30, :collapse => false
     #end
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
-    config.add_facet_field 'format', :label => 'Format', :limit => 10, :collapse => false
+    config.add_facet_field 'format',
+                           label: 'Format',
+                           limit: 10,
+                           collapse: false,
+                           include_in_advanced_search: true,
+                           advanced_search_order: 1,
+                           sort: 'count'
     config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
-    config.add_facet_field 'pub_date_facet', :label => 'Publication Year', :range => {
-      :num_segments => 6,
-      :assumed_boundaries => [1300, Time.now.year + 1],
-      :segments => true,
-      :include_in_advanced_search => false
-    }, :show => true, :include_in_advanced_search => false, if: :has_search_parameters?
+    config.add_facet_field 'pub_date_facet',
+                           label: 'Publication Year',
+                           range: true,
+                           range_config: {
+                             num_segments: 6,
+                             segments: true
+                           },
+                           show: true,
+                           include_in_advanced_search: true,
+                           if: :has_search_parameters?,
+                           advanced_search_component: AdvancedRangeLimitComponent,
+                           advanced_search_order: 0
 
     config.add_facet_field 'workid_facet', :label => 'Work', :show => false
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => 5 , :show => true, :include_in_advanced_search => true
+    config.add_facet_field 'language_facet',
+                           label: 'Language',
+                           limit: 5,
+                           show: true,
+                           include_in_advanced_search: true,
+                           advanced_search_order: 2,
+                           sort: 'count'
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_geo_facet', :label => 'Subject: Region', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?
@@ -224,7 +265,7 @@ class CatalogController < ApplicationController
 
    config.facet_display = {
      :hierarchy => {
-       'lc_callnum' => [['facet'], ':'],
+       'lc_callnum' => [['facet'], ' > '],
        'location' => [[nil],' > ']
      }
  }
@@ -342,7 +383,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'issued_with_display', :label => 'Issued with'
     config.add_show_field 'separated_from_display', :label => 'Separated from'
     config.add_show_field 'cast_display', :label => 'Cast'
-    config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'notes_display', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
@@ -835,15 +876,9 @@ class CatalogController < ApplicationController
 end
 
 def tou
-    clnt = HTTPClient.new
-    #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
-    solr = Blacklight.connection_config[:url]
-    p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
-    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
-    @dbResponse = JSON.parse(@dbString)
+    @dbResponse = Blacklight.default_index.connection.get('termsOfUse', params: { id: params[:id] })
     @db = @dbResponse['response']['docs'][0]
-    @dbString2 = clnt.get_content("#{solr}/select?qt=search&fl=*&q=id:#{params[:id]}")
-    @dbResponse2 = JSON.parse(@dbString2)
+    @dbResponse2 = Blacklight.default_index.connection.get('select', params: { qt: 'search', fl: '*', q: "id:#{params[:id]}" })
     @db2 = @dbResponse2['response']['docs'][0]
     @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
     if @dbResponse['response']['numFound'] == 0
@@ -898,7 +933,7 @@ def tou
     @newTouResult = []
     # okapi_url = ENV['OKAPI_URL']
     record = eholdings_record(title_id) || []
-    if record
+    if record.present?
       # recordTitle = record["data"]["attributes"]["name"]
       record["included"].each do |package|
         attrs = package['attributes']

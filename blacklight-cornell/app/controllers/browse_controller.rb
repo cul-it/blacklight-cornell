@@ -11,6 +11,11 @@ class BrowseController < ApplicationController
 
   rescue_from RSolr::Error::Http, :with => :handle_request_error
 
+  # Needed to prevent saving when browse field is selected with no query
+  def start_new_search_session?
+    false
+  end
+
   def heading
    @heading='Browse'
   end
@@ -159,13 +164,13 @@ class BrowseController < ApplicationController
     ''
   end
 
- def get_formats(query)
+  def get_formats(query)
     browse_fields = @heading_document.browse_fields
     if browse_fields.empty?
       {}
     else
       query = browse_fields.map { |field| "#{field}:\"#{query}\"" }.join(' OR ')
-      solr = RSolr.connect :url => ENV['SOLR_URL']
+      solr = Blacklight.default_index.connection
       solr_response = solr.get 'select',
         :params => {
           :q => query,

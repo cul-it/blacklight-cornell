@@ -107,10 +107,58 @@ module ConsoleColors
   # quick error and success methods
   # -------------------------------
   def error_msg(e)
-    print_colored_message(msg: e, color: :red)
+    caller_info = caller_locations(1, 1).first
+    file = caller_info.path
+    line = caller_info.lineno
+    method = caller_info.base_label
+
+    print_colored_message(
+      msg: "==> #{e}: File: #{file} — Line: #{line} — Method: ##{method}",
+      color: :red,
+      marked: false
+    )
   end
+
   def success_msg(e)
-    print_colored_message(msg: e, color: :green)
+    print_colored_message(
+      msg: "==> #{e}",
+      color: :green,
+      marked: false
+    )
+  end
+
+  def info_msg(e)
+    caller_info = caller_locations(1, 1).first
+    method = caller_info&.base_label.to_s
+
+    if method.include?("<top")
+      print_colored_message(
+        msg: "==> #{e}",
+        color: :blue,
+        marked: false
+      )
+    else
+      print_colored_message(
+        msg: "==> #{e} — Method: ##{method}",
+        color: :blue,
+        marked: false
+      )
+    end
+  end
+  def alert_msg(e)
+    # Get the first caller outside of this file
+    caller_info = caller_locations(1, 1).first
+    file = caller_info.path
+    line = caller_info.lineno
+    method = caller_info.base_label
+
+    print_top_line
+    print_colored_message(
+      msg: "==> #{e}: File: #{file} — Line: #{line} — Method: ##{method}",
+      color: :magenta,
+      marked: false
+    )
+    print_bottom_line
   end
 
   def print_top_line

@@ -1,3 +1,21 @@
+// Typography
+// ------------------------
+
+.browse,
+.blacklight-browse {
+	h3 {
+		border-bottom: 5px solid $light-tan;
+		padding-bottom: .25rem;
+		margin-bottom: 1.5rem;
+	}
+	.card-header {
+		h3 {
+			border-bottom: 0;
+		}
+	}
+}
+
+
 // Headings browse-search box
 // ------------------------------------------
 .browse-index {
@@ -31,6 +49,7 @@
 	}
 	.online-label {
 		font-weight: 700;
+		margin-bottom: 0; 
 	}
 	i {
 		margin-right: .25em;
