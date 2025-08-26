@@ -49,8 +49,8 @@ unless @discogs_data.nil?
 
   if @notes.present? && !@notes.empty?
   # create the notes section
-    notes_html = '<dt class="blacklight-notes col-sm-3"><div class="discogs-off"">Notes:</div></dt>' +
-                '<dd class="blacklight-notes col-sm-9 discogs-off">'
+    notes_html = '<dt class="blacklight-notes_display col-sm-3"><div class="discogs-off"">Notes:</div></dt>' +
+                '<dd class="blacklight-notes_display col-sm-9 discogs-off">'
     more_less = false
     @notes.each do |n|
       next if n.blank?
@@ -114,7 +114,7 @@ if ( ("<%=raw escape_javascript(author_addl_html) %>").length > 0 ) {
       $('dd.blacklight-description_display').after("<%=raw escape_javascript(author_addl_html) %>");
   }
   else if ( $('dd.blacklight-contents_display').length ){
-      $('dt.blacklight-notes').before("<%=raw escape_javascript(author_addl_html) %>");
+      $('dt.blacklight-notes_display').before("<%=raw escape_javascript(author_addl_html) %>");
   }
   else {
       $('dl#itemDetails').append("<%=raw escape_javascript(author_addl_html) %>");
@@ -129,8 +129,8 @@ if ( ("<%=raw escape_javascript(contents_html) %>").length > 0 && $('.blacklight
   else if ( $('dd.blacklight-description_display').length ) {
       $('dd.blacklight-description_display').after("<%=raw escape_javascript(contents_html) %>");
   }
-  else if ( $('dd.blacklight-notes').length ){
-    $('dt.blacklight-notes').before("<%=raw escape_javascript(contents_html) %>");
+  else if ( $('dd.blacklight-notes_display').length ){
+    $('dt.blacklight-notes_display').before("<%=raw escape_javascript(contents_html) %>");
   }
   else {
       $('dl#itemDetails').append("<%=raw escape_javascript(contents_html) %>");
@@ -139,7 +139,7 @@ if ( ("<%=raw escape_javascript(contents_html) %>").length > 0 && $('.blacklight
 }
 // notes
 if ( ("<%=raw escape_javascript(notes_html) %>").length > 0 ) {
-  if ( $('dt.blacklight-notes').length) {
+  if ( $('dt.blacklight-notes_display').length) {
     var notes = "<%=raw escape_javascript(notes_html) %>"
     notes = notes.replace("Notes:","Additional:");
     $('dl#itemDetails').append(notes);

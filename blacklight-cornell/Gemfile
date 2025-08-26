@@ -73,9 +73,9 @@ gem "uri", "0.12.4"
 gem "whenever", require: false
 gem "yaml_db"
 
-gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.2"
+gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.3"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
-gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.6"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.7"
 
 group :development, :test do
   gem "awesome_print"

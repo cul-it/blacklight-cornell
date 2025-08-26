@@ -3,10 +3,10 @@ require 'rails_helper'
 describe BrowseController do
   describe 'GET #index' do
     let(:callnum_locations) {
-      ['All', 'Online', 'Adelson Library','Africana Library', 'Bailey Hortorium', 'CISER Data Archive',
-      'Fine Arts Library', 'ILR Library', 'Kroch Library Asia', 'Kroch Library Rare & Manuscripts', 'Law Library',
-      'Library Annex', 'Mann Library', 'Mathematics Library', 'Music Library', 'Olin Library',
-      'Space Sciences Building', 'Uris Library', 'Veterinary Library']
+      ['All', 'Online', 'Asia Collections', 'Bailey Hortorium', 'Catherwood Library',
+      'Fine Arts Library', 'Lab of Ornithology', 'Law Library', 'Library Annex',
+      'Mann Library', 'Mathematics Library', 'Music Library', 'Olin Library',
+      'Rare & Manuscript', 'Spacecraft Planetary Imaging', 'Uris Library', 'Veterinary Library']
     }
 
     context 'authq is Author' do
@@ -28,7 +28,7 @@ describe BrowseController do
         it 'renders index and assigns @headingsResponse' do
           get :index, params: { authq: 'English Chamber Orchestra', browse_type: 'Author', order: 'forward', start: '20' }
           expect(response).to render_template(:index)
-          expect(assigns(:headingsResponse)[0]['heading']).to eq('Gale Group')
+          expect(assigns(:headingsResponse)[0]['heading']).to eq('Forster, E. M. (Edward Morgan), 1879-1970.')
         end
       end
     end

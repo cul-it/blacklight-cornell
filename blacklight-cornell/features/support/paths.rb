@@ -90,7 +90,7 @@ module NavigationHelpers
     when /^edition$/
       '.blacklight-edition_display'
     when /^notes$/
-      '.blacklight-notes'
+      '.blacklight-notes_display'
     when /^pub_info$/
       '.blacklight-pub_info_display'
     when /^subject$/
@@ -111,7 +111,7 @@ module NavigationHelpers
     when /^edition$/
       '.blacklight-edition_display'
     when /^notes$/
-      '.blacklight-notes'
+      '.blacklight-notes_display'
     when /^pub_info$/
       '.blacklight-pub_info_display'
     when /^subject$/

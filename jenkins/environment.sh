@@ -27,7 +27,7 @@ source /etc/profile.d/rvm.sh
 rvm use "$RUBYVERSION"
 
 # Copy environment file
-cp /cul/data/jenkins/environments/blacklight-cornell.env .env
+cp /cul/data/jenkins/environments/blacklight-cornell-solr9.env .env
 
 # Add DEBUG_USER to environment file
 echo "DEBUG_USER=${DEBUG_USER}" >>.env
@@ -40,4 +40,3 @@ echo "PATH is:$PATH"
 
 echo "Xvfb DISPLAY value is $DISPLAY"
 echo "Diligent Tester: $DEBUG_USER"
-grep ^SOLR_URL .env

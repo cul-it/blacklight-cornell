@@ -64,8 +64,6 @@ module AeonHelper
     holding_id = items_hash.keys.first
     items = items_hash[holding_id]
 
-    copy_string = ''
-
     if items.present?
       items.each do |item|
         loc_code = item.dig('location', 'code')
@@ -73,7 +71,11 @@ module AeonHelper
         item['location']['library'] = 'ANNEX' if item['location']['library'] == 'Library Annex'
         item['rmc'] ||= {}
         call_number = item['call'].to_s.sub('Archives ', '')
-        copy_string = " c. #{[item['copy'], item['enum'], item['chron'], item['caption']].compact.join(' ')}" if item['copy']
+        copy_string = ''
+        copy_string += " c. #{item['copy']}" if item['copy']
+        copy_string += " #{item['enum']}" if item['enum']
+        copy_string += " #{item['chron']}" if item['chron']
+        copy_string += " #{item['caption']}" if item['caption']
         item_id = item['barcode'] || "iid-#{item['id']}"
         location = item.dig('rmc', 'Vault location') || loc_code
 

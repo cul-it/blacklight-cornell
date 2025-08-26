@@ -94,22 +94,18 @@ Feature: Browse search
   @call-number-browse
   @call-number-browse-locations
   @DISCOVERYACCESS-4659
-  Scenario Outline: Search for call number LO in different locations
+  Scenario: Search for call number LO in different locations
     Given I literally go to browse
       And I fill in the authorities search box with 'LO'
       And I select 'Call Number Browse' from the 'browse_type' drop-down
       And I press 'search'
     Then I should see the label 'Browse "LO" in call numbers'
-    And call number '<callno>' should be available in '<location>'
-
-  Examples:
-  | callno | location |
-  | P95 .P674 2012 | Olin Library |
-  | N3 .Z478 |  Fine Arts Library (Rand Hall)  |
-  | N5300 .A783 | Online |
-  | NC1766.J3 Y65 2006 |  Kroch Library Asia |
-  | ML419.G66 G67 2018 |  Music Library (Lincoln Hall)  |
-  | N3 .Z478 | Library Annex |
+    And call number 'P95 .P674 2012' should be available in 'Olin Library'
+    And call number 'N3 .Z478' should be available in 'Mui Ho Fine Arts Library'
+    And call number 'N5300 .A783' should be available in 'Online'
+    And call number 'NC1766.J3 Y65 2006' should be available in 'Kroch Asia Collections'
+    And call number 'ML419.G66 G67 2018' should be available in 'Cox Library of Music and Dance'
+    And call number 'N3 .Z478' should be available in 'Library Annex'
 
   @browse
   @call-number-browse

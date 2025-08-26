@@ -74,6 +74,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # The index action will more than likely throw this one.
     # Example, when the standard query parser is used, and a user submits a "bad" query.
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
+    # BlacklightRangeLimit::InvalidRange is raised when an invalid date range is executed.
+    rescue_from BlacklightRangeLimit::InvalidRange, :with => :range_limit_error
   end
 
   def search_action_path *args
@@ -111,9 +113,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     search_session[:per_page] = params[:per_page]
 
-    # Check for missing pub_date_facet range values
-    if (!params[:range].nil?)
-      check_dates(params)
+    # Check for missing or invalid pub_date_facet range values and return flash message
+    if !params[:range].nil?
+      notice = check_dates(params)
+      if notice
+        flash.now[:notice] = I18n.t("blacklight.search.errors.publication_year_range.#{notice}")
+      end
     end
 
     # Sanitize query for constraints display
@@ -466,6 +471,14 @@ protected
     end
   end
 
+  # When blacklight_range_limit throws an error (BlacklightRangeLimit::InvalidRange), 
+  # remove the range params and redirect to a new query with an appropriate flash message
+  def range_limit_error
+    error = check_dates(params) || "general"
+    redirect_to params.except(:range)
+    flash[:notice] = I18n.t("blacklight.search.errors.publication_year_range.#{error}")
+  end
+
   def blacklight_solr
     @solr ||=  RSolr.connect(blacklight_solr_config)
   end
@@ -536,26 +549,23 @@ private
     silence_warnings { @@cjk_mm_val = '3<86%'}
   end
 
+  # Update in blacklight_range_limit v.9 
   def check_dates(params)
+    alert = nil
     pub_date_facet = params[:range][:pub_date_facet]
     unknown_pub_date_facet = params[:range]['-pub_date_facet']
-    # check for missing or unknown Publication Year
+    begin_year = Integer(pub_date_facet[:begin]) rescue nil
+    end_year = Integer(pub_date_facet[:end]) rescue nil
     if unknown_pub_date_facet.present? || pub_date_facet[:missing].present? || (pub_date_facet[:begin].blank? && pub_date_facet[:end].blank?)
-      return
+      alert
+    elsif begin_year.blank?
+      alert = 'begin'
+    elsif end_year.blank?
+      alert = 'end'
+    elsif begin_year > end_year
+      alert = 'order'
     end
-    # crashes later on if begin > end so raise exception here
-    begin_test = Integer(params[:range][:pub_date_facet][:begin]) rescue nil
-    end_test = Integer(params[:range][:pub_date_facet][:end]) rescue nil
-    min_year = 0
-    unless begin_test.present? && begin_test >= min_year
-      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.begin'))
-    end
-    unless end_test.present? && end_test >= min_year
-      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.end'))
-    end
-    unless begin_test <= end_test
-      raise ArgumentError.new(I18n.t('blacklight.search.errors.publication_year_range.order'))
-    end
+    return alert
   end
 
   def sanitize(q)

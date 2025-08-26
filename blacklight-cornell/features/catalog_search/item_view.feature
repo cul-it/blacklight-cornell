@@ -487,29 +487,6 @@ Feature: Item view
     Then I should see the label 'Finding aid'
     And it should have link "Finding aid" with value "http://resolver.library.cornell.edu/cgi-bin/EADresolver?id=RMM03970"
 
-  #Attacking trigonometry problems
-  #David S. Kahn. with bookplate In memory of Albert Leskowitz.
-  @all_item_view
-  @bookplates
-  @DISCOVERYACCESS-2823
-  Scenario: Show link to e-bookplate
-    Given I request the item view for 9330651
-    Then I should see the label 'Bookplate'
-    And it should have link "A Gift of Il Hwan Cho and Soon Ja Cho in support of Korean Studies." with value "http://plates.library.cornell.edu/donor/DNR00393"
-
-  #Confessio fidei exhibita invictiss
-  #The Eugene M. Kaufmann, Jr. Endowment Fund., The Arthur H. and Mary Marden Dean Book Fund.
-  @all_item_view
-  @bookplates
-  @DISCOVERYACCESS-2823
-  Scenario: Show links two e-bookplates from one asset
-    Given PENDING
-    Given I request the item view for 4473308
-    Then I should see the label 'Bookplate'
-    And it should have link "The Eugene M. Kaufmann, Jr. Endowment Fund." with value "http://plates.library.cornell.edu/donor/DNR00386"
-    And it should have link "The Arthur H. and Mary Marden Dean Book Fund." with value "http://plates.library.cornell.edu/donor/DNR00373"
-
-
 
   @all_item_view
   @DISCOVERYACCESS-2881
