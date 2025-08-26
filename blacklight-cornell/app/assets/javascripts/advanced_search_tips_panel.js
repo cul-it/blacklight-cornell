@@ -1,25 +1,30 @@
 (function () {
-    var drawer, backdrop, toggleBtn, closeBtn, content, form;
+    var drawer, backdrop, toggleBtn, content, announcer, form, endSentinel, chevronBtn;
     var open = false;
-    var currentHighlighted;
+    var currentHighlighted, lastDescribed;
 
-    function openDrawer() {
-        if (open) return;
-        open = true;
-        drawer.classList.add('is-open');
-        drawer.setAttribute('aria-hidden', 'false');
-        backdrop.hidden = false;
-        toggleBtn.setAttribute('aria-expanded', 'true');
+    // ---------------- Helpers ----------------
+    function isEditable(el) {
+        if (!el) return false;
+        var tag = (el.tagName || '').toLowerCase();
+        return (
+            tag === 'input' ||
+            tag === 'textarea' ||
+            el.isContentEditable ||
+            (tag === 'select')
+        );
     }
 
-    function closeDrawer() {
-        if (!open) return;
-        open = false;
-        drawer.classList.remove('is-open');
-        drawer.setAttribute('aria-hidden', 'true');
-        backdrop.hidden = true;
-        toggleBtn.setAttribute('aria-expanded', 'false');
-        clearHighlight();
+    function setDescribedBy(el) {
+        if (!el) return;
+        if (lastDescribed && lastDescribed !== el) lastDescribed.removeAttribute('aria-describedby');
+        el.setAttribute('aria-describedby', content.id);
+        lastDescribed = el;
+    }
+
+    function announce(txt) {
+        content.textContent = txt || 'No help available for this field.';
+        announcer.textContent = content.textContent;
     }
 
     function clearHighlight() {
@@ -30,169 +35,166 @@
     }
 
     function updateHelpFrom(el) {
-        var target = el && el.closest('[data-help]');
+        var target = el && el.closest('[data-help], [data-help-dynamic]');
         if (!target) return;
         if (currentHighlighted !== target) {
             clearHighlight();
             currentHighlighted = target;
             currentHighlighted.classList.add('help-target');
         }
-        var txt = target.getAttribute('data-help') || 'No help available for this field.';
-        content.textContent = txt;
+        if (target.matches('[data-help-dynamic]') && updateDynamicTip(target)) {
+            setDescribedBy(el); return;
+        }
+        announce(target.getAttribute('data-help'));
+        setDescribedBy(el);
     }
 
-    function onPointerOver(e) {
-        if (!open) return;
-        updateHelpFrom(e.target);
+    // ---------------- Tips ----------------
+    var TIP_OP = {
+        AND: 'All: Every word in this box must appear (order not required).',
+        OR: 'Any: At least one of the words in this box must appear.',
+        begins_with: 'Begins With: Matches fields that start with these words.',
+        phrase: 'Phrase: Matches all words in this box in this exact order.'
+    };
+    var TIP_BOOL = {
+        AND: 'AND: Results must include terms from this row AND previous rows (narrows).',
+        OR: 'OR: Results may include terms from this row OR previous rows (broadens). Put OR rows first.',
+        NOT: 'NOT: Exclude records that match this row (narrows by omission).'
+    };
+
+
+    var TIP_FIELD = {
+        'all fields': 'Search anywhere in the record. Great starting point; refine with facets if needed.',
+        'title': 'Words in the title of the work.',
+        'journal title': 'Title of a journal/newspaper/serial (not individual articles).',
+        'title begins with': 'Title fields that start with your terms.',
+        'author': 'Names of creators/contributors. Use “Last, First” for browse; quotes for exact phrases.',
+        'author browse (a-z) sorted by name': 'ℹ️ Browse authors alphabetically by name (use “Last, First”).',
+        'author browse (a-z) sorted by title': 'ℹ️ Browse authors alphabetically, results grouped by title.',
+        'subject': 'Library-assigned subject headings (broader/more precise than keywords).',
+        'subject browse (a-z)': 'Browse subjects alphabetically; try broad terms.',
+        'call number': 'Find items by call number; nearby results show related topics.',
+        'series': 'Series title (e.g., “Lecture Notes in Computer Science”).',
+        'publisher': 'Publisher name.',
+        'place of publication': 'Geographic place of publication.',
+        'publisher number/other identifier': 'ℹ️ Publisher or other identifying numbers.',
+        'isbn/issn': 'Standard identifiers: ISBN for books; ISSN for serials.',
+        'notes': 'Notes fields (e.g., contents description).',
+        'donor name': 'Name of a donor associated with the item.'
+    };
+    function norm(s){return String(s||'').trim().toLowerCase();}
+
+    function updateDynamicTip(target) {
+        var dyn = target.getAttribute('data-help-dynamic');
+        if (!dyn) return false;
+        if (dyn === 'op') { var v = target.value; if (TIP_OP[v]) { announce(TIP_OP[v]); return true; } }
+        if (dyn === 'bool') { var b = target.value; if (TIP_BOOL[b]) { announce(TIP_BOOL[b]); return true; } }
+        if (dyn === 'field') {
+            var label = target.options[target.selectedIndex]?.text || '';
+            var key = norm(label);
+            if (TIP_FIELD[key]) { announce(TIP_FIELD[key]); return true; }
+        }
+        return false;
     }
 
-    function onFocusIn(e) {
-        if (!open) return;
-        updateHelpFrom(e.target);
+    // ------------- Drawer control -------------
+    function openDrawer() {
+        if (open) return;
+        open = true;
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.hidden = false;
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        chevronBtn && chevronBtn.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('help-open');
+        updateHelpFrom(document.activeElement);
     }
 
-    function onClickInside(e) {
+    function closeDrawer() {
         if (!open) return;
-        updateHelpFrom(e.target);
+        open = false;
+        drawer.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.hidden = true;
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        chevronBtn && chevronBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('help-open');
+        if (lastDescribed) lastDescribed.removeAttribute('aria-describedby');
+        clearHighlight();
     }
+
+    function toggleDrawer() { open ? closeDrawer() : openDrawer(); }
+
+    // ------------- Events -------------
+    function onPointerOver(e){ if (open) updateHelpFrom(e.target); }
+    function onFocusIn(e){ if (open) updateHelpFrom(e.target); }
+    function onClickInside(e){ if (open) updateHelpFrom(e.target); }
 
     function onKeyDown(e) {
-        if (e.key === 'Escape') closeDrawer();
+        // Esc closes
+        if (e.key === 'Escape') { closeDrawer(); return; }
+
+        // Enter/Space on toggle buttons
+        if ((e.target === toggleBtn || e.target === chevronBtn) &&
+            (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault(); toggleDrawer(); return;
+        }
+
+        // CMD + ?  (⌘ + ? ; browsers may report '?' or '/' with shift)
+        if (e.metaKey && !e.ctrlKey && !e.altKey) {
+            if (e.key === '?' || e.key === '/' /* allow even if shift not reported */) {
+                e.preventDefault(); toggleDrawer(); return;
+            }
+        }
+
+        // SHIFT + ?  (when NOT in an editable field)
+        if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+            var inEditable = isEditable(e.target);
+            var isShiftQuestion = (e.key === '?' || (e.key === '/' && e.shiftKey));
+            if (!inEditable && isShiftQuestion) {
+                e.preventDefault(); toggleDrawer(); return;
+            }
+        }
     }
 
     function init() {
+        drawer     = document.getElementById('help-drawer');
+        backdrop   = document.getElementById('help-backdrop');
+        toggleBtn  = document.getElementById('help-toggle');
+        content    = document.getElementById('help-content');
+        announcer  = document.getElementById('help-announce');
+        form       = document.getElementById('advanced-search-form');
+        endSentinel= document.getElementById('form-end-sentinel');
+        chevronBtn = document.getElementById('help-chev');
 
-        // ---- Dynamic tip dictionaries (from your docs) ----
-        var TIP_OP = {
-            // op_row[] (how words in THIS box relate)
-            AND: 'all: Every word in this box must appear (order not required).',
-            OR: 'any: At least one of the words in this box must appear.',
-            begins_with: 'begins with: Matches fields that start with these words.',
-            phrase: 'phrase: Matches all words in this box in this exact order.'
-        };
+        if (!drawer || !toggleBtn || !content || !announcer) return;
 
-        var TIP_BOOL = {
-            // boolean_row[] (how THIS row relates to other rows)
-            AND: 'and: Results must include terms from this row AND previous rows (narrows).',
-            OR: 'or: Results may include terms from this row OR previous rows (broadens). Put OR rows first.',
-            NOT: 'not: Exclude records that match this row (narrows by omission).'
-        };
+        // Click toggles
+        toggleBtn.addEventListener('click', function (e) { e.preventDefault(); toggleDrawer(); });
+        chevronBtn && chevronBtn.addEventListener('click', function (e) { e.preventDefault(); toggleDrawer(); });
 
-// Normalize option label text → tip key
-        function norm(s) {
-            return String(s || '').trim().toLowerCase();
-        }
+        // Clicking the PANEL closes it; clicking the page does NOT
+        drawer.addEventListener('click', function(){ closeDrawer(); });
 
-// search_field_row[] label-based tips (map by visible text, not value)
-        var TIP_FIELD = {
-            'all fields': 'Search anywhere in the record. Great starting point; refine with facets if needed.',
-            'title': 'Words in the title of the work.',
-            'journal title': 'Title of a journal/newspaper/serial (not individual articles).',
-            'title begins with': 'Title fields that start with your terms.',
-            'author': 'Names of creators/contributors. Use “Last, First” for browse; quotes for exact phrases.',
-            'author browse (a-z) sorted by name': 'Browse authors alphabetically by name (use “Last, First”).',
-            'author browse (a-z) sorted by title': 'Browse authors alphabetically, results grouped by title.',
-            'subject': 'Library-assigned subject headings (broader/more precise than keywords).',
-            'subject browse (a-z)': 'Browse subjects alphabetically; try broad terms.',
-            'call number': 'Find items by call number; nearby results show related topics.',
-            'series': 'Series title (e.g., “Lecture Notes in Computer Science”).',
-            'publisher': 'Publisher name.',
-            'place of publication': 'Geographic place of publication.',
-            'publisher number/other identifier': 'Publisher or other identifying numbers.',
-            'isbn/issn': 'Standard identifiers: ISBN for books; ISSN for serials.',
-            'notes': 'Notes fields (e.g., contents, description).',
-            'donor name': 'Name of a donor associated with the item.'
-        };
-
-// Extra high-level tips you referenced
-        var TIP_MISC = {
-            basic: 'General keyword search. Use quotes for exact phrases. Truncation/wildcards not supported; common suffixes are auto-searched (star → stars, starred, starring).',
-            facets: 'After searching, use facets (left side) to refine by date, language, format, location, etc.',
-            expand: 'Not finding it? Use “Looking for more” to search WorldCat (Libraries Worldwide) or Articles & Full Text.',
-            save: 'Select items in results, then use “Selected Items” to print, email, or export (EndNote/RIS).'
-        };
-
-// ---- Dynamic updater ----
-        function updateDynamicTip(target) {
-            if (!target) return false;
-            var dyn = target.getAttribute('data-help-dynamic');
-            if (!dyn) return false;
-
-            // op_row[]
-            if (dyn === 'op') {
-                var val = target.value; // AND/OR/begins_with/phrase
-                if (TIP_OP[val]) {
-                    content.textContent = TIP_OP[val];
-                    return true;
-                }
-            }
-
-            // boolean_row[]
-            if (dyn === 'bool') {
-                var bval = target.value; // AND/OR/NOT
-                if (TIP_BOOL[bval]) {
-                    content.textContent = TIP_BOOL[bval];
-                    return true;
-                }
-            }
-
-            // search_field_row[] (by option text)
-            if (dyn === 'field') {
-                var label = target.options[target.selectedIndex]?.text || '';
-                var key = norm(label);
-                if (TIP_FIELD[key]) {
-                    content.textContent = TIP_FIELD[key];
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-// Hook dynamic updates:
-// 1) on change
-        document.addEventListener('change', function(e) {
-            if (!open) return;
-            if (e.target.matches('[data-help-dynamic]')) {
-                if (!updateDynamicTip(e.target)) {
-                    // fall back to static data-help
-                    updateHelpFrom(e.target);
-                }
-            }
-        }, true);
-
-// 2) on hover/focus/click, prefer dynamic if present
-        var prevUpdateHelpFrom = updateHelpFrom;
-        updateHelpFrom = function(el) {
-            if (el && el.closest('[data-help-dynamic]')) {
-                if (updateDynamicTip(el.closest('[data-help-dynamic]'))) return;
-            }
-            prevUpdateHelpFrom(el);
-        };
-
-
-        drawer   = document.getElementById('help-drawer');
-        backdrop = document.getElementById('help-backdrop');
-        toggleBtn= document.getElementById('help-toggle');
-        closeBtn = document.getElementById('help-close');
-        content  = document.getElementById('help-content');
-        form     = document.getElementById('advanced-search-form');
-
-        if (!drawer || !toggleBtn) return;
-
-        toggleBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            open ? closeDrawer() : openDrawer();
-        });
-
-        closeBtn && closeBtn.addEventListener('click', function () { closeDrawer(); });
-        backdrop && backdrop.addEventListener('click', function () { closeDrawer(); });
-
-        // Event delegation so dynamically-added rows work automatically
+        // Live/dynamic updates
         document.addEventListener('mouseover', onPointerOver, true);
         document.addEventListener('focusin', onFocusIn, true);
         document.addEventListener('click', onClickInside, true);
+
+        document.addEventListener('change', function (e) {
+            if (!open) return;
+            if (e.target.matches('[data-help-dynamic], [data-help]')) {
+                if (!updateDynamicTip(e.target)) updateHelpFrom(e.target);
+            }
+        }, true);
+
+        // Global keyboard (Esc, Enter/Space on buttons, CMD+?, SHIFT+?)
         document.addEventListener('keydown', onKeyDown, true);
+
+        // Tab past form → chevron
+        endSentinel && endSentinel.addEventListener('focus', function () {
+            if (open && chevronBtn) chevronBtn.focus();
+        });
     }
 
     if (document.readyState === 'loading') {
