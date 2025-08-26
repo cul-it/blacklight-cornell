@@ -61,7 +61,23 @@
 </div>
 
 <!-- Help Panel -->
-<aside id="help-drawer" class="help-drawer" aria-hidden="true" aria-labelledby="help-drawer-title">
+<!-- Focus sentinel to support keyboard flow (unchanged if you already have it) -->
+<div id="form-end-sentinel" tabindex="0" class="sr-only">End of form</div>
+
+<!-- Help Panel -->
+<aside id="help-drawer"
+       class="help-drawer"
+       aria-hidden="true"
+       aria-labelledby="help-drawer-title"
+       role="complementary">
+  <!-- Desktop edge chevron (becomes the close affordance when open) -->
+  <button id="help-chev"
+          type="button"
+          aria-label="Toggle help panel"
+          aria-expanded="false">
+    <span class="chev" aria-hidden="true">❮</span>
+  </button>
+
   <div class="help-drawer__header">
     <h4 id="help-drawer-title" class="m-0">Advanced Search Tips</h4>
     <button type="button" id="help-close" class="help-drawer__close" aria-label="Close help">
