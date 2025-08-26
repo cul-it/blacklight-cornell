@@ -1,6 +1,5 @@
 <div class='card card-body card-well'>
   <div class="d-flex justify-content-between align-items-center mb-2">
-    <h3 class="m-0">Advanced Search</h3>
     <!-- Help toggle -->
     <a href="#" id="help-toggle"
        class="text-muted"
@@ -80,16 +79,16 @@
 
   <div class="help-drawer__header">
     <h4 id="help-drawer-title" class="m-0">Advanced Search Tips</h4>
-    <button type="button" id="help-close" class="help-drawer__close" aria-label="Close help">
-      <i class="fa fa-times"></i>
-    </button>
   </div>
+
   <div id="help-content" class="help-drawer__content">
     Hover, focus, or click any field to see tips here.
   </div>
+
+  <!-- SR live region mirroring updates -->
+  <div id="help-announce" class="sr-only" aria-live="polite"></div>
 </aside>
 
-<!-- Optional backdrop (click to close) -->
+<!-- Visual dim; non-interactive -->
 <div id="help-backdrop" class="help-backdrop" hidden></div>
 
-<%= render 'search_tips' %>
