@@ -1,175 +1,188 @@
-/* Backdrop: dim only, do NOT intercept clicks */
-.help-backdrop[hidden] { display: none; }
-.help-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.25);
-  z-index: 1040;
-  pointer-events: none; /* ← allow clicking the page without closing */
+/* ================= Vars ================= */
+:root{
+  --drawer-h: 28vh;      /* mobile bottom-sheet height */
+  --edge-btn: 2.25rem;   /* diameter of ? / chevron */
+  --edge-gap: .45rem;    /* gap from screen edge */
 }
 
-/* Drawer (bottom sheet mobile; right drawer desktop) */
-.help-drawer {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  top: auto;
-  width: 100vw;
-  height: 30vh;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  box-shadow: 0 -6px 16px rgba(0,0,0,.08);
-  transform: translateY(100%);
-  transition: transform .25s ease-in-out;
-  z-index: 1050;
-  display: flex;
-  flex-direction: column;
+/* ================= Backdrop ================= */
+.help-backdrop[hidden]{ display:none; }
+.help-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.25);
+  z-index:1040;
+  pointer-events:none;
 }
-.help-drawer.is-open { transform: translateY(0); }
 
-@media (min-width: 992px) {
-  .help-drawer {
-    top: 0;
-    bottom: 0;
-    height: 100vh;
-    //width: min(420px, 92vw);
-    width: 92vw;          /* fluid */
-    max-width: 420px;     /* cap */
-    border-top: 0;
-    border-left: 1px solid #ddd;
-    box-shadow: -6px 0 16px rgba(0,0,0,.08);
-    transform: translateX(100%);
+/* ================= Drawer ================= */
+/* Mobile: bottom sheet */
+.help-drawer{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  top:auto;
+  width:100%;
+  height:var(--drawer-h);
+  max-height:80vh;
+  background:#fff;
+  border-top:1px solid #ddd;
+  box-shadow:0 -6px 16px rgba(0,0,0,.08);
+  transform:translateY(100%);
+  transition:transform .25s ease-in-out;
+  z-index:1050;
+  display:flex;
+  flex-direction:column;
+  overscroll-behavior:contain;
+}
+.help-drawer.is-open{ transform:translateY(0); }
+
+/* Desktop: right drawer */
+@media (min-width:992px){
+  .help-drawer{
+    left:auto;
+    width:92vw;
+    max-width:420px;
+    border-top:0;
+    border-left:1px solid #ddd;
+    box-shadow:-6px 0 16px rgba(0,0,0,.08);
+    transform:translateX(100%);
+    padding-bottom:0;
   }
-  .help-drawer.is-open { transform: translateX(0); }
+  .help-drawer.is-open{ transform:translateX(0); }
 }
 
-/* Header */
-.help-drawer__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .75rem 1rem;
-  border-bottom: 1px solid #eee;
-  background: #f9f9f9;
+/* ================= Header/Content ================= */
+.help-drawer__header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:.5rem;
+  padding:.75rem 1rem;
+  border-bottom:1px solid #eee;
+  background:#f9f9f9;
+}
+.help-drawer__content{
+  padding:1rem;
+  overflow-y:auto;
+  line-height:1.5;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
 }
 
-/* Content */
-.help-drawer__content {
-  padding: 1rem;
-  overflow-y: auto;
-  line-height: 1.4;
+/* ================= Field highlight ================= */
+.help-target{ outline:2px solid #337ab7; outline-offset:2px; }
+
+/* ================= Edge buttons (shared) ================= */
+#help-toggle,
+#help-chev{
+  z-index:1060;
+  width:var(--edge-btn); height:var(--edge-btn);
+  border-radius:9999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  border:1px solid #ddd;
+  box-shadow:0 2px 10px rgba(0,0,0,.12);
+  color:#555;
+  transition:
+          transform .15s ease,
+          box-shadow .2s ease,
+          background-color .2s ease,
+          border-color .2s ease,
+          color .2s ease;
 }
 
-/* Highlight target */
-.help-target {
-  outline: 2px solid #337ab7;
-  outline-offset: 2px;
+/* Toggle: fixed bottom-center on mobile; hidden while open */
+#help-toggle{
+  position:fixed;
+  left:50%;
+  --base-transform: translateX(-50%);
+  transform: var(--base-transform);
+  bottom:calc(env(safe-area-inset-bottom,0px) + var(--edge-gap));
+  text-decoration:none;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.help-open #help-toggle,
+#help-toggle[aria-expanded="true"]{ display:none !important; }
+
+/* Chevron: positioned relative to drawer; hidden by default */
+#help-chev{
+  position:absolute;
+  display:none;
+  cursor:pointer;
+}
+#help-chev .chev{
+  display:inline-block;
+  line-height:1;
+  transition:transform .2s ease;
 }
 
-/* Edge chevron — half inside/half outside panel edge */
-#help-chev {
-  position: absolute;
-  top: 50%;
-  left: -1rem;                 /* half of width sits outside */
-  transform: translateY(-50%);
-  width: 2rem;
-  height: 2rem;
-  border-radius: 9999px;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 10px rgba(0,0,0,.12);
-  display: none;               /* show only on desktop (right drawer) */
-  z-index: 1060;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-}
-#help-chev .chev {
-  display: inline-block;
-  line-height: 1;
-  transform: rotate(0deg);
-  transition: transform .2s ease;
-}
-.help-drawer.is-open #help-chev .chev { transform: rotate(180deg); }
-
-@media (min-width: 992px) {
-  #help-chev { display: inline-flex; }
+/* ---- Mobile chevron: centered on top edge, points DOWN when open ---- */
+@media (max-width:991.98px){
+  .help-drawer.is-open #help-chev{
+    display:inline-flex;
+    left:50%;
+    top:calc(-.7 * var(--edge-btn));
+    --base-transform: translateX(-50%);
+    transform: var(--base-transform);
+  }
+  /* rotate to point DOWN */
+  .help-drawer.is-open #help-chev .chev{ transform: rotate(270deg); }
 }
 
-/* Question-mark edge toggle: always on the far right edge when panel closed */
-#help-toggle {
-  position: fixed;
-  right: 0.25rem;              /* sit on the edge */
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1060;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 9999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 10px rgba(0,0,0,.12);
-  color: #555;
-  text-decoration: none;
-}
-#help-toggle[aria-expanded="true"] { display: none; } /* hide when panel is open */
-
-
-/* Hide the edge ? whenever the drawer is open (robust, no attribute reliance) */
-.help-open #help-toggle { display: none !important; }
-
-/* Keep the attribute version too (harmless redundancy) */
-#help-toggle[aria-expanded="true"] { display: none; }
-
-/* Make ? and chevron the same size; align chevron exactly half-outside */
-#help-toggle {
-  position: fixed;
-  right: 0.25rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1060;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 9999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 10px rgba(0,0,0,.12);
-  color: #555;
-  text-decoration: none;
+/* ---- Desktop positions & behavior ---- */
+@media (min-width:992px){
+  /* Desktop toggle (still hidden when open) */
+  #help-toggle{
+    right:.25rem;
+    left:auto;
+    top:97.5%;
+    bottom:auto;
+    --base-transform: translateY(-50%);
+    transform: var(--base-transform);
+  }
+  /* Desktop chevron: mid-edge, half outside; flip LEFT when open */
+  #help-chev{
+    top:50%;
+    left:calc(-.7 * var(--edge-btn));
+    --base-transform: translateY(-50%);
+    transform: var(--base-transform);
+  }
+  .help-drawer.is-open #help-chev{ display:inline-flex; }
+  .help-drawer.is-open #help-chev .chev{ transform: rotate(180deg); }
 }
 
-/* Chevron: same diameter, half outside the panel edge */
-#help-chev {
-  position: absolute;
-  top: 50%;
-  left: -1.25rem;       /* 2.5rem / 2 => half outside */
-  transform: translateY(-50%);
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 9999px;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 10px rgba(0,0,0,.12);
-  display: none;
-  z-index: 1060;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
+/* ================= Interactive states ================= */
+#help-toggle:hover,
+#help-chev:hover{
+  transform: var(--base-transform) scale(1.06);
+  box-shadow: 0 4px 14px rgba(0,0,0,.16);
+  border-color:#c9c9c9;
+}
+#help-toggle:active,
+#help-toggle.is-pressed,
+#help-chev:active,
+#help-chev.is-pressed{
+  transform: var(--base-transform) scale(0.96);
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+#help-toggle:focus-visible,
+#help-chev:focus-visible{
+  outline:none;
+  box-shadow:
+          0 0 0 3px rgba(51,122,183,.35),
+          0 4px 14px rgba(0,0,0,.16);
+  border-color:#337ab7;
 }
 
-@media (min-width: 992px) {
-  /* Only show chevron on desktop when the drawer is open */
-  .help-drawer.is-open #help-chev { display: inline-flex; }
-}
+/* ================= Emphasized keywords ================= */
+.help-key{ font-weight:700; font-size:1.1em; }
 
-/* Emphasize keywords inside help panel text */
-.help-key {
-  font-weight: 700;
-  font-size: 1.1em; /* slightly larger than surrounding text */
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  #help-toggle, #help-chev{ transition:none !important; }
 }

@@ -171,6 +171,23 @@
         }
     }
 
+    function makePressReactive(btn) {
+        if (!btn) return;
+
+        // Pointer (mouse/touch/pen)
+        btn.addEventListener('pointerdown', () => btn.classList.add('is-pressed'));
+        btn.addEventListener('pointerup',    () => btn.classList.remove('is-pressed'));
+        btn.addEventListener('pointercancel',() => btn.classList.remove('is-pressed'));
+        btn.addEventListener('mouseleave',   () => btn.classList.remove('is-pressed'));
+
+        // Keyboard
+        btn.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Enter') btn.classList.add('is-pressed');
+        });
+        btn.addEventListener('keyup', () => btn.classList.remove('is-pressed'));
+    }
+
+
     function init() {
         drawer     = document.getElementById('help-drawer');
         backdrop   = document.getElementById('help-backdrop');
@@ -209,6 +226,10 @@
         endSentinel && endSentinel.addEventListener('focus', function () {
             if (open && chevronBtn) chevronBtn.focus();
         });
+
+        makePressReactive(toggleBtn);
+        makePressReactive(chevronBtn);
+
     }
 
     if (document.readyState === 'loading') {
