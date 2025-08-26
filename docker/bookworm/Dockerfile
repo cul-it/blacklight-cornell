@@ -104,6 +104,7 @@ COPY ./blacklight-cornell/Gemfile ./blacklight-cornell/Gemfile.lock ./
 RUN bundle config set --local with "${RAILS_ENV}" && \
     bundle config set --local without "${BUNDLE_WITHOUT}" && \
     bundle install && \
+    gem install aws-sdk-s3 && \
     rm -rf ${BUNDLE_PATH}/cache/*.gem && \
     find ${BUNDLE_PATH}/ -name "*.c" -delete && \
     find ${BUNDLE_PATH}/ -name "*.o" -delete
