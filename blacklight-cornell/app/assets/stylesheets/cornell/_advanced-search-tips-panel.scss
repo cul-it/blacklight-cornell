@@ -1,75 +1,49 @@
-// Panel container styling
+/* Backdrop: dim only, do NOT intercept clicks */
+.help-backdrop[hidden] { display: none; }
+.help-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.25);
+  z-index: 1040;
+  pointer-events: none; /* ← allow clicking the page without closing */
+}
+
+/* Drawer (bottom sheet mobile; right drawer desktop) */
 .help-drawer {
   position: fixed;
-  top: 0;
   right: 0;
-  width: min(420px, 92vw);
-  height: 100vh;
+  bottom: 0;
+  top: auto;
+  width: 100vw;
+  height: 30vh;
   background: #fff;
-  border-left: 1px solid #ddd;
-  box-shadow: -6px 0 16px rgba(0,0,0,.08);
-  transform: translateX(100%);
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -6px 16px rgba(0,0,0,.08);
+  transform: translateY(100%);
   transition: transform .25s ease-in-out;
   z-index: 1050;
   display: flex;
   flex-direction: column;
 }
+.help-drawer.is-open { transform: translateY(0); }
 
-// Default (desktop) → from the right
-//.help-drawer {
-//  position: fixed;
-//  top: 0;
-//  right: 0;
-//  width: min(420px, 92vw);
-//  height: 100vh;
-//  background: #fff;
-//  border-left: 1px solid #ddd;
-//  box-shadow: -6px 0 16px rgba(0,0,0,.08);
-//  transform: translateX(100%);
-//  transition: transform .25s ease-in-out;
-//  z-index: 1050;
-//  display: flex;
-//  flex-direction: column;
-//}
-
-// Default (desktop) → from the bottom
-.help-drawer {
-  top: auto;
-  bottom: 0;
-  right: 0;
-  width: 100vw;
-  height: 20vh; // you can adjust
-  border-left: none;
-  border-top: 1px solid #ddd;
-  box-shadow: 0 -6px 16px rgba(0,0,0,.08);
-  transform: translateY(100%);
-}
-
-.help-drawer.is-open {
-  transform: translateX(0);
-}
-
-// Mobile override → from the bottom
-@media (max-width: 768px) {
+@media (min-width: 992px) {
   .help-drawer {
-    top: auto;
+    top: 0;
     bottom: 0;
-    right: 0;
-    width: 100vw;
-    height: 30vh; // you can adjust
-    border-left: none;
-    border-top: 1px solid #ddd;
-    box-shadow: 0 -6px 16px rgba(0,0,0,.08);
-    transform: translateY(100%);
+    height: 100vh;
+    //width: min(420px, 92vw);
+    width: 92vw;          /* fluid */
+    max-width: 420px;     /* cap */
+    border-top: 0;
+    border-left: 1px solid #ddd;
+    box-shadow: -6px 0 16px rgba(0,0,0,.08);
+    transform: translateX(100%);
   }
-
-  .help-drawer.is-open {
-    transform: translateY(0);
-  }
+  .help-drawer.is-open { transform: translateX(0); }
 }
 
-
-// Header
+/* Header */
 .help-drawer__header {
   display: flex;
   justify-content: space-between;
@@ -79,32 +53,123 @@
   background: #f9f9f9;
 }
 
-.help-drawer__close {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-// Content
+/* Content */
 .help-drawer__content {
   padding: 1rem;
   overflow-y: auto;
   line-height: 1.4;
 }
 
-// Backdrop
-.help-backdrop[hidden] { display: none; }
-.help-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.25);
-  z-index: 1040;
-  pointer-events: none;
-}
-
-// Highlight target element when active
+/* Highlight target */
 .help-target {
   outline: 2px solid #337ab7;
   outline-offset: 2px;
+}
+
+/* Edge chevron — half inside/half outside panel edge */
+#help-chev {
+  position: absolute;
+  top: 50%;
+  left: -1rem;                 /* half of width sits outside */
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  display: none;               /* show only on desktop (right drawer) */
+  z-index: 1060;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+#help-chev .chev {
+  display: inline-block;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform .2s ease;
+}
+.help-drawer.is-open #help-chev .chev { transform: rotate(180deg); }
+
+@media (min-width: 992px) {
+  #help-chev { display: inline-flex; }
+}
+
+/* Question-mark edge toggle: always on the far right edge when panel closed */
+#help-toggle {
+  position: fixed;
+  right: 0.25rem;              /* sit on the edge */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1060;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  color: #555;
+  text-decoration: none;
+}
+#help-toggle[aria-expanded="true"] { display: none; } /* hide when panel is open */
+
+
+/* Hide the edge ? whenever the drawer is open (robust, no attribute reliance) */
+.help-open #help-toggle { display: none !important; }
+
+/* Keep the attribute version too (harmless redundancy) */
+#help-toggle[aria-expanded="true"] { display: none; }
+
+/* Make ? and chevron the same size; align chevron exactly half-outside */
+#help-toggle {
+  position: fixed;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1060;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  color: #555;
+  text-decoration: none;
+}
+
+/* Chevron: same diameter, half outside the panel edge */
+#help-chev {
+  position: absolute;
+  top: 50%;
+  left: -1.25rem;       /* 2.5rem / 2 => half outside */
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  display: none;
+  z-index: 1060;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 992px) {
+  /* Only show chevron on desktop when the drawer is open */
+  .help-drawer.is-open #help-chev { display: inline-flex; }
+}
+
+/* Emphasize keywords inside help panel text */
+.help-key {
+  font-weight: 700;
+  font-size: 1.1em; /* slightly larger than surrounding text */
 }

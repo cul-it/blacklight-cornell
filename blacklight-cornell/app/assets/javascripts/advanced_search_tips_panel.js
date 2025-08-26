@@ -23,7 +23,11 @@
     }
 
     function announce(txt) {
-        content.textContent = txt || 'No help available for this field.';
+        // Visible panel can use HTML for styling
+        if (!txt) txt = 'No help available for this field.';
+        content.innerHTML = txt;
+
+        // Live region stays plain text for screen readers
         announcer.textContent = content.textContent;
     }
 
@@ -51,44 +55,54 @@
 
     // ---------------- Tips ----------------
     var TIP_OP = {
-        AND: 'All: Every word in this box must appear (order not required).',
-        OR: 'Any: At least one of the words in this box must appear.',
-        begins_with: 'Begins With: Matches fields that start with these words.',
-        phrase: 'Phrase: Matches all words in this box in this exact order.'
-    };
-    var TIP_BOOL = {
-        AND: 'AND: Results must include terms from this row AND previous rows (narrows).',
-        OR: 'OR: Results may include terms from this row OR previous rows (broadens). Put OR rows first.',
-        NOT: 'NOT: Exclude records that match this row (narrows by omission).'
+        AND: '<strong class="help-key">All</strong>: Every word in this box must appear (order not required).',
+        OR: '<strong class="help-key">Any</strong>: At least one of the words in this box must appear.',
+        begins_with: '<strong class="help-key">Begins With</strong>: Matches fields that start with these words.',
+        phrase: '<strong class="help-key">Phrase</strong>: Matches all words in this box in this exact order.'
     };
 
+    var TIP_BOOL = {
+        AND: '<strong class="help-key">AND</strong>: Results must include terms from this row AND previous rows (narrows).',
+        OR: '<strong class="help-key">OR</strong>: Results may include terms from this row OR previous rows (broadens). Put OR rows first.',
+        NOT: '<strong class="help-key">NOT</strong>: Exclude records that match this row (narrows by omission).'
+    };
 
     var TIP_FIELD = {
-        'all fields': 'Search anywhere in the record. Great starting point; refine with facets if needed.',
-        'title': 'Words in the title of the work.',
-        'journal title': 'Title of a journal/newspaper/serial (not individual articles).',
-        'title begins with': 'Title fields that start with your terms.',
-        'author': 'Names of creators/contributors. Use “Last, First” for browse; quotes for exact phrases.',
-        'author browse (a-z) sorted by name': 'ℹ️ Browse authors alphabetically by name (use “Last, First”).',
-        'author browse (a-z) sorted by title': 'ℹ️ Browse authors alphabetically, results grouped by title.',
-        'subject': 'Library-assigned subject headings (broader/more precise than keywords).',
-        'subject browse (a-z)': 'Browse subjects alphabetically; try broad terms.',
-        'call number': 'Find items by call number; nearby results show related topics.',
-        'series': 'Series title (e.g., “Lecture Notes in Computer Science”).',
-        'publisher': 'Publisher name.',
-        'place of publication': 'Geographic place of publication.',
-        'publisher number/other identifier': 'ℹ️ Publisher or other identifying numbers.',
-        'isbn/issn': 'Standard identifiers: ISBN for books; ISSN for serials.',
-        'notes': 'Notes fields (e.g., contents description).',
-        'donor name': 'Name of a donor associated with the item.'
+        'all fields': '<strong class="help-key">All fields</strong>: Search anywhere in the record. Great starting point; refine with facets if needed.',
+        'title': '<strong class="help-key">Title</strong>: Words in the title of the work.',
+        'journal title': '<strong class="help-key">Journal title</strong>: Title of a journal/newspaper/serial (not individual articles).',
+        'title begins with': '<strong class="help-key">Title begins with</strong>: Title fields that start with your terms.',
+        'author': '<strong class="help-key">Author</strong>: Names of creators/contributors. Use “Last, First” for browse; quotes for exact phrases.',
+        'author browse (a-z) sorted by name': '<strong class="help-key">Author browse (A–Z, by name)</strong>: Browse authors alphabetically by name (use “Last, First”).',
+        'author browse (a-z) sorted by title': '<strong class="help-key">Author browse (A–Z, by title)</strong>: Browse authors alphabetically, results grouped by title.',
+        'subject': '<strong class="help-key">Subject</strong>: Library-assigned subject headings (broader/more precise than keywords).',
+        'subject browse (a-z)': '<strong class="help-key">Subject browse (A–Z)</strong>: Browse subjects alphabetically; try broad terms.',
+        'call number': '<strong class="help-key">Call number</strong>: Find items by call number; nearby results show related topics.',
+        'series': '<strong class="help-key">Series</strong>: Series title (e.g., “Lecture Notes in Computer Science”).',
+        'publisher': '<strong class="help-key">Publisher</strong>: Publisher name.',
+        'place of publication': '<strong class="help-key">Place of publication</strong>: Geographic place of publication.',
+        'publisher number/other identifier': '<strong class="help-key">Publisher number / other identifier</strong>: Publisher or other identifying numbers.',
+        'isbn/issn': '<strong class="help-key">ISBN/ISSN</strong>: Standard identifiers: ISBN for books; ISSN for serials.',
+        'notes': '<strong class="help-key">Notes</strong>: Notes fields (e.g., contents description).',
+        'donor/provenance': '<strong class="help-key">Donor/Provenance</strong>: Name of a donor associated with the item.'
     };
+
     function norm(s){return String(s||'').trim().toLowerCase();}
 
     function updateDynamicTip(target) {
         var dyn = target.getAttribute('data-help-dynamic');
         if (!dyn) return false;
-        if (dyn === 'op') { var v = target.value; if (TIP_OP[v]) { announce(TIP_OP[v]); return true; } }
-        if (dyn === 'bool') { var b = target.value; if (TIP_BOOL[b]) { announce(TIP_BOOL[b]); return true; } }
+
+        if (dyn === 'op') {
+            var v = target.value;
+            if (TIP_OP[v]) { announce(TIP_OP[v]); return true; }
+        }
+
+        if (dyn === 'bool') {
+            var b = target.value;
+            if (TIP_BOOL[b]) { announce(TIP_BOOL[b]); return true; }
+        }
+
         if (dyn === 'field') {
             var label = target.options[target.selectedIndex]?.text || '';
             var key = norm(label);
