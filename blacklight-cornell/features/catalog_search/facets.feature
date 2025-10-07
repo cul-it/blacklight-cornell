@@ -54,7 +54,7 @@ Feature: Facets
 		And I search for everything
 		Then I limit the publication year from <begin> to <end>
 		Then I should get <count> results
-		And I should not see 'Publication Year facet out of range'
+		And I should not see 'Publication Year: Please enter'
 
 	Examples:
 		| begin | end | count |
@@ -66,12 +66,12 @@ Feature: Facets
 		Given I am on the home page
 		And I search for everything
 		Then I limit the publication year from <begin> to <end>
-		And I should see 'Publication Year facet out of range'
+		And I should see 'Publication Year: Please enter'
 
 	Examples:
 		| begin | end | count |
-		| -1 | 2010 | 187 |
-		| 1910 | -4 | 24 |
+		| nil | 2010 | 187 |
+		| 1910 | nil | 24 |
 		| 1966 | 1800 | 2 |
 
 	@DACCESS-215

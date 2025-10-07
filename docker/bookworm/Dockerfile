@@ -16,15 +16,15 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     default-libmysqlclient-dev=1.1.0 cron \
     # CVE-2024-5535
-    openssl=3.0.16-1~deb12u1 \
+    openssl=3.0.17-1~deb12u2 \
     # CVE-2024-37371
-    libkrb5-3=1.20.1-2+deb12u3 \
+    libkrb5-3=1.20.1-2+deb12u4 \
     # CVE-2024-33599
-    libc6=2.36-9+deb12u10 \
+    libc6=2.36-9+deb12u13 \
     # CVE-2024-0567
-    libgnutls30=3.7.9-2+deb12u4 \
+    libgnutls30=3.7.9-2+deb12u5 \
     # CVE-2023-50387
-    libsystemd0=252.36-1~deb12u1 && \
+    libsystemd0=252.38-1~deb12u1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man && \
     # CVE-2023-36617⁠
@@ -104,6 +104,7 @@ COPY ./blacklight-cornell/Gemfile ./blacklight-cornell/Gemfile.lock ./
 RUN bundle config set --local with "${RAILS_ENV}" && \
     bundle config set --local without "${BUNDLE_WITHOUT}" && \
     bundle install && \
+    gem install aws-sdk-s3 && \
     rm -rf ${BUNDLE_PATH}/cache/*.gem && \
     find ${BUNDLE_PATH}/ -name "*.c" -delete && \
     find ${BUNDLE_PATH}/ -name "*.o" -delete

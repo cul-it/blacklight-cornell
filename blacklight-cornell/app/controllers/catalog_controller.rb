@@ -27,13 +27,9 @@ class CatalogController < ApplicationController
   def start_new_search_session?
     return false unless action_name == 'index'
 
-    # Validate date range first; if invalid, don't start/save a session
-    if params[:range].present?
-      begin
-        check_dates(params)
-      rescue ArgumentError
-        return false
-      end
+    # Validate date range first; if range is out of order (which triggers BlacklightRangeLimit::InvalidRange), don't start/save a session
+    if !params[:range].nil? && check_dates(params) == 'order'
+      return false
     end
 
     query_present     = search_state.query_param.present?
