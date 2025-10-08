@@ -47,12 +47,27 @@ form.advanced {
 // Add a row link
 // -------------------------
 .add-row {
-  margin: 1rem 0 2rem 0;
+  margin: 1rem 0 2rem;
+  display: inline-block;
+  float: left;
+}
+.add-row-tip {
+  font-size: .9rem;
+  margin: 1rem 0 0 2rem;
+  display: inline-block;
+  padding-top: 3px;
+  .fa {
+    margin-right: .25rem;
+    color: $cornell-primary;
+  }
 }
 .add-and-sort {
   label {
     display: inline-block;
     vertical-align: middle;
+  }
+  hr {
+    margin: 2rem 0 1rem;
   }
 }
 #sort {
