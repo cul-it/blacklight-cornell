@@ -1,19 +1,19 @@
-version: '3.8'
-
 services:
   webapp:
     tty: true
-    image: ${IMAGE_NAME}:latest
+    image: ${IMAGE_NAME:-container-discovery}:latest
     build:
       context: .
-      dockerfile: docker/bookworm/Dockerfile
+      dockerfile: docker/trixie/Dockerfile
       args:
         - GIT_COMMIT
     environment:
       - IMAGE_NAME=container-discovery
       - RAILS_ENV=${RAILS_ENV}
       - RUN_CRON=true
+      - TEST_APP_VERSION
     ports:
       - 9292:9292
     volumes:
       - ${AWS_CREDENTIALS}:/custom_mnt/credentials:ro
+      - ./mount:/app:cached
