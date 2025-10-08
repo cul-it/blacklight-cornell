@@ -31,13 +31,13 @@ gem "haml-rails"
 gem "htmlentities", "~> 4.3.4"
 gem "httpclient", "~> 2.9.0"
 gem "jquery-rails"
-gem "jquery-ui-rails", "6.0.0"
+gem "jquery-ui-rails", "8.0.0"
 gem "kaminari", ">= 0.15"
 gem "libv8-node"
 gem "marc"
 gem "mini_racer", "0.6.2", platforms: :ruby
 gem "net-smtp"
-gem "nokogiri", "~> 1.16.7"
+gem "nokogiri", "~> 1.18.9"
 gem "omniauth", "~> 2.0"
 gem "omniauth-saml", "~> 2.2"
 gem "omniauth-rails_csrf_protection"
@@ -73,9 +73,9 @@ gem "uri", "0.12.4"
 gem "whenever", require: false
 gem "yaml_db"
 
-gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.2"
+gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.3"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
-gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.6"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.7"
 
 group :development, :test do
   gem "awesome_print"
