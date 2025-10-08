@@ -342,9 +342,7 @@ module AeonHelper
   end
   # rubocop:enable Metrics/MethodLength
 
-  # Generates the hidden inputs for the Aeon request forms. This is modified from
-  # the original  implementations formerly found in redirect_shib.html.erb and
-  # redirect_nonshib.html.erb.
+  # Generates the hidden inputs for the Aeon request forms. 
   def generate_hidden_inputs(content)
     return 'Report this error' if content.nil?
 
