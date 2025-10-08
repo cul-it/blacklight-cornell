@@ -155,7 +155,6 @@ class CatalogController < ApplicationController
 
     config.display_link = {
         'url_other_display'  => { :label => 'Other online content' },
-        'url_bookplate_display'  => { :label => 'Bookplate' },
         'url_findingaid_display'  => { :label => 'Finding Aid' },
         'other_availability_piped'  => { :label => 'Other Availability' }
 
@@ -386,9 +385,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
-    config.add_show_field 'former_owner_display', :label => 'Former Owner'
-    config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
-    config.add_show_field 'url_other_display', :label => 'Other online content'
+    config.add_show_field 'former_owner_display', :label => 'Former Owner'    config.add_show_field 'url_other_display', :label => 'Other online content'
     config.add_show_field 'works_about_display', :label => 'Works about'
     config.add_show_field 'awards_display', :label => 'Awards'
     # config.add_show_field 'holdings_json', :label => 'Holdings'

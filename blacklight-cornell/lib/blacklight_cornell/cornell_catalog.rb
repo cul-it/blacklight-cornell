@@ -560,6 +560,7 @@ private
       alert
     elsif begin_year.blank?
       alert = 'begin'
+      raise BlacklightRangeLimit::InvalidRange
     elsif end_year.blank?
       alert = 'end'
     elsif begin_year > end_year
