@@ -4,7 +4,7 @@ services:
     image: container-discovery-test:latest
     build:
       context: .
-      dockerfile: docker/bookworm/Dockerfile
+      dockerfile: docker/trixie/Dockerfile
       target: test
       args:
         - GIT_COMMIT
@@ -17,4 +17,5 @@ services:
       - ./blacklight-cornell:/workspaces/blacklight-cornell:cached
       - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro
       - ${RAILS_ENV_FILE}:/workspaces/blacklight-cornell/.env:ro
+      - ./mount:/app:cached
     working_dir: /workspaces/blacklight-cornell
