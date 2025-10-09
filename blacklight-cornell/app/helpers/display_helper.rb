@@ -208,8 +208,6 @@ module DisplayHelper
       case args[:field]
         when'url_findingaid_display'
           value
-        when 'url_bookplate_display'
-          value.uniq.join(',').html_safe
         when 'url_other_display'
           value.join('<br/>').html_safe
         else
