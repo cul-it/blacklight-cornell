@@ -675,8 +675,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rexml (3.2.9)
-      strscan
+    rexml (3.4.2)
     rsolr (2.6.0)
       builder (>= 2.1.2)
       faraday (>= 0.9, < 3, != 2.0.0)
@@ -781,7 +780,6 @@ GEM
     status-page (0.1.5)
       rails (>= 4.2)
     stringio (3.1.7)
-    strscan (3.1.5)
     summon (2.0.5)
       json
     temple (0.10.3)
@@ -938,7 +936,7 @@ DEPENDENCIES
   rb-readline (~> 0.5.x)
   redis-session-store
   repost (~> 0.4.2)
-  rexml (~> 3.2.6)
+  rexml (~> 3.4.2)
   rsolr
   rspec
   rspec-rails

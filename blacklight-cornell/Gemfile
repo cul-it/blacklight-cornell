@@ -51,7 +51,7 @@ gem "repost", "~> 0.4.2"
 # TODO: rexml v3.3.9 is more stringent on acceptable xml. Fails with current xml format
 # Before implementing, the xml structure will need to be modified to work with rexml v3.3.9
 # example: Bad ❌ <"xml version='1.0'" Good ✅ <?xml version='1.0'"
-gem "rexml", "~> 3.2.6"
+gem "rexml", "~> 3.4.2"
 gem "rsolr"
 gem "ruby-saml", "~>1.18"
 gem "rufus-scheduler"
