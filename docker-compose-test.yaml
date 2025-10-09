@@ -4,7 +4,7 @@ services:
     image: container-discovery-test:latest
     build:
       context: .
-      dockerfile: docker/bookworm/Dockerfile
+      dockerfile: docker/trixie/Dockerfile
       target: test
       args:
         - GIT_COMMIT
@@ -17,3 +17,4 @@ services:
     volumes:
       - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro
       - ${COVERAGE_PATH}:/blacklight-cornell/coverage:rw
+      - ./mount:/app:cached

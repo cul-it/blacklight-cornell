@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-# APP_VERSION=${APP_VERSION}
+if [ "${TEST_APP_VERSION}" != "" ]
+  then
+    echo "${TEST_APP_VERSION} will be used as APP_VERSION"
+    APP_VERSION="${TEST_APP_VERSION}"
+fi
 
 WORKDIR="/blacklight-cornell"
 cd $WORKDIR
@@ -22,5 +26,6 @@ if [ -f "$MNT_ENVFILE" ]; then
     echo "Supplied .env file will be used"
     cp $MNT_ENVFILE $ENVFILE
 else
+    echo "Fetch rails env from S3: ${APP_VERSION}, ${ENVFILE}"
     ruby get_env.rb $APP_VERSION $ENVFILE
 fi

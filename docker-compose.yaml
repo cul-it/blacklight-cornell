@@ -1,10 +1,10 @@
 services:
   webapp:
     tty: true
-    image: ${IMAGE_NAME}:latest
+    image: ${IMAGE_NAME:-container-discovery}:latest
     build:
       context: .
-      dockerfile: docker/bookworm/Dockerfile
+      dockerfile: docker/trixie/Dockerfile
       args:
         - GIT_COMMIT
         - RAILS_ENV=${RAILS_ENV:-production}
@@ -17,3 +17,4 @@ services:
       - 9292:9292
     volumes:
       - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro
+      - ./mount:/app:cached
