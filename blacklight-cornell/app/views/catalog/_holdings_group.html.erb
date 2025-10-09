@@ -61,7 +61,7 @@
               <%= link_to "Hours", "https://cornellspif.com/contact-spif/", "aria-label" => i["location"]["name"] + " Hours" %>
             <% else %>
               <% if i["location"]["hoursCode"] == "ornithology" %>
-                <%= link_to "Hours", "https://www.birds.cornell.edu/home/visit/", "aria-label" => i["location"]["name"] + " Hours" %>
+                <%= link_to "Hours", "https://www.birds.cornell.edu/home/visit", "aria-label" => i["location"]["name"] + " Hours" %>
               <% else %>
                 <%= link_to "Hours", "https://" + i["location"]["hoursCode"] + ".library.cornell.edu", "aria-label" => i["location"]["name"] + " Hours" %>
               <% end %>
