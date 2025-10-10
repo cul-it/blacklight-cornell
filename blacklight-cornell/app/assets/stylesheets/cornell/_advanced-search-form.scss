@@ -8,12 +8,16 @@
   }
 }
 
+.card-advanced-search {
+  margin-bottom: 2rem;
+}
+
 // Form styling
 // -------------------------
 
 form.advanced {
   .input_row:not(:last-child) {
-    margin-bottom: 1em;
+    margin-bottom: .5rem;
   }
   .input_row {
     select, label, input {
@@ -43,7 +47,9 @@ form.advanced {
 // Add a row link
 // -------------------------
 .add-row {
-  margin: 1rem 0 2rem 0;
+  margin: 1rem 0 2rem;
+  display: inline-block;
+  float: left;
 }
 .add-and-sort {
   label {
@@ -102,17 +108,7 @@ form.advanced {
 // -------------------------
 
 .as-tips {
-  margin-top: 1rem;
-}
-.as-examples {
-  margin-bottom: 0;
-  margin-top: .25em;
-}
-// TODO: Bootstrap 4 temp fix - remove floats and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
-.dl-horizontal dt {
-  float: left;
-  clear: left;
-  text-align: right;
+  padding-left: 1rem;
 }
 
 // Search Validation
@@ -157,17 +153,6 @@ form.advanced {
       width: 25%;
     }
   }
-  // TODO: remove dl-horizontal class and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
-  .as-tips {
-    dl.dl-horizontal {
-      dt {
-        width: 50px;
-      }
-      dd {
-        margin-left: 65px;
-      }
-    }
-  }
   // Adjust width of first row so that it is the same as subsequent rows
   #q_row0 {
     width: 37.5%;
@@ -179,16 +164,6 @@ form.advanced {
   .form-inline {
     .advanced-search-field.form-control {
       width: 40%;
-    }
-  }
-  .as-tips {
-    dl.dl-horizontal {
-      dt {
-        width: 100px;
-      }
-      dd {
-        margin-left: 115px;
-      }
     }
   }
   // Adjust width of first row so that it is the same as subsequent rows
@@ -206,6 +181,6 @@ form.advanced {
   }
   // Adjust width of first row so that it is the same as subsequent rows
   #q_row0 {
-    width: 32.5%;
+    width: 37.5%;
   }
 }
