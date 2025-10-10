@@ -457,9 +457,12 @@
       width: 176px;
     }
 }
-#preview-heading {
+.browse .main-content #preview-heading,
+.blacklight-browse .main-content #preview-heading {
     font-size: 18px;
     padding: 8px 15px 0;
+    border: 0;
+    margin-bottom: 0;
 }
 .preview-container {
     display: none;
