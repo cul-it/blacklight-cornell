@@ -45,7 +45,7 @@ function SubjectDataBrowse() {
       showDetails({ wikidata, dbpedia });
     }
   };
-  
+
   // Get Image country = P17; territory P131; location P276
   async function getWikidata(localname) {
     const sparqlQuery = (
@@ -109,6 +109,8 @@ function SubjectDataBrowse() {
       $('#comment-container').removeClass();
       $('#comment-container').addClass('col-sm-12').addClass('col-md-12').addClass('col-lg-12');
     }
+    // Show the acknowledgement box if any text is present
+    toggleAcknowledgements();
   };
 
   function qidAndLabel(data) {
@@ -117,7 +119,7 @@ function SubjectDataBrowse() {
       qid: data.entity?.split('/')[4] || 'x'
     }
   };
-  
+
   // we can use the wikidata QID to get an entity description from DBpedia
   async function getDbpediaDescription(data = {}) {
     const { qid, label } = qidAndLabel(data);
@@ -141,6 +143,8 @@ function SubjectDataBrowse() {
       $('#dbp-comment').text(wdDescription);
       $('#dbp-comment').show();
     }
+    // Show the acknowledgement box if any text is present
+    toggleAcknowledgements();
   };
 
   function showDetails({ dbpedia, wikidata }) {
@@ -167,6 +171,17 @@ function SubjectDataBrowse() {
     return !!value && !ldExcluder.isPropertyExcluded(propertyName);
   };
 
+  // Removes 'd-none' when either ack span has text.
+  function toggleAcknowledgements() {
+    const hasWikiText = $('#wiki-acknowledge').text().trim().length > 0;
+    const hasImgText  = $('#wiki-image-acknowledge').text().trim().length > 0;
+    const $box = $('#wiki-acknowledge, #wiki-image-acknowledge').closest('.ld-acknowledge');
+    if (hasWikiText || hasImgText) {
+      $box.removeClass('d-none');
+    } else {
+      $box.addClass('d-none');
+    }
+  }
   return { renderLinkedData };
 };
 
