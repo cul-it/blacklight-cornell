@@ -23,6 +23,7 @@
           <% details_html = capture { yield } %>
           <% if details_html.to_s.strip.present? %>
             <dl class='dl-horizontal' id='item-details'>
+              <%# display different data per heading type in <HEADING_TYPE>_info.html.erb %>
               <%= details_html %>
             </dl>
           <% end %>
