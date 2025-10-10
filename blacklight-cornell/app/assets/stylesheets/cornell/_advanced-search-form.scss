@@ -51,23 +51,10 @@ form.advanced {
   display: inline-block;
   float: left;
 }
-.add-row-tip {
-  font-size: .9rem;
-  margin: 1rem 0 0 2rem;
-  display: inline-block;
-  padding-top: 3px;
-  .fa {
-    margin-right: .25rem;
-    color: $cornell-primary;
-  }
-}
 .add-and-sort {
   label {
     display: inline-block;
     vertical-align: middle;
-  }
-  hr {
-    margin: 2rem 0 1rem;
   }
 }
 #sort {
@@ -120,17 +107,8 @@ form.advanced {
 // Search tips
 // -------------------------
 
-
 .as-tips {
   padding-left: 1rem;
-}
-// TODO: DACCESS-589 - remove <dl> if using </ul>
-// TODO: DACCESS-589 - add responsive styles for more narrow form fields
-// TODO: Bootstrap 4 temp fix - remove floats and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
-.dl-horizontal dt {
-  float: left;
-  clear: left;
-  text-align: right;
 }
 
 // MEDIA QUERIES
@@ -150,17 +128,6 @@ form.advanced {
       width: 25%;
     }
   }
-  // TODO: remove dl-horizontal class and use cols for dt and dd alignment and sizing - 12/3/24, mhk33
-  .as-tips {
-    dl.dl-horizontal {
-      dt {
-        width: 50px;
-      }
-      dd {
-        margin-left: 65px;
-      }
-    }
-  }
   // Adjust width of first row so that it is the same as subsequent rows
   #q_row0 {
     width: 37.5%;
@@ -172,16 +139,6 @@ form.advanced {
   .form-inline {
     .advanced-search-field.form-control {
       width: 40%;
-    }
-  }
-  .as-tips {
-    dl.dl-horizontal {
-      dt {
-        width: 100px;
-      }
-      dd {
-        margin-left: 115px;
-      }
     }
   }
   // Adjust width of first row so that it is the same as subsequent rows
