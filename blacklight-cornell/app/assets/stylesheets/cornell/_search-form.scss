@@ -84,20 +84,7 @@ div.search-tools > h2 {line-height: 1em}
   margin-top: 1.5em;
   li {
     border-left: 1px solid $dark-tan;
-    font-size: 1rem;
     padding: 0 .5em;
-    a {
-      color: $dark-gray;
-      font-weight: 700;
-      i {
-        margin-right: .5em;
-        color: $cornell-primary;
-      }
-    }
-    .tips-link {
-      font-weight: normal;
-      text-transform: none;
-    }
   }
   li:first-child {
     border-left: 0;
@@ -111,6 +98,16 @@ div.search-tools > h2 {line-height: 1em}
   }
   .nav > li > a {
     padding: 0;
+  }
+}
+
+#advanced-search-link {
+  color: $dark-gray;
+  font-weight: 700;
+  font-size: 1rem;
+  i {
+    margin-right: .5em;
+    color: $cornell-primary;
   }
 }
 
