@@ -9,6 +9,9 @@
       text-decoration: none;
     }
   }
+  @include media-breakpoint-up(md) {
+    padding-bottom: 1em;
+  }
 }
 
 .search-options { margin-left: 0; }
@@ -78,69 +81,25 @@ div.search-tools > h2 {line-height: 1em}
   color: white;
 }
 
-// Search navigation
-// --------------------- //
-.search-nav {
-  margin-top: 1.5em;
-  li {
-    border-left: 1px solid $dark-tan;
+// Advanced search link - catalog + bento
+// ---------------------------------------- //
+
+.advanced-search-link {
+  margin: 1rem 0 .5rem 0;
+  a {
+    color: $dark-gray;
+    font-weight: 700;
     font-size: 1rem;
-    padding: 0 .5em;
-    a {
-      color: $dark-gray;
-      font-weight: 700;
-      i {
-        margin-right: .5em;
-        color: $cornell-primary;
-      }
-    }
-    .tips-link {
-      font-weight: normal;
-      text-transform: none;
+    text-decoration: underline;
+    display: inline-block;
+    i {
+      margin-right: .5em;
+      color: $cornell-primary;
     }
   }
-  li:first-child {
-    border-left: 0;
-    padding-left: 0;
-    a {
-      padding-left: 0;
-    }
-  }
-  li:last-child {
-    padding-right: 0;
-  }
-  .nav > li > a {
-    padding: 0;
+  @include media-breakpoint-up(lg) {
+    margin-top: .5rem;
+    float: right;
+    text-align: right;
   }
 }
-
-// MEDIA QUERIES
-// -------------------------
-
-// Extra small devices (portrait phones, less than 576px)
-// No media query for `xs` since this is the default in Bootstrap
-
-// Small devices (landscape phones, 576px and up)
-// @include media-breakpoint-up(sm) {
-// }
-
-// Medium devices (tablets, 768px and up)
-@include media-breakpoint-up(md) {
-  .search-bar {
-    padding-bottom: 1em;
-  }
-}
-
-// Large devices (desktops, 992px and up)
-@include media-breakpoint-up(lg) {
-  .search-nav {
-    padding-left: 15px;
-    margin-top: .5em;
-    .nav {
-      float: right;
-    }
-  }
-}
-
-// Extra large devices (large desktops, 1200px and up)
-// @include media-breakpoint-up(xl) { ... }
