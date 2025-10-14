@@ -13,7 +13,7 @@
 
 <div id="view-type-dropdown" class="d-sm-inline-block">
   <%= render :partial => 'browse/availability_location_filter' %>
-  <ul class="fa-ul-dropdown d-sm-inline-block list-unstyled">
+  <ul class="fa-ul-dropdown d-sm-inline-block list-unstyled mb-2">
     <li class="dropdown">
       <div class="btn-group mb-2">
         <a id="vb-view-type" href="#" class="btn btn-default btn-md dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false">
@@ -120,7 +120,7 @@
   <div class="preview-container-full">
     <div class="vb-pointer-full"></div>
     <div id="preview" class="vb-preview-full">
-      <h3 id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'preview_title']);"></a></h3>
+      <div id="preview-heading" ><a id="prev-title" href="#" tabindex="0" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'preview_title']);"></a></div>
       <dl  class="row preview-dl">
       	<dt id="label-author" class="vb-dt">Author:</dt>
       	<dd id="prev-author" class="vb-dd"></dd>
@@ -132,4 +132,5 @@
       	<dd id="prev-available" class="vb-dd"></dd>
       </dl>
     </div>
+</div>
 </div>
