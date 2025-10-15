@@ -1,4 +1,4 @@
-class Databases < ActiveRecord::Base
+class Databases < ApplicationRecord
   attr_accessible :id
   require 'dotenv'
     # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
