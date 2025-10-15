@@ -1,143 +1,82 @@
 # -*- encoding : utf-8 -*-
 
-# https://culibrary.atlassian.net/browse/DISCOVERYACCESS-8123
-# Marked failing tests as pending in order to get rspec tests running again
-# We'll need to either fix this or remove any unused legacy code
-
 require "rails_helper"
-require "stringio"
-require "json"
 
-# NOTE: most of these functions and tests are copied directly from
-# # the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
+# NOTE: most of these functions and tests are copied directly from 
+# the blacklight-marc gem: blacklight-marc/spec/lib/marc_export_spec.rb
 
 def marc_from_xml(string)
-  # NOTE: somewhere, one of the blacklight gems is changing the parser
-  #   # used by XMLReader. Unless it's specified here ('rexml'), this function will
-  #     # fail to produce any output
-  #
+  # NOTE: somewhere, one of the blacklight gems is changing the parser used by XMLReader.
+  # Unless it's specified here ('rexml'), this function will fail to produce any output.
   reader = MARC::XMLReader.new(StringIO.new(string), :parser => "rexml")
   reader.each { |rec| return rec }
 end
 
 describe Blacklight::Solr::Document::MarcExport do
-  class MockMarcDocument < SolrDocument
-    include Blacklight::Solr::Document
-    include Blacklight::Document::Extensions
-    include Blacklight::Solr::Document::MarcExport
-    include Blacklight::Solr::Document::Endnote
-    include Blacklight::Solr::Document::RIS
-    include Blacklight::Solr::Document::Endnote_xml
-    include Blacklight::Solr::Document::Zotero
-    #extension_parameters[:marc_source_field] = :marc_display
-    #extension_parameters[:marc_format_type] = :marcxml
-
-    def xsetup_holdings_info(marc)
-      [""]
-    end
-
-    def ysetup_holdings_info(record)
-      if self["holdings_record_display"].blank?
-        return [""]
-      end
-      holdings_arr = self["holdings_record_display"]
-      holdings = []
-      where_arr = holdings_arr.collect { |h| JSON.parse(h).with_indifferent_access }
-      where = where_arr.collect do |h|
-        "#{h["locations"][0]["library"]}  #{h["callnos"][0]}" unless h.blank? or h["locations"].blank? or h["callnos"].blank?
-      end
-      where
-    end
-
-    def setup_holdings_info(record)
-      where = [""]
-      if (self["holdings_json"].present?)
-        holdings_json = JSON.parse(self["holdings_json"])
-        holdings_keys = holdings_json.keys
-        where = holdings_keys.collect do
-          |k|
-          l = holdings_json[k]
-          "#{l["location"]["library"]}  #{l["call"]}" unless l.blank? or l["location"].blank? or l["call"].blank?
-        end
-      end
-      where
-    end
-
-    attr_accessor :to_marc
-
-    def initialize(marc_xml_str)
-      @atts = []
-      @atts[0] = { :name => "format", :value => ["Book"] }
-      self.to_marc = marc_from_xml(marc_xml_str)
-    end
-
-    def [](key)
-      if key.kind_of?(Integer)
-        return @atts[key]
-      else
-        for i in 0...@atts.length
-          return @atts[i][:value] if key == @atts[i][:name]
-        end
-      end
-      return nil
-    end
-
-    def []=(key, value)
-      for i in 0...@atts.length
-        if key == @atts[i][:name]
-          @atts[i][:name] = key
-          @atts[i][:value] = value
-          return @atts[i][:value]
-        end
-      end
-      @atts << { :name => key, :value => value }
-    end
-  end
-
-  # the file xmldata, and the various <bibid>.rb files,from the support directory supplies marcxml data for testing.
-  # in all of these definitions below.
   before(:all) do
-    @book_recs = {}
-    # descriptive strings from the csl files.
-    dclass = MockMarcDocument
-    dclass.use_extension(Blacklight::Solr::Document::Endnote)
-    ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
-           "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
-           "8392067", "8696757", "8867518", "8632993", "9305118", "9448862", "9496646", "9939352", "10055679"]
-    # Turn all the xml data into MockMarcDocuments records.
-    ids.each { |id|
-      @book_recs[id] = dclass.new(send("rec#{id}"))
-      @book_recs[id]["id"] = id
-      # just a stub valid only for bibid 10055679#
-      @book_recs[id]["holdings_json"] = "{\"10368366\":{\"location\":{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\",\"hoursCode\":\"mann\"},\"call\":\"SF98.A5 M35 2017\",\"circ\":true,\"date\":1506532638,\"items\":{\"count\":1,\"unavail\":[{\"id\":10369482,\"status\":{\"code\":{\"3\":\"Renewed\"},\"due\":1541286000,\"date\":1509719141}}]}}}"
-    }
-    # Fix up some parameters supplied by SOLR
-    #electronic
-    eids = ["8125253", "8696757", "8867518", "5558811"]
-    # add on url information.
-    # more than url is required.
-    eids.each { |id|
-      @book_recs[id]["url_access_json"] = { url: "http://example.com" }.to_json
-      @book_recs[id]["online"] = ["Online"]
-    }
-    #music
-    mids = ["3261564"]
-    mids.each { |id|
-      @book_recs[id]["format"] = ["Musical Recording"]
-    }
-    #video
-    @book_recs["6788245"]["format"] = ["Video"]
-    #thesis
-    @book_recs["5494906"]["format"] = ["Thesis"]
-    @book_recs["1378974"]["format"] = ["Thesis"]
-    #map
-    @book_recs["1676023"]["format"] = ["Map or Globe"]
+
+    # Mock solr document created from MARCXML for testing Marc export modules 
+    dclass = Class.new(SolrDocument) do
+      include Blacklight::Solr::Document::MarcExport
+      include Blacklight::Solr::Document::Endnote
+      include Blacklight::Solr::Document::RIS
+      include Blacklight::Solr::Document::Endnote_xml
+      include Blacklight::Solr::Document::Zotero
+
+      attr_accessor :to_marc
+
+      def initialize(marc_xml_str)
+        @atts = []
+        # Solr format "Book" added as default to document
+        @atts[0] = { :name => "format", :value => ["Book"] }
+        self.to_marc = marc_from_xml(marc_xml_str)
+      end
+
+      def [](key)
+        if key.kind_of?(Integer)
+          return @atts[key]
+        else
+          for i in 0...@atts.length
+            return @atts[i][:value] if key == @atts[i][:name]
+          end
+        end
+        return nil
+      end
+  
+      def []=(key, value)
+        for i in 0...@atts.length
+          if key == @atts[i][:name]
+            @atts[i][:name] = key
+            @atts[i][:value] = value
+            return @atts[i][:value]
+          end
+        end
+        @atts << { :name => key, :value => value }
+      end
+
+      def setup_holdings_info(record)
+        where = [""]
+        if (self["holdings_json"].present?)
+          holdings_json = JSON.parse(self["holdings_json"])
+          holdings_keys = holdings_json.keys
+          where = holdings_keys.collect do
+            |k|
+            l = holdings_json[k]
+            "#{l["location"]["library"]}  #{l["call"]}" unless l.blank? or l["location"].blank? or l["call"].blank?
+          end
+        end
+        where
+      end
+    end
+
+    # xmldata.rb and other <bibid>.rb files from the support directory
+    # supplies marcxml data for testing in all of the definitions below.
+
+    # Individual records, generated from MARCXML 
     @book_record = dclass.new(book_record)
     @typical_record = dclass.new(standard_citation)
     @music_record = dclass.new(music_record)
-    @music_record["format"] = ["Musical Recording"]
     @dissertation_record = dclass.new(dissertation_note_xml)
-    @dissertation_record["format"] = ["Thesis"]
     @record_without_245b = dclass.new(record1_xml)
     @three_authors_record = dclass.new(three_authors_xml)
     @record_without_authors = dclass.new(record2_xml)
@@ -150,6 +89,34 @@ describe Blacklight::Solr::Document::MarcExport do
     @record_with_bad_author = dclass.new(bad_author_xml)
     @special_contributor_no_auth_record = dclass.new(special_contributor_no_author_xml)
     @record_utf8_decomposed = dclass.new(utf8_decomposed_record_xml)
+
+    # Book records set, generated from MARCXML
+    @book_recs = {}
+    ids = ["1001", "1002", "393971", "1378974", "1676023", "2083900", "3261564", "3902220",
+           "5494906", "5558811", "6146988", "6788245", "7292123", "7981095", "8069112", "8125253",
+           "8392067", "8696757", "8867518", "8632993", "9305118", "9448862", "9496646", "9939352", "10055679"]
+    ids.each { |id|
+      @book_recs[id] = dclass.new(send("rec#{id}"))
+      @book_recs[id]["id"] = id
+      # just a stub valid only for bibid 10055679#
+      @book_recs[id]["holdings_json"] = "{\"10368366\":{\"location\":{\"code\":\"mann\",\"number\":69,\"name\":\"Mann Library\",\"library\":\"Mann Library\",\"hoursCode\":\"mann\"},\"call\":\"SF98.A5 M35 2017\",\"circ\":true,\"date\":1506532638,\"items\":{\"count\":1,\"unavail\":[{\"id\":10369482,\"status\":{\"code\":{\"3\":\"Renewed\"},\"due\":1541286000,\"date\":1509719141}}]}}}"
+    }
+
+    # Solr electronic resource metadata added to some book records
+    eids = ["8125253", "8696757", "8867518", "5558811"]
+    eids.each { |id|
+      @book_recs[id]["url_access_json"] = { url: "http://example.com" }.to_json
+      @book_recs[id]["online"] = ["Online"]
+    }
+    
+    # Solr format metadata modified for some records (default is "Book")
+    @music_record["format"] = ["Musical Recording"]
+    @book_recs["3261564"]["format"] = ["Musical Recording"]
+    @book_recs["6788245"]["format"] = ["Video"]
+    @dissertation_record["format"] = ["Thesis"]
+    @book_recs["5494906"]["format"] = ["Thesis"]
+    @book_recs["1378974"]["format"] = ["Thesis"]
+    @book_recs["1676023"]["format"] = ["Map or Globe"]
   end
 
   describe "export_as_openurl_ctx_kev" do
@@ -232,7 +199,6 @@ describe Blacklight::Solr::Document::MarcExport do
 
     it "should export a typical ebook record correctly" do
       id = "5558811"
-      @book_recs[id]["online"] = ["Online"]
       @book_recs[id]["url_access_json"] = { url: "http://opac.newsbank.com/select/evans/385" }.to_json
       @book_recs[id]["language_facet"] = ["Algonquian (Other)"]
       ris_file = @book_recs[id].export_as_ris
@@ -336,7 +302,7 @@ describe Blacklight::Solr::Document::MarcExport do
           end
         end
       end
-    end # end of "should export the title and type in multiple formats correctly"
+    end
 
     #185 | 10055679 | endnote |  '%L  Mann Library  SF98.A5 M35 2017' |
     #186 | 10055679 | ris |  'CN - Mann Library  SF98.A5 M35 2017' |
@@ -442,6 +408,6 @@ describe Blacklight::Solr::Document::MarcExport do
           end
         end
       end
-    end #end of "it should export au, pb,py"
-  end # describe
+    end
+  end
 end
