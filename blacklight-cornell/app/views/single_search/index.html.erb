@@ -9,7 +9,7 @@
               <%= render 'single_search/search_form' %>
             </div>
             <div class="advanced-search-link col-md-4">
-              <%= link_to 'Catalog Advanced Search', "/advanced", id: "advanced-search-link" %>
+              <%= link_to 'Catalog Advanced Search', advanced_search_edit_path(convert_to_advanced_params(params)), id: 'advanced-search-link' %>
             </div>
           </div>
         </div>

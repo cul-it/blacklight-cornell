@@ -392,7 +392,7 @@ Feature: Search
     Then click on first link "Title: All beef AND Title: All 100%"
     And I should see the label '1 - '
     Then I remove facet constraint "beef"
-    And I should see the label '1 - 5 of'
+    And I should see the label '1 - 6 of'
 
  @adv_search
  @all_search
@@ -488,8 +488,8 @@ Examples:
   | AND | 1 | All Fields | complete | fire |
   | NOT | 4 | All Fields | complete | fire |
   | AND | 1 | Title | 100 | match |
-  | OR | 6 | Title | 100 | match |
-  | NOT | 4 | Title | 100 | match |
+  | OR | 7 | Title | 100 | match |
+  | NOT | 5 | Title | 100 | match |
   | NOT | 1 | Title | match | 100 |
 
 @DACCESS-174
@@ -592,3 +592,98 @@ Scenario: I can filter advanced searches by facets
   And I fill in the search box with 'wildlife'
   And I press 'search'
   Then I should get results
+
+
+######################################------------------------------------------
+##  JS Date Range Validation Tests  ##
+######################################
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Valid 4-digit range enables search (no alerts)
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '1960'
+  And I fill in "range_pub_date_facet_end" with '2000'
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Single start without end shows error after blur and disables search
+  When I literally go to advanced
+  And I focus the start year field
+  And I type '1999' into the focused field
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Please enter an end date.'
+  And the end year field should be invalid
+  And the advanced search submit button should be disabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Single end without start shows error after blur and disables search
+  When I literally go to advanced
+  And I focus the end year field
+  And I type '1999' into the focused field
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Please enter a start date.'
+  And the start year field should be invalid
+  And the advanced search submit button should be disabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Partial year while focused does not show ordering error
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '2000'
+  And I focus the end year field
+  And I type '300' into the focused field
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Start date must be earlier than or equal to end date.'
+  And the advanced search submit button should be disabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Negative years are accepted (BCE)
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '-500'
+  And I fill in "range_pub_date_facet_end" with '-100'
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: 200 - 3 should trigger ordering error after blur
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '200'
+  And I fill in "range_pub_date_facet_end" with '3'
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Start date must be earlier than or equal to end date.'
+  And the advanced search submit button should be disabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: 500 - 50 should trigger ordering error after blur
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '500'
+  And I fill in "range_pub_date_facet_end" with '50'
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Start date must be earlier than or equal to end date.'
+  And the advanced search submit button should be disabled

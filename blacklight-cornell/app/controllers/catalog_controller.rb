@@ -27,13 +27,9 @@ class CatalogController < ApplicationController
   def start_new_search_session?
     return false unless action_name == 'index'
 
-    # Validate date range first; if invalid, don't start/save a session
-    if params[:range].present?
-      begin
-        check_dates(params)
-      rescue ArgumentError
-        return false
-      end
+    # Validate date range first; if range is out of order (which triggers BlacklightRangeLimit::InvalidRange), don't start/save a session
+    if !params[:range].nil? && check_dates(params) == 'order'
+      return false
     end
 
     query_present     = search_state.query_param.present?
@@ -159,7 +155,6 @@ class CatalogController < ApplicationController
 
     config.display_link = {
         'url_other_display'  => { :label => 'Other online content' },
-        'url_bookplate_display'  => { :label => 'Bookplate' },
         'url_findingaid_display'  => { :label => 'Finding Aid' },
         'other_availability_piped'  => { :label => 'Other Availability' }
 
@@ -224,6 +219,11 @@ class CatalogController < ApplicationController
                            include_in_advanced_search: true,
                            advanced_search_order: 1,
                            sort: 'count'
+    config.add_facet_field 'location',
+                          label: 'Library Location',
+                          component: Blacklight::Hierarchy::FacetFieldListComponent,
+                          sort: 'index',
+                          limit: 100
     config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'pub_date_facet',
                            label: 'Publication Year',
@@ -252,12 +252,6 @@ class CatalogController < ApplicationController
     config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
-    #config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
-    config.add_facet_field 'location',
-                          label: 'Library Location',
-                          component: Blacklight::Hierarchy::FacetFieldListComponent,
-                          sort: 'index',
-                          limit: 100
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
     config.add_facet_field 'lc_callnum_facet',
@@ -269,7 +263,7 @@ class CatalogController < ApplicationController
 
    config.facet_display = {
      :hierarchy => {
-       'lc_callnum' => [['facet'], ':'],
+       'lc_callnum' => [['facet'], ' > '],
        'location' => [[nil],' > ']
      }
  }
@@ -387,12 +381,11 @@ class CatalogController < ApplicationController
     config.add_show_field 'issued_with_display', :label => 'Issued with'
     config.add_show_field 'separated_from_display', :label => 'Separated from'
     config.add_show_field 'cast_display', :label => 'Cast'
-    config.add_show_field 'notes', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
+    config.add_show_field 'notes_display', :label => 'Notes', separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'thesis_display', :label => 'Thesis'
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'former_owner_display', :label => 'Former Owner'
-    config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
     config.add_show_field 'works_about_display', :label => 'Works about'
     config.add_show_field 'awards_display', :label => 'Awards'
@@ -880,15 +873,9 @@ class CatalogController < ApplicationController
 end
 
 def tou
-    clnt = HTTPClient.new
-    #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{Blacklight.solr_config.inspect}")
-    solr = Blacklight.connection_config[:url]
-    p = {"id" =>params[:id] , "wt" => 'json',"indent"=>"true"}
-    @dbString = clnt.get_content("#{solr}/termsOfUse?"+p.to_param)
-    @dbResponse = JSON.parse(@dbString)
+    @dbResponse = Blacklight.default_index.connection.get('termsOfUse', params: { id: params[:id] })
     @db = @dbResponse['response']['docs'][0]
-    @dbString2 = clnt.get_content("#{solr}/select?qt=search&fl=*&q=id:#{params[:id]}")
-    @dbResponse2 = JSON.parse(@dbString2)
+    @dbResponse2 = Blacklight.default_index.connection.get('select', params: { qt: 'search', fl: '*', q: "id:#{params[:id]}" })
     @db2 = @dbResponse2['response']['docs'][0]
     @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
     if @dbResponse['response']['numFound'] == 0
@@ -937,9 +924,96 @@ def tou
   # TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
   # Solr, the latter from FOLIO. Why do we have two sources of metadata?
   def new_tou
-    folio = FolioApiService.new(session: session)
-    @newTouResult = folio.get_folio_terms_of_use(params[:title_id])
+    packageName = ""
+    title_id = params[:title_id]
+    id = params[:id]
+    @newTouResult = []
+    # okapi_url = ENV['OKAPI_URL']
+    record = eholdings_record(title_id) || []
+    if record.present?
+      # recordTitle = record["data"]["attributes"]["name"]
+      record["included"].each do |package|
+        attrs = package['attributes']
+        if attrs["isSelected"] == true
+          packageID = attrs["packageId"]
+          packageName = attrs["packageName"]
+          # packageUrl = attrs["url"]
+          # package_providerID = attrs["providerName"]
+          subscription = subscription_agreements(packageID)
+          if subscription.present?
+            if subscription[0]["linkedLicenses"][0]
+              remoteID = subscription[0]["linkedLicenses"][0]["remoteId"]
+              license = license(remoteID)
+              if license
+                license['packageName'] = packageName
+                @newTouResult << license unless @newTouResult.any? {|h| h["id"] == license['id']}
+              end
+            end
+          end
+        end
+      end
+    end
+
+    @newTouResult
   end
+
+  def eholdings_record(id)
+    # eholdings title JSON response described here:
+    # https://s3.amazonaws.com/foliodocs/api/mod-kb-ebsco-java/r/titles.html#eholdings_titles_get
+    folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources")
+  end
+
+  # Make a FOLIO request to retrieve an array of subscription agreements linked to an e-holdings record
+  # specified by id.
+  def subscription_agreements(id)
+    folio_request("#{ENV['OKAPI_URL']}/erm/sas?filters=items.reference=#{id}&sort=startDate:desc")
+  end
+
+  # Make a FOLIO request to retrieve a license object linked to an e-holdings record
+  # specified by id ('remoteId' in the JSON).
+  def license(id)
+    folio_request("#{ENV['OKAPI_URL']}/licenses/licenses/#{id}")
+  end
+
+  # Given a URL, make a FOLIO request and return the results (or nil in case of a RestClient exception).
+  def folio_request(url)
+    token = folio_token
+    if url && token
+      headers = {
+        'X-Okapi-Tenant' => ENV['OKAPI_TENANT'],
+        'x-okapi-token' => token,
+        :accept => 'application/json, application/vnd.api+json'
+      }
+      response = RestClient.get(url, headers)
+      JSON.parse(response.body) if response && response.code == 200
+    end
+  rescue RestClient::ExceptionWithResponse => err
+    Rails.logger.error "TOU: Error making FOLIO request (#{err})"
+    nil
+  end
+
+  # Return a FOLIO authentication token for API calls -- either from the session if a token
+  # was prevoiusly created, or directly from FOLIO otherwise.
+  #
+  # TODO: Caching is being disabled for now, since it's causing problems with the new expiring
+  # token mechanism in FOLIO. We need to figure out how to cache the token properly. (mjc12)
+  def folio_token
+   #  if session[:folio_token].nil?
+      url = ENV['OKAPI_URL']
+      tenant = ENV['OKAPI_TENANT']
+      response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
+      if response[:code] >= 300
+        Rails.logger.error "TOU error: Could not create a FOLIO token for #{user}"
+      else
+        session[:folio_token] = response[:token]
+      end
+   #  end
+    session[:folio_token]
+  end
+
+  #def oclc_request
+  #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
+  #end
 
   def redirect_browse
     if params[:search_field] && params[:controller] != 'advanced'

@@ -22,7 +22,7 @@ module CornellCatalogHelper
   end
 
   def advanced_search?
-    params[:q_row].present? || params[:f_inclusive].present?
+    params[:q_row].present?
   end
 
   def process_online_title(title)
@@ -121,7 +121,7 @@ module CornellCatalogHelper
 	"olin,301"=>"Olin Library Room 301 (Non-Circulating)",
 	"olin,404"=>"Olin Library Room 404 (Non-Circulating)",
 	"olin,405"=>"Olin Library Room 405 (Non-Circulating)",
-	"orni"=>"Adelson Library (Lab of Ornithology)",
+	"orni"=>"Lab of Ornithology",
 	"phys"=>"Physical Sciences Library (Clark Hall)",
 	"phys,anx"=>"Library Annex",
 	"phys,ref"=>"Physical Sciences Library Reference (Non-Circulating)",
@@ -175,7 +175,7 @@ module CornellCatalogHelper
 	"olin,305"=>"Olin Library Room 305 (Non-Circulating)",
 	"olin,anx"=>"Library Annex",
 	"olin,str2"=>"Special Location -- Ask at Olin Circulation Desk",
-	"orni,ref"=>"Adelson Library Reference (Lab of Ornithology)",
+	"orni,ref"=>"Lab of Ornithology Reference",
 	"phys,res"=>"Physical Sciences Reserve",
 	"rmc"=>"Kroch Library Rare & Manuscripts (Non-Circulating)",
 	"rmc,hsci"=>"Kroch Library Rare & Manuscripts (Non-Circulating)",

@@ -65,10 +65,8 @@
 </div>
 
 <div class="col-sm-12">
-  <div class="librarian-view">
-    <% if @document.to_marc.kind_of?(MARC::Record) %>
-      <%= link_to t('blacklight.tools.librarian_view'), librarian_view_solr_document_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %>
-    <%end%>
+  <div class="librarian-view mt-4">
+    <%= link_to t('blacklight.tools.librarian_view'), librarian_view_solr_document_path(@document), {:id => 'librarianLink', :name => 'librarian_view'} %>
     <% if show_folio_link?(@document['instance_id']) %>
       |
       <%= link_to 'FOLIO View', "#{ENV['FOLIO_URL']}/inventory/view/#{@document['instance_id']}" %>

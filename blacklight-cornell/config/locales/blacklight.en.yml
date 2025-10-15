@@ -205,9 +205,10 @@ en:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
         publication_year_range:
-          begin: "Publication Year facet out of range: beginning of range should be 0 or greater"
-          end: "Publication Year facet out of range: end of range should be 0 or greater"
-          order: "Publication Year facet out of range: end of range should be the beginning of range or greater"
+          general: "Publication Year: Please enter a valid date range."
+          begin: "Publication Year: Please enter a start date."
+          end: "Publication Year: Please enter an end date."
+          order: "Publication Year: Please enter an end date that is greater than the start date."
       per_page:
         button_label: '%{count} per page'
         title: 'Number of results to display per page'
@@ -242,7 +243,7 @@ en:
       documents:
         counter: '%{counter}. '
       facets:
-        title: 'Limit your search'
+        title: 'Refine your results'
         sort:
           count: 'Numerical sort'
           index: 'A-Z sort'

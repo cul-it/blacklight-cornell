@@ -1,6 +1,7 @@
 # Running local container with local gems
 
-This documentation will demonstrate how to run two local gems with the local container setup.
+This documentation will demonstrate how to run two local gems with the local container setup.\
+This example will use two local gem projects but any one or more can be used as well.
 
     cd mount
     git clone git@github.com:cul-it/blacklight-cornell-requests.git
@@ -14,5 +15,5 @@ Before building the container image, update the blacklight-cornell/Gemfile.
 
 After changing the Gemfile, build the container image and run it locally.
 
-    ./build_local_gems.sh -r rails_env/YOUR_ENV
-    ./run_local_gems.sh -dr rails_env/YOUR_ENV
+    ./build.sh -r rails_env/YOUR_ENV
+    ./run.sh -dr rails_env/YOUR_ENV
