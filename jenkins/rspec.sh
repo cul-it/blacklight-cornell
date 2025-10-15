@@ -5,7 +5,7 @@ echo "Running RSpec tests in container"
 echo "*********************************************************************************"
 source jenkins/environment.sh
 
-cp /cul/data/jenkins/environments/blacklight-cornell.env container_env_test.env
+cp /cul/data/jenkins/environments/blacklight-cornell-solr9.env container_env_test.env
 
 export COVERAGE=on
 export RAILS_ENV_FILE=./container_env_test.env
