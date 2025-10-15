@@ -1,4 +1,25 @@
 GIT
+  remote: https://github.com/cul-it/blacklight-cornell-requests
+  revision: 0c0dfa2db666a68b63a2df539e7563401a3279f1
+  branch: rails-7
+  specs:
+    blacklight_cornell_requests (5.4)
+      blacklight
+      dotenv
+      dotenv-deployment
+      dotenv-rails
+      exception_notification
+      haml (>= 3.0.0)
+      haml-rails
+      httpclient
+      i18n
+      net-ldap
+      protected_attributes_continued
+      rails (~> 7.0)
+      repost
+      rest-client
+
+GIT
   remote: https://github.com/cul-it/blacklight-unapi
   revision: 8774c50cdd9ffce42a9b6f4e3a1318791c5aff55
   branch: BL7-upgrade
@@ -213,23 +234,6 @@ GEM
     capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
-    celluloid (0.17.4)
-      celluloid-essentials
-      celluloid-extras
-      celluloid-fsm
-      celluloid-pool
-      celluloid-supervision
-      timers (>= 4.1.1)
-    celluloid-essentials (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-extras (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-fsm (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-pool (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-supervision (0.20.6)
-      timers (>= 4.1.1)
     cgi (0.5.0)
     chronic (0.10.2)
     citeproc (1.1.0)
@@ -319,6 +323,7 @@ GEM
     dot-properties (0.1.4)
       bundler (>= 2.2.33)
     dotenv (2.8.1)
+    dotenv-deployment (0.0.2)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
@@ -512,6 +517,9 @@ GEM
     net-imap (0.5.9)
       date
       net-protocol
+    net-ldap (0.20.0)
+      base64
+      ostruct
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.2)
@@ -700,7 +708,6 @@ GEM
     rspec-support (3.13.4)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
-    ruby-plsql (0.8.0)
     ruby-saml (1.18.1)
       nokogiri (>= 1.13.10)
       rexml
@@ -792,7 +799,6 @@ GEM
     time (0.4.1)
       date
     timeout (0.4.3)
-    timers (4.4.0)
     traject (3.8.3)
       concurrent-ruby (>= 0.8.0)
       csv
@@ -877,6 +883,7 @@ DEPENDENCIES
   blacklight
   blacklight-hierarchy
   blacklight-marc (~> 8.2)
+  blacklight_cornell_requests!
   blacklight_range_limit (~> 8.5.0)
   blacklight_unapi!
   bootstrap (~> 4.6)
@@ -887,7 +894,6 @@ DEPENDENCIES
   capistrano-rvm
   capybara (= 3.39.2)
   capybara-email
-  celluloid (= 0.17.4)
   coffee-rails (~> 4.0)
   concurrent-ruby
   cucumber (~> 3.1)
@@ -961,7 +967,7 @@ DEPENDENCIES
   yaml_db
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.2.9p265
 
 BUNDLED WITH
    2.6.8

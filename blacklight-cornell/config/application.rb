@@ -1,47 +1,13 @@
-# require_relative 'boot'
+require_relative "boot"
 
-# require 'rails/all'
-# #require 'celluloid/autostart'
-# require 'celluloid/current'
-# require 'dotenv'
-# require 'sprockets/railtie'
-# require 'blacklight'
-# require 'blacklight/marc'
-
-# Load defaults from config/*.env in config
-# Dotenv.load *Dir.glob(Rails.root.join("config/**/*.env"), File::FNM_DOTMATCH)
-# error if .env does not exist.
-# begin
-#   Dotenv.load! *Dir.glob(".env", File::FNM_DOTMATCH)
-# rescue
-#    puts <<-eos
-#    ******************************************************************************
-#    Your .env config file is missing.
-#    See DOTENV.example for a blank file.
-#    ******************************************************************************
-#    eos
-#    exit(1)
-#  end
-#
-# # Override any existing variables if an environment-specific file exists
-# Dotenv.overload *Dir.glob(Rails.root.join("config/**/*.env.#{Rails.env}"), File::FNM_DOTMATCH)
-
-# if defined?(Bundler)
-#   # If you precompile assets before deploying to production, use this line
-#   Bundler.require(*Rails.groups(:assets => %w(development test)))
-#   # If you want your assets lazily compiled in production, use this line
-#   # Bundler.require(:default, :assets, Rails.env)
-# end
-# require File.expand_path('../../lib/james_monkeys', __FILE__)
-# require File.expand_path('../../lib/bl_monkeys', __FILE__)
-require_relative 'boot'
-
-require 'rails/all'
-# require 'blacklight'
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+
+require File.expand_path('../../lib/james_monkeys', __FILE__)
+require File.expand_path('../../lib/maybe', __FILE__)
 
 module BlacklightCornell
   class Application < Rails::Application
@@ -63,6 +29,39 @@ module BlacklightCornell
     #
     config.time_zone = "Eastern Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Search results limit, to prevent deep paging issues
+    config.search_limit = 20000
   end
 end
 
+# Monkey patch
+module Blacklight::SearchFields
+  # Looks up a search field blacklight_config hash from search_field_list having
+  # a certain supplied :key.
+  def search_field_def_for_key(key)
+    blacklight_config.search_fields[key] ?
+      blacklight_config.search_fields[key] :
+      blacklight_config.default_search_field
+  end
+
+  # Returns default search field, used for simpler display in history, etc.
+  # if not set in blacklight_config, defaults to first field listed in #search_field_list
+  def default_search_field
+    blacklight_config.default_search_field || search_field_list.first
+  end
+
+
+  # Shortcut for commonly needed operation, look up display
+  # label for the key specified. Returns "Keyword" if a label
+  # can't be found.
+  def label_for_search_field(key)
+    field_def = search_field_def_for_key(key)
+    if field_def && field_def.label
+       field_def.label
+    else
+       I18n.t('blacklight.search.fields.default')
+    end
+  end
+
+end

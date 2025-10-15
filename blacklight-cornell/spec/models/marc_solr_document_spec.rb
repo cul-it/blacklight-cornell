@@ -20,13 +20,13 @@ def marc_from_xml(string)
   reader.each { |rec| return rec }
 end
 
-describe Blacklight::Document::MarcExport do
+describe Blacklight::Marc::DocumentExport do
   class MockMarcDocument < SolrDocument
     include Blacklight::Solr::Document
     include Blacklight::Document::Extensions
-    include Blacklight::Document::MarcExport
+    include Blacklight::Marc::DocumentExport
     include Blacklight::Document::Endnote
-    include Blacklight::Document::RIS
+    include Blacklight::Document::Ris
     include Blacklight::Document::EndnoteXml
     include Blacklight::Document::Zotero
     #extension_parameters[:marc_source_field] = :marc_display

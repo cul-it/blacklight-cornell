@@ -5,7 +5,7 @@
 # include this module in any document extension (or any other class)
 # that provides a #to_marc returning a ruby-marc object.  This module will add
 # in export_as translation methods for a variety of formats.
-module Blacklight::Document::MarcExport
+module Blacklight::Marc::DocumentExport
 
   def self.register_export_formats(document)
     document.will_export_as(:xml)

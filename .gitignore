@@ -16,7 +16,7 @@
 /.bundle
 
 # Ignore the default SQLite database.
-/blacklight-cornell/db/*.sqlite3
+/blacklight-cornell/db/*.sqlite3*
 /db/*.sqlite3
 
 # Ignore all logfiles and tempfiles.

@@ -228,7 +228,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     if search_session['counter']
       index = search_session['counter'].to_i - 1
       logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
-      response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
+      response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset(current_search_session.query_params)
       search_session['total'] = response.total
       if query_params[:per_page].nil?
         query_params[:per_page] = '20'
@@ -475,7 +475,7 @@ protected
   # remove the range params and redirect to a new query with an appropriate flash message
   def range_limit_error
     error = check_dates(params) || "general"
-    redirect_to params.except(:range)
+    redirect_to params.except(:range).permit!
     flash[:notice] = I18n.t("blacklight.search.errors.publication_year_range.#{error}")
   end
 

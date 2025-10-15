@@ -228,7 +228,7 @@ BlacklightCornell::Application.routes.draw do
     get 'scan_aeon/:id' => 'aeon#scan_aeon', :as => 'scan_aeon', :constraints => { id: /.+/ }
   end
 
-  # mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
+  mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
   # mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 
   get "/status", to: "status#index"

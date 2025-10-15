@@ -16,7 +16,7 @@ xml.rss(:version=>"2.0") {
   xml.channel {
 
     xml.title(t('blacklight.search.title', :application_name => application_name))
-    xml.link(url_for(params.merge(:only_path => false)))
+    xml.link(url_for(params.merge(:only_path => false).permit))
     xml.description(t('blacklight.search.title', :application_name => application_name))
     xml.language('en-us')
     xml.pubDate DateTime.now.strftime('%a, %d %b %Y %H:%M:%S %z')

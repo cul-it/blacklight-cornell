@@ -16,7 +16,6 @@ gem "bootstrap", "~> 4.6"
 gem "capistrano", "~> 3.18"
 gem "capistrano-rails", "~> 1.6"
 gem 'capistrano-rvm'
-gem "celluloid", "0.17.4" # Required for bento_search multisearcher
 gem "coffee-rails", "~> 4.0"
 gem "concurrent-ruby", require: "concurrent"
 gem 'devise', '>= 4.7.0'
@@ -73,7 +72,7 @@ gem "uri", "0.12.4"
 gem "whenever", require: false
 gem "yaml_db"
 
-# gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.3"
+gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", branch: "rails-7"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
 # gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.7"
 

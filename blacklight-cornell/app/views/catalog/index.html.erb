@@ -46,7 +46,7 @@
 				<%= "#{r}" %>
 				<%= tooltip("<strong>Search Logic</strong><br/> #{solr_query_used}") %>
 				<% rss_icon = '<i class="fa fa-rss-square aria-hidden="true"></i>' + '<span class="sr-only">RSS</span>' %>
-				<%= link_to(url_for(params.merge(:format => "rss")), :class => "rss-icon", :title => "RSS feed") do %>
+				<%= link_to(url_for(params.merge(:format => "rss").permit), :class => "rss-icon", :title => "RSS feed") do %>
 					<%= rss_icon.html_safe %>
 				<% end %>
 

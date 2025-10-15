@@ -43,7 +43,7 @@ class CatalogController < ApplicationController
   #  DACCESS-215
   def index
     if query_has_pub_date_facet? && !params.key?(:q)
-      redirect_to params.merge(q: '')
+      redirect_to params.merge(q: '').permit
     else
       super
     end

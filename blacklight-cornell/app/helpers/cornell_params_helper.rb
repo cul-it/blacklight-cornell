@@ -14,7 +14,7 @@ module CornellParamsHelper
       advanced_params.merge(
         op_row: ['begins_with'],
         search_field_row: ['title']
-      )
+      ).permit
     else
       # Set search_field_row
       if relevant_params[:browse_type].present?
@@ -30,7 +30,7 @@ module CornellParamsHelper
         # Set search_field_row based on search_field
         search_field = relevant_params[:search_field] || DEFAULT_SEARCH_FIELD
       end
-      advanced_params.merge(search_field_row: [search_field])
+      advanced_params.merge(search_field_row: [search_field]).permit
     end
   end
 

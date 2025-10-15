@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2020_05_19_175736) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_14_214529) do
   create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
     t.integer "CIRC_GROUP_ID"
     t.integer "LOCATION_ID"
