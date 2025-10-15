@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="search-tools col-12 col-lg-7">
+  <div class="search-tools col-12 col-lg-8">
   <% if params[:controller]=='browse' || params[:action] == 'show' %>
      <% if params[:action] == 'show' %>
     <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
@@ -108,14 +108,12 @@
   </div>
 
   <% if params[:controller] !='advanced_search' && !params[:q_row] %>
-    <div class="search-nav col-12 col-lg-5">
-      <ul class="nav nav-pills">
-        <li>
+    <div class="search-nav col-12 col-lg-4">
+      <div class="advanced-search-link">
           <%= link_to advanced_search_edit_path(convert_to_advanced_params(params)), id: 'advanced-search-link' do %>
             <i class="fa fa-search" aria-hidden="true"></i>Advanced Search
           <% end %>
-        </li>
-      </ul>
+      </div>
     </div>
   <% end %>
 
