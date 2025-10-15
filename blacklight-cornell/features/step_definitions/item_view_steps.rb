@@ -155,3 +155,7 @@ end
 Then("it should have a discogs disclaimer") do
   expect(page).to have_css("#discogs_disclaimer")
 end
+
+Then("it should not have a discogs disclaimer") do
+  expect(page).not_to have_css("#discogs_disclaimer")
+end
