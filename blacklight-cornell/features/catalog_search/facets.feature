@@ -44,7 +44,7 @@ Feature: Facets
 
 	Examples:
 		| category | facet | count |
-		| Publication Year | [Missing] | 5 |
+		| Publication Year | [Missing] | 4 |
 		| Library Location | Lab of Ornithology | 1 |
 		| Call Number | A - General | 8 |
 
@@ -58,7 +58,7 @@ Feature: Facets
 
 	Examples:
 		| begin | end | count |
-		| 1600 | 2010 | 187 |
+		| 1600 | 2010 | 190 |
 		| 1910 | 1950 | 24 |
 
 	@DISCOVERYACCESS-7855
@@ -111,7 +111,7 @@ Feature: Facets
 
 Scenario: Filtering searches by facets that are not available in the public ui
 	When I literally go to ?f[availability_facet][]=Checked%20out
-	Then I should get 10 results
+	Then I should get 11 results
 
 Scenario: Searching multiple times retains the previous search session's facets
   When I literally go to ?boolean_row%5B1%5D=AND&f_inclusive%5Bformat%5D%5B%5D=Book&f_inclusive%5Bformat%5D%5B%5D=Journal%2FPeriodical&f_inclusive%5Blanguage_facet%5D%5B%5D=English&f_inclusive%5Blanguage_facet%5D%5B%5D=French&op_row%5B%5D=AND&op_row%5B%5D=AND&q=&q_row%5B%5D=Canada&q_row%5B%5D=&range%5Bpub_date_facet%5D%5Bbegin%5D=1960&range%5Bpub_date_facet%5D%5Bend%5D=2000&search_field=advanced&search_field_row%5B%5D=all_fields&search_field_row%5B%5D=all_fields

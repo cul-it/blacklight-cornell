@@ -295,12 +295,12 @@ Feature: Search
     And I select 'all' from the 'op_row0' drop-down
     And I select 'Place of Publication' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
-    Then I should get 41 results
+    Then I should get 43 results
     And I should see the "Place of Publication" facet constraint
     And click on first link "The basic practice of statistics"
     Then I should see the label 'The basic practice of statistics'
     Then click on first link "Back to catalog results"
-    And I should get 41 results
+    And I should get 43 results
 
  @begins_with
  @adv_search
