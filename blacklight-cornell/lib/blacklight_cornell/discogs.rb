@@ -13,36 +13,32 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
     end
   end
 end
+
   def process_discogs(doc)
-  single_author = false
-  fields = []
-  title_resp = doc["title_responsibility_display"].present? ? doc["title_responsibility_display"][0] : ""
-  fields << title_resp
-  # will need to handle cases where there are multiple versions of the author's name, one Cyrillic and one Latin
-  author_json_parsed = doc["author_json"].present? ? ActiveSupport::JSON.decode(doc["author_json"][0]) : ""
-  author = author_json_parsed["search1"].present? ? author_json_parsed["search1"] : ""
-  title = doc["title_display"].present? ? doc["title_display"] : ""
-  fields << title
-  subtitle = doc["subtitle_display"].present? ? doc["subtitle_display"] : ""
-  fields << subtitle
-  pub_date = doc["pub_date_facet"].present? ? doc["pub_date_facet"] : ""
-  fields << pub_date
-  publisher = doc["publisher_display"].present? ? doc["publisher_display"][0] : ""
-  fields << publisher
-  publisher_number = doc["publisher_number_display"].present? ? doc["publisher_number_display"][0] : ""
-  fields << publisher_number
-
-  author = author_cleanup(author)
-  fields << author
-  fields << single_author
-
-  query_string = build_discogs_query_string(fields)
-  search_result = make_discogs_search_call(query_string)
+    fields = {}
+    fields["title_responsibility"] = doc["title_responsibility_display"].present? ? doc["title_responsibility_display"][0] : ""
+    fields["title"] = doc["title_display"].present? ? doc["title_display"] : ""
+    fields["subtitle"] = doc["subtitle_display"].present? ? doc["subtitle_display"] : ""
+    fields["pub_date"] = doc["pub_date_facet"].present? ? doc["pub_date_facet"].to_s : ""
+    fields["publisher"] = doc["publisher_display"].present? ? doc["publisher_display"][0] : ""
+    fields["publisher_number"] = doc["publisher_number_display"].present? ? doc["publisher_number_display"][0] : ""
+    # parse author_json to handle cases where there are multiple versions of the author's name 
+    single_author = false
+    author_json_parsed = doc["author_json"].present? ? JSON.parse(doc["author_json"][0]) : ""
+    author = author_json_parsed["search1"].present? ? author_json_parsed["search1"] : ""
+    fields["author"] = author_cleanup(author)
+    fields["single_author"] = single_author
+    # discogs queries must include a title and author/responsibility info to avoid mismatches
+    if fields["title"].present? && (fields["author"].present? || fields["title_responsibility"].present?)
+      query_string = build_discogs_query_string(fields)
+      search_result = make_discogs_search_call(query_string)
   if (!search_result.nil? && !search_result.empty?) && (!search_result["results"].nil? && !search_result["results"].empty?)
-    @discogs_image_url = search_result["results"][0]["cover_image"].present? ? search_result["results"][0]["cover_image"] : ""
-    @discogs_id = search_result["results"][0]["id"].present? ? search_result["results"][0]["id"].to_s : ""
+        @discogs_image_url = search_result["results"][0]["cover_image"].present? ? search_result["results"][0]["cover_image"] : ""
+        @discogs_id = search_result["results"][0]["id"].present? ? search_result["results"][0]["id"].to_s : ""
+      end
+    end
   end
-end
+
   def build_discogs_components
   # check present? or empty? for these
   @author_addl = process_discogs_contributors(@discogs_data["extraartists"]) if @discogs_data["extraartists"].present? && @discogs_data["extraartists"].size > 0
@@ -138,34 +134,33 @@ end
 end
   def build_discogs_query_string(fields)
   # fields = [title_resp, title, subtitle, pub_date, publisher, publisher_nbr, author, single_author]
-  single_author = fields[7]
-  author = fields[6]
+  author = fields["author"]
   if author.length > 0
     # if the author name is in the title, we only need the latter but only in the case of a single author
     # reverse last name, first name Mingus, Charles
-    if single_author
+    if fields["single_author"]
       first_last = author[author.index(", ") + 2..-1] + " " + author[0..author.index(",") - 1]
-      if !fields[1].include?(first_last) && !fields[2].include?(first_last)
-        query_string = first_last + "+" + fields[1]
+      if !fields["title"].include?(first_last) && !fields["subtitle"].include?(first_last)
+        query_string = first_last + "+" + fields["title"]
       else
-        query_string = fields[1]
+        query_string = fields["title"]
       end
-    elsif !fields[1].include?(author)
-      query_string = author + "+" + fields[1]
+    elsif !fields["title"].include?(author)
+      query_string = author + "+" + fields["title"]
     else
-      query_string = fields[1]
+      query_string = fields["title"]
     end
   else
-    query_string = fields[0] + "+" + fields[1]
+    query_string = fields["title_responsibility"] + "+" + fields["title"]
   end
-  if fields[2].length > 0
-    query_string += "+" + fields[2]
+  if fields["subtitle"].length > 0
+    query_string += "+" + fields["subtitle"]
   end
 
-  if fields[5].length > 0
-    query_string += "+" + fields[5]
+  if fields["publisher_number"].length > 0
+    query_string += "+" + fields["publisher_number"]
   else
-    query_string += "+" + fields[4].gsub(",", "").gsub(":", "") + "+" + fields[3].to_s
+    query_string += "+" + fields["publisher"].gsub(",", "").gsub(":", "") + "+" + fields["pub_date"]
   end
   query_string = query_string.gsub(" ", "+").gsub("&", "and").gsub("++", "+")
 
