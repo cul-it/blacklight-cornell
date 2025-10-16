@@ -238,3 +238,5 @@ Feature: Browse search
   | 9748547 | Chamber Music - LALLIET, C.-T. / DRING, M. / PARR, P. / HOPE, P. (Three Wood Trio) |
   | 9898648 | Harry Potter et la coupe de feu |
   | 996135 | Whipped cream & other delights |
+  | 16387366 | Music time USA |
+  | 10573914 | The best of 2014 |
