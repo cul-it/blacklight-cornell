@@ -133,12 +133,11 @@ end
   return genres_array
 end
   def build_discogs_query_string(fields)
-  # fields = [title_resp, title, subtitle, pub_date, publisher, publisher_nbr, author, single_author]
   author = fields["author"]
   if author.length > 0
-    # if the author name is in the title, we only need the latter but only in the case of a single author
-    # reverse last name, first name Mingus, Charles
+    # if there is a single author and the author name is in the title/subtitle, we only need the title/subtitle
     if fields["single_author"]
+      # reverse last name, first name ex. Mingus, Charles -> Charles Mingus
       first_last = author[author.index(", ") + 2..-1] + " " + author[0..author.index(",") - 1]
       if !fields["title"].include?(first_last) && !fields["subtitle"].include?(first_last)
         query_string = first_last + "+" + fields["title"]
