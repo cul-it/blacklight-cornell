@@ -5,7 +5,7 @@ module BlacklightMarcHelper
     Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__}"
     documents.each do |doc|
       tmp = ''
-      if (doc.exports_as? :endnote_xml) && !folio_record?(doc)
+      if doc.exports_as?(:endnote_xml) && !folio_record?(doc)
         tmp = doc.export_as(:endnote_xml) + "\n"
         tmp.sub!('<xml>','')
         tmp.sub!('</xml>','')
@@ -23,7 +23,7 @@ module BlacklightMarcHelper
     val = ''
     Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__}"
     documents.each do |doc|
-      if (doc.exports_as? :ris) && !folio_record?(doc)
+      if doc.exports_as?(:ris) && !folio_record?(doc)
         val += doc.export_as(:ris) + "\n"
       end
     end
