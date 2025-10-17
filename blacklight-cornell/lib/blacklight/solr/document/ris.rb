@@ -43,7 +43,7 @@ module Blacklight::Solr::Document::RIS
   }
 
   def export_ris
-    return nil if folio_record?(self) # prevents non-marc records from breaking export
+    return nil if folio_record? # prevents non-marc records from breaking export
 
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)

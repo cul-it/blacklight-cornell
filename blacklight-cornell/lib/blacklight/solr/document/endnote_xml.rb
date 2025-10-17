@@ -66,7 +66,7 @@ module Blacklight::Solr::Document::Endnote_xml
   # Note the order is required for validation, but may not be enforced by apps.
   # among other things, the values for ref-type, and for role on the author element are not defined here.
   def export_as_endnote_xml()
-    return nil if folio_record?(self) # prevents non-marc records from breaking export
+    return nil if folio_record? # prevents non-marc records from breaking export
 
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
