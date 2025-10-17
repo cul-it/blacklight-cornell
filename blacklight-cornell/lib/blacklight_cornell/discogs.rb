@@ -3,7 +3,8 @@ require_relative "../../app/helpers/logging_helper"
 
 module BlacklightCornell::Discogs extend Blacklight::Catalog
   include LoggingHelper
-  def get_discogs
+
+def get_discogs
   id = params[:id] if params[:id].present?
   @discogs_data = make_discogs_show_call(id) if id.present? && !id.empty?
   unless @discogs_data.nil?
@@ -14,7 +15,13 @@ module BlacklightCornell::Discogs extend Blacklight::Catalog
   end
 end
 
-  def process_discogs(doc)
+def get_discogs_image(id)
+  data = make_discogs_show_call(id)
+  image_url = data["images"].present? ? data["images"][0]["resource_url"] : ""
+  return image_url
+end
+
+  def get_discogs_search_result(doc)
     fields = {}
     fields["title_responsibility"] = doc["title_responsibility_display"].present? ? doc["title_responsibility_display"][0] : ""
     fields["title"] = doc["title_display"].present? ? doc["title_display"] : ""
@@ -49,11 +56,7 @@ end
   styles = @discogs_data["styles"].present? ? @discogs_data["styles"] : []
   @genres = process_discogs_genres(genres, styles) if !genres.empty? || !styles.empty?
 end
-  def get_discogs_image(id)
-  data = make_discogs_show_call(id)
-  image_url = data["images"].present? ? data["images"][0]["resource_url"] : ""
-  return image_url
-end
+
   def author_cleanup(author)
   if author.length > 0 && (author[-1] == "-" || author[-6] == "-")
     x = author.rindex(",")
@@ -73,7 +76,8 @@ end
   end
   return author
 end
-  def process_discogs_published(discogs)
+
+def process_discogs_published(discogs)
   country = discogs["country"].present? ? discogs["country"] : ""
   year = discogs["year"].present? ? discogs["year"].to_s : ""
   labels = discogs["labels"].present? ? discogs["labels"] : []
@@ -98,7 +102,8 @@ end
   end
   return results << tmp_string
 end
-  def process_discogs_contents(contents)
+
+def process_discogs_contents(contents)
   results = []
   contents.each do |c|
     duration = c["duration"].present? ? " (" + c["duration"] + ")" : ""
@@ -107,7 +112,8 @@ end
   end
   return results
 end
-  def process_discogs_contributors(artists)
+
+def process_discogs_contributors(artists)
   combined = artists.group_by { |h1| h1["name"] }.map do |k, v|
     { "name" => k, "contributions" => v.map { |h2| h2["role"] }.join(", ") }
   end
@@ -118,10 +124,12 @@ end
   end
   return results
 end
-  def process_discogs_notes(notes)
+
+def process_discogs_notes(notes)
   tmp_string = notes.gsub("\r", "").gsub("\n\n", "@@").gsub("\n", "")
   return tmp_string.split("@@")
 end
+
   def process_discogs_genres(genres, styles)
   genres_array = []
   genres.each do |g|
@@ -132,7 +140,8 @@ end
   end
   return genres_array
 end
-  def build_discogs_query_string(fields)
+
+def build_discogs_query_string(fields)
   author = fields["author"]
   if author.length > 0
     # if there is a single author and the author name is in the title/subtitle, we only need the title/subtitle
@@ -165,70 +174,39 @@ end
 
   return query_string
 end
-  def make_discogs_search_call(query_string)
-  key = ENV["DISCOGS_KEY"].present? ? ENV["DISCOGS_KEY"] : ""
-  secret = ENV["DISCOGS_SECRET"].present? ? ENV["DISCOGS_SECRET"] : ""
-  uri = URI("https://api.discogs.com/database/search")
-  params = { q: query_string, type: "release", key: key, secret: secret }
-  uri.query = URI.encode_www_form(params)
-  resp = Net::HTTP.get_response(uri)
-  data = resp.body
-  result = JSON.parse(data)
-  return result if resp.kind_of? Net::HTTPSuccess
-  log_debug_info("#{__FILE__}:#{__LINE__}",
-                 "case: Not Net::HTTPSuccess",
-                 ["query_string:", query_string],
-                 ["params:", params],
-                 ["result:", result])
 
-  return [] if resp.kind_of? Net::HTTPError
-rescue StandardError
-  log_debug_info("#{__FILE__}:#{__LINE__}",
-                 "case: StandardError",
-                 ["query_string:", query_string],
-                 ["params:", params],
-                 ["result:", result])
-
-  return []
+def make_discogs_show_call(id)
+  path = "releases/" + id
+  make_discogs_call(path)
 end
-  def make_discogs_show_call(id)
+
+def make_discogs_search_call(query_string)
+  path = "database/search"
+  params = { q: query_string, type: "release" }
+  make_discogs_call(path, params)
+end
+
+def make_discogs_call(path, params={})
   key = ENV["DISCOGS_KEY"].present? ? ENV["DISCOGS_KEY"] : ""
   secret = ENV["DISCOGS_SECRET"].present? ? ENV["DISCOGS_SECRET"] : ""
-  uri = URI("https://api.discogs.com/releases/" + id)
-  params = { key: key, secret: secret }
-  uri.query = URI.encode_www_form(params)
+  uri = URI("https://api.discogs.com/" + path)
+  uri.query = URI.encode_www_form(params.merge({ key: key, secret: secret }))
   resp = Net::HTTP.get_response(uri)
   data = resp.body
   result = JSON.parse(data)
   return result if resp.kind_of? Net::HTTPSuccess
   log_debug_info("#{__FILE__}:#{__LINE__}",
-                 "case: Not Net::HTTPSuccess",
-                 ["params:", params],
-                 ["result:", result])
+                "case: Not Net::HTTPSuccess",
+                ["path:", path],
+                ["params:", params],
+                ["result:", result])
   return {} if resp.kind_of? Net::HTTPError
-rescue StandardError
-  log_debug_info("#{__FILE__}:#{__LINE__}",
-                 "case: StandardError",
-                 ["params:", params],
-                 ["result:", result])
-  return {}
+  rescue StandardError
+    log_debug_info("#{__FILE__}:#{__LINE__}",
+                  "case: StandardError",
+                  ["path:", path],
+                  ["params:", params],
+                  ["result:", result])
+    return {}
 end
-  def deep_clone(object)
-  return @deep_cloning_obj if @deep_cloning
-  @deep_cloning_obj = object.clone
-  @deep_cloning_obj.instance_variables.each do |var|
-    val = @deep_cloning_obj.instance_variable_get(var)
-    begin
-      @deep_cloning = true
-      val = val.deep_copy
-    rescue TypeError
-      next
-    ensure
-      @deep_cloning = false
-    end
-    @deep_cloning_obj.instance_variable_set(var, val)
-  end
-  deep_cloning_obj = @deep_cloning_obj
-  @deep_cloning_obj = nil
-  deep_cloning_obj
-end end
+end
