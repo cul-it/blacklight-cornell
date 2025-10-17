@@ -141,12 +141,6 @@ module Blacklight::Solr::Document::Endnote
     text
   end
 
-  private
-
-  def folio_record?(document)
-    document['source'].to_s.strip.casecmp?('folio')
-  end
-
 #Examples
 #%0  Book
 #%A  Geoffrey Chaucer

@@ -150,10 +150,4 @@ module Blacklight::Solr::Document::RIS
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__}: #{output}"
     output
   end
-
-  private
-
-  def folio_record?(document)
-    document['source'].to_s.strip.casecmp?('folio')
-  end
 end

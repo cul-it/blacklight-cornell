@@ -151,4 +151,7 @@ class SolrDocument
     nil
   end
 
+  def folio_record?(record)
+    record['source'].to_s.strip.casecmp?('folio')
+  end
 end

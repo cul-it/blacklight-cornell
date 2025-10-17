@@ -255,10 +255,4 @@ module Blacklight::Solr::Document::Endnote_xml
 
     end
   end
-
-  private
-
-  def folio_record?(document)
-    document['source'].to_s.strip.casecmp?('folio')
-  end
 end
