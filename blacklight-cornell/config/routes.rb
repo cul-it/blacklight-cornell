@@ -27,6 +27,9 @@ BlacklightCornell::Application.routes.draw do
     concerns :range_searchable
   end
 
+  # Legacy blacklight-marc endpoint for endnote export
+  get "catalog/endnote", :as => "endnote_solr_document"
+
   resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
     concerns [:exportable, :marc_viewable]
   end

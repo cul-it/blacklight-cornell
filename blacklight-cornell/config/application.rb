@@ -32,6 +32,15 @@ module BlacklightCornell
 
     # Search results limit, to prevent deep paging issues
     config.search_limit = 20000
+
+    # Sets all the parameters for mass assignment to be permitted by default.
+    # TODO: This is potentially unsafe and would be better handled by explicitly permitting parameters when relevant.
+    config.action_controller.permit_all_parameters = true
+
+    # Precompile additional assets (other than application.css and application.js)
+    # when bin/rails assets:precompile is run.
+    config.assets.precompile += ['cornell/print.css']
+    config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
   end
 end
 

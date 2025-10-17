@@ -50,12 +50,20 @@ module Blacklight::Bookmarks
     end
 
     @response, deprecated_document_list = search_service.fetch(bookmark_ids)
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 8.0")
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      "The @document_list instance variable is now deprecated",
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
 
     respond_to do |format|
       format.html { }
       format.rss { render layout: false }
       format.atom { render layout: false }
+
+      format.endnote_xml { render "/catalog/show.endnote_xml", layout: false }
+      format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+      format.ris         { render 'ris', :layout => false }
       additional_response_formats(format)
       document_export_formats(format)
     end

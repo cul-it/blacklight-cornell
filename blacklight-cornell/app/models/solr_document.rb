@@ -4,7 +4,7 @@ class SolrDocument
       # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_display
   extension_parameters[:marc_format_type] = :marcxml
-  use_extension(Blacklight::Marc::DocumentExtension) do |document|
+  use_extension( Blacklight::Marc::DocumentExtension) do |document|
     document.key?( :marc_display  )
   end
   
@@ -14,23 +14,6 @@ class SolrDocument
                          :language => "language_facet",
                          :format => "format"
                          )
-
-
-      # The following shows how to setup this blacklight document to display marc documents
-  extension_parameters[:marc_source_field] = :marc_display
-  extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Marc) do |document|
-    document.key?( :marc_display  )
-  end
-
-  field_semantics.merge!(
-                         :title => "title_display",
-                         :author => "author_display",
-                         :language => "language_facet",
-                         :format => "format"
-                         )
-
-
 
   # self.unique_key = 'id'
 
