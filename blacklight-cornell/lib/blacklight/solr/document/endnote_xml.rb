@@ -24,47 +24,50 @@ module Blacklight::Solr::Document::Endnote_xml
   # I reversed the sense of end_note_format table -- to allow multiple fields to map to
   # same endnote field. (es287@cornell.edu)
 
-FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
-  "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
-  "Book"=>"Book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"Map",
-  "CLSWK"=>"CLSWK", "Computer File"=>"Computer Program", "CONF"=>"CONF", "CPAPER"=>"Conference Paper",
-  "CTLG"=>"CTLG", "DATA"=>"DATA", "Database"=>"DBASE", "DICT"=>"DICT",
-  "EBOOK"=>"Electronic Book", "ECHAP"=>"ECHAP", "EDBOOK"=>"EDBOOK", "EJOUR"=>"EJOUR",
-  "ELEC"=>"ELEC", "ENCYC"=>"ENCYC", "EQUA"=>"EQUA", "FIGURE"=>"FIGURE",
-  "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"Heading",
-  "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
-  "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"Manuscript", "Map or Globe"=>"Map", "MGZN"=>"MGZN",
-  "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"GENERIC", "NEWS"=>"NEWS",
-  "PAMP"=>"Pamphlet", "PAT"=>"Patent", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
-  "SER"=>"Serial Publication", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"Audiovisual Material", "Musical Recording"=>"Music",
-  "STAND"=>"Standard",
-  "STAT"=>"Statute", "Thesis"=>"Thesis", "UNPB"=>"UNPB", "Video"=>"Film or Broadcast",
-  "Website" => "Web Page"
+  FACET_TO_ENDNOTE_TYPE =  { "ABST"=>"ABST", "ADVS"=>"ADVS", "AGGR"=>"AGGR",
+    "ANCIENT"=>"ANCIENT", "ART"=>"Artwork", "BILL"=>"Bill", "BLOG"=>"Blog",
+    "Book"=>"Book", "CASE"=>"CASE", "CHAP"=>"CHAP", "CHART"=>"Map",
+    "CLSWK"=>"CLSWK", "Computer File"=>"Computer Program", "CONF"=>"CONF", "CPAPER"=>"Conference Paper",
+    "CTLG"=>"CTLG", "DATA"=>"DATA", "Database"=>"DBASE", "DICT"=>"DICT",
+    "EBOOK"=>"Electronic Book", "ECHAP"=>"ECHAP", "EDBOOK"=>"EDBOOK", "EJOUR"=>"EJOUR",
+    "ELEC"=>"ELEC", "ENCYC"=>"ENCYC", "EQUA"=>"EQUA", "FIGURE"=>"FIGURE",
+    "GEN"=>"GEN", "GOVDOC"=>"GOVDOC", "GRANT"=>"GRANT", "HEAR"=>"Heading",
+    "ICOMM"=>"ICOMM", "INPR"=>"INPR", "JFULL"=>"JFULL", "JOUR"=>"JOUR",
+    "LEGAL"=>"LEGAL", "Manuscript/Archive"=>"Manuscript", "Map or Globe"=>"Map", "MGZN"=>"MGZN",
+    "MPCT"=>"MPCT", "MULTI"=>"MULTI", "Musical Score"=>"GENERIC", "NEWS"=>"NEWS",
+    "PAMP"=>"Pamphlet", "PAT"=>"Patent", "PCOMM"=>"PCOMM", "RPRT"=>"RPRT",
+    "SER"=>"Serial Publication", "SLIDE"=>"SLIDE", "Non-musical Recording"=>"Audiovisual Material", "Musical Recording"=>"Music",
+    "STAND"=>"Standard",
+    "STAT"=>"Statute", "Thesis"=>"Thesis", "UNPB"=>"UNPB", "Video"=>"Film or Broadcast",
+    "Website" => "Web Page"
   }
-# these values might actually depend on how you have configured Endnote (@!#???)
-# # I don't know how to figure this out except by trial and error.
-# I exported records from endnote X8 to determine these.
-#
-FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
-  "Audiovisual Material"=>"3",
-  "Book"=>"6",
-  "Computer Program"=>"9",
-  "Film or Broadcast"=>"21",
-  "Manuscript" => "36",
-  "Map" => "20",
-  "Music" => "61",
-  "Online Database" => "45",
-  "Thesis" => "32",
-}
-# the xml format is defined here, in attached zip file:
-# http://kbportal.thomson.com/display/2/index.aspx?tab=browse&c=&cpc=&cid=&cat=&catURL=&r=0.4727451
-# top level elements:
-# <!ELEMENT xml (records)>
-# <!ELEMENT records (record+)>
-# <!ELEMENT record (database?, source-app?, rec-number?, foreign-keys?, ref-type?, contributors?, auth-address?, auth-affiliaton?, titles?, periodical?, pages?, volume?, number?, issue?, secondary-volume?, secondary-issue?, num-vols?, edition?, section?, reprint-edition?, reprint-status?, keywords?, dates?, pub-location?, publisher?, orig-pub?, isbn?, accession-num?, call-num?, report-id?, coden?, electronic-resource-num?, abstract?, label?, image?, caption?, notes?, research-notes?, work-type?, reviewed-item?, availability?, remote-source?, meeting-place?, work-location?, work-extent?, pack-method?, size?, repro-ratio?, remote-database-name?, remote-database-provider?, language?, urls?, access-date?, modified-date?, custom1?, custom2?, custom3?, custom4?, custom5?, custom6?, custom7?, misc1?, misc2?, misc3?)>
-# Note the order is required for validation, but may not be enforced by apps.
-# among other things, the values for ref-type, and for role on the author element are not defined here.
+  # these values might actually depend on how you have configured Endnote (@!#???)
+  # # I don't know how to figure this out except by trial and error.
+  # I exported records from endnote X8 to determine these.
+  #
+  FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
+    "Audiovisual Material"=>"3",
+    "Book"=>"6",
+    "Computer Program"=>"9",
+    "Film or Broadcast"=>"21",
+    "Manuscript" => "36",
+    "Map" => "20",
+    "Music" => "61",
+    "Online Database" => "45",
+    "Thesis" => "32",
+  }
+
+  # the xml format is defined here, in attached zip file:
+  # http://kbportal.thomson.com/display/2/index.aspx?tab=browse&c=&cpc=&cid=&cat=&catURL=&r=0.4727451
+  # top level elements:
+  # <!ELEMENT xml (records)>
+  # <!ELEMENT records (record+)>
+  # <!ELEMENT record (database?, source-app?, rec-number?, foreign-keys?, ref-type?, contributors?, auth-address?, auth-affiliaton?, titles?, periodical?, pages?, volume?, number?, issue?, secondary-volume?, secondary-issue?, num-vols?, edition?, section?, reprint-edition?, reprint-status?, keywords?, dates?, pub-location?, publisher?, orig-pub?, isbn?, accession-num?, call-num?, report-id?, coden?, electronic-resource-num?, abstract?, label?, image?, caption?, notes?, research-notes?, work-type?, reviewed-item?, availability?, remote-source?, meeting-place?, work-location?, work-extent?, pack-method?, size?, repro-ratio?, remote-database-name?, remote-database-provider?, language?, urls?, access-date?, modified-date?, custom1?, custom2?, custom3?, custom4?, custom5?, custom6?, custom7?, misc1?, misc2?, misc3?)>
+  # Note the order is required for validation, but may not be enforced by apps.
+  # among other things, the values for ref-type, and for role on the author element are not defined here.
   def export_as_endnote_xml()
+    return nil if folio_record?(self) # prevents non-marc records from breaking export
+
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
     num_ty = "0";
@@ -107,7 +110,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote xml text = #{text2}"
     text2
   end
-#<work-type>Ph.D.dissertation</work-type>
+  #<work-type>Ph.D.dissertation</work-type>
   def generate_enx_work_type(bld,ty)
     if ty == 'Thesis'
       thdata =   setup_thesis_info(to_marc)
@@ -115,12 +118,12 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     end
   end
 
-#
-#nt =   setup_notes_info(to_marc)
-#131     nt.each do |n|
-#132       output +=  "N1  - #{n}" + "\n"
-#133     end
-#
+  #
+  #nt =   setup_notes_info(to_marc)
+  #131     nt.each do |n|
+  #132       output +=  "N1  - #{n}" + "\n"
+  #133     end
+  #
   def generate_enx_notes(bld,ty)
     nt =   setup_notes_info(to_marc)
     nt <<  "http://catalog.library.cornell.edu/catalog/#{id}\n"
@@ -163,7 +166,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     end
   end
 
- #<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>
+  #<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>
   def generate_enx_doi(bld,ty)
      doi = setup_doi(to_marc)
      bld.tag!("electronic-resource-num",doi) unless doi.blank?
@@ -185,6 +188,7 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
       bld.tag!("pub-location",place)
     end
   end
+
   def generate_enx_publisher(bld,ty)
     # publisher
     pub_data = setup_pub_info(to_marc) # This function combines publisher and place
@@ -203,13 +207,13 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     bld.publisher(pname) unless pname.blank?
   end
 
-# example: <dates>
-#  <year>1985</year>
-#  <pub-dates>
-#    <date>1985</date>
-#  </pub-dates>
-#  </dates>
-#
+  # example: <dates>
+  #  <year>1985</year>
+  #  <pub-dates>
+  #    <date>1985</date>
+  #  </pub-dates>
+  #  </dates>
+  #
   def generate_enx_dates(bld,ty)
     yr  = "#{setup_pub_date(to_marc)}"
     if !yr.empty?
@@ -252,7 +256,9 @@ FACET_TO_ENDNOTE_NUMERIC_VALUE =  {
     end
   end
 
+  private
 
-
-
+  def folio_record?(document)
+    true if document['source'].to_s.strip.casecmp?('folio')
+  end
 end

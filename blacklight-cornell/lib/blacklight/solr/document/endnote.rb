@@ -30,6 +30,8 @@ module Blacklight::Solr::Document::Endnote
    }
 
   def export_as_endnote()
+    return nil if folio_record?(self) # prevents non-marc records from breaking export
+
     end_note_format = {
       "100.a" => "%A" ,
       "700.a" => "%E" ,
@@ -137,6 +139,12 @@ module Blacklight::Solr::Document::Endnote
           text += "%K #{k}\n"   unless k.blank?
     end unless kw.blank?
     text
+  end
+
+  private
+
+  def folio_record?(document)
+    true if document['source'].to_s.strip.casecmp?('folio')
   end
 
 #Examples
