@@ -30,6 +30,8 @@ module Blacklight::Solr::Document::Endnote
    }
 
   def export_as_endnote()
+    return nil if folio_record? # prevents non-marc records from breaking export
+
     end_note_format = {
       "100.a" => "%A" ,
       "700.a" => "%E" ,
