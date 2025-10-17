@@ -39,10 +39,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: d969bd4d40a3b5e93d2dc8c75df60ca2589feecf
-  tag: v2.3.7
+  revision: b50a45655d18c906e8c0b25a5ca786459e70d4ee
+  tag: v2.3.8
   specs:
-    my_account (2.3.7)
+    my_account (2.3.8)
       blacklight (>= 7.0)
       cul-folio-edge (~> 3.2)
       rails (~> 6.1)
@@ -964,7 +964,7 @@ DEPENDENCIES
   yaml_db
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.2.9p265
 
 BUNDLED WITH
    2.6.8
