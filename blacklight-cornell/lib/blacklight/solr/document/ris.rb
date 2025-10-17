@@ -154,6 +154,6 @@ module Blacklight::Solr::Document::RIS
   private
 
   def folio_record?(document)
-    true if document['source'].to_s.strip.casecmp?('folio')
+    document['source'].to_s.strip.casecmp?('folio')
   end
 end

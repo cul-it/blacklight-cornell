@@ -144,7 +144,7 @@ module Blacklight::Solr::Document::Endnote
   private
 
   def folio_record?(document)
-    true if document['source'].to_s.strip.casecmp?('folio')
+    document['source'].to_s.strip.casecmp?('folio')
   end
 
 #Examples

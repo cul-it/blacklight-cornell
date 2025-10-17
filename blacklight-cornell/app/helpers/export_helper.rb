@@ -5,6 +5,6 @@ module ExportHelper
   # Returns true if the Solr document originated from FOLIO (non-MARC).
   # ----------------------------------------------------------------------------
   def folio_record?(document)
-    true if document['source'].to_s.strip.casecmp?('folio')
+    document['source'].to_s.strip.casecmp?('folio')
   end
 end
