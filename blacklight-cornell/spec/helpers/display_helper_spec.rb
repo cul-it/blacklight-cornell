@@ -54,18 +54,6 @@ RSpec.describe DisplayHelper, type: :helper do
       end
     end
 
-    context 'when field is url_bookplate_display' do
-      let(:args) { { field: 'url_bookplate_display', value: ['http://example.com|Example', 'http://example2.com|Example2'] } }
-
-      it 'returns unique values joined by commas' do
-        result = helper.render_display_link(args)
-        expect(result).to include('Processed Title')
-        expect(result).to include('http://example.com')
-        expect(result).to include('http://example2.com')
-        expect(result).to include(',')
-      end
-    end
-
     context 'when field is url_other_display' do
       let(:args) { { field: 'url_other_display', value: ['http://example.com|Example', 'http://example2.com|Example2'] } }
 

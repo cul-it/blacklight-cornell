@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "3.2.2"
+ruby "3.2.9"
 gem "rails", "~> 6.1.7"
 
 gem "activerecord-session_store", ">= 2.0.0"
@@ -31,13 +31,13 @@ gem "haml-rails"
 gem "htmlentities", "~> 4.3.4"
 gem "httpclient", "~> 2.9.0"
 gem "jquery-rails"
-gem "jquery-ui-rails", "6.0.0"
+gem "jquery-ui-rails", "8.0.0"
 gem "kaminari", ">= 0.15"
 gem "libv8-node"
 gem "marc"
 gem "mini_racer", "0.6.2", platforms: :ruby
 gem "net-smtp"
-gem "nokogiri", "~> 1.16.7"
+gem "nokogiri", "~> 1.18.9"
 gem "omniauth", "~> 2.0"
 gem "omniauth-saml", "~> 2.2"
 gem "omniauth-rails_csrf_protection"
@@ -48,10 +48,7 @@ gem "rack-cors", require: "rack/cors"
 gem "rb-readline", "~> 0.5.x"
 gem "redis-session-store"
 gem "repost", "~> 0.4.2"
-# TODO: rexml v3.3.9 is more stringent on acceptable xml. Fails with current xml format
-# Before implementing, the xml structure will need to be modified to work with rexml v3.3.9
-# example: Bad ❌ <"xml version='1.0'" Good ✅ <?xml version='1.0'"
-gem "rexml", "~> 3.2.6"
+gem "rexml"
 gem "rsolr"
 gem "ruby-saml", "~>1.18"
 gem "rufus-scheduler"
@@ -75,7 +72,7 @@ gem "yaml_db"
 
 gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.3"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
-gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.7"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.8"
 
 group :development, :test do
   gem "awesome_print"

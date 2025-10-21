@@ -1,63 +1,18 @@
 # Make sure it matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.2
+ARG RUBY_VERSION=3.2.9
 ARG GIT_COMMIT=0.0
 
 
-################################
-# new base with security patch #
-################################
+##################################################################
+# new base with essential libraries and potential security patch #
+##################################################################
 
-FROM ruby:${RUBY_VERSION}-slim-bookworm AS ruby_base
-
-# default-libmysqlclient-dev is required for running the app
-#   otherwise, mysql2.so will fail to load
+FROM ruby:${RUBY_VERSION}-slim-trixie AS ruby_base
 
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
-    default-libmysqlclient-dev=1.1.0 cron \
-    # CVE-2024-5535
-    openssl=3.0.17-1~deb12u2 \
-    # CVE-2024-37371
-    libkrb5-3=1.20.1-2+deb12u4 \
-    # CVE-2024-33599
-    libc6=2.36-9+deb12u13 \
-    # CVE-2024-0567
-    libgnutls30=3.7.9-2+deb12u5 \
-    # CVE-2023-50387
-    libsystemd0=252.38-1~deb12u1 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man && \
-    # CVE-2023-36617⁠
-    # uri gem version 0.12.1
-    # For some reason, if we remove the default version here, it causes gem not found in bundler phase.
-    # First let bundler phase run install with this uri gem and use prod_base as base for the final stage which has uri updated to 0.12.2.
-    #
-    # The blacklight-cornell app uses ostruct-0.5.5 but this base image contains ostruct-0.5.2 as a default gem.
-    rm -rf "/usr/local/lib/ruby/gems/3.1.0/specifications/default/ostruct-0.5.2.gemspec" && \
-    gem install -v 0.5.5 ostruct
-
-
-#############
-# prod base #
-#############
-
-FROM ruby_base AS prod_base
-
-# CVE-2023-36617⁠
-RUN gem install -v '0.12.2' uri && \
-    rm -rf "/usr/local/lib/ruby/gems/3.1.0/specifications/default/uri-0.12.1.gemspec"
-
-
-###############
-# build stage #
-###############
-
-FROM ruby_base AS base_bundler
-
-# How do we pin versions for build-essential & libvips?
-# Install libvips for Active Storage preview support & git which is not included in slim base image
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential libvips git && \
+    apt-get install --no-install-recommends -y build-essential=12.* \
+    cron=3.* default-libmysqlclient-dev=1.1.* git=1:2.47.* \
+    libvips42t64=8.16.* pkg-config=1.8.* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
 
@@ -66,7 +21,7 @@ RUN apt-get update -qq && \
 # test bundler #
 ################
 
-FROM base_bundler AS test_bundler
+FROM ruby_base AS test_bundler
 
 # Set building environment
 ENV RAILS_LOG_TO_STDOUT="1" \
@@ -89,7 +44,7 @@ COPY ./exe/puma.sh ${APP_PATH}/puma.sh
 # web_app bundler stage #
 ##########################
 
-FROM base_bundler AS web_app_bundler
+FROM ruby_base AS web_app_bundler
 ARG RAILS_ENV
 ARG BUNDLE_WITHOUT=""
 
@@ -101,10 +56,11 @@ ENV RAILS_LOG_TO_STDOUT="1" \
 
 WORKDIR ${APP_PATH}
 COPY ./blacklight-cornell/Gemfile ./blacklight-cornell/Gemfile.lock ./
+COPY ./mount /app
 RUN bundle config set --local with "${RAILS_ENV}" && \
     bundle config set --local without "${BUNDLE_WITHOUT}" && \
     bundle install && \
-    gem install aws-sdk-s3 && \
+    gem install aws-sdk-s3 -v '~> 1.199' && \
     rm -rf ${BUNDLE_PATH}/cache/*.gem && \
     find ${BUNDLE_PATH}/ -name "*.c" -delete && \
     find ${BUNDLE_PATH}/ -name "*.o" -delete
@@ -131,8 +87,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 #   Does prod code use this library or is it OK to only put it in test image?
 # How do we pin versions for build-essential & libvips?
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends vim=2:9.0.1378-2+deb12u2 chromium chromium-driver \
-    libcurl4=7.88.1-10+deb12u5 curl=7.88.1-10+deb12u5 libfontconfig1=2.14.1-4 && \
+    apt-get install -y --no-install-recommends vim=2:9.1.* \
+    chromium=141.0.* chromium-driver=141.0.* \
+    libfontconfig1=2.15.0-2.* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /src/*.deb && \
@@ -155,7 +112,7 @@ ENTRYPOINT ["/blacklight-cornell/test.sh"]
 # final stage #
 ###############
 
-FROM prod_base
+FROM ruby_base
 ARG GIT_COMMIT
 ARG RAILS_ENV
 

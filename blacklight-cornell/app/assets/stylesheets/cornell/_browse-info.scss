@@ -24,9 +24,10 @@ ul.nav-tabs li {
     i {
         margin-left: .25rem;
     }
-    span {
-        margin-bottom: .5rem;
-        display: inline-block;
+    #wiki-image-acknowledge {
+        div {
+            display: inline-block;
+        }
     }
 }
 #item-details > dt {

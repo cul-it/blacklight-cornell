@@ -208,8 +208,6 @@ module DisplayHelper
       case args[:field]
         when'url_findingaid_display'
           value
-        when 'url_bookplate_display'
-          value.uniq.join(',').html_safe
         when 'url_other_display'
           value.join('<br/>').html_safe
         else
@@ -799,7 +797,7 @@ module DisplayHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # ----------------------------------------------------------------------------
   def link_to_document(doc, field_or_opts = nil, opts = { :label => nil, :counter => nil, :results_view => true })
-    if ['bookmarks', 'book_bags'].include? params[:controller]
+    if ['bookmarks', 'book_bags'].include?(params[:controller])
       label = field_or_opts
       docID = doc.id
       link_to label, '/' + params[:controller] + '/' + docID
@@ -849,6 +847,7 @@ module DisplayHelper
   end
 
   def is_exportable document
+    return false if document.folio_record?
     if document.present? && document.export_formats.present?
       if document.export_formats.keys.include?(:ris) || document.export_formats.keys.include?(:endnote)
         return true

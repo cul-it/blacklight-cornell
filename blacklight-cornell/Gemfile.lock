@@ -39,10 +39,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: d969bd4d40a3b5e93d2dc8c75df60ca2589feecf
-  tag: v2.3.7
+  revision: b50a45655d18c906e8c0b25a5ca786459e70d4ee
+  tag: v2.3.8
   specs:
-    my_account (2.3.7)
+    my_account (2.3.8)
       blacklight (>= 7.0)
       cul-folio-edge (~> 3.2)
       rails (~> 6.1)
@@ -454,7 +454,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    jquery-ui-rails (6.0.0)
+    jquery-ui-rails (8.0.0)
       railties (>= 3.2.16)
     json (2.12.2)
     kaminari (1.2.2)
@@ -513,6 +513,7 @@ GEM
       mime-types-data (~> 3.2025, >= 3.2025.0507)
     mime-types-data (3.2025.0624)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
     minitest (5.25.5)
@@ -544,17 +545,24 @@ GEM
     net-ssh (7.3.0)
     netrc (0.11.0)
     nio4r (2.7.4)
-    nokogiri (1.16.8-aarch64-linux)
+    nokogiri (1.18.10)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.8-arm-linux)
+    nokogiri (1.18.10-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.16.8-arm64-darwin)
+    nokogiri (1.18.10-aarch64-linux-musl)
       racc (~> 1.4)
-    nokogiri (1.16.8-x86-linux)
+    nokogiri (1.18.10-arm-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.16.8-x86_64-darwin)
+    nokogiri (1.18.10-arm-linux-musl)
       racc (~> 1.4)
-    nokogiri (1.16.8-x86_64-linux)
+    nokogiri (1.18.10-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-linux-musl)
       racc (~> 1.4)
     nori (2.7.1)
       bigdecimal
@@ -603,7 +611,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.17)
+    rack (2.2.19)
     rack-contrib (2.5.0)
       rack (< 4)
     rack-cors (2.0.2)
@@ -667,8 +675,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rexml (3.2.9)
-      strscan
+    rexml (3.4.4)
     rsolr (2.6.0)
       builder (>= 2.1.2)
       faraday (>= 0.9, < 3, != 2.0.0)
@@ -696,7 +703,7 @@ GEM
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby-plsql (0.8.0)
-    ruby-saml (1.18.0)
+    ruby-saml (1.18.1)
       nokogiri (>= 1.13.10)
       rexml
     rubyzip (2.4.1)
@@ -773,7 +780,6 @@ GEM
     status-page (0.1.5)
       rails (>= 4.2)
     stringio (3.1.7)
-    strscan (3.1.5)
     summon (2.0.5)
       json
     temple (0.10.3)
@@ -781,7 +787,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     textpow (1.4.0)
       plist (>= 3.0.1)
-    thor (1.3.2)
+    thor (1.4.0)
     tilt (2.6.0)
     time (0.4.1)
       date
@@ -903,7 +909,7 @@ DEPENDENCIES
   htmlentities (~> 4.3.4)
   httpclient (~> 2.9.0)
   jquery-rails
-  jquery-ui-rails (= 6.0.0)
+  jquery-ui-rails (= 8.0.0)
   kaminari (>= 0.15)
   libnotify
   libv8-node
@@ -913,7 +919,7 @@ DEPENDENCIES
   my_account!
   mysql2 (~> 0.5.6)
   net-smtp
-  nokogiri (~> 1.16.7)
+  nokogiri (~> 1.18.9)
   omniauth (~> 2.0)
   omniauth-rails_csrf_protection
   omniauth-saml (~> 2.2)
@@ -930,7 +936,7 @@ DEPENDENCIES
   rb-readline (~> 0.5.x)
   redis-session-store
   repost (~> 0.4.2)
-  rexml (~> 3.2.6)
+  rexml
   rsolr
   rspec
   rspec-rails
@@ -958,7 +964,7 @@ DEPENDENCIES
   yaml_db
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.2.9p265
 
 BUNDLED WITH
    2.6.8

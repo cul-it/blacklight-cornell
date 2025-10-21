@@ -243,7 +243,7 @@ en:
       documents:
         counter: '%{counter}. '
       facets:
-        title: 'Limit your search'
+        title: 'Refine your results'
         sort:
           count: 'Numerical sort'
           index: 'A-Z sort'

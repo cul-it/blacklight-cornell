@@ -155,7 +155,6 @@ class CatalogController < ApplicationController
 
     config.display_link = {
         'url_other_display'  => { :label => 'Other online content' },
-        'url_bookplate_display'  => { :label => 'Bookplate' },
         'url_findingaid_display'  => { :label => 'Finding Aid' },
         'other_availability_piped'  => { :label => 'Other Availability' }
 
@@ -220,6 +219,11 @@ class CatalogController < ApplicationController
                            include_in_advanced_search: true,
                            advanced_search_order: 1,
                            sort: 'count'
+    config.add_facet_field 'location',
+                          label: 'Library Location',
+                          component: Blacklight::Hierarchy::FacetFieldListComponent,
+                          sort: 'index',
+                          limit: 100
     config.add_facet_field 'author_facet', :label => 'Author, etc.', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'pub_date_facet',
                            label: 'Publication Year',
@@ -248,12 +252,6 @@ class CatalogController < ApplicationController
     config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
-    #config.add_facet_field 'location_facet', :label => 'Library Location', :limit => 5
-    config.add_facet_field 'location',
-                          label: 'Library Location',
-                          component: Blacklight::Hierarchy::FacetFieldListComponent,
-                          sort: 'index',
-                          limit: 100
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
     config.add_facet_field 'lc_callnum_facet',
@@ -388,7 +386,6 @@ class CatalogController < ApplicationController
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'former_owner_display', :label => 'Former Owner'
-    config.add_show_field 'url_bookplate_display', :label => 'Bookplate'
     config.add_show_field 'url_other_display', :label => 'Other online content'
     config.add_show_field 'works_about_display', :label => 'Works about'
     config.add_show_field 'awards_display', :label => 'Awards'

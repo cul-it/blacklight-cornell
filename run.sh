@@ -43,8 +43,9 @@ rails_env="production"
 rails_env_file=""
 run_cmd="up"
 run_cron="false"
+test_app_version=""
 # while getopts "cdhipt:a:r:" options; do
-while getopts "cdhitp:a:e:m:r:" options; do
+while getopts "cdhitp:a:e:m:r:v:" options; do
   case "${options}" in
     a) aws_creds=$(resolve_relative_path "${OPTARG}") ;; # -a aws_creds
     c) run_cron="true" ;;
@@ -59,6 +60,7 @@ while getopts "cdhitp:a:e:m:r:" options; do
     r) rails_env_file=$(resolve_relative_path "${OPTARG}") ;;
     t) integration=1
        rails_env="integration" ;;
+    v) test_app_version="${OPTARG}" ;;
     *) exit_abnormal ;;
   esac
 done
@@ -97,6 +99,12 @@ if [ "${aws_creds}" != "" ]
     fi
 fi
 
+if [ "${test_app_version}" != "" ]
+  then
+    echo "APP VERSION for testing: ${test_app_version}"
+    export TEST_APP_VERSION=${test_app_version}
+fi
+
 export IMAGE_NAME=${image_name}
 export RAILS_ENV=${rails_env}
 export RAILS_ENV_FILE=${rails_env_file}
@@ -120,3 +128,4 @@ unset IMAGE_NAME
 unset RAILS_ENV
 unset RAILS_ENV_FILE
 unset RUN_CRON
+unset TEST_APP_VERSION

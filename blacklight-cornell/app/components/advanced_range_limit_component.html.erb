@@ -1,6 +1,6 @@
-<div class="form-group advanced-search-facet row facet_limit adv-range">
-  <%= label_tag "#{field}", :class => 'col-form-label col-lg-4' do %><%= label %><% end %>
-  <div class="col-lg-8 form-inline">
+<div class="form-group advanced-search-facet facet_limit adv-range">
+  <%= label_tag "#{field}", :class => 'col-form-label' do %><%= label %><% end %>
+  <div class="form-inline">
     <%= label_tag("range[#{field}][begin]", 'from year', class: 'sr-only visually-hidden') %>
     <%= number_field_tag("range[#{field}][begin]", begin_val, maxlength: 6, class: 'form-control text-center range_begin') %>
     <span class="col-form-label"> - </span>

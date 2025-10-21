@@ -28,7 +28,7 @@ class DatabasesController < ApplicationController
   def show
     Appsignal.increment_counter('db_search_show', 1)
     @dbResponse = Blacklight.default_index.connection.get('database', params: { id: params[:id] })
-    @db = response['response']['docs']
+    @db = @dbResponse['response']['docs']
   end
 
   def searchdb
