@@ -64,12 +64,12 @@ end
             providercode = possibleprovidercode
             dbcode = ActiveSupport::JSON.decode(@db[0]['url_access_json'][0])['dbcode']
         #    Rails.logger.info("PASSKET = #{dbcode}")
-            @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
+            @ermDBResult = ::ErmData.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
          #   Rails.logger.info("CASKETKEY #{__FILE__} #{__LINE__} ermDBResult with db code  = #{@ermDBResult.inspect}")
             if @ermDBResult.size < 1
-              #@ermDBResult = ::Erm_data.where("Provider_Code = :pvc AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)",pvc: providercode[0])
-              @ermDBResult = ::Erm_data.where(Database_Code: ['',nil], Provider_Code: providercode, Prevailing: 'true')
-              #@ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+              #@ermDBResult = ::ErmData.where("Provider_Code = :pvc AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)",pvc: providercode[0])
+              @ermDBResult = ::ErmData.where(Database_Code: ['',nil], Provider_Code: providercode, Prevailing: 'true')
+              #@ermDBResult = ::ErmData.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
               Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} ermDBResult with no db code  = #{@ermDBResult.inspect}")
               if @ermDBResult.size < 1
                 @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
@@ -77,12 +77,12 @@ end
             end            
           end
       else
-        @ermDBResult = ::Erm_data.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
+        @ermDBResult = ::ErmData.where(Database_Code: dbcode, Provider_Code: providercode, Prevailing: 'true')
         #Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} ermDBResult with db code  = #{@ermDBResult.inspect}")
         if @ermDBResult.size < 1
-          #@ermDBResult = ::Erm_data.where("Provider_Code = :pvc AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)",pvc: providercode[0])
-          @ermDBResult = ::Erm_data.where(Database_Code: ['',nil], Provider_Code: providercode[0], Prevailing: 'true')
-          #@ermDBResult = ::Erm_data.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
+          #@ermDBResult = ::ErmData.where("Provider_Code = :pvc AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)",pvc: providercode[0])
+          @ermDBResult = ::ErmData.where(Database_Code: ['',nil], Provider_Code: providercode[0], Prevailing: 'true')
+          #@ermDBResult = ::ErmData.where("Provider_Code = \'#{providercode[0]}\' AND Prevailing = 'true' AND (Database_Code =  '' OR Database_Code IS NULL)")
           Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} ermDBResult with no db code  = #{@ermDBResult.inspect}")
           if @ermDBResult.size < 1
             @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
@@ -92,7 +92,7 @@ end
    else
     @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
    end
-   @column_names = ::Erm_data.column_names.collect(&:to_sym)
+   @column_names = ::ErmData.column_names.collect(&:to_sym)
 
   end
  

@@ -1,10 +1,10 @@
 # This module registers the ENDNOTE XML export format with the system so that we
 # can offer options for Mendeley,Zotero, and Endnote
-module Blacklight::Solr::Document::Endnote_xml
+module Blacklight::Document::EndnoteXml
 
   def self.extended(document)
     # Register our exportable formats
-    Blacklight::Solr::Document::Endnote_xml.register_export_formats( document )
+    Blacklight::Document::EndnoteXml.register_export_formats( document )
   end
 
   def self.register_export_formats(document)
