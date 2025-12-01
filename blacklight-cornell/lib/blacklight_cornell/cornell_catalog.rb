@@ -188,7 +188,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     # If it does have the id, save it globally and just get the image url.
     notes_check = @document["notes"].present? ? @document["notes"].join : ""
     if @document["format_main_facet"] == "Musical Recording" && @document["discogs_display"].nil? && !notes_check.include?("Cornell University") && !notes_check.include?("Ithaca")
-      process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
+      get_discogs_search_result(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
     elsif @document["discogs_display"].present?
       @discogs_id = @document["discogs_display"][0]
       @discogs_image_url = get_discogs_image(@document["discogs_display"][0])
