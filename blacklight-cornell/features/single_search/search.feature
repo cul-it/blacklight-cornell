@@ -85,7 +85,7 @@ Feature: Search
   Examples:
       | search | result |
       | wooden nutmeg  | The blasphemy of abolitionism exposed  |
-      | Hastingues | Council House with Three Filled Arches End Elevation |
+      | Hastingues | House with Red Shutters |
       | Geryon | account of the pastoral life of the ancients |
       | 100% Beef | operations of the Cincinnati Branch |
       | crazy legs | Roxy, June 18, 1983 |
