@@ -66,7 +66,7 @@
 
           <% titleid = access_titleid(data) %>
           <% if  titleid.present?%>
-            <%= link_to '🚧 Terms of Use', "/databases/new_tou/#{titleid}/#{dbid}", "aria-label" => "Terms of use for record #{dbid}" %>
+            <%= link_to 'Terms of Use', "/databases/new_tou/#{titleid}/#{dbid}", "aria-label" => "Terms of use for record #{dbid}" %>
           <%else %>
             <%= link_to 'Terms of Use', "/databases/tou/#{dbid}", "aria-label" => "Terms of use for record #{dbid}" %>
           <% end %>
