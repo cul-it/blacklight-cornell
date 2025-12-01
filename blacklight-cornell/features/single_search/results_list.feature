@@ -34,7 +34,7 @@ Feature: Results list
   @all_results_list @search_with_multi_word_best_bets
   Scenario: Search with multi word best bets
     Given I literally go to search
-    When I fill in "q" with 'biosis previews'
+    When I fill in "q" with 'biosis citation'
     And I press 'Search'
     Then I should get bento results
     And I should see the text "Best Bet"
