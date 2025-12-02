@@ -44,7 +44,7 @@ class TouLookupService
       end
     end
 
-    db_part = resolve_for_database(id: id)
+    db_part = resolve_for_database_tou(id: id)
 
     {
       new_tou_result: new_tou_result,
@@ -128,7 +128,7 @@ class TouLookupService
   # Resolve TOU using the "database" core by ID.
   # Extracts db/provider codes and queries Erm_data with fallbacks
   # --------------------------------------------------------------
-  def resolve_for_database(id:)
+  def resolve_for_database_tou(id:)
     increment_metric('db_tou')
 
     db_docs = solr_get('database', id: id).dig('response', 'docs') || []
@@ -157,7 +157,7 @@ class TouLookupService
   # ============================================================
   # Resolve Terms of Use for CatalogController (termsOfUse path)
   # ------------------------------------------------------------
-  def resolve_catalog_terms_of_use(id:, dbcode:, providercode:)
+  def resolve_catalog_tou(id:, dbcode:, providercode:)
     db_response = solr_get('termsOfUse', id: id)
     num_found   = db_response.dig('response', 'numFound').to_i
 

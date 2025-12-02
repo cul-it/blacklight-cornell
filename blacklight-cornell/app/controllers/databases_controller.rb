@@ -50,7 +50,7 @@ class DatabasesController < ApplicationController
   # ----------------------------------------------------------------------------
   def tou
     service = TouLookupService.new
-    result  = service.resolve_for_database(id: params[:id])
+    result  = service.resolve_for_database_tou(id: params[:id])
 
     @db                 = result[:db_docs]
     @ermDBResult        = result[:erm_records]

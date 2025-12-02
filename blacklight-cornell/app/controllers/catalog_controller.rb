@@ -877,7 +877,7 @@ class CatalogController < ApplicationController
   # ----------------------------------------------------------------------------
   def tou
     service = TouLookupService.new
-    r = service.resolve_catalog_terms_of_use(id: params[:id], dbcode: params[:dbcode], providercode: params[:providercode])
+    r = service.resolve_catalog_tou(id: params[:id], dbcode: params[:dbcode], providercode: params[:providercode])
     @dbResponse        = r[:db_response]
     @db                = r[:db]
     @dbResponse2       = r[:db_response2]
