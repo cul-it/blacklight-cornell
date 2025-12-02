@@ -6,7 +6,7 @@
     <% access_url = access_url_first(data) %>
     <h3 class="blacklight-title_display">
       <% if access_url.present? %>
-        <%= link_to access_url, :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_title']);" do %>
+        <%= link_to access_url,  style: "margin-left: 0px", :onclick => "javascript:_paq.push(['trackEvent', 'databases', 'outlink_tou_title']);" do %>
           <% if data["fulltitle_vern_display"].present? and data["fulltitle_display"].present? %>
             <%= data["fulltitle_vern_display"] + " / " + data["fulltitle_display"] %>
           <% else %>

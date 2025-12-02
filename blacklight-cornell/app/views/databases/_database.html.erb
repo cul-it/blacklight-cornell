@@ -6,11 +6,6 @@
     <div class="document blacklight-database-name clearfix">
       <div class="document-data">
         <h3 class="blacklight-title_display">
-          <%# debug_console(data , "VIEW data") %>
-          <%# debug_console(params , "VIEW params") %>
-          <%# debug_console(session[:q] , "VIEW session") %>
-
-
           <% if access_url_is_list?(data) %>
             <% dbid = data["id"] %>
             <%= link_to "/catalog/#{dbid}" do %>
