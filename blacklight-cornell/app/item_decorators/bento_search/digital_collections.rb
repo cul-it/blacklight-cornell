@@ -23,6 +23,15 @@ module BentoSearch
     def render_source_info
       parts = []
 
+      if self.source_title.present?
+        parts << _h.content_tag("span", I18n.t("bento_search.published_in"), :class=> "source_label")
+        parts << _h.content_tag("span", self.source_title, :class => "source_title")
+        parts << ". "
+      elsif self.publisher.present?
+        parts << _h.content_tag("span", self.publisher, :class => "publisher")
+        parts << ". "
+      end
+
       if text = self.render_citation_details
         parts << text << "."
       end
@@ -33,7 +42,7 @@ module BentoSearch
     # if enough info is present that there will be non-empty render_source_info
     # should be over-ridden to match display_source_info
     def has_source_info?
-      self.any_present?(:start_page)
+      self.any_present?(:source_title, :publisher, :start_page)
     end
 
     # Mix-in a default missing title marker for empty titles
