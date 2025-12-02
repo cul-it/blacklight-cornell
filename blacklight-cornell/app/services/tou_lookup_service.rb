@@ -1,4 +1,4 @@
-################################################################################
+########################################################################################################################
 ##  Process TOU requests for Folio and Solr  ###################################
 ################################################################################
 class TouLookupService
@@ -211,6 +211,63 @@ class TouLookupService
     }
   end
 
+
+  ######################################################################################################################
+  ##  Provides cached FOLIO token management using the Rails session.  #########
+  ##############################################################################
+  class FolioTokenProvider
+    def initialize(session:, logger: Rails.logger)
+      @session = session
+      @logger  = logger
+    end
+
+    # ====================================================================
+    # Returns a valid FOLIO token, caching it in the session when possible
+    # --------------------------------------------------------------------
+    def fetch
+      if @session
+        current_session_token = @session[:folio_token]
+        session_token_exp     = @session[:folio_token_expires_at]
+        current_time          = Time.now.to_i
+        return current_session_token if current_session_token && session_token_exp && session_token_exp > current_time
+      end
+
+      url    = ENV['OKAPI_URL']
+      tenant = ENV['OKAPI_TENANT']
+      resp   = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
+
+      if resp[:code].to_i >= 300
+        @logger.error "FolioTokenProvider: auth failed (code=#{resp[:code]})"
+        return nil
+      end
+
+      token      = resp[:token]
+      ttl_secs   = Integer(ENV.fetch('FOLIO_TOKEN_TTL_SECONDS', 45 * 60)) rescue 2700
+      expires_at = Time.now.to_i + ttl_secs
+
+      if @session
+        @session[:folio_token]            = token
+        @session[:folio_token_expires_at] = expires_at
+      end
+
+      token
+    end
+
+    # ===============================================================
+    # Deletes any cached token so the next fetch will re-authenticate
+    # ---------------------------------------------------------------
+    def invalidate
+      return unless @session
+
+      @session.delete(:folio_token)
+      @session.delete(:folio_token_expires_at)
+    end
+  end
+
+
+  ######################################################################################################################
+  ##  Private Methods  #########################################################
+  ##############################################################################
   private
 
   # ===================================
@@ -312,57 +369,5 @@ class TouLookupService
     Appsignal.increment_counter(name, 1) if defined?(Appsignal)
   rescue => e
     @logger.debug("TOU: metric #{name} not incremented: #{e}")
-  end
-
-  ##############################################################################
-  ##  Provides cached FOLIO token management using the Rails session.  #########
-  ##############################################################################
-  class FolioTokenProvider
-    def initialize(session:, logger: Rails.logger)
-      @session = session
-      @logger  = logger
-    end
-
-    # ====================================================================
-    # Returns a valid FOLIO token, caching it in the session when possible
-    # --------------------------------------------------------------------
-    def fetch
-      if @session
-        current_session_token = @session[:folio_token]
-        session_token_exp     = @session[:folio_token_expires_at]
-        current_time          = Time.now.to_i
-        return current_session_token if current_session_token && session_token_exp && session_token_exp > current_time
-      end
-
-      url    = ENV['OKAPI_URL']
-      tenant = ENV['OKAPI_TENANT']
-      resp   = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
-
-      if resp[:code].to_i >= 300
-        @logger.error "FolioTokenProvider: auth failed (code=#{resp[:code]})"
-        return nil
-      end
-
-      token      = resp[:token]
-      ttl_secs   = Integer(ENV.fetch('FOLIO_TOKEN_TTL_SECONDS', 45 * 60)) rescue 2700
-      expires_at = Time.now.to_i + ttl_secs
-
-      if @session
-        @session[:folio_token]            = token
-        @session[:folio_token_expires_at] = expires_at
-      end
-
-      token
-    end
-
-    # ===============================================================
-    # Deletes any cached token so the next fetch will re-authenticate
-    # ---------------------------------------------------------------
-    def invalidate
-      return unless @session
-
-      @session.delete(:folio_token)
-      @session.delete(:folio_token_expires_at)
-    end
   end
 end
