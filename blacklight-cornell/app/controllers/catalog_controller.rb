@@ -888,7 +888,6 @@ class CatalogController < ApplicationController
     @column_names      = r[:columns]
   end
 
-  # TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
   # ============================================================================
   # Build 'New TOU' by executing FOLIO licenses lookup
   # ----------------------------------------------------------------------------
