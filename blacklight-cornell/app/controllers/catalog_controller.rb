@@ -872,6 +872,9 @@ class CatalogController < ApplicationController
     end
   end
 
+  # ============================================================================
+  # Build TOU from database by Solr document id
+  # ----------------------------------------------------------------------------
   def tou
     service = TouLookupService.new
     r = service.resolve_catalog_terms_of_use(id: params[:id], dbcode: params[:dbcode], providercode: params[:providercode])
@@ -886,6 +889,9 @@ class CatalogController < ApplicationController
   end
 
   # TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
+  # ============================================================================
+  # Build 'New TOU' by executing FOLIO licenses lookup
+  # ----------------------------------------------------------------------------
   def new_tou
     service = TouLookupService.new
     r = service.resolve_new_tou(title_id: params[:title_id], id: params[:id])
