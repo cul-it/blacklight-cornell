@@ -226,17 +226,17 @@ Scenario Outline: Search within institutional repository results for each IR
   Then I should get Institutional Repository results
   And when I view all Repositories Items
   And I sleep 2 seconds
-  Then I should see the text "<repository>"
+  Then I should see the text "<title>"
 
 Examples:
-  | query | repository |
-  | eye tracking | eCommons |
-  | labor unrest | eCommons |
-  | torts | Scholarship@Cornell Law |
-  | barley | Agricultural Experiment Station |
-  | Jurisprudence of Enron | Scholarship@Cornell Law |
-  | Lessons from Guangdong Province | Charles H. Dyson School of Applied Economics |
-  | Frederic Neyrat questions | la philosophie d'Alain Badiou |
+  | query | title |
+  | eye tracking | Verbalizer vs. Visualizer Viewing Text and Image: An Eye Tracking Study |
+  | labor unrest | Subject: Strikes and Labor Unrest |
+  | torts | The Puzzle of the Dignitary Torts |
+  | barley | Bulletin: Number 681: The Planting Value of Oats and Barley Collected from Farmers' Drills and Granaries |
+  | Jurisprudence of Enron | The Jurisprudence of Enron: Professionalism as Interpretation |
+  | Lessons from Guangdong Province | Food Demand in China: Lessons from Guangdong Province |
+  | Frederic Neyrat questions | Aux bords du vide : évènement et sujet dans la philosophie d'Alain Badiou |
 
 @DISCOVERYACCESS-8225
 Scenario: Articles & Full Text View all link should not have proxy
