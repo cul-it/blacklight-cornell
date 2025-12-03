@@ -138,7 +138,10 @@ module DisplayHelper
   # otherwise, it does same as render_index_field_value
   # ----------------------------------------------------------------------------
   def render_pair_delimited_index_field_value args
-    Rails.logger.info("RENDER_PAIR_...") # :nocov:
+    # :nocov:
+    Rails.logger.info("RENDER_PAIR_...")
+    # :nocov:
+
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]
@@ -625,7 +628,10 @@ module DisplayHelper
       if @add_row_style == :text
         out << s[0] # if displaying plain text, do not include links
       else
-        Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}" # :nocov:
+        # :nocov:
+        Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
+        # :nocov:
+
         case category
         when :all
           q = '"' + s[1] + '"'

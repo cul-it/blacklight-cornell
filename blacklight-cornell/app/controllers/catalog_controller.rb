@@ -730,12 +730,16 @@ class CatalogController < ApplicationController
     email_action(dox)
     # , to: "jgr25@cornell.edu", message: "your stuff", :callnumber => docs
 
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")  # :nocov:
+    # :nocov:
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    # :nocov:
   end
 
+  # :nocov:
   def logins
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")  # :nocov:
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
+  # :nocov:
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
@@ -780,9 +784,10 @@ class CatalogController < ApplicationController
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def mollom_email
-
-    Rails.logger.debug "mjc12test: entering email"  # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")  # :nocov:
+    # :nocov:
+    Rails.logger.debug "mjc12test: entering email"
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
+    # :nocov:
 
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
