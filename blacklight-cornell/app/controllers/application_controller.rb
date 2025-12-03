@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
    def show_login_action
      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} logging in before hook")
    end
-  # :nocov:
+   # :nocov:
 
 protected
   def authenticate_user!
