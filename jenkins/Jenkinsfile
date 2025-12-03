@@ -47,10 +47,9 @@ pipeline {
                 }
             }
         }
-
-        stage('Publish Coverage') {
+        stage('Publish Coverage (RCov)') {
             steps {
-                echo "Publishing coverage"
+                echo "Publishing RCov-style coverage"
                 sh 'mkdir -p coverage'
                 sh 'chmod g+w coverage'
                 sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
@@ -60,8 +59,23 @@ pipeline {
                     keepAll: true,
                     reportDir: "${WORKSPACE}/blacklight-cornell/coverage/rcov",
                     reportFiles: 'index.html',
-                    reportName: 'Code Coverage Report',
-                    reportTitles: 'Discovery and Access Team Code Coverage'])
+                    reportName: 'Code Coverage Report (RCov)',
+                    reportTitles: 'Discovery and Access Team Code Coverage (RCov)'
+                ])
+            }
+        }
+        stage('Publish Coverage (SimpleCov HTML)') {
+            steps {
+                echo "Publishing SimpleCov HTML coverage"
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: "${WORKSPACE}/blacklight-cornell/coverage",
+                    reportFiles: 'index.html',
+                    reportName: 'SimpleCov HTML Coverage',
+                    reportTitles: 'Discovery and Access Team SimpleCov Coverage'
+                ])
             }
         }
     }
