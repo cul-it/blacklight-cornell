@@ -4,7 +4,6 @@ if ENV['COVERAGE'] == 'on'
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([ SimpleCov::Formatter::HTMLFormatter, SimpleCov::Formatter::RcovFormatter ])
   SimpleCov.start 'rails' do
     add_filter '/vendor/'
-    nocov_token 'nocov'
   end
 end
 
