@@ -10,15 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_14_214529) do
-  create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
-    t.integer "CIRC_GROUP_ID"
-    t.integer "LOCATION_ID"
-    t.string "PICKUP_LOCATION", limit: 1
-    t.index ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl"
-    t.index ["LOCATION_ID"], name: "key_location_id"
-  end
-
+ActiveRecord::Schema[7.2].define(version: 2025_12_03_142805) do
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false

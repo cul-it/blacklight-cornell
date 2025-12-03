@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: ecb023de1e8faf37f0b124d1080ce8d609cbe3a6
+  revision: f51fdeb0bcc11403e07b1e213ac1ae494aa5b8ee
   branch: dev
   specs:
     blacklight_cornell_requests (5.4)
@@ -14,7 +14,6 @@ GIT
       httpclient
       i18n
       net-ldap
-      protected_attributes_continued
       rails (~> 7.0)
       repost
       rest-client
@@ -35,6 +34,20 @@ GIT
   specs:
     cul-folio-edge (3.2)
       rest-client
+
+GIT
+  remote: https://github.com/cul-it/cul-my-account
+  revision: e4aa2f505c5fa88332dd9a3095f2b05084c18138
+  branch: dev
+  specs:
+    my_account (2.4)
+      blacklight (~> 7.0)
+      cul-folio-edge (~> 3.2)
+      haml
+      rails (~> 7.0)
+      rest-client
+      sprockets-rails
+      xml-simple
 
 GIT
   remote: https://github.com/makandra/spreewald.git
@@ -129,8 +142,8 @@ GEM
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
-    addressable (2.8.7)
-      public_suffix (>= 2.0.2, < 7.0)
+    addressable (2.8.8)
+      public_suffix (>= 2.0.2, < 8.0)
     airbrussh (1.5.3)
       sshkit (>= 1.6.1, != 1.7.0)
     akami (1.3.3)
@@ -161,7 +174,6 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    backports (3.25.2)
     base64 (0.3.0)
     bcrypt (3.1.20)
     benchmark (0.5.0)
@@ -226,11 +238,11 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capybara (3.39.2)
+    capybara (3.40.0)
       addressable
       matrix
       mini_mime (>= 0.1.3)
-      nokogiri (~> 1.8)
+      nokogiri (~> 1.11)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
@@ -262,7 +274,7 @@ GEM
     concurrent-ruby (1.3.5)
     confstruct (1.1.0)
       hashie (>= 3.3, < 5)
-    connection_pool (2.5.4)
+    connection_pool (2.5.5)
     crack (1.0.1)
       bigdecimal
       rexml
@@ -278,30 +290,35 @@ GEM
     csl-styles (2.0.1)
       csl (~> 2.0)
     csv (3.3.5)
-    cucumber (3.2.0)
-      builder (>= 2.1.2)
-      cucumber-core (~> 3.2.0)
-      cucumber-expressions (~> 6.0.1)
-      cucumber-wire (~> 0.0.1)
-      diff-lcs (~> 1.3)
-      gherkin (~> 5.1.0)
-      multi_json (>= 1.7.5, < 2.0)
-      multi_test (>= 0.1.2)
-    cucumber-core (3.2.1)
-      backports (>= 3.8.0)
-      cucumber-tag_expressions (~> 1.1.0)
-      gherkin (~> 5.0)
-    cucumber-expressions (6.0.1)
-    cucumber-rails (2.6.1)
-      capybara (>= 2.18, < 4)
-      cucumber (>= 3.2, < 9)
-      mime-types (~> 3.3)
-      nokogiri (~> 1.10)
-      railties (>= 5.0, < 8)
-      rexml (~> 3.0)
-      webrick (~> 1.7)
-    cucumber-tag_expressions (1.1.1)
-    cucumber-wire (0.0.1)
+    cucumber (10.1.1)
+      base64 (~> 0.2)
+      builder (~> 3.2)
+      cucumber-ci-environment (> 9, < 11)
+      cucumber-core (> 15, < 17)
+      cucumber-cucumber-expressions (> 17, < 19)
+      cucumber-html-formatter (> 20.3, < 22)
+      diff-lcs (~> 1.5)
+      logger (~> 1.6)
+      mini_mime (~> 1.1)
+      multi_test (~> 1.1)
+      sys-uname (~> 1.3)
+    cucumber-ci-environment (10.0.1)
+    cucumber-core (15.3.0)
+      cucumber-gherkin (> 27, < 35)
+      cucumber-messages (> 26, < 30)
+      cucumber-tag-expressions (> 5, < 9)
+    cucumber-cucumber-expressions (18.0.1)
+      bigdecimal
+    cucumber-gherkin (34.0.0)
+      cucumber-messages (> 25, < 29)
+    cucumber-html-formatter (21.15.1)
+      cucumber-messages (> 19, < 28)
+    cucumber-messages (27.2.0)
+    cucumber-rails (4.0.0)
+      capybara (>= 3.25, < 4)
+      cucumber (>= 7, < 11)
+      railties (>= 6.1, < 9)
+    cucumber-tag-expressions (8.1.0)
     cucumber_priority (1.1.0)
       cucumber
     database_cleaner (2.1.0)
@@ -342,7 +359,7 @@ GEM
       faraday-net_http_persistent (~> 2.0)
       net-http-persistent (>= 3.1, < 5)
       public_suffix (~> 4.0)
-    erb (5.1.3)
+    erb (6.0.0)
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
@@ -382,7 +399,6 @@ GEM
     fugit (1.12.1)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
-    gherkin (5.1.0)
     globalid (1.3.0)
       activesupport (>= 6.1)
     guard (2.19.1)
@@ -404,7 +420,7 @@ GEM
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
-    haml (7.0.0)
+    haml (7.0.2)
       temple (>= 0.8.2)
       thor
       tilt
@@ -433,7 +449,7 @@ GEM
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     io-console (0.8.1)
-    irb (1.15.2)
+    irb (1.15.3)
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
@@ -496,6 +512,7 @@ GEM
       marc (~> 1.0)
     marcel (1.1.0)
     matrix (0.4.3)
+    memoist3 (1.0.0)
     meta_request (0.8.5)
       rack-contrib (>= 1.1, < 3)
       railties (>= 3.0.0, < 9)
@@ -508,8 +525,8 @@ GEM
     mini_portile2 (2.8.9)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
-    minitest (5.26.0)
-    multi_json (1.17.0)
+    minitest (5.26.2)
+    multi_json (1.18.0)
     multi_test (1.1.0)
     mutex_m (0.3.0)
     mysql2 (0.5.7)
@@ -539,7 +556,7 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     netrc (0.11.0)
-    nio4r (2.7.4)
+    nio4r (2.7.5)
     nokogiri (1.18.10)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -597,8 +614,6 @@ GEM
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
-    protected_attributes_continued (1.9.0)
-      activemodel (>= 5.0)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -613,7 +628,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.20)
+    rack (2.2.21)
     rack-contrib (2.5.0)
       rack (< 4)
     rack-cors (2.0.2)
@@ -668,7 +683,7 @@ GEM
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     rb-readline (0.5.5)
-    rdoc (6.15.0)
+    rdoc (6.16.1)
       erb
       psych (>= 4.0.0)
       tsort
@@ -680,7 +695,7 @@ GEM
       actionpack (>= 5.2.4.1, < 9)
       redis (>= 3, < 6)
     regexp_parser (2.11.3)
-    reline (0.6.2)
+    reline (0.6.3)
       io-console (~> 0.5)
     repost (0.4.2)
     responders (3.2.0)
@@ -795,9 +810,12 @@ GEM
       ostruct
     status-page (0.1.5)
       rails (>= 4.2)
-    stringio (3.1.7)
+    stringio (3.1.9)
     summon (2.0.5)
       json
+    sys-uname (1.4.1)
+      ffi (~> 1.1)
+      memoist3 (~> 1.0.0)
     temple (0.10.4)
     terser (1.2.6)
       execjs (>= 0.3.0, < 3)
@@ -832,8 +850,8 @@ GEM
       activesupport
     vcr (6.3.1)
       base64
-    view_component (3.23.2)
-      activesupport (>= 5.2.0, < 8.1)
+    view_component (3.24.0)
+      activesupport (>= 5.2.0, < 8.2)
       concurrent-ruby (~> 1)
       method_source (~> 1.0)
     warden (1.2.9)
@@ -850,7 +868,7 @@ GEM
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
-    webrick (1.9.1)
+    webrick (1.9.2)
     websocket (1.2.11)
     websocket-driver (0.8.0)
       base64
@@ -858,6 +876,8 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    xml-simple (1.1.9)
+      rexml
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yaml_db (0.7.0)
@@ -902,11 +922,11 @@ DEPENDENCIES
   capistrano (~> 3.18)
   capistrano-rails (~> 1.6)
   capistrano-rvm
-  capybara (= 3.39.2)
+  capybara
   capybara-email
   coffee-rails (~> 4.0)
   concurrent-ruby
-  cucumber (~> 3.1)
+  cucumber
   cucumber-rails
   cul-folio-edge!
   database_cleaner
@@ -930,6 +950,7 @@ DEPENDENCIES
   marc
   meta_request
   mini_racer (= 0.6.2)
+  my_account!
   mysql2 (~> 0.5.6)
   net-smtp
   nokogiri (~> 1.18.9)
@@ -938,7 +959,6 @@ DEPENDENCIES
   omniauth-saml (~> 2.2)
   parallel_tests
   piwik_analytics (~> 1.0.1)
-  protected_attributes_continued
   pry
   pry-byebug
   puma (~> 6.4)

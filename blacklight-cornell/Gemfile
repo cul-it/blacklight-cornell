@@ -41,7 +41,6 @@ gem "omniauth", "~> 2.0"
 gem "omniauth-saml", "~> 2.2"
 gem "omniauth-rails_csrf_protection"
 gem "piwik_analytics", "~> 1.0.1"
-gem "protected_attributes_continued"
 gem "puma", "~> 6.4"
 gem "rack-cors", require: "rack/cors"
 gem "rb-readline", "~> 0.5.x"
@@ -71,12 +70,12 @@ gem "yaml_db"
 
 gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", branch: "dev"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
-# gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.8"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", branch: "dev"
 
 group :development, :test do
   gem "awesome_print"
   gem "byebug"
-  gem "cucumber", "~> 3.1"
+  gem "cucumber"
   gem "cucumber-rails", :require => false # Set require = false to get rid of a warning message
   gem "database_cleaner"
   gem "guard-rspec"
@@ -101,7 +100,7 @@ group :production, :staging do
 end
 
 group :test do
-  gem "capybara", "3.39.2"
+  gem "capybara"
   gem "capybara-email"
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup
