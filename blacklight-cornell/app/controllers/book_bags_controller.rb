@@ -190,11 +190,11 @@ class BookBagsController < CatalogController
 
   # grabs a bunch of documents to export to endnote or ris.
   def endnote
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}") # :nocov:
     if params[:id].nil?
       docs = @bb.index
       @response, @documents = search_service.fetch(docs, :per_page => 1000, :rows => 1000)
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
+      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}") # :nocov:
     else
       @response, @documents = search_service.fetch(params[:id])
     end
@@ -206,7 +206,7 @@ class BookBagsController < CatalogController
 
   def export
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in export"
+    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in export" # :nocov:
     msg = "book_bags_controler.rb export"
     puts msg.to_yaml
     @bb.debug

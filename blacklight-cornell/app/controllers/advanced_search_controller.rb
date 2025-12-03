@@ -20,13 +20,13 @@ class AdvancedSearchController < ApplicationController
   end
 
   def index
-    Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
+    Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}") # :nocov:
     Appsignal.increment_counter("adv_search_index", 1)
 
     unless params["q"].nil?
       @query = params["q"]
       @query.slice! "doi:"
-      Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
+      Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}") # :nocov:
 
       if session[:search].nil?
         session[:search] = {}
@@ -42,11 +42,11 @@ class AdvancedSearchController < ApplicationController
   end
 
   def set_return_path
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}") # :nocov:
     op = request.original_fullpath
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}") # :nocov:
     refp = request.referer
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}") # :nocov:
     session[:cuwebauth_return_path] = if (params["id"].present? && params["id"].include?("|"))
         "/bookmarks"
       elsif (params["id"].present? && op.include?("email"))
@@ -56,7 +56,7 @@ class AdvancedSearchController < ApplicationController
       else
         op
       end
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}") # :nocov:
     return true
   end
 

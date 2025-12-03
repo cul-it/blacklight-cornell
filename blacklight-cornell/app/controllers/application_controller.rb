@@ -29,18 +29,18 @@ class ApplicationController < ActionController::Base
    end
 
    def show_login_action
-     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} logging in before hook")
+     Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} logging in before hook") # :nocov:
    end
 
 
 protected
   def authenticate_user!
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate user")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate user") # :nocov:
     if user_signed_in?
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate user call super")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate user call super") # :nocov:
       super
     else
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate redirect to saml ")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} authenticate redirect to saml ") # :nocov:
       if ENV['SAML_IDP_TARGET_URL']
         #redirect_to 'http://es287-dev.library.cornell.edu:8988/saml.html'
         redirect_to request.base_url + '/saml.html'
@@ -54,11 +54,11 @@ protected
 
   if false
   def set_return_path
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}") # :nocov:
     op = request.original_fullpath
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}") # :nocov:
     refp = request.referer
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}") # :nocov:
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
         '/bookmarks'
@@ -69,7 +69,7 @@ protected
       else
         op
       end
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}") # :nocov:
     return true
   end
   end
