@@ -4,7 +4,7 @@ class SearchHistoryController < ApplicationController
 
   def set_return_path
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     # :nocov:
 
     op = request.original_fullpath
@@ -13,16 +13,12 @@ class SearchHistoryController < ApplicationController
       op = session[:cuwebauth_return_path]
     end
     op.sub!('/range_limit','')
-
-    # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-    # :nocov:
-
     refp = request.referer
     refp.sub!('/range_limit','') unless refp.nil?
 
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
     # :nocov:
 
     session[:cuwebauth_return_path] =
@@ -37,7 +33,7 @@ class SearchHistoryController < ApplicationController
       end
 
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     # :nocov:
 
     return true

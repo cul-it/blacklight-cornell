@@ -21,7 +21,7 @@ class AdvancedSearchController < ApplicationController
 
   def index
     # :nocov:
-    Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
+      Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
     # :nocov:
 
     Appsignal.increment_counter("adv_search_index", 1)
@@ -31,13 +31,17 @@ class AdvancedSearchController < ApplicationController
       @query.slice! "doi:"
 
       # :nocov:
-      Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
+        Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
       # :nocov:
 
       if session[:search].nil?
         session[:search] = {}
       end
-      log_debug_info("#{__FILE__}:#{__LINE__}", ["@query:", @query])
+
+      # :nocov:
+        log_debug_info("#{__FILE__}:#{__LINE__}", ["@query:", @query])
+      # :nocov:
+
       session[:search][:q] = @query
       session[:search][:search_field] = "all_fields"
       session[:search][:controller] = "search"
@@ -48,20 +52,13 @@ class AdvancedSearchController < ApplicationController
   end
 
   def set_return_path
-    # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    # :nocov:
-
     op = request.original_fullpath
-
-    # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-    # :nocov:
-
     refp = request.referer
 
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
     # :nocov:
 
     session[:cuwebauth_return_path] = if (params["id"].present? && params["id"].include?("|"))
@@ -74,7 +71,7 @@ class AdvancedSearchController < ApplicationController
         op
                                       end
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     # :nocov:
 
     return true

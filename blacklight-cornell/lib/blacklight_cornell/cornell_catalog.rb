@@ -17,7 +17,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   def set_return_path
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     # :nocov:
 
     op = request.original_fullpath
@@ -31,16 +31,13 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
     op.dup.sub!('/range_limit','')
 
-    # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-    # :nocov:
-
-    refp = request.referer
-    refp =""
+    refp = request.referer #<== todo: should we remove this redundant code?
+    refp = ""
     refp.sub!('/range_limit','') unless refp.nil?
 
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
     # :nocov:
 
     session[:cuwebauth_return_path] =
@@ -59,7 +56,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
 
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     # :nocov:
 
     return true
@@ -291,7 +288,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   # grabs a bunch of documents to export to endnote
   def endnote
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     # :nocov:
 
     if params[:id].nil?
@@ -299,8 +296,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
 
       # :nocov:
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
       # :nocov:
 
       if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
@@ -309,7 +306,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       @response, @documents = search_service.fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
 
       # :nocov:
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
+        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
       # :nocov:
 
     else
@@ -321,7 +318,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     fmt = params[:format]
 
     # :nocov:
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
+      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
     # :nocov:
 
     respond_to do |format|

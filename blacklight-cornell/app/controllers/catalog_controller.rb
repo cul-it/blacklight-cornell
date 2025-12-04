@@ -731,14 +731,14 @@ class CatalogController < ApplicationController
     # , to: "jgr25@cornell.edu", message: "your stuff", :callnumber => docs
 
     # :nocov:
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     # :nocov:
   end
 
   # :nocov:
-  def logins
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-  end
+    def logins
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    end
   # :nocov:
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
@@ -785,8 +785,8 @@ class CatalogController < ApplicationController
   # (in order to add Mollom/CAPTCHA integration)
   def mollom_email
     # :nocov:
-    Rails.logger.debug "mjc12test: entering email"
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
+      Rails.logger.debug "mjc12test: entering email"
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
     # :nocov:
 
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
@@ -862,7 +862,11 @@ class CatalogController < ApplicationController
                                                          :templocation => params[:templocation], :status => params[:itemStatus], :params => params}, url_gen_params, params)
         email.deliver_now
         flash[:success] = "Email sent"
-        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} emailing   = #{flash.inspect}")
+
+        # :nocov:
+          Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} emailing   = #{flash.inspect}")
+        # :nocov:
+
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       end
 

@@ -139,7 +139,7 @@ module DisplayHelper
   # ----------------------------------------------------------------------------
   def render_pair_delimited_index_field_value args
     # :nocov:
-    Rails.logger.info("RENDER_PAIR_...")
+      Rails.logger.info("RENDER_PAIR_...")
     # :nocov:
 
     value = args[:value]
@@ -629,7 +629,7 @@ module DisplayHelper
         out << s[0] # if displaying plain text, do not include links
       else
         # :nocov:
-        Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
+          Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
         # :nocov:
 
         case category
