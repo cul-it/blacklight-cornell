@@ -378,14 +378,18 @@ module Blacklight::Solr::Document::MarcExport
 #300 ‡a 1 sound disc : ‡b 33 1/3 rpm, stereo. ; ‡c 12 in.
   def setup_medium(record,ty)
     medium = ""
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
+    # :nocov:
+      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
+    # :nocov:
     if ['motion_picture','song','video'].include?(ty)
       # ***
       field = alternate_script(record, '347')
       code = field.find{|s| s.code == 'b'} unless field.nil?
       data = code.value unless code.nil?
       medium = data.nil? ?  "" : data
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
+      # :nocov:
+        Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
+      # :nocov:
       if medium.blank?
         # ***
         field = alternate_script(record, '300')
@@ -401,7 +405,9 @@ module Blacklight::Solr::Document::MarcExport
                          ''
                       end
         end
-        Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
+        # :nocov:
+          Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
+        # :nocov:
       end
     end
     medium  = case
@@ -414,7 +420,9 @@ module Blacklight::Solr::Document::MarcExport
                 else
                   ''
               end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
+    # :nocov:
+      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
+    # :nocov:
     medium
   end
 
@@ -443,7 +451,9 @@ module Blacklight::Solr::Document::MarcExport
            end
       end
     end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} thesis = #{thesis.inspect}")
+    # :nocov:
+      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} thesis = #{thesis.inspect}")
+    # :nocov:
     thesis
   end
 

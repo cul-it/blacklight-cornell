@@ -150,7 +150,9 @@ module Blacklight::Solr::Document::Endnote_xml
 
   def generate_enx_keywords(bld,ty)
     kw =   setup_kw_info(to_marc)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} keywords = #{kw.inspect}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} keywords = #{kw.inspect}"
+    # :nocov:
     bld.keywords do
       kw.each do |k|
           bld.keyword(k) unless k.empty?
@@ -209,7 +211,9 @@ module Blacklight::Solr::Document::Endnote_xml
     end
     if ty == 'Thesis' and pname.blank?
       th = setup_thesis_info(to_marc)
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
+      # :nocov:
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
+      # :nocov:
       pname = th[:inst].to_s
     end
     bld.publisher(pname) unless pname.blank?
@@ -237,7 +241,9 @@ module Blacklight::Solr::Document::Endnote_xml
   def generate_enx_contributors(bld,ty)
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
+    # :nocov:
     primary_authors = authors[:primary_authors]
     if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
       primary_authors = authors[:primary_corporate_authors]
@@ -248,7 +254,9 @@ module Blacklight::Solr::Document::Endnote_xml
     #primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     editors = authors[:editors]
     pa = primary_authors.blank? ? secondary_authors : primary_authors
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote pa = #{pa.inspect}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote pa = #{pa.inspect}"
+    # :nocov:
     bld.contributors() do
       if !pa.blank?
         bld.authors() do

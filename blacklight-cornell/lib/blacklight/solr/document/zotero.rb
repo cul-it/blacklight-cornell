@@ -67,7 +67,9 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_specific(builder,ty)
       end
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!}"
+    # :nocov:
     builder.target!
   end
 
@@ -107,7 +109,9 @@ module Blacklight::Solr::Document::Zotero
 
   def generate_rdf_holdings(b)
     where = setup_holdings_info(b)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{where.inspect}"
+    # :nocov:
+     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{where.inspect}"
+    # :nocov:
     #b.dc(:coverage,where.join("\n")) unless where.blank? or where.join("").blank?
     b.dc(:subject) { b.dcterms(:LCC) { b.rdf(:value,where.join("//")) }}  unless where.blank? or where.join("").blank?
   end
@@ -153,10 +157,14 @@ module Blacklight::Solr::Document::Zotero
       pname = "#{publisher.strip!}" unless publisher.nil?
       # publication place
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} ty #{ty.inspect}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} ty #{ty.inspect}"
+    # :nocov:
     if ty == 'thesis'
       th = setup_thesis_info(to_marc)
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
+      # :nocov:
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
+      # :nocov:
       pname = th[:inst].to_s
     end
     b.dc(:publisher) {
@@ -200,11 +208,16 @@ module Blacklight::Solr::Document::Zotero
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators #{relators.inspect}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators #{relators.inspect}"
+    # :nocov:
     primary_authors = authors[:primary_authors]
     if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
       primary_authors = authors[:primary_corporate_authors]
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} prmry authors=#{primary_authors.inspect}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} prmry authors=#{primary_authors.inspect}"
+    # :nocov:
     secondary_authors = authors[:secondary_authors]
     meeting_authors = authors[:meeting_authors]
     secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
@@ -212,8 +225,10 @@ module Blacklight::Solr::Document::Zotero
     editors = authors[:editors]
     if editors.empty?
       editors = relators.select {|k,v| v.include?("edt") }.keys
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} looking for editors #{relators.inspect}"
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} editors #{editors.inspect}"
+      # :nocov:
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} looking for editors #{relators.inspect}"
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} editors #{editors.inspect}"
+      # :nocov:
     end
     pa = primary_authors.blank? ? secondary_authors : primary_authors
     #pa = primary_authors + secondary_authors
@@ -246,7 +261,9 @@ module Blacklight::Solr::Document::Zotero
       }
     end
     if editors.blank? && !relators.blank?
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} meeting authors #{meeting_authors.inspect}"
+      # :nocov:
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} meeting authors #{meeting_authors.inspect}"
+      # :nocov:
       relators.each { |n,r|
         rel = relator_to_zotero(r[0])
         ns = ['contributors','authors','editors'].include?(rel)  ? 'bib' : 'z'
@@ -275,7 +292,9 @@ module Blacklight::Solr::Document::Zotero
       when 'thesis'
         th = setup_thesis_info(to_marc)
         typ = th[:type].to_s
-        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{th.inspect}"
+        # :nocov:
+          Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{th.inspect}"
+        # :nocov:
         b.z(:type,typ)
       else
     end

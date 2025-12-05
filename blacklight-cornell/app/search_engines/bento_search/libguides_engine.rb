@@ -27,8 +27,10 @@ class BentoSearch::LibguidesEngine
       guides_response = JSON.load(URI.open(guides_url))
     rescue Exception => e
       guides_response = []
-      Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
-      Rails.logger.error "Guides URL: " + guides_url
+      # :nocov:
+        Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
+        Rails.logger.error "Guides URL: " + guides_url
+      # :nocov:
     end
 
     # :nocov:

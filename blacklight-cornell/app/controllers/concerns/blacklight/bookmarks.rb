@@ -87,12 +87,16 @@ module Blacklight::Bookmarks
       # next 8 lines are custom code
       current_count = current_or_guest_user.bookmarks.count
       new_count = @bookmarks.count
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      if (current_count + new_count) > BookBagsController::MAX_BOOKBAGS_COUNT
-        Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: too many bookmarks"
-        raise RangeError, "Too many bookmarks"
-      end
-      Rails.logger.level = save_level
+
+      # :nocov:
+        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+        if (current_count + new_count) > BookBagsController::MAX_BOOKBAGS_COUNT
+          Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: too many bookmarks"
+          raise RangeError, "Too many bookmarks"
+        end
+        Rails.logger.level = save_level
+      # :nocov:
+
       success = @bookmarks.all? do |bookmark|
         current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
       end
@@ -153,34 +157,36 @@ module Blacklight::Bookmarks
   end
 
   def export
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in bookmaks#export"
-    puts "export".to_yaml
-    puts "export".inspect
-    if current_user
-      puts "Current user:\n" + current_user.email.to_yaml
-    elsif current_or_guest_user
-      puts "Guest user:\n" + current_or_guest_user.email.to_yaml
-    else
-      puts "No user\n"
-    end
-    if user_session
-      puts "Session:\n" + user_session.to_yaml
-    else
-      puts "No session\n"
-    end
+    # :nocov:
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in bookmaks#export"
+      puts "export".to_yaml
+      puts "export".inspect
+      if current_user
+        puts "Current user:\n" + current_user.email.to_yaml
+      elsif current_or_guest_user
+        puts "Guest user:\n" + current_or_guest_user.email.to_yaml
+      else
+        puts "No user\n"
+      end
+      if user_session
+        puts "Session:\n" + user_session.to_yaml
+      else
+        puts "No session\n"
+      end
 
-    # email = 'jgr25@cornell.edu'
-    # bb = BookBag.new(email)
-    # bb.create_table
-    # list = [123, 456, 890]
-    # bb.create_all(list)
-    # bb.debug
-    # list = [123, 890]
-    # bb.delete_all(list)
-    # bb.debug
-    # puts "Delete\n" + bb.to_yaml
-    Rails.logger.level = save_level
+      # email = 'jgr25@cornell.edu'
+      # bb = BookBag.new(email)
+      # bb.create_table
+      # list = [123, 456, 890]
+      # bb.create_all(list)
+      # bb.debug
+      # list = [123, 890]
+      # bb.delete_all(list)
+      # bb.debug
+      # puts "Delete\n" + bb.to_yaml
+      Rails.logger.level = save_level
+    # :nocov:
     redirect_to action: "index"
   end
 

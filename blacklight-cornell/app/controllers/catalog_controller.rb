@@ -995,7 +995,9 @@ def tou
       JSON.parse(response.body) if response && response.code == 200
     end
   rescue RestClient::ExceptionWithResponse => err
-    Rails.logger.error "TOU: Error making FOLIO request (#{err})"
+    # :nocov:
+      Rails.logger.error "TOU: Error making FOLIO request (#{err})"
+    # :nocov:
     nil
   end
 
@@ -1010,7 +1012,9 @@ def tou
       tenant = ENV['OKAPI_TENANT']
       response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
       if response[:code] >= 300
-        Rails.logger.error "TOU error: Could not create a FOLIO token for #{user}"
+        # :nocov:
+          Rails.logger.error "TOU error: Could not create a FOLIO token for #{user}"
+        # :nocov:
       else
         session[:folio_token] = response[:token]
       end

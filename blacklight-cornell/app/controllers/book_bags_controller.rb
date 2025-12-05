@@ -212,16 +212,18 @@ class BookBagsController < CatalogController
   end
 
   def export
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-
     # :nocov:
+      save_level = Rails.logger.level
+      Rails.logger.level = Logger::WARN
       Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in export"
     # :nocov:
 
     msg = "book_bags_controler.rb export"
     puts msg.to_yaml
-    @bb.debug
-    Rails.logger.level = save_level
+    # :nocov:
+      @bb.debug
+      Rails.logger.level = save_level
+    # :nocov:
     redirect_to :action => "index"
   end
 

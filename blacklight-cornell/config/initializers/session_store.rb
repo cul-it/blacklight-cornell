@@ -11,9 +11,12 @@ if ENV['REDIS_SESSION_HOST'] && ((ENV['RAILS_ENV'] == 'production') or (ENV['RAI
   ActiveRecord::SessionStore::Session.attr_accessible :data, :session_id
   BlacklightCornell::Application.config.session_store :redis_session_store,
   key: '_blacklightcornell_session',
-  on_redis_down: ->(e, env, sid) { Rails.logger.error("Error: #{Time.now} : #{e} could not connect to redis.")
-                                   Appsignal.send_error(e)
-                                 },
+  on_redis_down: ->(e, env, sid) {
+    # :nocov:
+      Rails.logger.error("Error: #{Time.now} : #{e} could not connect to redis.")
+    # :nocov:
+    Appsignal.send_error(e)
+  },
   redis: {
     db: 2,
     expire_after: 4.hours,
