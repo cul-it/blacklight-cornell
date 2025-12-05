@@ -207,7 +207,6 @@ module Blacklight::Solr::Document::Zotero
     # Handle authors
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators #{relators.inspect}"
     # :nocov:
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators #{relators.inspect}"
     # :nocov:
