@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Preview email template on development at http://localhost:3000/rails/mailers/record_mailer/record_email
+# Preview email template on development at http://localhost:9292/rails/mailers/record_mailer/record_email
 class RecordMailerPreview < ActionMailer::Preview
     def record_email
         RecordMailer.email_record(documents, details, url, params={})
