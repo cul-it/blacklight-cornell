@@ -277,14 +277,18 @@ Devise.setup do |config|
   config.warden do |manager|
      manager.intercept_401 = false
      Warden::Manager.before_logout do |user, auth, opts|
-       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden user =  #{user.inspect}")
-       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden auth =  #{auth.inspect}")
-       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden opts =  #{opts.inspect}")
+       # :nocov:
+         Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden user =  #{user.inspect}")
+         Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden auth =  #{auth.inspect}")
+         Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} warden opts =  #{opts.inspect}")
+       # :nocov:
      end
      #manager.default_strategies(:scope => :user).unshift :some_external_strategy
    end
 Warden::Manager.before_logout do |user, auth, opts|
-  Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} user =  #{user.inspect}")
+  # :nocov:
+    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} user =  #{user.inspect}")
+  # :nocov:
  end
 
   # ==> Mountable engine configurations

@@ -54,7 +54,10 @@
   </div>
 </div>
 
-<% Rails.logger.debug "Viewing item #{@document.id} - session: #{session} " %>
+<% # :nocov: %>
+  <% Rails.logger.debug "Viewing item #{@document.id} - session: #{session} " %>
+<% # :nocov: %>
+
 <% if params[:flash] == 'success' %>
   <%- flash.now[:success]  = 'Your request was submitted successfully.' %>
 <% end %>

@@ -797,8 +797,6 @@ class CatalogController < ApplicationController
     #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     @response, @documents = fetch docs
 
-    #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
-    #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
     captcha_ok = false
 
     if request.post?
@@ -1019,10 +1017,6 @@ def tou
    #  end
     session[:folio_token]
   end
-
-  #def oclc_request
-  #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
-  #end
 
   def redirect_browse
     if params[:search_field] && params[:controller] != 'advanced'

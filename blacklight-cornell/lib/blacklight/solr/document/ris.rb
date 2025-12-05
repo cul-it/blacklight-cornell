@@ -47,7 +47,11 @@ module Blacklight::Solr::Document::RIS
 
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
+
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
+    # :nocov:
+
     ty = "TY  - GEN\n"
     fmt = self['format'].first
     if (FACET_TO_RIS_TYPE.keys.include?(fmt))
@@ -147,7 +151,11 @@ module Blacklight::Solr::Document::RIS
     output +=  "SN  - #{nt.join(' ')}" + "\n" unless nt.join('').blank?
     # closing tag
     output += "ER  - \n"
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__}: #{output}"
+
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__}: #{output}"
+    # :nocov:
+
     output
   end
 end

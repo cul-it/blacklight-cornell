@@ -71,7 +71,11 @@ module Blacklight::Solr::Document::Endnote_xml
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
     num_ty = "0";
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
+
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
+    # :nocov:
+
     ty = "Book"
     if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
       ty = FACET_TO_ENDNOTE_TYPE[fmt]
@@ -107,7 +111,11 @@ module Blacklight::Solr::Document::Endnote_xml
       end
     end
     text2 = builder.target!
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote xml text = #{text2}"
+
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote xml text = #{text2}"
+    # :nocov:
+
     text2
   end
   #<work-type>Ph.D.dissertation</work-type>

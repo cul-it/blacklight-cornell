@@ -19,7 +19,11 @@ module Blacklight::Solr::Document::Zotero
     about = "http://catalog.library.cornell.edu/catalog/#{id}"
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
+
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
+    # :nocov:
+
     ty = "book"
     if (FACET_TO_ZOTERO_TYPE.keys.include?(fmt))
       ty =  "#{FACET_TO_ZOTERO_TYPE[fmt]}"

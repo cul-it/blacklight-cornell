@@ -8,7 +8,10 @@ class Databases < ActiveRecord::Base
   conf[Rails.env]
   )
   def self.update
-    Rails.logger.info("Successfully entered Databases.update #{Time.now}")
+    # :nocov:
+      Rails.logger.info("Successfully entered Databases.update #{Time.now}")
+    # :nocov:
+
     wsdl_path = 'https://rmws.serialssolutions.com/serialssolutionswebservice/SerialsSolutions360WebService.asmx?wsdl'
     client = Savon.client(
        :read_timeout => 180,
@@ -22,13 +25,16 @@ class Databases < ActiveRecord::Base
        :unwrap => true,
        :pretty_print_xml => true
        ) #do convert_request_keys_to :none end
-    #Rails.logger.info("Client = #{client}")
-    
+
     response2 = client.call(:license_data, message: { :request => { :LibraryCode => ENV['ERM_LIBCODE'], :UserName => ENV['ERM_USERNAME'], :Password => ENV['ERM_PASSWORD']}})
     if response2.nil? or response2.blank?
+      # :nocov:
        Rails.logger.info("Response is nil or blank")
+      # :nocov:
     else
+      # :nocov:
        Rails.logger.info("Response has content")
+      # :nocov:
        ::Erm_data.delete_all
     response = response2.to_s
     response = response.gsub!('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><LicenseDataResponse xmlns="http://serialssolutions.com/">','')
@@ -268,7 +274,6 @@ class Databases < ActiveRecord::Base
            resourceValues = " \"" +  collectionName + "\", \"" + libraryCollectionId + "\", \"" + providerName + "\", \"" + providerCode + "\", \"" + databaseName + "\", \"" + databaseCode + "\", \"" + databaseStatus + "\", \"" + titleName + "\", \"" + titleId + "\", \"" + titleStatus + "\", \"" + iSSN + "\", \"" + eISSN + "\", \"" + iSBN + "\", \"" + sSID + "\", \"" + prevailing + "\""
         #   output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ")"
-#            Rails.logger.info("Databases update #{__FILE__} #{__LINE__} sql =  #{sql.inspect}")
            insert = Erm_data.connection.raw_connection.prepare(sql)
            insert.execute
            licenseCount = licenseCount + 1

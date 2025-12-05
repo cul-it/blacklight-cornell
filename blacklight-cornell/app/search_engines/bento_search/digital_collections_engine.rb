@@ -13,7 +13,11 @@ class BentoSearch::DigitalCollectionsEngine
 
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort
-    Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
+
+    # :nocov:
+      Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
+    # :nocov:
+
     bento_results = BentoSearch::Results.new
 
     base = Addressable::URI.parse("https://digital.library.cornell.edu")
@@ -29,7 +33,6 @@ class BentoSearch::DigitalCollectionsEngine
     url.normalize
     portal_response = JSON.load(URI.open(url))
 
-    # Rails.logger.debug "mjc12test: #{portal_response}"
     if portal_response.nil? || portal_response['response'].nil? || portal_response['response']['docs'].nil?
       results = []
     else

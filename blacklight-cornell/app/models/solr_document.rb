@@ -64,7 +64,9 @@ class SolrDocument
       end
       text << textstr
     end
-   Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{text[0]}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{text[0]}"
+    # :nocov:
    text
   end
 
@@ -111,25 +113,33 @@ class SolrDocument
       end
       text << textstr
     end
-   Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{text[0]}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{text[0]}"
+    # :nocov:
     text
   end
 
   def setup_holdings_info(record)
     where = []
     if (self["holdings_json"].present?)
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} self[h_j] = #{self['holdings_json'].inspect}"
       holdings_json = JSON.parse(self["holdings_json"])
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_json = #{holdings_json}"
       holdings_keys = holdings_json.keys
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_keys = #{holdings_keys}"
+
+      # :nocov:
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} self[h_j] = #{self['holdings_json'].inspect}"
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_json = #{holdings_json}"
+        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_keys = #{holdings_keys}"
+      # :nocov:
+
       where = holdings_keys.collect do
         | k |
         l = holdings_json[k]
         "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
        end
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} where = #{where.inspect}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} where = #{where.inspect}"
+    # :nocov:
     where
   end
 
