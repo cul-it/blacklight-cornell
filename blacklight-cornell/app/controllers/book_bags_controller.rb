@@ -215,7 +215,7 @@ class BookBagsController < CatalogController
     save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
 
     # :nocov:
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in export"
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in export"
     # :nocov:
 
     msg = "book_bags_controler.rb export"
