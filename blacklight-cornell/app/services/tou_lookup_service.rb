@@ -242,8 +242,7 @@ class TouLookupService
       end
 
       token      = resp[:token]
-      ttl_secs   = Integer(ENV.fetch('FOLIO_TOKEN_TTL_SECONDS', 45 * 60)) rescue 2700
-      expires_at = Time.now.to_i + ttl_secs
+      expires_at = resp[:token_exp].to_time.to_i
 
       if @session
         @session[:folio_token]            = token
