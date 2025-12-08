@@ -878,6 +878,7 @@ class CatalogController < ApplicationController
   def tou
     service = TouLookupService.new
     r = service.resolve_catalog_tou(id: params[:id], dbcode: params[:dbcode], providercode: params[:providercode])
+
     @dbResponse        = r[:db_response]
     @db                = r[:db]
     @dbResponse2       = r[:db_response2]
@@ -892,7 +893,7 @@ class CatalogController < ApplicationController
   # Build 'New TOU' by executing FOLIO licenses lookup
   # ----------------------------------------------------------------------------
   def new_tou
-    service = TouLookupService.new
+    service = TouLookupService.new(session: session)
     r = service.resolve_new_tou(title_id: params[:title_id], id: params[:id])
     @newTouResult = r[:new_tou_result]
   end

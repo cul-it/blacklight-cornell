@@ -50,26 +50,26 @@ class DatabasesController < ApplicationController
   # ----------------------------------------------------------------------------
   def tou
     service = TouLookupService.new
-    result  = service.resolve_for_database_tou(id: params[:id])
+    r = service.resolve_for_database_tou(id: params[:id])
 
-    @db                 = result[:db_docs]
-    @ermDBResult        = result[:erm_records]
-    @defaultRightsText  = result[:default_rights_text]
-    @column_names       = result[:columns]
+    @db                = r[:db_docs]
+    @ermDBResult       = r[:erm_records]
+    @defaultRightsText = r[:default_rights_text]
+    @column_names      = r[:columns]
   end
 
   # ============================================================================
   # Build 'New TOU' by executing both FOLIO licenses and Database TOU lookups
   # ----------------------------------------------------------------------------
   def new_tou
-    service = TouLookupService.new
+    service = TouLookupService.new(session: session)
     r = service.resolve_new_tou(title_id: params[:title_id], id: params[:id])
 
-    @newTouResult       = r[:new_tou_result]
-    @db                 = r[:db_docs]
-    @ermDBResult        = r[:erm_records]
-    @defaultRightsText  = r[:default_rights_text]
-    @column_names       = r[:columns]
+    @newTouResult      = r[:new_tou_result]
+    @db                = r[:db_docs]
+    @ermDBResult       = r[:erm_records]
+    @defaultRightsText = r[:default_rights_text]
+    @column_names      = r[:columns]
   end
 
 
