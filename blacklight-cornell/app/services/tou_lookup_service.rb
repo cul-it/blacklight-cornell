@@ -229,9 +229,12 @@ class TouLookupService
         current_session_token = @session[:folio_token]
         session_token_exp     = @session[:folio_token_expires_at]
         current_time          = Time.now.to_i
+
+        # Use current cached FOLIO session token if not expired
         return current_session_token if current_session_token && session_token_exp && session_token_exp > current_time
       end
 
+      # If FOLIO session token expired or not present, generating new token
       url    = ENV['OKAPI_URL']
       tenant = ENV['OKAPI_TENANT']
       resp   = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
@@ -244,6 +247,7 @@ class TouLookupService
       token      = resp[:token]
       expires_at = resp[:token_exp].to_time.to_i
 
+      # Cache newly generated FOLIO token and 10 minute expiration time
       if @session
         @session[:folio_token]            = token
         @session[:folio_token_expires_at] = expires_at
