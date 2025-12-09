@@ -877,149 +877,32 @@ class CatalogController < ApplicationController
         end
       end
     end
-end
-
-def tou
-    @dbResponse = Blacklight.default_index.connection.get('termsOfUse', params: { id: params[:id] })
-    @db = @dbResponse['response']['docs'][0]
-    @dbResponse2 = Blacklight.default_index.connection.get('select', params: { qt: 'search', fl: '*', q: "id:#{params[:id]}" })
-    @db2 = @dbResponse2['response']['docs'][0]
-    @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
-    if @dbResponse['response']['numFound'] == 0
-        @defaultRightsText = ''
-        return @defaultRightsText
-    else
-        @dblinks.each do |link|
-            l = JSON.parse(link)
-            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]
-                @defaultRightsText = ''
-                @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
-                if @ermDBResult.size < 1
-                   @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Prevailing: 'true')
-                   if @ermDBResult.size < 1
-                      @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
-                      if @ermDBResult.size < 1
-                         @ermDBResult = ::Erm_data.where(Provider_Code: l["providercode"], Prevailing: 'true', Database_Code:  '' )
-                         if @ermDBResult.size < 1
-                                  #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
-                                  @defaultRightsText = "Use default rights text"
-                         else
-                           @db = [l]
-                           #return @ermDBResult
-                           break
-                         end
-                      else
-                        @db = [l]
-                       break
-                      end
-                   else
-                     @db = [l]
-                     break
-                   end
-                else
-                  @db = [l]
-                  break
-                end
-            end
-            @db = [l]
-        end
-    @column_names = ::Erm_data.column_names.collect(&:to_sym)
-    end
-
   end
 
-  # TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
-  # Solr, the latter from FOLIO. Why do we have two sources of metadata?
+  # ============================================================================
+  # Build TOU from database by Solr document id
+  # ----------------------------------------------------------------------------
+  def tou
+    service = TouLookupService.new
+    r = service.resolve_catalog_tou(id: params[:id], dbcode: params[:dbcode], providercode: params[:providercode])
+
+    @dbResponse        = r[:db_response]
+    @db                = r[:db]
+    @dbResponse2       = r[:db_response2]
+    @db2               = r[:db2]
+    @dblinks           = r[:dblinks]
+    @ermDBResult       = r[:erm_records]
+    @defaultRightsText = r[:default_text]
+    @column_names      = r[:columns]
+  end
+
+  # ============================================================================
+  # Build 'New TOU' by executing FOLIO licenses lookup
+  # ----------------------------------------------------------------------------
   def new_tou
-    packageName = ""
-    title_id = params[:title_id]
-    id = params[:id]
-    @newTouResult = []
-    # okapi_url = ENV['OKAPI_URL']
-    record = eholdings_record(title_id) || []
-    if record.present?
-      # recordTitle = record["data"]["attributes"]["name"]
-      record["included"].each do |package|
-        attrs = package['attributes']
-        if attrs["isSelected"] == true
-          packageID = attrs["packageId"]
-          packageName = attrs["packageName"]
-          # packageUrl = attrs["url"]
-          # package_providerID = attrs["providerName"]
-          subscription = subscription_agreements(packageID)
-          if subscription.present?
-            if subscription[0]["linkedLicenses"][0]
-              remoteID = subscription[0]["linkedLicenses"][0]["remoteId"]
-              license = license(remoteID)
-              if license
-                license['packageName'] = packageName
-                @newTouResult << license unless @newTouResult.any? {|h| h["id"] == license['id']}
-              end
-            end
-          end
-        end
-      end
-    end
-
-    @newTouResult
-  end
-
-  def eholdings_record(id)
-    # eholdings title JSON response described here:
-    # https://s3.amazonaws.com/foliodocs/api/mod-kb-ebsco-java/r/titles.html#eholdings_titles_get
-    folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources")
-  end
-
-  # Make a FOLIO request to retrieve an array of subscription agreements linked to an e-holdings record
-  # specified by id.
-  def subscription_agreements(id)
-    folio_request("#{ENV['OKAPI_URL']}/erm/sas?filters=items.reference=#{id}&sort=startDate:desc")
-  end
-
-  # Make a FOLIO request to retrieve a license object linked to an e-holdings record
-  # specified by id ('remoteId' in the JSON).
-  def license(id)
-    folio_request("#{ENV['OKAPI_URL']}/licenses/licenses/#{id}")
-  end
-
-  # Given a URL, make a FOLIO request and return the results (or nil in case of a RestClient exception).
-  def folio_request(url)
-    token = folio_token
-    if url && token
-      headers = {
-        'X-Okapi-Tenant' => ENV['OKAPI_TENANT'],
-        'x-okapi-token' => token,
-        :accept => 'application/json, application/vnd.api+json'
-      }
-      response = RestClient.get(url, headers)
-      JSON.parse(response.body) if response && response.code == 200
-    end
-  rescue RestClient::ExceptionWithResponse => err
-    # :nocov:
-      Rails.logger.error "TOU: Error making FOLIO request (#{err})"
-    # :nocov:
-    nil
-  end
-
-  # Return a FOLIO authentication token for API calls -- either from the session if a token
-  # was prevoiusly created, or directly from FOLIO otherwise.
-  #
-  # TODO: Caching is being disabled for now, since it's causing problems with the new expiring
-  # token mechanism in FOLIO. We need to figure out how to cache the token properly. (mjc12)
-  def folio_token
-   #  if session[:folio_token].nil?
-      url = ENV['OKAPI_URL']
-      tenant = ENV['OKAPI_TENANT']
-      response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
-      if response[:code] >= 300
-        # :nocov:
-          Rails.logger.error "TOU error: Could not create a FOLIO token for #{user}"
-        # :nocov:
-      else
-        session[:folio_token] = response[:token]
-      end
-   #  end
-    session[:folio_token]
+    service = TouLookupService.new(session: session)
+    r = service.resolve_new_tou(title_id: params[:title_id], id: params[:id])
+    @newTouResult = r[:new_tou_result]
   end
 
   def redirect_browse
@@ -1035,10 +918,6 @@ def tou
       end
     end
   end
-
-#  def range_limit
-#    redirect_to "/"
-#  end
 
   # https://bibwild.wordpress.com/2019/04/30/blacklight-7-current_user-or-other-request-context-in-searchbuilder-solr-query-builder/
   def search_service_context
