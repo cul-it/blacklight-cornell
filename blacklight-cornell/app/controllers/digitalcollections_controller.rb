@@ -20,18 +20,10 @@ class DigitalcollectionsController < ApplicationController
       render "index"
     end
     if !params[:q].nil? and params[:q] != ""
-      # :nocov:
-        Rails.logger.debug("#{__FILE__}:#{__LINE__}:params = #{params[:q]}")
-      # :nocov:
-
-      p = {"q" =>params[:q] }
+      p = {"q" =>params[:q] } #TODO: This doesn't seem to be used. Should we delete this?
       response = Blacklight.default_index.connection.get('culdigreg', params: { q: params[:q] })
       @digregResponse = response['response']['docs']
       params[:q].gsub!('%20', ' ')
-
-      # :nocov:
-        Rails.logger.debug("#{__FILE__}:#{__LINE__}:params = #{params[:q]}")
-      # :nocov:
     end
   end
 end

@@ -10,21 +10,11 @@ class SearchController < ApplicationController
   end
 
   def index
-    # :nocov:
-      Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-    # :nocov:
-
-    #  @catalog_host = get_catalog_host(request.host)
     Appsignal.increment_counter("search_index", 1)
 
     unless params["q"].nil?
       @query = params["q"]
       @query.slice! "doi:"
-
-      # :nocov:
-        Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-      # :nocov:
-
       searcher = BentoSearch::ConcurrentSearcher.new(:solr, :ebsco_eds, :bestbet, :digitalCollections, :libguides, :institutionalRepositories)
       searcher.search(@query, :per_page => 3)
       @results = searcher.results.dup

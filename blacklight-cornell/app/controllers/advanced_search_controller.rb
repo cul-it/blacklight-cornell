@@ -20,27 +20,15 @@ class AdvancedSearchController < ApplicationController
   end
 
   def index
-    # :nocov:
-      Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-    # :nocov:
-
     Appsignal.increment_counter("adv_search_index", 1)
 
     unless params["q"].nil?
       @query = params["q"]
       @query.slice! "doi:"
 
-      # :nocov:
-        Rails.logger.debug("#{__FILE__}:#{__LINE__} #{@query}")
-      # :nocov:
-
       if session[:search].nil?
         session[:search] = {}
       end
-
-      # :nocov:
-        log_debug_info("#{__FILE__}:#{__LINE__}", ["@query:", @query])
-      # :nocov:
 
       session[:search][:q] = @query
       session[:search][:search_field] = "all_fields"
