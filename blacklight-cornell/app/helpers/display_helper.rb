@@ -624,10 +624,6 @@ module DisplayHelper
       if @add_row_style == :text
         out << s[0] # if displaying plain text, do not include links
       else
-        # :nocov:
-          Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
-        # :nocov:
-
         case category
         when :all
           q = '"' + s[1] + '"'

@@ -561,7 +561,7 @@ private
     if q[:q].include?('<img')
 
       # :nocov:
-      Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
+        Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
       # :nocov:
 
       redirect_to root_path
