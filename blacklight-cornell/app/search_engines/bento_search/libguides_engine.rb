@@ -12,11 +12,6 @@ class BentoSearch::LibguidesEngine
     begin
       # 'args' should be a normalized search arguments hash including the following elements:
       # :query, :per_page, :start, :page, :search_field, :sort
-
-      # :nocov:
-        Rails.logger.debug("mjc12test: BlacklightEngine search called. Query is #{args[:query]}}")
-      # :nocov:
-
       bento_results = BentoSearch::Results.new
 
       guides_response = []
@@ -32,10 +27,6 @@ class BentoSearch::LibguidesEngine
         Rails.logger.error "Guides URL: " + guides_url
       # :nocov:
     end
-
-    # :nocov:
-      Rails.logger.debug "mjc12test: #{guides_response}"
-    # :nocov:
 
     results = guides_response[0, 3]
 
