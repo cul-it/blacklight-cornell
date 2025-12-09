@@ -44,40 +44,41 @@ class AdvancedSearchController < ApplicationController
     refp = request.referer
 
     session[:cuwebauth_return_path] = if (params["id"].present? && params["id"].include?("|"))
-        "/bookmarks"
-      elsif (params["id"].present? && op.include?("email"))
-        "/catalog/afemail/#{params[:id]}"
-      elsif (params["id"].present? && op.include?("unapi"))
-        refp
-      else
-        op
+                                        "/bookmarks"
+                                      elsif (params["id"].present? && op.include?("email"))
+                                        "/catalog/afemail/#{params[:id]}"
+                                      elsif (params["id"].present? && op.include?("unapi"))
+                                        refp
+                                      else
+                                        op
 
-    return true
-  end
+                                        return true
+                                      end
 
-  private
+    private
 
-  def set_facets
-    # Override facet field limits in blacklight_config to display all facet values
-    @default_facet_fields = advanced_facet_fields.deep_dup
-    advanced_facet_fields.each { |_k, config| config.limit = -1 }
+    def set_facets
+      # Override facet field limits in blacklight_config to display all facet values
+      @default_facet_fields = advanced_facet_fields.deep_dup
+      advanced_facet_fields.each { |_k, config| config.limit = -1 }
 
-    # Get facet values from solr
-    (@response, _deprecated_document_list) = blacklight_advanced_search_form_search_service.search_results
+      # Get facet values from solr
+      (@response, _deprecated_document_list) = blacklight_advanced_search_form_search_service.search_results
 
-    # Order the facets by advanced_search_order for display, overrides add_facet_field order in blacklight_config
-    ordered_advanced_facet_fields = advanced_facet_fields.sort_by { |_k, config| config.advanced_search_order }.to_h
-    @facets = ordered_advanced_facet_fields.each_with_object({}) do |(k, config), h|
-      h[config.field] = { field_config: config, display_facet: @response.aggregations[config.field] }
+      # Order the facets by advanced_search_order for display, overrides add_facet_field order in blacklight_config
+      ordered_advanced_facet_fields = advanced_facet_fields.sort_by { |_k, config| config.advanced_search_order }.to_h
+      @facets = ordered_advanced_facet_fields.each_with_object({}) do |(k, config), h|
+        h[config.field] = { field_config: config, display_facet: @response.aggregations[config.field] }
+      end
     end
-  end
 
-  # Resets the default facet limit for blacklight_config facet fields
-  def reset_facets
-    advanced_facet_fields.each { |k, config| config.limit = @default_facet_fields[k].limit }
-  end
+    # Resets the default facet limit for blacklight_config facet fields
+    def reset_facets
+      advanced_facet_fields.each { |k, config| config.limit = @default_facet_fields[k].limit }
+    end
 
-  def advanced_facet_fields
-    @advanced_facet_fields ||= blacklight_config.facet_fields.select { |_k, config| config.include_in_advanced_search }
+    def advanced_facet_fields
+      @advanced_facet_fields ||= blacklight_config.facet_fields.select { |_k, config| config.include_in_advanced_search }
+    end
   end
 end
