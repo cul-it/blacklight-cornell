@@ -55,12 +55,6 @@ class AdvancedSearchController < ApplicationController
     op = request.original_fullpath
     refp = request.referer
 
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
-    # :nocov:
-
     session[:cuwebauth_return_path] = if (params["id"].present? && params["id"].include?("|"))
         "/bookmarks"
       elsif (params["id"].present? && op.include?("email"))
@@ -69,10 +63,6 @@ class AdvancedSearchController < ApplicationController
         refp
       else
         op
-                                      end
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
-    # :nocov:
 
     return true
   end

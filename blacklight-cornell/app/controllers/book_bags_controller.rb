@@ -190,18 +190,9 @@ class BookBagsController < CatalogController
 
   # grabs a bunch of documents to export to endnote or ris.
   def endnote
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    # :nocov:
-
     if params[:id].nil?
       docs = @bb.index
       @response, @documents = search_service.fetch(docs, :per_page => 1000, :rows => 1000)
-
-      # :nocov:
-        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
-      # :nocov:
-
     else
       @response, @documents = search_service.fetch(params[:id])
     end

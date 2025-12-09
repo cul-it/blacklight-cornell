@@ -12,14 +12,6 @@ class Users::SessionsController < Devise::SessionsController
     set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, resource)
     session[:cu_authenticated_user] = params[:user][:email]
-
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} params =  #{params.inspect}")
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} auth_options =  #{auth_options.inspect}")
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} resource_name =  #{resource_name.inspect}")
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} resource =  #{resource.inspect}")
-    # :nocov:
-
     yield resource if block_given?
     respond_with resource, location: after_sign_in_path_for(resource)
   end

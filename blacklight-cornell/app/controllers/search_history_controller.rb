@@ -3,10 +3,6 @@ class SearchHistoryController < ApplicationController
   include Blacklight::SearchHistory
 
   def set_return_path
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    # :nocov:
-
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?
@@ -15,11 +11,6 @@ class SearchHistoryController < ApplicationController
     op.sub!('/range_limit','')
     refp = request.referer
     refp.sub!('/range_limit','') unless refp.nil?
-
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
-    # :nocov:
 
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
@@ -31,10 +22,6 @@ class SearchHistoryController < ApplicationController
       else
         op
       end
-
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
-    # :nocov:
 
     return true
   end

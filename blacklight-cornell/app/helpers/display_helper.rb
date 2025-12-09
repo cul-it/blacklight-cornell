@@ -138,10 +138,6 @@ module DisplayHelper
   # otherwise, it does same as render_index_field_value
   # ----------------------------------------------------------------------------
   def render_pair_delimited_index_field_value args
-    # :nocov:
-      Rails.logger.info("RENDER_PAIR_...")
-    # :nocov:
-
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]

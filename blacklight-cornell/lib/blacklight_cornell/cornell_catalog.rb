@@ -16,10 +16,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
   def set_return_path
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    # :nocov:
-
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?
@@ -35,11 +31,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     refp = ""
     refp.sub!('/range_limit','') unless refp.nil?
 
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
-    # :nocov:
-
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
         '/bookmarks'
@@ -54,10 +45,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       else
         op
       end
-
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
-    # :nocov:
 
     return true
   end
@@ -287,10 +274,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # grabs a bunch of documents to export to endnote
   def endnote
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    # :nocov:
-
     if params[:id].nil?
       bookmarks = token_or_current_or_guest_user.bookmarks
       bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }

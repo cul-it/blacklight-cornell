@@ -728,24 +728,12 @@ class CatalogController < ApplicationController
     @response, @documents = search_service.fetch docs
     dox = {to: "jgr25@cornell.edu", message: "your stuff", callnumber:  @id}
     email_action(dox)
-    # , to: "jgr25@cornell.edu", message: "your stuff", :callnumber => docs
-
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    # :nocov:
   end
-
-  # :nocov:
-    def logins
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
-    end
-  # :nocov:
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   # but now we removed mollom captcha.
 #  def email
-#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
 #    docs = params[:id].split '|'
 #    @response, @documents = search_service.fetch docs
 #    if request.post?
@@ -761,8 +749,6 @@ class CatalogController < ApplicationController
 #      end
 #    end
 #
-#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
 #    if   ENV['SAML_IDP_TARGET_URL']
 #      if request.xhr? && flash[:success]
 #        if docs.size < 2
@@ -784,11 +770,6 @@ class CatalogController < ApplicationController
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def mollom_email
-    # :nocov:
-      Rails.logger.debug "mjc12test: entering email"
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
-    # :nocov:
-
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
     #docs = params[:id].split '/'
@@ -860,10 +841,6 @@ class CatalogController < ApplicationController
                                                          :templocation => params[:templocation], :status => params[:itemStatus], :params => params}, url_gen_params, params)
         email.deliver_now
         flash[:success] = "Email sent"
-
-        # :nocov:
-          Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} emailing   = #{flash.inspect}")
-        # :nocov:
 
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       end

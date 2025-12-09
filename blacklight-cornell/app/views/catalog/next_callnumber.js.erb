@@ -1,81 +1,66 @@
 <%
-#Rails.logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^ START OF NEXT JS ERB ^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+  the_html = ""
+  reroute = ""
+  @next_doc.each do |doc|
+      reroute = "/browse?authq=" + doc['callnumber'] + "&browse_type=virtual"
+      fa_string = ""
+      if doc['format'].downcase.include?("journal")
+        fa_string =  '<i class="fa fa-book-open"></i>'
+      elsif doc['format'].downcase.include?("book")
+        fa_string =  '<i class="fa fa-book"></i>'
+      elsif doc['format'].downcase.include?("microform")
+        fa_string =  '<i class="fa fa-film"></i>'
+      elsif doc['format'].downcase.include?("non-musical")
+        fa_string =  '<i class="fa fa-headphones"></i>'
+      elsif doc['format'].downcase.include?("musical score")
+        fa_string =  '<i class="fa fa-musical-score"></i>'
+      elsif doc['format'].downcase.include?("musical")
+        fa_string =  '<i class="fa fa-music"></i>'
+      elsif doc['format'].downcase.include?("thesis")
+        fa_string =  '<i class="fa fa-file-text-o"></i>'
+      elsif doc['format'].downcase.include?("video")
+        fa_string =  '<i class="fa fa-video-camera"></i>'
+      elsif doc['format'].downcase.include?("manuscript")
+        fa_string =  '<i class="fa fa-archive"></i>'
+      elsif doc['format'].downcase.include?("map")
+        fa_string = '<i class="fa fa-globe"></i>'
+      end
 
-#if @next_doc[0]['class_label'] != ""
-#    tmp_array = @next_doc[0]['class_label'].split(">")
-#    classification = tmp_array.last
-#else
-#   classification =  @next_doc[0]['format']
-#end
+      the_title = doc['title']
+      if the_title.length > 52
+        the_title = the_title[0..52] + "..."
+      end
 
-#Rails.logger.info(@previous_doc.inspect)
-the_html = ""
-reroute = ""
-@next_doc.each do |doc|
-    reroute = "/browse?authq=" + doc['callnumber'] + "&browse_type=virtual"
-    fa_string = ""
-    if doc['format'].downcase.include?("journal")
-      fa_string =  '<i class="fa fa-book-open"></i>'
-    elsif doc['format'].downcase.include?("book")
-      fa_string =  '<i class="fa fa-book"></i>'
-    elsif doc['format'].downcase.include?("microform")
-      fa_string =  '<i class="fa fa-film"></i>'
-    elsif doc['format'].downcase.include?("non-musical")
-      fa_string =  '<i class="fa fa-headphones"></i>'
-    elsif doc['format'].downcase.include?("musical score")
-      fa_string =  '<i class="fa fa-musical-score"></i>'
-    elsif doc['format'].downcase.include?("musical")
-      fa_string =  '<i class="fa fa-music"></i>'
-    elsif doc['format'].downcase.include?("thesis")
-      fa_string =  '<i class="fa fa-file-text-o"></i>'
-    elsif doc['format'].downcase.include?("video")
-      fa_string =  '<i class="fa fa-video-camera"></i>'
-    elsif doc['format'].downcase.include?("manuscript")
-      fa_string =  '<i class="fa fa-archive"></i>'
-    elsif doc['format'].downcase.include?("map")
-      fa_string = '<i class="fa fa-globe"></i>'
-    end
+      avail_str = ""
+      avail = JSON.parse(doc["availability"])
+      if avail["availAt"].present?
+          avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>'
+      elsif avail["online"].present?
+          avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>'
+      elsif avail["unavailAt"].present?
+        avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available </div>'
+      end
 
-    the_title = doc['title']
-    if the_title.length > 52 
-    	the_title = the_title[0..52] + "..."
-    end 
+      img_string = ""
+      if doc['img_url'].include?("cornell")
+        the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]
+        img_string = image_tag(doc['img_url'], alt: "Image not found", style: "width:120px")
+      else
+        img_string = '<img width="120px" alt="" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '" />'
+      end
 
-    avail_str = ""
-    avail = JSON.parse(doc["availability"])
-    if avail["availAt"].present? 
-        avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>'
-    elsif avail["online"].present? 
-        avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>'
-    elsif avail["unavailAt"].present?
-    	avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available </div>'
-    end
-    
-    img_string = ""
-    if doc['img_url'].include?("cornell")
-      the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]
-      img_string = image_tag(doc['img_url'], alt: "Image not found", style: "width:120px")
-    else
-      img_string = '<img width="120px" alt="" src="' + doc["img_url"].sub("&zoom=5","6&zoom=1") + '" />'
-    end
-    
-    the_html += '<div class="inner-container" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc["internal_class_label"] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
-    the_html += '<div class="vb-callnum-hdr">' + doc["callnumber"] + '</div>'
-    the_html += '<div class="vb-img-container" >' + img_string + '</div>' 
-    the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '" tabindex="-1" onclick="javascript:_paq.push([\'trackEvent\', \'virtualbrowse_carousel\', \'carousel_title\']);">' + the_title + '</a></div>'
-    the_html += '<div style="clear:left;">' + doc["pub_date"] + '</div>'
-    the_html += '<div class="vb-footer">' + avail_str + '</div></div>'
-end
-
-#Rails.logger.info("^^^^^^^^^^^^^^^^^^^^^^ FINISH OF JS ERB ^^^^^^^^^^^^^^^^^^^^^^")
-#Rails.logger.info(the_html.html_safe.inspect)
+      the_html += '<div class="inner-container" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc["internal_class_label"] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
+      the_html += '<div class="vb-callnum-hdr">' + doc["callnumber"] + '</div>'
+      the_html += '<div class="vb-img-container" >' + img_string + '</div>'
+      the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '" tabindex="-1" onclick="javascript:_paq.push([\'trackEvent\', \'virtualbrowse_carousel\', \'carousel_title\']);">' + the_title + '</a></div>'
+      the_html += '<div style="clear:left;">' + doc["pub_date"] + '</div>'
+      the_html += '<div class="vb-footer">' + avail_str + '</div></div>'
+  end
 %>
 
-//console.log("the_html = " + "<%=raw escape_javascript(the_html) %>");
 var reroute = "<%=raw escape_javascript(reroute) %>";
 var next_html = "<%=raw escape_javascript(the_html) %>";
 $('#outer-container').find('#next-reroute').find('a').attr("href",reroute);
 $('#vb-time-indicator').hide();
 $('#outer-container').find('#next-reroute').before(next_html);
-//$('#outer-container').scrollLeft(1520);
 
