@@ -71,11 +71,6 @@ module Blacklight::Solr::Document::Endnote_xml
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
     num_ty = "0";
-
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
-    # :nocov:
-
     ty = "Book"
     if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
       ty = FACET_TO_ENDNOTE_TYPE[fmt]
@@ -112,10 +107,6 @@ module Blacklight::Solr::Document::Endnote_xml
     end
     text2 = builder.target!
 
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote xml text = #{text2}"
-    # :nocov:
-
     text2
   end
   #<work-type>Ph.D.dissertation</work-type>
@@ -150,9 +141,7 @@ module Blacklight::Solr::Document::Endnote_xml
 
   def generate_enx_keywords(bld,ty)
     kw =   setup_kw_info(to_marc)
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} keywords = #{kw.inspect}"
-    # :nocov:
+
     bld.keywords do
       kw.each do |k|
           bld.keyword(k) unless k.empty?
@@ -211,9 +200,6 @@ module Blacklight::Solr::Document::Endnote_xml
     end
     if ty == 'Thesis' and pname.blank?
       th = setup_thesis_info(to_marc)
-      # :nocov:
-        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
-      # :nocov:
       pname = th[:inst].to_s
     end
     bld.publisher(pname) unless pname.blank?
@@ -242,6 +228,7 @@ module Blacklight::Solr::Document::Endnote_xml
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
     # :nocov:
+      #TODO Look into get_contrib_roles method closer before cleaning out
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
     # :nocov:
     primary_authors = authors[:primary_authors]
@@ -254,9 +241,7 @@ module Blacklight::Solr::Document::Endnote_xml
     #primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     editors = authors[:editors]
     pa = primary_authors.blank? ? secondary_authors : primary_authors
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote pa = #{pa.inspect}"
-    # :nocov:
+
     bld.contributors() do
       if !pa.blank?
         bld.authors() do

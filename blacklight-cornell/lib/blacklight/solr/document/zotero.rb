@@ -19,11 +19,6 @@ module Blacklight::Solr::Document::Zotero
     about = "http://catalog.library.cornell.edu/catalog/#{id}"
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
-
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
-    # :nocov:
-
     ty = "book"
     if (FACET_TO_ZOTERO_TYPE.keys.include?(fmt))
       ty =  "#{FACET_TO_ZOTERO_TYPE[fmt]}"
@@ -67,9 +62,7 @@ module Blacklight::Solr::Document::Zotero
         generate_rdf_specific(builder,ty)
       end
     end
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{builder.target!}"
-    # :nocov:
+
     builder.target!
   end
 
@@ -109,10 +102,6 @@ module Blacklight::Solr::Document::Zotero
 
   def generate_rdf_holdings(b)
     where = setup_holdings_info(b)
-    # :nocov:
-     Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{where.inspect}"
-    # :nocov:
-    #b.dc(:coverage,where.join("\n")) unless where.blank? or where.join("").blank?
     b.dc(:subject) { b.dcterms(:LCC) { b.rdf(:value,where.join("//")) }}  unless where.blank? or where.join("").blank?
   end
 
@@ -157,14 +146,8 @@ module Blacklight::Solr::Document::Zotero
       pname = "#{publisher.strip!}" unless publisher.nil?
       # publication place
     end
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} ty #{ty.inspect}"
-    # :nocov:
     if ty == 'thesis'
       th = setup_thesis_info(to_marc)
-      # :nocov:
-        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
-      # :nocov:
       pname = th[:inst].to_s
     end
     b.dc(:publisher) {
@@ -207,16 +190,12 @@ module Blacklight::Solr::Document::Zotero
     # Handle authors
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators #{relators.inspect}"
-    # :nocov:
     primary_authors = authors[:primary_authors]
+
     if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
       primary_authors = authors[:primary_corporate_authors]
     end
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} prmry authors=#{primary_authors.inspect}"
-    # :nocov:
+
     secondary_authors = authors[:secondary_authors]
     meeting_authors = authors[:meeting_authors]
     secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
@@ -224,15 +203,11 @@ module Blacklight::Solr::Document::Zotero
     editors = authors[:editors]
     if editors.empty?
       editors = relators.select {|k,v| v.include?("edt") }.keys
-      # :nocov:
-        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} looking for editors #{relators.inspect}"
-        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} editors #{editors.inspect}"
-      # :nocov:
     end
     pa = primary_authors.blank? ? secondary_authors : primary_authors
-    #pa = primary_authors + secondary_authors
-    author_text = ''
-    editor_text = ''
+
+    author_text = '' #TODO: Doesn't seem to be used. Should this be deleted?
+    editor_text = '' #TODO: Doesn't seem to be used. Should this be deleted?
     auty =  case ty
               when 'videoRecording'
                 'contributors'
@@ -260,26 +235,14 @@ module Blacklight::Solr::Document::Zotero
       }
     end
     if editors.blank? && !relators.blank?
-      # :nocov:
-        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} meeting authors #{meeting_authors.inspect}"
-      # :nocov:
       relators.each { |n,r|
         rel = relator_to_zotero(r[0])
         ns = ['contributors','authors','editors'].include?(rel)  ? 'bib' : 'z'
         bld.tag!("#{ns}:#{rel}") { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
-        #if ['contributors','authors','editors'].include?(rel)
-        #  bld.bib(rel.to_sym) { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
-        #else
-        #  bld.z(rel.to_sym) { bld.rdf(:Seq) { bld.rdf(:li) { generate_rdf_person(bld,n) } } }
-        #end
       }
     end
   end
 
-  # if e-resource
-  #  put catalog link in coverage
-  # else
-  #  put in url field.
   def generate_rdf_catlink(b,ty)
     ul =  "http://catalog.library.cornell.edu/catalog/#{id}"
     # if no elect access data, 'description' field.
@@ -291,9 +254,6 @@ module Blacklight::Solr::Document::Zotero
       when 'thesis'
         th = setup_thesis_info(to_marc)
         typ = th[:type].to_s
-        # :nocov:
-          Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{th.inspect}"
-        # :nocov:
         b.z(:type,typ)
       else
     end

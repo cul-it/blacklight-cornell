@@ -104,7 +104,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       session["search_limit_exceeded"] = true
     end
     # @bookmarks = current_or_guest_user.bookmarks
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
 
@@ -179,8 +178,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     @response, @document = search_service.fetch params[:id]
     @documents = [ @document ]
     # set_bag_name
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-
     # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
     # If it does have the id, save it globally and just get the image url.
     notes_check = @document["notes"].present? ? @document["notes"].join : ""
@@ -224,7 +221,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     if search_session['counter']
       index = search_session['counter'].to_i - 1
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
       response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
       if query_params[:per_page].nil?
@@ -278,31 +274,16 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       bookmarks = token_or_current_or_guest_user.bookmarks
       bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
 
-      # :nocov:
-        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
-        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
-      # :nocov:
-
       if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
         bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT]
       end
       @response, @documents = search_service.fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
-
-      # :nocov:
-        Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
-      # :nocov:
-
     else
       @response, @documents = search_service.fetch(params[:id])
     end
     if @documents.count() < 1
       return
     end
-    fmt = params[:format]
-
-    # :nocov:
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
-    # :nocov:
 
     respond_to do |format|
       format.endnote_xml { render "show.endnote_xml" ,layout: false }

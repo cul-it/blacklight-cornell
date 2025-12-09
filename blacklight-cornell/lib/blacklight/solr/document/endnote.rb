@@ -42,20 +42,12 @@ module Blacklight::Solr::Document::Endnote
       "250.a" => "%7"
     }
 
-    # :nocov:
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    # :nocov:
-
     marc_obj = to_marc
     # TODO. This should be rewritten to guess
     # from actual Marc instead, probably.
     fmt_str = 'Generic'
     text = ''
     fmt = self['format'].first
-
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} fmt #{fmt.inspect}"
-    # :nocov:
 
     if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
       fmt_str = FACET_TO_ENDNOTE_TYPE[fmt]
@@ -72,11 +64,6 @@ module Blacklight::Solr::Document::Endnote
     end
     # #marc field is key, value is tag target
     end_note_format.each do |key,etag|
-
-      # :nocov:
-        Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} key,etag #{key},#{etag}")
-      # :nocov:
-
       values = key.split(",")
       first_value = values[0].split('.')
       if values.length > 1
@@ -114,20 +101,11 @@ module Blacklight::Solr::Document::Endnote
       # publication place
     end
 
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} ty #{ty.inspect}"
-    # :nocov:
-
     #"264.c" => "%D" ,
     #"260.c" => "%D" ,
     pdate = setup_pub_date(to_marc)
     if ty == 'Thesis'
       th = setup_thesis_info(to_marc)
-
-      # :nocov:
-        Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
-      # :nocov:
-
       pname = th[:inst].to_s
       pdate = th[:date].to_s unless th[:date].blank?
       thtype = th[:type].to_s
@@ -149,19 +127,11 @@ module Blacklight::Solr::Document::Endnote
     # add a blank line to separate from possible next.
     text << "\n"
 
-    # :nocov:
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} endnote export = #{text}")
-    # :nocov:
-
     text
   end
 
   def generate_en_keywords(text,ty)
     kw =   setup_kw_info(to_marc)
-
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} keywo    rds = #{kw.inspect}"
-    # :nocov:
 
     kw.each do |k|
           text += "%K #{k}\n"   unless k.blank?

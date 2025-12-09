@@ -2,11 +2,6 @@ module BlacklightMarcHelper
 
   def render_endnote_xml_texts(documents)
     val = ''
-
-    # :nocov:
-      Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__}"
-    # :nocov:
-
     documents.each do |doc|
       tmp = ''
       if doc.exports_as?(:endnote_xml) && !doc.folio_record?
@@ -19,20 +14,12 @@ module BlacklightMarcHelper
       end
     end
 
-    # :nocov:
-      Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__} val = #{val}"
-    # :nocov:
-
    "<xml><records> #{val} </records></xml>"
   end
 
   # puts together a collection of documents into one ris export string
   def render_ris_texts(documents)
     val = ''
-
-    # :nocov:
-      Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__}"
-    # :nocov:
 
     documents.each do |doc|
       if doc.exports_as?(:ris) && !doc.folio_record?

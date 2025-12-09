@@ -126,19 +126,11 @@ module Blacklight::Solr::Document::MarcExport
   # process 100,110,111 and 700, 710, 711
   # putting together role indicators.
   def get_contrib_roles(record)
-    # :nocov:
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    # :nocov:
-
     contributors = ["100","110","111","700","710","711" ]
     relators = {}
     # ***
     offset = 0
     record.find_all{|f| contributors.include?(f.tag) }.each do |field|
-      # :nocov:
-        Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
-      # :nocov:
-
       as_field = alternate_script(record, field.tag, nil , offset)
       offset += 1
       if as_field.present? && as_field["a"].present?
@@ -158,10 +150,6 @@ module Blacklight::Solr::Document::MarcExport
 
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
-    # :nocov:
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
-    # :nocov:
-
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"; author_code = "aut"
     translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"; author_code << "author"
     primary_authors = []; translators = []; editors = []; compilers = []
@@ -244,10 +232,6 @@ module Blacklight::Solr::Document::MarcExport
 
     ret = {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers,
     :secondary_authors => secondary_authors, :meeting_authors => meeting_authors, :primary_corporate_authors => primary_corporate_authors, :secondary_corporate_authors => secondary_corporate_authors }
-
-    # :nocov:
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ret = #{ret.inspect}")
-    # :nocov:
 
     ret
   end
@@ -378,18 +362,14 @@ module Blacklight::Solr::Document::MarcExport
 #300 ‡a 1 sound disc : ‡b 33 1/3 rpm, stereo. ; ‡c 12 in.
   def setup_medium(record,ty)
     medium = ""
-    # :nocov:
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
-    # :nocov:
+
     if ['motion_picture','song','video'].include?(ty)
       # ***
       field = alternate_script(record, '347')
       code = field.find{|s| s.code == 'b'} unless field.nil?
       data = code.value unless code.nil?
       medium = data.nil? ?  "" : data
-      # :nocov:
-        Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
-      # :nocov:
+
       if medium.blank?
         # ***
         field = alternate_script(record, '300')
@@ -405,9 +385,6 @@ module Blacklight::Solr::Document::MarcExport
                          ''
                       end
         end
-        # :nocov:
-          Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
-        # :nocov:
       end
     end
     medium  = case
@@ -420,9 +397,7 @@ module Blacklight::Solr::Document::MarcExport
                 else
                   ''
               end
-    # :nocov:
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
-    # :nocov:
+
     medium
   end
 
@@ -451,9 +426,7 @@ module Blacklight::Solr::Document::MarcExport
            end
       end
     end
-    # :nocov:
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} thesis = #{thesis.inspect}")
-    # :nocov:
+
     thesis
   end
 
