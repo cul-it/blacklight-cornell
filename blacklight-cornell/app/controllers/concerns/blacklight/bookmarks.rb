@@ -174,17 +174,6 @@ module Blacklight::Bookmarks
       else
         puts "No session\n"
       end
-
-      # email = 'jgr25@cornell.edu'
-      # bb = BookBag.new(email)
-      # bb.create_table
-      # list = [123, 456, 890]
-      # bb.create_all(list)
-      # bb.debug
-      # list = [123, 890]
-      # bb.delete_all(list)
-      # bb.debug
-      # puts "Delete\n" + bb.to_yaml
       Rails.logger.level = save_level
     # :nocov:
     redirect_to action: "index"
