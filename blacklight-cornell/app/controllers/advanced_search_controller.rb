@@ -51,10 +51,10 @@ class AdvancedSearchController < ApplicationController
                                         refp
                                       else
                                         op
-
-                                        return true
                                       end
+    true
   end
+
 
   private
 
