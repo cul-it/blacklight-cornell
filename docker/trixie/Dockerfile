@@ -12,7 +12,7 @@ FROM ruby:${RUBY_VERSION}-slim-trixie AS ruby_base
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential=12.* \
     cron=3.* default-libmysqlclient-dev=1.1.* git=1:2.47.* \
-    libvips42t64=8.16.* pkg-config=1.8.* && \
+    libvips42t64=8.16.* pkg-config=1.8.* libyaml-dev=0.2.* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
 

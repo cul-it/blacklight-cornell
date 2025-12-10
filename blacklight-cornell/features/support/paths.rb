@@ -42,7 +42,7 @@ module NavigationHelpers
       search_index_path
 
     when /the search everything page/
-      'catalog?utf8=✓&controller=catalog&action=index&q=&search_field=all_fields'
+      'catalog?controller=catalog&action=index&q=&search_field=all_fields'
 
     when /the search history page/
       'search_history'
