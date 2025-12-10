@@ -47,24 +47,25 @@ protected
     end
   end
 
+  #TODO: I'm puzzled as to why we have this here? From what I understand this
+  # will never be defined since it's in scope of "if false". Should we remove this?
+  # ****************************************************************************
   if false
-  def set_return_path
-    op = request.original_fullpath
-    refp = request.referer
+    def set_return_path
+      op = request.original_fullpath
+      refp = request.referer
 
-    session[:cuwebauth_return_path] =
-      if (params['id'].present? && params['id'].include?('|'))
-        '/bookmarks'
-      elsif (params['id'].present? && op.include?('email'))
-        "/catalog/afemail/#{params[:id]}"
-      elsif (params['id'].present? && op.include?('unapi'))
-         refp
-      else
-        op
-      end
-
-    return true
-  end
+      session[:cuwebauth_return_path] = if (params['id'].present? && params['id'].include?('|'))
+                                          '/bookmarks'
+                                        elsif (params['id'].present? && op.include?('email'))
+                                          "/catalog/afemail/#{params[:id]}"
+                                        elsif (params['id'].present? && op.include?('unapi'))
+                                          refp
+                                        else
+                                          op
+                                        end
+      true
+    end
   end
 
   private
