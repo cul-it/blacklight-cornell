@@ -195,7 +195,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
 
     respond_to do |format|
-      format.endnote_xml { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+      format.endnote_xml { render 'endnote_xml', :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html        {setup_next_and_previous_documents}
       format.rss         { render :layout => false }
       format.ris         { render 'ris', :layout => false }
@@ -297,7 +297,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     fmt = params[:format]
     Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
     respond_to do |format|
-      format.endnote_xml { render "show.endnote_xml" ,layout: false }
+      format.endnote_xml { render 'endnote_xml', layout: false }
       format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.ris         { render 'ris', :layout => false }
     end
@@ -411,15 +411,10 @@ protected
     session[:search] = {}
     params.each_pair do |key, value|
       if !value.nil?
-        value = value.to_unsafe_h if key == "f"
+        value = value.to_unsafe_h if ['f', 'f_inclusive', 'boolean_row', 'range'].include?(key)
         session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
           value.blank?
       end
-    end
-    session[:gearch] = {}
-    params.each_pair do |key, value|
-      session[:gearch][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
-        value.blank?
     end
   end
 

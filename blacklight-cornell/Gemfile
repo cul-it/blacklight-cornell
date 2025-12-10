@@ -1,24 +1,23 @@
 source "https://rubygems.org"
 ruby "3.2.9"
-gem "rails", "~> 6.1.7"
+gem "rails", "~> 7.2.2"
 
-gem "activerecord-session_store", ">= 2.0.0"
+gem "activerecord-session_store", ">= 2.2.0"
 gem "addressable", ">= 2.8.0"
 gem "appsignal", "~> 3.3.2" #, '2.11.10'
 gem "aws-sdk-s3", "~> 1.143"
-gem "bento_search", "~> 2.0.0.rc1"
-gem "blacklight" # , '7.29.0'
-gem "blacklight-hierarchy"
-gem "blacklight-marc", "~> 6.3"
+gem "bento_search", "~> 2.0.0.rc2"
+gem "blacklight", "<= 8.0"
+gem "blacklight-hierarchy", "~> 6.4.0"
+gem "blacklight-marc", "~> 8.2"
 gem "blacklight_range_limit", "~> 8.5.0"
 gem "blacklight_unapi", :git => "https://github.com/cul-it/blacklight-unapi", :branch => "BL7-upgrade"
 gem "bootstrap", "~> 4.6"
 gem "capistrano", "~> 3.18"
 gem "capistrano-rails", "~> 1.6"
 gem 'capistrano-rvm'
-gem "celluloid", "0.17.4" # Required for bento_search multisearcher
 gem "coffee-rails", "~> 4.0"
-gem "concurrent-ruby", "1.2.3", require: "concurrent"
+gem "concurrent-ruby", require: "concurrent"
 gem 'devise', '>= 4.7.0'
 gem 'devise-guests', '~> 0.3'
 gem "dotenv-rails", "2.8.1" # NOTE: unpinning this and letting it drift to latest (v3.x) breaks SAML login!
@@ -42,7 +41,6 @@ gem "omniauth", "~> 2.0"
 gem "omniauth-saml", "~> 2.2"
 gem "omniauth-rails_csrf_protection"
 gem "piwik_analytics", "~> 1.0.1"
-gem "protected_attributes_continued"
 gem "puma", "~> 6.4"
 gem "rack-cors", require: "rack/cors"
 gem "rb-readline", "~> 0.5.x"
@@ -70,14 +68,14 @@ gem "uri", "0.12.4"
 gem "whenever", require: false
 gem "yaml_db"
 
-gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.3"
+gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", branch: "dev"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.2"
-gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.3.8"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", branch: "dev"
 
 group :development, :test do
   gem "awesome_print"
   gem "byebug"
-  gem "cucumber", "~> 3.1"
+  gem "cucumber"
   gem "cucumber-rails", :require => false # Set require = false to get rid of a warning message
   gem "database_cleaner"
   gem "guard-rspec"
@@ -102,7 +100,7 @@ group :production, :staging do
 end
 
 group :test do
-  gem "capybara", "3.39.2"
+  gem "capybara"
   gem "capybara-email"
   # Following two gems are following the setup proposed in the RoR tutorial
   # at http://ruby.railstutorial.org/chapters/static-pages#sec-advanced_setup

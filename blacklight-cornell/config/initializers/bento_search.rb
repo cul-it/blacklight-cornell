@@ -3,6 +3,10 @@
 # Contains initialization for bento_search as suggested in the documentation:
 # http://rubydoc.info/gems/bento_search/frames/
 
+# Adds bento_search models to LOAD_PATH due to use of `require` for relative files in gem
+# bento_search may need to be updated to support zeitwerk autoloading
+$LOAD_PATH.unshift(File.expand_path('app/models', Gem.loaded_specs['bento_search'].full_gem_path))
+
 # Partially override BentoSearch classes using prepend pattern
 Rails.application.config.to_prepare do
   BentoSearch::StandardDecorator.prepend BentoSearch::Prepends::StandardDecorator
