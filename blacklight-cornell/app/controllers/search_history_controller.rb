@@ -8,22 +8,21 @@ class SearchHistoryController < ApplicationController
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?
       op = session[:cuwebauth_return_path]
     end
+
     op.sub!('/range_limit','')
     refp = request.referer
     refp.sub!('/range_limit','') unless refp.nil?
 
-    session[:cuwebauth_return_path] =
-      if (params['id'].present? && params['id'].include?('|'))
-        '/bookmarks'
-      elsif (params['id'].present? && op.include?('email'))
-        "/catalog/afemail/#{params[:id]}"
-      elsif (params['id'].present? && op.include?('unapi'))
-         refp
-      else
-        op
-      end
-
-    return true
+    session[:cuwebauth_return_path] = if (params['id'].present? && params['id'].include?('|'))
+                                        '/bookmarks'
+                                      elsif (params['id'].present? && op.include?('email'))
+                                        "/catalog/afemail/#{params[:id]}"
+                                      elsif (params['id'].present? && op.include?('unapi'))
+                                        refp
+                                      else
+                                        op
+                                      end
+    true
   end
 
 
