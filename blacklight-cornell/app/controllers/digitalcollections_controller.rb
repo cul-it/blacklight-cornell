@@ -20,7 +20,6 @@ class DigitalcollectionsController < ApplicationController
       render "index"
     end
     if !params[:q].nil? and params[:q] != ""
-      p = {"q" =>params[:q] } #TODO: This doesn't seem to be used. Should we delete this?
       response = Blacklight.default_index.connection.get('culdigreg', params: { q: params[:q] })
       @digregResponse = response['response']['docs']
       params[:q].gsub!('%20', ' ')
