@@ -2,6 +2,7 @@
 blacklight_range_limit_path = Gem::Specification.find_by_name('blacklight_range_limit').full_gem_path
 require_dependency File.join(blacklight_range_limit_path, 'app/components/blacklight_range_limit/range_form_component.rb')
 
+# Overrides BlacklightRangeLimit::RangeFormComponent
 module BlacklightRangeLimit
   class RangeFormComponent < Blacklight::Component
     # Overrides #render_range_input to add data-dynamic=true to input field for pre-populating advanced search form

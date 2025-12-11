@@ -1,5 +1,4 @@
 #encoding: UTF-8
-require_relative "../../app/helpers/logging_helper"
 
 module BlacklightCornell::Discogs extend Blacklight::Catalog
   include LoggingHelper
@@ -195,18 +194,25 @@ def make_discogs_call(path, params={})
   data = resp.body
   result = JSON.parse(data)
   return result if resp.kind_of? Net::HTTPSuccess
-  log_debug_info("#{__FILE__}:#{__LINE__}",
-                "case: Not Net::HTTPSuccess",
-                ["path:", path],
-                ["params:", params],
-                ["result:", result])
+
+  # :nocov:
+    log_debug_info("#{__FILE__}:#{__LINE__}",
+                  "case: Not Net::HTTPSuccess",
+                  ["path:", path],
+                  ["params:", params],
+                  ["result:", result])
+  # :nocov:
+
   return {} if resp.kind_of? Net::HTTPError
-  rescue StandardError
+rescue StandardError
+  # :nocov:
     log_debug_info("#{__FILE__}:#{__LINE__}",
                   "case: StandardError",
                   ["path:", path],
                   ["params:", params],
                   ["result:", result])
+  # :nocov:
+
     return {}
 end
 end

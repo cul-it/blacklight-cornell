@@ -1,10 +1,10 @@
 # This module registers the RIS export format with the system so that we
 # can offer export options for Mendeley and Zotero.
-module Blacklight::Solr::Document::RIS
+module Blacklight::Document::Ris
 
   def self.extended(document)
     # Register our exportable formats
-    Blacklight::Solr::Document::RIS.register_export_formats( document )
+    Blacklight::Document::Ris.register_export_formats( document )
   end
 
   def self.register_export_formats(document)
@@ -43,11 +43,11 @@ module Blacklight::Solr::Document::RIS
   }
 
   def export_ris
-    return nil if folio_record? # prevents non-marc records from breaking export
+    return nil unless exportable_marc_record?
 
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{self['format'].inspect}"
+
     ty = "TY  - GEN\n"
     fmt = self['format'].first
     if (FACET_TO_RIS_TYPE.keys.include?(fmt))
@@ -147,7 +147,7 @@ module Blacklight::Solr::Document::RIS
     output +=  "SN  - #{nt.join(' ')}" + "\n" unless nt.join('').blank?
     # closing tag
     output += "ER  - \n"
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__}: #{output}"
+
     output
   end
 end

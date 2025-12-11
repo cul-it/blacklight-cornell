@@ -1,11 +1,11 @@
 # -*- encoding : utf-8 -*-
 # -*- coding: utf-8 -*-
-# Written for use with Blacklight::Solr::Document::Marc, but you can use
+# Written for use with Blacklight::Marc, but you can use
 # it for your own custom Blacklight document Marc extension too -- just
 # include this module in any document extension (or any other class)
 # that provides a #to_marc returning a ruby-marc object.  This module will add
 # in export_as translation methods for a variety of formats.
-module Blacklight::Solr::Document::MarcExport
+module Blacklight::Marc::DocumentExport
 
   def self.register_export_formats(document)
     document.will_export_as(:xml)
@@ -126,13 +126,11 @@ module Blacklight::Solr::Document::MarcExport
   # process 100,110,111 and 700, 710, 711
   # putting together role indicators.
   def get_contrib_roles(record)
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     contributors = ["100","110","111","700","710","711" ]
     relators = {}
     # ***
     offset = 0
     record.find_all{|f| contributors.include?(f.tag) }.each do |field|
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} field = #{field.inspect}")
       as_field = alternate_script(record, field.tag, nil , offset)
       offset += 1
       if as_field.present? && as_field["a"].present?
@@ -152,7 +150,6 @@ module Blacklight::Solr::Document::MarcExport
 
   # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
   def get_all_authors(record)
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__}")
     translator_code = "trl"; editor_code = "edt"; compiler_code = "com"; author_code = "aut"
     translator_code << "translator"; editor_code << "editor"; compiler_code << "compiler"; author_code << "author"
     primary_authors = []; translators = []; editors = []; compilers = []
@@ -235,7 +232,7 @@ module Blacklight::Solr::Document::MarcExport
 
     ret = {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers,
     :secondary_authors => secondary_authors, :meeting_authors => meeting_authors, :primary_corporate_authors => primary_corporate_authors, :secondary_corporate_authors => secondary_corporate_authors }
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ret = #{ret.inspect}")
+
     ret
   end
 
@@ -365,14 +362,14 @@ module Blacklight::Solr::Document::MarcExport
 #300 ‡a 1 sound disc : ‡b 33 1/3 rpm, stereo. ; ‡c 12 in.
   def setup_medium(record,ty)
     medium = ""
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} ty= #{ty.inspect}")
+
     if ['motion_picture','song','video'].include?(ty)
       # ***
       field = alternate_script(record, '347')
       code = field.find{|s| s.code == 'b'} unless field.nil?
       data = code.value unless code.nil?
       medium = data.nil? ?  "" : data
-      Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
+
       if medium.blank?
         # ***
         field = alternate_script(record, '300')
@@ -388,7 +385,6 @@ module Blacklight::Solr::Document::MarcExport
                          ''
                       end
         end
-        Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
       end
     end
     medium  = case
@@ -401,7 +397,7 @@ module Blacklight::Solr::Document::MarcExport
                 else
                   ''
               end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} medium = #{medium.inspect}")
+
     medium
   end
 
@@ -430,7 +426,7 @@ module Blacklight::Solr::Document::MarcExport
            end
       end
     end
-    Rails.logger.debug("es287_debug **** #{__FILE__} #{__LINE__} #{__method__} thesis = #{thesis.inspect}")
+
     thesis
   end
 

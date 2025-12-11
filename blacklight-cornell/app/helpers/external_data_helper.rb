@@ -32,7 +32,6 @@ module ExternalDataHelper
  		return_json = {}
  		if(key != "")
  			exclude_entities = load_yaml()
- 			Rails.logger.info("#{exclude_entities.inspect}")
  			if(exclude_entities && !exclude_entities.nil?)
  				return_json = get_exclusion(key, exclude_entities)
  			end 

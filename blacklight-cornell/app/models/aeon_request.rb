@@ -5,8 +5,6 @@ class AeonRequest
   attr_reader :holdings, :items
 
   def initialize(document)
-    # Rails.logger.debug "holdings_json: #{document['holdings_json']}"
-    # Rails.logger.debug "items_json: #{document['items_json']}"
     @holdings = JSON.parse(document['holdings_json'])
     @items = JSON.parse(document['items_json'] || '{}')
   end
