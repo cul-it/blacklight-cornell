@@ -66,8 +66,13 @@ module Blacklight::Document::EndnoteXml
   # Note the order is required for validation, but may not be enforced by apps.
   # among other things, the values for ref-type, and for role on the author element are not defined here.
   def export_as_endnote_xml()
-    # TODO: Discuss why MARC records are missing 'marc_display' fields and see if this is something that needs to be corrected
-    return nil if folio_record? || !respond_to?(:to_marc) || to_marc.nil? # prevents non-marc records and records with missing 'marc_display' from breaking export
+    return nil if folio_record?
+    if !respond_to?(:to_marc) || to_marc.nil?
+      # :nocov:
+        Rails.logger.error("endnote_xml export skipped: missing to_marc for doc id=#{self['id']}; ensure fields are correct")
+      # :nocov:
+      return nil
+    end # prevents non-marc records and records with missing 'marc_display' from breaking export
 
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
