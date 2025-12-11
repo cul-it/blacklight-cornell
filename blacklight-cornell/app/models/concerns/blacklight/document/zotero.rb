@@ -206,8 +206,6 @@ module Blacklight::Document::Zotero
     end
     pa = primary_authors.blank? ? secondary_authors : primary_authors
 
-    author_text = '' #TODO: Doesn't seem to be used. Should this be deleted?
-    editor_text = '' #TODO: Doesn't seem to be used. Should this be deleted?
     auty =  case ty
               when 'videoRecording'
                 'contributors'
