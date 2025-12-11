@@ -732,9 +732,9 @@ class CatalogController < ApplicationController
 
   #TODO: Cleanout all the unused logins logic: https://culibrary.atlassian.net/browse/DACCESS-765
   def logins
-    # :nocov
+    # :nocov:
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} params = #{params.inspect}")
-    # :nocov
+    # :nocov:
   end
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
