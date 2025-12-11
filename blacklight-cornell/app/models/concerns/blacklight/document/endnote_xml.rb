@@ -71,7 +71,6 @@ module Blacklight::Document::EndnoteXml
     title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
     fmt = self['format'].first
     num_ty = "0";
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{fmt.inspect}"
     ty = "Book"
     if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
       ty = FACET_TO_ENDNOTE_TYPE[fmt]
@@ -107,7 +106,7 @@ module Blacklight::Document::EndnoteXml
       end
     end
     text2 = builder.target!
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote xml text = #{text2}"
+
     text2
   end
   #<work-type>Ph.D.dissertation</work-type>
@@ -142,7 +141,7 @@ module Blacklight::Document::EndnoteXml
 
   def generate_enx_keywords(bld,ty)
     kw =   setup_kw_info(to_marc)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} keywords = #{kw.inspect}"
+
     bld.keywords do
       kw.each do |k|
           bld.keyword(k) unless k.empty?
@@ -201,7 +200,6 @@ module Blacklight::Document::EndnoteXml
     end
     if ty == 'Thesis' and pname.blank?
       th = setup_thesis_info(to_marc)
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} th #{th.inspect}"
       pname = th[:inst].to_s
     end
     bld.publisher(pname) unless pname.blank?
@@ -226,10 +224,13 @@ module Blacklight::Document::EndnoteXml
     end
   end
 
+  #TODO: Look into get_contrib_roles method closer before cleaning out: Jira ticket - https://culibrary.atlassian.net/browse/DACCESS-766
   def generate_enx_contributors(bld,ty)
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
+    # :nocov:
+      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
+    # :nocov:
     primary_authors = authors[:primary_authors]
     if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
       primary_authors = authors[:primary_corporate_authors]
@@ -240,7 +241,7 @@ module Blacklight::Document::EndnoteXml
     #primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     editors = authors[:editors]
     pa = primary_authors.blank? ? secondary_authors : primary_authors
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} endnote pa = #{pa.inspect}"
+
     bld.contributors() do
       if !pa.blank?
         bld.authors() do

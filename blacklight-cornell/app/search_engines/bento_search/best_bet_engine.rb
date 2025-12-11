@@ -25,7 +25,7 @@ class BentoSearch::BestBetEngine
       result = BentoSearch::ResultItem.new
       Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
     end
-    Rails.logger.debug "mjc12test: #{__FILE__} #{__LINE__} got back: #{best_bet}"
+
     result = BentoSearch::ResultItem.new
 
     # Because all our facets are packaged in a single query, we have to treat this as a single result

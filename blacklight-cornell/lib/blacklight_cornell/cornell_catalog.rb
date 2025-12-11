@@ -16,7 +16,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
   def set_return_path
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?
@@ -27,11 +26,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       op = session[:cuwebauth_return_path]
     end
     op.dup.sub!('/range_limit','')
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-    refp = request.referer
-    refp =""
+
+    refp = ""
     refp.sub!('/range_limit','') unless refp.nil?
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
 
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
@@ -48,7 +45,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         op
       end
 
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     return true
   end
 
@@ -107,7 +103,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       session["search_limit_exceeded"] = true
     end
     # @bookmarks = current_or_guest_user.bookmarks
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
 
@@ -182,8 +177,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     @response, @document = search_service.fetch params[:id]
     @documents = [ @document ]
     # set_bag_name
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-
     # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
     # If it does have the id, save it globally and just get the image url.
     notes_check = @document["notes"].present? ? @document["notes"].join : ""
@@ -227,7 +220,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     if search_session['counter']
       index = search_session['counter'].to_i - 1
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
       response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
       if query_params[:per_page].nil?
@@ -277,12 +269,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # grabs a bunch of documents to export to endnote
   def endnote
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     if params[:id].nil?
       bookmarks = token_or_current_or_guest_user.bookmarks
       bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
+
       if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
         bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT]
       end
@@ -294,8 +284,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     if @documents.count() < 1
       return
     end
-    fmt = params[:format]
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
+
     respond_to do |format|
       format.endnote_xml { render 'endnote_xml', layout: false }
       format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
@@ -565,7 +554,11 @@ private
 
   def sanitize(q)
     if q[:q].include?('<img')
-      Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
+
+      # :nocov:
+        Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
+      # :nocov:
+
       redirect_to root_path
     else
       q = params[:q].rstrip

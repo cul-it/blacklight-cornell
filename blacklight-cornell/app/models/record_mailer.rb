@@ -33,8 +33,6 @@ class RecordMailer < ActionMailer::Base
             doc_availability << avail
           end
         end
-      else
-        Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
       end
       @availability << doc_availability
     end

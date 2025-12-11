@@ -1,9 +1,9 @@
-if ( ENV['COVERAGE'] == 'on' )
+if ENV['COVERAGE'] == 'on'
   require 'simplecov'
   require 'simplecov-rcov'
-  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([ SimpleCov::Formatter::HTMLFormatter, SimpleCov::Formatter::RcovFormatter ])
   SimpleCov.start 'rails' do
-    add_filter "/vendor/"
+    add_filter '/vendor/'
   end
 end
 
