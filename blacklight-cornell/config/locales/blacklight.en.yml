@@ -139,18 +139,13 @@ en:
         callnumber: 'Call number:'
         submit: 'Send'
       text:
+        subject: 'Item(s) from the Cornell University Library Catalog'
+        message: '%{message}'
         title: 'Title: %{value}'
         author: 'Author: %{value}'
+        format: 'Format: %{value}'
         language: 'Language: %{value}'
-        location: 'Location: %{location}'
-        templocation: 'Temporary Location: %{templocation}'
-        callnumber: 'Call number: %{callnumber}'
-        status: 'Status: %{status}'
-        subject:
-          one: 'Item record: %{title}'
-          other: 'Item records'
-        url: '%{url}'
-        message: '%{message}'
+        availability: "Availability:"
       errors:
         to:
           invalid: 'You must enter a valid email address.'
