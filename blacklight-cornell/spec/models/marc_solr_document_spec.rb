@@ -12,16 +12,16 @@ def marc_from_xml(string)
   reader.each { |rec| return rec }
 end
 
-describe Blacklight::Solr::Document::MarcExport do
+describe Blacklight::Marc::DocumentExport do
   before(:all) do
 
     # Mock solr document created from MARCXML for testing Marc export modules 
     dclass = Class.new(SolrDocument) do
-      include Blacklight::Solr::Document::MarcExport
-      include Blacklight::Solr::Document::Endnote
-      include Blacklight::Solr::Document::RIS
-      include Blacklight::Solr::Document::Endnote_xml
-      include Blacklight::Solr::Document::Zotero
+      include Blacklight::Marc::DocumentExport
+      include Blacklight::Document::Endnote
+      include Blacklight::Document::Ris
+      include Blacklight::Document::EndnoteXml
+      include Blacklight::Document::Zotero
 
       attr_accessor :to_marc
 

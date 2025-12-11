@@ -1163,6 +1163,16 @@ module DisplayHelper
     result.to_sentence.html_safe
   end
 
+  def access_titleid(args)
+    raw = args["url_access_json"]
+    return nil if raw.blank?
+
+    first = raw.is_a?(Array) ? raw.first : raw
+    parsed = first.is_a?(String) ? (JSON.parse(first) rescue nil) : first
+    parsed.is_a?(Hash) ? parsed["titleid"] : nil
+  end
+
+
   def access_url_is_list?(args)
     args['url_access_json'].present? && args['url_access_json'].size != 1
   end

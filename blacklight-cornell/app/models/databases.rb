@@ -1,5 +1,4 @@
-class Databases < ActiveRecord::Base
-  attr_accessible :id
+class Databases < ApplicationRecord
   require 'dotenv'
     # HTTPI::Response::SuccessfulResponseCodes = HTTPI::Response::SuccessfulResponseCodes.to_a << 302
     HTTPI.adapter = :net_http
@@ -29,7 +28,7 @@ class Databases < ActiveRecord::Base
        Rails.logger.info("Response is nil or blank")
     else
        Rails.logger.info("Response has content")
-       ::Erm_data.delete_all
+       ::ErmData.delete_all
     response = response2.to_s
     response = response.gsub!('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><LicenseDataResponse xmlns="http://serialssolutions.com/">','')
     response = response.gsub!('</LicenseDataResponse>','')
@@ -269,7 +268,7 @@ class Databases < ActiveRecord::Base
         #   output.write("INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ", " + resourceNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ", " + resourceValues + ")"
 #            Rails.logger.info("Databases update #{__FILE__} #{__LINE__} sql =  #{sql.inspect}")
-           insert = Erm_data.connection.raw_connection.prepare(sql)
+           insert = ErmData.connection.raw_connection.prepare(sql)
            insert.execute
            licenseCount = licenseCount + 1
          end
@@ -278,7 +277,7 @@ class Databases < ActiveRecord::Base
          #  output.write("INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ");\n")
            sql = "INSERT INTO erm_data (" + licenseNames + ") VALUES (\"" + licenseCount.to_s + "\", \"" + licenseValues + ")"
           # puts sql
-           insert = Erm_data.connection.raw_connection.prepare(sql)
+           insert = ErmData.connection.raw_connection.prepare(sql)
            insert.execute
            licenseCount = licenseCount + 1
        end
