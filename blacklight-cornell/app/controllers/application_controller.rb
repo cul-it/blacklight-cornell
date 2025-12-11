@@ -17,8 +17,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with:  :exception
   # protect_from_forgery with:  :null_session
 
-  set_callback :logging_in_user, :before, :show_login_action
-
   after_action :allow_libwizard_iframe
 
 # An array of strings to be added to HTML HEAD section of view.
@@ -27,14 +25,6 @@ class ApplicationController < ActionController::Base
     #Deprecation.warn Blacklight::LegacyControllerMethods, "#extra_head_content is NOT deprecated"
     @extra_head_content ||= []
   end
-
-
-  def show_login_action
-    # :nocov:
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} logging in before hook")
-    # :nocov:
-  end
-
 
 protected
   def authenticate_user!
