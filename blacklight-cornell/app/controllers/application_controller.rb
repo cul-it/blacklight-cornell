@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
     # :nocov:
   end
 
+
 protected
   def authenticate_user!
     if user_signed_in?
@@ -47,31 +48,9 @@ protected
     end
   end
 
-  #TODO: I'm puzzled as to why we have this here? From what I understand this
-  # will never be defined since it's in scope of "if false". Should we remove this?
-  # ****************************************************************************
-  if false
-    def set_return_path
-      op = request.original_fullpath
-      refp = request.referer
-
-      session[:cuwebauth_return_path] = if (params['id'].present? && params['id'].include?('|'))
-                                          '/bookmarks'
-                                        elsif (params['id'].present? && op.include?('email'))
-                                          "/catalog/afemail/#{params[:id]}"
-                                        elsif (params['id'].present? && op.include?('unapi'))
-                                          refp
-                                        else
-                                          op
-                                        end
-      true
-    end
-  end
 
   private
-
   def allow_libwizard_iframe
     response.headers['X-Frame-Options'] = 'ALLOW-FROM https://cornell.libwizard.com'
   end
-
 end
