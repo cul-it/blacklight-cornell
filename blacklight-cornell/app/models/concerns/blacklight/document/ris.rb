@@ -43,7 +43,8 @@ module Blacklight::Document::Ris
   }
 
   def export_ris
-    return nil if folio_record? # prevents non-marc records from breaking export
+    # TODO: Discuss why MARC records are missing 'marc_display' fields and see if this is something that needs to be corrected
+    return nil if folio_record? || self['marc_display'].blank? # prevents non-marc records and records with missing 'marc_display' from breaking export
 
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)
