@@ -730,6 +730,13 @@ class CatalogController < ApplicationController
     email_action(dox)
   end
 
+  #TODO: Cleanout all the unused logins logic: https://culibrary.atlassian.net/browse/DACCESS-765
+  def logins
+    # :nocov
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} params = #{params.inspect}")
+    # :nocov
+  end
+
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   # but now we removed mollom captcha.
