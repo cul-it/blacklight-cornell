@@ -43,13 +43,7 @@ module Blacklight::Document::Ris
   }
 
   def export_ris
-    return nil if folio_record?
-    if !respond_to?(:to_marc) || to_marc.nil?
-      # :nocov:
-        Rails.logger.error("RIS export skipped: missing to_marc for doc id=#{self['id']}; ensure fields are correct")
-      # :nocov:
-      return nil
-    end # prevents non-marc records and records with missing 'marc_display' from breaking export
+    return nil unless exportable_marc_record?
 
     # Determine type (TY) of format
     # but for now, go with generic (that's what endnote is doing)

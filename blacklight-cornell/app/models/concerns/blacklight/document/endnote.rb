@@ -30,13 +30,7 @@ module Blacklight::Document::Endnote
    }
 
   def export_as_endnote()
-    return nil if folio_record?
-    if !respond_to?(:to_marc) || to_marc.nil?
-      # :nocov:
-        Rails.logger.error("endnote export skipped: missing to_marc for doc id=#{self['id']}; Ensure fields are correct")
-      # :nocov:
-      return nil
-    end # prevents non-marc records and records with missing 'marc_display' from breaking export
+    return nil unless exportable_marc_record?
 
     end_note_format = {
       "100.a" => "%A" ,

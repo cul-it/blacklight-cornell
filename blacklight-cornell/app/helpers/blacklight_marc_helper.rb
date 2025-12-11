@@ -4,11 +4,8 @@ module BlacklightMarcHelper
     Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__}"
     documents.each do |doc|
       tmp = ''
-      if doc.exports_as?(:endnote_xml) && !doc.folio_record?
-        # Skip docs that return nil for export (non-MARC) to avoid errors.
-        exported = doc.export_as(:endnote_xml)
-        next if exported.nil?
-        tmp = exported + "\n"
+      if doc.exports_as?(:endnote_xml) && doc.exportable_marc_record?
+        tmp = doc.export_as(:endnote_xml) + "\n"
         tmp.sub!('<xml>','')
         tmp.sub!('</xml>','')
         tmp.sub!('<records>','')
@@ -25,11 +22,8 @@ module BlacklightMarcHelper
     val = ''
     Rails.logger.debug"*********es287_dev:#{__FILE__} #{__LINE__} #{__method__}"
     documents.each do |doc|
-      if doc.exports_as?(:ris) && !doc.folio_record?
-        # Skip docs that return nil for export (non-MARC) to avoid errors.
-        exported = doc.export_as(:ris)
-        next if exported.nil?
-        val += exported + "\n"
+      if doc.exports_as?(:ris) && doc.exportable_marc_record?
+        val += doc.export_as(:ris) + "\n"
       end
     end
     val
