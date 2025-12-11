@@ -47,6 +47,7 @@ BlacklightCornell::Application.routes.draw do
 
     collection do
       delete "clear"
+      post "track" # Define the track route locally so the `track_bookmarks_path` helper remains available after code reloads.
     end
   end
 

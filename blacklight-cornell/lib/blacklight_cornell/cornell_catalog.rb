@@ -276,7 +276,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
         bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT]
       end
-      @response, @documents = search_service.fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
+      # Ensure user can export all selected bookmarks and not just 1 page.
+      @response, @documents = search_service.fetch(bookmark_ids, start: 0, rows: bookmark_ids.size, per_page: bookmark_ids.size)
     else
       @response, @documents = search_service.fetch(params[:id])
     end

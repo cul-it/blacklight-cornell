@@ -845,7 +845,7 @@ module DisplayHelper
   end
 
   def is_exportable document
-    return false if document.folio_record?
+    return false unless document.exportable_marc_record?
     if document.present? && document.export_formats.present?
       if document.export_formats.keys.include?(:ris) || document.export_formats.keys.include?(:endnote)
         return true
