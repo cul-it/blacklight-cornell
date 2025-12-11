@@ -30,6 +30,9 @@ describe Blacklight::Marc::DocumentExport do
         # Solr format "Book" added as default to document
         @atts[0] = { :name => "format", :value => ["Book"] }
         self.to_marc = marc_from_xml(marc_xml_str)
+        # Mirror the Solr fields the export code expects.
+        self['source'] = 'MARC'
+        self['marc_display'] = "marc_display present"
       end
 
       def [](key)

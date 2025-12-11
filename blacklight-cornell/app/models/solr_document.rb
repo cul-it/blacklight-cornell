@@ -133,7 +133,20 @@ class SolrDocument
     nil
   end
 
+  #TODO: This will be used later for https://culibrary.atlassian.net/browse/DACCESS-706
+  # To support exports of folio records
   def folio_record?
     self['source'].to_s.strip.casecmp?('folio')
+  end
+
+  def exportable_marc_record?
+    if self['source'].to_s.strip.casecmp?('MARC') && self['marc_display'].present?
+      true
+    else
+      # :nocov
+        Rails.logger.warn("exportable_marc_record? => FALSE for doc id=#{self['id']} source=#{self['source']}")
+      # :nocov
+      false
+    end
   end
 end
