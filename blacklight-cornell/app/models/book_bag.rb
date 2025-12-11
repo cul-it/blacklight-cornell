@@ -40,6 +40,7 @@ class BookBag
         book_bags(bagname varchar(255), bibid int unsigned, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (bagname, bibid))")
     rescue Mysql2::Error => e
       # :nocov:
+        #TODO: investigate and clean up - Jira Ticket: https://culibrary.atlassian.net/browse/DACCESS-767
         save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
         Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag"
         puts e.error.to_yaml

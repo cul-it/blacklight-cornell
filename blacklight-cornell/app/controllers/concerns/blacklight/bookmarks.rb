@@ -93,6 +93,7 @@ module Blacklight::Bookmarks
       new_count = @bookmarks.count
 
       # :nocov:
+        #TODO: investigate and clean up - Jira Ticket: https://culibrary.atlassian.net/browse/DACCESS-767
         save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
         if (current_count + new_count) > BookBagsController::MAX_BOOKBAGS_COUNT
           Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: too many bookmarks"
