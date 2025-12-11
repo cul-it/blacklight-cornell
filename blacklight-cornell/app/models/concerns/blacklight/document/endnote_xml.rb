@@ -224,11 +224,11 @@ module Blacklight::Document::EndnoteXml
     end
   end
 
+  #TODO: Look into get_contrib_roles method closer before cleaning out: Jira ticket - https://culibrary.atlassian.net/browse/DACCESS-766
   def generate_enx_contributors(bld,ty)
     authors = get_all_authors(to_marc)
     relators =  get_contrib_roles(to_marc)
     # :nocov:
-      #TODO Look into get_contrib_roles method closer before cleaning out
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
     # :nocov:
     primary_authors = authors[:primary_authors]
