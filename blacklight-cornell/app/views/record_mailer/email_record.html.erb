@@ -7,7 +7,13 @@
 
     <% @documents.each_with_index do |document, index| %>
         <% semantics = document.to_semantic_values %>
-        <p><strong><a href="<%= polymorphic_url(document, {:only_path => false}.merge(@url_gen_params)) %>"><%= semantics[:title].join(" ") if semantics[:title].present? %></a></strong></p>
+        <p><strong><a href="<%= polymorphic_url(document, {:only_path => false}.merge(@url_gen_params)) %>">
+        <% if semantics[:title].present? %>
+            <%= semantics[:title].join(" ") %>
+        <% else %>
+            <%= t('blacklight.email.text.subject') %>
+        <% end %>
+        </a></strong></p>
         <%= render_email_field(semantics, "author") %>
         <%= render_email_field(semantics, "format") %>
         <%= render_email_field(semantics, "language") %>
