@@ -27,7 +27,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
     op.dup.sub!('/range_limit','')
 
-    refp = request.referer #<== todo: should we remove this redundant code?
     refp = ""
     refp.sub!('/range_limit','') unless refp.nil?
 
