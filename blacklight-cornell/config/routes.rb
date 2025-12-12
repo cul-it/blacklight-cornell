@@ -27,6 +27,8 @@ BlacklightCornell::Application.routes.draw do
     concerns :range_searchable
   end
 
+  get "catalog/facet_values/:id" => "catalog#facet_values"
+
   # Legacy blacklight-marc endpoint for endnote export
   get "catalog/endnote", :as => "endnote_solr_document"
 

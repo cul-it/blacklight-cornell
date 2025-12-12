@@ -254,12 +254,13 @@ class CatalogController < ApplicationController
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
+    # Display only top 10 call number levels server-side, render remainder via ajax
     config.add_facet_field 'lc_callnum_facet',
                            if: :has_search_parameters?,
                           label: 'Call Number',
                           component: Blacklight::Hierarchy::FacetFieldListComponent,
-                          sort: 'count'
-
+                          sort: 'count',
+                          limit: 10
 
    config.facet_display = {
      :hierarchy => {
