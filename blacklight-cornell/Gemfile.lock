@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: f51fdeb0bcc11403e07b1e213ac1ae494aa5b8ee
-  branch: dev
+  revision: 7a89ed9fa3cac0f8a9b40b64604b00793b16abe0
+  tag: v5.4
   specs:
     blacklight_cornell_requests (5.4)
       blacklight
@@ -37,8 +37,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: e4aa2f505c5fa88332dd9a3095f2b05084c18138
-  branch: dev
+  revision: 1494b0261e77852fec43be9f3e65ca576f28ba0c
+  tag: v2.4
   specs:
     my_account (2.4)
       blacklight (~> 7.0)
