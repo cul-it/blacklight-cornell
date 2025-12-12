@@ -201,8 +201,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
       # for the visual shelf browse
       if @document['callnumber_display'].present?
-        @previous_eight = get_surrounding_docs(@document['callnumber_display'][0].gsub("\\"," ").gsub('"',' '),"reverse",0,1)
-        @next_eight = get_surrounding_docs(@document['callnumber_display'][0].gsub("\\"," ").gsub('"',' '),"forward",0,2)
+        @previous_eight = get_surrounding_docs(@document['callnumber_display'][0],"reverse",0,1)
+        @next_eight = get_surrounding_docs(@document['callnumber_display'][0],"forward",0,2)
       end
     end
   end

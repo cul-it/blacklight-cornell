@@ -9,7 +9,7 @@ module BlacklightCornell
       return nil if callnumber.nil?
 
       @location = location.gsub('&','%26')
-      callno = callnumber.tr("\\\"", "  ")
+      callno = callnumber.gsub('\\', ' ').gsub('"',' ')
 
       solr_response_full = browse_solr(query: callno,
                                       order: direction,
