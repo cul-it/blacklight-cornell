@@ -35,6 +35,7 @@ Feature: Facets
 		Given I am on the home page
 		And I should not see a facet called 'Call Number'
 
+	@javascript
 	@DISCOVERYACCESS-7221
 	Scenario Outline: Facet counts in search for everything special
 		Given I am on the home page
