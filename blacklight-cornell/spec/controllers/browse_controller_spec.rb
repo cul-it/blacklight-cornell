@@ -73,7 +73,7 @@ describe BrowseController do
         expect(response).to render_template(:index)
         headingsResponse = assigns(:headingsResponse)
         center_item_index = headingsResponse.count / 2
-        expect(headingsResponse[center_item_index]['callnumber']).to eq('QA1 .I31\\')
+        expect(headingsResponse[center_item_index]['callnumber']).to eq('QA1 .I31')
       end
     end
 
