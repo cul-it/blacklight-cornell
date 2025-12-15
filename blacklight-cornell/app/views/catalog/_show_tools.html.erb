@@ -6,14 +6,16 @@
   # item view. While "document tools" contains external export type
   # functions by default only on detail.
 -%>
-<% if request.path != '/bookmarks'  && !request.path.start_with?('/book_bags') %>
+
+<% if request.path.start_with?('/bookmarks')  %>
+  <% bookmarks_index = true %>
+<% elsif request.path.start_with?('/book_bags') %>
+  <% bookbags_index = true %>
+<% else %>
   <% emailable = is_emailable(@document) %>
   <% exportable = is_exportable(@document) %>
-<% elsif request.path == '/bookmarks'  %>
-  <% bookmarks_index = true %>
-<% else %>
-  <% bookbags_index = true %>
 <% end %>
+
 <% if !bookmarks_index %>
 <li><%= render :partial => "bookmark_control" , :locals => {:document => @document} %></li>
 <% end %>

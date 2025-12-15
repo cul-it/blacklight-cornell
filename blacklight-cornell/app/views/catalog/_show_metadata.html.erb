@@ -2,7 +2,7 @@
 
 <div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
-	<% Rails.logger.debug("mjc12test2: authgroups #{session[:cu_authenticated_groups] }") %>
+
   <%
     # With Blacklight 7, we can't access these using field_value. So get them all out of
     # the Solr doc right up front.

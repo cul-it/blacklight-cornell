@@ -1,7 +1,5 @@
 # Rails and Blacklight core functions
 COOKIE_STORE=/tmp/cookies/holding_cookies.dat
-# This secret token is randomly generated
-SECRET_TOKEN=856e0b0fab369d909aa078ecda25a20d95a10d41394c49f9bb5f0e1f76646b887e5b0b5b96c88322ff6fb20cb6c48d96047748df2f4704b88f6a1af53b21a372
 MYSQL_HOST=mysql
 MYSQL_DATABASE=blacklightcornell
 MYSQL_PASSWORD=test

@@ -67,6 +67,14 @@ describe BrowseController do
         expect(headingsResponse[center_item_index]['callnumber']).to eq('QA1 .I31')
         expect(assigns(:browse_locations)).to eq(callnum_locations)
       end
+
+      it 'handle escape characters' do
+        get :index, params: { authq: 'QA1 .I31\\', browse_type: 'virtual' }
+        expect(response).to render_template(:index)
+        headingsResponse = assigns(:headingsResponse)
+        center_item_index = headingsResponse.count / 2
+        expect(headingsResponse[center_item_index]['callnumber']).to eq('QA1 .I31')
+      end
     end
 
     context 'invalid request from solr' do

@@ -13,8 +13,6 @@ BlacklightCornell::Application.routes.draw do
   #  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
   match "catalog/unapi", :to => "catalog#unapi", :via => [:get]
 
-  Blacklight::Marc.add_routes(self)
-
   root :to => "catalog#index"
 
   mount Blacklight::Engine => "/"
@@ -22,14 +20,18 @@ BlacklightCornell::Application.routes.draw do
 
   concern :searchable, Blacklight::Routes::Searchable.new
   concern :exportable, Blacklight::Routes::Exportable.new
+  concern :marc_viewable, Blacklight::Marc::Routes::MarcViewable.new
 
   resource :catalog, only: [:index], controller: "catalog" do
     concerns :searchable
     concerns :range_searchable
   end
 
-  resources :solr_documents, except: [:index], path: "/catalog", controller: "catalog" do
-    concerns :exportable
+  # Legacy blacklight-marc endpoint for endnote export
+  get "catalog/endnote", :as => "endnote_solr_document"
+
+  resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
+    concerns [:exportable, :marc_viewable]
   end
 
   #get 'bookmarks/email_login_required' => 'bookmarks#email_login_required'
@@ -45,6 +47,7 @@ BlacklightCornell::Application.routes.draw do
 
     collection do
       delete "clear"
+      post "track" # Define the track route locally so the `track_bookmarks_path` helper remains available after code reloads.
     end
   end
 
@@ -106,6 +109,8 @@ BlacklightCornell::Application.routes.draw do
   # replaced by /databases/tou
   # # get '/databases/searchERMdb/' => 'databases#searchERMdb', :as => 'databases_searchERMdb'
   get "/databases/tou/:id" => "databases#tou", :as => "databases_tou"
+  get "/databases/new_tou/:title_id/:id" => "databases#new_tou", :as => "databases_new_tou"
+
   get "/catalog/tou/:id/:providercode/:dbcode" => "catalog#tou", :as => "catalog_tou"
   get "/catalog/new_tou/:title_id/:id" => "catalog#new_tou", :as => "catalog_new_tou"
 

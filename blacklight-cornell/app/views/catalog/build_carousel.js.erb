@@ -1,19 +1,16 @@
 <%
-#Rails.logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^ START OF PREV JS ERB ^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+  if @new_carousel[8]['display_class_label'] != ""
+    classification = @new_carousel[8]['display_class_label']
+  else
+     classification =  @new_carousel[8]['format']
+  end
 
-if @new_carousel[8]['display_class_label'] != ""
-  classification = @new_carousel[8]['display_class_label']
-else
-   classification =  @new_carousel[8]['format']
-end
+  the_html = ""
+  prev_reroute = ""
+  next_reroute = ""
+  count = 0
 
-#Rails.logger.info(@previous_doc.inspect)
-the_html = ""
-prev_reroute = ""
-next_reroute = ""
-count = 0
-@new_carousel.each do |doc|
-        
+  @new_carousel.each do |doc|
     fa_string = ""
     if doc['format'].downcase.include?("journal")
       fa_string =  '<i class="fa fa-book-open"></i>'
@@ -37,10 +34,10 @@ count = 0
       fa_string = '<i class="fa fa-globe"></i>'
     end
 
-    the_title = doc['title'] 
-    if doc['title'].length > 52 
-    	the_title = doc['title'][0..52] + "..."
-    end 
+    the_title = doc['title']
+    if doc['title'].length > 52
+      the_title = doc['title'][0..52] + "..."
+    end
 
     img_string = ""
     if doc['img_url'].include?("cornell")
@@ -53,18 +50,18 @@ count = 0
     avail_str = ""
     if  doc["availability"].include?("Online")
         avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>'
-    elsif doc["availability"].include?("Not") 
+    elsif doc["availability"].include?("Not")
         #avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Available" alt="" aria-hidden="true"></i> ' + doc["availability"] + ' </div>'
     else
         #avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Unavailable" alt="" aria-hidden="true"></i> ' + doc["availability"] + ' </div>'
     end
-    
+
     if count == 0
       prev_reroute = '<div class="inner-container" id="prev-reroute" style="display:none;"><div class="vb-reroute">'
       prev_reroute += '<a href="/browse?authq=' + doc['callnumber'] + '&browse_type=virtual"><div>'
       prev_reroute += ' <i class="fa fa-chevron-left"></i> </div><div> View more results</div></a></div></div>'
     end
-    
+
     if count == 16
       next_reroute = '<div class="inner-container" id="next-reroute" style="display:none;"><div class="vb-reroute">'
       next_reroute += '<a href="/browse?authq=' + doc['callnumber'] + '&browse_type=virtual"><div>'
@@ -77,21 +74,16 @@ count = 0
     the_html += prev_reroute if count == 0
     the_html += '<div class="inner-container' + primary_class + '" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc['internal_class_label'] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
     the_html += '<div class="vb-callnum-hdr">' + doc["callnumber"] + '</div>'
-    the_html += '<div class="vb-img-container" >' + img_string + '</div>' 
+    the_html += '<div class="vb-img-container" >' + img_string + '</div>'
     the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '" tabindex="-1" onclick="javascript:_paq.push([\'trackEvent\', \'virtualbrowse_carousel\', \'carousel_title\']);">' + the_title + '</a></div>'
     the_html += '<div style="clear:left;">' + doc["pub_date"] + '</div>'
     the_html += '<div class="vb-footer">' + avail_str + '</div></div>'
     the_html += next_reroute if count == 16
 
     count += 1
-    
-end
-
-#Rails.logger.info("^^^^^^^^^^^^^^^^^^^^^^ FINISH OF JS ERB ^^^^^^^^^^^^^^^^^^^^^^")
-#Rails.logger.info(the_html.html_safe.inspect)
+  end
 %>
 
-//console.log("the_html = " + "<%=raw escape_javascript(the_html) %>");
 var classification = "<%=raw escape_javascript(classification) %>";
 var prev_reroute = "<%=raw escape_javascript(prev_reroute) %>";
 var next_reroute = "<%=raw escape_javascript(next_reroute) %>";
@@ -102,5 +94,3 @@ $('#classification').attr("data-anchor-label",classification);
 $('.vb-current-class').html(classification);
 $('#vb-time-indicator').hide();
 $('#outer-container').html(the_html);
-//$('#outer-container').scrollLeft(1520);
-

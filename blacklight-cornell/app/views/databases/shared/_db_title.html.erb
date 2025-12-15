@@ -1,0 +1,15 @@
+<% if db.present? %>
+  <h2>
+    <% db.each do |data| %>
+      <% if data["fulltitle_vern_display"].present? and data["fulltitle_display"].present? %>
+        <%= data["fulltitle_vern_display"] + " / " + data["fulltitle_display"] %>
+      <% else %>
+        <% if data["fulltitle_vern_display"].present? %>
+          <%= data["fulltitle_vern_display"] %>
+        <% else %>
+          <%= data["fulltitle_display"] %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </h2>
+<% end %>

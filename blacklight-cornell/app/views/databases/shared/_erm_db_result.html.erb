@@ -1,0 +1,194 @@
+<% if ermDBResult.present? %>
+  <% data = ermDBResult[0] %>
+  <% if data.present? %>
+    <table class="table table-bordered table-striped">
+      <caption class="sr-only">License terms and permissions for this resource</caption>
+      <thead>
+      <tr>
+        <th scope="col">
+          License Term
+        </th>
+        <th scope="col">
+          Permissions
+        </th>
+        <th scope="col">
+          Note
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if data['Authorized_Users'].present? || data['Authorized_Users_Note'].present? %>
+        <tr>
+          <td>
+            Authorized Users
+          </td>
+          <td>
+            <%= data['Authorized_Users'].gsub("|", ", ") %>
+          </td>
+          <td>
+            <%= data['Authorized_Users_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['Concurrent_Users'].present? || data['Concurrent_Users_Note'].present? %>
+        <tr>
+          <td>
+            Concurrent Users
+          </td>
+          <td>
+            <%= data['Concurrent_Users'] %>
+          </td>
+          <td>
+            <%= data['Concurrent_Users_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['Fair_Use_Clause_Indicator'].present? %>
+        <tr>
+          <td>
+            Fair Use Clause Indicator
+          </td>
+          <td>
+            <%= data['Fair_Use_Clause_Indicator'] %>
+          </td>
+          <td></td>
+        </tr>
+      <% end %>
+      <% if data['Digitally_Copy'].present? || data['Digitally_Copy_Note'].present? %>
+        <tr>
+          <td>
+            Digitally Copy
+          </td>
+          <td>
+            <%= data['Digitally_Copy'] %>
+          </td>
+          <td>
+            <%= data['Digitally_Copy_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['Scholarly_Sharing'].present? || data['Scholarly_Sharing_Note'].present? %>
+        <tr>
+          <td>
+            Scholarly Sharing
+          </td>
+          <td>
+            <%= data['Scholarly_Sharing'] %>
+          </td>
+          <td>
+            <%= data['Scholarly_Sharing_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['ILL_General'].present? %>
+        <tr>
+          <td>
+            ILL General
+          </td>
+          <td>
+            <%= data['ILL_General'] %>
+          </td>
+          <td></td>
+        </tr>
+      <% end %>
+      <% if data['ILL_Secure_Electronic'].present? %>
+        <tr>
+          <td>
+            ILL Secure Electronic
+          </td>
+          <td>
+            <%= data['ILL_Secure_Electronic'] %>
+          </td>
+          <td></td>
+        </tr>
+      <% end %>
+      <% if data['ILL_Electronic_email'].present? %>
+        <tr>
+          <td>
+            ILL Electronic (email)
+          </td>
+          <td>
+            <%= data['ILL_Electronic_email'] %>
+          </td>
+          <td></td>
+        </tr>
+      <% end %>
+      <% if data['ILL_Record_Keeping'].present? || data['ILL_Record_Keeping_Note'].present? %>
+        <tr>
+          <td>
+            ILL Record Keeping
+          </td>
+          <td>
+            <%= data['ILL_Record_Keeping'] %>
+          </td>
+          <td>
+            <%= data['ILL_Record_Keeping_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['Course_Reserve'].present? || data['Course_Reserve_Note'].present? %>
+        <tr>
+          <td>
+            Course Reserve
+          </td>
+          <td>
+            <%= data['Course_Reserve'] %>
+          </td>
+          <td>
+            <%= data['Course_Reserve_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['Electronic_Link'].present? || data['Electonic_Link_Note'].present? %>
+        <tr>
+          <td>
+            Electronic Link
+          </td>
+          <td>
+            <%= data['Electronic_Link'] %>
+          </td>
+          <td>
+            <%= data['Electronic_Link_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['Course_Pack_Print'].present? %>
+        <tr>
+          <td>
+            Course Pack Print
+          </td>
+          <td>
+            <%= data['Course_Pack_Print'] %>
+          </td>
+          <td>
+            <%= data['Course_Pack_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['Course_Pack_Electronic'].present? %>
+        <tr>
+          <td>
+            Course Pack Electronic
+          </td>
+          <td>
+            <%= data['Course_Pack_Electronic'] %>
+          </td>
+          <td>
+            <%= data['Course_Pack_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      <% if data['Other_Use_Restrictions_Public_Note'].present? %>
+        <tr>
+          <td>
+            Other Use Restrictions
+          </td>
+          <td colspan="2">
+            <%= data['Other_Use_Restrictions_Public_Note'] %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

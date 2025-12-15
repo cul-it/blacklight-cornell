@@ -1,0 +1,33 @@
+<html lang="en">
+    <body>
+    <%- if @message.present? -%>
+        <p><%= t('blacklight.email.text.message', :message => @message) %><p>
+        <p>---</p>
+    <%- end -%>
+
+    <% @documents.each_with_index do |document, index| %>
+        <% semantics = document.to_semantic_values %>
+        <p><strong><a href="<%= polymorphic_url(document, {:only_path => false}.merge(@url_gen_params)) %>">
+        <% if semantics[:title].present? %>
+            <%= semantics[:title].join(" ") %>
+        <% else %>
+            <%= t('blacklight.email.text.subject') %>
+        <% end %>
+        </a></strong></p>
+        <%= render_email_field(semantics, "author") %>
+        <%= render_email_field(semantics, "format") %>
+        <%= render_email_field(semantics, "language") %>
+        <% if @availability[index].present? %>
+            <p><%= t('blacklight.email.text.availability') %></p>
+            <ul>
+            <% @availability[index].each do |avail| %>
+                <li><%= avail['location'] %> <%= avail['callnumber'] %>: <%= avail['status'] %></li>
+            <% end %>
+            </ul>
+        <% end %>
+        <% if index < @documents.length - 1 %>
+            <p>---</p>
+        <% end %>
+    <% end %>
+    </body>
+</html>

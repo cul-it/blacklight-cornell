@@ -1,0 +1,30 @@
+<%# New Terms of Use page %>
+
+<%= render :partial => 'databases_search_form' %>
+<% if @newTouResult.present? %>
+  <div class="row database-subject">
+    <div class="page-title col-sm-12">
+      <div class="return-link">
+        <% if !@db.present? %>
+          <%= @defaultRightsText.to_s %>
+          <br>
+        <% end %>
+        <%= link_to "/databases" do %>
+          <i class="fa fa-arrow-circle-left"></i>
+          Back to Databases
+        <% end %>
+      </div>
+        <h2>
+          Terms of Use
+        </h2>
+    </div>
+  </div>
+  <%= render partial: 'databases/shared/db_data', locals: { db: @db } %>
+  <div class="resources">
+    <div class="document blacklight-database-name clearfix">
+      <div class="document-data">
+        <%= render partial: 'table_new_tou_result', locals: { newTouResult: @newTouResult } %>
+      </div>
+    </div>
+  </div>
+<% end %>

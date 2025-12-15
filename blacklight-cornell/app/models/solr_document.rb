@@ -1,11 +1,10 @@
-# froozen_string_literal: true
 class SolrDocument
 
   include Blacklight::Solr::Document    
       # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_display
   extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Solr::Document::Marc) do |document|
+  use_extension( Blacklight::Marc::DocumentExtension) do |document|
     document.key?( :marc_display  )
   end
   
@@ -15,23 +14,6 @@ class SolrDocument
                          :language => "language_facet",
                          :format => "format"
                          )
-
-
-      # The following shows how to setup this blacklight document to display marc documents
-  extension_parameters[:marc_source_field] = :marc_display
-  extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Solr::Document::Marc) do |document|
-    document.key?( :marc_display  )
-  end
-
-  field_semantics.merge!(
-                         :title => "title_display",
-                         :author => "author_display",
-                         :language => "language_facet",
-                         :format => "format"
-                         )
-
-
 
   # self.unique_key = 'id'
 
@@ -48,10 +30,10 @@ class SolrDocument
   # Recommendation: Use field names from Dublin Core
   use_extension( Blacklight::Document::DublinCore)
 # all of these require MARC format data.
-  use_extension( Blacklight::Solr::Document::RIS )
-  use_extension( Blacklight::Solr::Document::Zotero )
-  use_extension( Blacklight::Solr::Document::Endnote )
-  use_extension( Blacklight::Solr::Document::Endnote_xml )
+  use_extension( Blacklight::Document::Ris )
+  use_extension( Blacklight::Document::Zotero )
+  use_extension( Blacklight::Document::Endnote )
+  use_extension( Blacklight::Document::EndnoteXml )
 
   # i believe that the 520 should be interpreted as ABSTRACT
   # only when indicator1 is "3", but indicator seems to be rarely present.
@@ -64,7 +46,7 @@ class SolrDocument
       end
       text << textstr
     end
-   Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{text[0]}"
+
    text
   end
 
@@ -111,25 +93,23 @@ class SolrDocument
       end
       text << textstr
     end
-   Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{text[0]}"
+
     text
   end
 
   def setup_holdings_info(record)
     where = []
     if (self["holdings_json"].present?)
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} self[h_j] = #{self['holdings_json'].inspect}"
       holdings_json = JSON.parse(self["holdings_json"])
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_json = #{holdings_json}"
       holdings_keys = holdings_json.keys
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_keys = #{holdings_keys}"
+
       where = holdings_keys.collect do
         | k |
         l = holdings_json[k]
         "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
        end
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} where = #{where.inspect}"
+
     where
   end
 
@@ -151,7 +131,20 @@ class SolrDocument
     nil
   end
 
+  #TODO: This will be used later for https://culibrary.atlassian.net/browse/DACCESS-706
+  # To support exports of folio records
   def folio_record?
     self['source'].to_s.strip.casecmp?('folio')
+  end
+
+  def exportable_marc_record?
+    if self['source'].to_s.strip.casecmp?('MARC') && self['marc_display'].present?
+      true
+    else
+      # :nocov
+        Rails.logger.warn("exportable_marc_record? => FALSE for doc id=#{self['id']} source=#{self['source']}")
+      # :nocov
+      false
+    end
   end
 end

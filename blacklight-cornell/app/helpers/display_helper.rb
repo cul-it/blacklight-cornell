@@ -138,7 +138,6 @@ module DisplayHelper
   # otherwise, it does same as render_index_field_value
   # ----------------------------------------------------------------------------
   def render_pair_delimited_index_field_value args
-    Rails.logger.info("RENDER_PAIR_...")
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]
@@ -625,7 +624,6 @@ module DisplayHelper
       if @add_row_style == :text
         out << s[0] # if displaying plain text, do not include links
       else
-        Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
         case category
         when :all
           q = '"' + s[1] + '"'
@@ -847,7 +845,7 @@ module DisplayHelper
   end
 
   def is_exportable document
-    return false if document.folio_record?
+    return false unless document.exportable_marc_record?
     if document.present? && document.export_formats.present?
       if document.export_formats.keys.include?(:ris) || document.export_formats.keys.include?(:endnote)
         return true
@@ -1162,6 +1160,16 @@ module DisplayHelper
     end
     result.to_sentence.html_safe
   end
+
+  def access_titleid(args)
+    raw = args["url_access_json"]
+    return nil if raw.blank?
+
+    first = raw.is_a?(Array) ? raw.first : raw
+    parsed = first.is_a?(String) ? (JSON.parse(first) rescue nil) : first
+    parsed.is_a?(Hash) ? parsed["titleid"] : nil
+  end
+
 
   def access_url_is_list?(args)
     args['url_access_json'].present? && args['url_access_json'].size != 1
