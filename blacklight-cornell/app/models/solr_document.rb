@@ -51,7 +51,7 @@ class SolrDocument
       text << textstr
     end
 
-   text
+    text
   end
 
   def setup_kw_info(record)
@@ -60,15 +60,15 @@ class SolrDocument
       textstr = ''
       field.each do  |sf|
         textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code)
-       end unless field.indicator2 == '7'
-       text << textstr
+        end unless field.indicator2 == '7'
+        text << textstr
     end
     record.find_all{|f| f.tag === "600" }.each do |field|
       textstr = ''
       field.each do  |sf|
         textstr << sf.value + ' ' unless ["0","2","6"].include?(sf.code)
-       end if  (field.indicator2 == '0' or field.indicator2 == '1')
-       text << textstr
+        end if  (field.indicator2 == '0' or field.indicator2 == '1')
+        text << textstr
     end
     text
   end
@@ -111,7 +111,7 @@ class SolrDocument
         | k |
         l = holdings_json[k]
         "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
-       end
+      end
     end
 
     where
