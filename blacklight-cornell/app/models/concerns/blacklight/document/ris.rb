@@ -107,6 +107,8 @@ module Blacklight::Document::Ris
     place = ''
     if !pub_data.nil?
       place, publisher = pub_data.split(':')
+      place = place.strip if place
+      publisher = publisher.strip if publisher
     end
     if !thdata.blank?
        publisher = thdata[:inst].to_s  #unless !publisher.blank?
