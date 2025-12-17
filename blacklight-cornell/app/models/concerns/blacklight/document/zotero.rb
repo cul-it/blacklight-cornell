@@ -16,23 +16,26 @@ module Blacklight::Document::Zotero
   end
 
   def generate_rdf_zotero
-    about = "http://catalog.library.cornell.edu/catalog/#{id}"
-    title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
+    marc_record = get_marc_record_for_export
+    title = "#{clean_end_punctuation(setup_title_info(marc_record))}"
     fmt = self['format'].first
     ty = "book"
+
     if (FACET_TO_ZOTERO_TYPE.keys.include?(fmt))
       ty =  "#{FACET_TO_ZOTERO_TYPE[fmt]}"
     end
+
     tag = case ty
-       when 'videoRecording'
-        "Recording"
-       when  'audioRecording'
-        "Recording"
-       when  'map'
-        "Image"
-      else
-        "Book"
-      end
+          when 'videoRecording'
+            "Recording"
+          when 'audioRecording'
+            "Recording"
+          when 'map'
+            "Image"
+          else
+            "Book"
+          end
+
     builder = Builder::XmlMarkup.new(:indent => 2,:margin => 4)
     builder.tag!("rdf:RDF",
     'xmlns:rdf' => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -46,20 +49,20 @@ module Blacklight::Document::Zotero
       builder.bib(tag.to_sym) do
         builder.z(:itemType,"#{ty}")
         builder.dc(:title, title.strip)
-        generate_rdf_authors(builder,ty)
-        generate_rdf_publisher(builder,ty)
-        generate_rdf_pubdate(builder)
-        generate_rdf_edition(builder)
+        generate_rdf_authors(builder, ty, marc_record)
+        generate_rdf_publisher(builder, ty, marc_record)
+        generate_rdf_pubdate(builder, marc_record)
+        generate_rdf_edition(builder, marc_record)
         generate_rdf_language(builder)
-        generate_rdf_kw(builder)
-        generate_rdf_abstract(builder)
+        generate_rdf_kw(builder, marc_record)
+        generate_rdf_abstract(builder, marc_record)
         generate_rdf_url(builder)
-        generate_rdf_isbn(builder)
-        generate_rdf_doi(builder)
+        generate_rdf_isbn(builder, marc_record)
+        generate_rdf_doi(builder, marc_record)
         generate_rdf_holdings(builder)
-        generate_rdf_medium(builder,ty)
-        generate_rdf_catlink(builder,ty)
-        generate_rdf_specific(builder,ty)
+        generate_rdf_medium(builder, ty, marc_record)
+        generate_rdf_catlink(builder)
+        generate_rdf_specific(builder, ty, marc_record)
       end
     end
 
@@ -77,8 +80,8 @@ module Blacklight::Document::Zotero
   end
     #<dcterms:abstract>Backup of websites is often not considered until </dcterms:abstract>
 
-  def generate_rdf_abstract(b)
-    k = setup_abst_info(to_marc)
+  def generate_rdf_abstract(b, record)
+    k = setup_abst_info(record)
     b.dcterms(:abstract,k.join(' ')) unless k.blank?
   end
 #        <dc:coverage>http://catalog.library.cornell.edu/catalog/1001</dc:coverage>
@@ -89,13 +92,13 @@ module Blacklight::Document::Zotero
 #          <dcterms:LCC><rdf:value>BF23.11.19</rdf:value></dcterms:LCC>
 #       </dc:subject>`
 
-  def generate_rdf_medium(b,ty)
+  def generate_rdf_medium(b, ty, record)
       if ty == 'audioRecording'
-        medium = setup_medium(to_marc,'song')
+        medium = setup_medium(record,'song')
         b.tag!("z:medium",medium)  unless medium.blank?
       end
       if ty == 'videoRecording'
-        medium = setup_medium(to_marc,'song')
+        medium = setup_medium(record,'song')
         b.tag!("z:medium",medium)  unless medium.blank?
       end
   end
@@ -107,38 +110,38 @@ module Blacklight::Document::Zotero
 
 
     #<dc:identifier>ISBN 978-1-57027-139-7</dc:identifier>
-  def generate_rdf_isbn(b)
-    isbns = setup_isbn_info(to_marc)
+  def generate_rdf_isbn(b, record)
+    isbns = setup_isbn_info(record)
     isbns.each do |k|
       b.dc(:identifier,"ISBN #{k}") unless k.blank?
     end
   end
     #<dc:identifier>DOI 10.1371/journal.pone.0118512</dc:identifier>
-  def generate_rdf_doi(b)
-    doi = setup_doi(to_marc)
+  def generate_rdf_doi(b, record)
+    doi = setup_doi(record)
     b.dc(:description,"DOI #{doi}") unless doi.blank?
     b.dc(:description,"just some random text") unless doi.blank?
   end
 
     # edition
     # <prism:edition>3rd. ed</prism:edition>
-  def generate_rdf_edition(b)
-    et =  setup_edition(to_marc)
+  def generate_rdf_edition(b, record)
+    et = setup_edition(record)
     b.prism(:edition,et) unless et.blank?
   end
     #<dc:subject>
     #  <z:AutomaticTag><rdf:value>Social aspects</rdf:value></z:AutomaticTag>
     #</dc:subject>
-  def generate_rdf_kw(b)
-    kw =   setup_kw_info(to_marc)
+  def generate_rdf_kw(b, record)
+    kw = setup_kw_info(record)
     kw.each do |k|
       b.dc(:subject,k) unless k.empty?
     end
   end
 
-  def generate_rdf_publisher(b,ty)
+  def generate_rdf_publisher(b, ty, record)
     # publisher
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    pub_data = setup_pub_info(record) # This function combines publisher and place
     place = ''
     pname = ''
     if !pub_data.nil?
@@ -147,7 +150,7 @@ module Blacklight::Document::Zotero
       # publication place
     end
     if ty == 'thesis'
-      th = setup_thesis_info(to_marc)
+      th = setup_thesis_info(record)
       pname = th[:inst].to_s
     end
     b.dc(:publisher) {
@@ -170,9 +173,9 @@ module Blacklight::Document::Zotero
     end
   end
 
-  def generate_rdf_pubdate(b)
+  def generate_rdf_pubdate(b, record)
     # publication year
-    yr  = "#{setup_pub_date(to_marc)}"
+    yr = "#{setup_pub_date(record)}"
     b.dc(:date,yr) unless yr.empty?
   end
 
@@ -186,10 +189,10 @@ module Blacklight::Document::Zotero
     end
    end
 
-  def generate_rdf_authors(bld,ty)
+  def generate_rdf_authors(bld, ty, record)
     # Handle authors
-    authors = get_all_authors(to_marc)
-    relators =  get_contrib_roles(to_marc)
+    authors = get_all_authors(record)
+    relators = get_contrib_roles(record)
     primary_authors = authors[:primary_authors]
 
     if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
@@ -197,7 +200,6 @@ module Blacklight::Document::Zotero
     end
 
     secondary_authors = authors[:secondary_authors]
-    meeting_authors = authors[:meeting_authors]
     secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     editors = authors[:editors]
@@ -241,16 +243,17 @@ module Blacklight::Document::Zotero
     end
   end
 
-  def generate_rdf_catlink(b,ty)
+  def generate_rdf_catlink(b)
     ul =  "http://catalog.library.cornell.edu/catalog/#{id}"
     # if no elect access data, 'description' field.
     b.dc(:description,ul)
   end
+
   # add info specific to an item type.
-  def generate_rdf_specific(b,ty)
+  def generate_rdf_specific(b, ty, record)
     case ty
       when 'thesis'
-        th = setup_thesis_info(to_marc)
+        th = setup_thesis_info(record)
         typ = th[:type].to_s
         b.z(:type,typ)
       else
