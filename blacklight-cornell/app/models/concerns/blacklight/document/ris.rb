@@ -58,11 +58,13 @@ module Blacklight::Document::Ris
     end
     output = ty
 
+    marc_record = get_marc_record_for_export
+
     # Handle title
-    output += "TI  - #{clean_end_punctuation(setup_title_info(to_marc))}\n"
+    output += "TI  - #{clean_end_punctuation(setup_title_info(marc_record))}\n"
 
     # Handle authors
-    authors = get_all_authors(to_marc)
+    authors = get_all_authors(marc_record)
     # authors can contain primary_authors, editors, translators, and compilers
     # each one is an array. Oddly, though, RIS format doesn't seem to provide
     # for anything except 'author'
@@ -94,14 +96,14 @@ module Blacklight::Document::Ris
     end
 
     # publication year
-    output += "PY  - #{setup_pub_date(to_marc)}\n"
+    output += "PY  - #{setup_pub_date(marc_record)}\n"
 
     # publisher, and treatment of thesis publisher.
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    pub_data = setup_pub_info(marc_record) # This function combines publisher and place
     publisher = ''
     thtype = ''
     thdata =  {}
-    thdata = setup_thesis_info(to_marc) unless !(fmt == 'Thesis')
+    thdata = setup_thesis_info(marc_record) unless !(fmt == 'Thesis')
     place = ''
     if !pub_data.nil?
       place, publisher = pub_data.split(':')
@@ -114,7 +116,7 @@ module Blacklight::Document::Ris
     output += "CY  - #{place}\n" unless place.blank?
     output += "M3  - #{thtype}\n" unless thtype.blank?
     # edition
-    et =  setup_edition(to_marc)
+    et = setup_edition(marc_record)
     output += "ET  - #{et}\n" unless et.blank?
     # language
     if !self["language_facet"].blank?
@@ -127,23 +129,23 @@ module Blacklight::Document::Ris
     end
     output += "M2  - http://catalog.library.cornell.edu/catalog/#{id}\n"
     output += "N1  - http://catalog.library.cornell.edu/catalog/#{id}\n"
-    output += (setup_doi(to_marc).blank? ? "" : "DO  - #{setup_doi(to_marc)}\n"  )
-    kw =   setup_kw_info(to_marc)
+    output += (setup_doi(marc_record).blank? ? "" : "DO  - #{setup_doi(marc_record)}\n"  )
+    kw = setup_kw_info(marc_record)
     kw.each do |k|
 
       output +=  "KW  - #{k}" + "\n" unless k.empty?
     end
-    nt =   setup_notes_info(to_marc)
+    nt = setup_notes_info(marc_record)
     nt.each do |n|
       output +=  "N1  - #{n}" + "\n"
     end
-    nt =   setup_abst_info(to_marc)
+    nt = setup_abst_info(marc_record)
     nt.each do |n|
       output +=  "N2  - #{n}" + "\n"
     end
-    nt =   setup_holdings_info(to_marc)
+    nt = setup_holdings_info(marc_record)
     output +=  "CN  - #{nt.join(' ')}" + "\n" unless nt.join('').blank?
-    nt =   setup_isbn_info(to_marc)
+    nt = setup_isbn_info(marc_record)
     output +=  "SN  - #{nt.join(' ')}" + "\n" unless nt.join('').blank?
     # closing tag
     output += "ER  - \n"

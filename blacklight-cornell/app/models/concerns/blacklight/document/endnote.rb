@@ -42,7 +42,8 @@ module Blacklight::Document::Endnote
       "250.a" => "%7"
     }
 
-    marc_obj = to_marc
+    marc_record = get_marc_record_for_export
+
     # TODO. This should be rewritten to guess
     # from actual Marc instead, probably.
     fmt_str = 'Generic'
@@ -72,8 +73,8 @@ module Blacklight::Document::Endnote
         second_value = []
       end
 
-      if marc_obj[first_value[0].to_s]
-        marc_obj.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
+      if marc_record[first_value[0].to_s]
+        marc_record.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
           if field[first_value[1]].to_s or field[second_value[1]].to_s
             text << "#{etag.gsub('_','')}"
             if field[first_value[1]].to_s
@@ -92,7 +93,7 @@ module Blacklight::Document::Endnote
     #"260.b" => "%I" ,
     #"264.b" => "%I" ,
     # publisher, and place.
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    pub_data = setup_pub_info(marc_record) # This function combines publisher and place
     place = ''
     pname = ''
     if !pub_data.nil?
@@ -103,9 +104,9 @@ module Blacklight::Document::Endnote
 
     #"264.c" => "%D" ,
     #"260.c" => "%D" ,
-    pdate = setup_pub_date(to_marc)
+    pdate = setup_pub_date(marc_record)
     if ty == 'Thesis'
-      th = setup_thesis_info(to_marc)
+      th = setup_thesis_info(marc_record)
       pname = th[:inst].to_s
       pdate = th[:date].to_s unless th[:date].blank?
       thtype = th[:type].to_s
@@ -115,31 +116,33 @@ module Blacklight::Document::Endnote
     text << "%C #{place}\n" unless  place.blank?
     text << "%D #{pdate}\n" unless  pdate.blank?
     # "024.a" => "%R" ,
-    doi = setup_doi(to_marc)
+    doi = setup_doi(marc_record)
     text << "%R #{doi}\n" unless  doi.blank?
     ul = access_url_first_filtered(self)
     #"856.u" => "%U" ,
     text << "%U #{ul}\n"  unless ul.blank?
-    where = setup_holdings_info(to_marc)
+    where = setup_holdings_info(marc_record)
     text << "%L  #{where.join('//')}\n"  unless where.blank? or where.join("").blank?
     text += "%Z http://catalog.library.cornell.edu/catalog/#{id}\n"
-    text = generate_en_keywords(text,ty)
+    text = generate_en_keywords(text, marc_record)
     # add a blank line to separate from possible next.
     text << "\n"
 
     text
   end
 
-  def generate_en_keywords(text,ty)
-    kw =   setup_kw_info(to_marc)
-
+  def generate_en_keywords(text, record)
+    kw = setup_kw_info(record)
     kw.each do |k|
           text += "%K #{k}\n"   unless k.blank?
     end unless kw.blank?
     text
   end
+end
 
-#Examples
+########################################################################################################################
+## Examples  ##
+###############
 #%0  Book
 #%A  Geoffrey Chaucer
 #%D  1957
@@ -164,8 +167,6 @@ module Blacklight::Document::Endnote
 #  %I   University of California, Berkeley
 #  %9  Dissertation
 #
-
-end
 
 # documentation --
 #https://www.citavi.com/sub/manual5/en/importing_an_endnote_tagged_file.html

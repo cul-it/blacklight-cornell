@@ -68,7 +68,9 @@ module Blacklight::Document::EndnoteXml
   def export_as_endnote_xml()
     return nil unless exportable_record?
 
-    title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
+    marc_record = get_marc_record_for_export
+
+    title = "#{clean_end_punctuation(setup_title_info(marc_record))}"
     fmt = self['format'].first
     num_ty = "0";
     ty = "Book"
@@ -85,23 +87,23 @@ module Blacklight::Document::EndnoteXml
           builder.database("MyLibrary")
           builder.tag!("source-app","Cornell University Library","name" => "CULIB")
           builder.tag!("ref-type",num_ty,"name" => ty)
-          generate_enx_contributors(builder,ty)
+          generate_enx_contributors(builder, marc_record)
           builder.titles() do
             builder.title(title)
           end
-          generate_enx_edition(builder,ty)
-          generate_enx_keywords(builder,ty)
-          generate_enx_dates(builder,ty)
-          generate_enx_location(builder,ty)
-          generate_enx_publisher(builder,ty)
-          generate_enx_isbn(builder,ty)
-          generate_enx_callnum(builder,ty)
-          generate_enx_doi(builder,ty)
-          generate_enx_abstract(builder,ty)
-          generate_enx_notes(builder,ty)
-          generate_enx_work_type(builder,ty)
-          generate_enx_language(builder,ty)
-          generate_enx_urls(builder,ty)
+          generate_enx_edition(builder, marc_record)
+          generate_enx_keywords(builder,marc_record)
+          generate_enx_dates(builder, marc_record)
+          generate_enx_location(builder,marc_record)
+          generate_enx_publisher(builder, ty, marc_record)
+          generate_enx_isbn(builder, marc_record)
+          generate_enx_callnum(builder)
+          generate_enx_doi(builder, marc_record)
+          generate_enx_abstract(builder, marc_record)
+          generate_enx_notes(builder, marc_record)
+          generate_enx_work_type(builder, ty, marc_record)
+          generate_enx_language(builder)
+          generate_enx_urls(builder, ty)
         end
       end
     end
@@ -110,37 +112,31 @@ module Blacklight::Document::EndnoteXml
     text2
   end
   #<work-type>Ph.D.dissertation</work-type>
-  def generate_enx_work_type(bld,ty)
+  def generate_enx_work_type(bld,ty, record)
     if ty == 'Thesis'
-      thdata =   setup_thesis_info(to_marc)
+      thdata = setup_thesis_info(record)
       bld.tag!("work-type",thdata[:type].to_s)
     end
   end
 
-  #
-  #nt =   setup_notes_info(to_marc)
-  #131     nt.each do |n|
-  #132       output +=  "N1  - #{n}" + "\n"
-  #133     end
-  #
-  def generate_enx_notes(bld,ty)
-    nt =   setup_notes_info(to_marc)
+  def generate_enx_notes(bld, record)
+    nt =   setup_notes_info(record)
     nt <<  "http://catalog.library.cornell.edu/catalog/#{id}\n"
     bld.notes(nt.join(" ")) unless nt.blank? or nt.join("").blank?
   end
 
-  def generate_enx_edition(bld,ty)
-     et =  setup_edition(to_marc)
+  def generate_enx_edition(bld, record)
+     et = setup_edition(record)
      bld.edition(et) unless et.blank?
   end
 
-  def generate_enx_callnum(bld,ty)
+  def generate_enx_callnum(bld)
     where = setup_holdings_info(bld)
     bld.tag!("call-num", where.join("//")) unless where.blank? or where.join("").blank?
   end
 
-  def generate_enx_keywords(bld,ty)
-    kw =   setup_kw_info(to_marc)
+  def generate_enx_keywords(bld, record)
+    kw = setup_kw_info(record)
 
     bld.keywords do
       kw.each do |k|
@@ -149,8 +145,8 @@ module Blacklight::Document::EndnoteXml
     end unless kw.blank?
   end
 
-  def generate_enx_abstract(bld,ty)
-    k = setup_abst_info(to_marc)
+  def generate_enx_abstract(bld, record)
+    k = setup_abst_info(record)
     bld.abstract(k.join(' ')) unless k.blank?
   end
   def generate_enx_urls(bld,ty)
@@ -158,27 +154,26 @@ module Blacklight::Document::EndnoteXml
     bld.urls() { bld.tag!("web-urls") { bld.url(ul)}}  unless ul.blank?
   end
 
-  def generate_enx_language(bld,ty)
+  def generate_enx_language(bld)
     if !self["language_facet"].blank?
-      self["language_facet"].map{|la|  bld.language(la)
-      }
+      self["language_facet"].map{|la|  bld.language(la) }
     end
   end
 
   #<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>
-  def generate_enx_doi(bld,ty)
-     doi = setup_doi(to_marc)
+  def generate_enx_doi(bld, record)
+     doi = setup_doi(record)
      bld.tag!("electronic-resource-num",doi) unless doi.blank?
   end
 
-  def generate_enx_isbn(bld,ty)
-    isbns = setup_isbn_info(to_marc)
+  def generate_enx_isbn(bld, record)
+    isbns = setup_isbn_info(record)
     bld.isbn(isbns.join(" ; "))   unless isbns.blank?
   end
 
-  def generate_enx_location(bld,ty)
+  def generate_enx_location(bld, record)
     # publisher
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    pub_data = setup_pub_info(record) # This function combines publisher and place
     place = ''
     pname = ''
     if !pub_data.nil?
@@ -188,9 +183,9 @@ module Blacklight::Document::EndnoteXml
     end
   end
 
-  def generate_enx_publisher(bld,ty)
+  def generate_enx_publisher(bld,ty, record)
     # publisher
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
+    pub_data = setup_pub_info(record) # This function combines publisher and place
     place = ''
     pname = ''
     if !pub_data.nil?
@@ -199,7 +194,7 @@ module Blacklight::Document::EndnoteXml
       pname = "#{publisher.strip!}" unless publisher.nil?
     end
     if ty == 'Thesis' and pname.blank?
-      th = setup_thesis_info(to_marc)
+      th = setup_thesis_info(record)
       pname = th[:inst].to_s
     end
     bld.publisher(pname) unless pname.blank?
@@ -212,10 +207,10 @@ module Blacklight::Document::EndnoteXml
   #  </pub-dates>
   #  </dates>
   #
-  def generate_enx_dates(bld,ty)
-    yr  = "#{setup_pub_date(to_marc)}"
+  def generate_enx_dates(bld, record)
+    yr  = "#{setup_pub_date(record)}"
     if !yr.empty?
-      bld.dates() do
+      bld.dates do
         bld.year(yr)
         bld.tag!("pub-dates") do
           bld.date(yr)
@@ -224,27 +219,21 @@ module Blacklight::Document::EndnoteXml
     end
   end
 
-  #TODO: Look into get_contrib_roles method closer before cleaning out: Jira ticket - https://culibrary.atlassian.net/browse/DACCESS-766
-  def generate_enx_contributors(bld,ty)
-    authors = get_all_authors(to_marc)
-    relators =  get_contrib_roles(to_marc)
-    # :nocov:
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
-    # :nocov:
+  def generate_enx_contributors(bld, record)
+    authors = get_all_authors(record)
     primary_authors = authors[:primary_authors]
+
     if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
       primary_authors = authors[:primary_corporate_authors]
     end
+
     secondary_authors = authors[:secondary_authors]
-    meeting_authors = authors[:meeting_authors]
-    #secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
-    #primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     editors = authors[:editors]
     pa = primary_authors.blank? ? secondary_authors : primary_authors
 
-    bld.contributors() do
+    bld.contributors do
       if !pa.blank?
-        bld.authors() do
+        bld.authors do
           pa.map { |a| bld.author(a) }
         end
       end
@@ -253,7 +242,6 @@ module Blacklight::Document::EndnoteXml
           editors.map { |a| bld.author(a) }
         end
       end
-
     end
   end
 end
