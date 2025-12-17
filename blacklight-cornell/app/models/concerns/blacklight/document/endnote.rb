@@ -30,7 +30,7 @@ module Blacklight::Document::Endnote
    }
 
   def export_as_endnote()
-    return nil unless exportable_marc_record?
+    return nil unless exportable_record?
 
     end_note_format = {
       "100.a" => "%A" ,
