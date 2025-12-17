@@ -172,7 +172,7 @@ describe Blacklight::Marc::DocumentExport do
       expect(ris_entries["TY"]).to eq(Set.new(["SOUND"]))
       expect(ris_entries["TI"]).to eq(Set.new(["Music for horn"]))
       expect(ris_entries["PY"]).to eq(Set.new(["2001"]))
-      expect(ris_entries["PB"]).to eq(Set.new([" Harmonia Mundi USA"]))
+      expect(ris_entries["PB"]).to eq(Set.new(["Harmonia Mundi USA"]))
       expect(ris_entries["CY"]).to eq(Set.new(["[United States]"]))
       expect(ris_entries["M2"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/"]))
       expect(ris_entries["N1"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/"]))
@@ -193,7 +193,7 @@ describe Blacklight::Marc::DocumentExport do
       expect(ris_entries["M2"]).to eq(Set.new(["http://catalog.library.cornell.edu/catalog/1001"]))
       expect(ris_entries["PY"]).to eq(Set.new(["1985"]))
       expect(ris_entries["KW"]).to eq(Set.new(["Anthropologists' writings, American. ", "Anthropology Poetry. ", "American poetry 20th century. ", "Anthropologists' writings, English. ", "English poetry 20th century. "]))
-      expect(ris_entries["PB"]).to eq(Set.new([" American Anthropological Association"]))
+      expect(ris_entries["PB"]).to eq(Set.new(["American Anthropological Association"]))
       expect(ris_entries["CY"]).to eq(Set.new(["Washington, D.C."]))
       expect(ris_entries["SN"]).to eq(Set.new(["091316710X  "]))
       expect(ris_entries["CN"]).to eq(Set.new(["Library Annex  PS591.A58 R33"]))
@@ -214,7 +214,7 @@ describe Blacklight::Marc::DocumentExport do
       expect(ris_entries["AU"]).to eq(Set.new(["Company for Propagation of the Gospel in New England and the Parts Adjacent in America"]))
       expect(ris_entries["TI"]).to eq(Set.new(["Mamusse wunneetupanatamwe Up-Biblum God naneeswe Nukkone Testament kah wonk Wusku Testament"]))
       expect(ris_entries["PY"]).to eq(Set.new(["1685"]))
-      expect(ris_entries["PB"]).to eq(Set.new([" Printeuoop nashpe Samuel Green."]))
+      expect(ris_entries["PB"]).to eq(Set.new(["Printeuoop nashpe Samuel Green."]))
       expect(ris_entries["LA"]).to eq(Set.new(["Algonquian (Other)"]))
       expect(ris_entries["CY"]).to eq(Set.new(["Cambridge [Mass.]."]))
       expect(ris_entries["UR"]).to eq(Set.new(["http://opac.newsbank.com/select/evans/385"]))
@@ -380,23 +380,23 @@ describe Blacklight::Marc::DocumentExport do
           "endnote_xml" => { "author" => "author>Gauger, Wilhelm Peter Joachim</author>", "year" => "<date>1965</date>", "publisher" => "<publisher>Ernst-Reuter-Gesellschaft</publisher>", "place" => "pub-location>Berlin</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Gauger</foaf:surname>", "year" => "<dc:date>1965</dc:date>", "publisher" => "<foaf:name>Freie Universität Berlin</foaf:name>", "place" => "<vcard:locality>Berlin</vcard:locality>" } }
       ti_data["3261564"] =
-        { "ris" => { "author" => "AU  - Cakrabarttī, Utpalendu", "year" => "PY  - 1983", "publisher" => "PB  -  INRECO", "place" => "CY  - Calcutta" },
+        { "ris" => { "author" => "AU  - Cakrabarttī, Utpalendu", "year" => "PY  - 1983", "publisher" => "PB  - INRECO", "place" => "CY  - Calcutta" },
           "endnote" => { "author" => "%A Cakrabarttī, Utpalendu", "year" => "%D 1983", "publisher" => "%I INRECO", "place" => "%C Calcutta" },
           "endnote_xml" => { "author" => "<author>Cakrabarttī, Utpalendu</author>", "year" => "<year>1983</year>", "publisher" => "<publisher>INRECO</publisher>", "place" => "<pub-location>Calcutta</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Cakrabarttī</foaf:surname>", "year" => "<dc:date>1983</dc:date>", "publisher" => "<foaf:name>INRECO</foaf:name>", "place" => "<vcard:locality>Calcutta</vcard:locality>" } }
       ti_data["6788245"] =
-        { "ris" => { "author" => "AU  - Warner Bros. Pictures", "year" => "PY  - 2009", "publisher" => "PB  -  Warner Home Video", "place" => "CY  - Burbank, CA" },
+        { "ris" => { "author" => "AU  - Warner Bros. Pictures", "year" => "PY  - 2009", "publisher" => "PB  - Warner Home Video", "place" => "CY  - Burbank, CA" },
           "endnote" => { "author" => "%E Radcliffe, Daniel", "year" => "%D 2009", "publisher" => "%I Warner Home Video", "place" => "%C Burbank, CA" },
           "endnote_xml" => { "author" => "<author>Radcliffe, Daniel</author>", "year" => "<year>2009</year>", "publisher" => "<publisher>Warner Home Video</publisher>", "place" => "<pub-location>Burbank, CA</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Radcliffe</foaf:surname>", "year" => "<dc:date>2009</dc:date>", "publisher" => "<foaf:name>Warner Home Video</foaf:name>", "place" => "<vcard:locality>Burbank, CA</vcard:locality>" } }
 
       ti_data["9939352"] =
-        { "ris" => { "author" => "AU  - Gray, Afsaneh", "year" => "PY  - 2017", "publisher" => "PB  -  Oberon Books", "place" => "CY  - London" },
+        { "ris" => { "author" => "AU  - Gray, Afsaneh", "year" => "PY  - 2017", "publisher" => "PB  - Oberon Books", "place" => "CY  - London" },
           "endnote" => { "author" => "%A Gray, Afsaneh", "year" => "%D 2017", "publisher" => "%I Oberon Books", "place" => "%C London" },
           "endnote_xml" => { "author" => "author>Gray, Afsaneh</author>", "year" => "<date>2017</date>", "publisher" => "publisher>Oberon Books</publisher>", "place" => "pub-location>London</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Gray</foaf:surname>", "year" => "<dc:date>2017</dc:date>", "publisher" => "<foaf:name>Oberon Books</foaf:name>", "place" => "<vcard:locality>London</vcard:locality>" } }
       ti_data["9496646"] =
-        { "ris" => { "author" => "AU  - Bindal, Ahmet", "year" => "PY  - 2016", "publisher" => "PB  -  Springer International Publishing", "place" => "CY  - Cham" },
+        { "ris" => { "author" => "AU  - Bindal, Ahmet", "year" => "PY  - 2016", "publisher" => "PB  - Springer International Publishing", "place" => "CY  - Cham" },
           "endnote" => { "author" => "%A Bindal, Ahmet", "year" => "%D 2016", "publisher" => "%I Springer International Publishing", "place" => "%C Cham" },
           "endnote_xml" => { "author" => "<author>Bindal, Ahmet</author>", "year" => "<year>2016</year>", "publisher" => "<publisher>Springer International Publishing</publisher>", "place" => "<pub-location>Cham</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Bindal</foaf:surname>", "year" => "<dc:date>2016</dc:date>", "publisher" => "<foaf:name>Springer International Publishing</foaf:name>", "place" => "<vcard:locality>Cham</vcard:locality>" } }
