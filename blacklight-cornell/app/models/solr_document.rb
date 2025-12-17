@@ -9,7 +9,7 @@ class SolrDocument
   extension_parameters[:marc_source_field] = :marc_display
   extension_parameters[:marc_format_type] = :marcxml
   use_extension( Blacklight::Marc::DocumentExtension) do |document|
-    document.key?( :marc_display  )
+    document.marc_record? || document.folio_record?
   end
   
   field_semantics.merge!(    
@@ -135,21 +135,11 @@ class SolrDocument
     nil
   end
 
-  def folio_record?
-    self['source'].to_s.strip.casecmp?('folio')
-  end
-
-  def marc_record?
-    self['source'].to_s.strip.casecmp?('MARC') && self['marc_display'].present?
-  end
-
-  def marc_record_for_export
-    # Always provide a MARC::Record for exports (FOLIO or MARC).
-    @marc_record_for_export ||= begin
-      rec = to_marc
-      rec ||= FolioMarcAdapter.new(self).to_marc if folio_record?
-      rec || MARC::Record.new
-    end
+  # ==================================================
+  # Provide a MARC::Record for exports (FOLIO or MARC)
+  # --------------------------------------------------
+  def get_marc_record_for_export
+    marc_record? ? to_marc : FolioMarcAdapter.new(self).to_marc
   end
 
   def exportable_record?
@@ -161,5 +151,13 @@ class SolrDocument
       # :nocov
       false
     end
+  end
+
+  def folio_record?
+    self['source'].to_s.strip.casecmp?('folio')
+  end
+
+  def marc_record?
+    self['source'].to_s.strip.casecmp?('MARC') && self['marc_display'].present?
   end
 end
