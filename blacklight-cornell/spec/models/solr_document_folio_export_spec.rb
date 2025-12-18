@@ -93,4 +93,68 @@ RSpec.describe 'FOLIO export integration' do
     expect(endnote_xml).to include('<pub-location>Yogyakarta</pub-location>')
     expect(endnote_xml).to include('<publisher>Petrikor Books</publisher>')
   end
+
+  describe 'FolioMarcAdapter edge cases' do
+    it 'drops responsibility when it matches the primary author' do
+      doc = SolrDocument.new(
+        'id' => 'edge-1',
+        'source' => 'FOLIO',
+        'author_json' => ['{"name1":"Jane Doe","type":"Personal Name"}'],
+        'fulltitle_display' => 'Interesting work / Jane Doe'
+      )
+
+      marc = FolioMarcAdapter.new(doc).to_marc
+      title_field = marc['245']
+
+      expect(title_field['a']).to eq('Interesting work')
+      expect(title_field['c']).to be_nil
+    end
+
+    it 'parses pub_info without a place/publisher delimiter' do
+      doc = SolrDocument.new(
+        'id' => 'edge-2',
+        'source' => 'FOLIO',
+        'author_json' => ['{"name1":"Org","type":"Corporate Name"}'],
+        'fulltitle_display' => 'Title only',
+        'pub_info_display' => ['PublisherOnly'],
+        'format' => ['Book']
+      )
+
+      marc = FolioMarcAdapter.new(doc).to_marc
+      pub_field = marc['264']
+
+      expect(pub_field['a']).to be_nil
+      expect(pub_field['b']).to eq('PublisherOnly')
+      expect(pub_field['c']).to be_nil
+    end
+
+    it 'uses meeting tags for meeting name types' do
+      doc = SolrDocument.new(
+        'id' => 'edge-3',
+        'source' => 'FOLIO',
+        'author_json' => ['{"name1":"Fancy Conference","type":"Meeting Name"}'],
+        'fulltitle_display' => 'Proceedings'
+      )
+
+      marc = FolioMarcAdapter.new(doc).to_marc
+
+      expect(marc['111']['a']).to eq('Fancy Conference')
+      expect(marc['111'].indicator1).to eq('2')
+    end
+
+    it 'ignores invalid or non-hash author JSON entries' do
+      doc = SolrDocument.new(
+        'id' => 'edge-4',
+        'source' => 'FOLIO',
+        'author_json' => ['not-json', '123'],
+        'author_display' => ['Fallback Author'],
+        'fulltitle_display' => 'Fallback title'
+      )
+
+      entries = FolioMarcAdapter.new(doc).send(:author_entries)
+
+      expect(entries.map { |e| e[:name] }).to include('Fallback Author')
+      expect(entries.length).to eq(1)
+    end
+  end
 end
