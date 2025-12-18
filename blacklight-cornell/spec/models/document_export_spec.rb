@@ -129,4 +129,21 @@ RSpec.describe Blacklight::Marc::DocumentExport do
       expect(ris).to include("ED  - Editor Person")
     end
   end
+
+  describe 'Blacklight::Document::Zotero#generate_rdf_authors' do
+    it 'renders editors in RDF sequences' do
+      doc = SolrDocument.new('id' => 'zot-1', 'source' => 'MARC', 'marc_display' => '<record/>', 'format' => ['Book'])
+      record = build_record
+      record.append(MARC::DataField.new('245', '1', '0', ['a', 'Edited RDF']))
+      record.append(MARC::DataField.new('700', '1', ' ', ['a', 'Editor One'], ['e', 'editor']))
+      record.append(MARC::DataField.new('700', '1', ' ', ['a', 'Editor Two'], ['e', 'editor']))
+      allow(doc).to receive(:get_marc_record_for_export).and_return(record)
+
+      xml = doc.export_as_rdf_zotero
+
+      expect(xml).to include('<bib:editors>')
+      expect(xml).to include('<foaf:surname>Editor One</foaf:surname>')
+      expect(xml).to include('<foaf:surname>Editor Two</foaf:surname>')
+    end
+  end
 end
