@@ -108,4 +108,25 @@ RSpec.describe Blacklight::Marc::DocumentExport do
       expect(xml).to include('<author>Ed Editor</author>')
     end
   end
+
+  describe '#export_as_ris' do
+    it 'includes multiple authors and editors with the right tags' do
+      record = build_record
+      record.append(MARC::DataField.new('245', '1', '0', ['a', 'Many authors']))
+      record.append(MARC::DataField.new('100', '1', ' ', ['a', 'Primary One']))
+      record.append(MARC::DataField.new('100', '1', ' ', ['a', 'Secondary Two']))
+      record.append(MARC::DataField.new('100', '1', ' ', ['a', 'Secondary Three']))
+      record.append(MARC::DataField.new('700', '1', ' ', ['a', 'Editor Person'], ['e', 'edteditor']))
+
+      doc = SolrDocument.new('id' => 'ris-1', 'source' => 'MARC', 'marc_display' => '<record/>', 'format' => ['Book'])
+      allow(doc).to receive(:get_marc_record_for_export).and_return(record)
+
+      ris = doc.export_as_ris
+
+      expect(ris).to include("AU  - Primary One")
+      expect(ris).to include("A1  - Secondary Two")
+      expect(ris).to include("A2  - Secondary Three")
+      expect(ris).to include("ED  - Editor Person")
+    end
+  end
 end
