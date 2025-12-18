@@ -90,4 +90,22 @@ RSpec.describe Blacklight::Marc::DocumentExport do
       expect(document.send(:relation_for_code, 'edt')).to eq('editor')
     end
   end
+
+  describe '#export_as_endnote_xml' do
+    it 'includes tertiary-authors when editors are present' do
+      record = build_record
+      record.append(MARC::ControlField.new('001', 'edit-xml'))
+      record.append(MARC::DataField.new('100', '1', ' ', ['a', 'Primary Person']))
+      record.append(MARC::DataField.new('245', '1', '0', ['a', 'Edited work']))
+      record.append(MARC::DataField.new('700', '1', ' ', ['a', 'Ed Editor'], ['e', 'edteditor']))
+
+      doc = SolrDocument.new('id' => 'edit-xml', 'source' => 'MARC', 'marc_display' => '<record/>', 'format' => ['Book'])
+      allow(doc).to receive(:get_marc_record_for_export).and_return(record)
+
+      xml = doc.export_as_endnote_xml
+
+      expect(xml).to include('<tertiary-authors>')
+      expect(xml).to include('<author>Ed Editor</author>')
+    end
+  end
 end
