@@ -103,7 +103,10 @@ RSpec.describe 'FOLIO export integration' do
         'fulltitle_display' => 'Interesting work / Jane Doe'
       )
 
-      marc = FolioMarcAdapter.new(doc).to_marc
+      adapter = FolioMarcAdapter.new(doc)
+      allow(adapter).to receive(:primary_name).and_return('Jane Doe')
+
+      marc = adapter.to_marc
       title_field = marc['245']
 
       expect(title_field['a']).to eq('Interesting work')
