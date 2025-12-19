@@ -20,8 +20,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/blacklight-unapi
-  revision: 11fa3734de38f769482dd713fe7ff9a71ff341c9
-  branch: BL8-upgrade
+  revision: dab499a87290d395df217ae3b2dd2b7dc2aa1a76
+  branch: BL7_RAILS7-upgrade
   specs:
     blacklight_unapi (0.1.0)
       blacklight
