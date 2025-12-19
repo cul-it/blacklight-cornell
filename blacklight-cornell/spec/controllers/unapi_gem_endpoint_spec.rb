@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 # ==============================================================================
-# Tests the Unapi Gem endpoint that's modified to work with Rails 7
+# Tests the in-app unapi endpoint (migrated from blacklight_unapi for Rails 7)
 # https://github.com/cul-it/blacklight-unapi/compare/master...BL7_RAILS7-upgrade
 #
 # Ensuring Zotero Chrome/Firefox Connector can communicate with Zotero App
