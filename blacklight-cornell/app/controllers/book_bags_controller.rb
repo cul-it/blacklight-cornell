@@ -202,7 +202,7 @@ class BookBagsController < CatalogController
     end
     respond_to do |format|
       format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-      format.endnote_xml { render :layout => false }
+      format.endnote_xml { render "endnote_xml", :layout => false }
       format.ris { render "ris", :layout => false }
     end
   end
