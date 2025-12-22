@@ -19,6 +19,6 @@
   # Returns true in DEBUG_USER is set and in development ot test environments
   # ----------------------------------------------------------------------------
   def developer_bookbag_enabled?
-    ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
+    ENV["DEBUG_USER"].present? && (Rails.env.development?)
   end
 end
