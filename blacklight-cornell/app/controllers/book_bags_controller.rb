@@ -1,3 +1,8 @@
+################################################################################
+##  ⚠️ Server requires restart after code changes to this controller     #######
+## TODO: Jira Ticket: https://culibrary.atlassian.net/browse/DACCESS-791 #######
+################################################################################
+
 class Bookmarklite
   attr_accessor :document_id
 
@@ -24,43 +29,42 @@ class BookBagsController < CatalogController
 
   def authenticate
     #binding.pry
-    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
-      mock_auth
-      :authenticate_user!
+    if developer_bookbag?
+      # mock_auth
+      dev_sign_in
     else
       :authenticate_user!
       user = current_user
     end
-    if current_user
-      set_book_bag_name
-    end
+    set_book_bag_name if current_user
   end
 
-  def mock_auth
-    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
-      OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
-        provider: "saml",
-        "saml_resp" => "hello",
-        uid: "12345678910",
-        extra: { raw_info: {} },
-        info: {
-          email: [ENV["DEBUG_USER"]],
-          name: ["Diligent Tester"],
-          netid: "jgr25",
-          groups: ["staff", "student"],
-          primary: ["staff"],
-          first_name: "Diligent",
-          last_name: "Tester",
-        },
-        credentials: {
-          token: "abcdefg12345",
-          refresh_token: "12345abcdefg",
-          expires_at: DateTime.now,
-        },
-      })
-    end
-  end
+  #####  TODO: Is this needed or used?  #######
+  # def mock_auth
+  #   return unless developer_bookbag?
+  #
+  #   OmniAuth.config.test_mode = true
+  #   OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
+  #     provider: "saml",
+  #     "saml_resp" => "hello",
+  #     uid: "12345678910",
+  #     extra: { raw_info: {} },
+  #     info: {
+  #       email: [ENV["DEBUG_USER"]],
+  #       name: ["Diligent Tester"],
+  #       netid: "jgr25",
+  #       groups: ["staff", "student"],
+  #       primary: ["staff"],
+  #       first_name: "Diligent",
+  #       last_name: "Tester",
+  #     },
+  #     credentials: {
+  #       token: "abcdefg12345",
+  #       refresh_token: "12345abcdefg",
+  #       expires_at: DateTime.now,
+  #     },
+  #   })
+  # end
 
   def set_book_bag_name
     #binding.pry
@@ -238,5 +242,24 @@ class BookBagsController < CatalogController
 
   def clear_saved_bookmarks
     session[:bookmarks_for_book_bags] = nil
+  end
+
+  private
+
+  ######################################################################################################################
+  ### Developer-Mode Helper Methods  ##
+  #####################################
+  def developer_bookbag?
+    !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
+  end
+
+  def dev_sign_in
+    return if user_signed_in?
+
+    user = User.find_or_create_by!(email: ENV["DEBUG_USER"])
+    sign_in(:user, user)
+    session[:cu_authenticated_email] ||= user.email
+    session[:cu_authenticated_user]  ||= user.email
+    session[:cu_authenticated_netid] ||= user.email.split("@").first
   end
 end
