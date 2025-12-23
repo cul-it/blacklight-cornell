@@ -223,11 +223,7 @@ class BookBagsController < CatalogController
   ### Developer-Mode Helper Methods  ##
   #####################################
   def developer_bookbag?
-    !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development?)
-  end
-
-  def test_bookbag?
-    !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.test?)
+    !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && Rails.env.development?
   end
 
   def dev_sign_in
