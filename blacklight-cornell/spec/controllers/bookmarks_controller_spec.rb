@@ -47,14 +47,16 @@ RSpec.describe BookmarksController, type: :controller do
 
   describe '#action_success_redirect_path' do
     it 'returns the bookmarks path' do
-      allow(controller).to receive(:bookmarks_path).and_return('/bookmarks')
+      expect(controller).to receive(:bookmarks_path).and_return('/bookmarks')
       expect(controller.action_success_redirect_path).to eq('/bookmarks')
     end
   end
 
   describe '#search_action_url' do
     it 'uses the catalog search path' do
-      allow(controller).to receive(:search_catalog_url).and_return('/catalog?q=test')
+      expect(controller).to receive(:search_catalog_url)
+        .with(hash_including(q: 'test'))
+        .and_return('/catalog?q=test')
       expect(controller.search_action_url(q: 'test')).to eq('/catalog?q=test')
     end
   end
@@ -88,15 +90,17 @@ RSpec.describe BookmarksController, type: :controller do
 
     it 'renders RSS' do
       allow(BookBag).to receive(:enabled?).and_return(false)
-      allow(controller).to receive(:render).and_return('')
+      allow(controller).to receive(:render) { controller.head(:ok) }
       get :index, format: :rss
+      expect(controller).to have_received(:render).with(hash_including(layout: false))
       expect(response).to have_http_status(:ok)
     end
 
     it 'renders Atom' do
       allow(BookBag).to receive(:enabled?).and_return(false)
-      allow(controller).to receive(:render).and_return('')
+      allow(controller).to receive(:render) { controller.head(:ok) }
       get :index, format: :atom
+      expect(controller).to have_received(:render).with(hash_including(layout: false))
       expect(response).to have_http_status(:ok)
     end
   end
@@ -222,6 +226,77 @@ RSpec.describe BookmarksController, type: :controller do
       permitted = controller.send(:permit_bookmarks)
       expect(permitted[:bookmarks].first[:document_id]).to eq('1')
       expect(permitted[:bookmarks].first[:document_type]).to eq('SolrDocument')
+    end
+  end
+
+  describe '#can_add' do
+    it 'returns true when under the max' do
+      stub_const('BookBagsController::MAX_BOOKBAGS_COUNT', 2)
+      expect(bookmarks_relation).to receive(:count).and_return(1)
+      expect(controller.can_add).to be(true)
+    end
+
+    it 'returns false when at the max' do
+      stub_const('BookBagsController::MAX_BOOKBAGS_COUNT', 2)
+      expect(bookmarks_relation).to receive(:count).and_return(2)
+      expect(controller.can_add).to be(false)
+    end
+  end
+
+  describe 'GET show_email_login_required_bookmarks' do
+    it 'renders the email login required partial' do
+      allow(controller).to receive(:render) { controller.head(:ok) }
+      get :show_email_login_required_bookmarks
+      expect(controller).to have_received(:render).with(hash_including(partial: 'bookmarks/email_login_required'))
+    end
+  end
+
+  describe 'GET show_email_login_required_item' do
+    it 'renders the item view login partial with locals' do
+      allow(controller).to receive(:user_saml_omniauth_authorize_path).and_return('/login')
+      allow(controller).to receive(:render) { controller.head(:ok) }
+      get :show_email_login_required_item, params: { id: '123' }
+      expect(controller).to have_received(:render).with(
+        hash_including(
+          partial: 'bookmarks/email_login_required_item_view',
+          locals: { login_path: '/login', document_id: '123' }
+        )
+      )
+    end
+  end
+
+  describe 'GET show_selected_item_limit_bookmarks' do
+    it 'renders the selected item limit partial' do
+      allow(controller).to receive(:render) { controller.head(:ok) }
+      get :show_selected_item_limit_bookmarks
+      expect(controller).to have_received(:render).with(hash_including(partial: 'bookmarks/selected_item_limit'))
+    end
+  end
+
+  describe '#get_library_location_names' do
+    it 'requests top-level locations from solr' do
+      solr = double('Solr')
+      blacklight = Class.new do
+        class << self
+          attr_accessor :solr
+        end
+      end
+      blacklight.solr = solr
+      stub_const('Blacklight', blacklight)
+      expect(solr).to receive(:find).with(hash_including(q: 'id:*')).and_return('results')
+      expect(controller.get_library_location_names).to eq('results')
+    end
+  end
+
+  describe 'GET bookmarks_book_bags_login' do
+    it 'stores the return path and redirects via POST' do
+      allow(controller).to receive(:book_bags_index_path).and_return('/book_bags/index')
+      allow(controller).to receive(:user_saml_omniauth_authorize_path).and_return('/login')
+      allow(controller).to receive(:redirect_post) { controller.head(:ok) }
+      get :bookmarks_book_bags_login
+      expect(controller).to have_received(:redirect_post)
+        .with('/login', options: { authenticity_token: :auto })
+      expect(session[:cuwebauth_return_path]).to eq('/book_bags/index')
     end
   end
 end
