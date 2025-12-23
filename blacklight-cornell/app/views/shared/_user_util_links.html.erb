@@ -8,6 +8,11 @@
 
     <ul class="blacklight-nav nav flex-column flex-md-row">
       <% if ENV['SAML_IDP_TARGET_URL'] %>
+        <% if current_user %>
+          <li>
+            <%= link_to 'Sign out', destroy_user_session_path   %>
+          </li>
+        <% end %>
         <% if current_or_guest_user %>
           <% if !current_user %>
             <% @goo_sign_in_link = user_google_oauth2_omniauth_authorize_path%>
@@ -38,22 +43,22 @@
       <% end %>
       <li><%= link_to t('blacklight.header_links.search_history'), blacklight.search_history_path %></li>
 
-      <!-- ######################################################################################################### -->
-      <!-- ##  DEVELOPER MODE  ## -->
-      <!-- ###################### -->
+      <!-- ################### -->
+      <!-- ##  DEVELOPMENT  ## -->
+      <!-- ################### -->
       <% if developer_bookbag_enabled? %>
         <% if current_user %>
           <li><a href="<%= destroy_user_session_path %>"><i class="fa fa-user" aria-hidden="true"></i>Developer Logout</a></li>
         <% else %>
           <li><a href="/book_bags/index"><i class="fa fa-user" aria-hidden="true"></i>Developer Login</a></li>
         <% end %>
+
+      <!-- ############################### -->
+      <!-- ##  PRODUCTION / INTEGRATION ## -->
+      <!-- ############################### -->
       <% else %>
         <li><a href="/myaccount/login" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'My Account Blacklight']);"><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>
-        <% if ENV['SAML_IDP_TARGET_URL'] && current_user %>
-          <li><a href="<%= destroy_user_session_path %>">Sign out</a></li>
-        <% end %>
       <% end %>
-
     </ul>
   </div>
 </div>
