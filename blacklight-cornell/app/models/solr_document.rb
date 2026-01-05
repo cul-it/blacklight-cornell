@@ -1,7 +1,3 @@
-################################################################################
-##  ⚠️ Server requires restart after code changes to this model          #######
-## TODO: Jira Ticket: https://culibrary.atlassian.net/browse/DACCESS-791 #######
-################################################################################
 class SolrDocument
 
   include Blacklight::Solr::Document    
