@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   # ============================================================================
-  # Returns true in DEBUG_USER is set and in development ot test environments
+  # Returns true in DEBUG_USER is set and in development environment
   # ----------------------------------------------------------------------------
   def developer_bookbag_enabled?
     ENV["DEBUG_USER"].present? && (Rails.env.development?)
