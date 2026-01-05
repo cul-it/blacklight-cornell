@@ -1,8 +1,3 @@
-################################################################################
-##  ⚠️ Server requires restart after code changes to this controller     #######
-## TODO: Jira Ticket: https://culibrary.atlassian.net/browse/DACCESS-791 #######
-################################################################################
-
 class Bookmarklite
   attr_accessor :document_id
 

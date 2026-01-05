@@ -1,9 +1,4 @@
-################################################################################
-##  ⚠️ Server requires restart after code changes to this helper         #######
-## TODO: Jira Ticket: https://culibrary.atlassian.net/browse/DACCESS-791 #######
-################################################################################
-
-  module ApplicationHelper
+module ApplicationHelper
   # ============================================================================
   # Allows calls to ConsoleColors.debug if CONSOLE_COLORS_ENABLED=true to output
   # a debug message with color coding.
