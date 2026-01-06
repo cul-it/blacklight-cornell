@@ -259,7 +259,7 @@ class CatalogController < ApplicationController
                            if: :has_search_parameters?,
                           label: 'Call Number',
                           component: Blacklight::Hierarchy::FacetFieldListComponent,
-                          sort: 'count',
+                          sort: 'index',
                           limit: 10
 
    config.facet_display = {
