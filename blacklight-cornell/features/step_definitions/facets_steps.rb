@@ -64,9 +64,9 @@ Then("I choose category {string} facet {string}") do |category, facet|
 end
 
 Then("I choose category {string} link {string}") do |category, facet|
-	category.downcase!
-	category = facet_to(category)
-	within ("div.#{category}") do
+	category_class = facet_to(category.downcase)
+	within ("div.#{category_class}") do
+		click_button(category)
 		click_link(facet)
 	end
 end
