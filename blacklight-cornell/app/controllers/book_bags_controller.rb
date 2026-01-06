@@ -224,10 +224,7 @@ class BookBagsController < CatalogController
   def dev_sign_in
     return if user_signed_in?
 
-    user = User.find_or_create_by!(email: ENV["DEBUG_USER"])
-    sign_in(:user, user)
-    session[:cu_authenticated_email] ||= user.email
-    session[:cu_authenticated_user]  ||= user.email
-    session[:cu_authenticated_netid] ||= user.email.split("@").first
+    BlacklightCornell::OmniauthMock.sign_in!
+    redirect_post(user_saml_omniauth_authorize_path, options: { authenticity_token: :auto })
   end
 end

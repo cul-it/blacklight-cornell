@@ -276,13 +276,9 @@ RSpec.describe BookBagsController, type: :controller do
 
   describe '#developer_bookbag?' do
     it 'returns true when debug user is set in development mode' do
-      old_debug = ENV['DEBUG_USER']
-      ENV['DEBUG_USER'] = 'dev@example.com'
       allow(Rails.env).to receive(:development?).and_return(true)
       allow(Rails.env).to receive(:test?).and_return(false)
       expect(controller.send(:developer_bookbag?)).to be(true)
-    ensure
-      ENV['DEBUG_USER'] = old_debug
     end
   end
 
@@ -299,21 +295,18 @@ RSpec.describe BookBagsController, type: :controller do
   describe '#dev_sign_in' do
     it 'returns early if already signed in' do
       allow(controller).to receive(:user_signed_in?).and_return(true)
-      expect(controller).not_to receive(:sign_in)
+      expect(BlacklightCornell::OmniauthMock).not_to receive(:sign_in!)
+      expect(controller).not_to receive(:redirect_post)
       controller.send(:dev_sign_in)
     end
 
-    it 'signs in and sets session values' do
-      old_debug = ENV['DEBUG_USER']
-      ENV['DEBUG_USER'] = 'dev@example.com'
+    it 'configures omniauth and redirects to saml' do
       allow(controller).to receive(:user_signed_in?).and_return(false)
-      allow(controller).to receive(:sign_in)
+      allow(controller).to receive(:book_bags_index_path).and_return('/book_bags/index')
+      allow(controller).to receive(:user_saml_omniauth_authorize_path).and_return('/users/auth/saml')
+      allow(controller).to receive(:redirect_post)
       controller.send(:dev_sign_in)
-      expect(session[:cu_authenticated_email]).to eq('dev@example.com')
-      expect(session[:cu_authenticated_user]).to eq('dev@example.com')
-      expect(session[:cu_authenticated_netid]).to eq('dev')
-    ensure
-      ENV['DEBUG_USER'] = old_debug
+      expect(controller).to have_received(:redirect_post).with('/users/auth/saml', options: { authenticity_token: :auto })
     end
   end
 end
