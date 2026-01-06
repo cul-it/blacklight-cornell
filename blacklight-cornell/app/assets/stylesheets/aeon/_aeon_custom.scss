@@ -163,33 +163,6 @@ input[type="button"]#clear {
 #numitems {
     font-size: 16px;
 }
-/* the options classes are used on the login page */
-.options_container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.option_left, .option_right {
-    margin: 50px 0 0 0;
-    padding: 40px;
-    width: 48%;
-    min-height: 200px;
-    border: 1px solid #ccc;
-    background-color: $white;
-    box-sizing: border-box;
-}
-@media (max-width: 600px) {
-    .option_left, .option_right {
-        width: 100%;
-    }
-}
-/* the btn_option class centers the button on login page */
-.btn_option
-{
-    display: block;
-    margin: 0 auto;
-}
 
 .aeoncard
 {
