@@ -234,6 +234,19 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     logger.warn "Unable to setup next and previous documents: #{e}"
   end
 
+  # Ajax endpoint for asynchronously rendering full facet value list
+  # Currently only used for lc_callnum_facet
+  def facet_values
+    facet = blacklight_config.facet_fields[params[:id]]
+    raise ActionController::RoutingError, 'Not Found' unless facet
+
+    response = search_service.facet_field_response(facet.key)
+    @display_facet = response.aggregations[facet.field]
+    respond_to do |format|
+      format.js { render layout: false }
+    end
+  end
+
   def track
     search_session[:counter] = params[:counter]
     search_session['counter'] = params[:counter]
