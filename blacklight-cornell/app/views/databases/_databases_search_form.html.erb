@@ -4,7 +4,6 @@
       <p>Search for top databases by name or broad subject terms</p>
       <div class="search-tools">
         <%= form_tag '/databases/searchdb', :method => :get, :class => 'form-inline' do %>
-          <%= render Blacklight::HiddenSearchStateComponent.new(params: cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8)) %>
           <% if !params[:q_row].present? %>
             <div class="form-group col-10 col-sm-6 mb-0">
               <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
