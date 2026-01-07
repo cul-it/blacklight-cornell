@@ -9,7 +9,7 @@ class SolrDocument
   end
   
   field_semantics.merge!(    
-                         :title => "title_display",
+                         :title => "fulltitle_display",
                          :author => "author_display",
                          :language => "language_facet",
                          :format => "format"

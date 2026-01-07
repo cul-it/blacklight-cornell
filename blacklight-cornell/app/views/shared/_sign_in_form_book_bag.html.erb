@@ -1,5 +1,14 @@
 <form method="post" action="<%= user_saml_omniauth_authorize_path %>" class="mb-4">
     <%= token_tag %>
-    <button class="btn-link" type="submit" name="Sign in Book Bag" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);"
-    ><span class="fa fa-arrow-circle-right" aria-hidden="true"></span>Sign in to email items or save them to Book Bag</button>
+    <!-- ################### -->
+    <!-- ##  DEVELOPMENT  ## -->
+    <!-- ################### -->
+    <% if developer_bookbag_enabled? %>
+        <a href="/book_bags/index"><i class="fa fa-code" aria-hidden="true"></i>Developer Login to email items or save them to Book Bag</a>
+    <% else %>
+    <!-- ################################ -->
+    <!-- ##  PRODUCTION / INTEGRATION  ## -->
+    <!-- ################################ -->
+        <button class="btn-link" type="submit" name="Sign in Book Bag" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Sign in']);"><span class="fa fa-arrow-circle-right" aria-hidden="true"></span>Sign in to email items or save them to Book Bag</button>
+    <% end %>
 </form>

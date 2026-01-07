@@ -24,42 +24,13 @@ class BookBagsController < CatalogController
 
   def authenticate
     #binding.pry
-    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
-      mock_auth
-      :authenticate_user!
+    if developer_bookbag?
+      dev_sign_in
     else
       :authenticate_user!
       user = current_user
     end
-    if current_user
-      set_book_bag_name
-    end
-  end
-
-  def mock_auth
-    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
-      OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
-        provider: "saml",
-        "saml_resp" => "hello",
-        uid: "12345678910",
-        extra: { raw_info: {} },
-        info: {
-          email: [ENV["DEBUG_USER"]],
-          name: ["Diligent Tester"],
-          netid: "jgr25",
-          groups: ["staff", "student"],
-          primary: ["staff"],
-          first_name: "Diligent",
-          last_name: "Tester",
-        },
-        credentials: {
-          token: "abcdefg12345",
-          refresh_token: "12345abcdefg",
-          expires_at: DateTime.now,
-        },
-      })
-    end
+    set_book_bag_name if current_user
   end
 
   def set_book_bag_name
@@ -198,6 +169,7 @@ class BookBagsController < CatalogController
     end
     respond_to do |format|
       format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+      format.endnote_xml { render "endnote_xml", :layout => false }
       format.ris { render "ris", :layout => false }
     end
   end
@@ -238,5 +210,21 @@ class BookBagsController < CatalogController
 
   def clear_saved_bookmarks
     session[:bookmarks_for_book_bags] = nil
+  end
+
+  private
+
+  ######################################################################################################################
+  ### Developer-Mode Helper Methods  ##
+  #####################################
+  def developer_bookbag?
+    !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && Rails.env.development?
+  end
+
+  def dev_sign_in
+    return if user_signed_in?
+
+    BlacklightCornell::OmniauthMock.sign_in!
+    redirect_post(user_saml_omniauth_authorize_path, options: { authenticity_token: :auto })
   end
 end
