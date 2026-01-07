@@ -1,8 +1,0 @@
-<% @documents.each do |document| %>
-<% doc = document.to_sms_text %>
-<% doc = truncate_title(doc) %>
-<%= doc %>
-<%= t('blacklight.sms.text.callnumber', :callnumber => @callnumber) %>
-<%= t('blacklight.sms.text.location', :location => @location) %>
-<%= t('blacklight.sms.text.url', :url => @tiny) %>
-<% end %>
