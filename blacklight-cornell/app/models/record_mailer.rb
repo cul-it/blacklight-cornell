@@ -37,5 +37,14 @@ class RecordMailer < ActionMailer::Base
       end
       @availability << doc_availability
     end
+
+    delivery_options = {
+      user_name: ENV["SMTP_USERNAME"],
+      password: ENV["SMTP_PASSWORD"],
+      address: ENV["SMTP_ADDRESS"]
+    }
+
+    mail(:to => details[:to],  :subject => subject,
+      delivery_method_options: delivery_options)
   end
 end
