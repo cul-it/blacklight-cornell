@@ -428,9 +428,11 @@ GEM
     http-form_data (2.3.0)
     httpclient (2.9.0)
       mutex_m
-    httpi (2.5.0)
-      rack
-      socksify
+    httpi (4.0.4)
+      base64
+      mutex_m
+      nkf
+      rack (>= 2.0, < 4)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     io-console (0.8.2)
@@ -538,6 +540,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.5)
+    nkf (0.2.0)
     nokogiri (1.18.10)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -729,14 +732,15 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    savon (2.11.2)
+    savon (2.15.1)
       akami (~> 1.2)
       builder (>= 2.1.2)
       gyoku (~> 1.2)
-      httpi (~> 2.3)
-      nokogiri (>= 1.4.0)
+      httpi (>= 4, < 5)
+      mail (~> 2.5)
+      nokogiri (>= 1.8.1)
       nori (~> 2.4)
-      wasabi (~> 3.4)
+      wasabi (>= 3.7, < 6)
     scrub_rb (1.0.1)
     securerandom (0.4.1)
     selenium-webdriver (4.39.0)
@@ -757,7 +761,6 @@ GEM
     simplecov_json_formatter (0.1.4)
     singleton (0.3.0)
     slop (4.10.1)
-    socksify (1.8.1)
     sprockets (3.7.5)
       base64
       concurrent-ruby (~> 1.0)
@@ -823,10 +826,10 @@ GEM
       method_source (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
-    wasabi (3.7.0)
+    wasabi (5.1.0)
       addressable
-      httpi (~> 2.0)
-      nokogiri (>= 1.4.2)
+      faraday (>= 1.9, < 3)
+      nokogiri (>= 1.13.9)
     webmock (3.26.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -941,7 +944,7 @@ DEPENDENCIES
   ruby-saml (~> 1.18)
   rufus-scheduler
   sassc-rails
-  savon (~> 2.11.1)
+  savon
   selenium-webdriver
   simplecov
   simplecov-rcov
@@ -959,7 +962,7 @@ DEPENDENCIES
   yaml_db
 
 RUBY VERSION
-   ruby 3.2.9p265
+  ruby 3.4.8
 
 BUNDLED WITH
   4.0.3
