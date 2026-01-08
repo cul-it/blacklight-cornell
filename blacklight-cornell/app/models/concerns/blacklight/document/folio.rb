@@ -2,7 +2,7 @@
 
 module Blacklight::Document::Folio
   def export_ris
-    return nil unless folio_record?
+    return super unless folio_record?
 
     ty = ris_type_for_format(folio_format)
     output = +"TY  - #{ty}\n"
@@ -45,7 +45,7 @@ module Blacklight::Document::Folio
   end
 
   def export_as_endnote
-    return nil unless folio_record?
+    return super unless folio_record?
 
     fmt_str = endnote_type_for_format(folio_format)
     text = +"%0 #{fmt_str}\n"
@@ -77,7 +77,7 @@ module Blacklight::Document::Folio
   end
 
   def export_as_endnote_xml
-    return nil unless folio_record?
+    return super unless folio_record?
 
     fmt = folio_format
     ty = endnote_type_for_format(fmt)
@@ -122,6 +122,50 @@ module Blacklight::Document::Folio
             self["language_facet"].each { |lang| builder.language(lang) }
           end
         end
+      end
+    end
+
+    builder.target!
+  end
+
+  def generate_rdf_zotero
+    return super unless folio_record?
+
+    fmt = folio_format
+    ty = Blacklight::Document::Zotero::FACET_TO_ZOTERO_TYPE[fmt] || "book"
+    tag = case ty
+    when "videoRecording", "audioRecording"
+      "Recording"
+    when "map"
+      "Image"
+    else
+      "Book"
+    end
+
+    title = title_with_subtitle(separator: ": ")
+
+    builder = Builder::XmlMarkup.new(:indent => 2, :margin => 4)
+    builder.tag!("rdf:RDF",
+                 "xmlns:rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+                 "xmlns:z" => "http://www.zotero.org/namespaces/export#",
+                 "xmlns:dc" => "http://purl.org/dc/elements/1.1/",
+                 "xmlns:vcard" => "http://nwalsh.com/rdf/vCard#",
+                 "xmlns:foaf" => "http://xmlns.com/foaf/0.1/",
+                 "xmlns:bib" => "http://purl.org/net/biblio#",
+                 "xmlns:prism" => "http://prismstandard.org/namespaces/1.2/basic/",
+                 "xmlns:dcterms" => "http://purl.org/dc/terms/") do
+      builder.bib(tag.to_sym) do
+        builder.z(:itemType, ty)
+        builder.dc(:title, title.strip) if title.present?
+        generate_folio_zotero_authors(builder, ty)
+        generate_folio_zotero_publisher(builder)
+        generate_folio_zotero_pubdate(builder)
+        generate_folio_zotero_language(builder)
+        generate_folio_zotero_keywords(builder)
+        generate_folio_zotero_abstract(builder)
+        generate_folio_zotero_url(builder)
+        generate_folio_zotero_holdings(builder)
+        generate_folio_zotero_catalog_link(builder)
       end
     end
 
@@ -324,5 +368,135 @@ module Blacklight::Document::Folio
       return text[0, text.length - 1]
     end
     text
+  end
+
+  def generate_folio_zotero_authors(builder, ty)
+    authors = author_lists
+    author_list = authors[:personal].presence || authors[:corporate]
+    return if author_list.blank?
+
+    auty = case ty
+    when "videoRecording"
+      "contributors"
+    when "audioRecording"
+      "performers"
+    when "map"
+      "cartographers"
+    else
+      "authors"
+    end
+    ns = %w[contributors authors editors].include?(auty) ? "bib" : "z"
+
+    builder.tag!("#{ns}:#{auty}") do
+      builder.rdf(:Seq) do
+        author_list.each { |author| builder.rdf(:li) { generate_folio_zotero_person(builder, author) } }
+      end
+    end
+  end
+
+  def generate_folio_zotero_person(builder, name)
+    surname = name
+    surname, givenname = name.split(",", 2) if name.include?(",")
+    builder.foaf(:Person) do
+      sn = surname.to_s.strip
+      builder.foaf(:surname, sn) unless sn.blank?
+      gn = givenname.to_s.strip
+      builder.foaf(:givenname, gn) unless gn.blank?
+    end
+  end
+
+  def generate_folio_zotero_publisher(builder)
+    pub_data = publication_data
+    return if pub_data[:place].blank? && pub_data[:publisher].blank?
+
+    builder.dc(:publisher) do
+      builder.foaf(:Organization) do
+        builder.vcard(:adr) do
+          builder.vcard(:Address) do
+            builder.vcard(:locality, pub_data[:place]) if pub_data[:place].present?
+          end
+        end
+        builder.foaf(:name, pub_data[:publisher]) if pub_data[:publisher].present?
+      end
+    end
+  end
+
+  def generate_folio_zotero_pubdate(builder)
+    pub_data = publication_data
+    builder.dc(:date, pub_data[:date]) if pub_data[:date].present?
+  end
+
+  def generate_folio_zotero_language(builder)
+    return unless self["language_facet"].present?
+
+    self["language_facet"].each { |lang| builder.z(:language, lang) }
+  end
+
+  def generate_folio_zotero_keywords(builder)
+    folio_keyword_values.each { |keyword| builder.dc(:subject, keyword) }
+  end
+
+  def generate_folio_zotero_abstract(builder)
+    abstracts = folio_abstract_values
+    return if abstracts.blank?
+
+    builder.dcterms(:abstract, abstracts.join(" "))
+  end
+
+  def generate_folio_zotero_url(builder)
+    access_url = access_url_first_filtered(self)
+    return if access_url.blank?
+
+    builder.dc(:identifier) { builder.dcterms(:URI) { builder.rdf(:value, access_url) } }
+  end
+
+  def generate_folio_zotero_holdings(builder)
+    holdings = setup_holdings_info(self)
+    return if holdings.blank? || holdings.join("").blank?
+
+    builder.dc(:subject) { builder.dcterms(:LCC) { builder.rdf(:value, holdings.join("//")) } }
+  end
+
+  def generate_folio_zotero_catalog_link(builder)
+    return unless self["id"].present?
+
+    builder.dc(:description, "http://catalog.library.cornell.edu/catalog/#{self['id']}")
+  end
+
+  def folio_keyword_values
+    values = field_values(%w[keyword_display])
+    field_values(%w[subject_json]).each do |raw|
+      begin
+        parsed = JSON.parse(raw)
+        case parsed
+        when Array
+          parsed.each do |entry|
+            if entry.is_a?(Hash)
+              values << entry["subject"]
+            else
+              values << entry
+            end
+          end
+        when Hash
+          values << parsed["subject"]
+        else
+          values << parsed
+        end
+      rescue JSON::ParserError
+        next
+      end
+    end
+
+    values.compact.map { |value| strip_html(value.to_s).strip }.reject(&:blank?).uniq
+  end
+
+  def folio_abstract_values
+    field_values(%w[summary_display description_display])
+      .map { |value| strip_html(value.to_s).strip }
+      .reject(&:blank?)
+  end
+
+  def strip_html(text)
+    text.gsub(/<[^>]*>/, "")
   end
 end
