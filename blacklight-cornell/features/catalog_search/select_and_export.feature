@@ -174,7 +174,7 @@ Feature: Select and export items from the result set
 @all_select_and_export
   Scenario: User needs to see search results as an atom feed, marc_xml
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=marc_xml
-    Then I should see the xml text '<title>The cheese and the worms</title>'
+    Then I should see the xml text '<title>The cheese and the worms : the cosmos of a sixteenth-century miller</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
 
 @all_select_and_export @DISCOVERYANDACCESS-3766  @DISCOVERYANDACCESS-3766_basic
@@ -229,15 +229,15 @@ Feature: Select and export items from the result set
     And I use 'Charlier' with 'all' logic for field 'Author' on line 2 of advanced search
     And I press 'advanced_search'
     And I view the '<Format>' version of the search results
-    Then I should see the xml text '<title>Zombies</title>'
+    Then I should see the xml text '<title>Zombies : an anthropological investigation of the living dead</title>'
     And I should see the xml text '<XmlContent>'
     And I should see the text '<TextContent>'
 
     Examples:
     | Format | XmlContent | TextContent |
-    | xml | <dc:title>Zombies</dc:title> | Book |
-    | dc_xml | <dc:title>Zombies</dc:title> | Book |
-    | oai_dc_xml | <dc:title>Zombies</dc:title> | Book |
+    | xml | <dc:title>Zombies : an anthropological investigation of the living dead</dc:title> | Book |
+    | dc_xml | <dc:title>Zombies : an anthropological investigation of the living dead</dc:title> | Book |
+    | oai_dc_xml | <dc:title>Zombies : an anthropological investigation of the living dead</dc:title> | Book |
     | ris | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
     | mendeley | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
     | zotero | <content type="application/x-research-info-systems"> | VFkgIC0gQk9PSwpUSSAgLSBab21iaWVzOiBhbiBhbnRocm9wb2xvZ2ljYWwg |
@@ -246,7 +246,7 @@ Feature: Select and export items from the result set
 @all_select_and_export @DISCOVERYANDACCESS-3603  @DISCOVERYANDACCESS-3603_dc_xml
   Scenario: User needs to see search results as an atom feed, dc xml
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=dc_xml
-    Then I should see the xml text '<title>The cheese and the worms</title>'
+    Then I should see the xml text '<title>The cheese and the worms : the cosmos of a sixteenth-century miller</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml path 'atom','//atom:entry/atom:title','http://www.w3.org/2005/Atom','The cheese and the worms'
     Then I should see the xml path 'dc','//dc:title','http://purl.org/dc/elements/1.1/','The cheese and the worms'
@@ -255,7 +255,7 @@ Feature: Select and export items from the result set
 @all_select_and_export
   Scenario: User needs to see search results as an atom feed, ris
   When I literally go to catalog.atom?q=cheese+worms&search_field=all_fields&content_format=ris
-    Then I should see the xml text '<title>The cheese and the worms</title>'
+    Then I should see the xml text '<title>The cheese and the worms : the cosmos of a sixteenth-century miller</title>'
     Then I should see the xml text '<name>Cornell University Library Catalog</name>'
     Then I should see the xml text '<content type="application/x-research-info-systems">'
 

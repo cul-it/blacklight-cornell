@@ -73,6 +73,9 @@
           <li>
             <%= link_to t('blacklight.tools.mendeley'), "/book_bags/endnote.ris", {:class => 'dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
           </li>
+          <li>
+            <%= link_to t('blacklight.tools.endnote_xml'), "/book_bags/endnote.endnote_xml", {:class => 'dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
+          </li>
         <% elsif exportable %>
           <% if @document.export_formats.keys.include?( :endnote ) %>
             <li>

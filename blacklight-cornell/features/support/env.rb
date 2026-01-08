@@ -154,31 +154,11 @@ end
 #ActiveRecord::Fixtures.create_fixtures(fixtures_folder, fixtures)
 
 Before('@omniauth_test') do
-  OmniAuth.config.test_mode = true
-  OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
-    provider: "saml",
-    "saml_resp" => 'hello' ,
-    uid: "12345678910",
-    extra: {raw_info: {} } ,
-    info: {
-      email: ["ditester@example.com"],
-      name: ["Diligent Tester"],
-      netid: "jgr25",
-      groups: ["staff","student"],
-      primary: ["staff"],
-      first_name: "Diligent",
-      last_name: "Tester"
-    },
-    credentials: {
-      token: "abcdefg12345",
-      refresh_token: "12345abcdefg",
-      expires_at: DateTime.now
-    }
-  })
+  BlacklightCornell::OmniauthMock.sign_in!
 end
 
 After('@omniauth_test') do
-  OmniAuth.config.test_mode = false
+  BlacklightCornell::OmniauthMock.disable!
 end
 
 # https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044

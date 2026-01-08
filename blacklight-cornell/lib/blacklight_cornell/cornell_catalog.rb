@@ -234,6 +234,19 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     logger.warn "Unable to setup next and previous documents: #{e}"
   end
 
+  # Ajax endpoint for asynchronously rendering full facet value list
+  # Currently only used for lc_callnum_facet
+  def facet_values
+    facet = blacklight_config.facet_fields[params[:id]]
+    raise ActionController::RoutingError, 'Not Found' unless facet
+
+    response = search_service.facet_field_response(facet.key)
+    @display_facet = response.aggregations[facet.field]
+    respond_to do |format|
+      format.js { render layout: false }
+    end
+  end
+
   def track
     search_session[:counter] = params[:counter]
     search_session['counter'] = params[:counter]
@@ -290,33 +303,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.ris         { render 'ris', :layout => false }
     end
-  end
-
-  def sms_action documents
-    to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
-    tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
-    tiny = tiny_url(tinyPass)
-    mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
-    print mail.pretty_inspect
-    if mail.respond_to? :deliver_now
-      mail.deliver_now
-    else
-      mail.deliver
-    end
-  end
-
-  def validate_sms_params
-    if params[:to].blank?
-      flash.now[:error] = I18n.t('blacklight.sms.errors.to.blank')
-    elsif params[:carrier].blank?
-      flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
-    elsif params[:to].gsub(/[^\d]/, '').length != 10
-      flash.now[:error] = I18n.t('blacklight.sms.errors.to.invalid', to: params[:to])
-    elsif !sms_mappings.value?(params[:carrier])
-      flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
-    end
-
-    flash[:error].blank?
   end
 
   # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
@@ -471,15 +457,6 @@ protected
     Blacklight.solr_config
   end
 
-  # This is a weird function -- it has two different return types, depending on an option that is apparently
-  # never used! Commenting this version out and redefining generate_uri below....
-  # def tiny_url(uri, options = {})
-  #   defaults = { :validate_uri => false }
-  #   options = defaults.merge options
-  #   return validate_uri(uri) if options[:validate_uri]
-  #   return generate_uri(uri)
-  # end
-
   def credits
     respond_to do |format|
       format.html
@@ -488,46 +465,6 @@ protected
   end
 
 private
-
-  def uri_valid?(uri)
-    !!(uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
-    uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix])
-  end
-
-  # def validate_uri(uri)
-  #   confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
-  #                   uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix]
-  #   if confirmed_uri.blank?
-  #     return false
-  #   else
-  #     return true
-  #   end
-  # end
-
- # def generate_uri(uri)
-  def tiny_url(uri)
-    Appsignal.increment_counter('item_sms', 1)
-    if uri_valid?(uri)
-      shorten = Rails.application.config.url_shorten
-      logger.info "URL shortener:  #{__FILE__}:#{__LINE__}:#{__method__} #{shorten.pretty_inspect}"
-      if shorten.present?
-        escaped_uri = CGI::escape(uri)
-        url = "#{shorten}#{escaped_uri}"
-        begin
-          uri_parsed = Net::HTTP.get_response(URI.parse(url)).body
-          #uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri),{:read_timeout => 10}).body
-        rescue StandardError  => e
-          logger.error "URL shortener error:  #{__FILE__}:#{__LINE__}:#{__method__} #{e} #{shorten}"
-          Appsignal.send_error(e)
-          uri_parsed = uri
-         end
-      end
-      return uri_parsed
-    else
-     # needs error checking.
-     # raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
-    end
-  end
 
   def cjk_mm_val
     silence_warnings { @@cjk_mm_val = '3<86%'}

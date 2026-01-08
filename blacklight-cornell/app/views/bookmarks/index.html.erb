@@ -25,9 +25,22 @@
         <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm.bookmark') }, :class => 'clear-bookmarks' do %>
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
-        <span class="bookmarks-login"><%= link_to bookmarks_book_bags_login_path do %>
-          <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
-        <% end %></span>
+
+        <span class="bookmarks-login">
+          <!-- ################### -->
+          <!-- ##  DEVELOPMENT  ## -->
+          <!-- ################### -->
+          <% if developer_bookbag_enabled? %>
+            <a href="/book_bags/index"><i class="fa fa-code" aria-hidden="true"></i>Developer Login to email items or save them to Book Bag</a>
+          <% else %>
+          <!-- ################################ -->
+          <!-- ##  PRODUCTION / INTEGRATION  ## -->
+          <!-- ################################ -->
+              <%= link_to bookmarks_book_bags_login_path do %>
+                <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
+              <% end %>
+          <% end %>
+        </span>
 
       </div>
       <div class="col-sm-12 col-md-4">
