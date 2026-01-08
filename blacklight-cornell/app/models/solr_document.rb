@@ -34,6 +34,9 @@ class SolrDocument
   use_extension( Blacklight::Document::Zotero )
   use_extension( Blacklight::Document::Endnote )
   use_extension( Blacklight::Document::EndnoteXml )
+  use_extension( Blacklight::Document::Folio) do |document|
+    document.folio_record?
+  end
 
   # i believe that the 520 should be interpreted as ABSTRACT
   # only when indicator1 is "3", but indicator seems to be rarely present.
@@ -137,12 +140,16 @@ class SolrDocument
     self['source'].to_s.strip.casecmp?('folio')
   end
 
-  def exportable_marc_record?
-    if self['source'].to_s.strip.casecmp?('MARC') && self['marc_display'].present?
+  def marc_record?
+    self['source'].to_s.strip.casecmp?('MARC') && self['marc_display'].present?
+  end
+
+  def exportable_record?
+    if marc_record? || folio_record?
       true
     else
       # :nocov
-        Rails.logger.warn("exportable_marc_record? => FALSE for doc id=#{self['id']} source=#{self['source']}")
+        Rails.logger.warn("exportable_record? => FALSE for doc id=#{self['id']} source=#{self['source']}")
       # :nocov
       false
     end
