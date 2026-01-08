@@ -10,6 +10,7 @@ class RecordMailer < ActionMailer::Base
 
     @documents      = documents
     @message        = details[:message]
+    @url_gen_params = url_gen_params
 
     @availability = []
     @documents.each do |doc|
@@ -37,9 +38,6 @@ class RecordMailer < ActionMailer::Base
       @availability << doc_availability
     end
 
-    @tiny           = details[:tiny]
-    @url_gen_params = url_gen_params
-
     delivery_options = {
       user_name: ENV["SMTP_USERNAME"],
       password: ENV["SMTP_PASSWORD"],
@@ -48,44 +46,5 @@ class RecordMailer < ActionMailer::Base
 
     mail(:to => details[:to],  :subject => subject,
       delivery_method_options: delivery_options)
-  end
-
-  def sms_record(documents, details, url_gen_params)
-    if sms_mapping[details[:carrier]]
-      to = "#{details[:to]}@#{sms_mapping[details[:carrier]]}"
-    else
-      to = details[:to]
-    end
-    @documents      = documents
-    @callnumber     = details[:callnumber]
-    @location       = details[:location]
-    @tiny           = details[:tiny]
-    @url_gen_params = url_gen_params
-    subject = ""
-    # @message        = details[:message]
-    # delivery_options = {
-    #   user_name: ENV["SMTP_USERNAME"],
-    #   password: ENV["SMTP_PASSWORD"],
-    #   address: ENV["SMTP_ADDRESS"]
-    # }
-
-    # mail(:to => to, :subject => subject,
-    #   delivery_method_options: delivery_options)
-    # 'to: "6072213597@vtext.com"'
-    arg = ["123"]
-    mail(:to => [details[:to]], :subject => subject, :content_type => 'text')
-  end
-
-  protected
-
-  def sms_mapping
-    {'virgin' => 'vmobl.com',
-    'att' => 'txt.att.net',
-    'verizon' => 'vtext.com',
-    'nextel' => 'messaging.nextel.com',
-    'sprint' => 'messaging.sprintpcs.com',
-    'tmobile' => 'tmomail.net',
-    'alltel' => 'message.alltel.com',
-    'cricket' => 'mms.mycricket.com'}
   end
 end
