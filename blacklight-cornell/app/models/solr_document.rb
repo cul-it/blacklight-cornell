@@ -34,7 +34,7 @@ class SolrDocument
   use_extension( Blacklight::Document::Zotero )
   use_extension( Blacklight::Document::Endnote )
   use_extension( Blacklight::Document::EndnoteXml )
-  use_extension( Blacklight::Folio::DocumentExport)
+  use_extension( Blacklight::Document::RecordSource::Folio)
 
   # i believe that the 520 should be interpreted as ABSTRACT
   # only when indicator1 is "3", but indicator seems to be rarely present.

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Blacklight::Folio::DocumentExport
+module Blacklight::Document::RecordSource::Folio
   ######################################################################################################################
   ##  RIS Format  ##
   ##################
