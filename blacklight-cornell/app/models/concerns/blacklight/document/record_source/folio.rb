@@ -38,7 +38,17 @@ module Blacklight::Document::RecordSource
 
     # Compose publication place, publisher, and date values for export.
     def export_publication_data
-      publication_data
+      info = parsed_pub_info
+      place = first_present_value(%w[pub_place_display pubplace_display]) || info[:place]
+      publisher = first_present_value(%w[publisher_display]) || info[:publisher]
+      date = first_present_value(%w[pub_date_display]) || info[:date]
+      date ||= extract_year(self["pub_date_sort"])
+
+      {
+        place: place&.strip,
+        publisher: publisher&.strip,
+        date: extract_year(date)
+      }
     end
 
     # Folio records do not expose thesis information.
@@ -58,7 +68,30 @@ module Blacklight::Document::RecordSource
 
     # Gather keyword values from display and JSON fields.
     def export_keywords
-      keyword_values
+      values = field_values(%w[keyword_display])
+      field_values(%w[subject_json]).each do |raw|
+        begin
+          parsed = JSON.parse(raw)
+          case parsed
+          when Array
+            parsed.each do |entry|
+              if entry.is_a?(Hash)
+                values << entry["subject"]
+              else
+                values << entry
+              end
+            end
+          when Hash
+            values << parsed["subject"]
+          else
+            values << parsed
+          end
+        rescue JSON::ParserError
+          next
+        end
+      end
+
+      values.compact.map { |value| strip_html(value.to_s).strip }.reject(&:blank?).uniq
     end
 
     # Folio records do not provide export notes.
@@ -68,7 +101,7 @@ module Blacklight::Document::RecordSource
 
     # Gather abstract values from display fields.
     def export_abstracts
-      abstract_values
+      field_values(%w[summary_display description_display]).map { |value| strip_html(value.to_s).strip }.reject(&:blank?)
     end
 
     # Return ISBNs from display fields.
@@ -87,22 +120,6 @@ module Blacklight::Document::RecordSource
     end
 
     private
-
-    # Build publication data from display fields and parsed info.
-    def publication_data
-      info = parsed_pub_info
-      place = first_present_value(%w[pub_place_display pubplace_display]) || info[:place]
-      publisher = first_present_value(%w[publisher_display]) || info[:publisher]
-      date = first_present_value(%w[pub_date_display]) || info[:date]
-      date ||= extract_year(self["pub_date_sort"])
-
-      {
-        place: place&.strip,
-        publisher: publisher&.strip,
-        date: extract_year(date)
-      }
-    end
-
     # Parse place, publisher, and date from the pub_info display string.
     def parsed_pub_info
       info = first_present_value(%w[pub_info_display])
@@ -242,41 +259,6 @@ module Blacklight::Document::RecordSource
       return if value.blank?
 
       value.to_s.scan(/\d{4}/).first
-    end
-
-    # Collect keyword values from JSON and display sources.
-    def keyword_values
-      values = field_values(%w[keyword_display])
-      field_values(%w[subject_json]).each do |raw|
-        begin
-          parsed = JSON.parse(raw)
-          case parsed
-          when Array
-            parsed.each do |entry|
-              if entry.is_a?(Hash)
-                values << entry["subject"]
-              else
-                values << entry
-              end
-            end
-          when Hash
-            values << parsed["subject"]
-          else
-            values << parsed
-          end
-        rescue JSON::ParserError
-          next
-        end
-      end
-
-      values.compact.map { |value| strip_html(value.to_s).strip }.reject(&:blank?).uniq
-    end
-
-    # Collect abstract values from summary and description fields.
-    def abstract_values
-      field_values(%w[summary_display description_display])
-        .map { |value| strip_html(value.to_s).strip }
-        .reject(&:blank?)
     end
 
     # Strip HTML tags from display values.
