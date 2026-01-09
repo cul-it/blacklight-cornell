@@ -13,9 +13,6 @@ gem "blacklight-marc", "~> 8.2"
 gem "blacklight_range_limit", "~> 8.5.0"
 gem "blacklight_unapi", :git => "https://github.com/cul-it/blacklight-unapi", :branch => "BL7_RAILS7-upgrade"
 gem "bootstrap", "~> 4.6"
-gem "capistrano", "~> 3.18"
-gem "capistrano-rails", "~> 1.6"
-gem 'capistrano-rvm'
 gem "coffee-rails", "~> 4.0"
 gem "concurrent-ruby", require: "concurrent"
 gem 'devise', '>= 4.7.0'
