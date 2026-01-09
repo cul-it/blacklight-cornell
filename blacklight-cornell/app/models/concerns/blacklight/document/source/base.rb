@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 ########################################################################################################################
-##           Blacklight::Document::RecordSource::Base             ##
-## -------------------------------------------------------------- ##
-##            Shared methods used by RecordSource's               ##
-####################################################################
-module Blacklight::Document::RecordSource::Base
+##       Blacklight::Document::Source::Base           ##
+## -------------------------------------------------- ##
+##      Shared methods used by Document Source's      ##
+########################################################
+module Blacklight::Document::Source::Base
   # Return the first format value for exports.
   def export_format
     value = self["format"]

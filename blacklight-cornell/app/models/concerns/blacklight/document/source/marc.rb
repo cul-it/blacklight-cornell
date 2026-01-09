@@ -5,7 +5,7 @@
 ## -------------------------------------------------------------- ##
 ##    Maps MARC source records from Solr Document to Exports      ##
 ####################################################################
-module Blacklight::Document::RecordSource
+module Blacklight::Document::Source
   module Marc
     include Base
     include Blacklight::Marc::DocumentExport

@@ -5,7 +5,7 @@
 ## -------------------------------------------------------------- ##
 ##    Maps FOLIO source records from Solr Document to Exports     ##
 ####################################################################
-module Blacklight::Document::RecordSource
+module Blacklight::Document::Source
   module Folio
     include Base
 

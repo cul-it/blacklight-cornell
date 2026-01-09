@@ -4,10 +4,8 @@ class SolrDocument
   # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_display
   extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Marc::DocumentExtension) do |document|
-    document.key?( :marc_display  )
-  end
-  
+  use_extension( Blacklight::Marc::DocumentExtension) { |document| document.marc_record? }
+
   field_semantics.merge!(    
                          :title => "fulltitle_display",
                          :author => "author_display",
@@ -31,9 +29,11 @@ class SolrDocument
   # Recommendation: Use field names from Dublin Core
   # ----------------------------------------------------------------------------
   use_extension( Blacklight::Document::DublinCore)
+
   # Record source extensions for export field mapping.
-  use_extension( Blacklight::Document::RecordSource::Marc) { |document| document.marc_record? }
-  use_extension( Blacklight::Document::RecordSource::Folio) { |document| document.folio_record? }
+  use_extension( Blacklight::Document::Source::Marc) { |document| document.marc_record? }
+  use_extension( Blacklight::Document::Source::Folio) { |document| document.folio_record? }
+
   # Document export formats used.
   use_extension( Blacklight::Document::Export::Ris )
   use_extension( Blacklight::Document::Export::Zotero )
