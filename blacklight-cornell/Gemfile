@@ -61,7 +61,7 @@ gem "utf8-cleaner"
 # shouldn't need to be included explicitly. However, the bl_monkeys.rb
 # file is monkey-patching the URI in a way that's incompatible with 3.x.
 # This needs to be fixed before we can remove the URI gem.
-gem "uri", "0.12.4"
+gem "uri", "0.12.5"
 gem "whenever", require: false
 gem "yaml_db"
 
