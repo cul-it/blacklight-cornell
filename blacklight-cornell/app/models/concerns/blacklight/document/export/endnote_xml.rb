@@ -1,10 +1,10 @@
 # This module registers the ENDNOTE XML export format with the system so that we
 # can offer options for Mendeley,Zotero, and Endnote
-module Blacklight::Document::EndnoteXml
+module Blacklight::Document::Export::EndnoteXml
 
   def self.extended(document)
     # Register our exportable formats
-    Blacklight::Document::EndnoteXml.register_export_formats( document )
+    Blacklight::Document::Export::EndnoteXml.register_export_formats( document )
   end
 
   def self.register_export_formats(document)
@@ -65,19 +65,13 @@ module Blacklight::Document::EndnoteXml
   # <!ELEMENT record (database?, source-app?, rec-number?, foreign-keys?, ref-type?, contributors?, auth-address?, auth-affiliaton?, titles?, periodical?, pages?, volume?, number?, issue?, secondary-volume?, secondary-issue?, num-vols?, edition?, section?, reprint-edition?, reprint-status?, keywords?, dates?, pub-location?, publisher?, orig-pub?, isbn?, accession-num?, call-num?, report-id?, coden?, electronic-resource-num?, abstract?, label?, image?, caption?, notes?, research-notes?, work-type?, reviewed-item?, availability?, remote-source?, meeting-place?, work-location?, work-extent?, pack-method?, size?, repro-ratio?, remote-database-name?, remote-database-provider?, language?, urls?, access-date?, modified-date?, custom1?, custom2?, custom3?, custom4?, custom5?, custom6?, custom7?, misc1?, misc2?, misc3?)>
   # Note the order is required for validation, but may not be enforced by apps.
   # among other things, the values for ref-type, and for role on the author element are not defined here.
-  def export_as_endnote_xml()
+  def export_as_endnote_xml
     return nil unless exportable_record?
 
-    title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
-    fmt = self['format'].first
-    num_ty = "0";
-    ty = "Book"
-    if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
-      ty = FACET_TO_ENDNOTE_TYPE[fmt]
-     end
-    if (FACET_TO_ENDNOTE_NUMERIC_VALUE.keys.include?(ty))
-      num_ty = FACET_TO_ENDNOTE_NUMERIC_VALUE[ty]
-    end
+    title = export_title(separator: ": ")
+    fmt = export_format
+    ty = FACET_TO_ENDNOTE_TYPE[fmt] || "Book"
+    num_ty = FACET_TO_ENDNOTE_NUMERIC_VALUE[ty] || "0"
     builder = Builder::XmlMarkup.new(:indent => 2,:margin => 4)
     builder.tag!("xml") do
       builder.records() do
@@ -87,7 +81,7 @@ module Blacklight::Document::EndnoteXml
           builder.tag!("ref-type",num_ty,"name" => ty)
           generate_enx_contributors(builder,ty)
           builder.titles() do
-            builder.title(title)
+            builder.title(title) if title.present?
           end
           generate_enx_edition(builder,ty)
           generate_enx_keywords(builder,ty)
@@ -112,8 +106,8 @@ module Blacklight::Document::EndnoteXml
   #<work-type>Ph.D.dissertation</work-type>
   def generate_enx_work_type(bld,ty)
     if ty == 'Thesis'
-      thdata =   setup_thesis_info(to_marc)
-      bld.tag!("work-type",thdata[:type].to_s)
+      thdata = export_thesis_info
+      bld.tag!("work-type", thdata[:type].to_s) if thdata.present?
     end
   end
 
@@ -124,83 +118,67 @@ module Blacklight::Document::EndnoteXml
   #133     end
   #
   def generate_enx_notes(bld,ty)
-    nt =   setup_notes_info(to_marc)
-    nt <<  "http://catalog.library.cornell.edu/catalog/#{id}\n"
-    bld.notes(nt.join(" ")) unless nt.blank? or nt.join("").blank?
+    nt = (export_notes || []).dup
+    catalog_url = export_catalog_url
+    nt << "#{catalog_url}\n" if catalog_url.present?
+    bld.notes(nt.join(" ")) unless nt.blank? || nt.join("").blank?
   end
 
   def generate_enx_edition(bld,ty)
-     et =  setup_edition(to_marc)
+     et = export_edition
      bld.edition(et) unless et.blank?
   end
 
   def generate_enx_callnum(bld,ty)
-    where = setup_holdings_info(bld)
-    bld.tag!("call-num", where.join("//")) unless where.blank? or where.join("").blank?
+    where = export_holdings_string(separator: "//")
+    bld.tag!("call-num", where) if where.present?
   end
 
   def generate_enx_keywords(bld,ty)
-    kw =   setup_kw_info(to_marc)
-
+    kw = export_keywords
     bld.keywords do
-      kw.each do |k|
-          bld.keyword(k) unless k.empty?
-      end
+      kw.each { |k| bld.keyword(k) unless k.empty? }
     end unless kw.blank?
   end
 
   def generate_enx_abstract(bld,ty)
-    k = setup_abst_info(to_marc)
+    k = export_abstracts
     bld.abstract(k.join(' ')) unless k.blank?
   end
   def generate_enx_urls(bld,ty)
-    ul = access_url_first_filtered(self)
+    ul = export_access_url
     bld.urls() { bld.tag!("web-urls") { bld.url(ul)}}  unless ul.blank?
   end
 
   def generate_enx_language(bld,ty)
-    if !self["language_facet"].blank?
-      self["language_facet"].map{|la|  bld.language(la)
-      }
-    end
+    export_languages.each { |la| bld.language(la) }
   end
 
   #<electronic-resource-num>10.1007/978-3-319-27177-4</electronic-resource-num>
   def generate_enx_doi(bld,ty)
-     doi = setup_doi(to_marc)
-     bld.tag!("electronic-resource-num",doi) unless doi.blank?
+     doi = export_doi
+     bld.tag!("electronic-resource-num", doi) unless doi.blank?
   end
 
   def generate_enx_isbn(bld,ty)
-    isbns = setup_isbn_info(to_marc)
-    bld.isbn(isbns.join(" ; "))   unless isbns.blank?
+    isbns = export_isbns
+    bld.isbn(isbns.join(" ; ")) unless isbns.blank?
   end
 
   def generate_enx_location(bld,ty)
     # publisher
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
-    place = ''
-    pname = ''
-    if !pub_data.nil?
-      place, publisher = pub_data.split(':')
-      pname = "#{publisher.strip!}" unless publisher.nil?
-      bld.tag!("pub-location",place)
-    end
+    pub_data = export_publication_data || {}
+    place = pub_data[:place]
+    bld.tag!("pub-location", place) if place.present?
   end
 
   def generate_enx_publisher(bld,ty)
     # publisher
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
-    place = ''
-    pname = ''
-    if !pub_data.nil?
-      place, publisher = pub_data.split(':')
-      pname = publisher
-      pname = "#{publisher.strip!}" unless publisher.nil?
-    end
-    if ty == 'Thesis' and pname.blank?
-      th = setup_thesis_info(to_marc)
-      pname = th[:inst].to_s
+    pub_data = export_publication_data || {}
+    pname = pub_data[:publisher]
+    if ty == 'Thesis' && pname.blank?
+      th = export_thesis_info
+      pname = th[:inst].to_s if th.present?
     end
     bld.publisher(pname) unless pname.blank?
   end
@@ -213,8 +191,8 @@ module Blacklight::Document::EndnoteXml
   #  </dates>
   #
   def generate_enx_dates(bld,ty)
-    yr  = "#{setup_pub_date(to_marc)}"
-    if !yr.empty?
+    yr = export_publication_data.to_h[:date].to_s
+    if yr.present?
       bld.dates() do
         bld.year(yr)
         bld.tag!("pub-dates") do
@@ -226,8 +204,8 @@ module Blacklight::Document::EndnoteXml
 
   #TODO: Look into get_contrib_roles method closer before cleaning out: Jira ticket - https://culibrary.atlassian.net/browse/DACCESS-766
   def generate_enx_contributors(bld,ty)
-    authors = get_all_authors(to_marc)
-    relators =  get_contrib_roles(to_marc)
+    authors = export_contributors || {}
+    relators = export_relators
     # :nocov:
       Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} relators = #{relators.inspect}"
     # :nocov:

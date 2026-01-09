@@ -18,10 +18,11 @@ describe Blacklight::Marc::DocumentExport do
     # Mock solr document created from MARCXML for testing Marc export modules 
     dclass = Class.new(SolrDocument) do
       include Blacklight::Marc::DocumentExport
-      include Blacklight::Document::Endnote
-      include Blacklight::Document::Ris
-      include Blacklight::Document::EndnoteXml
-      include Blacklight::Document::Zotero
+      include Blacklight::Document::RecordSource::Marc
+      include Blacklight::Document::Export::Endnote
+      include Blacklight::Document::Export::Ris
+      include Blacklight::Document::Export::EndnoteXml
+      include Blacklight::Document::Export::Zotero
 
       attr_accessor :to_marc
 

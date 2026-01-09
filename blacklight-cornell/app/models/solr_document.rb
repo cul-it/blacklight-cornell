@@ -1,7 +1,7 @@
 class SolrDocument
 
   include Blacklight::Solr::Document    
-      # The following shows how to setup this blacklight document to display marc documents
+  # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_display
   extension_parameters[:marc_format_type] = :marcxml
   use_extension( Blacklight::Marc::DocumentExtension) do |document|
@@ -23,18 +23,23 @@ class SolrDocument
   # SMS uses the semantic field mappings below to generate the body of an SMS email.
   SolrDocument.use_extension( Blacklight::Document::Sms )
 
+  # ============================================================================
   # DublinCore uses the semantic field mappings below to assemble an OAI-compliant Dublin Core document
   # Semantic mappings of solr stored fields. Fields may be multi or
   # single valued. See Blacklight::Document::SemanticFields#field_semantics
   # and Blacklight::Document::SemanticFields#to_semantic_values
   # Recommendation: Use field names from Dublin Core
+  # ----------------------------------------------------------------------------
   use_extension( Blacklight::Document::DublinCore)
-# all of these require MARC format data.
-  use_extension( Blacklight::Document::Ris )
-  use_extension( Blacklight::Document::Zotero )
-  use_extension( Blacklight::Document::Endnote )
-  use_extension( Blacklight::Document::EndnoteXml )
+  # Record sources in Solr used for document exports
+  use_extension( Blacklight::Document::RecordSource::Marc)
   use_extension( Blacklight::Document::RecordSource::Folio)
+  # Document export formats used.
+  use_extension( Blacklight::Document::Export::Ris )
+  use_extension( Blacklight::Document::Export::Zotero )
+  use_extension( Blacklight::Document::Export::Endnote )
+  use_extension( Blacklight::Document::Export::EndnoteXml )
+
 
   # i believe that the 520 should be interpreted as ABSTRACT
   # only when indicator1 is "3", but indicator seems to be rarely present.

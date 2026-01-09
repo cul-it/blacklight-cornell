@@ -1,184 +1,119 @@
 # frozen_string_literal: true
 
 module Blacklight::Document::RecordSource::Folio
-  ######################################################################################################################
-  ##  RIS Format  ##
-  ##################
-  def export_ris
-    return super unless folio_record?
 
-    ty = ris_type_for_format(folio_format)
-    output = +"TY  - #{ty}\n"
-
-    append_tagged_value(output, "TI  -", folio_title(separator: ": "))
-    append_ris_authors(output)
-    append_ris_publication_data(output, folio_publication_data)
-    append_tagged_values(output, "LA  -", folio_languages)
-    append_tagged_value(output, "UR  -", folio_access_url)
-
-    catalog_url = folio_catalog_url
-    if catalog_url.present?
-      output << "M2  - #{catalog_url}\n"
-      output << "N1  - #{catalog_url}\n"
-    end
-
-    append_tagged_value(output, "CN  -", folio_holdings_string(separator: " "))
-
-    output << "ER  - \n"
-    output
-  end
-
-  ######################################################################################################################
-  ##  Endnote Format  ##
-  ######################
-  def export_as_endnote
-    return super unless folio_record?
-
-    fmt_str = endnote_type_for_format(folio_format)
-    text = +"%0 #{fmt_str}\n"
-
-    append_tagged_values(text, "%G", folio_languages)
-    append_tagged_value(text, "%T", folio_title(separator: " "))
-    append_endnote_authors(text)
-    append_endnote_publication_data(text, folio_publication_data)
-    append_tagged_value(text, "%L", folio_holdings_string(separator: " "))
-    append_tagged_value(text, "%Z", folio_catalog_url)
-
-    text
-  end
-
-  ######################################################################################################################
-  ##  Endnote XML Format  ##
-  ##########################
-  def export_as_endnote_xml
-    return super unless folio_record?
-
-    fmt = folio_format
-    ty = endnote_type_for_format(fmt)
-    num_ty = endnote_numeric_type(ty)
-
-    title = folio_title(separator: ": ")
-    pub_data = folio_publication_data
-    author_list = folio_primary_authors
-
-    builder = Builder::XmlMarkup.new(:indent => 2, :margin => 4)
-    builder.tag!("xml") do
-      builder.records do
-        builder.record do
-          builder.database("MyLibrary")
-          builder.tag!("source-app", "Cornell University Library", "name" => "CULIB")
-          builder.tag!("ref-type", num_ty, "name" => ty)
-          builder.contributors do
-            if author_list.present?
-              builder.authors do
-                author_list.each { |author| builder.author(author) }
-              end
-            end
-          end
-          builder.titles do
-            builder.title(title) if title.present?
-          end
-          if pub_data[:date].present?
-            builder.dates do
-              builder.year(pub_data[:date])
-              builder.tag!("pub-dates") { builder.date(pub_data[:date]) }
-            end
-          end
-          builder.tag!("pub-location", pub_data[:place]) if pub_data[:place].present?
-          builder.publisher(pub_data[:publisher]) if pub_data[:publisher].present?
-          holdings = folio_holdings_string(separator: " ")
-          builder.tag!("call-num", holdings) if holdings.present?
-          catalog_url = folio_catalog_url
-          builder.notes("#{catalog_url}\n") if catalog_url.present?
-          folio_languages.each { |lang| builder.language(lang) }
-        end
+  def self.apply_export_guard(record_source)
+    guard_key = record_source.to_s.gsub(/\W/, "_")
+    instance_methods(false).grep(/\Aexport_/).each do |name|
+      guarded = "__#{guard_key}_#{name}"
+      next if method_defined?(guarded)
+      alias_method guarded, name
+      define_method(name) do |*args, **kwargs, &block|
+        return super(*args, **kwargs, &block) unless public_send(record_source)
+        send(guarded, *args, **kwargs, &block)
       end
     end
-
-    builder.target!
   end
 
-  ######################################################################################################################
-  ##  Zotero RDF Format  ##
-  #########################
-  def generate_rdf_zotero
-    return super unless folio_record?
-
-    fmt = folio_format
-    ty = Blacklight::Document::Zotero::FACET_TO_ZOTERO_TYPE[fmt] || "book"
-    tag = case ty
-    when "videoRecording", "audioRecording"
-      "Recording"
-    when "map"
-      "Image"
-    else
-      "Book"
-    end
-
-    title = folio_title(separator: ": ")
-
-    builder = Builder::XmlMarkup.new(:indent => 2, :margin => 4)
-    builder.tag!("rdf:RDF",
-                 "xmlns:rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-                 "xmlns:z" => "http://www.zotero.org/namespaces/export#",
-                 "xmlns:dc" => "http://purl.org/dc/elements/1.1/",
-                 "xmlns:vcard" => "http://nwalsh.com/rdf/vCard#",
-                 "xmlns:foaf" => "http://xmlns.com/foaf/0.1/",
-                 "xmlns:bib" => "http://purl.org/net/biblio#",
-                 "xmlns:prism" => "http://prismstandard.org/namespaces/1.2/basic/",
-                 "xmlns:dcterms" => "http://purl.org/dc/terms/") do
-      builder.bib(tag.to_sym) do
-        builder.z(:itemType, ty)
-        builder.dc(:title, title.strip) if title.present?
-        generate_folio_zotero_authors(builder, ty)
-        generate_folio_zotero_publisher(builder)
-        generate_folio_zotero_pubdate(builder)
-        generate_folio_zotero_language(builder)
-        generate_folio_zotero_keywords(builder)
-        generate_folio_zotero_abstract(builder)
-        generate_folio_zotero_url(builder)
-        generate_folio_zotero_holdings(builder)
-        generate_folio_zotero_catalog_link(builder)
-      end
-    end
-
-    builder.target!
-  end
-
-
-  private
-  ######################################################################################################################
-  ##  Helper Methods  ##
-  ######################
-
-  #####################---------------------------------------------------------
-  ##  Shared Methods ##
-  #####################
-  def folio_format
+  def export_format
     value = self["format"]
     value.is_a?(Array) ? value.first : value
   end
 
-  def ris_type_for_format(fmt)
-    type = Blacklight::Document::Ris::FACET_TO_RIS_TYPE[fmt] || "GEN"
-    if fmt == "Book" && self["online"] && self["online"].first == "Online"
-      type = "EBOOK"
-    end
-    type
+  def export_online?
+    online = self["online"]
+    online.is_a?(Array) ? online.first == "Online" : online == "Online"
   end
 
-  def endnote_type_for_format(fmt)
-    type = Blacklight::Document::Endnote::FACET_TO_ENDNOTE_TYPE[fmt] || "Generic"
-    if fmt == "Book" && self["online"] && self["online"].first == "Online"
-      type = "Electronic Book"
-    end
-    type
+  def export_title(separator:)
+    folio_title(separator: separator)
   end
 
-  def endnote_numeric_type(type)
-    Blacklight::Document::EndnoteXml::FACET_TO_ENDNOTE_NUMERIC_VALUE[type] || "0"
+  def export_contributors
+    authors = author_lists
+    personal = (authors[:personal] || []).dup
+    corporate = (authors[:corporate] || []).dup
+    {
+      primary_authors: personal,
+      secondary_authors: [],
+      primary_corporate_authors: corporate,
+      secondary_corporate_authors: [],
+      meeting_authors: [],
+      editors: [],
+      translators: [],
+      compilers: []
+    }
   end
 
+  def export_relators
+    {}
+  end
+
+  def export_publication_data
+    folio_publication_data
+  end
+
+  def export_thesis_info
+    nil
+  end
+
+  def export_edition
+    first_present_value(%w[edition_display])
+  end
+
+  def export_languages
+    folio_languages
+  end
+
+  def export_access_url
+    folio_access_url
+  end
+
+  def export_catalog_url
+    folio_catalog_url
+  end
+
+  def export_holdings
+    folio_holdings
+  end
+
+  def export_holdings_string(separator:)
+    folio_holdings_string(separator: separator)
+  end
+
+  def export_doi
+    first_present_value(%w[doi_display])
+  end
+
+  def export_keywords
+    folio_keyword_values
+  end
+
+  def export_notes
+    []
+  end
+
+  def export_abstracts
+    folio_abstract_values
+  end
+
+  def export_isbns
+    field_values(%w[isbn_display])
+  end
+
+  def export_issns
+    field_values(%w[issn_display])
+  end
+
+  def export_medium(_kind)
+    nil
+  end
+
+  private
+
+  ####################################
+  ## Shared Helpers ##
+  ##################
   def folio_publication_data
     @folio_publication_data ||= publication_data
   end
@@ -212,197 +147,9 @@ module Blacklight::Document::RecordSource::Folio
     holdings.join(separator)
   end
 
-  def folio_primary_authors
-    authors = author_lists
-    authors[:personal].presence || authors[:corporate]
-  end
-
-  def folio_personal_authors
-    author_lists[:personal]
-  end
-
-  def append_tagged_value(buffer, prefix, value)
-    buffer << "#{prefix} #{value}\n" if value.present?
-  end
-
-  def append_tagged_values(buffer, prefix, values)
-    values.each { |value| append_tagged_value(buffer, prefix, value) }
-  end
-
-
-  ###################-----------------------------------------------------------
-  ##  RIS Helpers  ##
-  ###################
-  def append_ris_authors(buffer)
-    authors = folio_primary_authors
-    return if authors.blank?
-
-    buffer << "AU  - #{authors[0]}\n"
-    authors.drop(1).each_with_index do |author, index|
-      buffer << "A#{index + 1}  - #{author}\n"
-    end
-  end
-
-
-  #######################-------------------------------------------------------
-  ##  Endnote Helpers  ##
-  #######################
-  def append_endnote_authors(buffer)
-    authors = folio_personal_authors
-    return if authors.blank?
-
-    buffer << "%A #{authors[0]}\n"
-    authors.drop(1).each { |author| buffer << "%E #{author}\n" }
-  end
-
-  def append_ris_publication_data(buffer, pub_data)
-    append_tagged_value(buffer, "PY  -", pub_data[:date])
-    append_tagged_value(buffer, "PB  -", pub_data[:publisher])
-    append_tagged_value(buffer, "CY  -", pub_data[:place])
-  end
-
-  def append_endnote_publication_data(buffer, pub_data)
-    append_tagged_value(buffer, "%I", pub_data[:publisher])
-    append_tagged_value(buffer, "%C", pub_data[:place])
-    append_tagged_value(buffer, "%D", pub_data[:date])
-  end
-
-
-  ######################--------------------------------------------------------
-  ##  Zotero Helpers  ##
-  ######################
-  def generate_folio_zotero_authors(builder, ty)
-    author_list = folio_primary_authors
-    return if author_list.blank?
-
-    auty = case ty
-    when "videoRecording"
-      "contributors"
-    when "audioRecording"
-      "performers"
-    when "map"
-      "cartographers"
-    else
-      "authors"
-    end
-    ns = %w[contributors authors editors].include?(auty) ? "bib" : "z"
-
-    builder.tag!("#{ns}:#{auty}") do
-      builder.rdf(:Seq) do
-        author_list.each { |author| builder.rdf(:li) { generate_folio_zotero_person(builder, author) } }
-      end
-    end
-  end
-
-  def generate_folio_zotero_person(builder, name)
-    surname = name
-    surname, givenname = name.split(",", 2) if name.include?(",")
-    builder.foaf(:Person) do
-      sn = surname.to_s.strip
-      builder.foaf(:surname, sn) unless sn.blank?
-      gn = givenname.to_s.strip
-      builder.foaf(:givenname, gn) unless gn.blank?
-    end
-  end
-
-  def generate_folio_zotero_publisher(builder)
-    pub_data = folio_publication_data
-    return if pub_data[:place].blank? && pub_data[:publisher].blank?
-
-    builder.dc(:publisher) do
-      builder.foaf(:Organization) do
-        builder.vcard(:adr) do
-          builder.vcard(:Address) do
-            builder.vcard(:locality, pub_data[:place]) if pub_data[:place].present?
-          end
-        end
-        builder.foaf(:name, pub_data[:publisher]) if pub_data[:publisher].present?
-      end
-    end
-  end
-
-  def generate_folio_zotero_pubdate(builder)
-    pub_data = folio_publication_data
-    builder.dc(:date, pub_data[:date]) if pub_data[:date].present?
-  end
-
-  def generate_folio_zotero_language(builder)
-    folio_languages.each { |lang| builder.z(:language, lang) }
-  end
-
-  def generate_folio_zotero_keywords(builder)
-    folio_keyword_values.each { |keyword| builder.dc(:subject, keyword) }
-  end
-
-  def generate_folio_zotero_abstract(builder)
-    abstracts = folio_abstract_values
-    return if abstracts.blank?
-
-    builder.dcterms(:abstract, abstracts.join(" "))
-  end
-
-  def generate_folio_zotero_url(builder)
-    access_url = folio_access_url
-    return if access_url.blank?
-
-    builder.dc(:identifier) { builder.dcterms(:URI) { builder.rdf(:value, access_url) } }
-  end
-
-  def generate_folio_zotero_holdings(builder)
-    holdings = folio_holdings_string(separator: "//")
-    return if holdings.blank?
-
-    builder.dc(:subject) { builder.dcterms(:LCC) { builder.rdf(:value, holdings) } }
-  end
-
-  def generate_folio_zotero_catalog_link(builder)
-    catalog_url = folio_catalog_url
-    return if catalog_url.blank?
-
-    builder.dc(:description, catalog_url)
-  end
-
-  def folio_keyword_values
-    values = field_values(%w[keyword_display])
-    field_values(%w[subject_json]).each do |raw|
-      begin
-        parsed = JSON.parse(raw)
-        case parsed
-        when Array
-          parsed.each do |entry|
-            if entry.is_a?(Hash)
-              values << entry["subject"]
-            else
-              values << entry
-            end
-          end
-        when Hash
-          values << parsed["subject"]
-        else
-          values << parsed
-        end
-      rescue JSON::ParserError
-        next
-      end
-    end
-
-    values.compact.map { |value| strip_html(value.to_s).strip }.reject(&:blank?).uniq
-  end
-
-  def folio_abstract_values
-    field_values(%w[summary_display description_display])
-      .map { |value| strip_html(value.to_s).strip }
-      .reject(&:blank?)
-  end
-
-  def strip_html(text)
-    text.gsub(/<[^>]*>/, "")
-  end
-
-
-  ########################################--------------------------------------
-  ##  Publication/Title/Author Parsing  ##
-  ########################################
+  ####################################
+  ## Publication/Title/Author Parsing ##
+  ##################
   def publication_data
     info = parsed_pub_info
     place = first_present_value(%w[pub_place_display pubplace_display]) || info[:place]
@@ -573,4 +320,46 @@ module Blacklight::Document::RecordSource::Folio
     end
     text
   end
+
+  ####################################
+  ## Keyword/Abstract Helpers ##
+  ##################
+  def folio_keyword_values
+    values = field_values(%w[keyword_display])
+    field_values(%w[subject_json]).each do |raw|
+      begin
+        parsed = JSON.parse(raw)
+        case parsed
+        when Array
+          parsed.each do |entry|
+            if entry.is_a?(Hash)
+              values << entry["subject"]
+            else
+              values << entry
+            end
+          end
+        when Hash
+          values << parsed["subject"]
+        else
+          values << parsed
+        end
+      rescue JSON::ParserError
+        next
+      end
+    end
+
+    values.compact.map { |value| strip_html(value.to_s).strip }.reject(&:blank?).uniq
+  end
+
+  def folio_abstract_values
+    field_values(%w[summary_display description_display])
+      .map { |value| strip_html(value.to_s).strip }
+      .reject(&:blank?)
+  end
+
+  def strip_html(text)
+    text.gsub(/<[^>]*>/, "")
+  end
+
+  apply_export_guard(:folio_record?)
 end
