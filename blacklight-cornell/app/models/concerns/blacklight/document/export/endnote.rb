@@ -40,15 +40,22 @@ module Blacklight::Document::Export::Endnote
 
     export_languages.each { |la| text << "%G #{la}\n" }
 
-    title = export_title(separator: " ")
-    text << "%T #{title}\n" if title.present?
-
     contributors = export_contributors || {}
     authors = (contributors[:primary_authors] || []) + (contributors[:secondary_authors] || [])
     if authors.present?
       text << "%A #{authors[0]}\n"
       authors.drop(1).each { |author| text << "%E #{author}\n" }
     end
+
+    export_isbns.each { |isbn| text << "%@ #{isbn.strip}\n" }
+    export_issns.each { |issn| text << "%@ #{issn.strip}\n" }
+
+
+    title = export_title(separator: " ")
+    text << "%T #{title}\n" if title.present?
+
+    edition = export_edition
+    text << "%7 #{edition}\n" if edition.present?
 
     pub_data = export_publication_data || {}
     place = pub_data[:place]
@@ -69,23 +76,18 @@ module Blacklight::Document::Export::Endnote
     text << "%C #{place}\n" if place.present?
     text << "%D #{pdate}\n" if pdate.present?
 
-    export_isbns.each { |isbn| text << "%@ #{isbn.strip}\n" }
-    export_issns.each { |issn| text << "%@ #{issn.strip}\n" }
-
-    edition = export_edition
-    text << "%7 #{edition}\n" if edition.present?
-
     doi = export_doi
     text << "%R #{doi}\n" if doi.present?
 
     ul = export_access_url
     text << "%U #{ul}\n" if ul.present?
 
+    catalog_url = export_catalog_url
+    text << "%Z #{catalog_url}\n" if catalog_url.present?
+
     where = export_holdings || []
     text << "%L  #{where.join('//')}\n" unless where.blank? || where.join("").blank?
 
-    catalog_url = export_catalog_url
-    text << "%Z #{catalog_url}\n" if catalog_url.present?
 
     text = generate_en_keywords(text)
     # add a blank line to separate from possible next.
@@ -98,34 +100,30 @@ module Blacklight::Document::Export::Endnote
     export_keywords.each { |k| text << "%K #{k}\n" unless k.blank? }
     text
   end
-
-#Examples
-#%0  Book
-#%A  Geoffrey Chaucer
-#%D  1957
-#%T  The Works of Geoffrey Chaucer
-#%E  F. N. Robinson
-#%I   Houghton
-#%C  Boston
-#%N  2nd
-#
-# %0  Journal Article
-# %A  Herbert H. Clark
-# %D  1982
-# %T  Hearers and Speech Acts
-# %B  Language
-# %V  58
-# %P  332-373
-#
-#  %0  Thesis
-#  %A  Cantucci, Elena
-#  %T  Permian strata in South-East Asia
-#  %D  1990
-#  %I   University of California, Berkeley
-#  %9  Dissertation
-#
-
 end
+
+# EXAMPLE EXPORT
+# %0 Electronic Book
+# %G English
+# %A Van Laer, Rebecca
+# %@ 9798765114650
+# %@ 9798765114643
+# %@
+# %@
+# %T Cat
+# %7 1st edition
+# %I Bloomsbury Academic
+# %C New York
+# %D 2025
+# %R 10.5040/9798765114650
+# %U https://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&db=nlabk&AN=4278375
+# %Z http://catalog.library.cornell.edu/catalog/17230874
+# %K Cats Social aspects.
+#   %K Human-animal relationships.
+
+
+
+
 
 # documentation --
 #https://www.citavi.com/sub/manual5/en/importing_an_endnote_tagged_file.html

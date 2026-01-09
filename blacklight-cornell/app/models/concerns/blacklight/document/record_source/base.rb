@@ -3,10 +3,10 @@
 module Blacklight::Document::RecordSource::Base
   # Extend including modules with record-source class helpers.
   def self.included(base)
-    base.extend(ClassMethods)
+    base.extend(ExportConfiguration)
   end
 
-  module ClassMethods
+  module ExportConfiguration
     # Wrap export_ methods so the matching record source handles them.
     def apply_export_guard(record_source)
       guard_key = record_source.to_s.gsub(/\W/, "_")
