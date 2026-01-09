@@ -31,9 +31,9 @@ class SolrDocument
   # Recommendation: Use field names from Dublin Core
   # ----------------------------------------------------------------------------
   use_extension( Blacklight::Document::DublinCore)
-  # Record sources in Solr used for document exports
-  use_extension( Blacklight::Document::RecordSource::Marc)
-  use_extension( Blacklight::Document::RecordSource::Folio)
+  # Record source extensions for export field mapping.
+  use_extension( Blacklight::Document::RecordSource::Marc) { |document| document.marc_record? }
+  use_extension( Blacklight::Document::RecordSource::Folio) { |document| document.folio_record? }
   # Document export formats used.
   use_extension( Blacklight::Document::Export::Ris )
   use_extension( Blacklight::Document::Export::Zotero )
@@ -137,8 +137,6 @@ class SolrDocument
     nil
   end
 
-  #TODO: This will be used later for https://culibrary.atlassian.net/browse/DACCESS-706
-  # To support exports of folio records
   def folio_record?
     self['source'].to_s.strip.casecmp?('folio')
   end

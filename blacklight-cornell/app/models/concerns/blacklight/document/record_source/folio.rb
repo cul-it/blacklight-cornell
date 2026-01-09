@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+########################################################################################################################
+##                  FOLIO Record Source                           ##
+## -------------------------------------------------------------- ##
+##    Maps FOLIO source records from Solr Document to Exports     ##
+####################################################################
 module Blacklight::Document::RecordSource
   module Folio
     include Base
@@ -278,7 +283,5 @@ module Blacklight::Document::RecordSource
     def strip_html(text)
       text.gsub(/<[^>]*>/, "")
     end
-
-    apply_export_guard(:folio_record?)
   end
 end

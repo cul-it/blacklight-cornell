@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+########################################################################################################################
+##                  MARC Record Source                            ##
+## -------------------------------------------------------------- ##
+##    Maps MARC source records from Solr Document to Exports      ##
+####################################################################
 module Blacklight::Document::RecordSource
   module Marc
     include Base
@@ -100,7 +105,5 @@ module Blacklight::Document::RecordSource
     def export_medium(kind)
       setup_medium(to_marc, kind)
     end
-
-    apply_export_guard(:marc_record?)
   end
 end

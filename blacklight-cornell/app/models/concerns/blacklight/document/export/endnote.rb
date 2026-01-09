@@ -50,7 +50,6 @@ module Blacklight::Document::Export::Endnote
     export_isbns.each { |isbn| text << "%@ #{isbn.strip}\n" }
     export_issns.each { |issn| text << "%@ #{issn.strip}\n" }
 
-
     title = export_title(separator: " ")
     text << "%T #{title}\n" if title.present?
 
@@ -86,8 +85,7 @@ module Blacklight::Document::Export::Endnote
     text << "%Z #{catalog_url}\n" if catalog_url.present?
 
     where = export_holdings || []
-    text << "%L  #{where.join('//')}\n" unless where.blank? || where.join("").blank?
-
+    text << "%L #{where.join('//')}\n" unless where.blank? || where.join("").blank?
 
     text = generate_en_keywords(text)
     # add a blank line to separate from possible next.
@@ -120,10 +118,6 @@ end
 # %Z http://catalog.library.cornell.edu/catalog/17230874
 # %K Cats Social aspects.
 #   %K Human-animal relationships.
-
-
-
-
 
 # documentation --
 #https://www.citavi.com/sub/manual5/en/importing_an_endnote_tagged_file.html

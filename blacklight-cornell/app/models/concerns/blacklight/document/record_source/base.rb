@@ -1,31 +1,11 @@
 # frozen_string_literal: true
 
+########################################################################################################################
+##           Blacklight::Document::RecordSource::Base             ##
+## -------------------------------------------------------------- ##
+##            Shared methods used by RecordSource's               ##
+####################################################################
 module Blacklight::Document::RecordSource::Base
-  # Extend including modules with record-source class helpers.
-  def self.included(base)
-    base.extend(ExportConfiguration)
-  end
-
-  module ExportConfiguration
-    # Wrap export_ methods so the matching record source handles them.
-    def apply_export_guard(record_source)
-      guard_key = record_source.to_s.gsub(/\W/, "_")
-      export_methods = instance_methods(false)
-      if included_modules.include?(Blacklight::Document::RecordSource::Base)
-        export_methods += Blacklight::Document::RecordSource::Base.instance_methods(false)
-      end
-      export_methods.uniq.grep(/\Aexport_/).each do |name|
-        guarded = "__#{guard_key}_#{name}"
-        next if method_defined?(guarded)
-        alias_method guarded, name
-        define_method(name) do |*args, **kwargs, &block|
-          return super(*args, **kwargs, &block) unless public_send(record_source)
-          send(guarded, *args, **kwargs, &block)
-        end
-      end
-    end
-  end
-
   # Return the first format value for exports.
   def export_format
     value = self["format"]
