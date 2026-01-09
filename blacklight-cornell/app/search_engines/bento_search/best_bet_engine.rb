@@ -19,7 +19,7 @@ class BentoSearch::BestBetEngine
     uri = URI.join("https://bestbets.library.cornell.edu/match/", q)
     best_bet = []
     begin
-      best_bet = JSON.load(uri)
+      best_bet = JSON.load(URI.open(uri))
     rescue Exception => e
       best_bet = []
       result = BentoSearch::ResultItem.new
