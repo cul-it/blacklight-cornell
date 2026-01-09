@@ -154,8 +154,8 @@ GEM
       execjs (~> 2)
     awesome_print (1.9.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1178.0)
-    aws-sdk-core (3.235.0)
+    aws-partitions (1.1201.0)
+    aws-sdk-core (3.241.3)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -163,10 +163,10 @@ GEM
       bigdecimal
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-kms (1.115.0)
-      aws-sdk-core (~> 3, >= 3.234.0)
+    aws-sdk-kms (1.120.0)
+      aws-sdk-core (~> 3, >= 3.241.3)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.202.0)
+    aws-sdk-s3 (1.208.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -189,7 +189,7 @@ GEM
       latex-decode (~> 0.0)
       logger (~> 1.7)
       racc (~> 1.7)
-    bigdecimal (3.3.1)
+    bigdecimal (4.0.1)
     blacklight (7.41.0)
       deprecation
       globalid
@@ -881,7 +881,7 @@ DEPENDENCIES
   addressable (>= 2.8.0)
   appsignal (~> 3.3.2)
   awesome_print
-  aws-sdk-s3 (~> 1.143)
+  aws-sdk-s3 (~> 1.208)
   bento_search (~> 2.0.0.rc2)
   blacklight (<= 8.0)
   blacklight-hierarchy (~> 6.4.0)
