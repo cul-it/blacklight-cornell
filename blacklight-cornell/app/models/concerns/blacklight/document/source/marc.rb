@@ -29,7 +29,19 @@ module Blacklight::Document::Source
 
     # Return contributors parsed from MARC fields.
     def export_contributors
-      get_all_authors(to_marc)
+      contributors = get_all_authors(to_marc)
+      analytics = analytics_contributors(to_marc)
+      return contributors if analytics.blank?
+
+      contributors[:secondary_authors] ||= []
+      analytics.each do |name|
+        next if name.blank?
+
+        cleaned = name.to_s.gsub(/[\.,]$/, "")
+        contributors[:secondary_authors] << cleaned
+      end
+      contributors[:secondary_authors].uniq!
+      contributors
     end
 
     # Return relator roles parsed from MARC fields.
@@ -44,11 +56,13 @@ module Blacklight::Document::Source
       publisher = nil
       if pub_data.present?
         place, publisher = pub_data.split(":", 2)
+        place = place&.strip
+        publisher = publisher&.strip
       end
 
       {
-        place: place&.strip,
-        publisher: publisher&.strip,
+        place: place,
+        publisher: publisher,
         date: setup_pub_date(to_marc)
       }
     end
@@ -104,6 +118,19 @@ module Blacklight::Document::Source
     # Return medium values parsed from MARC.
     def export_medium(kind)
       setup_medium(to_marc, kind)
+    end
+
+    private
+
+    def analytics_contributors(record)
+      contributors = []
+      offset = 0
+      record.find_all { |f| f.tag == "700" && f.indicator2 == "2" }.each do |field|
+        as_field = alternate_script(record, field.tag, "2", offset)
+        offset += 1
+        contributors << as_field["a"] if as_field&.[]("a")
+      end
+      contributors
     end
   end
 end

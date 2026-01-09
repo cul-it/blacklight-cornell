@@ -25,14 +25,19 @@ module Blacklight::Document::Source::Base
 
   # Build a catalog URL when an id is present.
   def export_catalog_url
-    return unless self["id"].present?
-
-    "http://catalog.library.cornell.edu/catalog/#{self['id']}"
+    base_url = "http://catalog.library.cornell.edu/catalog/"
+    record_id = self["id"].to_s
+    record_id.present? ? "#{base_url}#{record_id}" : base_url
   end
 
   # Load and cache holdings data shared across export formats.
   def export_holdings
-    @export_holdings ||= setup_holdings_info(self)
+    holdings_json = self["holdings_json"]
+    if !defined?(@export_holdings_source) || @export_holdings_source != holdings_json
+      @export_holdings_source = holdings_json
+      @export_holdings = setup_holdings_info(self)
+    end
+    @export_holdings
   end
 
   # Join holdings lines into a single string when present.

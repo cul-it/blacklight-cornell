@@ -41,17 +41,33 @@ module Blacklight::Document::Export::Endnote
     export_languages.each { |la| text << "%G #{la}\n" }
 
     contributors = export_contributors || {}
-    authors = (contributors[:primary_authors] || []) + (contributors[:secondary_authors] || [])
-    if authors.present?
-      text << "%A #{authors[0]}\n"
-      authors.drop(1).each { |author| text << "%E #{author}\n" }
+    primary_authors = contributors[:primary_authors] || []
+    secondary_authors = contributors[:secondary_authors] || []
+    if primary_authors.present?
+      first_author = primary_authors.first.to_s
+      first_author = "#{first_author} " unless first_author.end_with?(" ")
+      text << "%A #{first_author}\n"
+      (primary_authors.drop(1) + secondary_authors).each do |author|
+        value = author.to_s
+        value = "#{value} " unless value.end_with?(" ")
+        text << "%E #{value}\n"
+      end
+    elsif secondary_authors.present?
+      secondary_authors.each do |author|
+        value = author.to_s
+        value = "#{value} " unless value.end_with?(" ")
+        text << "%E #{value}\n"
+      end
     end
 
     export_isbns.each { |isbn| text << "%@ #{isbn.strip}\n" }
     export_issns.each { |issn| text << "%@ #{issn.strip}\n" }
 
     title = export_title(separator: " ")
-    text << "%T #{title}\n" if title.present?
+    if title.present?
+      title = "#{title} " unless title.end_with?(" ")
+      text << "%T #{title}\n"
+    end
 
     edition = export_edition
     text << "%7 #{edition}\n" if edition.present?
@@ -81,11 +97,11 @@ module Blacklight::Document::Export::Endnote
     ul = export_access_url
     text << "%U #{ul}\n" if ul.present?
 
-    catalog_url = export_catalog_url
-    text << "%Z #{catalog_url}\n" if catalog_url.present?
-
     where = export_holdings || []
     text << "%L #{where.join('//')}\n" unless where.blank? || where.join("").blank?
+
+    catalog_url = export_catalog_url
+    text << "%Z #{catalog_url}\n" if catalog_url.present?
 
     text = generate_en_keywords(text)
     # add a blank line to separate from possible next.

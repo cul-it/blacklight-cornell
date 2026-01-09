@@ -330,7 +330,7 @@ describe Blacklight::Marc::DocumentExport do
       end
       ti_data["10055679"] =
         { "ris" => { "callnumber" => "CN  - Mann Library  SF98.A5 M35 2017", "isbn" => "9781426217661  1426217668", "kw" => "KW  - Chickens Marketing" },
-         "endnote" => { "callnumber" => "%L  Mann Library  SF98.A5 M35 2017", "isbn" => "%@ 9781426217661", "kw" => "%K Chickens Marketing" },
+         "endnote" => { "callnumber" => "%L Mann Library  SF98.A5 M35 2017", "isbn" => "%@ 9781426217661", "kw" => "%K Chickens Marketing" },
          "endnote_xml" => { "callnumber" => "<call-num>Mann Library  SF98.A5 M35 2017</call-num>", "isbn" => "<isbn>9781426217661  ; 1426217668 </isbn>", "kw" => "<keyword>Chickens Marketing. </keyword>" },
          "rdf_zotero" => { "callnumber" => "Mann Library  SF98.A5 M35 2017", "isbn" => Set.new(["<dc:identifier>ISBN 1426217668 </dc:identifier>", "<dc:identifier>ISBN 9781426217661 </dc:identifier>"]),
                            "kw" => "<dc:subject>Chickens Marketing. </dc:subject>" } }
@@ -381,23 +381,23 @@ describe Blacklight::Marc::DocumentExport do
           "endnote_xml" => { "author" => "author>Gauger, Wilhelm Peter Joachim</author>", "year" => "<date>1965</date>", "publisher" => "<publisher>Ernst-Reuter-Gesellschaft</publisher>", "place" => "pub-location>Berlin</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Gauger</foaf:surname>", "year" => "<dc:date>1965</dc:date>", "publisher" => "<foaf:name>Freie Universität Berlin</foaf:name>", "place" => "<vcard:locality>Berlin</vcard:locality>" } }
       ti_data["3261564"] =
-        { "ris" => { "author" => "AU  - Cakrabarttī, Utpalendu", "year" => "PY  - 1983", "publisher" => "PB  -  INRECO", "place" => "CY  - Calcutta" },
+        { "ris" => { "author" => "AU  - Cakrabarttī, Utpalendu", "year" => "PY  - 1983", "publisher" => "PB  - INRECO", "place" => "CY  - Calcutta" },
           "endnote" => { "author" => "%A Cakrabarttī, Utpalendu", "year" => "%D 1983", "publisher" => "%I INRECO", "place" => "%C Calcutta" },
           "endnote_xml" => { "author" => "<author>Cakrabarttī, Utpalendu</author>", "year" => "<year>1983</year>", "publisher" => "<publisher>INRECO</publisher>", "place" => "<pub-location>Calcutta</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Cakrabarttī</foaf:surname>", "year" => "<dc:date>1983</dc:date>", "publisher" => "<foaf:name>INRECO</foaf:name>", "place" => "<vcard:locality>Calcutta</vcard:locality>" } }
       ti_data["6788245"] =
-        { "ris" => { "author" => "AU  - Warner Bros. Pictures", "year" => "PY  - 2009", "publisher" => "PB  -  Warner Home Video", "place" => "CY  - Burbank, CA" },
+        { "ris" => { "author" => "AU  - Warner Bros. Pictures", "year" => "PY  - 2009", "publisher" => "PB  - Warner Home Video", "place" => "CY  - Burbank, CA" },
           "endnote" => { "author" => "%E Radcliffe, Daniel", "year" => "%D 2009", "publisher" => "%I Warner Home Video", "place" => "%C Burbank, CA" },
           "endnote_xml" => { "author" => "<author>Radcliffe, Daniel</author>", "year" => "<year>2009</year>", "publisher" => "<publisher>Warner Home Video</publisher>", "place" => "<pub-location>Burbank, CA</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Radcliffe</foaf:surname>", "year" => "<dc:date>2009</dc:date>", "publisher" => "<foaf:name>Warner Home Video</foaf:name>", "place" => "<vcard:locality>Burbank, CA</vcard:locality>" } }
 
       ti_data["9939352"] =
-        { "ris" => { "author" => "AU  - Gray, Afsaneh", "year" => "PY  - 2017", "publisher" => "PB  -  Oberon Books", "place" => "CY  - London" },
+        { "ris" => { "author" => "AU  - Gray, Afsaneh", "year" => "PY  - 2017", "publisher" => "PB  - Oberon Books", "place" => "CY  - London" },
           "endnote" => { "author" => "%A Gray, Afsaneh", "year" => "%D 2017", "publisher" => "%I Oberon Books", "place" => "%C London" },
           "endnote_xml" => { "author" => "author>Gray, Afsaneh</author>", "year" => "<date>2017</date>", "publisher" => "publisher>Oberon Books</publisher>", "place" => "pub-location>London</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Gray</foaf:surname>", "year" => "<dc:date>2017</dc:date>", "publisher" => "<foaf:name>Oberon Books</foaf:name>", "place" => "<vcard:locality>London</vcard:locality>" } }
       ti_data["9496646"] =
-        { "ris" => { "author" => "AU  - Bindal, Ahmet", "year" => "PY  - 2016", "publisher" => "PB  -  Springer International Publishing", "place" => "CY  - Cham" },
+        { "ris" => { "author" => "AU  - Bindal, Ahmet", "year" => "PY  - 2016", "publisher" => "PB  - Springer International Publishing", "place" => "CY  - Cham" },
           "endnote" => { "author" => "%A Bindal, Ahmet", "year" => "%D 2016", "publisher" => "%I Springer International Publishing", "place" => "%C Cham" },
           "endnote_xml" => { "author" => "<author>Bindal, Ahmet</author>", "year" => "<year>2016</year>", "publisher" => "<publisher>Springer International Publishing</publisher>", "place" => "<pub-location>Cham</pub-location>" },
           "rdf_zotero" => { "author" => "<foaf:surname>Bindal</foaf:surname>", "year" => "<dc:date>2016</dc:date>", "publisher" => "<foaf:name>Springer International Publishing</foaf:name>", "place" => "<vcard:locality>Cham</vcard:locality>" } }
