@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Blacklight::Marc::DocumentExport do
+  include_context "marc export fixtures"
+
   let(:document) { SolrDocument.new('id' => 'test', 'source' => 'MARC', 'marc_display' => '<record/>') }
 
   def build_record
@@ -144,6 +146,47 @@ RSpec.describe Blacklight::Marc::DocumentExport do
       expect(xml).to include('<bib:editors>')
       expect(xml).to include('<foaf:surname>Editor One</foaf:surname>')
       expect(xml).to include('<foaf:surname>Editor Two</foaf:surname>')
+    end
+  end
+
+  describe 'export_as_openurl_ctx_kev' do
+    it 'creates the appropriate context object for books' do
+      record = @typical_record.export_as_openurl_ctx_kev('Book')
+      expect(record).to eq("ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rfr_id=info%3Asid%2Fblacklight.rubyforge.org%3Agenerator&amp;rft.genre=book&amp;rft.btitle=Apples+%3A+botany%2C+production%2C+and+uses+%2F&amp;rft.title=Apples+%3A+botany%2C+production%2C+and+uses+%2F&amp;rft.au=&amp;rft.date=c2003.&amp;rft.place=Oxon%2C+U.K.+%3B&amp;rft.pub=CABI+Pub.%2C&amp;rft.edition=&amp;rft.isbn=")
+      expect(record).not_to match(/.*rft.genre=article.*rft.issn=.*/)
+    end
+
+    it 'creates the appropriate context object for journals' do
+      record = @typical_record.export_as_openurl_ctx_kev('Journal')
+      record_journal_other = @typical_record.export_as_openurl_ctx_kev('Journal/Magazine')
+      expect(record).to eq("ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rfr_id=info%3Asid%2Fblacklight.rubyforge.org%3Agenerator&amp;rft.genre=article&amp;rft.title=Apples+%3A+botany%2C+production%2C+and+uses+%2F&amp;rft.atitle=Apples+%3A+botany%2C+production%2C+and+uses+%2F&amp;rft.date=c2003.&amp;rft.issn=")
+      expect(record_journal_other).to eq(record)
+      expect(record).not_to match(/.*rft.genre=book.*rft.isbn=.*/)
+    end
+
+    it 'creates the appropriate context object for other content' do
+      record = @typical_record.export_as_openurl_ctx_kev('NotARealFormat')
+      expect(record).to eq("ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adc&amp;rfr_id=info%3Asid%2Fblacklight.rubyforge.org%3Agenerator&amp;rft.title=Apples+%3A+botany%2C+production%2C+and+uses+%2F&amp;rft.creator=&amp;rft.date=c2003.&amp;rft.place=Oxon%2C+U.K.+%3B&amp;rft.pub=CABI+Pub.%2C&amp;rft.format=notarealformat")
+      expect(record).not_to match(/.*rft.isbn=.*/)
+      expect(record).not_to match(/.*rft.issn=.*/)
+    end
+  end
+
+  describe 'export_as_marc binary' do
+    it 'exports MARC binary' do
+      expect(@typical_record.export_as_marc).to eq(@typical_record.to_marc.to_marc)
+    end
+  end
+
+  describe 'export_as_marcxml' do
+    it 'exports MARCXML' do
+      expect(marc_from_xml(@typical_record.export_as_marcxml)).to eq(marc_from_xml(@typical_record.to_marc.to_xml.to_s))
+    end
+  end
+
+  describe 'export_as_xml' do
+    it 'exports MARCXML as xml' do
+      expect(marc_from_xml(@typical_record.export_as_xml)).to eq(marc_from_xml(@typical_record.export_as_marcxml))
     end
   end
 end
