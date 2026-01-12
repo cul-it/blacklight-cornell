@@ -47,7 +47,10 @@
     <% if part_of_catalog? %>
       <div class="search-bar" role="search">
         <div class="container">
-          <%= render :partial => 'shared/search_form' %>
+          <%= render Blacklight::SearchBarComponent.new(
+              url: search_action_url,
+              params: search_state.params_for_search.except(:qt)
+            ) %>
         </div>
       </div>
     <% end %>

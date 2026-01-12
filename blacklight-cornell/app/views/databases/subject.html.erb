@@ -1,6 +1,9 @@
-<%# Databases by subject page %>
+<% # Databases by subject page %>
 
-<%= render :partial => 'databases_search_form' %>
+<%= render DatabasesSearchBarComponent.new(
+  url: search_action_url,
+  params: search_state.params_for_search.except(:qt)
+) %>
 <div class="row database-subject">
   <div class="page-title col-sm-12">
     <div class="return-link">

@@ -1,6 +1,9 @@
 <div class="digitalcollections-search">
   <%= render :partial => 'intro_text' %>
-  <%= render :partial => 'digreg_search_form'  %>
+  <%= render DigitalcollectionsSearchBarComponent.new(
+      url: search_action_url,
+      params: search_state.params_for_search.except(:qt)
+  ) %>
   <div class="return-link">
     <%= link_to "/digitalcollections/" do %>
       <i class="fa fa-arrow-circle-left"></i>

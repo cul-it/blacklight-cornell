@@ -1,5 +1,8 @@
 <div class="institutionalrepository-search">
-	<%= render :partial => 'ir_search_form' %>
+    <%= render IrSearchBarComponent.new(
+        url: search_action_url,
+        params: search_state.params_for_search.except(:qt)
+    ) %>
     <% if @results.total_items > 0 %>
         <h2>Repositories</h2>
         <%= bento_search @results %>

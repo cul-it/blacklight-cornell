@@ -1,4 +1,7 @@
-<%= render :partial => 'databases_search_form'  %>
+<%= render DatabasesSearchBarComponent.new(
+  url: search_action_url,
+  params: search_state.params_for_search.except(:qt)
+) %>
 <% alpha = params[:alpha]  %>
 <div class="row database-subject">
   <div class="page-title col-sm-12">
