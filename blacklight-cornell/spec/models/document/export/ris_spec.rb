@@ -6,6 +6,84 @@ RSpec.describe "RIS export" do
   include_context "marc export fixtures"
   include_context "folio source fixtures"
 
+  let(:ris_harness_class) do
+    Class.new do
+      include Blacklight::Document::Export::Ris
+
+      def initialize(values)
+        @values = values
+      end
+
+      def exportable_record?
+        @values.fetch(:exportable, true)
+      end
+
+      def export_format
+        @values[:format]
+      end
+
+      def export_online?
+        @values[:online]
+      end
+
+      def export_title(separator:)
+        @values[:title]
+      end
+
+      def export_contributors
+        @values[:contributors] || {}
+      end
+
+      def export_publication_data
+        @values[:pub_data] || {}
+      end
+
+      def export_thesis_info
+        @values[:thesis]
+      end
+
+      def export_edition
+        @values[:edition]
+      end
+
+      def export_languages
+        @values[:languages] || []
+      end
+
+      def export_access_url
+        @values[:access_url]
+      end
+
+      def export_catalog_url
+        @values[:catalog_url]
+      end
+
+      def export_doi
+        @values[:doi]
+      end
+
+      def export_keywords
+        @values[:keywords] || []
+      end
+
+      def export_notes
+        @values[:notes] || []
+      end
+
+      def export_abstracts
+        @values[:abstracts] || []
+      end
+
+      def export_holdings
+        @values[:holdings] || []
+      end
+
+      def export_isbns
+        @values[:isbns] || []
+      end
+    end
+  end
+
   it "exports a simple MARC record correctly" do
     ris_file = @music_record.export_as_ris
     ris_entries = Hash.new { |hash, key| hash[key] = Set.new }
@@ -119,5 +197,84 @@ RSpec.describe "RIS export" do
     expect(ris).to include("CN  - Olin Library  PS3600 .S35 2026")
     expect(ris).to include("M2  - http://catalog.library.cornell.edu/catalog/17199945")
     expect(ris).to include("N1  - http://catalog.library.cornell.edu/catalog/17199945")
+  end
+
+  it "returns nil when the record is not exportable" do
+    doc = ris_harness_class.new(exportable: false, format: "Book")
+    expect(doc.export_as_ris).to be_nil
+  end
+
+  it "exports EBOOK with corporate authors and metadata" do
+    doc = ris_harness_class.new(
+      format: "Book",
+      online: true,
+      title: "Online Book",
+      contributors: {
+        primary_authors: [],
+        primary_corporate_authors: ["Corp One"],
+        secondary_corporate_authors: ["Corp Two"],
+        editors: []
+      },
+      pub_data: { publisher: "Corp Pub", place: "Ithaca", date: "2024" },
+      edition: "Second edition",
+      languages: ["English"],
+      access_url: "http://example.com",
+      catalog_url: "http://catalog.test/ebook",
+      doi: "10.5555/ebook",
+      keywords: ["Keyword One"],
+      notes: ["Note text"],
+      abstracts: ["Abstract text"],
+      holdings: ["Library  ABC"],
+      isbns: ["1234"]
+    )
+
+    ris = doc.export_as_ris
+
+    expect(ris).to include("TY  - EBOOK")
+    expect(ris).to include("AU  - Corp One")
+    expect(ris).to include("A1  - Corp Two")
+    expect(ris).to include("PY  - 2024")
+    expect(ris).to include("PB  - Corp Pub")
+    expect(ris).to include("CY  - Ithaca")
+    expect(ris).to include("ET  - Second edition")
+    expect(ris).to include("LA  - English")
+    expect(ris).to include("UR  - http://example.com")
+    expect(ris).to include("M2  - http://catalog.test/ebook")
+    expect(ris).to include("DO  - 10.5555/ebook")
+    expect(ris).to include("KW  - Keyword One")
+    expect(ris).to include("N1  - Note text")
+    expect(ris).to include("N2  - Abstract text")
+    expect(ris).to include("CN  - Library  ABC")
+    expect(ris).to include("SN  - 1234")
+  end
+
+  it "exports thesis metadata with editors and multiple authors" do
+    doc = ris_harness_class.new(
+      format: "Thesis",
+      online: false,
+      title: "Thesis Work",
+      contributors: {
+        primary_authors: ["Author One", "Author Two"],
+        editors: ["Editor One"]
+      },
+      pub_data: { publisher: "Ignored Pub", place: "Boston", date: "2020" },
+      thesis: { inst: "Thesis Inst", type: "Ph.D." }
+    )
+
+    ris = doc.export_as_ris
+
+    expect(ris).to include("TY  - THES")
+    expect(ris).to include("AU  - Author One")
+    expect(ris).to include("A1  - Author Two")
+    expect(ris).to include("ED  - Editor One")
+    expect(ris).to include("PB  - Thesis Inst")
+    expect(ris).to include("CY  - Boston")
+    expect(ris).to include("M3  - Ph.D.")
+  end
+
+  it "exports Mendeley and Zotero via the RIS formatter" do
+    doc = ris_harness_class.new(format: "Book", online: false, title: "Shared Export")
+    expect(doc.export_as_mendeley).to include("TY  - BOOK")
+    expect(doc.export_as_zotero).to include("TY  - BOOK")
   end
 end

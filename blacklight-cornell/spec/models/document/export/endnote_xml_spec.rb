@@ -6,6 +6,84 @@ RSpec.describe "Endnote XML export" do
   include_context "marc export fixtures"
   include_context "folio source fixtures"
 
+  let(:endnote_xml_harness_class) do
+    Class.new do
+      include Blacklight::Document::Export::EndnoteXml
+
+      def initialize(values)
+        @values = values
+      end
+
+      def exportable_record?
+        @values.fetch(:exportable, true)
+      end
+
+      def export_title(separator:)
+        @values[:title]
+      end
+
+      def export_format
+        @values[:format]
+      end
+
+      def export_contributors
+        @values[:contributors] || {}
+      end
+
+      def export_relators
+        @values[:relators] || {}
+      end
+
+      def export_publication_data
+        @values[:pub_data] || {}
+      end
+
+      def export_edition
+        @values[:edition]
+      end
+
+      def export_keywords
+        @values[:keywords] || []
+      end
+
+      def export_abstracts
+        @values[:abstracts] || []
+      end
+
+      def export_notes
+        @values[:notes] || []
+      end
+
+      def export_isbns
+        @values[:isbns] || []
+      end
+
+      def export_holdings_string(separator:)
+        @values[:holdings]
+      end
+
+      def export_doi
+        @values[:doi]
+      end
+
+      def export_thesis_info
+        @values[:thesis]
+      end
+
+      def export_languages
+        @values[:languages] || []
+      end
+
+      def export_access_url
+        @values[:access_url]
+      end
+
+      def export_catalog_url
+        @values[:catalog_url]
+      end
+    end
+  end
+
   it "exports title and type mappings for MARC records" do
     ti_data = {
       "1001" => { title: "<title>Reflections: the anthropological muse</title>", type: "<ref-type name=\"Book\">6</ref-type>" },
@@ -57,5 +135,51 @@ RSpec.describe "Endnote XML export" do
     expect(endnote_xml).to include("<author>SELIGMAN, MARK</author>")
     expect(endnote_xml).to include("<call-num>Olin Library  PS3600 .S35 2026</call-num>")
     expect(endnote_xml).to include("http://catalog.library.cornell.edu/catalog/17199945")
+  end
+
+  it "exports thesis metadata and auxiliary fields via the XML builder" do
+    doc = endnote_xml_harness_class.new(
+      title: "Thesis Title",
+      format: "Thesis",
+      contributors: {
+        primary_authors: [],
+        primary_corporate_authors: ["Corp Author"],
+        secondary_authors: ["Secondary Author"],
+        editors: ["Ed Editor"]
+      },
+      pub_data: { place: "Ithaca", publisher: nil, date: "1999" },
+      edition: "First edition",
+      keywords: ["Keyword One"],
+      abstracts: ["Abstract text"],
+      notes: ["Note text"],
+      isbns: ["111"],
+      holdings: "Library  ABC 123",
+      doi: "10.1234/doi",
+      thesis: { type: "Ph.D.", inst: "Cornell Univ", date: "1999" },
+      languages: ["English"],
+      access_url: "http://example.com",
+      catalog_url: "http://catalog.test/record"
+    )
+
+    xml = doc.export_as_endnote_xml
+
+    expect(xml).to include("<work-type>Ph.D.</work-type>")
+    expect(xml).to include("<publisher>Cornell Univ</publisher>")
+    expect(xml).to include("<pub-location>Ithaca</pub-location>")
+    expect(xml).to include("<isbn>111</isbn>")
+    expect(xml).to include("<call-num>Library  ABC 123</call-num>")
+    expect(xml).to include("<electronic-resource-num>10.1234/doi</electronic-resource-num>")
+    expect(xml).to include("<abstract>Abstract text</abstract>")
+    expect(xml).to include("Note text")
+    expect(xml).to include("http://catalog.test/record")
+    expect(xml).to include("<language>English</language>")
+    expect(xml).to include("<url>http://example.com</url>")
+    expect(xml).to include("<author>Corp Author</author>")
+    expect(xml).to include("<tertiary-authors>")
+  end
+
+  it "returns nil when the record is not exportable" do
+    doc = endnote_xml_harness_class.new(exportable: false, format: "Book")
+    expect(doc.export_as_endnote_xml).to be_nil
   end
 end
