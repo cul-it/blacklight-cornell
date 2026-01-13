@@ -147,6 +147,12 @@ RSpec.describe "catalog/new_tou.html.erb", type: :view do
               'type' => { 'label' => 'Fair Use' },
               'value' => { 'label' => 'Fair Allowed' },
               'publicNote' => 'Fair note'
+            }],
+            'internalField1' => [{
+              'internal' => true,
+              'type' => { 'label' => 'Internal Field 1' },
+              'value' => { 'label' => 'Internal Value' },
+              'publicNote' => 'Internal note'
             }]
           }
         }
@@ -167,7 +173,7 @@ RSpec.describe "catalog/new_tou.html.erb", type: :view do
       expect(rendered).to have_content("Test Resource")
     end
 
-    it "renders all custom fields if present" do
+    it "renders all non-internal custom fields if present" do
       # interLibraryLoan
       expect(rendered).to have_content("ILL Type")
       expect(rendered).to have_content("Allowed")
@@ -241,6 +247,10 @@ RSpec.describe "catalog/new_tou.html.erb", type: :view do
       expect(rendered).to have_content("Fair Use")
       expect(rendered).to have_content("Fair Allowed")
       expect(rendered).to have_content("Fair note")
+    end
+
+    it "does not render internal custom fields" do
+      expect(rendered).not_to have_content("internalField1")
     end
   end
 
