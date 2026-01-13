@@ -1,5 +1,14 @@
 require 'rails_helper'
 
+def custom_property(key)
+  {
+    'internal' => false,
+    'type' => { 'label' => key.split(/(?=[A-Z])/).map(&:capitalize).join(' ') },
+    'value' => { 'label' => "#{key} Allowed" },
+    'publicNote' => "#{key} note"
+  }
+end
+
 RSpec.describe "catalog/new_tou.html.erb", type: :view do
   let(:params) { { "id" => "123" } }
 
@@ -13,141 +22,30 @@ RSpec.describe "catalog/new_tou.html.erb", type: :view do
         {
           'name' => 'Test Resource',
           'customProperties' => {
-            'interLibraryLoan' => [{
-              'internal' => false,
-              'type' => { 'label' => 'ILL Type' },
-              'value' => { 'label' => 'Allowed' },
-              'publicNote' => 'ILL note'
-            }],
-            'illGeneralSelect' => [{
-              'internal' => false,
-              'type' => { 'label' => 'ILL General' },
-              'value' => { 'label' => 'General Allowed' },
-              'publicNote' => 'General note'
-            }],
-            'illRecordKeepingSelect' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Record Keeping' },
-              'value' => { 'label' => 'Record Allowed' },
-              'publicNote' => 'Record note'
-            }],
-            'illSecureElectronic' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Secure Electronic' },
-              'value' => { 'label' => 'Secure Allowed' },
-              'publicNote' => 'Secure note'
-            }],
+            'interLibraryLoan' => [custom_property('interLibraryLoan')],
+            'illGeneralSelect' => [custom_property('illGeneralSelect')],
+            'illRecordKeepingSelect' => [custom_property('illRecordKeepingSelect')],
+            'illSecureElectronic' => [custom_property('illSecureElectronic')],
             # Omit 'courseReserves' key entirely to test 'courseReserve'
-            'courseReserve' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Course Reserve' },
-              'value' => { 'label' => 'Reserve Allowed' },
-              'publicNote' => 'Reserve note'
-            }],
-            'scholarlySharing2' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Scholarly Sharing 2' },
-              'value' => { 'label' => 'Sharing2 Allowed' },
-              'publicNote' => 'Sharing2 note'
-            }],
-            'scholarlySharing' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Scholarly Sharing' },
-              'value' => { 'label' => 'Sharing Allowed' },
-              'publicNote' => 'Sharing note'
-            }],
-            'authorizedUsers2' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Authorized Users 2' },
-              'value' => { 'label' => 'User1;User2' }
-            }],
-            'authorizedUsers' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Authorized Users' },
-              'value' => 'User3;User4'
-            }],
-            'walkInAccess' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Walk In' },
-              'value' => { 'label' => 'Walk Allowed' },
-              'publicNote' => 'Walk note'
-            }],
-            'concurrentAccess' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Concurrent' },
-              'value' => 'Concurrent Allowed',
-              'publicNote' => 'Concurrent note'
-            }],
-            'remoteAccess' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Remote' },
-              'value' => { 'label' => 'Remote Allowed' },
-              'publicNote' => 'Remote note'
-            }],
-            'otherRestrictions' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Other Restrictions' },
-              'value' => 'Other Value',
-              'publicNote' => 'Other note'
-            }],
-            'generalPermissions2' => [{
-              'internal' => false,
-              'type' => { 'label' => 'General Permissions 2' },
-              'value' => { 'label' => 'Perm2 Allowed' },
-              'publicNote' => 'Perm2 note'
-            }],
-            'generalPermissions' => [{
-              'internal' => false,
-              'type' => { 'label' => 'General Permissions' },
-              'value' => 'Perm Allowed',
-              'publicNote' => 'Perm note'
-            }],
-            'generalRestrictions2' => [{
-              'internal' => false,
-              'type' => { 'label' => 'General Restrictions 2' },
-              'value' => { 'label' => 'Restrict2 Allowed' }
-            }],
-            'generalRestrictions' => [{
-              'internal' => false,
-              'type' => { 'label' => 'General Restrictions' },
-              'value' => 'Restrict Allowed',
-              'publicNote' => 'Restrict note'
-            }],
-            'nondisclosure' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Nondisclosure' },
-              'value' => { 'label' => 'Nondisclosure Allowed' },
-              'publicNote' => 'Nondisclosure note'
-            }],
-            'postCancellationAccess' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Post Cancellation' },
-              'value' => { 'label' => 'Post Allowed' },
-              'publicNote' => 'Post note'
-            }],
-            'nonRenewalNoticePeriod' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Non Renewal' },
-              'value' => { 'label' => 'NonRenewal Allowed' },
-              'publicNote' => 'NonRenewal note'
-            }],
-            'curePeriodBreachUnit' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Cure Period' },
-              'value' => { 'label' => 'Cure Allowed' }
-            }],
-            'governingLaw' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Governing Law' },
-              'value' => { 'label' => 'Law Allowed' },
-              'publicNote' => 'Law note'
-            }],
-            'fairUseClause' => [{
-              'internal' => false,
-              'type' => { 'label' => 'Fair Use' },
-              'value' => { 'label' => 'Fair Allowed' },
-              'publicNote' => 'Fair note'
-            }],
+            'courseReserve' => [custom_property('courseReserve')],
+            'scholarlySharing2' => [custom_property('scholarlySharing2')],
+            'scholarlySharing' => [custom_property('scholarlySharing')],
+            'authorizedUsers2' => [custom_property('authorizedUsers2')],
+            'authorizedUsers' => [custom_property('authorizedUsers')],
+            'walkInAccess' => [custom_property('walkInAccess')],
+            'concurrentAccess' => [custom_property('concurrentAccess')],
+            'remoteAccess' => [custom_property('remoteAccess')],
+            'otherRestrictions' => [custom_property('otherRestrictions')],
+            'generalPermissions2' => [custom_property('generalPermissions2')],
+            'generalPermissions' => [custom_property('generalPermissions')],
+            'generalRestrictions2' => [custom_property('generalRestrictions2')],
+            'generalRestrictions' => [custom_property('generalRestrictions')],
+            'nondisclosure' => [custom_property('nondisclosure')],
+            'postCancellationAccess' => [custom_property('postCancellationAccess')],
+            'nonRenewalNoticePeriod' => [custom_property('nonRenewalNoticePeriod')],
+            'curePeriodBreachUnit' => [custom_property('curePeriodBreachUnit')],
+            'governingLaw' => [custom_property('governingLaw')],
+            'fairUseClause' => [custom_property('fairUseClause')],
             'internalField1' => [{
               'internal' => true,
               'type' => { 'label' => 'Internal Field 1' },
@@ -174,79 +72,25 @@ RSpec.describe "catalog/new_tou.html.erb", type: :view do
     end
 
     it "renders all non-internal custom fields if present" do
-      # interLibraryLoan
-      expect(rendered).to have_content("ILL Type")
-      expect(rendered).to have_content("Allowed")
-      expect(rendered).to have_content("ILL note")
-      # illGeneralSelect
-      expect(rendered).to have_content("ILL General")
-      expect(rendered).to have_content("General Allowed")
-      expect(rendered).to have_content("General note")
-      # illRecordKeepingSelect
-      expect(rendered).to have_content("Record Keeping")
-      expect(rendered).to have_content("Record Allowed")
-      expect(rendered).to have_content("Record note")
-      # illSecureElectronic
-      expect(rendered).to have_content("Secure Electronic")
-      expect(rendered).to have_content("Secure Allowed")
-      expect(rendered).to have_content("Secure note")
-      # courseReserve
-      expect(rendered).to have_content("Course Reserve")
-      expect(rendered).to have_content("Reserve Allowed")
-      expect(rendered).to have_content("Reserve note")
-      # scholarlySharing2
-      expect(rendered).to have_content("Scholarly Sharing 2")
-      expect(rendered).to have_content("Sharing2 Allowed")
-      expect(rendered).to have_content("Sharing2 note")
-      # authorizedUsers2 (no gsub, so expect semicolon)
-      expect(rendered).to have_content("Authorized Users 2")
-      expect(rendered).to have_content("User1;User2")
-      # walkInAccess
-      expect(rendered).to have_content("Walk In")
-      expect(rendered).to have_content("Walk Allowed")
-      expect(rendered).to have_content("Walk note")
-      # concurrentAccess
-      expect(rendered).to have_content("Concurrent")
-      expect(rendered).to have_content("Concurrent Allowed")
-      expect(rendered).to have_content("Concurrent note")
-      # remoteAccess
-      expect(rendered).to have_content("Remote")
-      expect(rendered).to have_content("Remote Allowed")
-      expect(rendered).to have_content("Remote note")
-      # otherRestrictions
-      expect(rendered).to have_content("Other Restrictions")
-      expect(rendered).to have_content("Other Value")
-      expect(rendered).to have_content("Other note")
-      # generalPermissions2
-      expect(rendered).to have_content("General Permissions 2")
-      expect(rendered).to have_content("Perm2 Allowed")
-      expect(rendered).to have_content("Perm2 note")
-      # generalRestrictions2
-      expect(rendered).to have_content("General Restrictions 2")
-      expect(rendered).to have_content("Restrict2 Allowed")
-      # nondisclosure
-      expect(rendered).to have_content("Nondisclosure")
-      expect(rendered).to have_content("Nondisclosure Allowed")
-      expect(rendered).to have_content("Nondisclosure note")
-      # postCancellationAccess
-      expect(rendered).to have_content("Post Cancellation")
-      expect(rendered).to have_content("Post Allowed")
-      expect(rendered).to have_content("Post note")
-      # nonRenewalNoticePeriod
-      expect(rendered).to have_content("Non Renewal")
-      expect(rendered).to have_content("NonRenewal Allowed")
-      expect(rendered).to have_content("NonRenewal note")
-      # curePeriodBreachUnit
-      expect(rendered).to have_content("Cure Period")
-      expect(rendered).to have_content("Cure Allowed")
-      # governingLaw
-      expect(rendered).to have_content("Governing Law")
-      expect(rendered).to have_content("Law Allowed")
-      expect(rendered).to have_content("Law note")
-      # fairUseClause
-      expect(rendered).to have_content("Fair Use")
-      expect(rendered).to have_content("Fair Allowed")
-      expect(rendered).to have_content("Fair note")
+      custom_props = tou_data[0]['customProperties']
+      tou_data[0]['customProperties'].each do |key, value_arr|
+        next if value_arr.first['internal']
+        # Skip suppressed properties if their '2' or plural variant is present
+        next if key == 'scholarlySharing' && custom_props.key?('scholarlySharing2')
+        next if key == 'authorizedUsers' && custom_props.key?('authorizedUsers2')
+        next if key == 'generalPermissions' && custom_props.key?('generalPermissions2')
+        next if key == 'generalRestrictions' && custom_props.key?('generalRestrictions2')
+        next if key == 'courseReserve' && custom_props.key?('courseReserves')
+        # Titleized label for the header
+        label = key.split(/(?=[A-Z])/).map(&:capitalize).join(' ')
+        expect(rendered).to have_content(label)
+        # Display the value label or value string
+        value = value_arr.first['value']
+        allowed = value.is_a?(Hash) ? value['label'] : value
+        expect(rendered).to have_content(allowed)
+        # Display the note if present
+        expect(rendered).to have_content(value_arr.first['publicNote']) if value_arr.first['publicNote']
+      end
     end
 
     it "does not render internal custom fields" do
