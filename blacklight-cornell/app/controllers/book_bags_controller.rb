@@ -82,13 +82,12 @@ class BookBagsController < CatalogController
   end
 
   def addbookmarks
-    #binding.pry
     bookmarks = get_saved_bookmarks
     if bookmarks.present? && bookmarks.count > 0
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
       if bookmarks.count > bookmark_max
         # delete the extra bookmarks
-        bookmarks = bookmarks.split(0, bookmark_max)
+        bookmarks = bookmarks.slice(0, bookmark_max)
       end
       if not bookmarks.to_s.empty?
         @bb.create_all(bookmarks)

@@ -116,10 +116,11 @@ RSpec.describe BookBagsController, type: :controller do
 
   describe 'GET addbookmarks' do
     it 'moves saved bookmarks into the book bag and clears the session' do
-      bookmarks = instance_double('bookmarks', present?: true, count: 600, split: ['1', '2'], to_s: '1,2')
+      stub_const('BookBagsController::MAX_BOOKBAGS_COUNT', 3)
+      bookmarks = ['1', '2', '3', '4']
       allow(book_bag).to receive(:count).and_return(0)
       session[:bookmarks_for_book_bags] = bookmarks
-      expect(book_bag).to receive(:create_all).with(['1', '2'])
+      expect(book_bag).to receive(:create_all).with(['1', '2', '3'])
       get :addbookmarks
       expect(session[:bookmarks_for_book_bags]).to be_nil
       expect(response).to redirect_to(action: 'index')
