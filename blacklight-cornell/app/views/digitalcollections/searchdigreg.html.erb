@@ -1,6 +1,6 @@
 <div class="digitalcollections-search">
   <%= render :partial => 'intro_text' %>
-  <%= render DigitalcollectionsSearchBarComponent.new(
+  <%= render DigitalCollectionsSearchBarComponent.new(
       url: search_action_url,
       params: search_state.params_for_search.except(:qt)
   ) %>
