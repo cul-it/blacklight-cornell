@@ -29,6 +29,7 @@ RSpec.describe BookBagsController, type: :controller do
     allow(book_bag).to receive(:set_bagname)
     allow(book_bag).to receive(:debug)
     allow_any_instance_of(BookBagsController).to receive(:search_service).and_return(search_service)
+    allow(search_service).to receive(:search_results).and_return([response_obj, documents])
     allow(search_service).to receive(:fetch).and_return([response_obj, documents])
     allow_any_instance_of(BookBagsController).to receive(:save_bookmarks_for_book_bags)
     allow_any_instance_of(BookBagsController).to receive(:additional_response_formats)
@@ -159,18 +160,18 @@ RSpec.describe BookBagsController, type: :controller do
     it 'fetches and assigns documents for a BookBag instance' do
       allow(book_bag).to receive(:is_a?).with(BookBag).and_return(true)
       allow(book_bag).to receive(:index).and_return(%w[1 2])
-      expect(search_service).to receive(:fetch).with(%w[1 2]).and_return([response_obj, documents])
+      expect(search_service).to receive(:search_results).and_return([response_obj, documents])
       get :index
-      expect(assigns(:document_list)).to eq(documents)
+      expect(assigns(:response)).to eq(response_obj)
     end
 
     it 'fetches and assigns documents when bib ids are prefixed' do
       non_book_bag = instance_double('NonBookBag', index: [String.new('bibid-1')])
       allow(non_book_bag).to receive(:is_a?).with(BookBag).and_return(false)
       controller.instance_variable_set(:@bb, non_book_bag)
-      expect(search_service).to receive(:fetch).with(['1']).and_return([response_obj, documents])
+      expect(search_service).to receive(:search_results).and_return([response_obj, documents])
       get :index
-      expect(assigns(:document_list)).to eq(documents)
+      expect(assigns(:response)).to eq(response_obj)
     end
 
     it 'renders RSS' do

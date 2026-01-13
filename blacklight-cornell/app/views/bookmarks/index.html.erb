@@ -9,7 +9,7 @@
 
 <%- if current_or_guest_user.blank? -%>
   <h2><%= t('blacklight.bookmarks.need_login') %></h2>
-<%- elsif @document_list.blank? -%>
+<%- elsif @response.documents.blank? -%>
 
   <p><%= t('blacklight.bookmarks.no_bookmarks') %></p>
   <p><%= render :partial => 'shared/sign_in_form_book_bag' %></p>

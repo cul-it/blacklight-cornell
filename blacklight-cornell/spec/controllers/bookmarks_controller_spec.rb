@@ -9,7 +9,7 @@ RSpec.describe BookmarksController, type: :controller do
   let(:where_relation) { instance_double('BookmarkWhereRelation') }
   let(:bookmark_record) { instance_double('BookmarkRecord', delete: true, destroyed?: true) }
   let(:current_or_guest_user) { instance_double(User, bookmarks: bookmarks_relation, persisted?: true, email: 'guest@example.com') }
-  let(:token_user) { instance_double(User, bookmarks: bookmark_list) }
+  let(:token_user) { instance_double(User, bookmarks: bookmarks_relation) }
   let(:bookmark_list) do
     [
       instance_double('Bookmark', document_id: '1'),
@@ -24,6 +24,7 @@ RSpec.describe BookmarksController, type: :controller do
     controller.blacklight_config.document_model = SolrDocument
     allow(controller).to receive(:search_service).and_return(search_service)
     allow(search_service).to receive(:fetch).and_return([response_obj, documents])
+    allow(search_service).to receive(:search_results).and_return([response_obj, documents])
     allow(controller).to receive(:additional_response_formats)
     allow(controller).to receive(:document_export_formats)
     allow(controller).to receive(:token_or_current_or_guest_user).and_return(token_user)
@@ -36,10 +37,12 @@ RSpec.describe BookmarksController, type: :controller do
     allow(bookmarks_relation).to receive(:create).and_return(true)
     allow(bookmarks_relation).to receive(:find_by).and_return(bookmark_record)
     allow(bookmarks_relation).to receive(:clear).and_return(true)
+    allow(bookmarks_relation).to receive(:limit).and_return(bookmark_list)
   end
 
   describe '#action_documents' do
     it 'fetches documents for bookmarked ids' do
+      allow(token_user).to receive_message_chain(:bookmarks, :collect).and_return(bookmark_list.map(&:document_id))
       expect(search_service).to receive(:fetch).with(%w[1 2]).and_return([response_obj, documents])
       controller.action_documents
     end
@@ -72,7 +75,7 @@ RSpec.describe BookmarksController, type: :controller do
 
     it 'renders the bookmarks list' do
       allow(BookBag).to receive(:enabled?).and_return(false)
-      expect(search_service).to receive(:fetch).with(%w[1 2]).and_return([response_obj, documents])
+      expect(search_service).to receive(:search_results).and_return([response_obj, documents])
       get :index
       expect(response).to have_http_status(:ok)
     end
@@ -80,10 +83,8 @@ RSpec.describe BookmarksController, type: :controller do
     it 'limits bookmark ids to the max' do
       allow(BookBag).to receive(:enabled?).and_return(false)
       stub_const('BookBagsController::MAX_BOOKBAGS_COUNT', 1)
-      allow(controller).to receive(:token_or_current_or_guest_user).and_return(
-        instance_double(User, bookmarks: [instance_double('Bookmark', document_id: '1'), instance_double('Bookmark', document_id: '2')])
-      )
-      expect(search_service).to receive(:fetch).with(['1']).and_return([response_obj, documents])
+      allow(bookmarks_relation).to receive(:limit).and_return(bookmark_list.slice(0, BookBagsController::MAX_BOOKBAGS_COUNT))
+      expect(search_service).to receive(:search_results).and_return([response_obj, documents])
       get :index
       expect(response).to have_http_status(:ok)
     end

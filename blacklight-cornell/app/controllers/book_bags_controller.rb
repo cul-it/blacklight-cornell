@@ -18,6 +18,8 @@ class BookBagsController < CatalogController
   before_action :heading
   append_before_action :set_book_bag_name
 
+  blacklight_config.search_builder_class = Blacklight::BookmarksSearchBuilder
+
   def action_success_redirect_path
     book_bags_index
   end
@@ -115,21 +117,34 @@ class BookBagsController < CatalogController
     end
   end
 
-  def index
-    params.permit(:move_bookmarks)
-
+  # @return [Hash] a hash of context information to pass through to the search service
+  def search_service_context
     @bms = @bb.index
     if @bb.is_a? BookBag
       docs = @bms.each { |v| v.to_s }
     else
       docs = @bms.map { |b| b.sub!("bibid-", "") }
     end
+    @bookmarks = docs.map { |b| Bookmarklite.new(b) }
 
-    if docs.present?
-      @bookmarks = docs.map { |b| Bookmarklite.new(b) }
-      @response, @documents = search_service.fetch docs
-      @document_list = @documents
-    end
+    { bookmarks: @bookmarks }
+  end
+
+  def index
+    params.permit(:move_bookmarks)
+
+    (@response, deprecated_document_list) = search_service.search_results
+    @documents = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      "The @documents instance variable is now deprecated",
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      "The @document_list instance variable is now deprecated",
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
+
     respond_to do |format|
       format.html { }
       format.rss { render :layout => false }
@@ -162,11 +177,16 @@ class BookBagsController < CatalogController
   # grabs a bunch of documents to export to endnote or ris.
   def endnote
     if params[:id].nil?
-      docs = @bb.index
-      @response, @documents = search_service.fetch(docs, :per_page => 1000, :rows => 1000)
+      # docs are set in search context
+      deprecated_response, @documents = search_service.fetch([], :q => "*:*", :per_page => 1000, :rows => 1000)
     else
-      @response, @documents = search_service.fetch(params[:id])
+      deprecated_response, @documents = search_service.fetch(params[:id])
     end
+    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_response,
+      "The @response instance variable is now deprecated",
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
     respond_to do |format|
       format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.endnote_xml { render "endnote_xml", :layout => false }
