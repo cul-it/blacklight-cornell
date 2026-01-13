@@ -13,7 +13,7 @@
     <h2 class="facets-heading">
       <%= t('blacklight.search.facets.title') %>
     </h2>
-    <% # Replace render_facet_partials when we upgrade to BL8 %>
+    <% # TODO - Replace render_facet_partials with body when we upgrade to BL8 %>
     <% ::Deprecation.silence(Blacklight::FacetsHelperBehavior) do %>
       <%= helpers.render_facet_partials @fields, response: @response %>
     <% end %>
