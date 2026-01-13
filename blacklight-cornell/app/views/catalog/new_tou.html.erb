@@ -39,7 +39,7 @@
               </tr>
               </thead>
               <tbody>
-                <% data['customProperties'].each do |property, values| %>
+                <% data['customProperties'].sort_by { |_, values| (values&.first && values.first['weight']) || 0 }.each do |property, values| %>
                   <%# A number of properties should only appear if the newer version (?) isn't also present. %>
                   <%# This is a bit hacky, but we'll skip those here. %>
                   <% next if property == 'courseReserve' && data['customProperties'].key?('courseReserves') %>
