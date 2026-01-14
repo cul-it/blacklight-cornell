@@ -1,10 +1,10 @@
 # This module registers the Endnote tagged export format with the system so that we
 # can offer export options for Mendeley and Zotero.
-module Blacklight::Document::Endnote
+module Blacklight::Document::Export::Endnote
 
   def self.extended(document)
     # Register our exportable formats
-    Blacklight::Document::Endnote.register_export_formats( document )
+    Blacklight::Document::Export::Endnote.register_export_formats( document )
   end
 
   def self.register_export_formats(document)
@@ -29,143 +29,111 @@ module Blacklight::Document::Endnote
    "Website" => "Web Page"
    }
 
-  def export_as_endnote()
-    return nil unless exportable_marc_record?
+  def export_as_endnote
+    return nil unless exportable_record?
 
-    end_note_format = {
-      "100.a" => "%A" ,
-      "700.a" => "%E" ,
-      "440.a" => "%J" ,
-      "020.a" => "%@" ,
-      "022.a" => "%@" ,
-      "245.a,245.b" => "%T" ,
-      "250.a" => "%7"
-    }
+    fmt = export_format
+    fmt_str = FACET_TO_ENDNOTE_TYPE[fmt] || "Generic"
+    fmt_str = "Electronic Book" if fmt == "Book" && export_online?
 
-    marc_obj = to_marc
-    # TODO. This should be rewritten to guess
-    # from actual Marc instead, probably.
-    fmt_str = 'Generic'
-    text = ''
-    fmt = self['format'].first
+    text = +"%0 #{fmt_str}\n"
 
-    if (FACET_TO_ENDNOTE_TYPE.keys.include?(fmt))
-      fmt_str = FACET_TO_ENDNOTE_TYPE[fmt]
-     end
-    if  fmt == 'Book'  && self['online'] && self['online'].first == 'Online'
-      fmt_str = 'Electronic Book'
-    end
-    ty = fmt_str
-    text << "%0 #{ fmt_str }\n"
-    # If there is some reliable way of getting the language of a record we can add it here
-    #text << "%G #{record['language'].first}\n"
-    if !self["language_facet"].blank?
-       self["language_facet"].map{|la|  text += "%G #{la}\n" }
-    end
-    # #marc field is key, value is tag target
-    end_note_format.each do |key,etag|
-      values = key.split(",")
-      first_value = values[0].split('.')
-      if values.length > 1
-        second_value = values[1].split('.')
-      else
-        second_value = []
+    export_languages.each { |la| text << "%G #{la}\n" }
+
+    contributors = export_contributors || {}
+    primary_authors = contributors[:primary_authors] || []
+    secondary_authors = contributors[:secondary_authors] || []
+    if primary_authors.present?
+      first_author = primary_authors.first.to_s
+      first_author = "#{first_author} " unless first_author.end_with?(" ")
+      text << "%A #{first_author}\n"
+      (primary_authors.drop(1) + secondary_authors).each do |author|
+        value = author.to_s
+        value = "#{value} " unless value.end_with?(" ")
+        text << "%E #{value}\n"
       end
-
-      if marc_obj[first_value[0].to_s]
-        marc_obj.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
-          if field[first_value[1]].to_s or field[second_value[1]].to_s
-            text << "#{etag.gsub('_','')}"
-            if field[first_value[1]].to_s
-              text << " #{clean_end_punctuation(field[first_value[1]].to_s)}"
-            end
-            if field[second_value[1]].to_s
-              text << " #{clean_end_punctuation(field[second_value[1]].to_s)}"
-            end
-            text << "\n"
-          end
-        end
+    elsif secondary_authors.present?
+      secondary_authors.each do |author|
+        value = author.to_s
+        value = "#{value} " unless value.end_with?(" ")
+        text << "%E #{value}\n"
       end
     end
-    #"260.a" => "%C" ,
-    #"264.a" => "%C" ,
-    #"260.b" => "%I" ,
-    #"264.b" => "%I" ,
-    # publisher, and place.
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
-    place = ''
-    pname = ''
-    if !pub_data.nil?
-      place, publisher = pub_data.split(':')
-      pname = "#{publisher.strip!}" unless publisher.nil?
-      # publication place
+
+    export_isbns.each { |isbn| text << "%@ #{isbn.strip}\n" }
+    export_issns.each { |issn| text << "%@ #{issn.strip}\n" }
+
+    title = export_title(separator: " ")
+    if title.present?
+      title = "#{title} " unless title.end_with?(" ")
+      text << "%T #{title}\n"
     end
 
-    #"264.c" => "%D" ,
-    #"260.c" => "%D" ,
-    pdate = setup_pub_date(to_marc)
-    if ty == 'Thesis'
-      th = setup_thesis_info(to_marc)
-      pname = th[:inst].to_s
-      pdate = th[:date].to_s unless th[:date].blank?
-      thtype = th[:type].to_s
-      text << "%9 #{thtype}\n" unless  thtype.blank?
+    edition = export_edition
+    text << "%7 #{edition}\n" if edition.present?
+
+    pub_data = export_publication_data || {}
+    place = pub_data[:place]
+    pname = pub_data[:publisher]
+    pdate = pub_data[:date]
+
+    if fmt_str == "Thesis"
+      th = export_thesis_info
+      if th.present?
+        pname = th[:inst].to_s if th[:inst].present?
+        pdate = th[:date].to_s if th[:date].present?
+        thtype = th[:type].to_s
+        text << "%9 #{thtype}\n" if thtype.present?
+      end
     end
-    text << "%I #{pname}\n" unless  pname.blank?
-    text << "%C #{place}\n" unless  place.blank?
-    text << "%D #{pdate}\n" unless  pdate.blank?
-    # "024.a" => "%R" ,
-    doi = setup_doi(to_marc)
-    text << "%R #{doi}\n" unless  doi.blank?
-    ul = access_url_first_filtered(self)
-    #"856.u" => "%U" ,
-    text << "%U #{ul}\n"  unless ul.blank?
-    where = setup_holdings_info(to_marc)
-    text << "%L  #{where.join('//')}\n"  unless where.blank? or where.join("").blank?
-    text += "%Z http://catalog.library.cornell.edu/catalog/#{id}\n"
-    text = generate_en_keywords(text,ty)
+
+    text << "%I #{pname}\n" if pname.present?
+    text << "%C #{place}\n" if place.present?
+    text << "%D #{pdate}\n" if pdate.present?
+
+    doi = export_doi
+    text << "%R #{doi}\n" if doi.present?
+
+    ul = export_access_url
+    text << "%U #{ul}\n" if ul.present?
+
+    where = export_holdings || []
+    text << "%L #{where.join('//')}\n" unless where.blank? || where.join("").blank?
+
+    catalog_url = export_catalog_url
+    text << "%Z #{catalog_url}\n" if catalog_url.present?
+
+    text = generate_en_keywords(text)
     # add a blank line to separate from possible next.
     text << "\n"
 
     text
   end
 
-  def generate_en_keywords(text,ty)
-    kw =   setup_kw_info(to_marc)
-
-    kw.each do |k|
-          text += "%K #{k}\n"   unless k.blank?
-    end unless kw.blank?
+  def generate_en_keywords(text)
+    export_keywords.each { |k| text << "%K #{k}\n" unless k.blank? }
     text
   end
-
-#Examples
-#%0  Book
-#%A  Geoffrey Chaucer
-#%D  1957
-#%T  The Works of Geoffrey Chaucer
-#%E  F. N. Robinson
-#%I   Houghton
-#%C  Boston
-#%N  2nd
-#
-# %0  Journal Article
-# %A  Herbert H. Clark
-# %D  1982
-# %T  Hearers and Speech Acts
-# %B  Language
-# %V  58
-# %P  332-373
-#
-#  %0  Thesis
-#  %A  Cantucci, Elena
-#  %T  Permian strata in South-East Asia
-#  %D  1990
-#  %I   University of California, Berkeley
-#  %9  Dissertation
-#
-
 end
+
+# EXAMPLE EXPORT
+# %0 Electronic Book
+# %G English
+# %A Van Laer, Rebecca
+# %@ 9798765114650
+# %@ 9798765114643
+# %@
+# %@
+# %T Cat
+# %7 1st edition
+# %I Bloomsbury Academic
+# %C New York
+# %D 2025
+# %R 10.5040/9798765114650
+# %U https://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&db=nlabk&AN=4278375
+# %Z http://catalog.library.cornell.edu/catalog/17230874
+# %K Cats Social aspects.
+#   %K Human-animal relationships.
 
 # documentation --
 #https://www.citavi.com/sub/manual5/en/importing_an_endnote_tagged_file.html

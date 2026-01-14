@@ -1,10 +1,10 @@
 # This module registers the ZOTERO RDF export format with the system so that
 # we can offer export the option of direct export to  Zotero.
-module Blacklight::Document::Zotero
+module Blacklight::Document::Export::Zotero
 
   def self.extended(document)
     # Register our exportable formats
-    Blacklight::Document::Zotero.register_export_formats( document )
+    Blacklight::Document::Export::Zotero.register_export_formats( document )
   end
 
   def self.register_export_formats(document)
@@ -16,13 +16,10 @@ module Blacklight::Document::Zotero
   end
 
   def generate_rdf_zotero
-    about = "http://catalog.library.cornell.edu/catalog/#{id}"
-    title = "#{clean_end_punctuation(setup_title_info(to_marc))}"
-    fmt = self['format'].first
-    ty = "book"
-    if (FACET_TO_ZOTERO_TYPE.keys.include?(fmt))
-      ty =  "#{FACET_TO_ZOTERO_TYPE[fmt]}"
-    end
+    about = export_catalog_url
+    title = export_title(separator: ": ")
+    fmt = export_format
+    ty = FACET_TO_ZOTERO_TYPE[fmt] || "book"
     tag = case ty
        when 'videoRecording'
         "Recording"
@@ -45,7 +42,7 @@ module Blacklight::Document::Zotero
     'xmlns:dcterms' =>"http://purl.org/dc/terms/") do
       builder.bib(tag.to_sym) do
         builder.z(:itemType,"#{ty}")
-        builder.dc(:title, title.strip)
+        builder.dc(:title, title.strip) if title.present?
         generate_rdf_authors(builder,ty)
         generate_rdf_publisher(builder,ty)
         generate_rdf_pubdate(builder)
@@ -72,13 +69,13 @@ module Blacklight::Document::Zotero
  #       </dcterms:URI>
  #   </dc:identifier>
   def generate_rdf_url(b)
-    ul = access_url_first_filtered(self)
+    ul = export_access_url
     b.dc(:identifier) { b.dcterms(:URI) { b.rdf(:value,ul)}}  unless ul.blank?
   end
     #<dcterms:abstract>Backup of websites is often not considered until </dcterms:abstract>
 
   def generate_rdf_abstract(b)
-    k = setup_abst_info(to_marc)
+    k = export_abstracts
     b.dcterms(:abstract,k.join(' ')) unless k.blank?
   end
 #        <dc:coverage>http://catalog.library.cornell.edu/catalog/1001</dc:coverage>
@@ -91,31 +88,31 @@ module Blacklight::Document::Zotero
 
   def generate_rdf_medium(b,ty)
       if ty == 'audioRecording'
-        medium = setup_medium(to_marc,'song')
+        medium = export_medium('song')
         b.tag!("z:medium",medium)  unless medium.blank?
       end
       if ty == 'videoRecording'
-        medium = setup_medium(to_marc,'song')
+        medium = export_medium('song')
         b.tag!("z:medium",medium)  unless medium.blank?
       end
   end
 
   def generate_rdf_holdings(b)
-    where = setup_holdings_info(b)
-    b.dc(:subject) { b.dcterms(:LCC) { b.rdf(:value,where.join("//")) }}  unless where.blank? or where.join("").blank?
+    where = export_holdings_string(separator: "//")
+    b.dc(:subject) { b.dcterms(:LCC) { b.rdf(:value,where) }}  unless where.blank?
   end
 
 
     #<dc:identifier>ISBN 978-1-57027-139-7</dc:identifier>
   def generate_rdf_isbn(b)
-    isbns = setup_isbn_info(to_marc)
+    isbns = export_isbns
     isbns.each do |k|
       b.dc(:identifier,"ISBN #{k}") unless k.blank?
     end
   end
     #<dc:identifier>DOI 10.1371/journal.pone.0118512</dc:identifier>
   def generate_rdf_doi(b)
-    doi = setup_doi(to_marc)
+    doi = export_doi
     b.dc(:description,"DOI #{doi}") unless doi.blank?
     b.dc(:description,"just some random text") unless doi.blank?
   end
@@ -123,14 +120,14 @@ module Blacklight::Document::Zotero
     # edition
     # <prism:edition>3rd. ed</prism:edition>
   def generate_rdf_edition(b)
-    et =  setup_edition(to_marc)
+    et =  export_edition
     b.prism(:edition,et) unless et.blank?
   end
     #<dc:subject>
     #  <z:AutomaticTag><rdf:value>Social aspects</rdf:value></z:AutomaticTag>
     #</dc:subject>
   def generate_rdf_kw(b)
-    kw =   setup_kw_info(to_marc)
+    kw = export_keywords
     kw.each do |k|
       b.dc(:subject,k) unless k.empty?
     end
@@ -138,17 +135,12 @@ module Blacklight::Document::Zotero
 
   def generate_rdf_publisher(b,ty)
     # publisher
-    pub_data = setup_pub_info(to_marc) # This function combines publisher and place
-    place = ''
-    pname = ''
-    if !pub_data.nil?
-      place, publisher = pub_data.split(':')
-      pname = "#{publisher.strip!}" unless publisher.nil?
-      # publication place
-    end
+    pub_data = export_publication_data || {}
+    place = pub_data[:place]
+    pname = pub_data[:publisher]
     if ty == 'thesis'
-      th = setup_thesis_info(to_marc)
-      pname = th[:inst].to_s
+      th = export_thesis_info
+      pname = th[:inst].to_s if th.present?
     end
     b.dc(:publisher) {
       b.foaf(:Organization) {
@@ -164,15 +156,12 @@ module Blacklight::Document::Zotero
 
   def generate_rdf_language(b)
     # language
-    if !self["language_facet"].blank?
-      self["language_facet"].map{|la|  b.z(:language,la)
-      }
-    end
+    export_languages.each { |la| b.z(:language, la) }
   end
 
   def generate_rdf_pubdate(b)
     # publication year
-    yr  = "#{setup_pub_date(to_marc)}"
+    yr = export_publication_data.to_h[:date].to_s
     b.dc(:date,yr) unless yr.empty?
   end
 
@@ -188,8 +177,8 @@ module Blacklight::Document::Zotero
 
   def generate_rdf_authors(bld,ty)
     # Handle authors
-    authors = get_all_authors(to_marc)
-    relators =  get_contrib_roles(to_marc)
+    authors = export_contributors || {}
+    relators = export_relators || {}
     primary_authors = authors[:primary_authors]
 
     if primary_authors.blank? and !authors[:primary_corporate_authors].blank?
@@ -198,9 +187,11 @@ module Blacklight::Document::Zotero
 
     secondary_authors = authors[:secondary_authors]
     meeting_authors = authors[:meeting_authors]
+    secondary_authors = [] if secondary_authors.nil?
+    primary_authors = [] if primary_authors.nil?
     secondary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
     primary_authors.delete_if { | a | relators.has_key?(a) and !relators[a].blank? }
-    editors = authors[:editors]
+    editors = authors[:editors] || []
     if editors.empty?
       editors = relators.select {|k,v| v.include?("edt") }.keys
     end
@@ -242,17 +233,17 @@ module Blacklight::Document::Zotero
   end
 
   def generate_rdf_catlink(b,ty)
-    ul =  "http://catalog.library.cornell.edu/catalog/#{id}"
+    ul = export_catalog_url
     # if no elect access data, 'description' field.
-    b.dc(:description,ul)
+    b.dc(:description,ul) if ul.present?
   end
   # add info specific to an item type.
   def generate_rdf_specific(b,ty)
     case ty
       when 'thesis'
-        th = setup_thesis_info(to_marc)
-        typ = th[:type].to_s
-        b.z(:type,typ)
+        th = export_thesis_info
+        typ = th[:type].to_s if th.present?
+        b.z(:type,typ) if typ.present?
       else
     end
   end
