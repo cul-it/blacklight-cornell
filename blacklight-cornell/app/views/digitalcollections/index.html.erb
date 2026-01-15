@@ -1,6 +1,9 @@
 <div class="digitalcollections-search">
 	<%= render :partial => 'intro_text' %>
-	<%= render :partial => 'digreg_search_form' %>
+	<%= render DigitalCollectionsSearchBarComponent.new(
+        url: digitalcollections_searchdigreg_path,
+        params: {}
+    ) %>
 	<div class="digital-collections">
 		<% if @digReg.present?  %>
 			<% @digReg.each do |data| %>

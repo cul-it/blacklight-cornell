@@ -1,6 +1,6 @@
 <div class="card card-well mb-4">
   <div class="card-body">
-    <%= form_tag '/institutional_repositories/index', :method => :get, :class => 'form-inline search-form' do %>
+    <%= form_tag @url, :method => :get, :class => 'form-inline search-form' do %>
       <% if !params[:q_row].present? %>
         <div class="form-group col-10 col-sm-6 mr-1 mb-0">
           <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
@@ -17,9 +17,9 @@
   </div>
 </div>
 <div class="return-link">
-        <%= link_to url_for(search_index_path(:q => params[:q], :field => params[:field])) do %>
-          <i class="fa fa-arrow-circle-left"></i>
-          Back to search results
-        <% end %>
-      </div>
-    </div>
+    <%= link_to url_for(search_index_path(:q => params[:q], :field => params[:field])) do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to search results
+    <% end %>
+</div>
+</div>

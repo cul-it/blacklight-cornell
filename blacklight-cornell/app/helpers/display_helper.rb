@@ -944,19 +944,6 @@ module DisplayHelper
     Blacklight::ShowPresenter.new(@document, self).field_value field_config
   end
 
-  def cornell_params_for_search(*args, &block)
-    source_params, params_to_merge = case args.length
-    when 0
-      search_state.params_for_search
-    when 1
-      search_state.params_for_search(args.first)
-    when 2
-      controller.search_state_class.new(args.first, blacklight_config).params_for_search(args.last)
-    else
-      raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
-    end
-  end
-
   def cornell_remove_facet_params(field, item, source_params = nil)
     if source_params
       controller.search_state_class.new(source_params, blacklight_config).remove_facet_params(field, item)
