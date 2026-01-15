@@ -1,7 +1,7 @@
 <% # Browse by title list page (#-Z) %>
 
 <%= render DatabasesSearchBarComponent.new(
-  url: search_action_url,
+  url: databases_searchdb_path,
   params: search_state.params_for_search.except(:qt)
 ) %>
 <% alpha = params[:alpha] %>

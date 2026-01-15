@@ -2,7 +2,7 @@
   <div class="search-tools col-12 col-lg-8">
   <% if params[:controller]=='browse' || params[:action] == 'show' %>
      <% if params[:action] == 'show' %>
-    <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
+    <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
       <% hidden_params = helpers.cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
       <% if hidden_params.empty? %>
         <% session_params = session[:search] ? session[:search].dup : {} %>
@@ -50,7 +50,7 @@
   <% elsif params[:controller]=='advanced_search' && (params[:q].present? || !params[:q_row].present?) || params[:action] == 'edit' %>
     <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
-    <%= form_tag search_catalog_path, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
+    <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
       <% hidden_params = helpers.cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
       <% if hidden_params.empty? %>
         <% session_params = session[:search] ? session[:search].dup : {} %>

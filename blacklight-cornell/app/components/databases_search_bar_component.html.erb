@@ -3,7 +3,7 @@
     <div class="card-body">
       <p>Search for top databases by name or broad subject terms</p>
       <div class="search-tools">
-        <%= form_tag '/databases/searchdb', :method => :get, :class => 'form-inline' do %>
+        <%= form_tag @url, :method => :get, :class => 'form-inline' do %>
           <% if !params[:q_row].present? %>
             <div class="form-group col-10 col-sm-6 mb-0">
               <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>

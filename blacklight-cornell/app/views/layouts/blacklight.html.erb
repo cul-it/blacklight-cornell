@@ -48,7 +48,7 @@
       <div class="search-bar" role="search">
         <div class="container">
           <%= render Blacklight::SearchBarComponent.new(
-              url: search_action_url,
+              url: search_catalog_path,
               params: search_state.params_for_search.except(:qt)
             ) %>
         </div>
