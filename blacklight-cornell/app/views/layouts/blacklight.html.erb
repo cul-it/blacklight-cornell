@@ -49,7 +49,7 @@
         <div class="container">
           <%= render Blacklight::SearchBarComponent.new(
               url: search_catalog_path,
-              params: search_state.params_for_search.except(:qt)
+              params: search_state.params_for_search.except(:q, :search_field, :qt, :page, :utf8)
             ) %>
         </div>
       </div>

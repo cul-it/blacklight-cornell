@@ -1,7 +1,7 @@
 <div class="institutionalrepository-search">
     <%= render IrSearchBarComponent.new(
         url: institutional_repositories_index_path,
-        params: search_state.params_for_search.except(:qt)
+        params: {}
     ) %>
     <% if @results.total_items > 0 %>
         <h2>Repositories</h2>

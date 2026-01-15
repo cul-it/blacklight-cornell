@@ -3,12 +3,11 @@
   <% if params[:controller]=='browse' || params[:action] == 'show' %>
      <% if params[:action] == 'show' %>
     <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
-      <% hidden_params = helpers.cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
-      <% if hidden_params.empty? %>
+      <% if @params.empty? %>
         <% session_params = session[:search] ? session[:search].dup : {} %>
-        <% hidden_params = helpers.session_params_for_search(session_params).except(:q_row, :op_row, :boolean_row, :search_field, :qt, :page, :utf8) %>
+        <% @params = helpers.session_params_for_search(session_params).except(:q_row, :op_row, :boolean_row, :search_field, :qt, :page, :utf8) %>
       <% end %>
-      <%= render Blacklight::HiddenSearchStateComponent.new(params: hidden_params) %>
+      <%= render Blacklight::HiddenSearchStateComponent.new(params: @params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-6 mb-0">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
@@ -51,18 +50,17 @@
     <h2 class="advanced-search">Advanced Search</h2>
   <%else%>
     <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
-      <% hidden_params = helpers.cornell_params_for_search().except(:q, :search_field, :qt, :page, :utf8) %>
-      <% if hidden_params.empty? %>
+      <% if @params.empty? %>
         <% session_params = session[:search] ? session[:search].dup : {} %>
         <% if params[:controller] != 'search_history' %>
-          <% hidden_params = helpers.session_params_for_search(session_params).except(:q, :search_field, :qt, :page, :utf8) %>
+          <% @params = helpers.session_params_for_search(session_params).except(:q, :search_field, :qt, :page, :utf8) %>
         <% end %>
       <% end %>
       <% if params[:controller] == 'blacklight_cornell_requests/request' %>
-           <% hidden_params[:format] = 'html' %>
+          <% @params[:format] = 'html' %>
       <% end %>
 
-      <%= render Blacklight::HiddenSearchStateComponent.new(params: hidden_params) %>
+      <%= render Blacklight::HiddenSearchStateComponent.new(params: @params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
           <div class="form-group col-6 mb-0">
             <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
