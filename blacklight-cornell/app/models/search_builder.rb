@@ -5,7 +5,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   include BlacklightRangeLimit::RangeLimitBuilder
 
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum,
-                                   :set_fl, :set_fq, :set_query,
+                                   :set_fl, :set_query,
                                    :homepage_default, :reset_facet_limit, :group_bento_results]
 
   DEFAULT_BOOLEAN = 'AND'
@@ -49,22 +49,6 @@ class SearchBuilder < Blacklight::SearchBuilder
   def set_fl solr_parameters
     # Overrides default fl set in solrconfig to return all stored fields
     solr_parameters[:fl] = '*' if blacklight_params['controller'] == 'bookmarks' || blacklight_params['format'].present? || blacklight_params['controller'] == 'book_bags'
-  end
-
-  # Add any facets not already defined by blacklight to the solr fq
-  # Useful for backend cataloging work
-  def set_fq solr_parameters
-    if blacklight_params[:f].present?
-      solr_parameters[:fq] = solr_parameters[:fq] || []
-      blacklight_params[:f].each do |key, value|
-        unless blacklight_config.facet_fields.keys.include?(key)
-          value.each do |val|
-            fq_string = "{!term f=#{key.to_s}}#{val}"
-            solr_parameters[:fq] << fq_string
-          end
-        end
-      end
-    end
   end
 
   # Sets solr q param from search fields, booleans, and ops (simple, advanced, and bento search)
