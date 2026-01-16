@@ -2,9 +2,12 @@
 
 module BlacklightUnapiHelper
   def inject_auto_discovery_link_tag
+    return if @injected_auto_discovery_link_tag
+
     content_for(:head) do
-      auto_discovery_link_tag(:unapi, unapi_url, type: 'application/xml', rel: 'unapi-server', title: 'unAPI')
-    end unless @injected_auto_discovery_link_tag
+      tag.link(rel: "unapi-server", type: "application/xml", title: "unAPI", href: unapi_url)
+    end
+
     @injected_auto_discovery_link_tag = true
   end
 end
