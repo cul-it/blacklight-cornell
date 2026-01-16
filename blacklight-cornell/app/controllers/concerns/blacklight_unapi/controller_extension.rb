@@ -14,7 +14,7 @@ module BlacklightUnapi
       format_key = requested_format&.to_sym
 
       if params[:id]
-        @response, @document = search_service.fetch params[:id]
+        @response, @document = search_service.fetch(params[:id])
         @export_formats = @document.export_formats
       end
 
