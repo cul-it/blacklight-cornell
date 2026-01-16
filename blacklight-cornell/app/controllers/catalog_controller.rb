@@ -254,12 +254,13 @@ class CatalogController < ApplicationController
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
+    # Display only top 10 call number levels server-side, render remainder via ajax
     config.add_facet_field 'lc_callnum_facet',
                            if: :has_search_parameters?,
                           label: 'Call Number',
                           component: Blacklight::Hierarchy::FacetFieldListComponent,
-                          sort: 'count'
-
+                          sort: 'index',
+                          limit: 10
 
    config.facet_display = {
      :hierarchy => {
@@ -724,10 +725,6 @@ class CatalogController < ApplicationController
 
   def afemail
     @id = params[:id]
-    docs = params[:id].split '|'
-    @response, @documents = search_service.fetch docs
-    dox = {to: "jgr25@cornell.edu", message: "your stuff", callnumber:  @id}
-    email_action(dox)
   end
 
   #TODO: Cleanout all the unused logins logic: https://culibrary.atlassian.net/browse/DACCESS-765
@@ -736,43 +733,6 @@ class CatalogController < ApplicationController
       Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} params = #{params.inspect}")
     # :nocov:
   end
-
-  # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
-  # (in order to add Mollom/CAPTCHA integration)
-  # but now we removed mollom captcha.
-#  def email
-#    docs = params[:id].split '|'
-#    @response, @documents = search_service.fetch docs
-#    if request.post?
-#      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-#      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-#        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-#        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-#        email.deliver_now
-#        flash[:success] = "Email sent"
-#        redirect_to solr_document_path(params[:id]) unless request.xhr?
-#      else
-#          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
-#      end
-#    end
-#
-#    if   ENV['SAML_IDP_TARGET_URL']
-#      if request.xhr? && flash[:success]
-#        if docs.size < 2
-#          render :js => "window.location = '/catalog/#{params[:id]}'"
-#        else
-#          render :js => "window.location = '/bookmarks'"
-#        end
-#        return
-#      end
-#    end
-#    unless !request.xhr? && flash[:success]
-#      respond_to do |format|
-#        format.js { render :layout => false }
-#        format.html
-#      end
-#    end
-#  end
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)

@@ -18,48 +18,21 @@ class BookBagsController < CatalogController
   before_action :heading
   append_before_action :set_book_bag_name
 
+  blacklight_config.search_builder_class = Blacklight::BookmarksSearchBuilder
+
   def action_success_redirect_path
     book_bags_index
   end
 
   def authenticate
     #binding.pry
-    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
-      mock_auth
-      :authenticate_user!
+    if developer_bookbag?
+      dev_sign_in
     else
       :authenticate_user!
       user = current_user
     end
-    if current_user
-      set_book_bag_name
-    end
-  end
-
-  def mock_auth
-    if !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && (Rails.env.development? || Rails.env.test?)
-      OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new({
-        provider: "saml",
-        "saml_resp" => "hello",
-        uid: "12345678910",
-        extra: { raw_info: {} },
-        info: {
-          email: [ENV["DEBUG_USER"]],
-          name: ["Diligent Tester"],
-          netid: "jgr25",
-          groups: ["staff", "student"],
-          primary: ["staff"],
-          first_name: "Diligent",
-          last_name: "Tester",
-        },
-        credentials: {
-          token: "abcdefg12345",
-          refresh_token: "12345abcdefg",
-          expires_at: DateTime.now,
-        },
-      })
-    end
+    set_book_bag_name if current_user
   end
 
   def set_book_bag_name
@@ -109,13 +82,12 @@ class BookBagsController < CatalogController
   end
 
   def addbookmarks
-    #binding.pry
     bookmarks = get_saved_bookmarks
     if bookmarks.present? && bookmarks.count > 0
       bookmark_max = MAX_BOOKBAGS_COUNT - @bb.count
       if bookmarks.count > bookmark_max
         # delete the extra bookmarks
-        bookmarks = bookmarks.split(0, bookmark_max)
+        bookmarks = bookmarks.slice(0, bookmark_max)
       end
       if not bookmarks.to_s.empty?
         @bb.create_all(bookmarks)
@@ -144,21 +116,34 @@ class BookBagsController < CatalogController
     end
   end
 
-  def index
-    params.permit(:move_bookmarks)
-
+  # @return [Hash] a hash of context information to pass through to the search service
+  def search_service_context
     @bms = @bb.index
     if @bb.is_a? BookBag
       docs = @bms.each { |v| v.to_s }
     else
       docs = @bms.map { |b| b.sub!("bibid-", "") }
     end
+    @bookmarks = docs.map { |b| Bookmarklite.new(b) }
 
-    if docs.present?
-      @bookmarks = docs.map { |b| Bookmarklite.new(b) }
-      @response, @documents = search_service.fetch docs
-      @document_list = @documents
-    end
+    { bookmarks: @bookmarks }
+  end
+
+  def index
+    params.permit(:move_bookmarks)
+
+    (@response, deprecated_document_list) = search_service.search_results
+    @documents = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      "The @documents instance variable is now deprecated",
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      "The @document_list instance variable is now deprecated",
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
+
     respond_to do |format|
       format.html { }
       format.rss { render :layout => false }
@@ -191,13 +176,19 @@ class BookBagsController < CatalogController
   # grabs a bunch of documents to export to endnote or ris.
   def endnote
     if params[:id].nil?
-      docs = @bb.index
-      @response, @documents = search_service.fetch(docs, :per_page => 1000, :rows => 1000)
+      # docs are set in search context
+      deprecated_response, @documents = search_service.fetch([], :q => "*:*", :per_page => 1000, :rows => 1000)
     else
-      @response, @documents = search_service.fetch(params[:id])
+      deprecated_response, @documents = search_service.fetch(params[:id])
     end
+    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_response,
+      "The @response instance variable is now deprecated",
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
     respond_to do |format|
       format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+      format.endnote_xml { render "endnote_xml", :layout => false }
       format.ris { render "ris", :layout => false }
     end
   end
@@ -238,5 +229,21 @@ class BookBagsController < CatalogController
 
   def clear_saved_bookmarks
     session[:bookmarks_for_book_bags] = nil
+  end
+
+  private
+
+  ######################################################################################################################
+  ### Developer-Mode Helper Methods  ##
+  #####################################
+  def developer_bookbag?
+    !ENV["LOGIN_REQUIRED"].present? && ENV["DEBUG_USER"].present? && Rails.env.development?
+  end
+
+  def dev_sign_in
+    return if user_signed_in?
+
+    BlacklightCornell::OmniauthMock.sign_in!
+    redirect_post(user_saml_omniauth_authorize_path, options: { authenticity_token: :auto })
   end
 end

@@ -127,7 +127,6 @@ en:
       mendeley: 'RIS'
       zotero: 'Zotero'
       email: 'Email'
-      sms: 'Text'
       librarian_view: 'Librarian View'
       clear: 'Clear'
 
@@ -150,27 +149,6 @@ en:
         to:
           invalid: 'You must enter a valid email address.'
           blank: 'You must enter a recipient in order to send this message.'
-    sms:
-      form:
-        title: 'Text this call number'
-        to: 'Phone number:'
-        carrier: 'Carrier:'
-        carrier_prompt: 'Select your carrier'
-        submit: 'Send'
-      text:
-        title: '%{value}'
-        author: ''
-#        url: 'Link: %{url}'
-        url: '%{url}'
-        callnumber: '%{callnumber}'
-        location: '%{location}'
-      errors:
-        to:
-          invalid: 'You must enter a valid 10 digit phone number.'
-          blank: "You must enter a recipient's phone number in order to send this message."
-        carrier:
-          blank: 'You must select a carrier.'
-      success: 'The text has been sent.'
 
     back_to_search: 'Back to catalog results'
     back_to_bookmarks: 'Back to selected items'

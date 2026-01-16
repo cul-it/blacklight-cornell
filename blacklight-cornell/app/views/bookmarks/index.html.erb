@@ -1,5 +1,5 @@
  <% content_for(:head) do -%>
-        <%= render_opensearch_response_metadata %>
+        <%= render "catalog/opensearch_response_metadata", response: @response %>
         <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
         <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
         <%= render_extra_head_content %>
@@ -9,7 +9,7 @@
 
 <%- if current_or_guest_user.blank? -%>
   <h2><%= t('blacklight.bookmarks.need_login') %></h2>
-<%- elsif @document_list.blank? -%>
+<%- elsif @response.documents.blank? -%>
 
   <p><%= t('blacklight.bookmarks.no_bookmarks') %></p>
   <p><%= render :partial => 'shared/sign_in_form_book_bag' %></p>
@@ -25,9 +25,22 @@
         <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm.bookmark') }, :class => 'clear-bookmarks' do %>
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
         <% end %>
-        <span class="bookmarks-login"><%= link_to bookmarks_book_bags_login_path do %>
-          <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
-        <% end %></span>
+
+        <span class="bookmarks-login">
+          <!-- ################### -->
+          <!-- ##  DEVELOPMENT  ## -->
+          <!-- ################### -->
+          <% if developer_bookbag_enabled? %>
+            <a href="/book_bags/index"><i class="fa fa-code" aria-hidden="true"></i>Developer Login to email items or save them to Book Bag</a>
+          <% else %>
+          <!-- ################################ -->
+          <!-- ##  PRODUCTION / INTEGRATION  ## -->
+          <!-- ################################ -->
+              <%= link_to bookmarks_book_bags_login_path do %>
+                <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
+              <% end %>
+          <% end %>
+        </span>
 
       </div>
       <div class="col-sm-12 col-md-4">

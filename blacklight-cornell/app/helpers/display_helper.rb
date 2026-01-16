@@ -845,7 +845,7 @@ module DisplayHelper
   end
 
   def is_exportable document
-    return false unless document.exportable_marc_record?
+    return false unless document.exportable_record?
     if document.present? && document.export_formats.present?
       if document.export_formats.keys.include?(:ris) || document.export_formats.keys.include?(:endnote)
         return true
@@ -942,19 +942,6 @@ module DisplayHelper
   def field_value(field)
     field_config = blacklight_config.show_fields[field]
     Blacklight::ShowPresenter.new(@document, self).field_value field_config
-  end
-
-  def cornell_params_for_search(*args, &block)
-    source_params, params_to_merge = case args.length
-    when 0
-      search_state.params_for_search
-    when 1
-      search_state.params_for_search(args.first)
-    when 2
-      controller.search_state_class.new(args.first, blacklight_config).params_for_search(args.last)
-    else
-      raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
-    end
   end
 
   def cornell_remove_facet_params(field, item, source_params = nil)

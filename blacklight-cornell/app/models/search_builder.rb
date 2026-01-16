@@ -6,11 +6,18 @@ class SearchBuilder < Blacklight::SearchBuilder
 
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum,
                                    :set_fl, :set_fq, :set_query,
-                                   :homepage_default, :group_bento_results]
+                                   :homepage_default, :reset_facet_limit, :group_bento_results]
 
   DEFAULT_BOOLEAN = 'AND'
   DEFAULT_OP = 'AND'
   DEFAULT_SEARCH_FIELD = 'all_fields'
+
+  # Display all lc_callnum_facet values when facet is present in params
+  def reset_facet_limit(solr_params)
+    return if facet != 'lc_callnum_facet' && blacklight_params[:f].try(:dig, 'lc_callnum_facet').blank?
+
+    solr_params["f.lc_callnum_facet.facet.limit"] = -1
+  end
 
   def sortby_title_when_browsing user_parameters
     # if no search term is submitted and user hasn't specified a sort
@@ -322,7 +329,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     user_params['facet.field'] = homepage_facets
     user_params['stats'] = false
     user_params['stats.field'] = []
-    user_params['rows'] = 0
+    user_params['rows'] = 0 if blacklight_params['controller'] == 'catalog'
     user_params.delete('sort')
     user_params.delete('f.lc_callnum_facet.facet.limit')
     user_params.delete('f.lc_callnum_facet.facet.sort')
