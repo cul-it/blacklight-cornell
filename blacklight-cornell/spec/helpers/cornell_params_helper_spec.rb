@@ -52,6 +52,7 @@ describe BrowseHelper do
     end
   end
 
+  # TODO: Move this to ConstraintsComponent spec
   describe '#remove_blank_rows' do
     context 'single row query' do
       context 'query is not blank' do
@@ -166,6 +167,7 @@ describe BrowseHelper do
     end
   end
 
+  # TODO: Move this to ConstraintsComponent spec
   describe '#render_advanced_constraints_query' do
     before do
       without_partial_double_verification do
