@@ -10,7 +10,6 @@ BlacklightCornell::Application.routes.draw do
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
   get "unapi", to: "catalog#unapi", as: "unapi"
-  get "catalog/unapi", to: "catalog#unapi"
 
   root :to => "catalog#index"
 
