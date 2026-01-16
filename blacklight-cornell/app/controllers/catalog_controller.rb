@@ -208,9 +208,7 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-    #if  RAILS_ENV = 'development'
-    #config.add_facet_field 'availability_facet', :label => 'Availability Status', :limit => 30, :collapse => false
-    #end
+
     config.add_facet_field 'online', :label => 'Access', :limit => 2, :collapse => false
     config.add_facet_field 'format',
                            label: 'Format',
@@ -237,8 +235,6 @@ class CatalogController < ApplicationController
                            if: :has_search_parameters?,
                            advanced_search_component: AdvancedRangeLimitComponent,
                            advanced_search_order: 0
-
-    config.add_facet_field 'workid_facet', :label => 'Work', :show => false
     config.add_facet_field 'language_facet',
                            label: 'Language',
                            limit: 5,
@@ -251,9 +247,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'fast_era_facet', :label => 'Subject: Era', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'fast_genre_facet', :label => 'Genre', :limit => 5, if: :has_search_parameters?
     config.add_facet_field 'subject_content_facet', :label => 'Fiction/Non-Fiction', :limit => 5, if: :has_search_parameters?
-    config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
-    config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
     # Display only top 10 call number levels server-side, render remainder via ajax
     config.add_facet_field 'lc_callnum_facet',
                            if: :has_search_parameters?,
@@ -269,21 +263,23 @@ class CatalogController < ApplicationController
      }
  }
 
-    config.add_facet_field 'collection', :show => false
-
-
     config.add_facet_field 'acquired_dt_query',  label: 'Date Acquired', query: {
       last_1_week: { label: 'Since last week', fq: "acquired_dt:[NOW-14DAY TO NOW-7DAY]"},
       last_1_month: { label: 'Since last month', fq: "acquired_dt:[NOW-30DAY TO NOW-7DAY]"},
       last_1_years: { label: 'Since last year', fq: "acquired_dt:[NOW-1YEAR TO NOW-7DAY]"}
     }, if: :has_search_parameters?
 
-
-    # config.add_facet_field 'facet', :multiple => true
-    # config.add_facet_field 'first_facet,last_facet', :pivot => ['first_facet', 'last_facet']
-    # config.add_facet_field 'my_query_field', :query => { 'label' => 'value:1', 'label2' => 'value:2'}
-    # config.add_facet_field 'facet', :single => true
-    # config.add_facet_field 'facet', :tag => 'my_tag', :ex => 'my_tag'
+    # Facets not shown in side bar, but available for filtering
+    config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
+    config.add_facet_field 'availability_facet', :show => false, :label => "Availability"
+    config.add_facet_field 'lc_alpha_facet', :show => false, :label => 'Call Number', :limit => 5
+    config.add_facet_field 'collection', :show => false, :label => "Collection"
+    config.add_facet_field 'subject_corp_lc_facet', :show => false, :label => "Subject: Corporate Name LC"
+    config.add_facet_field 'subject_pers_lc_facet', :show => false, :label => "Subject: Personal Name LC"
+    config.add_facet_field 'subject_sub_lc_facet', :show => false, :label => "Subject: Subdivision LC"
+    config.add_facet_field 'subject_topic_lc_facet', :show => false, :label => "Subject: Topic LC"
+    config.add_facet_field 'subject_work_lc_facet', :show => false, :label => "Subject: Work LC"
+    config.add_facet_field 'workid_facet', :show => false, :label => 'Work'
 
     #config.default_solr_params[:'facet.field'] = config.facet_fields.keys
     config.add_facet_fields_to_solr_request!
