@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 7a89ed9fa3cac0f8a9b40b64604b00793b16abe0
-  tag: v5.4
+  revision: 7649104d6db40e6bb14d22161dd56fbc787fb36c
+  tag: v5.4.1
   specs:
-    blacklight_cornell_requests (5.4)
+    blacklight_cornell_requests (5.4.1)
       blacklight
       dotenv
       dotenv-deployment
@@ -37,10 +37,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 3bc26d78aa145aa01ed0afa836c6fcf9fc55c7af
-  tag: v2.4.1
+  revision: e984704f8e39305ff59db72e3dc73869318f0ead
+  tag: v2.4.2
   specs:
-    my_account (2.4.1)
+    my_account (2.4.2)
       blacklight (~> 7.0)
       cul-folio-edge (~> 3.3)
       haml
