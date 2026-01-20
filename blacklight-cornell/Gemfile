@@ -58,7 +58,7 @@ gem "whenever", require: false
 gem "yaml_db"
 
 gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.4.1"
-gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v4.0"
+gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.3"
 gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.4.2"
 
 group :development, :test do
