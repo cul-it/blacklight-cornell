@@ -1,6 +1,9 @@
-<%# New Terms of Use page %>
+<% # New Terms of Use page %>
 
-<%= render :partial => 'databases_search_form' %>
+<%= render DatabasesSearchBarComponent.new(
+  url: databases_searchdb_path,
+  params: {}
+) %>
 <% if @newTouResult.present? %>
   <div class="row database-subject">
     <div class="page-title col-sm-12">

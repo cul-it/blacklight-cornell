@@ -1,5 +1,5 @@
 # Make sure it matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.9
+ARG RUBY_VERSION=3.4.8
 ARG GIT_COMMIT=0.0
 
 
@@ -88,7 +88,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # How do we pin versions for build-essential & libvips?
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends vim=2:9.1.* \
-    chromium=143.0.* chromium-driver=143.0.* \
+    chromium=143.0.* chromium-driver=143.0.* chromium-common=143.0.* \
     libfontconfig1=2.15.0-2.* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \

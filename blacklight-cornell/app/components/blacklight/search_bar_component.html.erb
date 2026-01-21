@@ -1,0 +1,119 @@
+<div class="row">
+  <div class="search-tools col-12 col-lg-8">
+  <% if params[:controller]=='browse' || params[:action] == 'show' %>
+     <% if params[:action] == 'show' %>
+    <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
+      <% if @params.empty? %>
+        <% session_params = session[:search] ? session[:search].dup : {} %>
+        <% @params = helpers.session_params_for_search(session_params).except(:q_row, :op_row, :boolean_row, :search_field, :qt, :page, :utf8) %>
+      <% end %>
+      <%= render Blacklight::HiddenSearchStateComponent.new(params: @params) %>
+      <% if !params[:q_row].present? || params[:action] == 'edit' %>
+          <div class="form-group col-6 mb-0">
+            <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+              <%= text_field_tag :q, params[:q],
+                                 :placeholder => t('blacklight.search.form.q'),
+                                 :class => "search-query phone-search-query form-control",
+                                 :id => "q",
+                                 :data => { :dynamic => "true" },
+                                 :autocapitalize => "off" %>
+          </div>
+
+          <% if search_fields.empty? or search_fields.nil? %>
+             <input type="hidden" name="search_field" value="all_fields"/>
+          <% else %>
+            <div class="form-group col-4 col-lg-5 mb-0">
+              <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
+              <%= select_tag(:search_field,
+                             options_for_select(helpers.search_bar_select,
+                                                selected:params[:search_field],
+                                                disabled: ["separator_1","separator_2","separator_3","separator_4"]),
+                             :title => t('blacklight.search.form.search_field.title'),
+                             :class => 'form-control',
+                             :data => { :dynamic => "true" } ) %>
+              <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
+            </div>
+          <% end %>
+
+          <button id="search-btn" class="btn btn-search mb-0" type="submit">
+            <i class="fa fa-search fa-inverse" aria-hidden="true"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
+          </button>
+          <!-- </span> -->
+        <!-- </div> -->
+
+      <% end %>
+     <% end %>
+     <% else %>
+         <%= render :partial => 'browse/headings_search_form' %>
+     <% end %>
+  <% elsif params[:controller]=='advanced_search' && (params[:q].present? || !params[:q_row].present?) || params[:action] == 'edit' %>
+    <h2 class="advanced-search">Advanced Search</h2>
+  <%else%>
+    <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
+      <% if @params.empty? %>
+        <% session_params = session[:search] ? session[:search].dup : {} %>
+        <% if params[:controller] != 'search_history' %>
+          <% @params = helpers.session_params_for_search(session_params).except(:q, :search_field, :qt, :page, :utf8) %>
+        <% end %>
+      <% end %>
+      <% if params[:controller] == 'blacklight_cornell_requests/request' %>
+          <% @params[:format] = 'html' %>
+      <% end %>
+
+      <%= render Blacklight::HiddenSearchStateComponent.new(params: @params) %>
+      <% if !params[:q_row].present? || params[:action] == 'edit' %>
+          <div class="form-group col-6 mb-0">
+            <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+              <%= text_field_tag :q, params[:q],
+                                 :placeholder => t('blacklight.search.form.q'),
+                                 :class => "search-query phone-search-query form-control",
+                                 :id => "q",
+                                 :data => { :dynamic => "true" },
+                                 :autocapitalize => "off" %>
+          </div>
+
+          <% if search_fields.empty? or search_fields.nil? %>
+             <input type="hidden" name="search_field" value="all_fields"/>
+          <% else %>
+            <div class="form-group col-4 col-lg-5 mb-0">
+              <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
+              <%= select_tag(:search_field,
+                             options_for_select(helpers.search_bar_select,
+                                                selected:params[:search_field],
+                                                disabled: ["separator_1","separator_2","separator_3","separator_4"]),
+                             :title => t('blacklight.search.form.search_field.title'),
+                             :class => 'form-control',
+                             :data => { :dynamic => "true" } ) %>
+              <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
+            </div>
+          <% end %>
+
+          <button id="search-btn" class="btn btn-search mb-0" type="submit">
+            <i class="fa fa-search fa-inverse" aria-hidden="true"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
+          </button>
+          <!-- </span> -->
+        <!-- </div> -->
+
+      <% end %>
+     <% end %>
+    <% end %>
+
+    <% if params[:q_row].present? && params[:action] != 'edit'%>
+      <h2 class="advanced-search">Advanced Search</h2>
+    <% end %>
+
+  </div>
+
+  <% if params[:controller] !='advanced_search' && !params[:q_row] %>
+    <div class="search-nav col-12 col-lg-4">
+      <div class="advanced-search-link">
+          <%= link_to advanced_search_edit_path(helpers.convert_to_advanced_params(params)), id: 'advanced-search-link' do %>
+            <i class="fa fa-search" aria-hidden="true"></i>Advanced Search
+          <% end %>
+      </div>
+    </div>
+  <% end %>
+
+</div>
+
+<%= javascript_include_tag 'search_form', 'data-turbo-track': 'reload' %>

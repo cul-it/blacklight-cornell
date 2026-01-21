@@ -196,6 +196,21 @@ describe "SolrDocument" do
       end
     end
 
+    describe "#exportable_record?" do
+      it "is true for FOLIO and MARC sources" do
+        marc_document = SolrDocument.new('id' => 'm-1', 'source' => 'MARC', 'marc_display' => '<record/>')
+        folio_document = SolrDocument.new('id' => 'f-1', 'source' => 'FOLIO')
+
+        expect(marc_document.exportable_record?).to be true
+        expect(folio_document.exportable_record?).to be true
+      end
+
+      it "is false for other sources" do
+        other_document = SolrDocument.new('id' => 'x-1', 'source' => 'WorldCat')
+        expect(other_document.exportable_record?).to be false
+      end
+    end
+
     context "to_semantic_fields" do
       class MockDocument
           include Blacklight::Solr::Document                        

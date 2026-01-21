@@ -1,4 +1,7 @@
-<%= render :partial => 'databases_search_form' %>
+<%= render DatabasesSearchBarComponent.new(
+  url: databases_searchdb_path,
+  params: {}
+) %>
 
 <%= render :partial => 'a_to_z_nav' %>
 

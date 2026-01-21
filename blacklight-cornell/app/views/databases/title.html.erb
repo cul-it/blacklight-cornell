@@ -1,6 +1,9 @@
-<%# Browse by title list page (#-Z) %>
+<% # Browse by title list page (#-Z) %>
 
-<%= render :partial => 'databases_search_form' %>
+<%= render DatabasesSearchBarComponent.new(
+  url: databases_searchdb_path,
+  params: {}
+) %>
 <% alpha = params[:alpha] %>
 <div class="row database-subject">
   <div class="page-title col-sm-12">

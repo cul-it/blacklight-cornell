@@ -329,7 +329,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     user_params['facet.field'] = homepage_facets
     user_params['stats'] = false
     user_params['stats.field'] = []
-    user_params['rows'] = 0
+    user_params['rows'] = 0 if blacklight_params['controller'] == 'catalog'
     user_params.delete('sort')
     user_params.delete('f.lc_callnum_facet.facet.limit')
     user_params.delete('f.lc_callnum_facet.facet.sort')

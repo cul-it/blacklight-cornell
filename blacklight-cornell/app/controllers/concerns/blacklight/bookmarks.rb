@@ -15,6 +15,7 @@ module Blacklight::Bookmarks
     blacklight_config.http_method = Blacklight::Engine.config.bookmarks_http_method
     blacklight_config.add_results_collection_tool(:clear_bookmarks_widget)
     blacklight_config.show.document_actions[:bookmark].if = false if blacklight_config.show.document_actions[:bookmark]
+    blacklight_config.search_builder_class = Blacklight::BookmarksSearchBuilder
   end
 
   def action_documents
@@ -33,21 +34,20 @@ module Blacklight::Bookmarks
     search_catalog_url(*args)
   end
 
+  # @return [Hash] a hash of context information to pass through to the search service
+  def search_service_context
+    { bookmarks: @bookmarks }
+  end
+
   def index
     # if block is custom code
     if current_user && BookBag.enabled?
       redirect_to '/book_bags/index', status: 303, alert: I18n.t('blacklight.bookmarks.use_book_bag') and return
     end
-    @bookmarks = token_or_current_or_guest_user.bookmarks
-    bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
+    # max limit is custom code
+    @bookmarks = token_or_current_or_guest_user.bookmarks.limit(BookBagsController::MAX_BOOKBAGS_COUNT)
 
-    # next line and if block are custom code
-    max_bookmarks = BookBagsController::MAX_BOOKBAGS_COUNT
-    if bookmark_ids.count > max_bookmarks
-      bookmark_ids = bookmark_ids.slice(0, max_bookmarks)
-    end
-
-    @response, deprecated_document_list = search_service.fetch(bookmark_ids)
+    @response, deprecated_document_list = search_service.search_results
     @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
       deprecated_document_list,
       "The @document_list instance variable is now deprecated",

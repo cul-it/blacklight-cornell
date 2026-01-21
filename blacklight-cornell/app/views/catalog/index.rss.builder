@@ -21,7 +21,7 @@ xml.rss(:version=>"2.0") {
     xml.language('en-us')
     xml.pubDate DateTime.now.strftime('%a, %d %b %Y %H:%M:%S %z')
 
-    @document_list.each do |doc|
+    @response.documents.each do |doc|
       xml.item do
         xml.title feed_item_title(doc)
         xml.description feed_item_content(doc)

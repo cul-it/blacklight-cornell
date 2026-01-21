@@ -1,0 +1,24 @@
+<div class="card card-well">
+  <div class="card-body">
+    <div class="search-tools">
+      <%= form_tag @url, :method => :get, :class => 'form-inline search-form' do %>
+        <% if !params[:q_row].present? %>
+          <div class="form-group col-10 col-sm-6 mb-0">
+            <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+            <%= text_field_tag :q, params[:q], :placeholder => 'Search for digital collections, e.g. hip hop', :class => "form-control", :id => "q", :autocapitalize => "off" %>
+          </div>
+          <% unless search_fields.empty? %>
+            <div class="form-group">
+              <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
+              <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class => 'span4') %>
+              <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
+            </div>
+          <% end %>
+          <button id="search-btn" class="btn btn-search" type="submit">
+            <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
