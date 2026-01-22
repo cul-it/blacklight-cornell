@@ -1,5 +1,5 @@
 module TouHelper
-  # Returns a display string for a value field that could be a hash, a single value, or an array of hashes
+  # Returns a display string for a TOU value field that could be a hash, a single value, or an array of hashes
   def tou_display_value(val)
     case val
     when Array
