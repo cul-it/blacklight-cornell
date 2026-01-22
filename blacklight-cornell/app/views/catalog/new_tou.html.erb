@@ -47,7 +47,7 @@
                   <% next if property == 'authorizedUsers' && data['customProperties'].key?('authorizedUsers2') %>
                   <% next if property == 'generalPermissions' && data['customProperties'].key?('generalPermissions2') %>
                   <% next if property == 'generalRestrictions' && data['customProperties'].key?('generalRestrictions2') %>
-
+                  <% Rails.logger.debug "Values: #{values.inspect}" %>
                   <% fields = values&.first || [] %>
                   <% next if fields['internal'] == true %>
                   <tr>
@@ -55,7 +55,7 @@
                       <%= fields['type']['label'] %>
                     </td>
                     <td>
-                      <%= fields['value']['label'] || fields['value'] %>
+                      <%= tou_display_value(fields['value']) %>
                     </td>
                     <td>
                       <%= fields['publicNote'] %>
