@@ -46,13 +46,21 @@
 			<% url = aspace_pui_url(@document) %>
 			<% if url.present? %>
 				<%# Item is in Aspace so render finding aids to direct to the PUI %>
-				<% url_findingaid_displays = render_display_link :value => [url], :field => 'url_findingaid_display', :format => 'default' %>
-			<% elsif @document['url_findingaid_display'].present? %>
+				<% url_findingaid_PUI = render_display_link :value => [url], :field => 'url_findingaid_display', :format => 'default' %>
+			<% end %>
+			<% if @document['url_findingaid_display'].present? %>
 				<%# Item is not in Aspace so render finding aids from the document %>
 				<% url_findingaid_displays = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default' %>
 			<% end %>
-			<% if url_findingaid_displays.present? %>
+			<% if url_findingaid_PUI.present? || url_findingaid_displays.present? %>
+				<%# Determine if we have any other finding aids to display %>
 				<div class="url_findingaid_display" id="finding_aid">
+					<% url_findingaid_PUI.each do |pui| %>
+					<div class="url_findingaid_link">
+						<i class="fa fa-check" aria-hidden="true"></i>
+						<%= pui %>
+					</div>
+					<% end %>
 					<% url_findingaid_displays.each do |url_findingaid_display| %>
 					<div class="url_findingaid_link">
 						<i class="fa fa-check" aria-hidden="true"></i>
