@@ -57,7 +57,7 @@ Feature: Search
       | search | comment |
       # PENDING | Hunting, Gathering, and Stone Age Cooking | |
       | Norton Anthology of World Religions: Islam | |
-      | Concretions as sources of exceptional preservation | |
+      | CONCRETIONS AS SOURCES OF EXCEPTIONAL PRESERVATION | |
       | Utica Zoo, Utica Coffee Roasting | |
 
   @DISCOVERYACCESS-6699
