@@ -95,6 +95,22 @@ BlacklightCornell::Application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
+  # Suppress all deprecation warnings
+  $VERBOSE = nil
+
+  # Additional suppression for ActiveSupport deprecations
+  ActiveSupport::Deprecation.behavior = :silence
+
+  # Suppress Blacklight deprecations specifically
+  if defined?(Blacklight::Deprecation)
+    Blacklight::Deprecation.behavior = :silence
+  end
+
+  # Override warn method to suppress gem-level warnings
+#   def warn(*args)
+#     # Suppress all warnings in production
+#   end
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
