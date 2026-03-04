@@ -95,15 +95,6 @@ BlacklightCornell::Application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Print deprecation notices to the stderr.
-  config.active_support.deprecation = :stderr
-
-  # Raise exceptions for disallowed deprecations.
-  config.active_support.disallowed_deprecation = :raise
-
-  # Tell Active Support which deprecation messages to disallow.
-  config.active_support.disallowed_deprecation_warnings = []
-
   # Disables all deprecation warnings to reduce noise
   # Comment out to review and address deprecations
   Deprecation.default_deprecation_behavior = :silence
