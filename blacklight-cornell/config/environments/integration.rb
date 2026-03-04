@@ -95,16 +95,19 @@ BlacklightCornell::Application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Suppress all deprecation warnings
-  $VERBOSE = nil
+  # Print deprecation notices to the stderr.
+  config.active_support.deprecation = :stderr
 
-  # Additional suppression for ActiveSupport deprecations
-  ActiveSupport::Deprecation.behavior = :silence
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
 
-  # Suppress Blacklight deprecations specifically
-  if defined?(Blacklight::Deprecation)
-    Blacklight::Deprecation.behavior = :silence
-  end
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
+
+  # Disables all deprecation warnings to reduce noise
+  # Comment out to review and address deprecations
+  Deprecation.default_deprecation_behavior = :silence
+
 
   # Override warn method to suppress gem-level warnings
 #   def warn(*args)
