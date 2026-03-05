@@ -14,6 +14,8 @@ module AnalyticsHelper
             _paq.push(["setDomains", ["*.library.cornell.edu","*.catalog.library.cornell.edu","*.search.library.cornell.edu"]]);
           _paq.push(['setSiteId', #{config.id_site}]);
           _paq.push(['setTrackerUrl', u+'piwik.php']);
+          // track browser dark mode 
+          _paq.push(['setCustomDimension', 1, (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light']);
           _paq.push(['trackPageView']);
           var d=document,
               g=d.createElement('script'),
@@ -37,6 +39,8 @@ module AnalyticsHelper
       </script><script type="text/javascript">
       try {
               var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", #{config.id_site});
+              // track browser dark mode
+              piwikTracker.setCustomDimension(1, (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
               piwikTracker.trackPageView();
               piwikTracker.enableLinkTracking();
       } catch( err ) {}
