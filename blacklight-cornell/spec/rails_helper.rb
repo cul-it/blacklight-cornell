@@ -7,8 +7,9 @@ require_relative '../features/support/selenium'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
-require 'view_component/test_helpers'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'view_component/test_helpers'
+require "#{Gem::Specification.find_by_name('blacklight').gem_dir}/spec/support/view_component_test_helpers"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -79,4 +80,5 @@ RSpec.configure do |config|
 
   # Enable ViewComponent test helpers
   config.include ViewComponent::TestHelpers, type: :component
+  config.include ViewComponentTestHelpers, type: :component
 end

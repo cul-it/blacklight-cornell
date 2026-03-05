@@ -20,7 +20,9 @@
               <h3>Limit your results</h3>
               <% if params[:f].present? %>
                 <div class='advanced-facets'>
-                  <%= render_edit_advanced_constraints_filters(params) %>
+                  <%= render(AdvancedConstraintsComponent.new(
+                    search_state: convert_to_search_state(controller.params != params ? params : search_state)))
+                  %>
                 </div>
               <% end %>
               <%= render 'facets', form: form %>
