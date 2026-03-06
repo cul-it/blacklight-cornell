@@ -46,7 +46,8 @@
   </div>
   <div class="item-tools col-sm-7">
     <ul class="fa-ul" id="item-tools">
-      <%= render_document_sidebar_partial %>
+      <%# TODO: in BL 8.5+, render Blacklight::SidebarComponent with custom ShowToolsComponent %>
+      <%= render_document_sidebar_partial(@document) %>
     </ul>
   </div>
 </div>
