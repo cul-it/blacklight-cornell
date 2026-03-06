@@ -43,24 +43,25 @@
 	    </div>
 	    <div class="card-block">
 			<%# Determine if the request should be made through the catalog or the Aspace PUI %>
-			<% url = aspace_pui_url(@document) %>
-			<% if url.present? %>
-				<%# Item is in Aspace so render finding aids to direct to the PUI %>
-				<% url_findingaid_PUI = render_display_link :value => [url], :field => 'url_findingaid_display', :format => 'default' %>
+			<% pui_url = aspace_pui_url(@document) %>
+			<% url_findingaid_displays = [] %>
+
+			<% if pui_url.present? %>
+				<%# Item is in Aspace so replace static finding aid with link to the PUI %>
+				<% url_findingaid_displays += Array(render_display_link(value: [pui_url], field: 'url_findingaid_display', format: 'default')) %>
+
+				<%# DACCESS-828 show multiple finding aids, filtering out 'resolver.library.cornell.edu' 
+				<%# 	this is necessary so that only external urls are shown and we avoid showing the old static finding aids %>
+				<%# 	simplify this logic once those static finding aids are cleaned up %>
+				<% additional_links = Array(render_display_link(document: @document, field: 'url_findingaid_display', format: 'default')) %>
+				<% additional_links.reject! { |link| link.include?('resolver.library.cornell.edu') } %>
+				<% url_findingaid_displays += additional_links %>	
+			<% else %>
+			<%# Item is not in Aspace %>
+				<% url_findingaid_displays += Array(render_display_link(document: @document, field: 'url_findingaid_display', format: 'default')) %>
 			<% end %>
-			<% if @document['url_findingaid_display'].present? %>
-				<%# Item is not in Aspace so render finding aids from the document %>
-				<% url_findingaid_displays = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default' %>
-			<% end %>
-			<% if url_findingaid_PUI.present? || url_findingaid_displays.present? %>
-				<%# Determine if we have any other finding aids to display %>
+			<% if url_findingaid_displays.present? %>
 				<div class="url_findingaid_display" id="finding_aid">
-					<% url_findingaid_PUI.each do |pui| %>
-					<div class="url_findingaid_link">
-						<i class="fa fa-check" aria-hidden="true"></i>
-						<%= pui %>
-					</div>
-					<% end %>
 					<% url_findingaid_displays.each do |url_findingaid_display| %>
 					<div class="url_findingaid_link">
 						<i class="fa fa-check" aria-hidden="true"></i>
