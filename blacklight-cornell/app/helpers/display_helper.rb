@@ -1041,13 +1041,6 @@ module DisplayHelper
     end
   end
 
-  # ============================================================================
-  # deprecated function from blacklight 4 that will live on
-  # ----------------------------------------------------------------------------
-  def sidebar_items
-    @sidebar_items ||= []
-  end
-
   def render_extra_head_content
     if !@extra_head_content.nil?
       @extra_head_content.join("\n").html_safe
