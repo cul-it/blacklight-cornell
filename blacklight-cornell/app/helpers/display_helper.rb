@@ -855,15 +855,6 @@ module DisplayHelper
 
   # ============================================================================
   # Overrides original method from blacklight_helper_behavior.rb
-  # -- Updated to handle arrays (multiple fields specified in config)
-  # Used for creating a link to the document show action
-  # ----------------------------------------------------------------------------
-  def document_show_link_field document = nil
-    blacklight_config.index.title_field.is_a?(Array) ? blacklight_config.index.title_field : blacklight_config.index.title_field.to_sym
-  end
-
-  # ============================================================================
-  # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
   #
@@ -942,19 +933,6 @@ module DisplayHelper
   def field_value(field)
     field_config = blacklight_config.show_fields[field]
     Blacklight::ShowPresenter.new(@document, self).field_value field_config
-  end
-
-  def cornell_params_for_search(*args, &block)
-    source_params, params_to_merge = case args.length
-    when 0
-      search_state.params_for_search
-    when 1
-      search_state.params_for_search(args.first)
-    when 2
-      controller.search_state_class.new(args.first, blacklight_config).params_for_search(args.last)
-    else
-      raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
-    end
   end
 
   def cornell_remove_facet_params(field, item, source_params = nil)

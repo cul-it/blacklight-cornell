@@ -1,0 +1,18 @@
+
+<% if can_add_books %>
+  <!-- credit to Princeton University Library -->
+  <div class="checkbox select_all btn btn-outline-secondary">
+    <label for="select_all_input">
+      <input type="checkbox" id="select_all_input">
+      <span>Select all</span>
+    </label>
+  </div>
+<% else %>
+  <div class="checkbox select_all btn btn-outline-secondary disabled">
+    <span>
+      <%= link_to '/bookmarks/show_selected_item_limit_bookmarks', {:name => 'Limit', data: { blacklight_modal: "trigger" }, :class => "lightboxLink btn btn-sm"}  do %>
+        <%= "Selected items maximum: #{BookBagsController::MAX_BOOKBAGS_COUNT}" %>
+      <% end %>
+    </span>
+  </div>
+<% end %>

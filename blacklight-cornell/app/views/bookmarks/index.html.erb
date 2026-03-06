@@ -1,5 +1,5 @@
  <% content_for(:head) do -%>
-        <%= render_opensearch_response_metadata %>
+        <%= render "catalog/opensearch_response_metadata", response: @response %>
         <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
         <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
         <%= render_extra_head_content %>
@@ -9,7 +9,7 @@
 
 <%- if current_or_guest_user.blank? -%>
   <h2><%= t('blacklight.bookmarks.need_login') %></h2>
-<%- elsif @document_list.blank? -%>
+<%- elsif @response.documents.blank? -%>
 
   <p><%= t('blacklight.bookmarks.no_bookmarks') %></p>
   <p><%= render :partial => 'shared/sign_in_form_book_bag' %></p>

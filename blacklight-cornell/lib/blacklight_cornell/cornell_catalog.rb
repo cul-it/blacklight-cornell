@@ -130,7 +130,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # Query solr for document list
     (@response, deprecated_document_list) = search_service.search_results(session['search_limit_exceeded'])
-    @document_list = deprecated_document_list
+
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      'The @document_list instance variable is deprecated; use @response.documents instead.',
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
 
     if params.nil? || params[:f].nil?
       @filters = []
@@ -156,7 +161,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       format.html { }
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
-      format.json { render json: { response: { document: deprecated_document_list } } }
+      format.json { render json: { response: { document: @response.documents } } }
     end
 
     # Format query for constraints display
@@ -174,7 +179,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # get single document from the solr index
   def show
-    @response, @document = search_service.fetch params[:id]
+    deprecated_response, @document = search_service.fetch(params[:id])
+    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_response,
+      'The @response instance variable is deprecated; use @document.response instead.',
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
     @documents = [ @document ]
     # set_bag_name
     # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
@@ -290,10 +300,15 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT]
       end
       # Ensure user can export all selected bookmarks and not just 1 page.
-      @response, @documents = search_service.fetch(bookmark_ids, start: 0, rows: bookmark_ids.size, per_page: bookmark_ids.size)
+      (deprecated_response, @documents) = search_service.fetch(bookmark_ids, start: 0, rows: bookmark_ids.size, per_page: bookmark_ids.size)
     else
-      @response, @documents = search_service.fetch(params[:id])
+      (deprecated_response, @documents) = search_service.fetch(params[:id])
     end
+    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_response,
+      'The @response instance variable is deprecated.',
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
     if @documents.count() < 1
       return
     end
