@@ -361,9 +361,18 @@ div.view-all {
 
 .survey-button {
   .lwz-btn {
-    padding: 10px 20px !important;
-    width: auto !important;
-    font-size: 18px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    z-index: 999998;
+    padding: 10px 20px;
+    width: auto;
+    position: fixed;
+    border: 1px solid #000;
+    background-color: #DF1E12;
+    border-color: #DF1E12;
+    bottom: -2px;
+    left: calc(90% - 125px);
+    text-decoration: none;
   }
 }
 
