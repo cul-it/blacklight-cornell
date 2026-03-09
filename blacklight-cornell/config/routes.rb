@@ -9,9 +9,7 @@ BlacklightCornell::Application.routes.draw do
 
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
 
-  # as option causing invalid route name, already in use error
-  #  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
-  match "catalog/unapi", :to => "catalog#unapi", :via => [:get]
+  get "unapi", to: "catalog#unapi", as: "unapi"
 
   root :to => "catalog#index"
 
@@ -52,8 +50,6 @@ BlacklightCornell::Application.routes.draw do
       post "track" # Define the track route locally so the `track_bookmarks_path` helper remains available after code reloads.
     end
   end
-
-  #match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi', :via => [:get]
 
   get "signin", to: "signin#index"
 
