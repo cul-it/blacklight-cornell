@@ -50,7 +50,7 @@
 				<%# Item is in Aspace so replace static finding aid with link to the PUI %>
 				<% url_findingaid_displays += Array(render_display_link(value: [pui_url], field: 'url_findingaid_display', format: 'default')) %>
 
-				<%# DACCESS-828 show multiple finding aids, filtering out 'resolver.library.cornell.edu' 
+				<%# DACCESS-828 show multiple finding aids, filtering out 'resolver.library.cornell.edu' %>
 				<%# 	this is necessary so that only external urls are shown and we avoid showing the old static finding aids %>
 				<%# 	simplify this logic once those static finding aids are cleaned up %>
 				<% additional_links = Array(render_display_link(document: @document, field: 'url_findingaid_display', format: 'default')) %>
