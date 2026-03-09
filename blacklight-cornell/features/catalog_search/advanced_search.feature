@@ -444,6 +444,12 @@ Feature: Search
     Then click on first link "Modify advanced search"
     And I should see the label 'Add a row'
 
+  Scenario: Remove simple search facet constraints from advanced search form
+    When I literally go to /edit?f%5Bonline%5D%5B%5D=At+the+Library&q_row%5B%5D=annotated+hobbit&search_field_row%5B%5D=all_fields
+    Then I should see 'q_row0' populated with 'annotated hobbit'
+    When I remove simple facet constraint 'At the Library'
+    Then I should see 'q_row0' populated with 'annotated hobbit'
+
 @DISCOVERYACCESS-8225
 Scenario: Looking for more? link for Articles & Full Text should not have proxy
     When I literally go to advanced

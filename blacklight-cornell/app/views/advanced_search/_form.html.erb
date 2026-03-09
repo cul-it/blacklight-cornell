@@ -19,11 +19,9 @@
             <div class='col-md-6'>
               <h3>Limit your results</h3>
               <% if params[:f].present? %>
-                <div class='advanced-facets'>
-                  <%= render(AdvancedConstraintsComponent.new(
-                    search_state: convert_to_search_state(controller.params != params ? params : search_state)))
-                  %>
-                </div>
+                <%= render(AdvancedConstraintsComponent.new(
+                  search_state: convert_to_search_state(controller.params != params ? params : search_state)))
+                %>
               <% end %>
               <%= render 'facets', form: form %>
             </div>

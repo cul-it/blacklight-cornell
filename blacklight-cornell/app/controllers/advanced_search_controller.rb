@@ -81,4 +81,13 @@ class AdvancedSearchController < ApplicationController
   def advanced_facet_fields
     @advanced_facet_fields ||= blacklight_config.facet_fields.select { |_k, config| config.include_in_advanced_search }
   end
+
+  # Overrides the Blacklight::Catalog provided #search_action_url.
+  # Defaults to using action from params to be able to prefill form values from params during edit
+  # TODO: Remove this override when /advanced and /edit are consolidated: DACCESS-692
+  def search_action_url options = {}
+    options = options.to_h if options.is_a? Blacklight::SearchState
+    action = params['action'] || 'index'
+    url_for(options.reverse_merge(action:))
+  end
 end

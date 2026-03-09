@@ -45,7 +45,7 @@ describe AdvancedSearchController do
         # Mock environment to test rescue behavior in non-test environments
         allow(Rails.env).to receive(:test?).and_return(false)
         get :edit
-        expect(response).to redirect_to(advanced_search_index_path)
+        expect(response).to redirect_to(advanced_search_edit_path)
         expect(request.flash[:notice]).to eq("Sorry, I don't understand your search.")
       end
     end
