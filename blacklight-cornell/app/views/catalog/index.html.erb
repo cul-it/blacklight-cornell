@@ -53,7 +53,7 @@
 				<%= render "sort_and_per_page" %>
 
 				<h2 class="sr-only"><%= t("blacklight.search.search_results") %></h2>
-				<%= render_document_index %>
+				<%= render_document_index @response.documents %>
 				<%= render "results_pagination" %>
 			<% end %>
 			<%= render "search_more" %>
