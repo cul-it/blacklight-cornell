@@ -4,10 +4,6 @@ module BlacklightUnapi
   module ControllerExtension
     extend ActiveSupport::Concern
 
-    included do
-      helper BlacklightUnapiHelper
-    end
-
     def unapi
       @export_formats = blacklight_config.unapi
       requested_format = params[:format]
