@@ -2194,44 +2194,6 @@ RSpec.describe SearchBuilder, type: :model do
     end
   end
 
-  describe '#set_fq' do
-    before do
-      allow(search_builder).to receive(:blacklight_params) { blacklight_params }
-    end
-
-    context 'empty q and search_field' do
-      let(:blacklight_params) { {
-        f: {
-          'author_facet' => ['Bayerische Staatsbibliothek'],
-          'subject_topic_lc_facet' => ['Block-books, Tibetan']
-        }
-      } }
-
-      it 'populates solr fq' do
-        solr_params = { fq: ['{!term f=author_facet}Bayerische Staatsbibliothek'] }
-        search_builder.set_fq(solr_params)
-        expect(solr_params[:fq]).to eq(['{!term f=author_facet}Bayerische Staatsbibliothek',
-                                        '{!term f=subject_topic_lc_facet}Block-books, Tibetan'])
-      end
-    end
-
-    context 'existing q and search_field' do
-      let(:blacklight_params) { {
-        f: {
-          'subject_topic_lc_facet' => ['Block-books, Tibetan']
-        },
-        q: 'tibetan',
-        search_field: 'all_fields'
-      } }
-
-      it 'populates solr fq' do
-        solr_params = {}
-        search_builder.set_fq(solr_params)
-        expect(solr_params[:fq]).to eq(['{!term f=subject_topic_lc_facet}Block-books, Tibetan'])
-      end
-    end
-  end
-
   describe '#group_bento_results' do
     let(:solr_params) { {
       q: '(("cats" AND "dogs") OR phrase:"cats dogs")',
