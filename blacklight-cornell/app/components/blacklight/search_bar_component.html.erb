@@ -49,7 +49,7 @@
     <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
       <% if @params.empty? && params[:controller] != 'search_history'%>
         <% session_params = session[:search] ? session[:search].dup : {} %>
-        <% @params = helpers.search_state.reset(session_params).params_for_search.except(:q_row, :op_row, :boolean_row, :search_field, :qt, :counter, :total) %>
+        <% @params = helpers.search_state.reset(session_params).params_for_search.except(:q, :search_field, :qt, :counter, :total) %>
       <% end %>
       <% if params[:controller] == 'blacklight_cornell_requests/request' %>
           <% @params[:format] = 'html' %>
