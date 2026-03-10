@@ -31,6 +31,7 @@ Feature: Search History list
 
     @all_search
     @history
+    @javascript
     Scenario: Clicking a BASIC saved search does not create a duplicate entry
       Given I am on the home page
       When I fill in the search box with 'biology'
@@ -40,11 +41,17 @@ Feature: Search History list
       And there should be 1 items in the Search History
       # Re-run the initial saved search from history
       Then click on first link "biology"
+      Then I should get results
+      Then click on first link "Biology of pathogenic fungi"
+      Then click on first link "Back to catalog results"
+      Then I should get results
+      Then click on first link "Search History"
+      And there should be 1 items in the Search History
+      And I should see the text 'biology'
       # Return to history; entry count should remain 1
       Then click on first link "Search History"
       And there should be 1 items in the Search History
       And I should see the text 'biology'
-
 
     @all_search
     @history

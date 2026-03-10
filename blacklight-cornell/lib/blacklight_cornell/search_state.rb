@@ -11,7 +11,7 @@ module BlacklightCornell
 
     # Retain facet, sort, and per_page from sanitized params for search
     def facet_params_for_search(params_to_merge = {})
-      params_for_search(params_to_merge).slice(:f, :range, :f_inclusive, :sort, :per_page)
+      params_for_search(params_to_merge).slice(:f, :f_inclusive, :per_page, :range, :sort)
     end
   end
 end

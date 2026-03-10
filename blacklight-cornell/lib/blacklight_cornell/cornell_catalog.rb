@@ -415,6 +415,11 @@ protected
     end
   end
 
+  # Overrides from Blacklight::SearchContext to add :document_id
+  def blacklisted_search_session_params
+    [:commit, :counter, :document_id, :id, :page, :per_page, :search_id, :total]
+  end
+
 private
 
   def cjk_mm_val
