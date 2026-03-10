@@ -9,5 +9,9 @@ module BlacklightCornell
       params[:q_row]
     end
 
+    # Retain facet, sort, and per_page from sanitized params for search
+    def facet_params_for_search(params_to_merge = {})
+      params_for_search(params_to_merge).slice(:f, :range, :f_inclusive, :sort, :per_page)
+    end
   end
 end
