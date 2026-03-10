@@ -5,7 +5,7 @@
     <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form form-inline' do %>
       <% if @params.empty? %>
         <% session_params = session[:search] ? session[:search].dup : {} %>
-        <% @params = helpers.search_state.reset(session_params).params_for_search.except(:q_row, :op_row, :boolean_row, :search_field, :qt, :counter, :total) %>
+        <% @params = helpers.search_state.reset(session_params).params_for_search.except(:q, :q_row, :op_row, :boolean_row, :search_field, :qt, :counter, :total) %>
       <% end %>
       <%= render Blacklight::HiddenSearchStateComponent.new(params: @params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
