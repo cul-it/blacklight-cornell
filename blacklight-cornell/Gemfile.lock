@@ -19,15 +19,6 @@ GIT
       rest-client
 
 GIT
-  remote: https://github.com/cul-it/blacklight-unapi
-  revision: dab499a87290d395df217ae3b2dd2b7dc2aa1a76
-  branch: BL7_RAILS7-upgrade
-  specs:
-    blacklight_unapi (0.1.0)
-      blacklight
-      rails
-
-GIT
   remote: https://github.com/cul-it/cul-folio-edge
   revision: eb697fe0f13f3604ab630cce95a71cefeca91cb0
   tag: v3.3
@@ -885,7 +876,6 @@ DEPENDENCIES
   blacklight-marc (~> 8.2)
   blacklight_cornell_requests!
   blacklight_range_limit (~> 8.5.0)
-  blacklight_unapi!
   bootstrap (~> 4.6)
   brakeman
   byebug
