@@ -1,5 +1,6 @@
 module DisplayHelper
   include ActionView::Helpers::NumberHelper
+  include Blacklight::UrlHelperBehavior
   # ============================================================================
   # Hash map for substring of location codes from holding service => loc param
   # values for CUL library hours page
