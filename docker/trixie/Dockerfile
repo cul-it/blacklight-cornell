@@ -71,7 +71,7 @@ COPY ./exe/set_env.sh ${APP_PATH}/set_env.sh
 COPY ./exe/puma.sh ${APP_PATH}/puma.sh
 COPY ./exe/puma.rb ${APP_PATH}/config/puma.rb
 COPY ./.env .env
-RUN bundle exec rake assets:precompile && rm .env
+RUN if [ "${RAILS_ENV}" != "development" ]; then bundle exec rake assets:precompile; fi && rm .env
 
 
 ##############
