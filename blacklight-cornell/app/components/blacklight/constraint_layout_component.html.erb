@@ -1,0 +1,15 @@
+<% if @remove_path.present? %>
+  <a href="<%= @remove_path %>" class="btn btn-light" title="Remove">
+<% end %>
+    <% if @label.present? %>
+      <%= content_tag :span, @label, class: 'filter-label' %>:
+    <% else %>
+      <%= content_tag :span, "All Fields", class: 'filter-label' %>:
+    <% end %>
+    <% if @value.present? %>
+      <%= content_tag :span, @value, class: 'filter-value', title: @value %>
+    <% end %>
+    <i class="fa fa-times fa-inverse"></i>
+<% if @remove_path.present? %>
+  </a>
+<% end %>
