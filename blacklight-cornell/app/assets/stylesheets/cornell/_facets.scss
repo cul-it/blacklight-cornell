@@ -185,14 +185,12 @@
 	.filter-value {
 		font-weight: 700;
 	}
-}
-
-// Add a little space under each constraint for when they wrap onto multiple lines
-.selected-facets {
+	// Add a little space under each constraint for when they wrap onto multiple lines
 	.btn {
 		margin-bottom: 5px;
 	}
 }
+
 .selected-facet {
 	padding: 0 10px;
 	background: $cornell-blue;
