@@ -19,7 +19,12 @@ pipeline {
     stages {
         stage("Fix coverage permissions and checkout") {
             steps {
-                sh 'sudo chown -R jenkins:jenkinsgrp ${WORKSPACE}/blacklight-cornell/coverage || true'
+                sh '''
+                    COVERAGE_DIR="${WORKSPACE}/blacklight-cornell/coverage"
+                    if [ -d "$COVERAGE_DIR" ]; then
+                        docker run --rm -v "$COVERAGE_DIR:/coverage" alpine chown -R $(id -u):$(id -g) /coverage
+                    fi
+                '''
                 checkout scm
             }
         }
