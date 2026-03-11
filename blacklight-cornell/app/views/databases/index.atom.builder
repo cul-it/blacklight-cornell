@@ -47,7 +47,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   # updated is required, for now we'll just set it to now, sorry
   xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
   
-  @document_list.each do |doc|
+  @response.documents.each do |doc|
     xml.entry do
       xml.title   doc.to_semantic_values[:title][0] || doc.id
 

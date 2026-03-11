@@ -10,27 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_175736) do
-
-  create_table "blacklight_cornell_requests_circ_policy_locs", force: :cascade do |t|
-    t.integer "CIRC_GROUP_ID"
-    t.integer "LOCATION_ID"
-    t.string "PICKUP_LOCATION", limit: 1
-    t.index ["CIRC_GROUP_ID", "PICKUP_LOCATION"], name: "key_cgi_pl"
-    t.index ["LOCATION_ID"], name: "key_location_id"
-  end
-
+ActiveRecord::Schema[7.2].define(version: 2025_12_03_142805) do
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "document_id"
     t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "user_type"
     t.string "document_type"
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
@@ -163,8 +154,8 @@ ActiveRecord::Schema.define(version: 2020_05_19_175736) do
     t.string "display_name"
     t.string "hours_page"
     t.boolean "rmc_aeon"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["code"], name: "index_locations_on_code", unique: true
     t.index ["voyager_id"], name: "index_locations_on_voyager_id", unique: true
   end
@@ -172,8 +163,8 @@ ActiveRecord::Schema.define(version: 2020_05_19_175736) do
   create_table "searches", force: :cascade do |t|
     t.text "query_params"
     t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "user_type"
     t.index ["user_id"], name: "index_searches_on_user_id"
   end
@@ -181,8 +172,8 @@ ActiveRecord::Schema.define(version: 2020_05_19_175736) do
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
     t.text "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
@@ -278,18 +269,17 @@ ActiveRecord::Schema.define(version: 2020_05_19_175736) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "guest", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
 end

@@ -6,14 +6,16 @@
   # item view. While "document tools" contains external export type
   # functions by default only on detail.
 -%>
-<% if request.path != '/bookmarks'  && !request.path.start_with?('/book_bags') %>
+
+<% if request.path.start_with?('/bookmarks')  %>
+  <% bookmarks_index = true %>
+<% elsif request.path.start_with?('/book_bags') %>
+  <% bookbags_index = true %>
+<% else %>
   <% emailable = is_emailable(@document) %>
   <% exportable = is_exportable(@document) %>
-<% elsif request.path == '/bookmarks'  %>
-  <% bookmarks_index = true %>
-<% else %>
-  <% bookbags_index = true %>
 <% end %>
+
 <% if !bookmarks_index %>
 <li><%= render :partial => "bookmark_control" , :locals => {:document => @document} %></li>
 <% end %>
@@ -70,6 +72,9 @@
           </li>
           <li>
             <%= link_to t('blacklight.tools.mendeley'), "/book_bags/endnote.ris", {:class => 'dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
+          </li>
+          <li>
+            <%= link_to t('blacklight.tools.endnote_xml'), "/book_bags/endnote.endnote_xml", {:class => 'dropdown-item',:'data-toggle'=> "tooltip", :title=>'Export up to 500 items'} %>
           </li>
         <% elsif exportable %>
           <% if @document.export_formats.keys.include?( :endnote ) %>

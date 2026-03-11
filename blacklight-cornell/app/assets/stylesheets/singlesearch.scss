@@ -272,13 +272,6 @@ div.view-all {
   }
 }
 
-// Link to catalog advanced search
-// -----------------------------------------------//
-.advanced-search-link {
-  font-size: 14px;
-  margin-top: .5em;
-}
-
 // Jump links
 // -----------------------------------------------//
 
@@ -427,9 +420,6 @@ div.view-all {
     clear:both;
     margin-bottom:2em;
   }
-  .advanced-search-link {
-    text-align: right;
-  }
 }
 
 // Medium devices (tablets, 768px and up)
@@ -455,9 +445,6 @@ div.view-all {
         padding-left: 0;
       }
     }
-  }
-  .advanced-search-link {
-    float: right;
   }
 }
 

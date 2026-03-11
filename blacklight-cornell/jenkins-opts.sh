@@ -34,5 +34,5 @@ if [ $NUM_PROCESSES -eq 1 ]; then
 else
     echo "Running in parallel mode."
     echo "COVERAGE=$COVERAGE bundle exec parallel_cucumber -n $NUM_PROCESSES -o \"$ARGS --tags \"$OPT1 and $OPT2 and $OPT3 and $OPT4\"\" $feature"
-    COVERAGE=$COVERAGE bundle exec parallel_cucumber -n $NUM_PROCESSES -o "$ARGS --tags \"$OPT1 and $OPT2 and $OPT3 and $OPT4\"" $feature
+    COVERAGE=$COVERAGE bundle exec parallel_cucumber -n $NUM_PROCESSES -o "$ARGS --color --tags \"$OPT1 and $OPT2 and $OPT3 and $OPT4\"" $feature
 fi

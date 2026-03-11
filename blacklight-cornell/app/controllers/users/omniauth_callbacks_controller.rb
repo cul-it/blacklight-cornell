@@ -18,7 +18,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
       if session[:cuwebauth_return_path].present?
         path = session[:cuwebauth_return_path]
-        Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
         session[:cuwebauth_return_path] = nil
         sign_in :user, @user
         redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
@@ -52,7 +51,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
       if session[:cuwebauth_return_path].present?
         path = session[:cuwebauth_return_path]
-        Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
         session[:cuwebauth_return_path] = nil
         sign_in :user, @user
         redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name}."
@@ -88,9 +86,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     #else
     #   sam_response = auth.saml_resp
     #end
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} omniauth.auth.extra.raw_info=  #{auth['extra']['raw_info'].inspect}" )
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} omniauth.auth.attr =  #{auth.info} #{auth.info.name} #{auth.info.last_name}")
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} @user =  #{@user.inspect}")
+
     #because of single_value_compatibility all values are returned in arrays, even singled valued.
     session[:cu_authenticated_netid] = auth.info.netid[0]
     # Using email does not translate to netid for 'vanity' email addresses, like frances.webb@cornell.edu
@@ -106,7 +102,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session[:cu_authenticated_user] = auth.info.email[0]
     if session[:cuwebauth_return_path].present?
       path = session[:cuwebauth_return_path]
-      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} path =  #{path}")
       session[:cuwebauth_return_path] = nil
       redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
       return

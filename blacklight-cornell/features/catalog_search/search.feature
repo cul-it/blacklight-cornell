@@ -204,13 +204,12 @@ Feature: Search
     And I should see the "fa-clock-o" class
     And I should see the label 'Catherwood Library'
 
-  # @all_search
-  # @DISCOVERYACCESS-5984
-  # Scenario: Perform a librarian_view on an item known to have MARC record problems
-  #  Given I request the item view for 7928197
-  #  Then I should not see the "librarianLink" element
-  #  And I literally go to /catalog/7928197/librarian_view
-  #  Then I should see the text 'No MARC data found.'
+  @all_search
+  @DACCESS-733
+  Scenario: Librarian view for non MARC item has integration element needed for Ares addon
+    Given I literally go to /catalog/15351940/librarian_view
+    Then I should see the text 'No MARC data found.'
+    And I should find the hidden element with id "integration"
 
   @all_search
   @DISCOVERYACCESS-7889

@@ -57,7 +57,7 @@ Feature: Search
       | search | comment |
       # PENDING | Hunting, Gathering, and Stone Age Cooking | |
       | Norton Anthology of World Religions: Islam | |
-      | Concretions as sources of exceptional preservation | |
+      | CONCRETIONS AS SOURCES OF EXCEPTIONAL PRESERVATION | |
       | Utica Zoo, Utica Coffee Roasting | |
 
   @DISCOVERYACCESS-6699
@@ -85,8 +85,8 @@ Feature: Search
   Examples:
       | search | result |
       | wooden nutmeg  | The blasphemy of abolitionism exposed  |
-      | Hastingues | Council House with Three Filled Arches End Elevation |
-      | Geryon | account of the pastoral life of the ancients |
+      | Hastingues | House with Porch Arcade |
+      | Geryon | The Lair of Geryon |
       | 100% Beef | operations of the Cincinnati Branch |
       | crazy legs | Roxy, June 18, 1983 |
       | yard of pump water |  Principles and practice of plumbing |

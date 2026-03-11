@@ -19,13 +19,13 @@ class BentoSearch::BestBetEngine
     uri = URI.join("https://bestbets.library.cornell.edu/match/", q)
     best_bet = []
     begin
-      best_bet = JSON.load(uri)
+      best_bet = JSON.load(URI.open(uri))
     rescue Exception => e
       best_bet = []
       result = BentoSearch::ResultItem.new
       Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
     end
-    Rails.logger.debug "mjc12test: #{__FILE__} #{__LINE__} got back: #{best_bet}"
+
     result = BentoSearch::ResultItem.new
 
     # Because all our facets are packaged in a single query, we have to treat this as a single result

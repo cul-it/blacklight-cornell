@@ -1,6 +1,6 @@
 def rec8632993
  match = <<'MATCH_XML'
-xml version="1.0"?>
+<?xml version="1.0"?>
 <record xmlns="http://www.loc.gov/MARC21/slim">
   <leader>04110cam a2200577 i 4500</leader>
   <controlfield tag="001">8632993</controlfield>

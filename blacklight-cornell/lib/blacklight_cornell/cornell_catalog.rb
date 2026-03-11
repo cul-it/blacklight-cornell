@@ -16,7 +16,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   Blacklight::Catalog::SearchHistoryWindow = 12 # how many searches to save in session history
 
   def set_return_path
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     op = request.original_fullpath
     # if we headed for the login page, should remember PREVIOUS return to.
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?
@@ -27,11 +26,9 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       op = session[:cuwebauth_return_path]
     end
     op.dup.sub!('/range_limit','')
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  original = #{op.inspect}")
-    refp = request.referer
-    refp =""
+
+    refp = ""
     refp.sub!('/range_limit','') unless refp.nil?
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  referer path = #{refp}")
 
     session[:cuwebauth_return_path] =
       if (params['id'].present? && params['id'].include?('|'))
@@ -48,7 +45,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         op
       end
 
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  return path = #{session[:cuwebauth_return_path]}")
     return true
   end
 
@@ -107,7 +103,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       session["search_limit_exceeded"] = true
     end
     # @bookmarks = current_or_guest_user.bookmarks
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.to_unsafe_h.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.to_unsafe_h.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
 
@@ -135,7 +130,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     # Query solr for document list
     (@response, deprecated_document_list) = search_service.search_results(session['search_limit_exceeded'])
-    @document_list = deprecated_document_list
+
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      'The @document_list instance variable is deprecated; use @response.documents instead.',
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
 
     if params.nil? || params[:f].nil?
       @filters = []
@@ -161,13 +161,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       format.html { }
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
-      format.json { render json: { response: { document: deprecated_document_list } } }
-    end
-
-    # Format query for constraints display
-    if params[:q_row].present? && params[:q_row] != ['', '']
-      params[:show_query] = make_show_query(params)
-      search_session[:q] = params[:show_query]
+      format.json { render json: { response: { document: @response.documents } } }
     end
 
   rescue ArgumentError => e
@@ -179,23 +173,26 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # get single document from the solr index
   def show
-    @response, @document = search_service.fetch params[:id]
+    deprecated_response, @document = search_service.fetch(params[:id])
+    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_response,
+      'The @response instance variable is deprecated; use @document.response instead.',
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
     @documents = [ @document ]
     # set_bag_name
-    logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{params.inspect}"
-
     # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
     # If it does have the id, save it globally and just get the image url.
     notes_check = @document["notes"].present? ? @document["notes"].join : ""
     if @document["format_main_facet"] == "Musical Recording" && @document["discogs_display"].nil? && !notes_check.include?("Cornell University") && !notes_check.include?("Ithaca")
-      process_discogs(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
+      get_discogs_search_result(@document) unless @document['publisher_display'].present? && @document['publisher_display'][0].include?("Naxos")
     elsif @document["discogs_display"].present?
       @discogs_id = @document["discogs_display"][0]
       @discogs_image_url = get_discogs_image(@document["discogs_display"][0])
     end
 
     respond_to do |format|
-      format.endnote_xml { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
+      format.endnote_xml { render 'endnote_xml', :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.html        {setup_next_and_previous_documents}
       format.rss         { render :layout => false }
       format.ris         { render 'ris', :layout => false }
@@ -208,8 +205,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
       # for the visual shelf browse
       if @document['callnumber_display'].present?
-        @previous_eight = get_surrounding_docs(@document['callnumber_display'][0].gsub("\\"," ").gsub('"',' '),"reverse",0,1)
-        @next_eight = get_surrounding_docs(@document['callnumber_display'][0].gsub("\\"," ").gsub('"',' '),"forward",0,2)
+        @previous_eight = get_surrounding_docs(@document['callnumber_display'][0],"reverse",0,1)
+        @next_eight = get_surrounding_docs(@document['callnumber_display'][0],"forward",0,2)
       end
     end
   end
@@ -227,7 +224,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     if search_session['counter']
       index = search_session['counter'].to_i - 1
-      logger.info "es287_debug #{__FILE__}:#{__LINE__}:#{__method__} params = #{query_params.inspect}"
       response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
       search_session['total'] = response.total
       if query_params[:per_page].nil?
@@ -240,6 +236,19 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   rescue Blacklight::Exceptions::InvalidRequest => e
     logger.warn "Unable to setup next and previous documents: #{e}"
+  end
+
+  # Ajax endpoint for asynchronously rendering full facet value list
+  # Currently only used for lc_callnum_facet
+  def facet_values
+    facet = blacklight_config.facet_fields[params[:id]]
+    raise ActionController::RoutingError, 'Not Found' unless facet
+
+    response = search_service.facet_field_response(facet.key)
+    @display_facet = response.aggregations[facet.field]
+    respond_to do |format|
+      format.js { render layout: false }
+    end
   end
 
   def track
@@ -277,57 +286,32 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # grabs a bunch of documents to export to endnote
   def endnote
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
     if params[:id].nil?
       bookmarks = token_or_current_or_guest_user.bookmarks
       bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids = #{bookmark_ids.inspect}")
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  bookmark_ids size  = #{bookmark_ids.size.inspect}")
+
       if bookmark_ids.size > BookBagsController::MAX_BOOKBAGS_COUNT
         bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT]
       end
-      @response, @documents = search_service.fetch(bookmark_ids, :per_page => 1000,:rows => 1000)
-      Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  @documents = #{@documents.size.inspect}")
+      # Ensure user can export all selected bookmarks and not just 1 page.
+      (deprecated_response, @documents) = search_service.fetch(bookmark_ids, start: 0, rows: bookmark_ids.size, per_page: bookmark_ids.size)
     else
-      @response, @documents = search_service.fetch(params[:id])
+      (deprecated_response, @documents) = search_service.fetch(params[:id])
     end
+    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_response,
+      'The @response instance variable is deprecated.',
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
     if @documents.count() < 1
       return
     end
-    fmt = params[:format]
-    Rails.logger.debug("es287_debug #{__FILE__}:#{__LINE__}  #{__method__} = #{fmt}")
+
     respond_to do |format|
-      format.endnote_xml { render "show.endnote_xml" ,layout: false }
+      format.endnote_xml { render 'endnote_xml', layout: false }
       format.endnote     { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.ris         { render 'ris', :layout => false }
     end
-  end
-
-  def sms_action documents
-    to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
-    tinyPass = request.protocol + request.host_with_port + solr_document_path(params['id'])
-    tiny = tiny_url(tinyPass)
-    mail = RecordMailer.sms_record(documents, { :to => to, :callnumber => params[:callnumber], :location => params[:location], :tiny => tiny},  url_options)
-    print mail.pretty_inspect
-    if mail.respond_to? :deliver_now
-      mail.deliver_now
-    else
-      mail.deliver
-    end
-  end
-
-  def validate_sms_params
-    if params[:to].blank?
-      flash.now[:error] = I18n.t('blacklight.sms.errors.to.blank')
-    elsif params[:carrier].blank?
-      flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
-    elsif params[:to].gsub(/[^\d]/, '').length != 10
-      flash.now[:error] = I18n.t('blacklight.sms.errors.to.invalid', to: params[:to])
-    elsif !sms_mappings.value?(params[:carrier])
-      flash.now[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
-    end
-
-    flash[:error].blank?
   end
 
   # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
@@ -411,15 +395,10 @@ protected
     session[:search] = {}
     params.each_pair do |key, value|
       if !value.nil?
-        value = value.to_unsafe_h if key == "f"
+        value = value.to_unsafe_h if ['f', 'f_inclusive', 'boolean_row', 'range'].include?(key)
         session[:search][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
           value.blank?
       end
-    end
-    session[:gearch] = {}
-    params.each_pair do |key, value|
-      session[:gearch][key.to_sym] = value unless ['commit', 'counter'].include?(key.to_s) ||
-        value.blank?
     end
   end
 
@@ -487,15 +466,6 @@ protected
     Blacklight.solr_config
   end
 
-  # This is a weird function -- it has two different return types, depending on an option that is apparently
-  # never used! Commenting this version out and redefining generate_uri below....
-  # def tiny_url(uri, options = {})
-  #   defaults = { :validate_uri => false }
-  #   options = defaults.merge options
-  #   return validate_uri(uri) if options[:validate_uri]
-  #   return generate_uri(uri)
-  # end
-
   def credits
     respond_to do |format|
       format.html
@@ -504,46 +474,6 @@ protected
   end
 
 private
-
-  def uri_valid?(uri)
-    !!(uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
-    uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix])
-  end
-
-  # def validate_uri(uri)
-  #   confirmed_uri = uri[/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix] ||
-  #                   uri[/^(http|https):\/\/localhost(:[0-9]{1,5})?(\/.*)?$/ix]
-  #   if confirmed_uri.blank?
-  #     return false
-  #   else
-  #     return true
-  #   end
-  # end
-
- # def generate_uri(uri)
-  def tiny_url(uri)
-    Appsignal.increment_counter('item_sms', 1)
-    if uri_valid?(uri)
-      shorten = Rails.application.config.url_shorten
-      logger.info "URL shortener:  #{__FILE__}:#{__LINE__}:#{__method__} #{shorten.pretty_inspect}"
-      if shorten.present?
-        escaped_uri = CGI::escape(uri)
-        url = "#{shorten}#{escaped_uri}"
-        begin
-          uri_parsed = Net::HTTP.get_response(URI.parse(url)).body
-          #uri_parsed = Net::HTTP.get_response(URI.parse(escaped_uri),{:read_timeout => 10}).body
-        rescue StandardError  => e
-          logger.error "URL shortener error:  #{__FILE__}:#{__LINE__}:#{__method__} #{e} #{shorten}"
-          Appsignal.send_error(e)
-          uri_parsed = uri
-         end
-      end
-      return uri_parsed
-    else
-     # needs error checking.
-     # raise ActsAsTinyURLError.new("Provided URL is incorrectly formatted.")
-    end
-  end
 
   def cjk_mm_val
     silence_warnings { @@cjk_mm_val = '3<86%'}
@@ -570,7 +500,11 @@ private
 
   def sanitize(q)
     if q[:q].include?('<img')
-      Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
+
+      # :nocov:
+        Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
+      # :nocov:
+
       redirect_to root_path
     else
       q = params[:q].rstrip

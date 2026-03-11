@@ -124,16 +124,6 @@ module InstitutionalRepositoriesHelper
                 r.abstract = s['description_tesim'].shift
             end
 
-            parts = []
-            if s['repository_tesim'].present?
-                parts << s['repository_tesim'].shift
-            elsif s['id'].start_with?("ec:")
-                parts << "eCommons"
-            elsif s['id'].start_with?("ec7:")
-                parts << "eCommons7"
-            end
-            r.source_title = parts.join(" ")
-
             if s['r1_date_tesim'].present?
                 dt = Time.parse(s['r1_date_tesim'].shift)
                 r.publication_date = dt.strftime("%Y-%m-%d")

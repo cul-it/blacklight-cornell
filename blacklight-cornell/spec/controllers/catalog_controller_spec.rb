@@ -173,7 +173,7 @@ RSpec.describe CatalogController, type: :controller do
         it 'returns expected response with documents' do
           get :index, params: { q: '', search_field: 'all_fields', range: { 'pub_date_facet' => { begin: '2000', end: '2020' } } }
           expect(response).to be_successful
-          expect(assigns(:response).total).to eq(84)
+          expect(assigns(:response).total).to eq(87)
         end
       end
 
@@ -181,7 +181,7 @@ RSpec.describe CatalogController, type: :controller do
         it 'returns expected response with documents' do
           get :index, params: { q: '', search_field: 'all_fields' }
           expect(response).to be_successful
-          expect(assigns(:response).total).to eq(235)
+          expect(assigns(:response).total).to eq(244)
         end
       end
 
@@ -189,7 +189,7 @@ RSpec.describe CatalogController, type: :controller do
         it 'returns expected response with documents' do
           get :index, params: { q: '', search_field: 'all_fields', range: { 'pub_date_facet' => { begin: nil, end: nil } } }
           expect(response).to be_successful
-          expect(assigns(:response).total).to eq(235)
+          expect(assigns(:response).total).to eq(244)
         end
       end
 

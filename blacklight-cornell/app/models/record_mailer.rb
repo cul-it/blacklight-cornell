@@ -6,11 +6,11 @@ class RecordMailer < ActionMailer::Base
   def email_record(documents, details, url_gen_params, params)
     #raise ArgumentError.new("RecordMailer#email_record only works with documents with a #to_marc") unless document.respond_to?(:to_marc)
 
-#    subject = I18n.t('blacklight.email.text.subject', :count => documents.length, :title => (documents.first.to_semantic_values[:title] rescue 'N/A') )
-    subject = "Item(s) from the Cornell University Library Catalog"
+    subject = I18n.t('blacklight.email.text.subject')
 
     @documents      = documents
     @message        = details[:message]
+    @url_gen_params = url_gen_params
 
     @availability = []
     @documents.each do |doc|
@@ -22,7 +22,7 @@ class RecordMailer < ActionMailer::Base
           availability['availAt'].each do |key, val|
             avail = {'location' => key,
               'callnumber' => val,
-              'status' => 'available'}
+              'status' => 'Available'}
             doc_availability << avail
           end
         end
@@ -30,18 +30,13 @@ class RecordMailer < ActionMailer::Base
           availability['unavailAt'].each do |key, val|
             avail = {'location' => key,
               'callnumber' => val,
-              'status' => 'not available'}
+              'status' => 'Not Available'}
             doc_availability << avail
           end
         end
-      else
-        Rails.logger.debug "jgr25_log #{__FILE__} #{__LINE__}: No availability: "
       end
       @availability << doc_availability
     end
-
-    @tiny           = details[:tiny]
-    @url_gen_params = url_gen_params
 
     delivery_options = {
       user_name: ENV["SMTP_USERNAME"],
@@ -51,44 +46,5 @@ class RecordMailer < ActionMailer::Base
 
     mail(:to => details[:to],  :subject => subject,
       delivery_method_options: delivery_options)
-  end
-
-  def sms_record(documents, details, url_gen_params)
-    if sms_mapping[details[:carrier]]
-      to = "#{details[:to]}@#{sms_mapping[details[:carrier]]}"
-    else
-      to = details[:to]
-    end
-    @documents      = documents
-    @callnumber     = details[:callnumber]
-    @location       = details[:location]
-    @tiny           = details[:tiny]
-    @url_gen_params = url_gen_params
-    subject = ""
-    # @message        = details[:message]
-    # delivery_options = {
-    #   user_name: ENV["SMTP_USERNAME"],
-    #   password: ENV["SMTP_PASSWORD"],
-    #   address: ENV["SMTP_ADDRESS"]
-    # }
-
-    # mail(:to => to, :subject => subject,
-    #   delivery_method_options: delivery_options)
-    # 'to: "6072213597@vtext.com"'
-    arg = ["123"]
-    mail(:to => [details[:to]], :subject => subject, :content_type => 'text')
-  end
-
-  protected
-
-  def sms_mapping
-    {'virgin' => 'vmobl.com',
-    'att' => 'txt.att.net',
-    'verizon' => 'vtext.com',
-    'nextel' => 'messaging.nextel.com',
-    'sprint' => 'messaging.sprintpcs.com',
-    'tmobile' => 'tmomail.net',
-    'alltel' => 'message.alltel.com',
-    'cricket' => 'mms.mycricket.com'}
   end
 end

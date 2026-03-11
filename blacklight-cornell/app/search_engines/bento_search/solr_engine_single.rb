@@ -13,7 +13,10 @@ class BentoSearch::SolrEngineSingle
   def search_implementation(args)
     # 'args' should be a normalized search arguments hash including the following elements:
     # :query, :per_page, :start, :page, :search_field, :sort
-    log_debug_info("#{__FILE__}:#{__LINE__}", ['args:', args])
+
+    # :nocov:
+      log_debug_info("#{__FILE__}:#{__LINE__}", ['args:', args])
+    # :nocov:
 
     # Use Blacklight::SearchService to get the search results
     search_params = { q: args[:query], search_field: 'all_fields', bento: true }

@@ -127,7 +127,6 @@ en:
       mendeley: 'RIS'
       zotero: 'Zotero'
       email: 'Email'
-      sms: 'Text'
       librarian_view: 'Librarian View'
       clear: 'Clear'
 
@@ -139,43 +138,17 @@ en:
         callnumber: 'Call number:'
         submit: 'Send'
       text:
+        subject: 'Item(s) from the Cornell University Library Catalog'
+        message: '%{message}'
         title: 'Title: %{value}'
         author: 'Author: %{value}'
+        format: 'Format: %{value}'
         language: 'Language: %{value}'
-        location: 'Location: %{location}'
-        templocation: 'Temporary Location: %{templocation}'
-        callnumber: 'Call number: %{callnumber}'
-        status: 'Status: %{status}'
-        subject:
-          one: 'Item record: %{title}'
-          other: 'Item records'
-        url: '%{url}'
-        message: '%{message}'
+        availability: "Availability:"
       errors:
         to:
           invalid: 'You must enter a valid email address.'
           blank: 'You must enter a recipient in order to send this message.'
-    sms:
-      form:
-        title: 'Text this call number'
-        to: 'Phone number:'
-        carrier: 'Carrier:'
-        carrier_prompt: 'Select your carrier'
-        submit: 'Send'
-      text:
-        title: '%{value}'
-        author: ''
-#        url: 'Link: %{url}'
-        url: '%{url}'
-        callnumber: '%{callnumber}'
-        location: '%{location}'
-      errors:
-        to:
-          invalid: 'You must enter a valid 10 digit phone number.'
-          blank: "You must enter a recipient's phone number in order to send this message."
-        carrier:
-          blank: 'You must select a carrier.'
-      success: 'The text has been sent.'
 
     back_to_search: 'Back to catalog results'
     back_to_bookmarks: 'Back to selected items'

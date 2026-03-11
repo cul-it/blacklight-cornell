@@ -1,62 +1,74 @@
+require "active_support/core_ext/integer/time"
+
+# The test environment is used exclusively to run your application's
+# test suite. You never need to work with it otherwise. Remember that
+# your test database is "scratch space" for the test suite and is wiped
+# and recreated between test runs. Don't rely on the data there!
+
 BlacklightCornell::Application.configure do
-  # Settings specified here will take precedence over those in config/application.rb
-  config.eager_load = false
-  #config.eager_load = true
+  # Settings specified here will take precedence over those in config/application.rb.
 
-  # In the development environment your application's code is reloaded on
-  # every request. This slows down response time but is perfect for development
-  # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = false
+  # While tests run files are not watched, reloading is not necessary.
+  config.enable_reloading = false
 
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
+  # Eager loading loads your entire application. When running a single test locally,
+  # this is usually not necessary, and can slow down your test suite. However, it's
+  # recommended that you enable it in continuous integration systems to ensure eager
+  # loading is working properly before deploying your code.
+  config.eager_load = ENV["CI"].present?
 
-  # Show full error reports and disable caching
+  # Configure public file server for tests with Cache-Control for performance.
+  config.public_file_server.headers = { "Cache-Control" => "public, max-age=#{1.hour.to_i}" }
+
+  # Show full error reports and disable caching.
   config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
+  config.cache_store = :null_store
 
-  # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.smtp_settings = {
-    address: ENV["SMTP_ADDRESS"],
-    port: ENV["SMTP_PORT"],
-    user_name: ENV["SMTP_USERNAME"],
-    password: ENV["SMTP_PASSWORD"],
-    authentication: :login,
-    enable_starttls_auto: true,
-  }
+  # Render exception templates for rescuable exceptions and raise for other exceptions.
+  config.action_dispatch.show_exceptions = :rescuable
 
-  # Print deprecation notices to the Rails logger
-  config.active_support.deprecation = :log
-  # See everything in the log (default is :info)
-  config.logger = ActiveSupport::Logger.new(STDOUT)
+  # Disable request forgery protection in test environment.
+  config.action_controller.allow_forgery_protection = false
+
+  # Store uploaded files on the local file system in a temporary directory.
+  config.active_storage.service = :test
+
+  # Disable caching for Action Mailer templates even if Action Controller
+  # caching is enabled.
+  config.action_mailer.perform_caching = false
+
+  # Tell Action Mailer not to deliver emails to the real world.
+  # The :test delivery method accumulates sent emails in the
+  # ActionMailer::Base.deliveries array.
+  config.action_mailer.delivery_method = :test
+
+  # Unlike controllers, the mailer instance doesn't have any context about the
+  # incoming request so you'll need to provide the :host parameter yourself.
+  config.action_mailer.default_url_options = { host: "www.example.com" }
+
+  # Print deprecation notices to the stderr.
+  config.active_support.deprecation = :stderr
+
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
+
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
+
+  # Disables all deprecation warnings to reduce noise
+  # Comment out to review and address deprecations
+  Deprecation.default_deprecation_behavior = :silence
+
+  # Raises error for missing translations.
+  # config.i18n.raise_on_missing_translations = true
+
+  # Annotate rendered view with file names.
+  # config.action_view.annotate_rendered_view_with_filenames = true
+
+  # Raise error when a before_action's only/except options reference missing actions.
+  config.action_controller.raise_on_missing_callback_actions = true
+
+  # Reduce log output to speed up test suite.
   config.log_level = :warn
-
-  config.active_record.yaml_column_permitted_classes = [
-    ActiveSupport::HashWithIndifferentAccess,
-  ]
-
-  # Only use best-standards-support built into browsers
-  config.action_dispatch.best_standards_support = :builtin
-
-  # Raise exception on mass assignment protection for Active Record models
-  #config.active_record.mass_assignment_sanitizer = :strict
-  #config.active_record.mass_assignment_sanitizer = false
-
-  # Log the query plan for queries taking more than this (works
-  # with SQLite, MySQL, and PostgreSQL)
-  #  config.active_record.auto_explain_threshold_in_seconds = 0.5
-
-  # Do not compress assets
-  config.assets.compress = false
-
-  # Expands the lines which load the assets
-  config.assets.debug = true
-
-  # this allows WEBrick to handle pipe symbols in query parameters
-  #URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '|')
-
-  # suppress deprecation warnings
-  Deprecation.default_deprecation_behavior = :silence # :stderr # :silence
 end

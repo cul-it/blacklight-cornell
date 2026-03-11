@@ -12,7 +12,7 @@ services:
       - IMAGE_NAME=container-discovery
       - RAILS_ENV=${RAILS_ENV:-production}
       - RAILS_LOG_LEVEL=info
-      - RUN_CRON=false
+      - RUN_CRON=${RUN_CRON:-false}
     ports:
       - 9292:9292
     volumes:

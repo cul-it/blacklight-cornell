@@ -16,7 +16,7 @@
 /.bundle
 
 # Ignore the default SQLite database.
-/blacklight-cornell/db/*.sqlite3
+/blacklight-cornell/db/*.sqlite3*
 /db/*.sqlite3
 
 # Ignore all logfiles and tempfiles.
@@ -42,8 +42,6 @@
 # ignore coverage tests
 /blacklight-cornell/coverage
 /coverage
-/blacklight-cornell/db/test.sqlite3-journal
-/db/test.sqlite3-journal
 
 # ignore tests Jenkins blacklight-cornell-merge-pr deletes
 /blacklight-cornell/results/*

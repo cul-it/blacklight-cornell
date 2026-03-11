@@ -10,7 +10,7 @@ RSpec.describe SearchHistoryHelper, type: :helper do
   end
 
   def normalized_text(html)
-    CGI.unescapeHTML(ActionView::Base.full_sanitizer.sanitize(html)).gsub(/\u00A0/, ' ').gsub(/\s+/, ' ').strip
+    CGI.unescapeHTML(ActionView::Base.full_sanitizer.sanitize(html)).gsub(/\&nbsp\;/, ' ').gsub(/\s+/, ' ').strip
   end
 
   def parsed_query(href_or_html)

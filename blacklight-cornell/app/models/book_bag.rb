@@ -39,11 +39,14 @@ class BookBag
       client.query("CREATE TABLE IF NOT EXISTS \
         book_bags(bagname varchar(255), bibid int unsigned, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (bagname, bibid))")
     rescue Mysql2::Error => e
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag"
-      puts e.error.to_yaml
-      puts e.errno.inspect
-      Rails.logger.level = save_level
+      # :nocov:
+        #TODO: investigate and clean up - Jira Ticket: https://culibrary.atlassian.net/browse/DACCESS-767
+        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+        Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag"
+        puts e.error.to_yaml
+        puts e.errno.inspect
+        Rails.logger.level = save_level
+      # :nocov:
     ensure
       disconnect
     end
@@ -163,25 +166,29 @@ class BookBag
   end
 
   def debug
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag debug"
-    puts "@@bagname:\n" + @@bagname.to_yaml
-    puts "@bagname:\n" + @bagname.to_yaml
-    puts "@@bookmarkname:\n" + @@bookmarkname.to_yaml
-    num  = self.count
-    puts "Count:\n" + num.inspect
-    bibs = self.index
-    puts "Index:\n" + bibs.to_yaml
-    # current_user, current_or_guest_user, user_session are all undefined
-    Rails.logger.level = save_level
+    # :nocov:
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in BookBag debug"
+      puts "@@bagname:\n" + @@bagname.to_yaml
+      puts "@bagname:\n" + @bagname.to_yaml
+      puts "@@bookmarkname:\n" + @@bookmarkname.to_yaml
+      num  = self.count
+      puts "Count:\n" + num.inspect
+      bibs = self.index
+      puts "Index:\n" + bibs.to_yaml
+      # current_user, current_or_guest_user, user_session are all undefined
+      Rails.logger.level = save_level
+    # :nocov:
   end
 
   def export
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
-    msg= "BookBag export"
-    puts msg.to_yaml
-    Rails.logger.level = save_level
+    # :nocov:
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in authenticate"
+      msg= "BookBag export"
+      puts msg.to_yaml
+      Rails.logger.level = save_level
+    # :nocov:
     debug
   end
 

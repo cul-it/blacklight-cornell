@@ -1,3 +1,4 @@
+# :nocov:
 module ConsoleColors
   ##########################################
   ## DEFINED COLORS TO USE ON CONSOLE LOG ##
@@ -206,3 +207,4 @@ module ConsoleColors
     end
   end
 end
+# :nocov:

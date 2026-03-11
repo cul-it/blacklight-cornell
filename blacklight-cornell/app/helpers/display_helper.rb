@@ -138,7 +138,6 @@ module DisplayHelper
   # otherwise, it does same as render_index_field_value
   # ----------------------------------------------------------------------------
   def render_pair_delimited_index_field_value args
-    Rails.logger.info("RENDER_PAIR_...")
     value = args[:value]
 
     if args[:field] and blacklight_config.index_fields[args[:field]]
@@ -625,7 +624,6 @@ module DisplayHelper
       if @add_row_style == :text
         out << s[0] # if displaying plain text, do not include links
       else
-        Rails.logger.debug "#{__FILE__}:#{__LINE__}  method = #{__method__}"
         case category
         when :all
           q = '"' + s[1] + '"'
@@ -797,7 +795,7 @@ module DisplayHelper
   # Overrides original method from blacklight_helper_behavior.rb
   # ----------------------------------------------------------------------------
   def link_to_document(doc, field_or_opts = nil, opts = { :label => nil, :counter => nil, :results_view => true })
-    if ['bookmarks', 'book_bags'].include? params[:controller]
+    if ['bookmarks', 'book_bags'].include?(params[:controller])
       label = field_or_opts
       docID = doc.id
       link_to label, '/' + params[:controller] + '/' + docID
@@ -847,20 +845,12 @@ module DisplayHelper
   end
 
   def is_exportable document
+    return false unless document.exportable_record?
     if document.present? && document.export_formats.present?
       if document.export_formats.keys.include?(:ris) || document.export_formats.keys.include?(:endnote)
         return true
       end
     end
-  end
-
-  # ============================================================================
-  # Overrides original method from blacklight_helper_behavior.rb
-  # -- Updated to handle arrays (multiple fields specified in config)
-  # Used for creating a link to the document show action
-  # ----------------------------------------------------------------------------
-  def document_show_link_field document = nil
-    blacklight_config.index.title_field.is_a?(Array) ? blacklight_config.index.title_field : blacklight_config.index.title_field.to_sym
   end
 
   # ============================================================================
@@ -943,19 +933,6 @@ module DisplayHelper
   def field_value(field)
     field_config = blacklight_config.show_fields[field]
     Blacklight::ShowPresenter.new(@document, self).field_value field_config
-  end
-
-  def cornell_params_for_search(*args, &block)
-    source_params, params_to_merge = case args.length
-    when 0
-      search_state.params_for_search
-    when 1
-      search_state.params_for_search(args.first)
-    when 2
-      controller.search_state_class.new(args.first, blacklight_config).params_for_search(args.last)
-    else
-      raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
-    end
   end
 
   def cornell_remove_facet_params(field, item, source_params = nil)
@@ -1161,6 +1138,16 @@ module DisplayHelper
     end
     result.to_sentence.html_safe
   end
+
+  def access_titleid(args)
+    raw = args["url_access_json"]
+    return nil if raw.blank?
+
+    first = raw.is_a?(Array) ? raw.first : raw
+    parsed = first.is_a?(String) ? (JSON.parse(first) rescue nil) : first
+    parsed.is_a?(Hash) ? parsed["titleid"] : nil
+  end
+
 
   def access_url_is_list?(args)
     args['url_access_json'].present? && args['url_access_json'].size != 1

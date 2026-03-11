@@ -2,7 +2,7 @@
 
 <div id="document" class="<%= render_document_class %> col-sm-12">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
-	<% Rails.logger.debug("mjc12test2: authgroups #{session[:cu_authenticated_groups] }") %>
+
   <%
     # With Blacklight 7, we can't access these using field_value. So get them all out of
     # the Solr doc right up front.
@@ -43,12 +43,21 @@
 	    </div>
 	    <div class="card-block">
 			<%# Determine if the request should be made through the catalog or the Aspace PUI %>
-			<% url = aspace_pui_url(@document) %>
-			<% if url.present? %>
-				<%# Item is in Aspace so render finding aids to direct to the PUI %>
-				<% url_findingaid_displays = render_display_link :value => [url], :field => 'url_findingaid_display', :format => 'default' %>
+			<% pui_url = aspace_pui_url(@document) %>
+			<% url_findingaid_displays = [] %>
+
+			<% if pui_url.present? %>
+				<%# Item is in Aspace so replace static finding aid with link to the PUI %>
+				<% url_findingaid_displays = render_display_link :value => [pui_url], :field => 'url_findingaid_display', :format => 'default' %>
+				
+				<%# DACCESS-828 show multiple finding aids, filtering out 'resolver.library.cornell.edu' %>
+				<% additional_links = Array(render_display_link(document: @document, field: 'url_findingaid_display', format: 'default')) %>
+				<% additional_links.reject! { |link| link.include?('resolver.library.cornell.edu') } %>
+				<% if additional_links.any? %>
+					<% url_findingaid_displays.concat(additional_links) %> 
+				<% end %>
 			<% elsif @document['url_findingaid_display'].present? %>
-				<%# Item is not in Aspace so render finding aids from the document %>
+				<%# Item is not in Aspace so render finding aids from the document %> 
 				<% url_findingaid_displays = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default' %>
 			<% end %>
 			<% if url_findingaid_displays.present? %>

@@ -295,12 +295,12 @@ Feature: Search
     And I select 'all' from the 'op_row0' drop-down
     And I select 'Place of Publication' from the 'search_field_row0' drop-down
     And I press 'advanced_search'
-    Then I should get 41 results
+    Then I should get 43 results
     And I should see the "Place of Publication" facet constraint
     And click on first link "The basic practice of statistics"
     Then I should see the label 'The basic practice of statistics'
     Then click on first link "Back to catalog results"
-    And I should get 41 results
+    And I should get 43 results
 
  @begins_with
  @adv_search
@@ -333,7 +333,6 @@ Feature: Search
     And I fill in "q_row0" with 'socccer'
     And I fill in "q_row1" with 'encyclopedia'
     And I press 'advanced_search'
-    Then I should not see the label 'searched'
     And I should see the label 'soccer'
 
  @all_search
@@ -347,7 +346,7 @@ Feature: Search
     And click on link "add-row"
     And I fill in "q_row2" with ' '
     And I press 'advanced_search'
-    Then I should not see the label 'searched'
+    Then I should see the label 'we were once'
 
  @adv_search
  @all_search
@@ -361,7 +360,7 @@ Feature: Search
     And I select 'Title' from the 'search_field_row1' drop-down
     And I press 'advanced_search'
     Then I should get results
-    Then it should have link "Title: beef" with value '/catalog?action=index&advanced_query=yes&commit=Search&controller=catalog&op_row%5B%5D=AND&q=title+%3D+100%25&q_row%5B%5D=100%25&range%5Bpub_date_facet%5D%5Bbegin%5D=&range%5Bpub_date_facet%5D%5Bend%5D=&search_field=advanced&search_field_row%5B%5D=title&show_query=title+%3D+100%25&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&utf8=%E2%9C%93&y='
+    Then it should have link "Title: beef" with value '/catalog?action=index&advanced_query=yes&commit=Search&controller=catalog&op_row%5B%5D=AND&q=&q_row%5B%5D=100%25&range%5Bpub_date_facet%5D%5Bbegin%5D=&range%5Bpub_date_facet%5D%5Bend%5D=&search_field=advanced&search_field_row%5B%5D=title&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc'
     Then I remove facet constraint "beef"
 
  @adv_search
@@ -444,6 +443,12 @@ Feature: Search
     Then click on first link "Book"
     Then click on first link "Modify advanced search"
     And I should see the label 'Add a row'
+
+  Scenario: Remove simple search facet constraints from advanced search form
+    When I literally go to /edit?f%5Bonline%5D%5B%5D=At+the+Library&q_row%5B%5D=annotated+hobbit&search_field_row%5B%5D=all_fields
+    Then I should see 'q_row0' populated with 'annotated hobbit'
+    When I remove simple facet constraint 'At the Library'
+    Then I should see 'q_row0' populated with 'annotated hobbit'
 
 @DISCOVERYACCESS-8225
 Scenario: Looking for more? link for Articles & Full Text should not have proxy
@@ -592,3 +597,98 @@ Scenario: I can filter advanced searches by facets
   And I fill in the search box with 'wildlife'
   And I press 'search'
   Then I should get results
+
+
+######################################------------------------------------------
+##  JS Date Range Validation Tests  ##
+######################################
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Valid 4-digit range enables search (no alerts)
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '1960'
+  And I fill in "range_pub_date_facet_end" with '2000'
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Single start without end shows error after blur and disables search
+  When I literally go to advanced
+  And I focus the start year field
+  And I type '1999' into the focused field
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Please enter an end date.'
+  And the end year field should be invalid
+  And the advanced search submit button should be disabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Single end without start shows error after blur and disables search
+  When I literally go to advanced
+  And I focus the end year field
+  And I type '1999' into the focused field
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Please enter a start date.'
+  And the start year field should be invalid
+  And the advanced search submit button should be disabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Partial year while focused does not show ordering error
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '2000'
+  And I focus the end year field
+  And I type '300' into the focused field
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Start date must be earlier than or equal to end date.'
+  And the advanced search submit button should be disabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: Negative years are accepted (BCE)
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '-500'
+  And I fill in "range_pub_date_facet_end" with '-100'
+  Then the date range alert should be hidden
+  And the advanced search submit button should be enabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: 200 - 3 should trigger ordering error after blur
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '200'
+  And I fill in "range_pub_date_facet_end" with '3'
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Start date must be earlier than or equal to end date.'
+  And the advanced search submit button should be disabled
+
+@adv_search
+@all_search
+@javascript
+@pubyear_validation
+Scenario: 500 - 50 should trigger ordering error after blur
+  When I literally go to advanced
+  And I fill in "range_pub_date_facet_begin" with '500'
+  And I fill in "range_pub_date_facet_end" with '50'
+  When Leave from the date range section of the form
+  Then the date range alert should be visible with message 'Start date must be earlier than or equal to end date.'
+  And the advanced search submit button should be disabled

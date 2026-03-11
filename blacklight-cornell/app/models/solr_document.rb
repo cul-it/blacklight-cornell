@@ -1,37 +1,17 @@
-# froozen_string_literal: true
 class SolrDocument
 
   include Blacklight::Solr::Document    
-      # The following shows how to setup this blacklight document to display marc documents
+  # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_display
   extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Solr::Document::Marc) do |document|
-    document.key?( :marc_display  )
-  end
-  
+  use_extension( Blacklight::Marc::DocumentExtension) { |document| document.marc_record? }
+
   field_semantics.merge!(    
-                         :title => "title_display",
+                         :title => "fulltitle_display",
                          :author => "author_display",
                          :language => "language_facet",
                          :format => "format"
                          )
-
-
-      # The following shows how to setup this blacklight document to display marc documents
-  extension_parameters[:marc_source_field] = :marc_display
-  extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Solr::Document::Marc) do |document|
-    document.key?( :marc_display  )
-  end
-
-  field_semantics.merge!(
-                         :title => "title_display",
-                         :author => "author_display",
-                         :language => "language_facet",
-                         :format => "format"
-                         )
-
-
 
   # self.unique_key = 'id'
 
@@ -41,17 +21,25 @@ class SolrDocument
   # SMS uses the semantic field mappings below to generate the body of an SMS email.
   SolrDocument.use_extension( Blacklight::Document::Sms )
 
+  # ============================================================================
   # DublinCore uses the semantic field mappings below to assemble an OAI-compliant Dublin Core document
   # Semantic mappings of solr stored fields. Fields may be multi or
   # single valued. See Blacklight::Document::SemanticFields#field_semantics
   # and Blacklight::Document::SemanticFields#to_semantic_values
   # Recommendation: Use field names from Dublin Core
+  # ----------------------------------------------------------------------------
   use_extension( Blacklight::Document::DublinCore)
-# all of these require MARC format data.
-  use_extension( Blacklight::Solr::Document::RIS )
-  use_extension( Blacklight::Solr::Document::Zotero )
-  use_extension( Blacklight::Solr::Document::Endnote )
-  use_extension( Blacklight::Solr::Document::Endnote_xml )
+
+  # Record source extensions for export field mapping.
+  use_extension( Blacklight::Document::Source::Marc) { |document| document.marc_record? }
+  use_extension( Blacklight::Document::Source::Folio) { |document| document.folio_record? }
+
+  # Document export formats used.
+  use_extension( Blacklight::Document::Export::Ris )
+  use_extension( Blacklight::Document::Export::Zotero )
+  use_extension( Blacklight::Document::Export::Endnote )
+  use_extension( Blacklight::Document::Export::EndnoteXml )
+
 
   # i believe that the 520 should be interpreted as ABSTRACT
   # only when indicator1 is "3", but indicator seems to be rarely present.
@@ -64,7 +52,7 @@ class SolrDocument
       end
       text << textstr
     end
-   Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{text[0]}"
+
    text
   end
 
@@ -111,25 +99,23 @@ class SolrDocument
       end
       text << textstr
     end
-   Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} #{text[0]}"
+
     text
   end
 
   def setup_holdings_info(record)
     where = []
     if (self["holdings_json"].present?)
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} self[h_j] = #{self['holdings_json'].inspect}"
       holdings_json = JSON.parse(self["holdings_json"])
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_json = #{holdings_json}"
       holdings_keys = holdings_json.keys
-      Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} holdings_keys = #{holdings_keys}"
+
       where = holdings_keys.collect do
         | k |
         l = holdings_json[k]
         "#{l['location']['library']}  #{l['call']}" unless l.blank? or l['location'].blank? or l['call'].blank?
        end
     end
-    Rails.logger.debug "********es287_dev #{__FILE__} #{__LINE__} #{__method__} where = #{where.inspect}"
+
     where
   end
 
@@ -151,4 +137,22 @@ class SolrDocument
     nil
   end
 
+  def folio_record?
+    self['source'].to_s.strip.casecmp?('folio')
+  end
+
+  def marc_record?
+    self['source'].to_s.strip.casecmp?('MARC') && self['marc_display'].present?
+  end
+
+  def exportable_record?
+    if marc_record? || folio_record?
+      true
+    else
+      # :nocov
+        Rails.logger.warn("exportable_record? => FALSE for doc id=#{self['id']} source=#{self['source']}")
+      # :nocov
+      false
+    end
+  end
 end

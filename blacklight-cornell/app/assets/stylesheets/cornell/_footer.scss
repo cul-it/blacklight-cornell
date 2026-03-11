@@ -63,25 +63,6 @@ footer {
 		color: $dark-gray;
 	}
 }
-.social-links {
-	i { 
-		font-size: 40px;
-	}
-	a { 
-		color: $medium-gray;
-		border: 0;
-	}
-	a:hover {
-		border: 0;
-	}
-	.facebook-button { margin-right: 5px; }
-}
-.solr-core {
-	text-align: right;
-}
-.release_credits {
-    margin-top: 1.1em;
-}
 
 // MEDIA QUERIES
 // -------------------------
@@ -95,9 +76,6 @@ footer {
 
 // Medium devices (tablets, 768px and up)
 @include media-breakpoint-up(md) {
-	.feedback-link { 
-		text-align: right;
-	}
 	.footer-nav {
 		li {
 			border-left: 1px solid $light-gray;
@@ -111,9 +89,6 @@ footer {
 		p {
 			font-size: 13px;
 		}
-	}
-	.social-links {
-		text-align: right;
 	}
 }
 

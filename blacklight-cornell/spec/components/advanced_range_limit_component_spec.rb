@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AdvancedRangeLimitComponent, type: :component do
   subject(:component) { described_class.new(facet_field: facet_field) }
 
-  let(:rendered) { Capybara::Node::Simple.new(render_inline(component)) }
+  let(:rendered) { render_inline_to_capybara_node(component) }
 
   let(:facet_field) do
     instance_double(

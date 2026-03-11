@@ -1,19 +1,10 @@
 <%
-#Rails.logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^ START OF PREV JS ERB ^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-#if @previous_doc[0]['class_label'] != ""
-#    tmp_array = @previous_doc[0]['class_label'].split(">")
-#    classification = tmp_array.last
-#else
-#   classification =  @previous_doc[0]['format']
-#end
+  the_html = ""
+  reroute = ""
 
-
-#Rails.logger.info(@previous_doc.inspect)
-the_html = ""
-reroute = ""
-@previous_doc.reverse_each do |doc|
+  @previous_doc.reverse_each do |doc|
     reroute = "/browse?authq=" + doc['callnumber'] + "&browse_type=virtual" if reroute == ""
-        
+
     fa_string = ""
     if doc['format'].downcase.include?("journal")
       fa_string =  '<i class="fa fa-book-open"></i>'
@@ -37,21 +28,21 @@ reroute = ""
       fa_string = '<i class="fa fa-globe"></i>'
     end
 
-    the_title = doc['title'] 
-    if doc['title'].length > 52 
-    	the_title = doc['title'][0..52] + "..."
-    end 
+    the_title = doc['title']
+    if doc['title'].length > 52
+      the_title = doc['title'][0..52] + "..."
+    end
 
     avail_str = ""
     avail = JSON.parse(doc["availability"])
-    if avail["availAt"].present? 
+    if avail["availAt"].present?
         avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Available" alt="" aria-hidden="true"></i> Available</div>'
-    elsif avail["online"].present? 
+    elsif avail["online"].present?
         avail_str = '<div class="vb-availability"><i class="fa fa-check" title="Online" alt="" aria-hidden="true"></i> Online</div>'
     elsif avail["unavailAt"].present?
-    	avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available </div>'
-    end 
-    
+      avail_str = '<div class="vb-availability"><i class="fa fa-clock-o" title="Unavailable" alt="" aria-hidden="true"></i> Not Available </div>'
+    end
+
     img_string = ""
     if doc['img_url'].include?("cornell")
       the_type = doc['img_url'][doc['img_url'].rindex("/") + 1..-9]
@@ -62,17 +53,13 @@ reroute = ""
 
     the_html += '<div class="inner-container" id="' + doc["id"].to_s + '" data-title="' + doc["title"] + '" data-locations="' + doc["locations"].join(", ") + '" data-callnumber="' + doc["callnumber"] + '" data-classification="' + doc["internal_class_label"] + '" data-pubdate="' + doc["pub_date"] + '" data-publisher="' + doc["publisher"] + '" data-author="' + doc["author"] + '">'
     the_html += '<div class="vb-callnum-hdr">' + doc["callnumber"] + '</div>'
-    the_html += '<div class="vb-img-container" >' + img_string + '</div>' 
+    the_html += '<div class="vb-img-container" >' + img_string + '</div>'
     the_html += '<div  class="vb-title" >' + fa_string + '&nbsp;<a href="/catalog/' + doc["id"].to_s + '" title="' + doc["title"] + '" tabindex="-1" onclick="javascript:_paq.push([\'trackEvent\', \'virtualbrowse_carousel\', \'carousel_title\']);">' + the_title + '</a></div>'
     the_html += '<div style="clear:left;">' + doc["pub_date"] + '</div>'
     the_html += '<div class="vb-footer">' + avail_str + '</div></div>'
-end
-
-#Rails.logger.info("^^^^^^^^^^^^^^^^^^^^^^ FINISH OF JS ERB ^^^^^^^^^^^^^^^^^^^^^^")
-#Rails.logger.info(the_html.html_safe.inspect)
+  end
 %>
 
-//console.log("the_html = " + "<%=raw escape_javascript(the_html) %>");
 var reroute = "<%=raw escape_javascript(reroute) %>";
 var prev_html = "<%=raw escape_javascript(the_html) %>";
 $('#outer-container').find('#prev-reroute').find('a').attr("href",reroute);

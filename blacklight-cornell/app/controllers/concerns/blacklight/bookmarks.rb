@@ -12,11 +12,10 @@ module Blacklight::Bookmarks
 
     copy_blacklight_config_from(CatalogController)
 
-    blacklight_config.http_method = Blacklight::Engine.config.bookmarks_http_method
+    blacklight_config.http_method = Blacklight::Engine.config.blacklight.bookmarks_http_method
     blacklight_config.add_results_collection_tool(:clear_bookmarks_widget)
-
     blacklight_config.show.document_actions[:bookmark].if = false if blacklight_config.show.document_actions[:bookmark]
-    blacklight_config.show.document_actions[:sms].if = false if blacklight_config.show.document_actions[:sms]
+    blacklight_config.search_builder_class = Blacklight::BookmarksSearchBuilder
   end
 
   def action_documents
@@ -35,22 +34,25 @@ module Blacklight::Bookmarks
     search_catalog_url(*args)
   end
 
+  # @return [Hash] a hash of context information to pass through to the search service
+  def search_service_context
+    { bookmarks: @bookmarks }
+  end
+
   def index
     # if block is custom code
     if current_user && BookBag.enabled?
       redirect_to '/book_bags/index', status: 303, alert: I18n.t('blacklight.bookmarks.use_book_bag') and return
     end
-    @bookmarks = token_or_current_or_guest_user.bookmarks
-    bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
+    # max limit is custom code
+    @bookmarks = token_or_current_or_guest_user.bookmarks.limit(BookBagsController::MAX_BOOKBAGS_COUNT)
 
-    # next line and if block are custom code
-    max_bookmarks = BookBagsController::MAX_BOOKBAGS_COUNT
-    if bookmark_ids.count > max_bookmarks
-      bookmark_ids = bookmark_ids.slice(0, max_bookmarks)
-    end
-
-    @response, deprecated_document_list = search_service.fetch(bookmark_ids)
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 8.0")
+    @response, deprecated_document_list = search_service.search_results
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      "The @document_list instance variable is now deprecated",
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
 
     respond_to do |format|
       format.html { }
@@ -87,12 +89,17 @@ module Blacklight::Bookmarks
       # next 8 lines are custom code
       current_count = current_or_guest_user.bookmarks.count
       new_count = @bookmarks.count
-      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-      if (current_count + new_count) > BookBagsController::MAX_BOOKBAGS_COUNT
-        Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: too many bookmarks"
-        raise RangeError, "Too many bookmarks"
-      end
-      Rails.logger.level = save_level
+
+      # :nocov:
+        #TODO: investigate and clean up - Jira Ticket: https://culibrary.atlassian.net/browse/DACCESS-767
+        save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+        if (current_count + new_count) > BookBagsController::MAX_BOOKBAGS_COUNT
+          Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__}: too many bookmarks"
+          raise RangeError, "Too many bookmarks"
+        end
+        Rails.logger.level = save_level
+      # :nocov:
+
       success = @bookmarks.all? do |bookmark|
         current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
       end
@@ -153,34 +160,25 @@ module Blacklight::Bookmarks
   end
 
   def export
-    save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
-    Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in bookmaks#export"
-    puts "export".to_yaml
-    puts "export".inspect
-    if current_user
-      puts "Current user:\n" + current_user.email.to_yaml
-    elsif current_or_guest_user
-      puts "Guest user:\n" + current_or_guest_user.email.to_yaml
-    else
-      puts "No user\n"
-    end
-    if user_session
-      puts "Session:\n" + user_session.to_yaml
-    else
-      puts "No session\n"
-    end
-
-    # email = 'jgr25@cornell.edu'
-    # bb = BookBag.new(email)
-    # bb.create_table
-    # list = [123, 456, 890]
-    # bb.create_all(list)
-    # bb.debug
-    # list = [123, 890]
-    # bb.delete_all(list)
-    # bb.debug
-    # puts "Delete\n" + bb.to_yaml
-    Rails.logger.level = save_level
+    # :nocov:
+      save_level = Rails.logger.level; Rails.logger.level = Logger::WARN
+      Rails.logger.warn "jgr25_log #{__FILE__} #{__LINE__} #{__method__}: in bookmaks#export"
+      puts "export".to_yaml
+      puts "export".inspect
+      if current_user
+        puts "Current user:\n" + current_user.email.to_yaml
+      elsif current_or_guest_user
+        puts "Guest user:\n" + current_or_guest_user.email.to_yaml
+      else
+        puts "No user\n"
+      end
+      if user_session
+        puts "Session:\n" + user_session.to_yaml
+      else
+        puts "No session\n"
+      end
+      Rails.logger.level = save_level
+    # :nocov:
     redirect_to action: "index"
   end
 

@@ -1,5 +1,5 @@
 # Make sure it matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.9
+ARG RUBY_VERSION=3.4.8
 ARG GIT_COMMIT=0.0
 
 
@@ -12,7 +12,7 @@ FROM ruby:${RUBY_VERSION}-slim-trixie AS ruby_base
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential=12.* \
     cron=3.* default-libmysqlclient-dev=1.1.* git=1:2.47.* \
-    libvips42t64=8.16.* pkg-config=1.8.* && \
+    libvips42t64=8.16.* pkg-config=1.8.* libyaml-dev=0.2.* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
 
@@ -71,7 +71,7 @@ COPY ./exe/set_env.sh ${APP_PATH}/set_env.sh
 COPY ./exe/puma.sh ${APP_PATH}/puma.sh
 COPY ./exe/puma.rb ${APP_PATH}/config/puma.rb
 COPY ./.env .env
-RUN bundle exec rake assets:precompile && rm .env
+RUN if [ "${RAILS_ENV}" != "development" ]; then bundle exec rake assets:precompile; fi && rm .env
 
 
 ##############
@@ -88,7 +88,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # How do we pin versions for build-essential & libvips?
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends vim=2:9.1.* \
-    chromium=141.0.* chromium-driver=141.0.* \
+    chromium=143.0.* chromium-driver=143.0.* chromium-common=143.0.* \
     libfontconfig1=2.15.0-2.* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \

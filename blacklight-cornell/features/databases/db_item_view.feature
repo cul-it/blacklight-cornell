@@ -55,3 +55,9 @@ Feature: Databases List
   Scenario: Databases with single links should link to the resource
       Given I literally go to databases/title/a
       Then the link "ARTstor" should go to "http://resolver.library.cornell.edu/misc/5346517"
+  
+  @databases
+  @DACCESS-655
+  Scenario: Make sure databases show page exists (for atom/rss feeds)
+  	Given I literally go to databases/show/5146902
+    Then should have title 'KMODDL'

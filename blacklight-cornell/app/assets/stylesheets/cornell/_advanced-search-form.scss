@@ -111,6 +111,31 @@ form.advanced {
   padding-left: 1rem;
 }
 
+// Search Validation
+// -------------------------
+.advanced-search-alert {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: 1rem;
+  color: #B31B1B; //Cornell Red
+}
+.advanced-search-alert__icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+/* Make the Search button clearly disabled */
+#advanced_search[disabled],
+#advanced_search.is-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+#date-range-submit-msg {
+  margin-bottom: 10px;
+}
+
 // MEDIA QUERIES
 // -------------------------
 

@@ -6,14 +6,14 @@ describe 'BentoSearch::BestBetEngine' do
   describe '#search' do
     context 'query matches best bet keyword' do
       it 'returns a BentoSearch::Results object' do
-        search_results = best_bet_engine.search('biosis previews')
+        search_results = best_bet_engine.search('biosis citation')
         expect(search_results).to be_present
         expect(search_results.class).to eq(BentoSearch::Results)
       end
 
       context 'quoted query' do
         it 'returns a BentoSearch::Results object' do
-          search_results = best_bet_engine.search('"biosis previews"')
+          search_results = best_bet_engine.search('"biosis citation"')
           expect(search_results).to be_present
           expect(search_results.class).to eq(BentoSearch::Results)
         end

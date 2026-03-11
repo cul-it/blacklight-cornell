@@ -1,8 +1,19 @@
 <div class="col-12 col-lg-8 facets-toggleable-sm">
-
   <div id="links-panel-collapse" class="links-collapse facets-collapse collapse">
 
     <ul class="blacklight-nav nav flex-column flex-md-row">
+
+      <!-- ################### -->
+      <!-- ##  DEVELOPMENT  ## -->
+      <!-- ################### -->
+      <% if developer_bookbag_enabled? %>
+        <% if current_user %>
+          <li><a href="<%= destroy_user_session_path %>"><i class="fa fa-code" aria-hidden="true"></i>Developer Logout</a></li>
+        <% else %>
+          <li><a href="/book_bags/index"><i class="fa fa-code" aria-hidden="true"></i>Developer Login</a></li>
+        <% end %>
+      <% end %>
+
       <% if ENV['SAML_IDP_TARGET_URL'] %>
         <% if current_user %>
           <li>
@@ -37,9 +48,9 @@
           <% end %>
         </li>
       <% end %>
+
       <li><%= link_to t('blacklight.header_links.search_history'), blacklight.search_history_path %></li>
       <li><a href="/myaccount/login" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'My Account Blacklight']);"><i class="fa fa-user" aria-hidden="true"></i>My Account</a></li>
     </ul>
-
   </div>
 </div>

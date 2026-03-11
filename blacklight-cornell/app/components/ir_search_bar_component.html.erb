@@ -1,0 +1,25 @@
+<div class="card card-well mb-4">
+  <div class="card-body">
+    <%= form_tag @url, :method => :get, :class => 'form-inline search-form' do %>
+      <% if !params[:q_row].present? %>
+        <div class="form-group col-10 col-sm-6 mr-1 mb-0">
+          <label for="q" class="sr-only"><%= t('blacklight.search.form.q') %></label>
+          <%= text_field_tag :q, params[:q], :placeholder => 'Search for institutional repository items, e.g. honeybee', :class => "form-control ir-search", :id => "q", :autocapitalize => "off" %>
+        </div>
+        <button class="btn btn-search" id="search-btn" type="submit">
+          <i class="fa fa-search fa-inverse"></i>
+          <span class="sr-only">
+            Search
+          </span>
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<div class="return-link">
+    <%= link_to url_for(search_index_path(:q => params[:q], :field => params[:field])) do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to search results
+    <% end %>
+</div>
+</div>

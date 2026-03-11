@@ -3,10 +3,7 @@ class CatalogController < ApplicationController
 
   include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
-
-#  include Blacklight::SearchHelper
   include BlacklightCornell::CornellCatalog
-  include Blacklight::DefaultComponentConfiguration
   include BlacklightUnapi::ControllerExtension
   include Blacklight::Marc::Catalog
   require 'rest-client'
@@ -181,6 +178,9 @@ class CatalogController < ApplicationController
     config.document_solr_path = 'select'
     config.document_unique_id_param = 'id'
 
+    # Custom index view components
+    config.index.constraints_component = ConstraintsComponent
+
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
     config.index.display_type_field = 'format'
@@ -188,6 +188,18 @@ class CatalogController < ApplicationController
     # solr field configuration for document/show views
     config.show.title_field = 'title_display'
     config.show.display_type_field = 'format'
+
+    # other solr field configurations for index/show views
+    config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
+    config.add_results_collection_tool(:sort_widget)
+    config.add_results_collection_tool(:per_page_widget)
+    config.add_results_collection_tool(:view_type_group)
+    config.add_show_tools_partial(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
+    config.add_show_tools_partial(:email, callback: :email_action, validator: :validate_email_params)
+    # config.add_show_tools_partial(:sms, if: :render_sms_action?, callback: :sms_action, validator: :validate_sms_params)
+    # config.add_show_tools_partial(:citation)
+    config.add_nav_action(:bookmark, partial: 'blacklight/nav/bookmark', if: :render_bookmarks_control?)
+    config.add_nav_action(:search_history, partial: 'blacklight/nav/search_history')
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
@@ -254,12 +266,13 @@ class CatalogController < ApplicationController
     config.add_facet_field 'lc_alpha_facet', :label => 'Call Number', :limit => 5, :show => false
     config.add_facet_field 'hierarchy_facet', :hierarchy => true
     config.add_facet_field 'authortitle_facet', :show => false, :label => "Author-Title"
+    # Display only top 10 call number levels server-side, render remainder via ajax
     config.add_facet_field 'lc_callnum_facet',
                            if: :has_search_parameters?,
                           label: 'Call Number',
                           component: Blacklight::Hierarchy::FacetFieldListComponent,
-                          sort: 'count'
-
+                          sort: 'index',
+                          limit: 10
 
    config.facet_display = {
      :hierarchy => {
@@ -724,66 +737,18 @@ class CatalogController < ApplicationController
 
   def afemail
     @id = params[:id]
-    docs = params[:id].split '|'
-    @response, @documents = search_service.fetch docs
-    dox = {to: "jgr25@cornell.edu", message: "your stuff", callnumber:  @id}
-    email_action(dox)
-    # , to: "jgr25@cornell.edu", message: "your stuff", :callnumber => docs
-
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
   end
 
+  #TODO: Cleanout all the unused logins logic: https://culibrary.atlassian.net/browse/DACCESS-765
   def logins
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params = #{params.inspect}")
+    # :nocov:
+      Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__} params = #{params.inspect}")
+    # :nocov:
   end
-
-  # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
-  # (in order to add Mollom/CAPTCHA integration)
-  # but now we removed mollom captcha.
-#  def email
-#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
-#    docs = params[:id].split '|'
-#    @response, @documents = search_service.fetch docs
-#    if request.post?
-#      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-#      if params[:to] && params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-#        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol, :params => params}
-#        email ||= RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message], :callnumber => params[:callnumber], :status => params[:itemStatus],}, url_gen_params, params)
-#        email.deliver_now
-#        flash[:success] = "Email sent"
-#        redirect_to solr_document_path(params[:id]) unless request.xhr?
-#      else
-#          flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
-#      end
-#    end
-#
-#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  request.xhr?  = #{request.xhr?.inspect}")
-#    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  flash  = #{flash.inspect}")
-#    if   ENV['SAML_IDP_TARGET_URL']
-#      if request.xhr? && flash[:success]
-#        if docs.size < 2
-#          render :js => "window.location = '/catalog/#{params[:id]}'"
-#        else
-#          render :js => "window.location = '/bookmarks'"
-#        end
-#        return
-#      end
-#    end
-#    unless !request.xhr? && flash[:success]
-#      respond_to do |format|
-#        format.js { render :layout => false }
-#        format.html
-#      end
-#    end
-#  end
 
   # Note: This function overrides the email function in the Blacklight gem found in lib/blacklight/catalog.rb
   # (in order to add Mollom/CAPTCHA integration)
   def mollom_email
-
-    Rails.logger.debug "mjc12test: entering email"
-    Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  params  = #{params.inspect}")
-
     # If multiple documents are specified (i.e., these are a list of bookmarked items being emailed)
     # then they will be passed into params[:id] in the form "bibid1/bibid2/bibid3/etc"
     #docs = params[:id].split '/'
@@ -792,8 +757,6 @@ class CatalogController < ApplicationController
     #@response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     @response, @documents = fetch docs
 
-    #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  response = #{@response.inspect}")
-    #Rails.logger.info("es287_debug #{__FILE__}:#{__LINE__}  documents = #{@documents.inspect}")
     captcha_ok = false
 
     if request.post?
@@ -857,7 +820,7 @@ class CatalogController < ApplicationController
                                                          :templocation => params[:templocation], :status => params[:itemStatus], :params => params}, url_gen_params, params)
         email.deliver_now
         flash[:success] = "Email sent"
-        Rails.logger.info("es287_debug #{__FILE__} #{__LINE__} emailing   = #{flash.inspect}")
+
         redirect_to solr_document_path(params[:id]) unless request.xhr?
       end
 
@@ -870,150 +833,33 @@ class CatalogController < ApplicationController
         end
       end
     end
-end
-
-def tou
-    @dbResponse = Blacklight.default_index.connection.get('termsOfUse', params: { id: params[:id] })
-    @db = @dbResponse['response']['docs'][0]
-    @dbResponse2 = Blacklight.default_index.connection.get('select', params: { qt: 'search', fl: '*', q: "id:#{params[:id]}" })
-    @db2 = @dbResponse2['response']['docs'][0]
-    @dblinks = @dbResponse['response']['docs'][0]['url_access_json']
-    if @dbResponse['response']['numFound'] == 0
-        @defaultRightsText = ''
-        return @defaultRightsText
-    else
-        @dblinks.each do |link|
-            l = JSON.parse(link)
-            if l["providercode"] == params[:providercode] && l["dbcode"] == params[:dbcode]
-                @defaultRightsText = ''
-                @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Database_Code: l["dbcode"], Prevailing: 'true')
-                if @ermDBResult.size < 1
-                   @ermDBResult = ::Erm_data.where(SSID: l["ssid"], Provider_Code: l["providercode"], Prevailing: 'true')
-                   if @ermDBResult.size < 1
-                      @ermDBResult = ::Erm_data.where(Database_Code: l["dbcode"], Provider_Code: l["providercode"], Prevailing: 'true')
-                      if @ermDBResult.size < 1
-                         @ermDBResult = ::Erm_data.where(Provider_Code: l["providercode"], Prevailing: 'true', Database_Code:  '' )
-                         if @ermDBResult.size < 1
-                                  #   @defaultRightsText = "DatabaseCode and ProviderCode returns nothing"
-                                  @defaultRightsText = "Use default rights text"
-                         else
-                           @db = [l]
-                           #return @ermDBResult
-                           break
-                         end
-                      else
-                        @db = [l]
-                       break
-                      end
-                   else
-                     @db = [l]
-                     break
-                   end
-                else
-                  @db = [l]
-                  break
-                end
-            end
-            @db = [l]
-        end
-    @column_names = ::Erm_data.column_names.collect(&:to_sym)
-    end
-
   end
 
-  # TODO: mjc12: I don't understand why we have two functions for TOU: tou and new_tou. The former gets TOU info from
-  # Solr, the latter from FOLIO. Why do we have two sources of metadata?
+  # ============================================================================
+  # Build TOU from database by Solr document id
+  # ----------------------------------------------------------------------------
+  def tou
+    service = TouLookupService.new
+    r = service.resolve_catalog_tou(id: params[:id], dbcode: params[:dbcode], providercode: params[:providercode])
+
+    @dbResponse        = r[:db_response]
+    @db                = r[:db]
+    @dbResponse2       = r[:db_response2]
+    @db2               = r[:db2]
+    @dblinks           = r[:dblinks]
+    @ermDBResult       = r[:erm_records]
+    @defaultRightsText = r[:default_text]
+    @column_names      = r[:columns]
+  end
+
+  # ============================================================================
+  # Build 'New TOU' by executing FOLIO licenses lookup
+  # ----------------------------------------------------------------------------
   def new_tou
-    packageName = ""
-    title_id = params[:title_id]
-    id = params[:id]
-    @newTouResult = []
-    # okapi_url = ENV['OKAPI_URL']
-    record = eholdings_record(title_id) || []
-    if record.present?
-      # recordTitle = record["data"]["attributes"]["name"]
-      record["included"].each do |package|
-        attrs = package['attributes']
-        if attrs["isSelected"] == true
-          packageID = attrs["packageId"]
-          packageName = attrs["packageName"]
-          # packageUrl = attrs["url"]
-          # package_providerID = attrs["providerName"]
-          subscription = subscription_agreements(packageID)
-          if subscription.present?
-            if subscription[0]["linkedLicenses"][0]
-              remoteID = subscription[0]["linkedLicenses"][0]["remoteId"]
-              license = license(remoteID)
-              if license
-                license['packageName'] = packageName
-                @newTouResult << license unless @newTouResult.any? {|h| h["id"] == license['id']}
-              end
-            end
-          end
-        end
-      end
-    end
-
-    @newTouResult
+    service = TouLookupService.new(session: session)
+    r = service.resolve_new_tou(title_id: params[:title_id], id: params[:id])
+    @newTouResult = r[:new_tou_result]
   end
-
-  def eholdings_record(id)
-    # eholdings title JSON response described here:
-    # https://s3.amazonaws.com/foliodocs/api/mod-kb-ebsco-java/r/titles.html#eholdings_titles_get
-    folio_request("#{ENV['OKAPI_URL']}/eholdings/titles/#{id}?include=resources")
-  end
-
-  # Make a FOLIO request to retrieve an array of subscription agreements linked to an e-holdings record
-  # specified by id.
-  def subscription_agreements(id)
-    folio_request("#{ENV['OKAPI_URL']}/erm/sas?filters=items.reference=#{id}&sort=startDate:desc")
-  end
-
-  # Make a FOLIO request to retrieve a license object linked to an e-holdings record
-  # specified by id ('remoteId' in the JSON).
-  def license(id)
-    folio_request("#{ENV['OKAPI_URL']}/licenses/licenses/#{id}")
-  end
-
-  # Given a URL, make a FOLIO request and return the results (or nil in case of a RestClient exception).
-  def folio_request(url)
-    token = folio_token
-    if url && token
-      headers = {
-        'X-Okapi-Tenant' => ENV['OKAPI_TENANT'],
-        'x-okapi-token' => token,
-        :accept => 'application/json, application/vnd.api+json'
-      }
-      response = RestClient.get(url, headers)
-      JSON.parse(response.body) if response && response.code == 200
-    end
-  rescue RestClient::ExceptionWithResponse => err
-    Rails.logger.error "TOU: Error making FOLIO request (#{err})"
-    nil
-  end
-
-  # Return a FOLIO authentication token for API calls -- either from the session if a token
-  # was prevoiusly created, or directly from FOLIO otherwise.
-  #
-  # TODO: Caching is being disabled for now, since it's causing problems with the new expiring
-  # token mechanism in FOLIO. We need to figure out how to cache the token properly. (mjc12)
-  def folio_token
-   #  if session[:folio_token].nil?
-      url = ENV['OKAPI_URL']
-      tenant = ENV['OKAPI_TENANT']
-      response = CUL::FOLIO::Edge.authenticate(url, tenant, ENV['OKAPI_USER'], ENV['OKAPI_PW'])
-      if response[:code] >= 300
-        Rails.logger.error "TOU error: Could not create a FOLIO token for #{user}"
-      else
-        session[:folio_token] = response[:token]
-      end
-   #  end
-    session[:folio_token]
-  end
-
-  #def oclc_request
-  #  Rails.logger.info("es287_debug #{__FILE__} #{__LINE__}  = #{params[:id].inspect}")
-  #end
 
   def redirect_browse
     if params[:search_field] && params[:controller] != 'advanced'
@@ -1028,10 +874,6 @@ def tou
       end
     end
   end
-
-#  def range_limit
-#    redirect_to "/"
-#  end
 
   # https://bibwild.wordpress.com/2019/04/30/blacklight-7-current_user-or-other-request-context-in-searchbuilder-solr-query-builder/
   def search_service_context

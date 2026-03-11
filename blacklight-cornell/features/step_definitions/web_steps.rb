@@ -275,6 +275,10 @@ Then /^show me hidden xpath "(.*)"$/ do |string|
   what_is(@chunk)
 end
 
+Then /^I should find the hidden element with id "(.*)"$/ do |id|
+  page.should have_selector("##{id}", visible: :all)
+end
+
 Then("the url of link {string} should contain {string}") do |string, string2|
   urls = page.all(:xpath, "//a[text()=\"#{string}\"]", count: 1).map do |link|
     expect(link[:href]).to include("#{string2}")

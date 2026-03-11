@@ -1,6 +1,6 @@
 <%# If we're going to the virtual browse, then we want to display a select element.%>
 <% if params[:browse_type].present? && params[:browse_type] == "virtual" %>
-  <div id="location-filter-dropdown dropdown" class="d-sm-inline-block align-top">
+  <div id="location-filter-dropdown dropdown" class="d-sm-inline-block align-top mb-2">
     <% 
 	  start = params.has_key?(:start) ? params[:start] : 0
 	  order = params.has_key?(:order) ? params[:order] : 'forward'
