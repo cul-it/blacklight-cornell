@@ -3,6 +3,12 @@
   border-color: $concrete;
 }
 
+.pagination-search-widgets {
+  border: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 // Large devices (desktops, 992px and up)
 @include media-breakpoint-up(lg) {
   .pagination {

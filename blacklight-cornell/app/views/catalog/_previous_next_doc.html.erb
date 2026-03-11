@@ -1,14 +1,1 @@
-<% #Using the Bootstrap Pagination class  -%>
-<% if params[:controller] == 'bookmarks' && (@previous_bookmark || @next_bookmark) %>
-  <%= link_to_previous_document @previous_bookmark %> |
-
-  <%= cornell_item_page_entry_info %> |
-
-  <%= link_to_next_document @next_bookmark %>
-<% elsif @previous_document || @next_document %>
-  <%= link_to_previous_document @previous_document %> |
-
-  <%= cornell_item_page_entry_info %> |
-
-  <%= link_to_next_document @next_document %>
-<% end %>
+<%= render(Blacklight::SearchContext::ServerItemPaginationComponent.new(search_context: @search_context, search_session: search_session, current_document: @document)) if search_session['document_id'] == @document.id %>
