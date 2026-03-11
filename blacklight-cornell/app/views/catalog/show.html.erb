@@ -15,10 +15,12 @@
 <%# TODO: needs test for not linking back when viewing a catalog item after viewing /digitalcollections %>
 <% if current_search_session %>
   <%= link_back_to_catalog %>
-<% elsif params[:controller] == 'bookmarks' %>
+<% elsif search_session[:controller] == 'bookmarks' %>
   <%= link_back_to_index(bookmarks_path, t('blacklight.back_to_bookmarks')) %>
-<% elsif params[:controller] == 'book_bags' %>
+<% elsif search_session[:controller] == 'book_bags' %>
   <%= link_back_to_index(book_bags_path, t('blacklight.back_to_book_bags')) %>
+<% elsif search_session[:controller] == 'search' %>
+  <%= link_back_to_search %>
 <% end %>
 
   <%= render :partial => 'microformat_default' %>

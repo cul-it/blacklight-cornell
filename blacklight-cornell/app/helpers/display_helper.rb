@@ -836,6 +836,13 @@ module DisplayHelper
     end
   end
 
+  # Link back to bento search results from catalog#show
+  def link_back_to_search
+    # No current_search_session for bento searches
+    query_params = search_state.reset(search_session).to_hash
+    link_back_to_index(url_for(query_params), t('blacklight.back_to_search'))
+  end
+
   def is_emailable document
     if document.respond_to?(:to_email_text)
       true
