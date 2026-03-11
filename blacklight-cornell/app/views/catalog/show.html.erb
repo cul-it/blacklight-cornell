@@ -10,20 +10,15 @@
 	    var discogs_id = "";
 	<% end %>
 <% end %>
-<% if back_to_catalog_needed %>
-  <% session[:search][:controller] == 'advanced_search' ? link_label = 'Back to results' : '' %>
-  <% link_back = link_back_to_catalog({:label => link_label}) %>
-<% if link_back and link_back.class.to_s != "ActiveSupport::SafeBuffer"%>
-<%# if link_back %>
-    <% if !link_back[:url].include? "databases" and link_back[:url] != "/"  %>
-        <% opts = ENV['RAILS_ENV'] != 'test' ?
-         {:class => 'return-link', :title => 'return to previous page', :onclick => "javascript:_paq.push(['trackEvent', 'itemView', 'back    ToSearch'])"  }
-         : {:class => 'return-link', :title => 'return to previous page'}  %>
-      <%= link_to link_back[:url], opts do %>
-        <i class="fa fa-arrow-circle-left"></i> <%= link_back[:label] %>
-      <% end %>
-    <% end %>
-  <% end %>
+
+<%# TODO: needs test for linking back from bento search %>
+<%# TODO: needs test for not linking back when viewing a catalog item after viewing /digitalcollections %>
+<% if current_search_session %>
+  <%= link_back_to_catalog %>
+<% elsif params[:controller] == 'bookmarks' %>
+  <%= link_back_to_index(bookmarks_path, t('blacklight.back_to_bookmarks')) %>
+<% elsif params[:controller] == 'book_bags' %>
+  <%= link_back_to_index(book_bags_path, t('blacklight.back_to_book_bags')) %>
 <% end %>
 
   <%= render :partial => 'microformat_default' %>

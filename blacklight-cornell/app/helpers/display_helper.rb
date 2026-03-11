@@ -773,13 +773,6 @@ module DisplayHelper
   end
 
   # ============================================================================
-  # Test whether we need back to catalog link
-  # ----------------------------------------------------------------------------
-  def back_to_catalog_needed
-    !session[:search].blank?
-  end
-
-  # ============================================================================
   # set URL & counter for previous/next link_to depending on current controller
   # ----------------------------------------------------------------------------
   def bookmark_or_not(document)
@@ -805,38 +798,42 @@ module DisplayHelper
     end
   end
 
-  # ============================================================================
-  # Overrides original method from blacklight_helper_behavior.rb
-  # Build the URL to return to the search results, keeping the user's facet, query and paging choices intact by using session.
-  # ----------------------------------------------------------------------------
-  def link_back_to_catalog(opts = { :label => nil })
-    query_params = search_session.present? ? search_session.deep_dup : {} # Create deep copy of search_session to not alter search_session hash
+  # Overrides from blacklight to customize link and split out bookmarks and book_bags handling
+  # Create a link back to the index screen, keeping the user's facet, query and paging choices intact by using session.
+  # @example
+  #   link_back_to_catalog(label: 'Back to Search')
+  #   link_back_to_catalog(label: 'Back to Search', route_set: my_engine)
+  def link_back_to_catalog(opts = { label: nil })
+    scope = opts.delete(:route_set) || self
+    query_params = search_state.reset(current_search_session.try(:query_params)).to_hash
 
     if search_session['counter']
       per_page = (search_session['per_page'] || blacklight_config.default_per_page).to_i
       counter = search_session['counter'].to_i
+
       query_params[:per_page] = per_page unless search_session['per_page'].to_i == blacklight_config.default_per_page
       query_params[:page] = ((counter - 1) / per_page) + 1
     end
 
-    if params[:controller] == 'search_history'
-      link_url = url_for(action: 'index', controller: 'search', only_path: false, protocol: 'https')
-    else
-      link_url = url_for(query_params)
-    end
+    link_url = if query_params.empty?
+                 search_action_path(only_path: true)
+               else
+                 scope.url_for(query_params)
+               end
+    label = opts.delete(:label)
+    label ||= t('blacklight.back_to_search')
 
-    if link_url =~ /bookmarks/ || params[:controller] == 'bookmarks'
-      opts[:label] ||= t('blacklight.back_to_bookmarks')
-      link_url = bookmarks_path
-    end
+    link_back_to_index(link_url, label)
+  end
 
-    if link_url =~ /book_bags/ || params[:controller] == 'book_bags'
-      opts[:label] ||= t('blacklight.back_to_book_bags')
-      link_url = book_bags_path
-    end
+  # Link back to index from catalog, book_bags, and bookmarks #show
+  def link_back_to_index(link_url, label)
+    opts = { class: 'return-link', title: 'return to previous page' }
+    opts.merge!(onclick: "javascript:_paq.push(['trackEvent', 'itemView', 'back ToSearch'])") unless Rails.env.test?
 
-    opts[:label] ||= t('blacklight.back_to_search')
-    { url: link_url, label: opts[:label] }
+    link_to link_url, opts do
+      content_tag(:i, '', class: 'fa fa-arrow-circle-left') + ' ' + label
+    end
   end
 
   def is_emailable document
