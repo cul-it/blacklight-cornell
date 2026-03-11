@@ -10,8 +10,6 @@ cp /cul/data/jenkins/environments/blacklight-cornell.env container_env_test.env
 export COVERAGE=on
 export RAILS_ENV_FILE=./container_env_test.env
 export COVERAGE_PATH=${JENKINS_WORKSPACE}/blacklight-cornell/coverage
-export DOCKER_UID=$(id -u)
-export DOCKER_GID=$(id -g)
 mkdir -p ${COVERAGE_PATH}
 project_name="container-discovery-test-${TEST_ID}"
 echo "RSpec tests for ${project_name}"
