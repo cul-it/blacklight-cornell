@@ -18,6 +18,5 @@ services:
       - -c
       - |
         bundle exec rake db:migrate
-        bundle exec rake assets:precompile
         bundle exec puma
     stdin_open: true

@@ -105,3 +105,12 @@ Then("the end year field should be invalid") do
   expect(el['aria-invalid']).to eq('true')
   expect(el[:title].to_s.strip).not_to eq('')
 end
+
+Then("I should see {string} populated with {string}") do |fieldId, query|
+  expect(page).to have_field(fieldId, with: query)
+end
+
+Then("I remove simple facet constraint {string}") do |value|
+  page.find(".advanced-facets a", text: "Access: At the Library").click
+  expect(page).not_to have_content(value)
+end

@@ -164,12 +164,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       format.json { render json: { response: { document: @response.documents } } }
     end
 
-    # Format query for constraints display
-    if params[:q_row].present? && params[:q_row] != ['', '']
-      params[:show_query] = make_show_query(params)
-      search_session[:q] = params[:show_query]
-    end
-
   rescue ArgumentError => e
     logger.error e
     flash[:notice] = e.message

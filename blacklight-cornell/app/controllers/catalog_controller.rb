@@ -178,6 +178,9 @@ class CatalogController < ApplicationController
     config.document_solr_path = 'select'
     config.document_unique_id_param = 'id'
 
+    # Custom index view components
+    config.index.constraints_component = ConstraintsComponent
+
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
     config.index.display_type_field = 'format'
