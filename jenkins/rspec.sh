@@ -11,6 +11,9 @@ export COVERAGE=on
 export RAILS_ENV_FILE=./container_env_test.env
 export COVERAGE_PATH=${JENKINS_WORKSPACE}/blacklight-cornell/coverage
 mkdir -p ${COVERAGE_PATH}
+touch ${COVERAGE_PATH}/.last_run.json
+touch ${COVERAGE_PATH}/.resultset.json
+touch ${COVERAGE_PATH}/.resultset.json.lock
 project_name="container-discovery-test-${TEST_ID}"
 echo "RSpec tests for ${project_name}"
 export USE_RSPEC=1
