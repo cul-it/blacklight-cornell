@@ -367,21 +367,22 @@ div.view-all {
     padding: .5rem 1rem;
     width: auto;
     position: fixed;
-    border: 1px solid #000;
-    background-color: #DF1E12;
-    border-color: #DF1E12;
+    background-color: $cornell-highlight-red;
+    border: 1px solid $cornell-highlight-red;
     bottom: -2px;
     left: calc(90% - 125px);
     text-decoration: none;
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+  i {
+    margin-left: 0.5rem;
+    font-size: 90%;
   }
 }
 
 
 // MEDIA QUERIES
 // -------------------------
-
-// Extra small devices (portrait phones, less than 576px)
-// No media query for `xs` since this is the default in Bootstrap
 
 // Small devices (landscape phones, 576px and up)
 @include media-breakpoint-up(sm) {
