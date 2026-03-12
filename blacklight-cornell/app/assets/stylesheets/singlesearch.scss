@@ -384,6 +384,24 @@ div.view-all {
 // MEDIA QUERIES
 // -------------------------
 
+// Small devices (landscape phones, 576px and down,)
+@include media-breakpoint-down(sm) {
+  // LibWizard form - Help us redesign! button is static
+  .survey-button {
+    .lwz-btn {
+      position: static;
+      transform: none;
+      width: 200px;
+      margin: 1em auto;
+      display: block;
+      border-radius: 6px;
+      top: auto;
+      right: auto;
+    }
+  }
+}
+
+
 // Small devices (landscape phones, 576px and up)
 @include media-breakpoint-up(sm) {
   .bento_box {
