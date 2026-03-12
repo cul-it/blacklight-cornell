@@ -64,9 +64,7 @@
                   <% query = params[:q] || params[:query] %>
                   <% query = query.gsub('&', '%26') %>
                   <div class="card-header">
-                    <h4 class="panel-title">
-                      Looking for more?
-                    </h4>
+                    <h3 class="panel-title">Looking for more?</h3>
                   </div>
                   <div class="card-body">
                     <ul class="fa-ul">
@@ -91,9 +89,7 @@
               <div class="card" id="formats">
                 <% unless @more_results.length < 3 %>
                   <div class="card-header">
-                    <h4>
-                      Format
-                    </h4>
+                    <h3>Format</h3>
                   </div>
                   <div class="card-body">
                     <ul class="fa-ul" id="more-results">
