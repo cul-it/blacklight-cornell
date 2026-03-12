@@ -105,6 +105,9 @@ COPY --from=test_bundler ${BUNDLE_PATH} ${BUNDLE_PATH}
 COPY --from=test_bundler ${APP_PATH} ${APP_PATH}
 COPY ./exe/test.sh ${APP_PATH}/test.sh
 
+# Allow non-root users (like DOCKER_UID user) to write to the app directory
+RUN chmod -R a+rwX ${APP_PATH}
+
 ENTRYPOINT ["/blacklight-cornell/test.sh"]
 
 
