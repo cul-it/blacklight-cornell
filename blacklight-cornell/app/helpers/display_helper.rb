@@ -1,5 +1,6 @@
 module DisplayHelper
   include ActionView::Helpers::NumberHelper
+  include Blacklight::UrlHelperBehavior
   # ============================================================================
   # Hash map for substring of location codes from holding service => loc param
   # values for CUL library hours page
@@ -1039,13 +1040,6 @@ module DisplayHelper
       params[:controller] == 'book_bags' || params[:controller] == 'errors'
       return true
     end
-  end
-
-  # ============================================================================
-  # deprecated function from blacklight 4 that will live on
-  # ----------------------------------------------------------------------------
-  def sidebar_items
-    @sidebar_items ||= []
   end
 
   def render_extra_head_content
