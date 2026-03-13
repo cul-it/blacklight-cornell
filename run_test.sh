@@ -80,6 +80,8 @@ if [ "${rails_env_file}" != "" ]
 fi
 echo $RAILS_ENV_FILE
 
+export DOCKER_UID=$(id -u)
+export DOCKER_GID=$(id -g)
 export USE_RSPEC=${use_rspec}
 echo $num_processes
 export NUM_PROCESSES=${num_processes}
@@ -106,6 +108,8 @@ if [ "${manual_compose_down}" != "" ]
 fi
 
 unset COVERAGE_PATH
+unset DOCKER_GID
+unset DOCKER_UID
 unset FEATURE
 unset NUM_PROCESSES
 unset RAILS_ENV_FILE
