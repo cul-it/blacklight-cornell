@@ -164,12 +164,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       format.json { render json: { response: { document: @response.documents } } }
     end
 
-    # Format query for constraints display
-    if params[:q_row].present? && params[:q_row] != ['', '']
-      params[:show_query] = make_show_query(params)
-      search_session[:q] = params[:show_query]
-    end
-
   rescue ArgumentError => e
     logger.error e
     flash[:notice] = e.message
@@ -199,7 +193,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
     respond_to do |format|
       format.endnote_xml { render 'endnote_xml', :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
-      format.html        {setup_next_and_previous_documents}
+      format.html        { @search_context = setup_next_and_previous_documents }
       format.rss         { render :layout => false }
       format.ris         { render 'ris', :layout => false }
       # Add all dynamically added (such as by document extensions)
@@ -217,33 +211,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
   end
 
-  def setup_next_and_previous_documents
-    query_params = session[:search] ? session[:search].dup : {}
-    # if  !query_params[:q].blank? and !query_params[:search_field].blank? # and !params[:search_field].include? '_cts'
-    #   check_params(query_params)
-    # else
-    #   if query_params[:q].blank?
-    #     temp_search_field = query_params[:search_field]
-    #     query_params[:search_field] = 'all_fields'
-    #   end
-    # end
-
-    if search_session['counter']
-      index = search_session['counter'].to_i - 1
-      response, documents = search_service.previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(query_params)
-      search_session['total'] = response.total
-      if query_params[:per_page].nil?
-        query_params[:per_page] = '20'
-      end
-      search_session['per_page'] = query_params[:per_page]
-      @search_context_response = response
-      @previous_document = documents.first
-      @next_document = documents.last
-    end
-  rescue Blacklight::Exceptions::InvalidRequest => e
-    logger.warn "Unable to setup next and previous documents: #{e}"
-  end
-
   # Ajax endpoint for asynchronously rendering full facet value list
   # Currently only used for lc_callnum_facet
   def facet_values
@@ -255,27 +222,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     respond_to do |format|
       format.js { render layout: false }
     end
-  end
-
-  def track
-    search_session[:counter] = params[:counter]
-    search_session['counter'] = params[:counter]
-    #search_session[:per_page] = params[:per_page]
-
-    path =
-      if params[:redirect] and (params[:redirect].start_with?('/') or params[:redirect] =~ URI::regexp)
-        URI.parse(params[:redirect]).path
-      else
-        { action: 'show' }
-      end
-    redirect_to path, :status => 303
-  end
-
-  # updates the search counter (allows the show view to paginate)
-  def update
-    adjust_for_results_view
-    session[:search][:counter] = params[:counter]
-    redirect_to :action => 'show'
   end
 
   # method to serve up XML OpenSearch description and JSON autocomplete response
@@ -415,16 +361,6 @@ protected
     end
   end
 
-  # we need to know if we are viewing the item as part of search results so we know whether to
-  # include certain partials or not
-  def adjust_for_results_view
-    if params[:results_view] == 'false'
-      session[:search][:results_view] = false
-    else
-      session[:search][:results_view] = true
-    end
-  end
-
   # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
   def rsolr_request_error(exception)
     if Rails.env.development?
@@ -477,6 +413,11 @@ protected
       format.html
       format.js { render :layout => false }
     end
+  end
+
+  # Overrides from Blacklight::SearchContext to add :document_id
+  def blacklisted_search_session_params
+    [:commit, :counter, :document_id, :id, :page, :per_page, :search_id, :total]
   end
 
 private

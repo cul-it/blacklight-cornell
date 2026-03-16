@@ -1,5 +1,6 @@
 module DisplayHelper
   include ActionView::Helpers::NumberHelper
+  include Blacklight::UrlHelperBehavior
   # ============================================================================
   # Hash map for substring of location codes from holding service => loc param
   # values for CUL library hours page
@@ -855,15 +856,6 @@ module DisplayHelper
 
   # ============================================================================
   # Overrides original method from blacklight_helper_behavior.rb
-  # -- Updated to handle arrays (multiple fields specified in config)
-  # Used for creating a link to the document show action
-  # ----------------------------------------------------------------------------
-  def document_show_link_field document = nil
-    blacklight_config.index.title_field.is_a?(Array) ? blacklight_config.index.title_field : blacklight_config.index.title_field.to_sym
-  end
-
-  # ============================================================================
-  # Overrides original method from blacklight_helper_behavior.rb
   # Renders label for link to document using 'title : subtitle' if subtitle exists
   # Also handle non-Roman script alternatives (vernacular) for title and subtitle
   #
@@ -1048,13 +1040,6 @@ module DisplayHelper
       params[:controller] == 'book_bags' || params[:controller] == 'errors'
       return true
     end
-  end
-
-  # ============================================================================
-  # deprecated function from blacklight 4 that will live on
-  # ----------------------------------------------------------------------------
-  def sidebar_items
-    @sidebar_items ||= []
   end
 
   def render_extra_head_content
