@@ -27,9 +27,14 @@ export RAILS_ENV_FILE="${rails_env_file}"
 echo $RAILS_ENV_FILE
 
 export COVERAGE_PATH=$(resolve_relative_path "blacklight-cornell/coverage")
+export DOCKER_UID=$(id -u)
+export DOCKER_GID=$(id -g)
+
 
 echo "docker compose -f docker-compose-test.yaml build"
 docker compose -f docker-compose-test.yaml build
 
 unset COVERAGE_PATH
 unset RAILS_ENV_FILE
+unset DOCKER_UID
+unset DOCKER_GID
