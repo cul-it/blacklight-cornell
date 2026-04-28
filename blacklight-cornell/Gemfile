@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 ruby "3.4.8"
-gem "rails", "~> 7.2.2"
+gem "rails", "~> 8.0.0"
 
 gem "activerecord-session_store", ">= 2.2.0"
 gem "addressable", ">= 2.8.0"
@@ -8,7 +8,7 @@ gem "appsignal", "~> 3.3.2" #, '2.11.10'
 gem "aws-sdk-s3", "~> 1.143"
 gem "bento_search", "~> 2.0.0.rc2"
 gem "blacklight", "<= 8.0"
-gem "blacklight-hierarchy", "~> 6.4.0"
+gem "blacklight-hierarchy", "~> 6.5.0"
 gem "blacklight-marc", "~> 8.2"
 gem "blacklight_range_limit", "~> 8.5.0"
 gem "bootstrap", "~> 4.6"
@@ -56,9 +56,9 @@ gem "utf8-cleaner"
 gem "whenever", require: false
 gem "yaml_db"
 
-gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.4.1"
-gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge", tag: "v3.3"
-gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.4.2"
+gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", branch: "DACCESS-741"
+gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", branch: "DACCESS-740"
 
 group :development, :test do
   gem "awesome_print"
