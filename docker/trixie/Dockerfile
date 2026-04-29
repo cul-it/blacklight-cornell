@@ -93,7 +93,8 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /src/*.deb && \
-    mkdir -p /root/.aws /root/user-data-0 /root/user-data-1 /root/user-data-2 /root/user-data-3 /root/user-data-4
+    mkdir -p /root/.aws /root/user-data-0 /root/user-data-1 /root/user-data-2 /root/user-data-3 /root/user-data-4 && \
+    chmod -R a+rwX /root # Let the Jenkins user (DOCKER_UID) write here when tests run
 
 ENV BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell \
@@ -104,6 +105,10 @@ WORKDIR ${APP_PATH}
 COPY --from=test_bundler ${BUNDLE_PATH} ${BUNDLE_PATH}
 COPY --from=test_bundler ${APP_PATH} ${APP_PATH}
 COPY ./exe/test.sh ${APP_PATH}/test.sh
+
+# Allow non-root Jenkins user (DOCKER_UID) to write to the app and bundle directories
+RUN chmod -R a+rwX ${APP_PATH} && \
+    chmod -R a+rwX ${BUNDLE_PATH}
 
 ENTRYPOINT ["/blacklight-cornell/test.sh"]
 
