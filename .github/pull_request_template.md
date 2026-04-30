@@ -18,22 +18,8 @@
 - [ ] 🚀 `feature` — New feature or enhancement
 - [ ] 🐛 `bug` — Bug fix
 - [ ] 🧰 `maintenance` — Maintenance
-- [ ] 🛠️ `refactor` — Refactor
-- [ ] 🧹 `cleanup` — Cleanup
 - [ ] 🦮 `accessibility` — Accessibility updates
 - [ ] 📚 `documentation` — Documentation changes
-- [ ] ⚠️ `breaking` — Breaking change
-- [ ] 🔐 `security` — Security update
-
-
-
-<!-- ############################## ⚠️ REQUIRED ################################### -->
-## 🏷️ Version Bump
-<!-- Check ONE -->
-
-- [ ] `major` — Breaking changes
-- [ ] `minor` — New features, backward compatible
-- [ ] `patch` — Bug fixes, backward compatible
 
 
 
