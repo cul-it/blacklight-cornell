@@ -1,15 +1,14 @@
-## Description
+## 📝 Description
 <!-- ⚠️ REQUIRED -->
 <!-- Briefly describe what this PR does and why -->
 
-
-## Related Issues
+## 🔗 Related Issues
 <!-- ⚠️ REQUIRED -->
 <!-- Link any related issues (Example: [DACCESS-901](https://culibrary.atlassian.net/browse/DACCESS-901)) -->
 - [DACCESS-901](<https://culibrary.atlassian.net/browse/DACCESS-901>) 
 
 
-## Type of Change
+## 🔖 Type of Change
 <!-- ⚠️ REQUIRED -->
 <!-- Add "X" to one or more boxes that apply. (At least one is required) -->
 
@@ -23,7 +22,7 @@
 - [ ] 🔐 `security` — Security update
 
 
-## Version Bump
+## 🏷️ Version Bump
 <!-- ⚠️ REQUIRED -->
 <!-- Check ONE -->
 
@@ -32,7 +31,7 @@
 - [ ] `patch` — Bug fixes, backward compatible
 
 
-## How This Was Tested
+## 🧪 How This Was Tested
 <!-- ⚠️ REQUIRED -->
 <!--
     Describe the testing you performed. Be specific:
@@ -61,7 +60,7 @@
 
 
 
-## How Reviewers Can Test This
+## 🧑‍💻 How Reviewers Can Test This
 <!-- ℹ️ Delete these sections if not applicable. -->
 <!--
     Step-by-step instructions so a reviewer can verify this PR locally.
@@ -83,17 +82,17 @@
 <!-- What should the reviewer see if everything works? -->
 
 
-## Screenshots
+## 📸 Screenshots
 <!--  ℹ️ Delete this section if not applicable. -->
 <!-- For UI changes, include before/after screenshots. -->
 
 
-## Deployment Notes
+## 🚀 Deployment Notes
 <!-- ℹ️ Delete this section if not applicable. -->
 <!-- Anything special about deploying this? (New env vars required?, etc) -->
 
 
-## Checklist
+## ✅ Checklist
 <!-- ⚠️ REQUIRED -->
 - [ ] Tests added/updated (if needed)
 - [ ] Documentation updated (if needed)
