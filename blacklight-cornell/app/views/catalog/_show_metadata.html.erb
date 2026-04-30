@@ -29,10 +29,10 @@
     <h2><%= @title %></h2>
   <% end %>
   <% if @subtitle.present? %>
-    <h3 class="subtitle"><%= @subtitle %></h3>
+    <div class="subtitle"><%= @subtitle %></div>
   <% end %>
   <% if responsibility.present? %>
-    <h3 class="responsibility"><%= responsibility.join('; ') %></h3>
+    <div class="responsibility"><%= responsibility.join('; ') %></div>
   <% end %>
   </div>
   <div class="row">
