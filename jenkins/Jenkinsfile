@@ -50,9 +50,6 @@ pipeline {
         stage('Publish Coverage (RCov)') {
             steps {
                 echo "Publishing RCov-style coverage"
-                sh 'mkdir -p coverage'
-                sh 'chmod g+w coverage'
-                sh 'echo "dummy file to prevent copy error when there are no other files" > coverage/dummy-file.txt'
                 publishHTML(target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
