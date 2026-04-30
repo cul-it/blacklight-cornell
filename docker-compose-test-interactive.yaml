@@ -13,6 +13,8 @@ services:
       - FEATURE
       - NUM_PROCESSES=${NUM_PROCESSES:-2}
       - USE_RSPEC
+      - HOME=/tmp
+    user: "${DOCKER_UID}:${DOCKER_GID}"
     volumes:
       - ./blacklight-cornell:/workspaces/blacklight-cornell:cached
       - ${RAILS_ENV_FILE}:/custom_mnt/.env:ro

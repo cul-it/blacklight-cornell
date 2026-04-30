@@ -265,7 +265,7 @@ div.view-all {
 
 .results-collapse {
   .card-header {
-    h4 {
+    h3 {
       font-size: 1rem;
       margin-bottom: 0;
     }
@@ -359,11 +359,48 @@ div.view-all {
   margin-bottom: 0;
 }
 
+.survey-button {
+  .lwz-btn {
+    font-size: 1.1rem;
+    color: #ffffff;
+    z-index: 999998;
+    padding: .5rem 1rem;
+    width: auto;
+    position: fixed;
+    background-color: $cornell-highlight-red;
+    border: 1px solid $cornell-highlight-red;
+    bottom: -2px;
+    left: calc(90% - 125px);
+    text-decoration: none;
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+  i {
+    margin-left: 0.5rem;
+    font-size: 90%;
+  }
+}
+
+
 // MEDIA QUERIES
 // -------------------------
 
-// Extra small devices (portrait phones, less than 576px)
-// No media query for `xs` since this is the default in Bootstrap
+// Small devices (landscape phones, 576px and down,)
+@include media-breakpoint-down(sm) {
+  // LibWizard form - Help us redesign! button is static
+  .survey-button {
+    .lwz-btn {
+      position: static;
+      transform: none;
+      width: 200px;
+      margin: 1em auto;
+      display: block;
+      border-radius: 6px;
+      top: auto;
+      right: auto;
+    }
+  }
+}
+
 
 // Small devices (landscape phones, 576px and up)
 @include media-breakpoint-up(sm) {

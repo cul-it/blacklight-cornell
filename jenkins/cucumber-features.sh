@@ -13,16 +13,8 @@ export RAILS_ENV_FILE=./container_env_test.env
 export COVERAGE_PATH=${JENKINS_WORKSPACE}/blacklight-cornell/coverage
 export DOCKER_UID=$(id -u)
 export DOCKER_GID=$(id -g)
-echo ""
-echo "*********************************************************************************"
-echo "DOCKER_UID: $DOCKER_UID"
-echo "DOCKER_GID: $DOCKER_GID"
-echo "*********************************************************************************"
 
 mkdir -p ${COVERAGE_PATH}
-touch ${COVERAGE_PATH}/.last_run.json
-touch ${COVERAGE_PATH}/.resultset.json
-touch ${COVERAGE_PATH}/.resultset.json.lock
 project_name="container-discovery-test-${TEST_ID}"
 echo "Cucumber tests for ${project_name}"
 docker compose -f docker-compose-test.yaml build
