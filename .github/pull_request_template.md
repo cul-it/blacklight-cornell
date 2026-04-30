@@ -17,7 +17,8 @@
 - [ ] 🧰 `maintenance` — Maintenance
 - [ ] 🛠️ `refactor` — Refactor
 - [ ] 🧹 `cleanup` — Cleanup
-- [ ] 📚 `documentation` — Documentation changes only
+- [ ] 🦮 `accessibility` — Accessibility updates
+- [ ] 📚 `documentation` — Documentation changes
 - [ ] ⚠️ `breaking` — Breaking change
 - [ ] 🔐 `security` — Security update
 
