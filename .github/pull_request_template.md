@@ -23,47 +23,12 @@
 
 
 
-<!-- ############################## ⚠️ REQUIRED ################################### -->
-## 🧪 How This Was Tested
-<!--
-    Describe the testing you performed. Be specific:
-    - What scenarios did you test?
-    - What environments (local, staging, specific browsers, etc.)?
-    - Any edge cases covered?
-    - Automated test coverage (RSpec, Minitest, pytest, etc.)?
--->
-
-**Test environment:**
-<!-- e.g. Local dev, staging, integration, etc -->
-
-**Scenarios tested:**
-<!--  ℹ️ Delete this section if not applicable. -->
-1.
-2.
-3.
-
-**Automated tests:**
-<!-- List new/updated test files, or "N/A" with justification -->
-
-
-
 <!-- ################### ℹ️ Delete this section if not applicable #################### -->
 ## 🧑‍💻 How Reviewers Can Test This
 <!--
-    Step-by-step instructions so a reviewer can verify this PR locally.
-    Include setup steps, test data, URLs, Staging or Integration environments used, etc.
+    Instructions so a reviewer can verify this PR locally.
+    Include edge cases, test data, URLs, Staging or Integration environments used that may be helpful.
 -->
-
-**Setup:**
-1. <!-- Any new env vars needed -->
-
-**Steps to verify:**
-1.
-2.
-3.
-
-**Expected result:**
-<!-- What should the reviewer see if everything works? -->
 
 
 
