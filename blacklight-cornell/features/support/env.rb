@@ -79,6 +79,7 @@ require 'capybara/session'
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
+Capybara.default_max_wait_time = 10
 #options = {js_errors: false, timeout: 2.minute}
 #Capybara.javascript_driver = :selenium_chrome_headless
 #Capybara.server = :webrick
