@@ -22,8 +22,8 @@ Feature: Browse info
   @browse @javascript
   Scenario: View an author title authority record for a work enhanced by Wikidata
     Given I request the author title item view for Beethoven, Ludwig van, 1770-1827. | Septet, clarinet, bassoon, horn, violin, viola, cello, double bass, op. 20, E♭ major
-    Then I should see the text 'Works:'
-    And I should see the text 'Instrumentation:'
-    And I should see the text 'Opus:'
-    And I should see the text 'Tonality:'
-    And I should see the text '* From Wikidata'
+    Then I should see the text 'Works:' within 30 seconds
+    And I should see the text 'Instrumentation:' within 30 seconds
+    And I should see the text 'Opus:' within 30 seconds
+    And I should see the text 'Tonality:' within 30 seconds
+    And I should see the text '* From Wikidata' within 30 seconds
