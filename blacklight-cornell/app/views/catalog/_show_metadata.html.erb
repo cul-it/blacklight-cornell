@@ -158,13 +158,13 @@
                           <% if parsed_json['titleid'].present? %>
  	                        <span class="terms-of-use">
  	                        <%#= @document.inspect %>
-	                          <span class="fa fa-chevron-right" aria-hiden="true"></span>
+	                          <span class="fa fa-chevron-right" aria-hidden="true"></span>
                               <a href="/catalog/new_tou/<%= parsed_json['titleid'] %>/<%= @document['id']	%> ">Terms of use</a>
  		                    </span>
                           <% else %>
 	                        <% if link["dbcode"].present? && link["providercode"].present? %>
 	                          <span class="terms-of-use">
-	                            <span class="fa fa-chevron-right" aria-hiden="true"></span>
+	                            <span class="fa fa-chevron-right" aria-hidden="true"></span>
 		                        <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
 		                        <%#= holdings_json.inspect  %>
 		                         <% if restrictions_display.present? %>
