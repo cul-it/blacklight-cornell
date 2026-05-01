@@ -40,7 +40,9 @@ When /^(?:|I )go to (.+)$/ do |page_name|
 end
 
 When /^(?:|I )literally go to (.+)$/ do |page_name|
-	visit page_name
+  path = page_name
+  path = "/#{path}" unless path.start_with?('/', 'http://', 'https://')
+	visit path
 end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
