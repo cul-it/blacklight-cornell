@@ -41,6 +41,8 @@ end
 
 When /^(?:|I )literally go to (.+)$/ do |page_name|
   path = page_name
+  # page_name become root-relative (/catalog/6417953, /advanced) every time,
+  # so each example starts from the intended endpoint consistently.
   path = "/#{path}" unless path.start_with?('/', 'http://', 'https://')
 	visit path
 end
