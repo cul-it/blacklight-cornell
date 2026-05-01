@@ -35,12 +35,12 @@
           <% end %>
         </h3>
         <div class="description">
-          <p class="z-note">
+          <div class="z-note mb-3">
             <% znote = access_z_note(data) %>
             <% if znote.present? %>
              <%= znote %>
             <% end %>
-          </p>
+          </div>
           <p>
             <% if data["summary_display"].present? %>
               <%= data["summary_display"][0] %>
