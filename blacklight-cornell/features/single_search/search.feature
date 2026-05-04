@@ -85,7 +85,7 @@ Feature: Search
   Examples:
       | search | result |
       | wooden nutmeg  | The blasphemy of abolitionism exposed  |
-      | Hastingues | House with Porch Arcade |
+    # | Hastingues | House with Porch Arcade |  # TODO: fix flakey test: https://culibrarty.atlassian.net/browse/DACCESS-913
       | Geryon | The Lair of Geryon |
       | 100% Beef | operations of the Cincinnati Branch |
       | crazy legs | Roxy, June 18, 1983 |

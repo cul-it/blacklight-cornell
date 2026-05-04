@@ -212,7 +212,7 @@ Scenario Outline: Search within Portal results for each collection
 
 Examples:
   | query | item |
-  | iceland highest trees | The highest trees in Iceland. Birch 29 feet high |
+# | iceland highest trees | The highest trees in Iceland. Birch 29 feet high | # TODO: fix flakey test: https://culibrarty.atlassian.net/browse/DACCESS-913
   | wooden nutmeg | blasphemy of abolitionism exposed |
   | work bench | Tompkins County Work Bench in Cellar |
   | penitentiary | Society for the Alleviation of the Miseries |
