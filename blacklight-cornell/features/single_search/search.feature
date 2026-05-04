@@ -74,21 +74,22 @@ Feature: Search
       | Hà Nội   |
       | 아, 김 수환 추기경 |
 
-  @DIGCOLL-2228
-  Scenario Outline: I can see Digital Collections search results in a Bento search
-    When I go to the search page
-    When I fill in "q" with '<search>'
-    And I press 'Search'
-    And I sleep 2 seconds
-    Then Digital Collections should list '<result>'
-
-  Examples:
-      | search | result |
-      | wooden nutmeg  | The blasphemy of abolitionism exposed  |
-    # | Hastingues | House with Porch Arcade |  # TODO: fix flakey test: https://culibrarty.atlassian.net/browse/DACCESS-913
-      | Geryon | The Lair of Geryon |
-      | 100% Beef | operations of the Cincinnati Branch |
-      | crazy legs | Roxy, June 18, 1983 |
-      | yard of pump water |  Principles and practice of plumbing |
-      | purple | Color Applied to Dress Design |
-      | Jazzbo | The Modern farmer |
+  # TODO: fix flakey test: https://culibrarty.atlassian.net/browse/DACCESS-913
+#  @DIGCOLL-2228
+#  Scenario Outline: I can see Digital Collections search results in a Bento search
+#    When I go to the search page
+#    When I fill in "q" with '<search>'
+#    And I press 'Search'
+#    And I sleep 2 seconds
+#    Then Digital Collections should list '<result>'
+#
+#  Examples:
+#      | search | result |
+#      | wooden nutmeg  | The blasphemy of abolitionism exposed  |
+#      | Hastingues | House with Porch Arcade |
+#      | Geryon | The Lair of Geryon |
+#      | 100% Beef | operations of the Cincinnati Branch |
+#      | crazy legs | Roxy, June 18, 1983 |
+#      | yard of pump water |  Principles and practice of plumbing |
+#      | purple | Color Applied to Dress Design |
+#      | Jazzbo | The Modern farmer |

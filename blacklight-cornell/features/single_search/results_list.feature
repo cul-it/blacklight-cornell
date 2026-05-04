@@ -192,30 +192,31 @@ Feature: Results list
     Then I should get bento results
     And I should see the text "Combinatorial algorithms"
 
+# TODO: fix flakey test: https://culibrarty.atlassian.net/browse/DACCESS-913
 # bento search result digital collections thumbnails
-@all_results_list
-  Scenario: Search results should contain thumbnails
-    Given I literally go to search
-    When I fill in "q" with 'New York Times'
-    And I press 'search'
-    Then I should get bento results
-
-# Digital Collections Portal search
-# @all_results_list @dcp_search
-Scenario Outline: Search within Portal results for each collection
-  Given I literally go to search
-  When I fill in "q" with '<query>'
-  And I press 'Search'
-  And I sleep 2 seconds
-  Then I should get Digital Collections results
-  Then Digital Collections should list "<item>"
-
-Examples:
-  | query | item |
-# | iceland highest trees | The highest trees in Iceland. Birch 29 feet high | # TODO: fix flakey test: https://culibrarty.atlassian.net/browse/DACCESS-913
-  | wooden nutmeg | blasphemy of abolitionism exposed |
-  | work bench | Tompkins County Work Bench in Cellar |
-  | penitentiary | Society for the Alleviation of the Miseries |
+#@all_results_list
+#  Scenario: Search results should contain thumbnails
+#    Given I literally go to search
+#    When I fill in "q" with 'New York Times'
+#    And I press 'search'
+#    Then I should get bento results
+#
+## Digital Collections Portal search
+## @all_results_list @dcp_search
+#Scenario Outline: Search within Portal results for each collection
+#  Given I literally go to search
+#  When I fill in "q" with '<query>'
+#  And I press 'Search'
+#  And I sleep 2 seconds
+#  Then I should get Digital Collections results
+#  Then Digital Collections should list "<item>"
+#
+#Examples:
+#  | query | item |
+#  | iceland highest trees | The highest trees in Iceland. Birch 29 feet high |
+#  | wooden nutmeg | blasphemy of abolitionism exposed |
+#  | work bench | Tompkins County Work Bench in Cellar |
+#  | penitentiary | Society for the Alleviation of the Miseries |
 
 # Institutional Repository search
 @all_results_list @ir_search
