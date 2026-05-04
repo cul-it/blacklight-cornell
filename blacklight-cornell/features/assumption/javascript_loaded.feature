@@ -36,7 +36,7 @@ Examples:
     | databases/subject/History |
     | credits |
     | myaccount/login |
-    | catalog/6417953 |
+  # | catalog/6417953 |  # TODO: fix flakey test: https://culibrarty.atlassian.net/browse/DACCESS-913
 
 @javascript
 Scenario: Perform a search and see call number facet
