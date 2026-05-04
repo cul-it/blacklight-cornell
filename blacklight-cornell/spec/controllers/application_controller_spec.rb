@@ -8,7 +8,7 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe 'book bag count initialization' do
-    let(:user) { User.create!(email: 'bookbag-initial@example.com') }
+    let(:user) { instance_double(User, email: 'bookbag-initial@example.com') }
     let(:book_bag) { instance_double(BookBag) }
 
     around do |example|
@@ -25,6 +25,11 @@ RSpec.describe ApplicationController, type: :controller do
       allow(BookBag).to receive(:new).and_return(book_bag)
       allow(book_bag).to receive(:set_bagname)
       allow(book_bag).to receive(:count).and_return(3)
+    end
+
+    after do
+      session.delete(:bookbag_count)
+      session.delete(:cu_authenticated_email)
     end
 
     it 'loads book bag count in session on initial request' do
