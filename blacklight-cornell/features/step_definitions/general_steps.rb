@@ -54,6 +54,10 @@ Then /^I should see the text '(.*?)'$/i do |text|
   page.should have_content(text)
 end
 
+Then /^I should see the text '(.*?)' within (\d+) seconds?$/i do |text, seconds|
+  expect(page).to have_content(text, wait: seconds.to_i)
+end
+
 Then "I should not see the text {string}" do |text|
   page.should_not have_content(text)
 end

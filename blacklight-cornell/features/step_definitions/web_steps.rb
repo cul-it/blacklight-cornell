@@ -351,5 +351,5 @@ Then("I clear transactions") do
 end
 
 Then("I did not catch any javascript errors") do
-  expect(find('#js_error_report', visible: false, text: /^0$/ ))
+  expect(page).to have_css('#js_error_report', visible: false, text: /^0$/)
 end
