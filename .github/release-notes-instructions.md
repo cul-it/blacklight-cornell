@@ -55,4 +55,4 @@ If multiple Jira tickets are present, include all of them in the same bullet, co
 - Include all relevant PRs found in the comparison.
 - Only include Jira tickets that match `DACCESS-\d+`.
 - Deduplicate overlapping PRs: if multiple PRs deliver one user-visible outcome, write one combined bullet and cite all PR numbers/tickets.
-- Order entries inside each section by user impact: highest impact first, then medium, then minor/internal.
+- Order entries inside each section by PR merge date (newest first).
