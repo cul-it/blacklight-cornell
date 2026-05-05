@@ -1,0 +1,239 @@
+# ------------------------------------------------------------------------------
+# Changelog Automation
+#
+# What this workflow does:
+# 1) When a PR is merged INTO dev:
+#    - Generate a DRAFT changelog comparing main..dev
+#    - Save it as a workflow draft for review
+#
+# 2) When dev is merged INTO main:
+#    - Generate OFFICIAL release notes for that sprint merge
+#    - Append them to CHANGELOG.md on main
+#    - Commit and push the changelog update automatically
+#
+# 3) Manual run option:
+#    - Lets you compare main against any branch
+#    - Choose mode (draft only) or official mode (updates CHANGELOG.md)
+#
+# References:
+# - Copilot release notes action: https://github.com/github/copilot-release-notes
+# - GitHub Actions workflow syntax: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# - Checkout action: https://github.com/actions/checkout
+# - Upload artifact action: https://github.com/actions/upload-artifact
+# - Store workflow artifacts: https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts
+# - Commit/push from workflows with built-in token: https://github.com/actions/checkout#push-a-commit-using-the-built-in-token
+# ------------------------------------------------------------------------------
+name: Changelog Automation (Copilot)
+
+# Triggers:
+# - pull_request closed on dev/main (filtered further in job-level `if`)
+# - manual dispatch with inputs for branch, mode, and PR discovery strategy
+on:
+  pull_request:
+    types: [closed]
+    branches: [dev, main]
+  workflow_dispatch:
+    inputs:
+      compare_branch:
+        description: Branch to compare against main
+        required: true
+        default: dev
+      mode:
+        description: Generate draft only or publish official changelog to main
+        required: true
+        default: draft
+        type: choice
+        options:
+          - draft
+          - official
+      pr_strategy:
+        description: PR discovery strategy
+        required: false
+        default: github-api
+        type: choice
+        options:
+          - merge-commits
+          - github-api
+
+# Permissions needed:
+# - contents: write (to commit official CHANGELOG updates)
+# - pull-requests: read (for PR metadata used by release note generation)
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    # - allow manual runs
+    # - allow merged PRs into dev (draft generation)
+    # - allow dev -> main merge PRs (official changelog update)
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.merged == true &&
+        (
+          github.event.pull_request.base.ref == 'dev' ||
+          (github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'dev')
+        )
+      )
+    steps:
+      # Always fetch full history/refs so comparisons work reliably.
+      # Check out the triggering commit so local files (like instructions) match this run.
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+
+      # Decide mode and compare refs based on trigger:
+      # - workflow_dispatch: user-provided mode/branch
+      # - merge into dev: draft, compare main..dev
+      # - dev->main merge: official, use merge PR SHAs
+      - name: Resolve changelog mode and refs
+        id: ctx
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo 
+            echo "##############################################################"
+            echo "mode=${{ inputs.mode }}" >> "$GITHUB_OUTPUT"
+            echo "base_ref=main" >> "$GITHUB_OUTPUT"
+            echo "head_ref=${{ inputs.compare_branch }}" >> "$GITHUB_OUTPUT"
+            echo "compare_label=main..${{ inputs.compare_branch }}" >> "$GITHUB_OUTPUT"
+            echo "pr_strategy=${{ inputs.pr_strategy }}" >> "$GITHUB_OUTPUT"
+            echo "##############################################################"
+            echo
+          elif [[ "${{ github.event.pull_request.base.ref }}" == "dev" ]]; then
+            echo 
+            echo "##############################################################"
+            echo "mode=draft" >> "$GITHUB_OUTPUT"
+            echo "base_ref=main" >> "$GITHUB_OUTPUT"
+            echo "head_ref=dev" >> "$GITHUB_OUTPUT"
+            echo "compare_label=main..dev" >> "$GITHUB_OUTPUT"
+            echo "pr_strategy=github-api" >> "$GITHUB_OUTPUT"
+            echo "##############################################################"
+            echo
+          else
+            echo 
+            echo "##############################################################"
+            echo "mode=official" >> "$GITHUB_OUTPUT"
+            echo "base_ref=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_OUTPUT"
+            echo "head_ref=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+            echo "compare_label=dev->main (PR #${{ github.event.pull_request.number }})" >> "$GITHUB_OUTPUT"
+            echo "pr_strategy=github-api" >> "$GITHUB_OUTPUT"
+            echo "##############################################################"
+            echo
+          fi
+
+      # Run Copilot release-notes action with style guide.
+      - name: Generate release notes with Copilot
+        id: notes
+        uses: github/copilot-release-notes@main
+        with:
+          base-ref: ${{ steps.ctx.outputs.base_ref }}
+          head-ref: ${{ steps.ctx.outputs.head_ref }}
+          instructions: .github/release-notes-instructions.md
+          pr-strategy: ${{ steps.ctx.outputs.pr_strategy }}
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+
+      # Persist generated markdown to a file for reuse in later steps.
+      - name: Write generated notes
+        shell: bash
+        run: |
+          printf '%s\n' "${{ steps.notes.outputs.release-notes }}" > generated-release-notes.md
+
+      # Draft mode: produce a readable draft changelog.
+      - name: Build draft changelog artifact
+        if: steps.ctx.outputs.mode == 'draft'
+        shell: bash
+        run: |
+          {
+            echo "# Draft Changelog"
+            echo
+            echo "**Compared:** ${{ steps.ctx.outputs.compare_label }}"
+            echo
+            cat generated-release-notes.md
+          } > changelog-draft.md
+
+      # Official mode: prepend this sprint's finalized notes to CHANGELOG.md.
+      - name: Publish official changelog
+        if: steps.ctx.outputs.mode == 'official'
+        shell: bash
+        run: |
+          if [[ ! -f CHANGELOG.md ]]; then
+            {
+              echo "# Changelog"
+              echo
+            } > CHANGELOG.md
+          fi
+
+          release_date="$(date -u +%Y-%m-%d)"
+          {
+            echo "## ${release_date} - Sprint release (dev -> main)"
+            echo
+            cat generated-release-notes.md
+            echo
+          } > new-changelog-entry.md
+
+          if grep -qx "# Changelog" CHANGELOG.md; then
+            {
+              echo "# Changelog"
+              echo
+              cat new-changelog-entry.md
+              tail -n +3 CHANGELOG.md
+            } > CHANGELOG.tmp
+          else
+            {
+              echo "# Changelog"
+              echo
+              cat new-changelog-entry.md
+              cat CHANGELOG.md
+            } > CHANGELOG.tmp
+          fi
+
+          mv CHANGELOG.tmp CHANGELOG.md
+
+      # Official mode: commit and push CHANGELOG.md back to main.
+      - name: Commit official changelog
+        if: steps.ctx.outputs.mode == 'official'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(changelog): update sprint release notes"
+            git push origin HEAD:main
+          fi
+
+      # Draft output is downloadable from the workflow run.
+      - name: Upload draft changelog artifact
+        if: steps.ctx.outputs.mode == 'draft'
+        uses: actions/upload-artifact@v7
+        with:
+          name: changelog-draft-main-vs-dev
+          path: changelog-draft.md
+
+      # Official output artifact keeps a snapshot of the final CHANGELOG.md.
+      - name: Upload official changelog artifact
+        if: steps.ctx.outputs.mode == 'official'
+        uses: actions/upload-artifact@v7
+        with:
+          name: changelog-official
+          path: CHANGELOG.md
+
+      # Run summary shown in the Actions UI.
+      - name: Add workflow summary
+        shell: bash
+        run: |
+          {
+            echo "## Changelog generation complete"
+            echo
+            echo "**Mode:** ${{ steps.ctx.outputs.mode }}"
+            echo "**Compared:** ${{ steps.ctx.outputs.compare_label }}"
+            echo
+            cat generated-release-notes.md
+          } >> "$GITHUB_STEP_SUMMARY"
