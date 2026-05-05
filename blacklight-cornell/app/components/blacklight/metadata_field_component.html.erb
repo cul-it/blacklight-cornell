@@ -1,0 +1,9 @@
+<%# Overrides Blacklight::MetadataFieldComponent to set default label and value classes %>
+<%= render(@layout.new(field: @field, label_class: 'col-sm-3', value_class: 'col-sm-9')) do |component| %>
+  <% component.with_label do %>
+    <%= label %>
+  <% end %>
+  <% component.with_value do %>
+    <%= @field.render %>
+  <% end %>
+<% end %>
