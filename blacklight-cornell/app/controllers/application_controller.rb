@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with:  :exception
   # protect_from_forgery with:  :null_session
 
+  before_action :initialize_bookbag_state
   after_action :allow_libwizard_iframe
 
 # An array of strings to be added to HTML HEAD section of view.
@@ -40,6 +41,17 @@ protected
 
 
   private
+  # Ensure the bookbag count renders when page loads initially
+  def initialize_bookbag_state
+    return unless current_user
+    return if session[:cu_authenticated_email].blank?
+    return if ENV['BAG_MYSQL_HOST'].blank?
+
+    book_bag = BookBag.new
+    book_bag.set_bagname("#{session[:cu_authenticated_email]}-bookbag-default")
+    session[:bookbag_count] = book_bag.count if session[:bookbag_count].blank?
+  end
+
   def allow_libwizard_iframe
     response.headers['X-Frame-Options'] = 'ALLOW-FROM https://cornell.libwizard.com'
   end
