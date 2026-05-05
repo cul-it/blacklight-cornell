@@ -282,7 +282,6 @@ class CatalogController < ApplicationController
     }, if: :has_search_parameters?
 
     # Facets not shown in side bar, but available for filtering
-    add_staffonly_subject_facets(config)
     config.add_facet_field 'author_corp_roman_facet', :show => false, :label => "Author: Corporate Name (Roman)"
     config.add_facet_field 'author_event_roman_facet', :show => false, :label => "Author: Event (Roman)"
     config.add_facet_field 'author_pers_roman_facet', :show => false, :label => "Author: Personal Name (Roman)"
@@ -298,6 +297,14 @@ class CatalogController < ApplicationController
     config.add_facet_field 'subject_overlay_facet', :show => false, :label => 'Subject Overlay'
     config.add_facet_field 'subject_work_lc_facet', :show => false, :label => "Subject: Work LC"
     config.add_facet_field 'workid_facet', :show => false, :label => 'Work'
+
+    # Generate staff-only subject facet fields based on the given pattern
+    %w[topic genr pers corp event era geo gen sub].each do |type|
+      %w[lc lcgft lcjsh fast aat agrovoc homoit mesh rbmscv zst local unk other].each do |source|
+        facet_field_name = "subject_#{type}_#{source}_facet"
+        config.add_facet_field facet_field_name, show: false, label: "Subject: #{type.capitalize} #{source.upcase}"
+      end
+    end
 
     #config.default_solr_params[:'facet.field'] = config.facet_fields.keys
     config.add_facet_fields_to_solr_request!
@@ -882,18 +889,4 @@ class CatalogController < ApplicationController
       current_user: current_user
     }
   end
-
-  # Generate staff-only subject facet fields dynamically based on the given pattern
-  def add_staffonly_subject_facets(config)
-    facet_types = %w[topic genr pers corp event era geo gen sub]
-    facet_sources = %w[lc lcgft lcjsh fast aat agrovoc homoit mesh rbmscv zst local unk other]
-  
-    facet_types.each do |type|
-      facet_sources.each do |source|
-        facet_field_name = "subject_#{type}_#{source}_facet"
-        config.add_facet_field facet_field_name, show: false, label: "Subject: #{type.capitalize} (#{source.upcase})"
-      end
-    end
-  end
-
 end

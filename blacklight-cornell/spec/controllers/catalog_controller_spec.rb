@@ -269,9 +269,8 @@ RSpec.describe CatalogController, type: :controller do
     end
   end
 
-  describe '#add_staffonly_subject_facets' do
-    it 'adds staff-only subject facets to the Blacklight configuration' do
-      CatalogController.new.send(:add_staffonly_subject_facets, bl_config)
+  describe 'Staff-only subject facets' do
+    it 'added to the Blacklight configuration' do
       expect(bl_config.facet_fields).to include('subject_corp_lc_facet')
       expect(bl_config.facet_fields['subject_corp_lc_facet'].show).to eq(false)
       end
