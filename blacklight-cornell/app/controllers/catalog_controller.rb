@@ -336,8 +336,8 @@ class CatalogController < ApplicationController
     # -- title_vern_display
     # -- subtitle_display
     # -- subtitle_vern_display
-    config.add_show_field 'title_uniform_display', :label => 'Uniform title'
-    config.add_show_field 'author_json', :label => 'Author, etc.'
+    config.add_show_field 'title_uniform_display', label: 'Uniform title', helper_method: :render_clickable_document_show_field_value
+    config.add_show_field 'author_json', label: 'Author, etc.', helper_method: :render_author
     config.add_show_field 'format', :label => 'Format', :helper_method => :render_show_format_value, separator_options: { words_connector: '<br />', last_word_connector: '<br />' }
     config.add_show_field 'language_display', :label => 'Language'
     config.add_show_field 'edition_display', :label => 'Edition'
@@ -351,20 +351,20 @@ class CatalogController < ApplicationController
     config.add_show_field 'cite_as_display', :label => 'Cite as'
     config.add_show_field 'historical_note_display', :label => 'Biographical/ Historical note'
     config.add_show_field 'finding_aids_display', :label => 'Finding aid'
-    config.add_show_field 'subject_json', :label => 'Subject'
+    config.add_show_field 'subject_json', label: 'Subject', helper_method: :render_clickable_document_show_field_value
     config.add_show_field 'keyword_display', :label => 'Keyword'
     config.add_show_field 'summary_display', :label => 'Summary', helper_method: :html_safe
     config.add_show_field 'description_display', :label => 'Description', helper_method: :html_safe
     config.add_show_field 'issn_display', :label => 'ISSN'
     config.add_show_field 'isbn_display', :label => 'ISBN'
     config.add_show_field 'frequency_display', :label => 'Frequency'
-    config.add_show_field 'author_addl_json', :label => 'Other contributor'
+    config.add_show_field 'author_addl_json', label: 'Other contributor', helper_method: :render_clickable_document_show_field_value
     config.add_show_field 'contents_display', :label => 'Table of contents', helper_method: :contents_list
     config.add_show_field 'partial_contents_display', :label => 'Partial table of contents'
     config.add_show_field 'title_other_display', :label => 'Other title'
-    config.add_show_field 'included_work_display', :label => 'Included work'
-    config.add_show_field 'related_work_display', :label => 'Related Work'
-    config.add_show_field 'title_series_cts', :label => 'Series'
+    config.add_show_field 'included_work_display', label: 'Included work', helper_method: :render_clickable_document_show_field_value
+    config.add_show_field 'related_work_display', label: 'Related Work', helper_method: :render_clickable_document_show_field_value
+    config.add_show_field 'title_series_cts', label: 'Series', helper_method: :render_clickable_document_show_field_value
     config.add_show_field 'continues_display', :label => 'Continues'
     config.add_show_field 'continues_in_part_display', :label => 'Continues in part'
     config.add_show_field 'supersedes_display', :label => 'Supersedes'
@@ -399,7 +399,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'indexes_display', :label => 'Indexes'
     config.add_show_field 'donor_display', :label => 'Donor'
     config.add_show_field 'former_owner_display', :label => 'Former Owner'
-    config.add_show_field 'url_other_display', :label => 'Other online content'
+    config.add_show_field 'url_other_display', label: 'Other online content', helper_method: :render_display_link
     config.add_show_field 'works_about_display', :label => 'Works about'
     config.add_show_field 'awards_display', :label => 'Awards'
     # config.add_show_field 'holdings_json', :label => 'Holdings'
