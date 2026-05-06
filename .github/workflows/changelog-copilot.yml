@@ -150,9 +150,11 @@ jobs:
         if: steps.ctx.outputs.mode == 'draft'
         shell: bash
         run: |
+          created_date="$(date -u +%Y-%m-%d)"
           {
             echo "# Draft Changelog"
             echo
+            echo "**Created:** ${created_date}"
             echo "**Compared:** ${{ steps.ctx.outputs.compare_label }}"
             echo
             cat generated-release-notes.md
@@ -229,9 +231,11 @@ jobs:
       - name: Add workflow summary
         shell: bash
         run: |
+          created_date="$(date -u +%Y-%m-%d)"
           {
             echo "## Changelog generation complete"
             echo
+            echo "**Created:** ${created_date}"
             echo "**Mode:** ${{ steps.ctx.outputs.mode }}"
             echo "**Compared:** ${{ steps.ctx.outputs.compare_label }}"
             echo
