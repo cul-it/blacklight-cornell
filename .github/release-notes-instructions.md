@@ -2,6 +2,16 @@
 
 Write clear, user-facing release notes for Cornell Library catalog users and staff.
 
+## Required Output Structure
+
+Always output in this exact structure:
+
+1. `Created: YYYY-MM-DD` (UTC date the notes were generated)
+2. `Compared: <base>..<head>` (or equivalent compare label when provided)
+3. Section headers and bullets
+
+Do not omit the `Created:` line.
+
 ## Categories
 
 Group entries into these sections, in this order:
@@ -55,4 +65,8 @@ If multiple Jira tickets are present, include all of them in the same bullet, co
 - Include all relevant PRs found in the comparison.
 - Only include Jira tickets that match `DACCESS-\d+`.
 - Deduplicate overlapping PRs: if multiple PRs deliver one user-visible outcome, write one combined bullet and cite all PR numbers/tickets.
-- Order entries inside each section by PR merge date (newest first).
+- Use this exact section order every time: 🚀 Features, 🐛 Bug Fixes, 🦮 Accessibility, 🧰 Maintenance, 📚 Documentation.
+- Never reorder sections based on how many PRs are in a section.
+- Order entries inside each section by PR merge timestamp (`merged_at`) newest to oldest.
+- If two PRs have the same merge timestamp, order by PR number descending.
+- Do not use subjective ordering (impact/priority); ordering must be date-based only.
