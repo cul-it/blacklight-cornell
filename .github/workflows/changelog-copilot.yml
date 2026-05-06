@@ -119,6 +119,7 @@ jobs:
             echo "head_ref=${{ inputs.compare_branch }}" >> "$GITHUB_OUTPUT"
             echo "compare_label=main..${{ inputs.compare_branch }}" >> "$GITHUB_OUTPUT"
             echo "pr_strategy=${{ inputs.pr_strategy }}" >> "$GITHUB_OUTPUT"
+            echo "source_ref=manual workflow_dispatch" >> "$GITHUB_OUTPUT"
             echo "##############################################################"
             echo
           elif [[ "${{ github.event.pull_request.base.ref }}" == "dev" ]]; then
@@ -129,6 +130,7 @@ jobs:
             echo "head_ref=dev" >> "$GITHUB_OUTPUT"
             echo "compare_label=main..dev" >> "$GITHUB_OUTPUT"
             echo "pr_strategy=github-api" >> "$GITHUB_OUTPUT"
+            echo "source_ref=merge into dev (PR #${{ github.event.pull_request.number }})" >> "$GITHUB_OUTPUT"
             echo "##############################################################"
             echo
           else
@@ -139,6 +141,7 @@ jobs:
             echo "head_ref=dev" >> "$GITHUB_OUTPUT"
             echo "compare_label=main..dev (PR #${{ github.event.pull_request.number }})" >> "$GITHUB_OUTPUT"
             echo "pr_strategy=github-api" >> "$GITHUB_OUTPUT"
+            echo "source_ref=dev->main PR #${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
             echo "##############################################################"
             echo
           fi
@@ -254,7 +257,7 @@ jobs:
 
             - Created: ${{ steps.publish_official.outputs.release_date }}
             - Compared: ${{ steps.ctx.outputs.compare_label }}
-            - Source PR: #${{ github.event.pull_request.number }}
+            - Source: ${{ steps.ctx.outputs.source_ref }}
           add-paths: |
             CHANGELOG.md
           delete-branch: false
