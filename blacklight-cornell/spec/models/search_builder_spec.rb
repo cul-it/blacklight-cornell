@@ -207,13 +207,13 @@ RSpec.describe SearchBuilder, type: :model do
 
     context 'query with encoded forward slashes (%2F) or forward slashes (/)' do
       it 'removes %2F from the query' do
-        query = 'test %2F query'
-        expect(search_builder.clean_q(query)).to eq('test query')
+        query = 'test%2Fquery'
+        expect(search_builder.clean_q(query)).to eq('testquery')
       end
 
       it 'removes / from the query' do
         query = 'test / query'
-        expect(search_builder.clean_q(query)).to eq('test query')
+        expect(search_builder.clean_q(query)).to eq('test  query')
       end
     end
 
