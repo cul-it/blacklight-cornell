@@ -66,9 +66,10 @@ permissions:
 jobs:
   generate-changelog:
     runs-on: ubuntu-latest
-    # Prevents multiple jobs running if multiple merges happen; run off the latest merge
+    # Prevent stale overlaps only within the same PR context.
+    # This avoids unrelated PR events canceling a dev->main changelog run.
     concurrency:
-      group: changelog-dev-main
+      group: changelog-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}
       cancel-in-progress: true
     # - allow manual runs
     # - allow merged PRs into dev (draft generation)
