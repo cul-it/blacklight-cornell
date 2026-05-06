@@ -286,7 +286,7 @@ class SearchBuilder < Blacklight::SearchBuilder
     params[:q_row].map { |query| clean_q(query) }
   end
 
-  # Handle special characters and unpaired quotation marks in q_row
+  # Handle special characters and unpaired quotation marks in query
   def clean_q(query)
     query.strip!
 
@@ -299,6 +299,17 @@ class SearchBuilder < Blacklight::SearchBuilder
     # Remove unpaired quotes
     query.gsub!('"', '') if query.count('"') % 2 == 1
 
+    # Replace double-encoded space
+    query.gsub!('%2520',' ') if query.include?('%2520')
+
+    # Remove slashes
+    query.gsub!('%2F','') if query.include?('%2F')
+    query.gsub!('/','') if query.include?('/')
+    while (query[-1] == "\\") do
+      query[-1] = ""
+      query.rstrip!
+    end
+    
     # Remove: parentheses, brackets. Escape: colons, plus signs, minus signs/dashes
     # From: https://solr.apache.org/guide/8_8/the-dismax-query-parser.html
     #       The DisMax query parser supports an extremely simplified subset of the Lucene QueryParser syntax.

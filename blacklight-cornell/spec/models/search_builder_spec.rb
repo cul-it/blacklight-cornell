@@ -198,6 +198,37 @@ RSpec.describe SearchBuilder, type: :model do
       end
     end
 
+    context 'query with double-encoded spaces (%2520)' do
+      it 'replaces %2520 with a space' do
+        query = 'test%2520query'
+        expect(search_builder.clean_q(query)).to eq('test query')
+      end
+    end
+
+    context 'query with encoded forward slashes (%2F) or forward slashes (/)' do
+      it 'removes %2F from the query' do
+        query = 'test %2F query'
+        expect(search_builder.clean_q(query)).to eq('test query')
+      end
+
+      it 'removes / from the query' do
+        query = 'test / query'
+        expect(search_builder.clean_q(query)).to eq('test query')
+      end
+    end
+
+    context 'query with trailing backslashes' do
+      it 'removes trailing backslashes' do
+        query = 'test query\\'
+        expect(search_builder.clean_q(query)).to eq('test query')
+      end
+
+      it 'removes multiple trailing backslashes' do
+        query = 'test query\\\\\\'
+        expect(search_builder.clean_q(query)).to eq('test query')
+      end
+    end
+
     context 'query with escapable special characters' do
       it 'escapes all special characters' do
         colon_query = 'oh: hi'

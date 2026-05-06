@@ -116,16 +116,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
     end
 
-    # Sanitize query for constraints display
-    if  !params[:q].blank? && !params[:search_field].blank?
-      if params[:q].include?('%2520')
-        params[:q].gsub!('%2520',' ')
-      end
-      if params[:q].include?('%2F') or params[:q].include?('/')
-        params[:q].gsub!('%2F','')
-        params[:q].gsub!('/','')
-      end
-      params[:q] = sanitize(params)
+    # Check for img html value and return to root with flash message
+    if params[:q].present? && params[:q].include?('<img')
+      # :nocov:
+        Rails.logger.error("Search error:  #{__FILE__}:#{__LINE__}  q = #{params[:q].inspect}")
+      # :nocov:
+      redirect_to root_path, flash: { notice: I18n.t('blacklight.search.errors.invalid_query') }
     end
 
     # Query solr for document list
@@ -443,25 +439,5 @@ private
       alert = 'order'
     end
     return alert
-  end
-
-  def sanitize(q)
-    if q[:q].include?('<img')
-
-      # :nocov:
-        Rails.logger.error("Sanitize error:  #{__FILE__}:#{__LINE__}  q = #{q[:q].inspect}")
-      # :nocov:
-
-      redirect_to root_path
-    else
-      q = params[:q].rstrip
-      while (q[-1] == "/" or q[-1] == "\\") do
-        if q[-1] == "/" or q[-1] == "\\"
-          q[-1] = ""
-          q = q.rstrip
-        end
-      end
-      return q
-    end
   end
 end
