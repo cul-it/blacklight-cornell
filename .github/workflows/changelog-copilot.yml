@@ -202,7 +202,7 @@ jobs:
         if: steps.ctx.outputs.mode == 'official' && steps.guard.outputs.skip != 'true'
         shell: bash
         run: |
-          git checkout -B changelog-dev origin/dev
+          git checkout -B dev origin/dev
           if [[ ! -f CHANGELOG.md ]]; then
             {
               echo "# Changelog"
@@ -236,7 +236,7 @@ jobs:
 
           mv CHANGELOG.tmp CHANGELOG.md
           echo "release_date=${release_date}" >> "$GITHUB_OUTPUT"
-          echo "pr_branch=Copilot-CHANGELOG-Update-${release_date}" >> "$GITHUB_OUTPUT"
+          echo "pr_branch=copilot-changelog-${release_date}" >> "$GITHUB_OUTPUT"
 
       # Official mode: create/update changelog PR into dev (respects branch protection).
       - name: Create or update changelog PR
@@ -248,7 +248,7 @@ jobs:
           commit-message: "CHANGELOG: update sprint release notes"
           branch: ${{ steps.publish_official.outputs.pr_branch }}
           base: dev
-          title: "Copilot-CHANGELOG-Update-${{ steps.publish_official.outputs.release_date }}"
+          title: "copilot-changelog-${{ steps.publish_official.outputs.release_date }}"
           body: |
             Automated changelog update for the active `dev -> main` release PR.
 
