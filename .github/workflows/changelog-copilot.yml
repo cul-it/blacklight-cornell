@@ -239,9 +239,20 @@ jobs:
 
           mv CHANGELOG.tmp CHANGELOG.md
           echo "release_date=${release_date}" >> "$GITHUB_OUTPUT"
-          echo "pr_branch=copilot-changelog-${release_date}" >> "$GITHUB_OUTPUT"
+          # Use a stable key for PR-triggered runs so only one changelog PR is updated
+          # for the same dev->main release PR (even across multiple synchronize events/days).
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            pr_key="pr-${{ github.event.pull_request.number }}"
+          else
+            # Manual runs are not tied to a release PR, so keep a date-scoped branch name.
+            pr_key="manual-${release_date}"
+          fi
+          echo "pr_branch=copilot-changelog-${pr_key}" >> "$GITHUB_OUTPUT"
+          echo "pr_title=copilot-changelog-${pr_key}" >> "$GITHUB_OUTPUT"
 
       # Official mode: create/update changelog PR into dev (respects branch protection).
+      # The stable branch name above ensures this updates the same PR instead of opening
+      # a new one each time dev receives additional commits.
       - name: Create or update changelog PR
         id: changelog_pr
         if: steps.ctx.outputs.mode == 'official' && steps.guard.outputs.skip != 'true'
@@ -251,7 +262,7 @@ jobs:
           commit-message: "CHANGELOG: update sprint release notes"
           branch: ${{ steps.publish_official.outputs.pr_branch }}
           base: dev
-          title: "copilot-changelog-${{ steps.publish_official.outputs.release_date }}"
+          title: ${{ steps.publish_official.outputs.pr_title }}
           body: |
             Automated changelog update for the active `dev -> main` release PR.
 
