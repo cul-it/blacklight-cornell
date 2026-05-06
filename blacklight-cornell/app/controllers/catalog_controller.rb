@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 class CatalogController < ApplicationController
 
-  include BlacklightRangeLimit::ControllerOverride
   include Blacklight::Catalog
+  include BlacklightRangeLimit::ControllerOverride
   include BlacklightCornell::CornellCatalog
   include BlacklightUnapi::ControllerExtension
   include Blacklight::Marc::Catalog
