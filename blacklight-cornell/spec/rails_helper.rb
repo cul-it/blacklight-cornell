@@ -79,6 +79,7 @@ RSpec.configure do |config|
   # end
 
   # Enable ViewComponent test helpers
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ViewComponent::TestHelpers, type: :component
   config.include ViewComponentTestHelpers, type: :component
 end

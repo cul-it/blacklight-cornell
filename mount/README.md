@@ -15,5 +15,5 @@ Before building the container image, update the blacklight-cornell/Gemfile.
 
 After changing the Gemfile, build the container image and run it locally.
 
-    ./build.sh -r rails_env/YOUR_ENV
+    ./build.sh -dr rails_env/YOUR_ENV
     ./run.sh -dr rails_env/YOUR_ENV

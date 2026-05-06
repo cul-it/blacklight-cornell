@@ -20,7 +20,7 @@ BlacklightCornell::Application.routes.draw do
   concern :exportable, Blacklight::Routes::Exportable.new
   concern :marc_viewable, Blacklight::Marc::Routes::MarcViewable.new
 
-  resource :catalog, only: [:index], controller: "catalog" do
+  resource :catalog, only: [], as: 'catalog', path: '/catalog', controller: 'catalog' do
     concerns :searchable
     concerns :range_searchable
   end
@@ -80,7 +80,6 @@ BlacklightCornell::Application.routes.draw do
   #post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms' # :via => :post
   get "catalog/check_captcha" => "catalog#check_captcha", :as => "check_captcha"
 
-  resources :catalog, only: [:post, :get]
   get "catalog/email" => "catalog#email", :as => "catalog_email", :via => :post
   get "catalog/afemail/:id" => "catalog#afemail", :as => "catalog_afemail"
   # get 'logins' => 'catalog#logins', :as => 'catalog_logins'
@@ -211,6 +210,8 @@ BlacklightCornell::Application.routes.draw do
   # custom error pages
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
+  match "/422", to: "errors#unprocessable", via: :all
+  match "/400", to: "errors#bad_request", via: :all
 
   get "book_bags/export" => "book_bags#export"
   match "book_bags/track", via: [:get, :post]
