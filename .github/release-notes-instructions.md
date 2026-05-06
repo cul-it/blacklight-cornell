@@ -64,6 +64,9 @@ If multiple Jira tickets are present, include all of them in the same bullet, co
 - Keep emojis only in section headers (not every bullet) so notes stay easy to scan.
 - Include all relevant PRs found in the comparison.
 - Only include Jira tickets that match `DACCESS-\d+`.
+- Never include [DACCESS-901](https://culibrary.atlassian.net/browse/DACCESS-901) in release notes. It is a retired
+  PR-template placeholder and is never a valid ticket for new entries. If it appears in a PR, ignore it and treat it as no Jira
+  ticket provided.
 - Deduplicate overlapping PRs: if multiple PRs deliver one user-visible outcome, write one combined bullet and cite all PR numbers/tickets.
 - Use this exact section order every time: 🚀 Features, 🐛 Bug Fixes, 🦮 Accessibility, 🧰 Maintenance, 📚 Documentation.
 - Never reorder sections based on how many PRs are in a section.
