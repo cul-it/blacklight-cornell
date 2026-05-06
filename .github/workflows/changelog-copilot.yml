@@ -80,11 +80,12 @@ jobs:
       )
     steps:
       # Always fetch full history/refs so comparisons work reliably.
+      # Check out the triggering commit so local files (like instructions) match this run.
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          ref: main
+          ref: ${{ github.sha }}
 
       # Decide mode and compare refs based on trigger:
       # - workflow_dispatch: user-provided mode/branch
