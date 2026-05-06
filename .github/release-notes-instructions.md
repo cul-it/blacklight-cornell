@@ -70,6 +70,8 @@ If multiple Jira tickets are present, include all of them in the same bullet, co
 - Deduplicate overlapping PRs: if multiple PRs deliver one user-visible outcome, write one combined bullet and cite all PR numbers/tickets.
 - Use this exact section order every time: 🚀 Features, 🐛 Bug Fixes, 🦮 Accessibility, 🧰 Maintenance, 📚 Documentation.
 - Never reorder sections based on how many PRs are in a section.
+- Never create extra sections (for example: "Needs Review", "Uncategorized", "Other", or similar).
+- If type is missing/unclear, place the item under 🧰 Maintenance; do not create a separate section for inferred items.
 - Order entries inside each section by PR merge timestamp (`merged_at`) newest to oldest.
 - If two PRs have the same merge timestamp, order by PR number descending.
 - Do not use subjective ordering (impact/priority); ordering must be date-based only.
