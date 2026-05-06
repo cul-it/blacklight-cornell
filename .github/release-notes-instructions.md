@@ -49,7 +49,7 @@ If no type is clear, place the entry under 🧰 Maintenance and mark it as infer
 
 Use this bullet format:
 
-- `<concise user-facing change>` by @`<author>` in #`<pr_number>` (`<jira_links_if_present>`)
+- `<concise user-facing change>` by @`<author>` in [#`<pr_number>`](https://github.com/cul-it/blacklight-cornell/pull/<pr_number>) (`<jira_links_if_present>`)
 
 Jira links (<jira_links_if_present>) come from `## 🔗 Related Issues` and must use full markdown links:
 - Similar to this example: [DACCESS-901](https://culibrary.atlassian.net/browse/DACCESS-901)
