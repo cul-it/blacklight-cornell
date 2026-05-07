@@ -120,4 +120,20 @@ def build_heading_type(heading_type)
   def pluralize_format(format)
     format.split('/').map(&:pluralize).join('/')
   end
+
+  # ============================================================================
+  # Browse `browse_search_bar_select` uses `browse_type` values, while
+  # `search_bar_select` returns raw `search_field` keys. Uses CatalogController
+  # search_fields for labels/placeholders, then map browse keys
+  # (Author/Subject/etc.) and map all others to `catalog:<key>` for redirect_catalog.
+  # ----------------------------------------------------------------------------
+  def browse_search_bar_select
+    browse_key_map = { 'author_browse' => 'Author', 'at_browse' => 'Author-Title', 'subject_browse' => 'Subject', 'callnumber_browse' => 'Call-Number' }
+    CatalogController.blacklight_config.search_fields.collect do |_key, field_def|
+      next unless should_render_field?(field_def)
+      mapped_key = browse_key_map.fetch(field_def.key, "catalog:#{field_def.key}")
+      [field_def.dropdown_label || field_def.label, mapped_key, { 'data-placeholder' => placeholder_text(field_def) }]
+    end.compact
+  end
+
 end
