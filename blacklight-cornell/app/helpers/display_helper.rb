@@ -302,7 +302,6 @@ module DisplayHelper
   end
 
   def render_clickable_document_show_field_value args
-    dp = Blacklight::DocumentPresenter.new(nil, nil, nil)
     value = args[:value]
     value ||= args[:document].fetch(args[:field], :sep => nil) if args[:document] and args[:field]
     args[:sep] ||= blacklight_config.multiline_display_fields[args[:field]] || field_value_separator;
@@ -507,10 +506,6 @@ module DisplayHelper
     end
   end
 
-  def display_link?(field)
-    blacklight_config.display_link[field] != nil
-  end
-
   def is_online? document
     (document['online'].present? && document['online'].include?('Online')) ? true : false
   end
@@ -546,6 +541,32 @@ module DisplayHelper
       ic = icon_mapping
     end
     ic
+  end
+
+  def render_author(show_field)
+    document = show_field[:document]
+    field = show_field[:field]
+    value = show_field[:value]
+
+    author_link = render_clickable_document_show_field_value(document:, field:)
+    browse_paths = value.map do |authority|
+      heading = JSON.parse(authority)
+      if heading['authorizedForm']
+        type = heading['type']
+        search = heading['search2'].present? ? heading['search2'] : heading['search1']
+
+        link_to(t('blacklight.related_auth.author'),
+          browse_info_path(authq: search.gsub("&", "%26"),
+                           bib: document.id,
+                           browse_type: 'Author',
+                           headingtype: type),
+          class: 'info-button btn btn-xs btn-outline-secondary',
+          'aria-label': "Author info for #{search}",
+          role: 'button',
+          onclick: "javascript:_paq.push(['trackEvent', 'itemView', 'author-info']);")
+      end
+    end
+    author_link + browse_paths.join(' ').html_safe
   end
 
   def render_show_format_value field

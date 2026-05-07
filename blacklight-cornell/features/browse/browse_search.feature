@@ -10,6 +10,11 @@ Feature: Browse search
     Then I should see the text 'Browse through an alphabetical'
 
   @browse
+  Scenario: Browse type dropdown includes Title Begins With
+    Given I literally go to browse
+    Then the 'browse_type' drop-down should have an option for 'Title Begins With'
+
+  @browse
   Scenario: Search for an author
     Given I literally go to browse
         And I fill in the authorities search box with 'Heaney, Seamus'

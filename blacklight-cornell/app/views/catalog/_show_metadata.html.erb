@@ -29,10 +29,10 @@
     <h2><%= @title %></h2>
   <% end %>
   <% if @subtitle.present? %>
-    <h3 class="subtitle"><%= @subtitle %></h3>
+    <div class="subtitle"><%= @subtitle %></div>
   <% end %>
   <% if responsibility.present? %>
-    <h3 class="responsibility"><%= responsibility.join('; ') %></h3>
+    <div class="responsibility"><%= responsibility.join('; ') %></div>
   <% end %>
   </div>
   <div class="row">
@@ -79,17 +79,11 @@
 	        	<div class="online-label">
 	            <i class="fa fa-check" aria-hidden="true"></i>Online
 	        	</div>
-	        <ul class="list-unstyled">
-	         <% if @document["holdings_json"].present? %>
-	         <%# holdings = JSON.parse(@document['holdings_record_display'][0]) %>
-	         <%# getID = holdings["id"] %>
-                            <%#= JSON.parse(@document["holdings_json"])[getID]["holdings"].inspect %>
-             <% holdings_json = JSON.parse(holdings_json) %>
-                            <%#= JSON.parse(@document["holdings_json"]).inspect %>
-                            <%#= holdings_json[getID]["links"].inspect %>
-                            <%#= holdings_json[getID]["links"][0]["description"].inspect %>
-                            <%#= holdings.inspect %>
-              <% holdings_json.each do |key, value|  %>
+
+			<% holdings_json = JSON.parse(holdings_json) %>
+			<% if holdings_json.any? { |key, value| (value["online"] == true && value["links"].present?) && (value["active"].nil? || value["active"] == true) && (key != "1" && key != "2") } %>
+	         <ul class="list-unstyled">
+	          <% holdings_json.each do |key, value|  %>
          		<% if holdings_json[key]["active"].nil? or holdings_json[key]["active"] == true && (key != "1" && key != "2")%>
               	  <%#= value["online"].inspect %>
               	  <% if value["online"] == true and !value["links"].nil? %>
@@ -158,13 +152,13 @@
                           <% if parsed_json['titleid'].present? %>
  	                        <span class="terms-of-use">
  	                        <%#= @document.inspect %>
-	                          <span class="fa fa-chevron-right" aria-hiden="true"></span>
+	                          <span class="fa fa-chevron-right" aria-hidden="true"></span>
                               <a href="/catalog/new_tou/<%= parsed_json['titleid'] %>/<%= @document['id']	%> ">Terms of use</a>
  		                    </span>
                           <% else %>
 	                        <% if link["dbcode"].present? && link["providercode"].present? %>
 	                          <span class="terms-of-use">
-	                            <span class="fa fa-chevron-right" aria-hiden="true"></span>
+	                            <span class="fa fa-chevron-right" aria-hidden="true"></span>
 		                        <a href="/catalog/tou/<%= @document[:id] %>/<%= link["providercode"] %>/<%= link["dbcode"] %>">Terms of use</a>
 		                        <%#= holdings_json.inspect  %>
 		                         <% if restrictions_display.present? %>
@@ -204,10 +198,9 @@
 
                 <% end %>
                 <% end %>
-
-	            <% end %>
-	           <% end %>
-	          </ul>
+	         </ul>
+			 <% end %>
+	         <% end %>
 	        </div>
 	      <%end %>
             <%# online-holdings %>
