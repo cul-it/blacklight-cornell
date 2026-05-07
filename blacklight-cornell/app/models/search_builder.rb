@@ -293,29 +293,21 @@ class SearchBuilder < Blacklight::SearchBuilder
     # Replace left and right quotation marks with regular quotes
     query.gsub!(/[”“]/, '"')
 
+    # Replace double-encoded space
+    query.gsub!('%2520',' ')
+
     # Handle unpaired quotes
     # If the first character is an unpaired quotation mark, close quotation
     query = query + '"' if query.count('"') == 1 && query[0] == '"'        
     # Remove unpaired quotes
     query.gsub!('"', '') if query.count('"') % 2 == 1
-
-    # Replace double-encoded space
-    query.gsub!('%2520',' ') if query.include?('%2520')
-
-    # Remove slashes
-    query.gsub!('%2F','') if query.include?('%2F')
-    query.gsub!('/','') if query.include?('/')
-    while (query[-1] == "\\") do
-      query[-1] = ""
-      query.rstrip!
-    end
     
-    # Remove: parentheses, brackets. Escape: colons, plus signs, minus signs/dashes
+    # Remove: parentheses, brackets, slashes (both encoded and unencoded), trailing backslashes. Escape: colons, plus signs, minus signs/dashes
     # From: https://solr.apache.org/guide/8_8/the-dismax-query-parser.html
     #       The DisMax query parser supports an extremely simplified subset of the Lucene QueryParser syntax.
     #       As in Lucene, quotes can be used to group phrases, and +/- can be used to denote mandatory and optional clauses.
     #       All other Lucene query parser special characters (except AND and OR) are escaped to simplify the user experience.
-    query.gsub(/[\[\]\(\):+-]/, ':' => '\:', '+' => '\+', '-' => '\-')
+    query.gsub(/[\[\]\(\):+\-\/]|%2F|\\+\z/, ':' => '\:', '+' => '\+', '-' => '\-')
   end
 
   # Pair 2 queries with booleans, wrap each pair in parentheses

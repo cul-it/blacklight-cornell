@@ -116,14 +116,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       end
     end
 
-    # Check for img html value and return to root with flash message
-    if params[:q].present? && params[:q].include?('<img')
-      # :nocov:
-        Rails.logger.error("Search error:  #{__FILE__}:#{__LINE__}  q = #{params[:q].inspect}")
-      # :nocov:
-      redirect_to root_path, flash: { notice: I18n.t('blacklight.search.errors.invalid_query') }
-    end
-
     # Query solr for document list
     (@response, deprecated_document_list) = search_service.search_results(session['search_limit_exceeded'])
 
