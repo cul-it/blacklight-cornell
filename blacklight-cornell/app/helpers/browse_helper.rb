@@ -122,8 +122,9 @@ def build_heading_type(heading_type)
   end
 
   # ============================================================================
-  # Browse uses `browse_type` values, while search_bar_select returns raw `search_field` keys.
-  # Use CatalogController search_fields for labels/placeholders, then map browse keys
+  # Browse `browse_search_bar_select` uses `browse_type` values, while
+  # `search_bar_select` returns raw `search_field` keys. Uses CatalogController
+  # search_fields for labels/placeholders, then map browse keys
   # (Author/Subject/etc.) and map all others to `catalog:<key>` for redirect_catalog.
   # ----------------------------------------------------------------------------
   def browse_search_bar_select
