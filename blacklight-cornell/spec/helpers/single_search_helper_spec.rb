@@ -21,7 +21,7 @@ RSpec.describe SingleSearchHelper, type: :helper do
 
       it 'returns the correct URL without query' do
         allow(helper).to receive(:params).and_return({})
-        expect(helper.bento_all_results_link('ebsco_eds')).to eq('https://discovery.ebsco.com/c/u2yil2/results')
+        expect(helper.bento_all_results_link('ebsco_eds')).to eq('https://discovery.ebsco.com/c/u2yil2')
       end
     end
 
