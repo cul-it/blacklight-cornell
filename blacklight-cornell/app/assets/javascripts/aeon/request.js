@@ -160,8 +160,9 @@ const appendItemToSelection = (id, removable) => {
   } = itemdata[id] || itemdata[`iid-${id}`];
   const copyString = copy ? `c. ${copy}` : '';
   const remId = `tremid${id}`;
-  const remSpan = removable ? `<span id='${remId}'>&nbsp;<image src='/img/cross-small.png' alt='Remove'>&nbsp;</span>` : '';
-  const itemDiv = `<div id='t${id}'> <li>${callnumber} ${copyString} ${enumeration} ${chron} ${remSpan}</li></div>`;
+  //const remSpan = removable ? `<span id='${remId}'>&nbsp;<image src='/img/cross-small.png' alt='Remove'>&nbsp;</span>` : '';
+  const remBtn = removable ? `<button id='${remId}' aria-label='Remove ${callnumber} ${copyString} ${enumeration} ${chron}' class="remove-btn"><i class="fa fa-times" aria-hidden="true"></i></button>` : '';
+  const itemDiv = `<div id='t${id}'> <span role="listitem">${callnumber} ${copyString} ${enumeration} ${chron} ${remBtn}</span></div>`;
   $("#selections").append(itemDiv);
 }
 
@@ -184,7 +185,10 @@ $(document).ready(function () {
     // Append the item to the selected items box; 'false' indicates that the item is not removable
     appendItemToSelection(item.val(), false);
     // Disable the checkbox so that it matches the non-removable behavior of the single selected item
-    $('.ItemNo').prop('disabled', true)
+    // accessible friendly way to disable the checkbox so user can focus on it and know it's disabled
+    $('.ItemNo')
+      .attr('aria-disabled', 'true').prop('tabindex', '0').attr('onclick', 'return false;').addClass('aria-disabled')
+      .attr('onkeydown', "if(event.key === ' ' || event.key === 'Enter') return false;");
     $('#clearBtnSpan').remove();
   }
 });
