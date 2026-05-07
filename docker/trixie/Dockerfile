@@ -90,7 +90,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # How do we pin versions for build-essential & libvips?
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends vim=2:9.1.* \
-    chromium=147.0.* chromium-driver=147.0.* chromium-common=147.0.* \
+    chromium=1* chromium-driver=1* chromium-common=1* \
     libfontconfig1=2.15.0-2.* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
