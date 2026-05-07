@@ -39,11 +39,11 @@
 					<% holdings = JSON.parse(@document['holdings_json']) %>
 					<% bounds_with = holdings.any? { |_, holding| holding.key?('boundWith') && holding['boundWith'].any? } %>
 					<% if bounds_with %>
-							<p>
-									<i class="fa fa-warning" aria-hidden="true"></i>
-									This item is bound with another item(s).
-									Please <a href="mailto:rareref@cornell.edu" aria-label="Ask a librarian via email">ask a librarian</a> for assistance to make this request.
-							</p>
+						<p>
+							<i class="fa fa-warning" aria-hidden="true"></i>
+							This item is bound with another item(s).
+							Please email <a href="mailto:rareref@cornell.edu" aria-label="email rareref@cornell.edu for assistance">rareref@cornell.edu</a> for assistance to make this request.
+						</p>
 					<% end %>
 				</div>
 
