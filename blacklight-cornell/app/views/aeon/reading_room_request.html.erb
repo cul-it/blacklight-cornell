@@ -18,14 +18,14 @@
 	<body>
 		<%= render :partial => 'aeon/aeon_header' %>
 		
-		<div id="main-content" class="container">
+		<div id="main-content" class="container" aria-label="Main content" role="main">
 			<a href="/catalog/<%= @bibid %>" class="return-link">
 				<i class="fa fa-arrow-circle-left"></i> Back to item
 			</a>
 			<h2>Reading Room Delivery Request</h2>
 			
 			<div class="aeoncard">
-				<h2 class="h2title"><%= @title %></h2>
+				<h3><%= @title %></h3>
 				<div class="info-wrapper">
 					<%= finding_aids_display(@finding_aids) %>
 					<% if @re506.present? %>
@@ -37,11 +37,11 @@
 					<% holdings = JSON.parse(@document['holdings_json']) %>
 					<% bounds_with = holdings.any? { |_, holding| holding.key?('boundWith') && holding['boundWith'].any? } %>
 					<% if bounds_with %>
-							<p>
-									<i class="fa fa-warning" aria-hidden="true"></i>
-									This item is bound with another item(s). 
-									Please <a href="mailto:rareref@cornell.edu" aria-label="email rareref@cornell.edu">ask a librarian</a> for assistance to make this request.
-							</p>
+						<p>
+							<i class="fa fa-warning" aria-hidden="true"></i>
+							This item is bound with another item(s).
+							Please email <a href="mailto:rareref@cornell.edu" aria-label="email rareref@cornell.edu for assistance">rareref@cornell.edu</a> for assistance to make this request.
+						</p>
 					<% end %>
 				</div>
 				<div id="shoppingcart">
@@ -50,9 +50,7 @@
 						<span id="num-selections"></span>
 					</span>
 					<div id="selections-wrapper">
-						<ol>
-							<div id="selections"></div>
-						</ol>
+						<div id="selections" role="list" aria-label="Selected items"></div>
 					</div>
 				</div>
 

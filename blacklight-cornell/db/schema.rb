@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_03_142805) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_03_142805) do
   create_table "blacklight_cornell_requests_requests", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false

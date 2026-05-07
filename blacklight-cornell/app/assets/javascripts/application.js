@@ -37,7 +37,6 @@
 //= require spin.min.js
 //= require jquery.spin.js
 
-//= require jquery.anchorscroll.js
 //= require browse_placeholder.js
 //= require jquery.waypointz.js
 //= require zz_inview.js

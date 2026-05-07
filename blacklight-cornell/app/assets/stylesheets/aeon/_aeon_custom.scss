@@ -30,6 +30,33 @@ body {
 #noshow {
     display: none;
 }
+/* used to make checkboxes behave disabled but focusable for screen readers */
+.aria-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+    accent-color: #ccc;
+}
+
+/* use for the remove icon in the shopping cart */
+.remove-btn {
+    background: none;
+    border: none;
+    color: #a80000;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+.remove-btn:hover {
+    color: darkred;
+    background-color: #F7F7F7;
+}
+/* Hover effect for the entire item when the remove button is hovered */
+#selections div:hover span[role="listitem"] {
+    background-color: #F7F7F7;
+}
+#selections div span[role="listitem"] {
+    padding: 5px;
+}
 
 /* used for the back to catalog item link */
 .return-link {
