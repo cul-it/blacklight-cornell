@@ -7,24 +7,11 @@
     </div>
     <div class="form-group col-4 col-md-5 mb-0">
       <label for="browse_type" class="sr-only">Browse Type</label>
-      <%= select_tag :browse_type, options_for_select([
-      ["All Fields","catalog:all_fields"],
-      ["---",:disabled => 'true'],
-      ["Title","catalog:title"],
-      ["Journal Title","catalog:journaltitle"],
-      ["Title Begins With","catalog:title_starts"],
-      ["---",:disabled => 'true'],
-      ["Author",'catalog:author'],
-      ["Author (A-Z) Sorted By Name","Author",{'data-placeholder'=> 'Dickens, Charles'},'selected' => 'selected'],
-      ["Author (A-Z) Sorted By Title","Author-Title",{'data-placeholder'=> 'Beethoven, Ludwig van, 1770-1827 | Fidelio'}],
-      ["---",:disabled => 'true'],
-      ["Subject","catalog:subject"],
-      ["Subject Browse (A-Z)","Subject",{'data-placeholder'=> 'China > History'}],
-      ["---",:disabled => 'true'],
-      ["Call Number","catalog:lc_callnum"],
-      ["Call Number Browse","Call-Number",{'data-placeholder'=> 'TP640'}],
-      ["Publisher","catalog:publisher"]
-      ], params[:browse_type]), :class => 'form-control' %>
+      <%= select_tag :browse_type,
+                     options_for_select(browse_search_bar_select,
+                                        selected: params[:browse_type] || 'Author',
+                                        disabled: %w[catalog:separator_1 catalog:separator_2 catalog:separator_3 catalog:separator_4]),
+                     :class => 'form-control' %>
     </div>
     <button id="search-btn" class="btn btn-search" type="submit">
       <i class="fa fa-search fa-inverse"></i><span class="sr-only"><%=t('blacklight.search.form.submit')%></span>
