@@ -33,7 +33,7 @@ module SingleSearchHelper
       if query.present?
         "https://discovery.ebsco.com/c/u2yil2/results?#{URI.encode_www_form(q: query)}"
       else
-        "https://discovery.ebsco.com/c/u2yil2/results"
+        "https://discovery.ebsco.com/c/u2yil2"
       end
     when "digitalCollections"
       "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&#{URI.encode_www_form(q: query)}&search_field=all_fields"
