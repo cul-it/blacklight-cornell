@@ -9,7 +9,7 @@ function clearForm(event) {
     $("#num-selections").text('1');
   } else {
     $("#num-selections").text('0');
-    $("#selections").html('');
+    $("#selections").html('').removeAttr("role");
   }
 }
 
@@ -137,11 +137,19 @@ function doClick(event) {
       $("#num-selections").text(--numSelections);
       $(`#t${id}`).remove();
       $(`#${id}`).prop('checked', false);
+      // Remove role="list" if no items are left selected
+      if ($("#selections").children().length === 0) {
+        $("#selections").removeAttr("role");
+      }
     });
   } else {
     let numSelections = $("#num-selections").text();
     $("#num-selections").text(--numSelections);
     $(`#t${id}`).remove();
+    // Remove role="list" if no items are left selected
+    if ($("#selections").children().length === 0) {
+      $("#selections").removeAttr("role");
+    }
   }
 }
 
@@ -163,6 +171,11 @@ const appendItemToSelection = (id, removable) => {
   //const remSpan = removable ? `<span id='${remId}'>&nbsp;<image src='/img/cross-small.png' alt='Remove'>&nbsp;</span>` : '';
   const remBtn = removable ? `<button id='${remId}' aria-label='Remove ${callnumber} ${copyString} ${enumeration} ${chron}' class="remove-btn"><i class="fa fa-times" aria-hidden="true"></i></button>` : '';
   const itemDiv = `<div id='t${id}'> <span role="listitem">${callnumber} ${copyString} ${enumeration} ${chron} ${remBtn}</span></div>`;
+  
+  // Add role="list" if this is the first item
+  if ($("#selections").children().length === 0) {
+    $("#selections").attr("role", "list");
+  }
   $("#selections").append(itemDiv);
 }
 
