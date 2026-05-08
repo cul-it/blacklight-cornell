@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 echo ""
 echo "*********************************************************************************"
 echo "Running cucumber tests in container"
