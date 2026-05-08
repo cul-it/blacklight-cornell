@@ -10,6 +10,11 @@ Feature: Browse search
     Then I should see the text 'Browse through an alphabetical'
 
   @browse
+  Scenario: Browse type dropdown includes Title Begins With
+    Given I literally go to browse
+    Then the 'browse_type' drop-down should have an option for 'Title Begins With'
+
+  @browse
   Scenario: Search for an author
     Given I literally go to browse
         And I fill in the authorities search box with 'Heaney, Seamus'
@@ -45,7 +50,7 @@ Feature: Browse search
   Scenario: Search for author-title combination
     Given I literally go to browse
         And I fill in the authorities search box with 'Beethoven, Ludwig van, 1770-1827 | Fidelio (1805)'
-        And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
+        And I select 'Author Browse (A-Z) Sorted By Name' from the 'browse_type' drop-down
         And I press 'search'
     Then I should see the label 'Beethoven, Ludwig van, 1770-1827 | Fidelio (1805)'
     Then click on first link "Beethoven, Ludwig van, 1770-1827"
@@ -58,7 +63,7 @@ Feature: Browse search
   Scenario: Search for author-title combination
     Given I literally go to browse
         And I fill in the authorities search box with 'Martin, Courtney E.'
-        And I select 'Author (A-Z) Sorted By Name' from the 'browse_type' drop-down
+        And I select 'Author Browse (A-Z) Sorted By Name' from the 'browse_type' drop-down
         And I press 'search'
         Then I should see the label 'Martin, Courtney E.'
         Then click on first link "Martin, Courtney E."
@@ -69,7 +74,7 @@ Feature: Browse search
   Scenario: Browse author-title combinations and view heading details
     Given I literally go to browse
       And I fill in the authorities search box with 'McKenna, Maryn'
-      And I select 'Author (A-Z) Sorted By Title' from the 'browse_type' drop-down
+      And I select 'Author Browse (A-Z) Sorted By Title' from the 'browse_type' drop-down
       And I press 'search'
     Then I should see the label 'McKenna, Maryn. | Big chicken'
     Then click on first link "Author-Title info"
@@ -162,6 +167,6 @@ Feature: Browse search
 
   Examples:
       | search | browse | heading | count |
-      | Rowling | Author (A-Z) Sorted By Name | Rowling, J. K. | 8 |
+      | Rowling | Author Browse (A-Z) Sorted By Name | Rowling, J. K. | 8 |
       | China | Subject Browse (A-Z) | China | 4 |
       | Wizards > Juvenile fiction | Subject Browse (A-Z) | Wizards > Juvenile fiction | 7 |

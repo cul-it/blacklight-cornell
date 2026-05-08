@@ -5,7 +5,7 @@ class SearchBuilder < Blacklight::SearchBuilder
   include BlacklightRangeLimit::RangeLimitBuilder
 
   self.default_processor_chain += [:sortby_title_when_browsing, :sortby_callnum,
-                                   :set_fl, :set_fq, :set_query,
+                                   :set_fl, :set_query,
                                    :homepage_default, :reset_facet_limit, :group_bento_results]
 
   DEFAULT_BOOLEAN = 'AND'
@@ -49,22 +49,6 @@ class SearchBuilder < Blacklight::SearchBuilder
   def set_fl solr_parameters
     # Overrides default fl set in solrconfig to return all stored fields
     solr_parameters[:fl] = '*' if blacklight_params['controller'] == 'bookmarks' || blacklight_params['format'].present? || blacklight_params['controller'] == 'book_bags'
-  end
-
-  # Add any facets not already defined by blacklight to the solr fq
-  # Useful for backend cataloging work
-  def set_fq solr_parameters
-    if blacklight_params[:f].present?
-      solr_parameters[:fq] = solr_parameters[:fq] || []
-      blacklight_params[:f].each do |key, value|
-        unless blacklight_config.facet_fields.keys.include?(key)
-          value.each do |val|
-            fq_string = "{!term f=#{key.to_s}}#{val}"
-            solr_parameters[:fq] << fq_string
-          end
-        end
-      end
-    end
   end
 
   # Sets solr q param from search fields, booleans, and ops (simple, advanced, and bento search)
@@ -286,25 +270,28 @@ class SearchBuilder < Blacklight::SearchBuilder
     params[:q_row].map { |query| clean_q(query) }
   end
 
-  # Handle special characters and unpaired quotation marks in q_row
+  # Handle special characters and unpaired quotation marks in query
   def clean_q(query)
     query.strip!
 
     # Replace left and right quotation marks with regular quotes
     query.gsub!(/[”“]/, '"')
 
+    # Replace double-encoded space
+    query.gsub!('%2520',' ')
+
     # Handle unpaired quotes
     # If the first character is an unpaired quotation mark, close quotation
     query = query + '"' if query.count('"') == 1 && query[0] == '"'        
     # Remove unpaired quotes
     query.gsub!('"', '') if query.count('"') % 2 == 1
-
-    # Remove: parentheses, brackets. Escape: colons, plus signs, minus signs/dashes
+    
+    # Remove: parentheses, brackets, slashes (both encoded and unencoded), trailing backslashes. Escape: colons, plus signs, minus signs/dashes
     # From: https://solr.apache.org/guide/8_8/the-dismax-query-parser.html
     #       The DisMax query parser supports an extremely simplified subset of the Lucene QueryParser syntax.
     #       As in Lucene, quotes can be used to group phrases, and +/- can be used to denote mandatory and optional clauses.
     #       All other Lucene query parser special characters (except AND and OR) are escaped to simplify the user experience.
-    query.gsub(/[\[\]\(\):+-]/, ':' => '\:', '+' => '\+', '-' => '\-')
+    query.gsub(/[\[\]\(\):+\-\/]|%2F|\\+\z/, ':' => '\:', '+' => '\+', '-' => '\-')
   end
 
   # Pair 2 queries with booleans, wrap each pair in parentheses
