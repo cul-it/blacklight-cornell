@@ -18,7 +18,14 @@ export DOCKER_GID=$(id -g)
 mkdir -p ${COVERAGE_PATH}
 project_name="container-discovery-test-${TEST_ID}"
 echo "Cucumber tests for ${project_name}"
-docker compose -f docker-compose-test.yaml build
+
+# --no-cache build option with Jenkins
+build_args=""
+if [ "${TEST_BUILD_NO_CACHE:-false}" = "true" ]; then
+  build_args="--no-cache"
+fi
+
+docker compose -f docker-compose-test.yaml build ${build_args}
 docker compose -p $project_name -f docker-compose-test.yaml up --exit-code-from webapp
 EXIT_CODE=$?
 docker compose -p $project_name -f docker-compose-test.yaml down --volumes --remove-orphans
