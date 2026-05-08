@@ -10,7 +10,7 @@ RSpec.describe SingleSearchHelper, type: :helper do
 
     context 'when key is libguides' do
       it 'returns the correct URL' do
-        expect(helper.bento_all_results_link('libguides')).to eq('https://guides.library.cornell.edu/libguides/home')
+        expect(helper.bento_all_results_link('libguides')).to eq('https://guides.library.cornell.edu')
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe SingleSearchHelper, type: :helper do
 
     context 'when key is digitalCollections' do
       it 'returns the correct URL' do
-        expect(helper.bento_all_results_link('digitalCollections')).to eq("https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=peanut+butter+%26+jelly&search_field=all_fields")
+        expect(helper.bento_all_results_link('digitalCollections')).to eq("https://digital.library.cornell.edu/catalog?q=peanut+butter+%26+jelly&search_field=all_fields&utf8=%E2%9C%93")
       end
     end
 

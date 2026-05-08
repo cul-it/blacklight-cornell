@@ -34,7 +34,7 @@
       <% end %>
       <% if is_catalog_pane?(key) %>
         <div class="bento_pane_advanced">
-          or use <%= link_to 'advanced search', advanced_search_edit_path(convert_to_advanced_params(q: params[:q], search_field: "all_fields", f: {format: [bento_blacklight_format(key)]})), {:onclick => "javascript:_paq.push(['trackEvent', 'advancedLink', '#{bento_blacklight_format(key)}'])"}  %>
+          or use <%= link_to 'advanced search', advanced_search_edit_path(convert_to_advanced_params(q: params[:q], search_field: "all_fields", f: { format: [bento_blacklight_format(key)] })), {:onclick => "javascript:_paq.push(['trackEvent', 'advancedLink', '#{bento_blacklight_format(key)}'])"}  %>
         </div>
       <% end %>
     </div>

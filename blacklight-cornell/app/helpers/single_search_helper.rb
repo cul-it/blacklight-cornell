@@ -28,22 +28,18 @@ module SingleSearchHelper
 
     case key
     when "libguides"
-      "https://guides.library.cornell.edu/libguides/home"
+      base_url(key)
     when "ebsco_eds"
-      if query.present?
-        "https://discovery.ebsco.com/c/u2yil2/results?#{URI.encode_www_form(q: query)}"
-      else
-        "https://discovery.ebsco.com/c/u2yil2"
-      end
+      query.present? ? "#{base_url(key)}/results?#{{ q: query }.to_query}" : base_url(key)
     when "digitalCollections"
-      "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&#{URI.encode_www_form(q: query)}&search_field=all_fields"
+      "#{base_url(key)}/catalog?#{{ q: query, search_field: "all_fields", utf8: "✓" }.to_query}"
     when "institutionalRepositories"
       institutional_repositories_index_path(q: query)
     when "catalog"
       search_catalog_path(q: query, search_field: "all_fields")
     else
       format = bento_blacklight_format(key)
-      search_catalog_path(q: query, search_field: "all_fields", f: {format: [format]})
+      search_catalog_path(q: query, search_field: "all_fields", f: { format: [format] })
     end
   end
 
@@ -59,4 +55,11 @@ module SingleSearchHelper
     key
   end
 
+  private 
+
+  def base_url(key)
+    BentoSearch.get_engine(key).configuration.base_url
+  rescue BentoSearch::NoSuchEngine
+    ""
+  end
 end
