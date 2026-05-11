@@ -40,7 +40,11 @@ When /^(?:|I )go to (.+)$/ do |page_name|
 end
 
 When /^(?:|I )literally go to (.+)$/ do |page_name|
-	visit page_name
+  path = page_name
+  # page_name become root-relative (/catalog/6417953, /advanced) every time,
+  # so each example starts from the intended endpoint consistently.
+  path = "/#{path}" unless path.start_with?('/', 'http://', 'https://')
+	visit path
 end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
@@ -347,5 +351,5 @@ Then("I clear transactions") do
 end
 
 Then("I did not catch any javascript errors") do
-  expect(find('#js_error_report', visible: false, text: /^0$/ ))
+  expect(page).to have_css('#js_error_report', visible: false, text: /^0$/)
 end

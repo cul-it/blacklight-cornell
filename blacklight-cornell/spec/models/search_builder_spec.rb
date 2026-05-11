@@ -198,6 +198,37 @@ RSpec.describe SearchBuilder, type: :model do
       end
     end
 
+    context 'query with double-encoded spaces (%2520)' do
+      it 'replaces %2520 with a space' do
+        query = 'test%2520query'
+        expect(search_builder.clean_q(query)).to eq('test query')
+      end
+    end
+
+    context 'query with encoded forward slashes (%2F) or forward slashes (/)' do
+      it 'removes %2F from the query' do
+        query = 'test%2Fquery'
+        expect(search_builder.clean_q(query)).to eq('testquery')
+      end
+
+      it 'removes / from the query' do
+        query = 'test / query'
+        expect(search_builder.clean_q(query)).to eq('test  query')
+      end
+    end
+
+    context 'query with trailing backslashes' do
+      it 'removes trailing backslashes' do
+        query = 'test query\\'
+        expect(search_builder.clean_q(query)).to eq('test query')
+      end
+
+      it 'removes multiple trailing backslashes' do
+        query = 'test query\\\\\\'
+        expect(search_builder.clean_q(query)).to eq('test query')
+      end
+    end
+
     context 'query with escapable special characters' do
       it 'escapes all special characters' do
         colon_query = 'oh: hi'
@@ -2190,44 +2221,6 @@ RSpec.describe SearchBuilder, type: :model do
       it 'sets solr fl as *' do
         search_builder.set_fl(solr_params)
         expect(solr_params[:fl]).to eq('*')
-      end
-    end
-  end
-
-  describe '#set_fq' do
-    before do
-      allow(search_builder).to receive(:blacklight_params) { blacklight_params }
-    end
-
-    context 'empty q and search_field' do
-      let(:blacklight_params) { {
-        f: {
-          'author_facet' => ['Bayerische Staatsbibliothek'],
-          'subject_topic_lc_facet' => ['Block-books, Tibetan']
-        }
-      } }
-
-      it 'populates solr fq' do
-        solr_params = { fq: ['{!term f=author_facet}Bayerische Staatsbibliothek'] }
-        search_builder.set_fq(solr_params)
-        expect(solr_params[:fq]).to eq(['{!term f=author_facet}Bayerische Staatsbibliothek',
-                                        '{!term f=subject_topic_lc_facet}Block-books, Tibetan'])
-      end
-    end
-
-    context 'existing q and search_field' do
-      let(:blacklight_params) { {
-        f: {
-          'subject_topic_lc_facet' => ['Block-books, Tibetan']
-        },
-        q: 'tibetan',
-        search_field: 'all_fields'
-      } }
-
-      it 'populates solr fq' do
-        solr_params = {}
-        search_builder.set_fq(solr_params)
-        expect(solr_params[:fq]).to eq(['{!term f=subject_topic_lc_facet}Block-books, Tibetan'])
       end
     end
   end

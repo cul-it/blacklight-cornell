@@ -3,22 +3,21 @@
 .return-link {
 	display: inline-block;
 	margin-bottom: .6em;
-	font-size: 12px;
+	font-size: .9rem;
 }
 
 .document-header {
 	margin-bottom: 1.5em;
 }
 
-h3.subtitle,
-h3.responsibility {
-	font-size: 16px;
+.subtitle,
+.responsibility {
 	font-weight: normal;
 	line-height: 1.2em;
 	margin-bottom: 1em;
 	margin-top: 0;
 }
-h3.responsibility {
+.responsibility {
 	color: $medium-gray;
 }
 
@@ -37,14 +36,6 @@ h3.responsibility {
 #discogs-image {
 	img {
 		max-width: 200px;
-	}
-}
-// Availability anchor button
-// ----------------------------- //
-.availability-link {
-	display: block;
-	i {
-		margin-left: .5em;
 	}
 }
 

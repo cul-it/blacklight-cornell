@@ -1,5 +1,5 @@
 # Make sure it matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.4.8
+ARG RUBY_VERSION=3.4.9
 ARG GIT_COMMIT=0.0
 
 
@@ -14,7 +14,9 @@ RUN apt-get update -qq && \
     cron=3.* default-libmysqlclient-dev=1.1.* git=1:2.47.* \
     libvips42t64=8.16.* pkg-config=1.8.* libyaml-dev=0.2.* && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
+    rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man && \
+    rm -rf "/usr/local/lib/ruby/gems/3.4.0/specifications/default/erb-4.0.4.gemspec" && \
+    gem install -v 4.0.4.1 erb
 
 
 ################
@@ -88,12 +90,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 # How do we pin versions for build-essential & libvips?
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends vim=2:9.1.* \
-    chromium=143.0.* chromium-driver=143.0.* chromium-common=143.0.* \
+    chromium chromium-driver chromium-common \
     libfontconfig1=2.15.0-2.* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /src/*.deb && \
-    mkdir -p /root/.aws /root/user-data-0 /root/user-data-1 /root/user-data-2 /root/user-data-3 /root/user-data-4
+    mkdir -p /root/.aws /root/user-data-0 /root/user-data-1 /root/user-data-2 /root/user-data-3 /root/user-data-4 && \
+    chmod -R a+rwX /root # Let the Jenkins user (DOCKER_UID) write here when tests run
 
 ENV BUNDLE_PATH=/usr/local/bundle \
     APP_PATH=/blacklight-cornell \
@@ -104,6 +107,10 @@ WORKDIR ${APP_PATH}
 COPY --from=test_bundler ${BUNDLE_PATH} ${BUNDLE_PATH}
 COPY --from=test_bundler ${APP_PATH} ${APP_PATH}
 COPY ./exe/test.sh ${APP_PATH}/test.sh
+
+# Allow non-root Jenkins user (DOCKER_UID) to write to the app and bundle directories
+RUN chmod -R a+rwX ${APP_PATH} && \
+    chmod -R a+rwX ${BUNDLE_PATH}
 
 ENTRYPOINT ["/blacklight-cornell/test.sh"]
 

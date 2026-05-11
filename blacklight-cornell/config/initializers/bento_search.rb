@@ -21,6 +21,7 @@ BentoSearch.register_engine('ebsco_eds') do |conf|
 	conf.title = "Articles & Full Text"
 	conf.for_display = {:decorator => "EbscoEdsArticleDecorator"}
 	conf.highlighting = false
+	conf.base_url = "https://discovery.ebsco.com/c/u2yil2"
 end
 
 # TODO: I don't think we use this engine at all - we just use the configuration link in CornellCatalog#index
@@ -43,6 +44,7 @@ BentoSearch.register_engine('digitalCollections') do |conf|
 	conf.engine = 'BentoSearch::DigitalCollectionsEngine'
 	conf.title = 'Digital Collections'
 	conf.for_display = {:decorator => "DigitalCollections"}
+	conf.base_url = "https://digital.library.cornell.edu"
 end
 
 BentoSearch.register_engine('institutionalRepositories') do |conf|
@@ -55,6 +57,7 @@ BentoSearch.register_engine('libguides') do |conf|
 	conf.engine = 'BentoSearch::LibguidesEngine'
 	conf.title = 'Research Guides'
 	conf.for_display = {:decorator => "DigitalCollections"}
+	conf.base_url = "https://guides.library.cornell.edu"
 end
 
 BentoSearch.register_engine('solr') do |conf|
