@@ -110,33 +110,6 @@ class SearchController < ApplicationController
     sort_panes @results, display_type
   end
 
-  # Return a URL for the 'view all' links. format only matters for Blacklight format facets
-  def all_items_url(engine_id, query, format)
-    if engine_id == "digitalCollections"
-      query = query.gsub("&", "%26")
-      "https://digital.library.cornell.edu/catalog?utf8=%E2%9C%93&q=#{query}&search_field=all_fields"
-    elsif engine_id == "institutionalRepositories"
-      query = query.gsub("&", "%26")
-      "institutional_repositories/index?q=#{query}"
-    elsif engine_id == "libguides"
-      query = query.gsub("&", "%26")
-      "http://guides.library.cornell.edu/srch.php?q=#{query}"
-    elsif engine_id == "ebsco_eds"
-      query = query.gsub("&", "%26")
-      query = "https://discovery.ebsco.com/c/u2yil2/results?q=#{query}"
-    else
-      # Need to pass pluses through as urlencoded characters in order to preserve
-      # the Solr query format.
-      path = "/"
-      if format == "all"
-        escaped = { q: query }.to_param
-      else
-        escaped = { "f[format][]" => format, q: query, search_field: "all_fields" }.to_param
-      end
-      escaped_search_url = path + "?" + escaped
-    end
-  end
-
   # In order to trick bento_search into thinking that our results from our single Solr query are
   # a group of results for different item formats, we have to take an extra step here to parse out
   # the one result from the Solr query into the different formats and create a BentoSearch:: Results

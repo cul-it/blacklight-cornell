@@ -15,47 +15,32 @@ module SingleSearchHelper
     tr(" -", "_").
     downcase
   end
-  
-  def ss_uri_encode (link_url)
-    link_url = link_url.gsub('% ','%25%20') unless link_url.match('%25')
-    link_url = link_url.gsub('$','%24')
-    link_url = link_url.gsub(';','%3B')
-    link_url = link_url.gsub(' ','%20')
-    link_url = link_url.gsub('[','%5B')
-    link_url = link_url.gsub(']','%5D')
-    #  -# link_url = link_url.gsub('=','%3D')
-    #  -# link_url = link_url.gsub('&','%26')
-    link_url = link_url.gsub('"','%22')
-    link_url = link_url.gsub('(','%28')
-    link_url = link_url.gsub(')','%29')
-  end
 
   def is_catalog_pane?(key)
     ['ebsco_eds', 'libguides', 'digitalCollections', 'institutionalRepositories'].exclude?(key)
   end
 
   def bento_all_results_link(key)
+    # our app chooses to use 'q' as the query param; the ajax loading controller
+    # uses 'query'.This ordinarily is fine, but since we want this layout to work
+    # for both, we have to look for both, oh well.
+    query = params[:q] || params[:query]
+
     case key
     when "libguides"
-      link = 'http://guides.library.cornell.edu/libguides/home'
+      base_url(key)
     when "ebsco_eds"
-      bq = params[:q] || params[:query]
-      if bq.present?
-        link = "https://discovery.ebsco.com/c/u2yil2/results?q=#{bq}"
-      else
-        link = "https://discovery.ebsco.com/c/u2yil2"
-      end
+      query.present? ? "#{base_url(key)}/results?#{{ q: query }.to_query}" : base_url(key)
     when "digitalCollections"
-      link = controller.all_items_url(key, params[:q] || params[:query], bento_blacklight_format(key))
+      "#{base_url(key)}/catalog?#{{ q: query, search_field: "all_fields", utf8: "✓" }.to_query}"
+    when "institutionalRepositories"
+      institutional_repositories_index_path(q: query)
+    when "catalog"
+      search_catalog_path(q: query, search_field: "all_fields")
     else
-      # our app chooses to use 'q' as the query param; the ajax loading controller
-      # uses 'query'.This ordinarily is fine, but since we want this layout to work
-      # for both, we have to look for both, oh well.
-      link = controller.all_items_url(key, params[:q] || params[:query], bento_blacklight_format(key))
-      link = request.protocol + request.host_with_port + '/' + link
+      format = bento_blacklight_format(key)
+      search_catalog_path(q: query, search_field: "all_fields", f: { format: [format] })
     end
-
-    link_url = ss_uri_encode(link)
   end
 
   def bento_title(key)
@@ -70,4 +55,11 @@ module SingleSearchHelper
     key
   end
 
+  private 
+
+  def base_url(key)
+    BentoSearch.get_engine(key).configuration.base_url
+  rescue BentoSearch::NoSuchEngine
+    ""
+  end
 end
