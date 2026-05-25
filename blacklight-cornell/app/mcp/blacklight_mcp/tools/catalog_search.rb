@@ -94,9 +94,30 @@ module BlacklightMcp
             type: "object",
             description: <<~D.strip,
               Multi-row advanced search. When set, `query` and `search_field`
-              are ignored. Each row searches one field with one match type;
-              rows are combined left-to-right by `booleans` (length must be
-              rows.length - 1).
+              are ignored.
+
+              IMPORTANT — two different concepts, do not confuse them:
+                * `rows[].op` = how WORDS WITHIN ONE ROW are matched
+                    (AND / OR / phrase / begins_with). This is the per-row
+                    match-type. NOT is NOT a valid value here.
+                * `booleans` = how ROWS are joined to each other
+                    (AND / OR / NOT). This is where NOT belongs.
+
+              Example — "Stephen King books but not Dark Tower":
+                rows: [
+                  { field: "author", op: "AND", query: "Stephen King" },
+                  { field: "title",  op: "AND", query: "Dark Tower" }
+                ],
+                booleans: ["NOT"]
+              → author:"Stephen King" NOT title:"Dark Tower"
+
+              Example — "climate OR sustainability in subject":
+                rows: [
+                  { field: "subject", op: "OR", query: "climate sustainability" }
+                ]
+              → subject:(climate OR sustainability)
+
+              `booleans` length must equal `rows.length - 1`.
             D
             properties: {
               rows: {
@@ -106,8 +127,12 @@ module BlacklightMcp
                   type: "object",
                   properties: {
                     query: { type: "string", description: "Search term(s) for this row." },
-                    field: { type: "string", enum: SEARCH_FIELD_KEYS, description: "Search field key." },
-                    op:    { type: "string", enum: ROW_OPS, description: "Match type. AND=all words, OR=any word, phrase=exact, begins_with=left-anchored. Defaults to AND." }
+                    field: { type: "string", enum: SEARCH_FIELD_KEYS, description: "Search field key from blacklight_config.search_fields." },
+                    op: {
+                      type: "string",
+                      enum: ROW_OPS,
+                      description: "How words within THIS row combine. AND=all words must match, OR=any word matches, phrase=exact phrase, begins_with=left-anchored. Defaults to AND. For negation, use `booleans` between rows — NOT is not a valid op."
+                    }
                   },
                   required: ["query", "field"]
                 }
@@ -115,7 +140,7 @@ module BlacklightMcp
               booleans: {
                 type: "array",
                 items: { type: "string", enum: ROW_BOOLEANS },
-                description: "Combinator between consecutive rows. Length must be rows.length - 1. Defaults to all-AND."
+                description: "Combinator between consecutive rows: AND, OR, or NOT. Length must equal rows.length - 1. Example: rows=[A, B] with booleans=['NOT'] produces `A NOT B`. Defaults to all-AND when omitted."
               }
             },
             required: ["rows"]
