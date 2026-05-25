@@ -1,7 +1,21 @@
 # rubocop:disable Metrics/BlockLength
 BlacklightCornell::Application.routes.draw do
-  # In-app MCP server. Streamable HTTP transport; no auth. See app/mcp/.
-  mount BlacklightMcp.rack_app, at: "/mcp", as: :mcp
+  ##############################################################################
+  ##  In-app MCP server. Streamable HTTP transport; no auth. See app/mcp/.  ####
+  ##############################################################################
+  # Mounted via the ENDPOINT lambda (not BlacklightMcp.rack_app directly)
+  # so dev Zeitwerk reloads pick up tool changes without a server restart.
+  mount BlacklightMcp::ENDPOINT, at: "/mcp", as: :mcp
+
+  # MCP clients (mcp-remote, Claude Desktop, etc.) probe these OAuth
+  # discovery URLs on connect per the MCP authorization spec. We don't use
+  # auth on /mcp, so return a clean 404 — without these routes Rails logs
+  # a noisy ActionController::RoutingError on every connection attempt.
+  no_auth = ->(_env) { [404, { "Content-Type" => "text/plain" }, [""]] }
+  match "/.well-known/oauth-protected-resource(/*rest)",   to: no_auth, via: :all
+  match "/.well-known/oauth-authorization-server(/*rest)", to: no_auth, via: :all
+  ##############################################################################
+
 
   get "errors/not_found"
 
