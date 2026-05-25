@@ -1,5 +1,8 @@
 # rubocop:disable Metrics/BlockLength
 BlacklightCornell::Application.routes.draw do
+  # In-app MCP server. Streamable HTTP transport; no auth. See app/mcp/.
+  mount BlacklightMcp.rack_app, at: "/mcp", as: :mcp
+
   get "errors/not_found"
 
   get "errors/internal_server_error"
