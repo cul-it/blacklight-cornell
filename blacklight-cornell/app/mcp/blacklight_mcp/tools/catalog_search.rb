@@ -12,10 +12,27 @@ module BlacklightMcp
           * Advanced — pass `advanced.rows` with one entry per search row plus
             `advanced.booleans` for the AND/OR/NOT combinators between rows.
 
-        Most user-facing facets are exposed as named parameters (built from
-        catalog_controller.rb at boot, so they stay in sync). Pass anything
-        else via the generic `facets` map. Call `describe_facets` first if
-        you don't know which values exist.
+        Default field is "all_fields" — only narrow to a specific field
+        (title, author, subject, etc.) when the user clearly says so
+        ("in the title", "by author X", "as a subject heading"). A query
+        like 'the phrase "Sai Rollan"' has no field hint → use all_fields.
+
+        When the field is genuinely ambiguous AND the wrong guess would
+        materially change results, ask a brief clarifying question before
+        calling. Example: "find John Smith" — ambiguous (author? subject?
+        a person named in a book?) → ask. But for "books about climate
+        change" or 'the phrase "Sai Rolland"' → just default to all_fields
+        and search. Do not ask for unambiguous queries.
+
+        Sort defaults to RELEVANCE (Solr score, then pub date, then title).
+        Omit `sort` for relevance-ranked results; set it only when the user
+        asks for a specific order (newest, oldest, alphabetical, etc.).
+
+        Common filters are exposed as named params, including `format`
+        (Book / Journal/Periodical / Video / Musical Score / …) and
+        `language` (English / French / Chinese / …). Call `describe_facets`
+        first to see exact values. Anything not in the named params can be
+        passed via the generic `facets` map.
 
         Filters across different facet fields are AND-combined; multiple
         values for the same facet field are OR-combined.
@@ -69,6 +86,25 @@ module BlacklightMcp
         .keys.freeze
 
       SORT_KEYS = CatalogController.blacklight_config.sort_fields.keys.freeze
+
+      # Facets too noisy to surface in result summaries:
+      # pub_date_facet is a range, lc_callnum_facet has thousands of values,
+      # hierarchy_facet is pipe-delimited paths, acquired_dt_query has
+      # opaque bucket names.
+      SUMMARY_FACET_SKIP = %w[
+        pub_date_facet
+        acquired_dt_query
+        lc_callnum_facet
+        hierarchy_facet
+      ].freeze
+
+      # User-facing facets whose aggregations get surfaced alongside each
+      # result set, so Claude can see the actual values present and either
+      # narrow further or recognize a wrong-domain result set.
+      SUMMARY_FACETS = CatalogController.blacklight_config.facet_fields
+        .reject { |field, cfg| cfg.show == false || SUMMARY_FACET_SKIP.include?(field) }
+        .map    { |field, cfg| [field, cfg.label || field] }
+        .freeze
 
       facet_properties = NAMED_FACETS.each_with_object({}) do |(param, field), h|
         h[param] = {
@@ -127,11 +163,23 @@ module BlacklightMcp
                   type: "object",
                   properties: {
                     query: { type: "string", description: "Search term(s) for this row." },
-                    field: { type: "string", enum: SEARCH_FIELD_KEYS, description: "Search field key from blacklight_config.search_fields." },
+                    field: {
+                      type: "string",
+                      enum: SEARCH_FIELD_KEYS,
+                      description: "Which field to search. DEFAULT to `all_fields` unless the user explicitly scopes the row to a specific field. Examples: 'titles starting with...' → title; 'books by X' → author; 'subject heading climate' → subject; 'the phrase \"foo\"' (no field hint) → all_fields."
+                    },
                     op: {
                       type: "string",
                       enum: ROW_OPS,
-                      description: "How words within THIS row combine. AND=all words must match, OR=any word matches, phrase=exact phrase, begins_with=left-anchored. Defaults to AND. For negation, use `booleans` between rows — NOT is not a valid op."
+                      description: <<~OP.strip
+                        How words within THIS row combine. Maps to the UI's match-type dropdown:
+                          * "AND"         — "All" (every word must match; default)
+                          * "OR"          — "Any" (any word matches)
+                          * "phrase"      — "Phrase" (exact phrase, e.g. "Sai Rollan")
+                          * "begins_with" — "Begins With" (left-anchored, e.g. titles starting with "Dark")
+
+                        Defaults to AND. NOT is NOT a valid op — use `booleans` between rows for negation.
+                      OP
                     }
                   },
                   required: ["query", "field"]
@@ -172,7 +220,7 @@ module BlacklightMcp
 
           sort: {
             type: "string",
-            description: "Sort key. Defaults to relevance.",
+            description: "Sort key. OMIT for relevance ranking (Solr score, then pub date, then title) — this is the right default for most queries. Only set this when the user asks for a specific order, e.g. 'newest first' / 'oldest first' / 'by title'.",
             enum: SORT_KEYS
           },
           per_page: { type: "integer", description: "Results per page (1–50).", minimum: 1, maximum: 50 },
@@ -292,7 +340,13 @@ module BlacklightMcp
           total = response.respond_to?(:total) ? response.total : documents.size
           docs = Array(documents)
           header = "Found #{total} result(s); showing #{docs.size}."
-          return "#{header}\n\n(no documents in response)" if docs.empty?
+          facets_block = facet_aggregations_text(response)
+
+          if docs.empty?
+            sections = ["#{header}\n\n(no documents in response)"]
+            sections << facets_block if facets_block
+            return sections.join("\n\n")
+          end
 
           lines = docs.each_with_index.map do |doc, i|
             id     = doc["id"] || doc.id
@@ -308,7 +362,45 @@ module BlacklightMcp
             LINE
           end
 
-          [header, *lines].join("\n\n")
+          sections = [header]
+          sections << facets_block if facets_block
+          sections.concat(lines)
+          sections.join("\n\n")
+        end
+
+        # Surface the top values for each user-facing facet in this result
+        # set. Lets the caller see what controlled-vocabulary values actually
+        # exist (so they can narrow further without guessing) and spot when
+        # the result set is in the wrong domain entirely — e.g. a search for
+        # "metabolic bone disease" returning a fast_topic_facet dominated by
+        # human-medicine headings means the query needs adjustment, not
+        # more facet guessing.
+        def facet_aggregations_text(response)
+          aggs = response.respond_to?(:aggregations) ? (response.aggregations || {}) : {}
+          return nil if aggs.empty?
+
+          lines = SUMMARY_FACETS.filter_map do |field, label|
+            agg = aggs[field]
+            next unless agg.respond_to?(:items)
+            items = agg.items.first(6)
+            next if items.empty?
+
+            pairs = items.map do |it|
+              value = it.respond_to?(:value) ? it.value : it.to_s
+              count = it.respond_to?(:hits) ? it.hits : nil
+              count ? "#{value} (#{count})" : value.to_s
+            end
+            "  #{label.to_s.ljust(20)} [#{field}] · #{pairs.join(' · ')}"
+          end
+
+          return nil if lines.empty?
+
+          [
+            "Top facet values in this result set (pass any of these into the " \
+              "corresponding named param — or the generic `facets` map keyed " \
+              "by the [bracketed] Solr field — to narrow further):",
+            *lines
+          ].join("\n")
         end
 
         def doc_value(doc, *keys)
