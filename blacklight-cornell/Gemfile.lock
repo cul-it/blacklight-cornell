@@ -26,20 +26,6 @@ GIT
       rest-client
 
 GIT
-  remote: https://github.com/cul-it/cul-my-account
-  revision: 9c5c302869870132234a619552d920e35b6fc793
-  tag: v2.5
-  specs:
-    my_account (2.5)
-      blacklight (~> 7.0)
-      cul-folio-edge (> 3.3)
-      haml
-      rails (~> 8.0)
-      rest-client
-      sprockets-rails
-      xml-simple
-
-GIT
   remote: https://github.com/makandra/spreewald.git
   revision: ffd4eea7fbf6462fce2e3d27ce31ba7f05b1da0f
   specs:
@@ -49,6 +35,19 @@ GIT
       cucumber_priority (>= 0.3.0)
       rspec (>= 2.13.0)
       xpath
+
+PATH
+  remote: /app/blacklight
+  specs:
+    blacklight (8.12.3)
+      globalid
+      i18n (>= 1.7.0)
+      jbuilder (~> 2.7)
+      kaminari (>= 0.15)
+      ostruct (>= 0.3.2)
+      rails (>= 6.1, < 9)
+      view_component (>= 2.74, < 5)
+      zeitwerk
 
 GEM
   remote: https://rubygems.org/
@@ -178,17 +177,6 @@ GEM
       logger (~> 1.7)
       racc (~> 1.7)
     bigdecimal (4.1.2)
-    blacklight (7.41.0)
-      deprecation
-      globalid
-      hashdiff
-      i18n (>= 1.7.0)
-      jbuilder (~> 2.7)
-      kaminari (>= 0.15)
-      ostruct (>= 0.3.2)
-      rails (>= 6.1, < 8.1)
-      view_component (>= 2.74, < 4)
-      zeitwerk
     blacklight-hierarchy (6.5.0)
       blacklight (>= 7.18, < 9)
       deprecation
@@ -837,8 +825,6 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.1.2)
       chronic (>= 0.6.3)
-    xml-simple (1.1.9)
-      rexml
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yaml_db (0.7.0)
@@ -871,7 +857,7 @@ DEPENDENCIES
   awesome_print
   aws-sdk-s3 (~> 1.143)
   bento_search (~> 2.0.0.rc2)
-  blacklight (<= 8.0)
+  blacklight!
   blacklight-hierarchy (~> 6.5.0)
   blacklight-marc (~> 8.2)
   blacklight_cornell_requests!
@@ -907,7 +893,6 @@ DEPENDENCIES
   marc
   meta_request
   mini_racer (= 0.6.2)
-  my_account!
   mysql2 (~> 0.5.6)
   net-smtp
   nokogiri (~> 1.19.1)
