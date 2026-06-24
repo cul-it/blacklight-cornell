@@ -161,14 +161,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # get single document from the solr index
   def show
-    deprecated_response, @document = search_service.fetch(params[:id])
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_response,
-      'The @response instance variable is deprecated; use @document.response instead.',
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
-    @documents = [ @document ]
-    # set_bag_name
+    @document = search_service.fetch(params[:id])
     # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
     # If it does have the id, save it globally and just get the image url.
     notes_check = @document["notes"].present? ? @document["notes"].join : ""
@@ -234,15 +227,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT]
       end
       # Ensure user can export all selected bookmarks and not just 1 page.
-      (deprecated_response, @documents) = search_service.fetch(bookmark_ids, start: 0, rows: bookmark_ids.size, per_page: bookmark_ids.size)
+      @documents = search_service.fetch(bookmark_ids, start: 0, rows: bookmark_ids.size, per_page: bookmark_ids.size)
     else
-      (deprecated_response, @documents) = search_service.fetch(params[:id])
+      @documents = search_service.fetch(params[:id])
     end
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_response,
-      'The @response instance variable is deprecated.',
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
     if @documents.count() < 1
       return
     end

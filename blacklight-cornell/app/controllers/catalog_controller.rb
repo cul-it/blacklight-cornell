@@ -180,6 +180,7 @@ class CatalogController < ApplicationController
 
     # Custom index view components
     config.index.constraints_component = ConstraintsComponent
+    config.index.document_component = DocumentComponent
 
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'

@@ -177,15 +177,10 @@ class BookBagsController < CatalogController
   def endnote
     if params[:id].nil?
       # docs are set in search context
-      deprecated_response, @documents = search_service.fetch([], :q => "*:*", :per_page => 1000, :rows => 1000)
+      @documents = search_service.fetch([], :q => "*:*", :per_page => 1000, :rows => 1000)
     else
-      deprecated_response, @documents = search_service.fetch(params[:id])
+      @documents = search_service.fetch(params[:id])
     end
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_response,
-      "The @response instance variable is now deprecated",
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
     respond_to do |format|
       format.endnote { render :layout => false } #wrapped render :layout => false in {} to allow for multiple items jac244
       format.endnote_xml { render "endnote_xml", :layout => false }
