@@ -7,7 +7,7 @@ gem "addressable", ">= 2.8.0"
 gem "appsignal", "~> 3.3.2" #, '2.11.10'
 gem "aws-sdk-s3", "~> 1.143"
 gem "bento_search", "~> 2.0.0.rc2"
-gem "blacklight", path: "/app/blacklight"
+gem "blacklight", "< 9.0"
 gem "blacklight-hierarchy", "~> 6.5.0"
 gem "blacklight-marc", "~> 8.2"
 gem "blacklight_range_limit", "~> 8.5.0"

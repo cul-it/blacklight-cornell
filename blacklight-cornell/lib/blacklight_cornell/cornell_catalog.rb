@@ -307,6 +307,12 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       action: "index"
     end
 
+  # TODO: Either remove this method when upgrading to blacklight 9 or fix deprecation warning call in bl 8
+  # A list of query parameters that should not be persisted for a search
+  def nonpersisted_search_session_params
+    [:commit, :counter, :total, :search_id, :page, :per_page]
+  end
+
 protected
 
   # sets up the session[:history] hash if it doesn't already exist.
