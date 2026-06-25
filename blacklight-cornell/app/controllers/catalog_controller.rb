@@ -72,6 +72,8 @@ class CatalogController < ApplicationController
   before_action :redirect_browse
 
   configure_blacklight do |config|
+    config.bootstrap_version = 4
+
     # chris beer recommended for latest version of unapi
     config.unapi = {
       'oai_dc_xml' => { :content_type => 'text/xml' }
