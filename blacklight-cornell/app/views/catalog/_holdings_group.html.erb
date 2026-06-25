@@ -20,7 +20,12 @@
 <% #= @document.inspect %>
 
 <% items.each do |i| %>
-  <div class="holding">
+  <% pda = i["call"] == "Available for the Library to Purchase" %>
+  <% location_name = i.dig("location", "name") %>
+  <% displayable_location = !pda && location_name != "Library Technical Services Review Shelves" %>
+  <% displayable_callnum = !pda && i["call"].present? && i["call"].exclude?("No call number") %>
+
+  <div class="holding" data-location="<%= location_name %>" data-callnumber="<%= i["call"] %>">
     <% # <%= i.inspect %>
     <% if group == "Rare" %>
       <% aeon_codes << i["location"]["code"] unless aeon_codes.include?(i["location"]["code"]) %>
@@ -30,21 +35,19 @@
       <% noncirc = true %>
     <% end %>
 
-    <% reserve_item = (i["location"]["code"].include?(",res") || i["location"]["code"].include?("oclc,afrp") || i["location"]["name"].include?("Reserve")) %>
+    <% reserve_item = (i["location"]["code"].include?(",res") || i["location"]["code"].include?("oclc,afrp") || location_name.include?("Reserve")) %>
     <% reserve_item_count += 1 if reserve_item %>
 
-    <% if i["location"]["name"] !~ /Spacecraft Planetary Imaging Facility/ %>
+    <% if location_name !~ /Spacecraft Planetary Imaging Facility/ %>
       <% not_spif += 1 %>
     <% end %>
-    <% if i["location"]["name"] =~ /Non-Circulating/ %>
+    <% if location_name =~ /Non-Circulating/ %>
       <% noncirc = true %>
     <% end %>
-    <% if i["location"]["name"] =~ /Spacecraft Planetary Imaging Facility/ %>
+    <% if location_name =~ /Spacecraft Planetary Imaging Facility/ %>
       <% noncirc = true %>
     <% end %>
     <!-- location -->
-
-    <% pda = i["call"] == "Available for the Library to Purchase" %>
 
     <% if pda %>
       <div class="location">
@@ -52,18 +55,18 @@
         </br>
         <%= "Request item for rush purchase (typically within a week)." %>
       </div>
-    <% elsif i["location"]["name"] != "Library Technical Services Review Shelves" && @document["callnum_sort"] != "Available for the Library to Purchase" %>
+    <% elsif displayable_location %>
       <div class="location">
-        <%= i["location"]["name"] %>
+        <%= location_name %>
         <span class="map-it">
           <% if i["location"]["hoursCode"].present? %>
             <% if i["location"]["hoursCode"] == "spif" %>
-              <%= link_to "Hours", "https://cornellspif.com/contact-spif/", "aria-label" => i["location"]["name"] + " Hours" %>
+              <%= link_to "Hours", "https://cornellspif.com/contact-spif/", "aria-label" => location_name + " Hours" %>
             <% else %>
               <% if i["location"]["hoursCode"] == "ornithology" %>
-                <%= link_to "Hours", "https://www.birds.cornell.edu/home/visit", "aria-label" => i["location"]["name"] + " Hours" %>
+                <%= link_to "Hours", "https://www.birds.cornell.edu/home/visit", "aria-label" => location_name + " Hours" %>
               <% else %>
-                <%= link_to "Hours", "https://" + i["location"]["hoursCode"] + ".library.cornell.edu", "aria-label" => i["location"]["name"] + " Hours" %>
+                <%= link_to "Hours", "https://" + i["location"]["hoursCode"] + ".library.cornell.edu", "aria-label" => location_name + " Hours" %>
               <% end %>
             <% end %>
           <% end %>
@@ -72,9 +75,9 @@
       </div>
     <% end %>
 
-    <% if !i["call"].blank? && !i["call"].include?("No call number") && i["call"] != "" %>
+    <% if displayable_callnum %>
       <div class="call-number">
-          <%= i["call"] unless pda  %>
+        <%= i["call"] %>
       </div>
     <% end %>
 
