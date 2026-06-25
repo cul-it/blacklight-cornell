@@ -147,6 +147,14 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	}
 }
 
+// Removes top pagination from facet modal, but not from facet page
+// TODO: Review this with Melissa
+.modal-content {
+  .facet-pagination.top {
+    display: none !important;
+  }
+}
+
 // Miscellaneous
 // ----------------------
 .toplink {
