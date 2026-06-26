@@ -162,6 +162,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   # get single document from the solr index
   def show
     @document = search_service.fetch(params[:id])
+    @documents = [ @document ]
     # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
     # If it does have the id, save it globally and just get the image url.
     notes_check = @document["notes"].present? ? @document["notes"].join : ""
@@ -307,12 +308,6 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
       action: "index"
     end
 
-  # TODO: Either remove this method when upgrading to blacklight 9 or fix deprecation warning call in bl 8
-  # A list of query parameters that should not be persisted for a search
-  def nonpersisted_search_session_params
-    [:commit, :counter, :total, :search_id, :page, :per_page]
-  end
-
 protected
 
   # sets up the session[:history] hash if it doesn't already exist.
@@ -398,7 +393,7 @@ protected
   end
 
   # Overrides from Blacklight::SearchContext to add :document_id
-  def blacklisted_search_session_params
+  def nonpersisted_search_session_params
     [:commit, :counter, :document_id, :id, :page, :per_page, :search_id, :total]
   end
 
