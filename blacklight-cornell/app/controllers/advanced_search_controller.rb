@@ -1,13 +1,12 @@
 class AdvancedSearchController < ApplicationController
   include Blacklight::Catalog
+  include BlacklightCornell::Errors
   include LoggingHelper
 
   delegate :blacklight_config, to: :default_catalog_controller
 
   before_action :set_facets, only: [:edit, :index]
   after_action :reset_facets, only: [:edit, :index]
-
-  rescue_from RSolr::Error::Http, :with => :handle_request_error
 
   if ENV["SAML_IDP_TARGET_URL"]
     prepend_before_action :set_return_path

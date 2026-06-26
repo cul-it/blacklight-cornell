@@ -230,6 +230,7 @@ class CatalogController < ApplicationController
                            limit: 10,
                            collapse: false,
                            include_in_advanced_search: true,
+                           advanced_search_component: AdvancedFacetFieldCheckboxesComponent,
                            advanced_search_order: 1,
                            sort: 'count'
     config.add_facet_field 'location',
@@ -255,6 +256,7 @@ class CatalogController < ApplicationController
                            limit: 5,
                            show: true,
                            include_in_advanced_search: true,
+                           advanced_search_component: AdvancedFacetFieldCheckboxesComponent,
                            advanced_search_order: 2,
                            sort: 'count'
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?

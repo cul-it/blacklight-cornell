@@ -48,6 +48,11 @@
 	}
 }
 
+.advanced-facet-limits {
+  --bl-facet-margin-bottom: #{$spacer};
+  --bl-facet-limit-body-padding: #{$spacer};
+}
+
 .sidenav {
 	.navbar-toggler {
 		margin-bottom: 1rem;

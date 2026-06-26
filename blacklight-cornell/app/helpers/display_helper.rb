@@ -1077,21 +1077,4 @@ module DisplayHelper
       content_tag(:i, '', class: 'fa fa-info-circle', aria: { hidden: true }) + ((" #{link_name}") if link_name.present?)
     end
   end
-
-  # TODO: no longer needed? commented out 5/31/23 to see if it breaks anything - mhk33, DISCOVERYACCESS-7501
-  # Clean up isbn in prep for bookcovers via Google Books API
-  # def bookcover_isbn(document)
-  #   isbn = document['isbn_display']
-  #   unless isbn.blank?
-  #     isbn = isbn.first
-  #     # Find first occurence of a space (remove non integer chars)
-  #     space = isbn.index(' ')
-  #     unless space.blank?
-  #       stop = space - 1
-  #       isbn[0..stop]
-  #     else
-  #       isbn
-  #     end
-  #   end
-  # end
 end
