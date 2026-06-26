@@ -256,7 +256,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   def validate_email_params
     if params[:to].blank?
       flash.now[:error] = I18n.t('blacklight.email.errors.to.blank')
-    elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
+    elsif !params[:to].match(Blacklight::Engine.config.blacklight.email_regexp)
       flash.now[:error] = I18n.t('blacklight.email.errors.to.invalid', to: params[:to])
     end
 

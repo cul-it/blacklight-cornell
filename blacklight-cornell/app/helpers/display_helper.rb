@@ -621,9 +621,7 @@ module DisplayHelper
   end
 
   def is_emailable document
-    if document.respond_to?(:to_email_text)
-      true
-    end
+    true
   end
 
   def is_exportable document
