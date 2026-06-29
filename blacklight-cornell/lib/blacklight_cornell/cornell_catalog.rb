@@ -108,14 +108,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
 
     # Query solr for document list
-    (@response, deprecated_document_list) = search_service.search_results(session['search_limit_exceeded'])
-
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_document_list,
-      'The @document_list instance variable is deprecated; use @response.documents instead.',
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
-
+    @response = search_service.search_results(session['search_limit_exceeded'])
+    
     if params.nil? || params[:f].nil?
       @filters = []
     else

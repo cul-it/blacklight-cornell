@@ -47,12 +47,7 @@ module Blacklight::Bookmarks
     # max limit is custom code
     @bookmarks = token_or_current_or_guest_user.bookmarks.limit(BookBagsController::MAX_BOOKBAGS_COUNT)
 
-    @response, deprecated_document_list = search_service.search_results
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_document_list,
-      "The @document_list instance variable is now deprecated",
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
+    @response = search_service.search_results
 
     respond_to do |format|
       format.html { }

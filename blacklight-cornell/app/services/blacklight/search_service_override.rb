@@ -38,11 +38,11 @@ module Blacklight
       response = repository.search(builder)
 
       if response.grouped? && grouped_key_for_results
-        [response.group(grouped_key_for_results), []]
+        response.group(grouped_key_for_results)
       elsif response.grouped? && response.grouped.length == 1
-        [response.grouped.first, []]
+        response.grouped.first
       else
-        [response, response.documents]
+        response
       end
     end
 

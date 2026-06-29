@@ -25,7 +25,6 @@ class BookBagsController < CatalogController
   end
 
   def authenticate
-    #binding.pry
     if developer_bookbag?
       dev_sign_in
     else
@@ -36,7 +35,6 @@ class BookBagsController < CatalogController
   end
 
   def set_book_bag_name
-    #binding.pry
     if current_user && session[:cu_authenticated_email].present?
       @id = session[:cu_authenticated_email]
       @bb.set_bagname("#{@id}-bookbag-default")
@@ -132,17 +130,7 @@ class BookBagsController < CatalogController
   def index
     params.permit(:move_bookmarks)
 
-    (@response, deprecated_document_list) = search_service.search_results
-    @documents = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_document_list,
-      "The @documents instance variable is now deprecated",
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_document_list,
-      "The @document_list instance variable is now deprecated",
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
+    @response = search_service.search_results
 
     respond_to do |format|
       format.html { }
