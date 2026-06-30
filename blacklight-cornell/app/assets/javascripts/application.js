@@ -27,7 +27,6 @@
 
 
 //= require 'blacklight/hierarchy/hierarchy'
-//= require jquery_ujs
 //= require jquery-ui/widgets/autocomplete
 //= require print_button.js
 //
