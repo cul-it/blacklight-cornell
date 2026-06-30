@@ -301,6 +301,15 @@ module CornellCatalogHelper
 	return formatted
   end
 
+  def bookbagged?(document)
+    @bb.present? && @bb.index.include?(document.id)
+  end
+
+  def can_add_books?
+    !(current_or_guest_user.present? && current_or_guest_user.bookmarks.present? && current_or_guest_user.bookmarks.count.present?) ||
+      (current_or_guest_user.bookmarks.count < BookBagsController::MAX_BOOKBAGS_COUNT)
+  end
+
   # For musical recordings, renders the image returned by Discogs when available.
   def format_discogs_image url
     image_html = "<div id='discogs-image'><img src='" + url + "' alt='' class='img-thumbnail'></div>"

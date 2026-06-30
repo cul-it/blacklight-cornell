@@ -8,8 +8,11 @@
       <%= render Blacklight::Document::BookmarkComponent.new(document: document, action: document_action_config) %>
     </div>
   <% end %>
-  <%if bookbags %>
-    <%= render BookbagComponent.new(document: document, action: document_action_config, bookbag: @bb) %>
+  <% if bookbags && (bookbagged?(document) || can_add_books?) %>
+    <%= render Blacklight::Document::BookmarkComponent.new(document:,
+                                                           action: document_action_config,
+                                                           checked: bookbagged?(document),
+                                                           bookmark_path: add_pindex_path(document)) %>
   <% end %>
 <% else %>
   &nbsp;
