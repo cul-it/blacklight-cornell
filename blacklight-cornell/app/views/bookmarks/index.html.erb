@@ -22,11 +22,11 @@
           <%= render :partial => "paginate_compact", :object => @response %>
         </span>
 
-        <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm.bookmark') }, :class => 'clear-bookmarks' do %>
+        <span class="page-links">
+          <%= link_to  clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm.bookmark') }, :class => 'clear-bookmarks' do %>
           <i class="fa fa-times-circle"></i> <%= t('blacklight.bookmarks.clear.action_title') %>
-        <% end %>
 
-        <span class="bookmarks-login">
+          <span class="bookmarks-login">
           <!-- ################### -->
           <!-- ##  DEVELOPMENT  ## -->
           <!-- ################### -->
@@ -40,8 +40,9 @@
                 <span class="fa fa-arrow-circle-right"></span> <%= t('blacklight.bookmarks.find_book_bag') %>
               <% end %>
           <% end %>
+          </span>
+        <% end %>
         </span>
-
       </div>
       <div class="col-sm-12 col-md-4">
         <%= render :partial => 'per_page_widget' %>
