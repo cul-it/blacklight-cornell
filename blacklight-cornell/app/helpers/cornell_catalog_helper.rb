@@ -301,17 +301,6 @@ module CornellCatalogHelper
 	return formatted
   end
 
-# Check if the document is in the user's bookbag
-  def bookbagged? did
-    d = did.to_s
-    value = "bibid-#{d}"
-    if @bb
-      @bb.index.any? {  |x|  x == value }
-    else
-      false
-    end
-  end
-
   # For musical recordings, renders the image returned by Discogs when available.
   def format_discogs_image url
     image_html = "<div id='discogs-image'><img src='" + url + "' alt='' class='img-thumbnail'></div>"

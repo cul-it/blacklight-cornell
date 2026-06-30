@@ -1,4 +1,4 @@
-$(window).load ->
+$(window).on 'load', ->
   window.select_all_manager = new SelectAllManager
 class SelectAllManager
   constructor: ->
@@ -23,6 +23,8 @@ class SelectAllManager
       else
         parent.unbookmark_all()
   bookmark_all: ->
-    $("input.toggle-bookmark:not(:checked)").click()
+    $("input.toggle-bookmark:not(:checked)").each (i, el) ->
+      el.click()
   unbookmark_all: ->
-    $("input.toggle-bookmark:checked").click()
+    $("input.toggle-bookmark:checked").each (i, el) ->
+      el.click()

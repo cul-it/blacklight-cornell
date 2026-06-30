@@ -14,7 +14,8 @@
 //= require error_check.js
 
 // Required by Blacklight
-//= require jquery
+//= require rails-ujs
+//= require jquery3
 //= require popper
 //= require bootstrap
 //= require blacklight/blacklight

@@ -1,0 +1,22 @@
+<% unless !bookbagged? && !can_add_books? %>
+  <%- # we don't use the per-form csrf token -%>
+  <%= form_tag(bookbag_path,
+              authenticity_token: false,
+              method:  bookbagged? ? :delete : :put,
+              class: "bookmark-toggle",
+              data: {
+                present: t('blacklight.search.bookmarks.present'),
+                absent: t('blacklight.search.bookmarks.absent'),
+                inprogress: t('blacklight.search.bookmarks.inprogress')
+              }) do %>
+    <div class="checkbox toggle-bookmark">
+      <label class="toggle-bookmark" data-checkboxsubmit-target="label">
+        <input type="checkbox" class="toggle-bookmark <%= bookmark_icon ? 'd-none' : '' %>" data-checkboxsubmit-target="checkbox" <%= 'checked="checked"' if bookbagged? %>>
+        <%= bookmark_icon %>
+        <span data-checkboxsubmit-target="span"><%= bookbagged? ? t('blacklight.search.bookmarks.present') : t('blacklight.search.bookmarks.absent') %></span>
+      </label>
+    </div>
+    <%= submit_tag(t(bookbagged? ? 'remove.button' : 'add.button', scope: 'blacklight.bookmarks'),
+                  class: "bookmark-#{bookbagged? ? 'remove' : 'add'} btn btn-outline-secondary") %>
+  <% end %>
+<% end %>
