@@ -177,8 +177,8 @@ GEM
       blacklight (>= 7.18, < 9)
       deprecation
       rails (>= 7.1, < 9)
-    blacklight-marc (8.2.0)
-      blacklight (>= 7.11, < 9)
+    blacklight-marc (9.0.0)
+      blacklight (>= 7.11, < 10)
       library_stdnums
       marc (>= 0.4.3, < 2.0)
       marc-fastxmlwriter
@@ -855,7 +855,7 @@ DEPENDENCIES
   bento_search (~> 2.0.0.rc2)
   blacklight (< 9.0)
   blacklight-hierarchy (~> 6.5.0)
-  blacklight-marc (~> 8.2)
+  blacklight-marc (~> 9.0)
   blacklight_cornell_requests!
   blacklight_range_limit (~> 8.5.0)
   bootstrap (~> 4.6)
