@@ -124,7 +124,10 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	color: $medium-gray;
 	opacity: 1;
 }
+
 .modal {
+	padding: 0; 
+	
 	h1 {
 		font-weight: 700;
 		margin: 0;
@@ -147,12 +150,8 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	}
 }
 
-// Removes top pagination from facet modal, but not from facet page
-// TODO: Review this with Melissa
-.modal-content {
-  .facet-pagination.top {
-    display: none !important;
-  }
+dialog.modal[open] {
+	overflow-y: auto;
 }
 
 // Miscellaneous
