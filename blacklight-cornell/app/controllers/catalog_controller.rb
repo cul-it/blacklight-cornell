@@ -85,12 +85,11 @@ class CatalogController < ApplicationController
 
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
-      :qt => 'search',
-      :rows => 20,
-# DISCOVERYACCESS-1472      :fl => '*,score',
-# Look into removing :fl entirely during off sprint
-      :defType => 'edismax',
-      :"f.lc_callnum_facet.facet.limit" => "-1"
+      search_field: 'all_fields',
+      qt: 'search',
+      rows: 20,
+      defType: 'edismax',
+      "f.lc_callnum_facet.facet.limit": "-1"
     }
 
     ## list of display fields with icon
