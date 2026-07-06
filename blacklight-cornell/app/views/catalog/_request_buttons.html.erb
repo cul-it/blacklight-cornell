@@ -51,10 +51,10 @@
     <% end %>
   <% end %>
 
-  <%# Determine if the request can be made in Aspace PUI %>
-    <% if pui_url.present? %>
-      <%= link_to "Search and request from archives", pui_url, { :title => 'Search and request from archives', :class => 'btn btn-danger', :id => 'id_request' }%>
-    <% end %>
+  <%# show Archive button if the item is in Aspace %>
+  <% if pui_url.present? %>
+    <%= link_to "Request from Archives at Cornell", pui_url, { :title => 'Request from Archives at Cornell', :class => 'btn btn-danger', :id => 'id_request' } %>
+  <% end %>
 
   <% # only display request scan button for items not at RMC %>
   <% if (group == "Circulating" && !reserve_item) %>
