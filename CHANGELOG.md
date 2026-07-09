@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-09 - Sprint release (dev -> main)
+
+### 🧰 Maintenance
+
+- Add  and  attributes to holding records for ILLiad add-on compatibility (#2491)
+- Update gem dependencies and bump Ruby to 3.4.10 to resolve flagged security vulnerabilities (#2493)
+
+### 🚀 Features
+
+- Turn the ArchivesSpace Finding Aid link into a button and fix display of multiple finding aid links (#2492)
+
 ## 2026-05-11 - Sprint release (dev -> main)
 
 ### 🚀 Features
