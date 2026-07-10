@@ -10,8 +10,8 @@
 
 - Add data-location and data-call-number attributes to item holdings for ILLiad add-on integration by @Baroquem in [#2491](https://github.com/cul-it/blacklight-cornell/pull/2491) ([DACCESS-373](https://culibrary.atlassian.net/browse/DACCESS-373)) (#2491)
 - Update gems and bump Ruby to 3.4.10 to address flagged security vulnerabilities by @chrisrlc in [#2493](https://github.com/cul-it/blacklight-cornell/pull/2493) ([DACCESS-930](https://culibrary.atlassian.net/browse/DACCESS-930)) (#2493)
-- Update the culdafeedback listserv email after the change from Lyris to Simplelists [#2486](https://github.com/cul-it/blacklight-cornell/pull/2486) ([DACCESS-934](https://culibrary.atlassian.net/browse/DACCESS-934)) (#2486)
-- Updated e-journal titles links to go directly to EBSCO rather than the redirected erms domain [#2487](https://github.com/cul-it/blacklight-cornell/pull/2487) ([DACCESS-933](https://culibrary.atlassian.net/browse/DACCESS-933)) (#2487)
+- Update the culdafeedback listserv email after the change from Lyris to Simplelists by @mhk33 in [#2486](https://github.com/cul-it/blacklight-cornell/pull/2486) ([DACCESS-934](https://culibrary.atlassian.net/browse/DACCESS-934)) (#2486)
+- Updated e-journal titles links to go directly to EBSCO rather than the redirected erms domain by @mhk33 in [#2487](https://github.com/cul-it/blacklight-cornell/pull/2487) ([DACCESS-933](https://culibrary.atlassian.net/browse/DACCESS-933)) (#2487)
 
 ## 2026-05-11 - Sprint release (dev -> main)
 
