@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-10 - Sprint release (dev -> main)
+
+### 🚀 Features
+
+- Turn the ArchivesSpace Finding Aid link into a button and correctly show/hide finding aid links for ArchivesSpace vs. non-ArchivesSpace items by @sarah-cul in [#2492](https://github.com/cul-it/blacklight-cornell/pull/2492) ([DACCESS-796](https://culibrary.atlassian.net/browse/DACCESS-796), [DACCESS-300](https://culibrary.atlassian.net/browse/DACCESS-300)) (#2492)
+
+### 🧰 Maintenance
+
+- Update gems and bump Ruby to 3.4.10 to resolve security vulnerabilities by @chrisrlc in [#2493](https://github.com/cul-it/blacklight-cornell/pull/2493) ([DACCESS-930](https://culibrary.atlassian.net/browse/DACCESS-930)) (#2493)
+- Add data-location and data-call-number attributes to item holding info for ILLiad add-on integration by @Baroquem in [#2491](https://github.com/cul-it/blacklight-cornell/pull/2491) ([DACCESS-373](https://culibrary.atlassian.net/browse/DACCESS-373)) (#2491)
+
 ## 2026-07-09 - Sprint release (dev -> main)
 
 ### 🚀 Features
