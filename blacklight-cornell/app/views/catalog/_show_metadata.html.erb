@@ -42,36 +42,27 @@
 	      Availability
 	    </div>
 	    <div class="card-block">
-			<%# Determine if the request should be made through the catalog or the Aspace PUI %>
+		  <% url_findingaid_displays = [] %>
+		  <% if @document['url_findingaid_display'].present? %>
+			<% url_findingaid_displays = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default' %>
+		    
+			<% # if item is in Aspace, then hide the static finding aids %>
+			<% # this logic can be removed once the data is cleaned up %>
 			<% pui_url = aspace_pui_url(@document) %>
-			<% url_findingaid_displays = [] %>
+		    <% if pui_url.present? %>
+			  <% url_findingaid_displays = url_findingaid_displays.reject { |link| link.include?('resolver.library.cornell.edu/cgi-bin/EADresolver') } %>
+		    <% end %>
 
-			<% if pui_url.present? %>
-				<%# Item is in Aspace so replace static finding aid with link to the PUI %>
-				<% url_findingaid_displays = render_display_link :value => [pui_url], :field => 'url_findingaid_display', :format => 'default' %>
-				
-				<%# DACCESS-828 show multiple finding aids, filtering out 'resolver.library.cornell.edu' %>
-				<% if @document['url_findingaid_display'].present? %>
-					<% additional_links = Array(render_display_link(document: @document, field: 'url_findingaid_display', format: 'default')) %>
-					<% additional_links.reject! { |link| link.include?('resolver.library.cornell.edu') } %>
-					<% if additional_links.any? %>
-						<% url_findingaid_displays.concat(additional_links) %> 
-					<% end %>
-				<% end %>
-			<% elsif @document['url_findingaid_display'].present? %>
-				<%# Item is not in Aspace so render finding aids from the document %> 
-				<% url_findingaid_displays = render_display_link :document => @document, :field => 'url_findingaid_display', :format => 'default' %>
-			<% end %>
 			<% if url_findingaid_displays.present? %>
-				<div class="url_findingaid_display" id="finding_aid">
-					<% url_findingaid_displays.each do |url_findingaid_display| %>
-					<div class="url_findingaid_link">
-						<i class="fa fa-check" aria-hidden="true"></i>
-						<%= url_findingaid_display %>
-					</div>
-					<% end %>
-				</div>
-			<% end %>
+		      <div class="url_findingaid_display" id="finding_aid">
+			    <% url_findingaid_displays.each do |url_findingaid_display| %>
+			      <div class="url_findingaid_link">
+				    <i class="fa fa-check" aria-hidden="true"></i><%= url_findingaid_display %>
+				  </div>
+		        <% end %>
+			  </div>
+		    <% end %>
+          <% end %>
 
 	      <%  summary_holdings = '' %>
 	      <% if is_online?(@document) %>
