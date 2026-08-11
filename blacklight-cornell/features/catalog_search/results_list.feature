@@ -159,13 +159,13 @@ Feature: Results list
   @next_facet
   @javascript
   Scenario: Search with results,
-    Given I view the search results list for 'title'='ocean'
+    Given I view the search results list for 'title'='cornell history'
     Then I should get results
-    Then I should see the text 'Ocean thermal energy conversion'
-    Then click on first link "Ocean thermal energy conversion"
+    Then I should see the text 'Cornell history journal'
+    Then click on first link "Cornell history journal"
     Then click on first link "Next »"
     Then click on first link "Previous"
-    Then I should see the text 'Ocean thermal energy conversion'
+    Then I should see the text 'Cornell history journal'
 
   # Combinatorial Algorithms, Algorithmic Press
   # # the selected sort field is visible, the unselected is not visible,though present in the html.
