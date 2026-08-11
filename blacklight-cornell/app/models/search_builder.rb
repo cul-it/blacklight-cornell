@@ -78,7 +78,7 @@ class SearchBuilder < Blacklight::SearchBuilder
       solr_parameters[:search_field] = 'advanced'
 
       solr_parameters[:q] = build_advanced_search_query(blacklight_params)
-    elsif blacklight_params[:search_field].present?
+    else
       # Remove any unexpected advanced search params
       if blacklight_params[:advanced_query].present?
         blacklight_params.delete(:advanced_query)
