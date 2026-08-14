@@ -1,4 +1,5 @@
 footer {
+	background: $light-tan;
 	border-top: 1px solid #ddd;
 	p {
 		font-size: .9rem;
@@ -28,6 +29,7 @@ footer {
 	.nav-pills {
 		margin-top: .25em;
 		a {
+			// TODO: BS5: This is actually getting applied when it wasn't before.
 			background: white;
 			border: 1px solid $tan;
 			margin-bottom: 2px;

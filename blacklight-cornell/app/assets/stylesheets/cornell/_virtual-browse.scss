@@ -527,15 +527,16 @@
     }
 }
 .vb-browse-link {
-    position: absolute;
-	right: 12px;
-	top: -30px;
+  position: absolute;
+  right: 12px;
+  top: -30px;
+  width: auto;
 }
 .class-caret {
     font-size: 14px !important;
 }
 .browse-type-check {
-    margin-left: -20px;
+  margin-left: -12px;
 	color: rgb(33, 37, 41);
 	font-size: 14px !important;
 	padding-right: 3px;

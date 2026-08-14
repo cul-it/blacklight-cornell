@@ -1,10 +1,8 @@
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-
 // Add tooltip to select box when not signed in
-$(".show-select-box").attr({
-	"data-toggle": "tooltip",
-	"data-placement": "bottom",
-	"title": "Sign in first to email items or save them to Book Bag"
+document.querySelectorAll(".show-select-box").forEach((el) => {
+  el.setAttribute("data-bs-toggle", "tooltip");
+  el.setAttribute("data-bs-placement", "bottom");
+  el.setAttribute("title", "Sign in first to email items or save them to Book Bag");
 });
+
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => new bootstrap.Tooltip(el));

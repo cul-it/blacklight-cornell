@@ -9,15 +9,6 @@ input.search-query { width: 35%; }
 }
 .sort_group { margin: 1em 0; }
 
-.single-search {
-  .form-group {
-    width: 80%;
-  }
-  .search-query {
-    width: 100%;
-  }
-}
-
 #top2 {
   .search-source {
     margin-top: 0;
@@ -202,13 +193,6 @@ div.view-all {
 // Repositories results page
 // -------------------------------- //
 
-.institutionalrepository-search {
-  .form-group {
-    .ir-search {
-      width: 100%;
-    }
-  }
-}
 .blacklight-institutional_repositories {
   h2 {
     margin-top: 1em;
@@ -468,7 +452,7 @@ div.view-all {
     overflow: visible !important;
   }
   .single-search {
-    .form-group {
+    .input-group {
       width: 60%;
     }
   }

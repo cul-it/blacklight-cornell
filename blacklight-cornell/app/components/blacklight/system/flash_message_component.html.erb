@@ -1,8 +1,0 @@
-<% # Blacklight::System::FlashMessageComponent override to revert class from btn-close to close %>
-<% # TODO - Remove once we upgrade to Bootstrap 5 %>
-<div class="alert <%= @classes %>">
-  <%= message %>
-  <%= tag.button_tag button_contents, type: "button", class: "close",
-                     data: { dismiss: "alert", bs_dismiss: "alert" },
-                     aria: { label: "Close" } %>
-</div>

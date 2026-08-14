@@ -35,7 +35,7 @@
 						<div class="catalog-link">
 						  <% if data["id"].present? && !access_url_is_list?(data) %>
 						    <%= link_to '/catalog/' + data["id"] do %>
-						      Catalog record <span class="sr-only">- <%= data["fulltitle_display"] %></a>
+						      Catalog record <span class="visually-hidden">- <%= data["fulltitle_display"] %></a>
 						    <% end %>
 						  <% end %>
 						</div>

@@ -1,12 +1,11 @@
-    <div data-ajax-modal="container">
-    <div id="ajax-modal">
+    <div data-blacklight-modal="container">
       <div class="modal-header clearfix">
-        <h1 class="modal-title"><%= t('blacklight.bookmarks.email.title') %></h3>
-        <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
+        <h1 class="modal-title"><%= t('blacklight.bookmarks.email.title') %></h1>
+        <button type="button" class="blacklight-modal-close btn-close close" data-bl-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="visually-hidden">×</span>
         </button>
       </div>
-  
+
       <div class="modal-body">
         <h2><%= t('blacklight.bookmarks.email.warning') %></h2>
         <%= link_to t('blacklight.bookmarks.email.action.bookmarks_view'), addbookmarks_index_path %>
@@ -14,7 +13,6 @@
 
 
       <div class="modal-footer">
-        <%= link_to "Cancel", 'bookmarks', :class => "submit button dialog-close", :data => {:dismiss => "modal"} %>
+        <%= link_to "Cancel", 'bookmarks', :class => "submit button dialog-close", :data => {:bl_dismiss => "modal"} %>
       </div>
-    </div>
     </div>

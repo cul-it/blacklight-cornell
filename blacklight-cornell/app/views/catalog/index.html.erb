@@ -12,7 +12,7 @@
 			<% # if there are no input/search related params, display the "home" partial -%>
 			<%= render "home" %>
 		<% else %>
-			<h2 class="sr-only top-content-title"><%= t("blacklight.search.search_results_header") %></h2>
+			<h2 class="visually-hidden top-content-title"><%= t("blacklight.search.search_results_header") %></h2>
 			<% @page_title = t("blacklight.search.title", :application_name => application_name) %>
 
 			<% content_for(:head) do -%>
@@ -45,14 +45,14 @@
 				<% r = "catalog result".pluralize(@response.total_count) %>
 				<%= "#{r}" %>
 				<%= tooltip("<strong>Search Logic</strong><br/> #{solr_query_used}") %>
-				<% rss_icon = '<i class="fa fa-rss-square aria-hidden="true"></i>' + '<span class="sr-only">RSS</span>' %>
+				<% rss_icon = '<i class="fa fa-rss-square aria-hidden="true"></i>' + '<span class="visually-hidden">RSS</span>' %>
 				<%= link_to(url_for(params.merge(:format => "rss")), :class => "rss-icon", :title => "RSS feed") do %>
 					<%= rss_icon.html_safe %>
 				<% end %>
 
 				<%= render "sort_and_per_page" %>
 
-				<h2 class="sr-only"><%= t("blacklight.search.search_results") %></h2>
+				<h2 class="visually-hidden"><%= t("blacklight.search.search_results") %></h2>
 				<%= render_document_index @response.documents %>
 				<%= render "results_pagination" %>
 			<% end %>
@@ -65,7 +65,7 @@
 <!--Add event listener for popovers-->
 <%= javascript_tag do %>
 	document.addEventListener('DOMContentLoaded', function () {
-		const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'));
+		const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
 		popoverTriggerList.forEach(function (el) {
 		new bootstrap.Popover(el);
 		});

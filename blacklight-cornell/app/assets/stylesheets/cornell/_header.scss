@@ -8,8 +8,10 @@ header {
     font-family: $font-family-cul;
     text-transform: uppercase;
     font-size: 1.8rem;
-  	a { 
-      color: $dark-gray;}
+  	a {
+      color: $dark-gray;
+      text-decoration: none;
+    }
     a:hover,
     a:active,
     a:focus {

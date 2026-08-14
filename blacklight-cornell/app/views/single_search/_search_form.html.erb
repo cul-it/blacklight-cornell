@@ -1,14 +1,14 @@
-<form action="/search" class="form-inline single-search" id="search" method="get">
-  <div class="form-group mr-1 mb-0">
-    <label class="sr-only" for="q">
+<form action="/search" class="single-search" id="search" method="get">
+  <div class="input-group">
+    <label class="visually-hidden" for="q">
       Search
     </label>
-    <input class="search-query form-control" type='text' name='q' id='q' value='<%= @query %>' placeholder='Books, articles, databases, journals and more' autocapitalize='off'>
+    <input class="search-query form-control rounded-start" type='text' name='q' id='q' value='<%= @query %>' placeholder='Books, articles, databases, journals and more' autocapitalize='off'>
+    <button class="btn btn-search" id="search-btn" type="submit">
+      <i class="fa fa-search fa-inverse"></i>
+      <span class="visually-hidden">
+        Search
+      </span>
+    </button>
   </div>
-  <button class="btn btn-search" id="search-btn" type="submit">
-    <i class="fa fa-search fa-inverse"></i>
-    <span class="sr-only">
-      Search
-    </span>
-  </button>
 </form>

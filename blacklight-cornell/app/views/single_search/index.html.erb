@@ -24,7 +24,7 @@
       <div class="card card-well">
         <div class="card-body">
           <div class="search-info">
-            <%= tooltip("Search the Library Catalog, Articles and Full Text, and more. WorldCat is available through the Libraries Worldwide link in the search results.", link_name: "About this search", class_name: "float-right") %>
+            <%= tooltip("Search the Library Catalog, Articles and Full Text, and more. WorldCat is available through the Libraries Worldwide link in the search results.", link_name: "About this search", class_name: "float-end") %>
           </div>
           <h2>Search</h2>
           <%= render 'single_search/search_form' %>
@@ -53,8 +53,8 @@
           <div class="col-md-3 ">
             <div class="navbar sidenav facets-toggleable-sm">
               <h2 class="all-results-header">All results</h2>
-              <button class="navbar-toggler navbar-toggler-right facets-toggle" type="button" data-toggle="collapse" data-target=".results-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
-              <span class="sr-only">Toggle facets</span>
+              <button class="navbar-toggler navbar-toggler-right facets-toggle" type="button" data-bs-toggle="collapse" data-bs-target=".results-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
+              <span class="visually-hidden">Toggle facets</span>
                 <span class="navbar-toggler-icon"></span>
               </button>
             </div>
@@ -302,7 +302,7 @@
 <% end %>
 
 <div class="survey-button">
-  <a href="https://cornell.libwizard.com/f/single-search" target="_blank" rel="noopener" class="lwz-btn">Help us redesign!<i class="fa fa-external-link" aria-hidden="true"></i><span class="sr-only"> opens a new window</span></a>
+  <a href="https://cornell.libwizard.com/f/single-search" target="_blank" rel="noopener" class="lwz-btn">Help us redesign!<i class="fa fa-external-link" aria-hidden="true"></i><span class="visually-hidden"> opens a new window</span></a>
 </div>
 
 <%= javascript_include_tag 'search_form', 'data-turbo-track': 'reload' %>
