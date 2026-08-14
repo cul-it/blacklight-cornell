@@ -1,61 +1,57 @@
 <% if group == "Circulating"  || group == "Rare" %>
-<%
-  # Need a parameter to pass to requests that determines whether to add
-  # text on the "Ask a librarian page" that the item can be scanned and
-  # to return to the item view page for that.
-  scan = (group == "Circulating" && !reserve_item) || !reading.empty?
-%>
-<% # request_context_path = ( group == "Circulating" ) ? blacklight_cornell_request.magic_request_path("#{params[:id]}") :  "http://wwwdev.library.cornell.edu/aeon/monograph.php?bibid=#{params[:id]}&libid=#{aeon_codes.join('|')}" %>
-<% request_context_path = request_path(group,params[:id],aeon_codes,@document,scan) %>
-<% request_scan_path = request_path('AEON_SCAN_REQUEST',params[:id],aeon_codes,@document,scan) %>
-<%#= params.inspect %>
-<%# request_scan_path = ENV['AEON_SCAN_REQUEST'] %>
-<%# Temporary variable for Covid-19 closures. We can probably change this to an exclusive list, rather than an inclusive one.%>
-<% requestable_libraries = ["Library Annex", "Mann Library", "Olin Library", "Kroch Library Asia", "Uris Library", "ILR Library", "Music Library", "Africana Library", "Fine Arts Library", "Veterinary Library", "Law Library", "Mathematics Library"] %>
-<% request_btn_opts = { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } %>
-<% disabled_request_btn_opts = request_btn_opts.merge(:class => 'btn btn-danger disabled', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;') %>
-<% scan_btn_opts = { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } %>
-<% @group = group %>
-<% pui_url = aspace_pui_url(@document) %>
+<% # Note that group should only ever be Circulating or Rare. %>
+  <%
+    # Need a parameter to pass to requests that determines whether to add
+    # text on the "Ask a librarian page" that the item can be scanned and
+    # to return to the item view page for that.
+    scan = (group == "Circulating" && !reserve_item) || !reading.empty?
+  %>
+  <% request_context_path = request_path(group,params[:id],aeon_codes,@document,scan) %>
+  <% request_scan_path = request_path('AEON_SCAN_REQUEST',params[:id],aeon_codes,@document,scan) %>
+  <% request_btn_opts = { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } %>
+  <% disabled_request_btn_opts = request_btn_opts.merge(:class => 'btn btn-danger disabled', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;') %>
+  <% scan_btn_opts = { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } %>
+  <% pui_url = aspace_pui_url(@document) %>
+  <% illiad_url = ENV['ILLIAD_URL'] %>
 
-<div class="item-requests">
-  <% if (not_spif > 0)    %>
-    <% if group == 'Rare' && ENV['DISABLE_AEON'] == 'true' %>
-      <%= 'Reading Room delivery and scans of these materials are temporarily unavailable.' %>
-    <% else %>
-      <% if @document["location"].present? && aspace_pui_url(@document).nil? %>
-        <% if reserve_only %>
-          <%= link_to "Request item#{reading}", "#", disabled_request_btn_opts %>
-        <% else %>
-          <%= link_to "Request item#{reading}", request_context_path, request_btn_opts unless (requestable_libraries && @document["location"]).empty? %>
+  <div class="item-requests">
+    <% if (not_spif > 0)    %>
+      <% if group == 'Rare' && ENV['DISABLE_AEON'] == 'true' %>
+        <%= 'Reading Room delivery and scans of these materials are temporarily unavailable.' %>
+      <% else %>
+        <% if @document["location"].present? && pui_url.nil? %>
+          <% if reserve_only %>
+            <%= link_to "Request item#{reading}", "#", disabled_request_btn_opts %>
+          <% else %>
+            <%= link_to "Request item#{reading}", request_context_path, request_btn_opts %>
+          <% end %>
+          <%= link_to "Request item for scanning", request_scan_path, scan_btn_opts unless reading.empty? %>
+        <% elsif @document['callnum_sort'] == "Available for the Library to Purchase" %>
+          <%= link_to "Request item #{reading}", request_context_path, request_btn_opts %>
         <% end %>
-        <%= link_to "Request item for scanning", request_scan_path, scan_btn_opts unless reading.empty? %>
-      <% elsif @document['callnum_sort'] == "Available for the Library to Purchase" %>
-        <%= link_to "Request item #{reading}", request_context_path, request_btn_opts %>
       <% end %>
     <% end %>
-  <% end %>
 
-  <%# show Archive button if the item is in Aspace %>
-  <% if pui_url.present? %>
-    <%= link_to "Request from Archives at Cornell", pui_url, { :title => 'Request from Archives at Cornell', :class => 'btn btn-danger', :id => 'id_request' } %>
-  <% end %>
-
-  <% # only display request scan button for items not at RMC %>
-  <% if (group == "Circulating" && !reserve_item) %>
-    <% ill_link = ENV['ILLIAD_URL'] + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fcatalog.library.cornell.edu' %>
-    <% ill_title = "#{@title}" + (@subtitle.present? ? ": #{@subtitle}" : '') %>
-    <% ill_isbn = @document[:isbn_display] ? @document[:isbn_display][0] : '' %>
-    <% if ill_isbn == '' %>
-      <% ill_isbn = @document[:issn_display] ? @document[:issn_display][0] : '' %>
+    <%# show Archive button if the item is in Aspace %>
+    <% if pui_url.present? %>
+      <%= link_to "Request from Archives at Cornell", pui_url, { :title => 'Request from Archives at Cornell', :class => 'btn btn-danger', :id => 'id_request' } %>
     <% end %>
-    <% ill_link += "&rft.title=#{CGI.escape(ill_title)}" %>
-    <% ill_link += "&rft.isbn=#{ill_isbn}" %>
-    <%= link_to 'Request scan of article/chapter', ill_link, { :title => 'Request scan', :class => 'btn btn-outline-secondary'} %>
-  <% end %>
 
-  <%if reserve_only %>
-    <br/>This item is on reserve and can't be requested for delivery. See a librarian for assistance.
-  <% end %>
-</div>
+    <% # only display request scan button for items not at RMC %>
+    <% if (group == "Circulating" && !reserve_item && illiad_url.present?) %>
+      <% ill_link = illiad_url + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fcatalog.library.cornell.edu' %>
+      <% ill_title = "#{@title}" + (@subtitle.present? ? ": #{@subtitle}" : '') %>
+      <% ill_isbn = @document[:isbn_display] ? @document[:isbn_display][0] : '' %>
+      <% if ill_isbn == '' %>
+        <% ill_isbn = @document[:issn_display] ? @document[:issn_display][0] : '' %>
+      <% end %>
+      <% ill_link += "&rft.title=#{CGI.escape(ill_title)}" %>
+      <% ill_link += "&rft.isbn=#{CGI.escape(ill_isbn)}" %>
+      <%= link_to 'Request scan of article/chapter', ill_link, { :title => 'Request scan', :class => 'btn btn-outline-secondary'} %>
+    <% end %>
+
+    <%if reserve_only %>
+      <br/>This item is on reserve and can't be requested for delivery. See a librarian for assistance.
+    <% end %>
+  </div>
 <% end %>
