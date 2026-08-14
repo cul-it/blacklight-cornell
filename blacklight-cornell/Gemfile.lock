@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: c23a2f6bd50ff4899c220cde438ec58773f1bc00
-  tag: v5.5
+  revision: 14b82d2eaa073eb038dfa0c19f608d9f06944306
+  branch: DACCESS-944
   specs:
-    blacklight_cornell_requests (5.5)
-      blacklight
+    blacklight_cornell_requests (5.5.1)
+      blacklight (~> 8.0)
       dotenv
       dotenv-deployment
       dotenv-rails
@@ -24,6 +24,20 @@ GIT
   specs:
     cul-folio-edge (4.0)
       rest-client
+
+GIT
+  remote: https://github.com/cul-it/cul-my-account
+  revision: a702013636c11647258f0a886c10340c46a4b5f1
+  branch: DACCESS-944
+  specs:
+    my_account (2.5)
+      blacklight (>= 7.0, < 9.0)
+      cul-folio-edge (> 3.3)
+      haml
+      rails (~> 8.0)
+      rest-client
+      sprockets-rails
+      xml-simple
 
 GIT
   remote: https://github.com/makandra/spreewald.git
@@ -823,6 +837,8 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.1.2)
       chronic (>= 0.6.3)
+    xml-simple (1.1.9)
+      rexml
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yaml_db (0.7.0)
@@ -891,6 +907,7 @@ DEPENDENCIES
   marc
   meta_request
   mini_racer (= 0.6.2)
+  my_account!
   mysql2 (~> 0.5.6)
   net-smtp
   nokogiri (~> 1.19.1)

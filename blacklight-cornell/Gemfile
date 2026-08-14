@@ -56,9 +56,9 @@ gem "utf8-cleaner"
 gem "whenever", require: false
 gem "yaml_db"
 
-gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.5"
+gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", branch: "DACCESS-944"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge"
-# gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.5"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", branch: "DACCESS-944"
 
 group :development, :test do
   gem "awesome_print"

@@ -234,7 +234,7 @@ BlacklightCornell::Application.routes.draw do
   end
 
   mount BlacklightCornellRequests::Engine => '/request', :as => 'blacklight_cornell_request'
-  # mount MyAccount::Engine => '/myaccount', :as => 'my_account'
+  mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 
   get "/status", to: "status#index"
 end
