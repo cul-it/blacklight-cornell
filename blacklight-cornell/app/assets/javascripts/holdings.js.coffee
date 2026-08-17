@@ -18,7 +18,6 @@ holdings =
   # Initial setup
   onLoad: () ->
     this.initObjects()
-    this.loadSpinner()
     this.bindHoldingService()
     this.bindEventListener()
 
@@ -26,32 +25,6 @@ holdings =
   initObjects: () ->
     this.availabilityHeading = $('.XXavailability h3')
     this.resultsAvailability = $('.preloader')
-
-  # Add spinners to indicate that data is loading
-  loadSpinner: () ->
-    # Search results view
-    this.resultsAvailability.each ->
-        elWidth = $(this).width()
-        $.fn.spin.presets.holdings =
-          lines: 9,
-          length: 3,
-          width: 2,
-          radius: 3,
-          top: 2,
-          left: elWidth + 5
-        $(this).spin('holdings')
-
-    # Item view
-    this.availabilityHeading.each ->
-      headingWidth = $(this).width()
-      $.fn.spin.presets.holdings =
-        lines: 9,
-        length: 4,
-        width: 3,
-        radius: 4,
-        color: '999',
-        left: headingWidth - (headingWidth/3)
-      $(this).spin('holdings')
 
   loadHoldingsShortmInv: (id) ->
     $.ajax
@@ -167,7 +140,6 @@ holdings =
   # Event listener called on page load
   bindEventListener: () ->
     $('.retry-availability').click ->
-      holdings.loadSpinner()
     #  holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
       return false
 
@@ -175,46 +147,26 @@ $(document).ready ->
   holdings.onLoad()
   $(document).on "click", ".js-request-link", (event) ->
     target = $(this)
-    console.log "request link click", {
-      href: target.attr("href")
-      inHoldings: target.closest('.holdings').length > 0
-    }
-
-    if target.closest('.holdings').length > 0
-      console.log "click!"
-      f = document.createElement("form")
-      f.style.display = "none"
-      @parentNode.appendChild f
-      f.method = "POST"
-      f.action = target.attr("href")
-      f.target = "_blank"  if event.metaKey or event.ctrlKey
-      d = document.createElement("input")
-      d.setAttribute "type", "hidden"
-      d.setAttribute "name", "counter"
-      d.setAttribute "value", target.data("counter")
-      f.appendChild d
-      m = document.createElement("input")
-      m.setAttribute "type", "hidden"
-      m.setAttribute "name", "_method"
-      m.setAttribute "value", "put"
-      f.appendChild m
-      m = document.createElement("input")
-      m.setAttribute "type", "hidden"
-      m.setAttribute "name", $("meta[name=\"csrf-param\"]").attr("content")
-      m.setAttribute "value", $("meta[name=\"csrf-token\"]").attr("content")
-      f.appendChild m
-      f.submit()
-      return false
-
-    event.preventDefault()
-    event.stopPropagation()
-    $.fn.spin.presets.requesting =
-      lines: 9,
-      length: 3,
-      width: 2,
-      radius: 6,
-    $('#request-loading-spinner').spin('requesting')
-    # Next line is necessary to get spinner to appear. If there is no
-    # delay before the redirect, it simply does not happen.
-    setTimeout (-> window.location.href=target.attr('href')), 100
-    false
+    f = document.createElement("form")
+    f.style.display = "none"
+    @parentNode.appendChild f
+    f.method = "POST"
+    f.action = target.attr("href")
+    f.target = "_blank"  if event.metaKey or event.ctrlKey
+    d = document.createElement("input")
+    d.setAttribute "type", "hidden"
+    d.setAttribute "name", "counter"
+    d.setAttribute "value", target.data("counter")
+    f.appendChild d
+    m = document.createElement("input")
+    m.setAttribute "type", "hidden"
+    m.setAttribute "name", "_method"
+    m.setAttribute "value", "put"
+    f.appendChild m
+    m = document.createElement("input")
+    m.setAttribute "type", "hidden"
+    m.setAttribute "name", $("meta[name=\"csrf-param\"]").attr("content")
+    m.setAttribute "value", $("meta[name=\"csrf-token\"]").attr("content")
+    f.appendChild m
+    f.submit()
+    return false
