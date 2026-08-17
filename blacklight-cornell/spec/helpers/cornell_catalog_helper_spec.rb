@@ -112,4 +112,20 @@ RSpec.describe CornellCatalogHelper, type: :helper do
       expect(helper.aspace_pui_url({})).to be nil
     end
   end
+
+  describe '#ill_scan_link' do
+    it 'returns nil if one of the required values is missing' do
+      expect(helper.ill_scan_link(nil, {'title': 'Test' }, 'Test title', 'Test subtitle')).to be nil
+      expect(helper.ill_scan_link('http://illiad', {}, 'Test title', 'Test subtitle')).to be nil
+    end
+
+    it 'returns a valid link with title and identifier parameters' do
+      link = helper.ill_scan_link('http://illiad.url', { :isbn_display => ['1234567890'] }, 'Test title', 'Test subtitle')
+      uri = URI.parse(link)
+      expect(uri.host).to eq('illiad.url')
+      expect(uri.query).to include('Action=10&Form=30')
+      expect(uri.query).to include('rft.title=Test+title')
+      expect(uri.query).to include('rft.isbn=1234567890')
+    end
+  end
 end

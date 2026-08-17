@@ -412,7 +412,7 @@ module CornellCatalogHelper
   #
   # @return [string|nil] OpenURL link to ILLiad scan request form with metadata, or nil
 	def ill_scan_link(base_url, document, title, subtitle)
-		return nil unless base_url && document
+		return nil unless base_url.present? && document.present?
 
 		form_definition = '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fcatalog.library.cornell.edu'
 		ill_link = base_url + form_definition
