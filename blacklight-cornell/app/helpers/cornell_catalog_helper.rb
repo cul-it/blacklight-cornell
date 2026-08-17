@@ -400,6 +400,28 @@ module CornellCatalogHelper
 		session[:cu_authenticated_groups].include?('employee') #&&
 		#session[:cu_authenticated_groups].include?('staff')
 	end
+
+	# Create a link to the ILLiad scan request form.
+	# N.B. This should really live in blacklight-cornell-requests, but since we have request logic in this codebase to display the various
+	# request buttons, we're stuck with it for now.
+	# 
+	# @param [string] base_url - base URL of the ILLiad instance
+	# @param [Hash] document - Solr document for the instance record
+	# @param [string] title - title of the instance (defined in _show_metadata.html.erb)
+	# @param [string] subtitle - subtitle of the instance (defined in _show_metadata.html.erb)
+  #
+  # @return [string|nil] OpenURL link to ILLiad scan request form with metadata, or nil
+	def ill_scan_link(base_url, document, title, subtitle)
+		return nil unless base_url && document
+
+		form_definition = '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fcatalog.library.cornell.edu'
+		ill_link = base_url + form_definition
+		title = "#{title}" + (subtitle.present? ? ": #{subtitle}" : '')
+		identifier = document[:isbn_display] ? document[:isbn_display][0] : ''
+		identifier ||= document[:issn_display] ? document[:issn_display][0] : ''
+		ill_link += "&rft.title=#{CGI.escape(title)}&rft.isbn=#{CGI.escape(identifier)}"
+	end
 end
+
 
 # End of Module

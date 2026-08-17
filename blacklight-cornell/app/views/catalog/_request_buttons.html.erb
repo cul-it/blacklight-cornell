@@ -8,7 +8,7 @@
   %>
   <% request_context_path = request_path(group,params[:id],aeon_codes,@document,scan) %>
   <% request_scan_path = request_path('AEON_SCAN_REQUEST',params[:id],aeon_codes,@document,scan) %>
-  <% request_btn_opts = { :title => 'Request', :class => 'btn btn-danger', :id => 'id_request' } %>
+  <% request_btn_opts = { :title => 'Request', :class => 'btn btn-danger js-request-link' } %>
   <% disabled_request_btn_opts = request_btn_opts.merge(:class => 'btn btn-danger disabled', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;') %>
   <% scan_btn_opts = { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } %>
   <% pui_url = aspace_pui_url(@document) %>
@@ -34,20 +34,12 @@
 
     <%# show Archive button if the item is in Aspace %>
     <% if pui_url.present? %>
-      <%= link_to "Request from Archives at Cornell", pui_url, { :title => 'Request from Archives at Cornell', :class => 'btn btn-danger', :id => 'id_request' } %>
+      <%= link_to "Request from Archives at Cornell", pui_url, { :title => 'Request from Archives at Cornell', :class => 'btn btn-danger' } %>
     <% end %>
 
     <% # only display request scan button for items not at RMC %>
     <% if (group == "Circulating" && !reserve_item && illiad_url.present?) %>
-      <% ill_link = illiad_url + '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fcatalog.library.cornell.edu' %>
-      <% ill_title = "#{@title}" + (@subtitle.present? ? ": #{@subtitle}" : '') %>
-      <% ill_isbn = @document[:isbn_display] ? @document[:isbn_display][0] : '' %>
-      <% if ill_isbn == '' %>
-        <% ill_isbn = @document[:issn_display] ? @document[:issn_display][0] : '' %>
-      <% end %>
-      <% ill_link += "&rft.title=#{CGI.escape(ill_title)}" %>
-      <% ill_link += "&rft.isbn=#{CGI.escape(ill_isbn)}" %>
-      <%= link_to 'Request scan of article/chapter', ill_link, { :title => 'Request scan', :class => 'btn btn-outline-secondary'} %>
+      <%= link_to 'Request scan of article/chapter', ill_scan_link(illiad_url, @document, @title, @subtitle), { :title => 'Request scan', :class => 'btn btn-outline-secondary'} %>
     <% end %>
 
     <%if reserve_only %>

@@ -171,43 +171,50 @@ holdings =
     #  holdings.loadHoldings($('body.blacklight-catalog-show .holdings').data('bibid'))
       return false
 
-    # Set up 'loading' spinner for when request button is clicked
-    $('#id_request').click (e) ->
-      e.preventDefault()
-      e.stopPropagation()
-      $.fn.spin.presets.requesting =
-        lines: 9,
-        length: 3,
-        width: 2,
-        radius: 6,
-      $('#request-loading-spinner').spin('requesting')
-      # Next line is necessary to get spinner to appear. If there is no
-      # delay before the redirect, it simply does not happen.
-      setTimeout (-> window.location.href=$('#id_request').attr('href')), 100
-
 $(document).ready ->
   holdings.onLoad()
-  $(".holdings").on "click", "#id_request", (event) ->
-    f = document.createElement("form")
-    f.style.display = "none"
-    @parentNode.appendChild f
-    f.method = "POST"
-    f.action = $(this).attr("href")
-    f.target = "_blank"  if event.metaKey or event.ctrlKey
-    d = document.createElement("input")
-    d.setAttribute "type", "hidden"
-    d.setAttribute "name", "counter"
-    d.setAttribute "value", $(this).data("counter")
-    f.appendChild d
-    m = document.createElement("input")
-    m.setAttribute "type", "hidden"
-    m.setAttribute "name", "_method"
-    m.setAttribute "value", "put"
-    f.appendChild m
-    m = document.createElement("input")
-    m.setAttribute "type", "hidden"
-    m.setAttribute "name", $("meta[name=\"csrf-param\"]").attr("content")
-    m.setAttribute "value", $("meta[name=\"csrf-token\"]").attr("content")
-    f.appendChild m
-    f.submit()
+  $(document).on "click", ".js-request-link", (event) ->
+    target = $(this)
+    console.log "request link click", {
+      href: target.attr("href")
+      inHoldings: target.closest('.holdings').length > 0
+    }
+
+    if target.closest('.holdings').length > 0
+      console.log "click!"
+      f = document.createElement("form")
+      f.style.display = "none"
+      @parentNode.appendChild f
+      f.method = "POST"
+      f.action = target.attr("href")
+      f.target = "_blank"  if event.metaKey or event.ctrlKey
+      d = document.createElement("input")
+      d.setAttribute "type", "hidden"
+      d.setAttribute "name", "counter"
+      d.setAttribute "value", target.data("counter")
+      f.appendChild d
+      m = document.createElement("input")
+      m.setAttribute "type", "hidden"
+      m.setAttribute "name", "_method"
+      m.setAttribute "value", "put"
+      f.appendChild m
+      m = document.createElement("input")
+      m.setAttribute "type", "hidden"
+      m.setAttribute "name", $("meta[name=\"csrf-param\"]").attr("content")
+      m.setAttribute "value", $("meta[name=\"csrf-token\"]").attr("content")
+      f.appendChild m
+      f.submit()
+      return false
+
+    event.preventDefault()
+    event.stopPropagation()
+    $.fn.spin.presets.requesting =
+      lines: 9,
+      length: 3,
+      width: 2,
+      radius: 6,
+    $('#request-loading-spinner').spin('requesting')
+    # Next line is necessary to get spinner to appear. If there is no
+    # delay before the redirect, it simply does not happen.
+    setTimeout (-> window.location.href=target.attr('href')), 100
     false
