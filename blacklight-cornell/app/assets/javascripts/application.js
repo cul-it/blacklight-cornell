@@ -49,3 +49,9 @@
 //= require linked_data/work.js
 //= require retrieve_lcsh.js
 
+// Set CSRF token as a default header for plain $.ajax calls.
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+})
