@@ -15,7 +15,7 @@
   <% illiad_url = ENV['ILLIAD_URL'] %>
 
   <div class="item-requests">
-    <% if (not_spif > 0)    %>
+    <% if has_non_spif_items %>
       <% if group == 'Rare' && ENV['DISABLE_AEON'] == 'true' %>
         <%= 'Reading Room delivery and scans of these materials are temporarily unavailable.' %>
       <% else %>
@@ -27,7 +27,7 @@
           <% end %>
           <%= link_to "Request item for scanning", request_scan_path, scan_btn_opts unless reading.empty? %>
         <% elsif @document['callnum_sort'] == "Available for the Library to Purchase" %>
-          <%= link_to "Request item #{reading}", request_context_path, request_btn_opts %>
+          <%= link_to "Request item#{reading}", request_context_path, request_btn_opts %>
         <% end %>
       <% end %>
     <% end %>
@@ -42,7 +42,7 @@
       <%= link_to 'Request scan of article/chapter', ill_scan_link(illiad_url, @document, @title, @subtitle), { :title => 'Request scan', :class => 'btn btn-outline-secondary'} %>
     <% end %>
 
-    <%if reserve_only %>
+    <% if reserve_only %>
       <br/>This item is on reserve and can't be requested for delivery. See a librarian for assistance.
     <% end %>
   </div>

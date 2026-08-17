@@ -13,7 +13,7 @@ RSpec.describe 'catalog/_request_buttons.html.erb', type: :view do
       group: 'Circulating',
       noncirc: false,
       aeon_codes: [],
-      not_spif: 1,
+      has_non_spif_items: true,
       reading: '',
       reserve_item: false,
       reserve_only: false
