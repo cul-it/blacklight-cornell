@@ -417,8 +417,9 @@ module CornellCatalogHelper
 		form_definition = '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fcatalog.library.cornell.edu'
 		ill_link = base_url + form_definition
 		title = "#{title}" + (subtitle.present? ? ": #{subtitle}" : '')
-		identifier = document[:isbn_display] ? document[:isbn_display][0] : ''
-		identifier ||= document[:issn_display] ? document[:issn_display][0] : ''
+		identifier = Array(document[:isbn_display]).find(&:present?)
+		identifier ||= Array(document[:issn_display]).find(&:present?)
+		identifier ||= ''
 		ill_link += "&rft.title=#{CGI.escape(title)}&rft.isbn=#{CGI.escape(identifier)}"
 	end
 end
