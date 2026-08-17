@@ -11,6 +11,7 @@
 <% noncirc = false %>
 <% aeon_codes = [] %>
 <% has_non_spif_items = false %>
+<% restricted_request_item = false %>
 
 <% if group == "Rare" %>
   <% reading = " for Reading Room Delivery" %>
@@ -37,6 +38,9 @@
 
     <% reserve_item = (i["location"]["code"].include?(",res") || i["location"]["code"].include?("oclc,afrp") || location_name.include?("Reserve")) %>
     <% reserve_item_count += 1 if reserve_item %>
+
+    <% # Disable request buttons for items cataloged in the Digital CoLab %>
+    <% restricted_request_item = true if i["location"]["code"] == "olin,701" %>
 
     <% if location_name !~ /Spacecraft Planetary Imaging Facility/ %>
       <% has_non_spif_items = true %>
@@ -164,4 +168,12 @@
 
 <% reserve_items_only = reserve_item_count == items.count %>
 
-<%= render "request_buttons", :group => group, :aeon_codes => aeon_codes, :has_non_spif_items => has_non_spif_items, :reading => reading, :reserve_item => reserve_item, :reserve_only => reserve_items_only %>
+<%= render "request_buttons",
+  :group => group,
+  :aeon_codes => aeon_codes,
+  :has_non_spif_items => has_non_spif_items,
+  :reading => reading,
+  :reserve_item => reserve_item,
+  :reserve_only => reserve_items_only,
+  :restricted_request_item => restricted_request_item
+%>

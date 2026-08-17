@@ -1,5 +1,6 @@
-<% if group == "Circulating"  || group == "Rare" %>
+<% if (group == "Circulating" || group == "Rare") && !restricted_request_item %>
 <% # Note that group should only ever be Circulating or Rare. %>
+<% # restricted_request_item items (e.g. olin,701) are never requestable, so no buttons render for them. %>
   <%
     # Need a parameter to pass to requests that determines whether to add
     # text on the "Ask a librarian page" that the item can be scanned and
