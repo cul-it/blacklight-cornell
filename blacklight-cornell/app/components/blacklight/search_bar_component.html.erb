@@ -2,7 +2,6 @@
   <div class="search-tools col-12 col-lg-8">
   
   <% if params[:action] == 'show' %>
-  <%# TODO: BS5: Add back spacing with rounded and column-gap-3? %>
     <%= form_tag @url, :id => 'search-form', :method => :get, :class => 'search-form' do %>
       <%= render Blacklight::HiddenSearchStateComponent.new(params: @params) %>
       <% if !params[:q_row].present? || params[:action] == 'edit' %>
