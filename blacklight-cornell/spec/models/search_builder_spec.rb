@@ -1195,7 +1195,30 @@ RSpec.describe SearchBuilder, type: :model do
       allow(search_builder).to receive(:blacklight_params) { blacklight_params }
     end
 
-    context 'simple catalog search' do
+    context 'simple catalog search with no search_field param' do
+      let(:blacklight_params) { { q: q } }
+      let(:solr_params) { { q: q, sort: 'score desc, pub_date_sort desc, title_sort asc' } }
+
+      context '1 search term' do
+        let(:q) { 'test'}
+
+        it 'transforms expected solr params' do
+          search_builder.set_query(solr_params)
+          expect(solr_params[:q]).to eq('("test") OR phrase:"test"')
+          end
+        end
+
+      context 'multiple search terms' do
+        let(:q) { 'test1 test2 test3'}
+
+        it 'transforms expected solr params' do
+          search_builder.set_query(solr_params)
+          expect(solr_params[:q]).to eq('("test1" AND "test2" AND "test3") OR phrase:"test1 test2 test3"')
+        end
+      end
+    end
+
+    context 'simple catalog search with search_field param' do
       let(:q) { 'test1 test2 test3'}
       let(:blacklight_params) { { q: q, search_field: search_field } }
       let(:solr_params) { { q: q, sort: 'score desc, pub_date_sort desc, title_sort asc' } }

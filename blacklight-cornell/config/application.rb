@@ -6,9 +6,6 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require File.expand_path('../../lib/james_monkeys', __FILE__)
-require File.expand_path('../../lib/maybe', __FILE__)
-
 module BlacklightCornell
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
