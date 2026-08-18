@@ -1069,11 +1069,11 @@ module DisplayHelper
             class: class_name,
             role: 'button',
             data: {
-              toggle: 'tooltip',
-              placement: 'bottom',
-              html: "true"
-            },
-            title: tooltip_text do
+              bs_toggle: 'tooltip',
+              bs_placement: 'bottom',
+              bs_html: "true", 
+              bs_title: tooltip_text
+            } do
       content_tag(:i, '', class: 'fa fa-info-circle', aria: { hidden: true }) + ((" #{link_name}") if link_name.present?)
     end
   end

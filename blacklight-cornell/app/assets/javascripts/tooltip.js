@@ -2,7 +2,7 @@
 document.querySelectorAll(".show-select-box").forEach((el) => {
   el.setAttribute("data-bs-toggle", "tooltip");
   el.setAttribute("data-bs-placement", "bottom");
-  el.setAttribute("title", "Sign in first to email items or save them to Book Bag");
+  el.setAttribute("data-bs-title", "Sign in first to email items or save them to Book Bag");
 });
 
 document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => new bootstrap.Tooltip(el));
