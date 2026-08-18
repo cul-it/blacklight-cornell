@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: 14b82d2eaa073eb038dfa0c19f608d9f06944306
-  branch: DACCESS-944
+  revision: f6865931680bfeb98c2d727ff3b7fc94cf4fc98c
+  branch: dev
   specs:
     blacklight_cornell_requests (5.5.1)
       blacklight (~> 8.0)
@@ -27,8 +27,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: a702013636c11647258f0a886c10340c46a4b5f1
-  branch: DACCESS-944
+  revision: 4a536170e17d3db4e6cc32400f368cc601c40f5d
+  branch: dev
   specs:
     my_account (2.5)
       blacklight (>= 7.0, < 9.0)
