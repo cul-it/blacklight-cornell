@@ -1,6 +1,10 @@
 // Layout
 // ------------------------
 
+body {
+	min-height: 100vh; // ensure that body is as tall as the viewport so that the BS5 body bg color (white) doesn't display under the footer tan
+}
+
 .main-content {
 	padding: 0.5em 0 30px 0;
 	background: white;
