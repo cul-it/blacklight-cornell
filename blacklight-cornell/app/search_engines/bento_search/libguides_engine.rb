@@ -59,8 +59,8 @@ class BentoSearch::LibguidesEngine
       if response.is_a? Net::HTTPSuccess
         token_data = JSON.parse(response.body)
         access_token = token_data["access_token"].to_s
-        expires_in = token_data["expires_in"].to_i
-        expires_at = (Time.current + (expires_in.present? ? expires_in : 3600).seconds).to_i
+        expires_in = token_data["expires_in"].present? ? token_data["expires_in"].to_i : 3600
+        expires_at = (Time.current + expires_in.seconds).to_i
 
         Rails.logger.info "Caching new LibGuides auth token"
         write_cached_token(access_token, expires_in, expires_at)
@@ -72,6 +72,7 @@ class BentoSearch::LibguidesEngine
     end
 
     rescue StandardError => e
+      Rails.logger.error("Failed to retrieve LibGuides auth token. Error: #{e.message}")
       nil
   end
 
