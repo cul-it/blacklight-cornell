@@ -12,7 +12,7 @@
   <% # Preserve the search-result position (falls back to the session, same as elsewhere the counter is used) %>
   <% counter = params[:counter] || session[:search][:counter] %>
   <% request_context_path += "?counter=#{counter}" if group == "Circulating" && counter.present? %>
-  <% request_btn_opts = { :title => 'Request', :class => 'btn btn-danger' } %>
+  <% request_btn_opts = { :title => 'Request', :class => 'btn btn-danger js-request-link' } %>
   <% disabled_request_btn_opts = request_btn_opts.merge(:class => 'btn btn-danger disabled', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;') %>
   <% scan_btn_opts = { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } %>
   <% pui_url = aspace_pui_url(@document) %>
