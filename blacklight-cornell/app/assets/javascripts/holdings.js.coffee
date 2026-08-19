@@ -145,28 +145,3 @@ holdings =
 
 $(document).ready ->
   holdings.onLoad()
-  $(document).on "click", ".js-request-link", (event) ->
-    target = $(this)
-    f = document.createElement("form")
-    f.style.display = "none"
-    @parentNode.appendChild f
-    f.method = "POST"
-    f.action = target.attr("href")
-    f.target = "_blank"  if event.metaKey or event.ctrlKey
-    d = document.createElement("input")
-    d.setAttribute "type", "hidden"
-    d.setAttribute "name", "counter"
-    d.setAttribute "value", target.data("counter")
-    f.appendChild d
-    m = document.createElement("input")
-    m.setAttribute "type", "hidden"
-    m.setAttribute "name", "_method"
-    m.setAttribute "value", "put"
-    f.appendChild m
-    m = document.createElement("input")
-    m.setAttribute "type", "hidden"
-    m.setAttribute "name", $("meta[name=\"csrf-param\"]").attr("content")
-    m.setAttribute "value", $("meta[name=\"csrf-token\"]").attr("content")
-    f.appendChild m
-    f.submit()
-    return false
