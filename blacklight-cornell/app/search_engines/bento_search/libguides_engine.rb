@@ -72,7 +72,7 @@ class BentoSearch::LibguidesEngine
     end
 
     rescue StandardError => e
-      Rails.logger.error("Failed to retrieve LibGuides auth token. Error: #{e.message}")
+      Rails.logger.error "Failed to retrieve LibGuides auth token. Error: #{e.message}" 
       nil
   end
 
