@@ -24,6 +24,13 @@ module AeonHelper
     #   items_json_hash[holding_id] = items
     # end
     #
+
+    # need to add the holdings notes to each item in the items_json_hash
+    items_json_hash.each do |holding_id, items|
+      notes = (holdings_json_hash.dig(holding_id, 'notes') || []).join(' --- ')
+      items.each { |item| item['holdings_notes'] = notes }
+    end
+
     valholding = items_json_hash.values.flatten
     items_json_hash.transform_values! { |items| sort_items(valholding.dup) }
 
@@ -300,6 +307,7 @@ module AeonHelper
   #
   # rubocop:disable Metrics/MethodLength
   def itemdata_script(item:, location:, csloc:, code:)
+    holdings_notes = item['holdings_notes'] || ''
     restrictions = item.dig('rmc', 'Restrictions') || ''
     barcode = if item['barcode']
                 item['barcode']
@@ -335,7 +343,8 @@ module AeonHelper
           cslocation: "#{csloc}",
           code: "#{code}",
           callnumber: "#{item['call']}",
-          Restrictions: "#{restrictions}"
+          Restrictions: #{restrictions.to_json},
+          holdings_notes: #{holdings_notes.to_json}
         };
       </script>
     HTML

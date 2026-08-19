@@ -35,6 +35,7 @@ function buildRequestForItem(_, element, multipleFlag) {
       callnumber = '',
       copy = '',
       loc_code = '',
+      holdings_notes = '',
     } = itemdata[req] ?? {};
 
     // DACCESS-512 combine location fields but make sure they are unique, do not use code field it contains 'rmc' on kheel items 
@@ -46,6 +47,7 @@ function buildRequestForItem(_, element, multipleFlag) {
       { name: `ItemInfo1`, value: chron },
       { name: `ItemNumber`, value: barcode },
       { name: `ItemIssue`, value: copy },
+      { name: `ItemInfo5`, value: holdings_notes },
       { name: `Site`, value: /kheel|ilr/i.test(cslocation + ' ' + location + ' ' + loc_code) ? 'KHEEL' : 'RMC' },
     ];
     $("#RequestForm").append(`<input type="hidden" class="dynamic-input" name="Request" value="${req}">`);
