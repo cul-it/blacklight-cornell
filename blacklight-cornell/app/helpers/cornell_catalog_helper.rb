@@ -418,7 +418,7 @@ module CornellCatalogHelper
 			Action: '10',
 			Form: '30',
 			url_ver: 'Z39.88-2004',
-			rfr_id: 'info%3Asid%2Fcatalog.library.cornell.edu'
+			rfr_id: 'info:sid/catalog.library.cornell.edu'
 		}
 		ill_link = "#{base_url}?#{form_definition.to_query}"
 		title = "#{title}" + (subtitle.present? ? ": #{subtitle}" : '')
