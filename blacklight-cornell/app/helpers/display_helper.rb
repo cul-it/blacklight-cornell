@@ -101,17 +101,6 @@ module DisplayHelper
   def field_value_separator; '<br>'; end
   def hide_this_field field; false; end
 
-  def render_first_available_partial(partials, options)
-    partials.each do |partial|
-      begin
-        return render(:partial => partial, :locals => options)
-      rescue ActionView::MissingTemplate
-        next
-      end
-    end
-    raise "No partials found from #{partials.inspect}"
-  end
-
   def contents_list field
     content_tag(:ul) do
       field[:value].each do |v|
@@ -510,26 +499,12 @@ module DisplayHelper
     (document['online'].present? && document['online'].include?('Online')) ? true : false
   end
 
-  def is_at_the_library? document
-    (document['online'].present? && document['online'].include?('At the Library')) ? true : false
-  end
-
   def finding_aid(document)
     if document['url_findingaid_display'].present?
       if document['url_findingaid_display'].size > 1
         facet_catalog_path(document)
       else
         render_display_link(:document => document, :field => 'url_findingaid_display', :format => 'url')
-      end
-    end
-  end
-
-  def other_availability(document)
-    if document['other_availability_piped'].present?
-      if document['other_availability_piped'].size > 1
-        facet_catalog_path(document)
-      else
-        render_display_link(:document => document, :field => 'other_availability_piped', :format => 'url')
       end
     end
   end
@@ -646,9 +621,7 @@ module DisplayHelper
   end
 
   def is_emailable document
-    if document.respond_to?(:to_email_text)
-      true
-    end
+    true
   end
 
   def is_exportable document
@@ -1104,21 +1077,4 @@ module DisplayHelper
       content_tag(:i, '', class: 'fa fa-info-circle', aria: { hidden: true }) + ((" #{link_name}") if link_name.present?)
     end
   end
-
-  # TODO: no longer needed? commented out 5/31/23 to see if it breaks anything - mhk33, DISCOVERYACCESS-7501
-  # Clean up isbn in prep for bookcovers via Google Books API
-  # def bookcover_isbn(document)
-  #   isbn = document['isbn_display']
-  #   unless isbn.blank?
-  #     isbn = isbn.first
-  #     # Find first occurence of a space (remove non integer chars)
-  #     space = isbn.index(' ')
-  #     unless space.blank?
-  #       stop = space - 1
-  #       isbn[0..stop]
-  #     else
-  #       isbn
-  #     end
-  #   end
-  # end
 end

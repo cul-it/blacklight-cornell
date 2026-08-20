@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: dc8d3278ad343221260a38529459b837112dddf5
+  revision: f6865931680bfeb98c2d727ff3b7fc94cf4fc98c
   branch: dev
   specs:
     blacklight_cornell_requests (5.5.1)
-      blacklight
+      blacklight (~> 8.0)
       dotenv
       dotenv-deployment
       dotenv-rails
@@ -27,11 +27,11 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 0d49fb9dc4223be7e827190a4b25e3d05675574b
+  revision: 4a536170e17d3db4e6cc32400f368cc601c40f5d
   branch: dev
   specs:
     my_account (2.5)
-      blacklight (~> 7.0)
+      blacklight (>= 7.0, < 9.0)
       cul-folio-edge (> 3.3)
       haml
       rails (~> 8.0)
@@ -178,23 +178,21 @@ GEM
       logger (~> 1.7)
       racc (~> 1.7)
     bigdecimal (4.1.2)
-    blacklight (7.42.0)
-      deprecation
+    blacklight (8.12.3)
       globalid
-      hashdiff
       i18n (>= 1.7.0)
       jbuilder (~> 2.7)
       kaminari (>= 0.15)
       ostruct (>= 0.3.2)
       rails (>= 6.1, < 9)
-      view_component (>= 2.74, < 4)
+      view_component (>= 2.74, < 5)
       zeitwerk
     blacklight-hierarchy (6.5.0)
       blacklight (>= 7.18, < 9)
       deprecation
       rails (>= 7.1, < 9)
-    blacklight-marc (8.2.0)
-      blacklight (>= 7.11, < 9)
+    blacklight-marc (9.0.0)
+      blacklight (>= 7.11, < 10)
       library_stdnums
       marc (>= 0.4.3, < 2.0)
       marc-fastxmlwriter
@@ -873,9 +871,9 @@ DEPENDENCIES
   awesome_print
   aws-sdk-s3 (~> 1.143)
   bento_search (~> 2.0.0.rc2)
-  blacklight (<= 8.0)
+  blacklight (< 9.0)
   blacklight-hierarchy (~> 6.5.0)
-  blacklight-marc (~> 8.2)
+  blacklight-marc (~> 9.0)
   blacklight_cornell_requests!
   blacklight_range_limit (~> 8.5.0)
   bootstrap (~> 4.6)

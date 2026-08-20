@@ -114,15 +114,16 @@ ul.blacklight-nav.noncatalog-nav {
   float: right;
   margin-right: 2.5rem;
 }
-.catalog-name {
-  .navbar-toggler {
-    border-color: $navbar-light-toggler-border-color;
-    color: $navbar-light-active-color;
-  }
-  .navbar-toggler-icon {
-    background-image: $navbar-light-toggler-icon-bg;
-  }
+
+.navbar-toggler, .facet-toggle-button {
+  border-color: $navbar-light-toggler-border-color;
+  color: $navbar-light-active-color;
 }
+
+.navbar-toggler-icon {
+  background-image: $navbar-light-toggler-icon-bg;
+}
+
 .dropdown-header {
   color: $cornell-primary;
 }
@@ -190,6 +191,12 @@ ul.blacklight-nav.noncatalog-nav {
 
 // Extra small devices (portrait phones, less than 576px)
 // No media query for `xs` since this is the default in Bootstrap
+
+@include media-breakpoint-down(sm) {
+	.links-collapse {
+    margin-left: 1rem;
+  }
+}
 
 // Small devices (landscape phones, 576px and up)
 @include media-breakpoint-up(sm) {

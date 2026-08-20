@@ -17,14 +17,13 @@ RSpec.describe BookmarksController, type: :controller do
     ]
   end
   let(:response_obj) { instance_double(Blacklight::Solr::Response, total: 0) }
-  let(:documents) { [double('doc')] }
   let(:search_service) { instance_double(Blacklight::SearchService) }
 
   before do
     controller.blacklight_config.document_model = SolrDocument
     allow(controller).to receive(:search_service).and_return(search_service)
-    allow(search_service).to receive(:fetch).and_return([response_obj, documents])
-    allow(search_service).to receive(:search_results).and_return([response_obj, documents])
+    allow(search_service).to receive(:fetch).and_return(response_obj)
+    allow(search_service).to receive(:search_results).and_return(response_obj)
     allow(controller).to receive(:additional_response_formats)
     allow(controller).to receive(:document_export_formats)
     allow(controller).to receive(:token_or_current_or_guest_user).and_return(token_user)
@@ -43,7 +42,7 @@ RSpec.describe BookmarksController, type: :controller do
   describe '#action_documents' do
     it 'fetches documents for bookmarked ids' do
       allow(token_user).to receive_message_chain(:bookmarks, :collect).and_return(bookmark_list.map(&:document_id))
-      expect(search_service).to receive(:fetch).with(%w[1 2]).and_return([response_obj, documents])
+      expect(search_service).to receive(:fetch).with(%w[1 2]).and_return(response_obj)
       controller.action_documents
     end
   end
@@ -75,7 +74,7 @@ RSpec.describe BookmarksController, type: :controller do
 
     it 'renders the bookmarks list' do
       allow(BookBag).to receive(:enabled?).and_return(false)
-      expect(search_service).to receive(:search_results).and_return([response_obj, documents])
+      expect(search_service).to receive(:search_results).and_return(response_obj)
       get :index
       expect(response).to have_http_status(:ok)
     end
@@ -84,7 +83,7 @@ RSpec.describe BookmarksController, type: :controller do
       allow(BookBag).to receive(:enabled?).and_return(false)
       stub_const('BookBagsController::MAX_BOOKBAGS_COUNT', 1)
       allow(bookmarks_relation).to receive(:limit).and_return(bookmark_list.slice(0, BookBagsController::MAX_BOOKBAGS_COUNT))
-      expect(search_service).to receive(:search_results).and_return([response_obj, documents])
+      expect(search_service).to receive(:search_results).and_return(response_obj)
       get :index
       expect(response).to have_http_status(:ok)
     end
