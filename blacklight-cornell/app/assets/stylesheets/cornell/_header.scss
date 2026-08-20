@@ -62,8 +62,10 @@ header {
 
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
+
+// this class is used in multiple parts of the app - header non-catalog links, user links, bento search options
 ul.blacklight-nav {
-  	margin: .5rem 0 0 0;
+  	margin: .75rem 0 0 0;
     a.user-email,
     a.logout {
       padding: 5px 0;
