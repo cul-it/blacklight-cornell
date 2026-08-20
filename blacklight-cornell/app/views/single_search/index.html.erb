@@ -194,13 +194,10 @@
                     <% #alertsArray << $db_recommendation unless $db_recommendation.blank? %>
                     <% alertsArray.each do |alert| %>
                       <div class="highlight-box">
-                        <div class="heads-up">
-                          <i class="fa fa-star"></i>
-                          <%= 'Best Bet' %>
-                        </div>
-                        <h2>
+                        <h2 class="search-source mb-2"><i class="fa fa-star"></i><%= 'Best Bet' %></h2>
+                        <div class="best-bet-title">
                           <%= link_to alert['title'], alert['link'], :onclick => "javascript:_paq.push(['trackEvent', 'BestBet', 'BentoBox'])" %>
-                        </h2>
+                        </div>
                       </div>
                     <% end %>
                     <% #this is the first result %>
