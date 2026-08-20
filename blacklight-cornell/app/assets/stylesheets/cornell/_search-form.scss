@@ -15,11 +15,7 @@
 }
 
 .search-options { margin-left: 0; }
-input.search-query {
-  width: 93%;
-  padding-right: 0;
-  padding-left: 15px;
-}
+
 .start-over {
   display: block;
   font-size: 14px;
@@ -67,6 +63,19 @@ div.search-tools > h2 {line-height: 1em}
   background: $concrete;
   color: white;
 }
+
+// BS5: adjust responsive width of simple search box
+// ----------------------------------------------------
+
+@include media-breakpoint-up(xxl) {
+  .search-form {
+    width: 80%;
+    .search-query {
+      width: 14%;
+    }
+  }
+}
+
 
 // Advanced search link - catalog + bento
 // ---------------------------------------- //

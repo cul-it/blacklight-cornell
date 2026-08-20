@@ -6,7 +6,7 @@ header {
     display: inline-block;
     line-height: 1em;
     font-family: $font-family-cul;
-    @include font-size(2.5rem);
+    @include font-size(2.2rem);
   	a {
       color: $dark-gray;
       text-decoration: none;
@@ -65,7 +65,7 @@ header {
 
 // this class is used in multiple parts of the app - header non-catalog links, user links, bento search options
 ul.blacklight-nav {
-  	margin: .75rem 0 0 0;
+  	margin: .5rem 0 0 0;
     a.user-email,
     a.logout {
       padding: 5px 0;
@@ -88,7 +88,6 @@ ul.blacklight-nav {
       }
     }
     li {
-      font-size: .9rem;
       padding: .5rem 0;
     }
     .myaccount-link {
@@ -100,6 +99,9 @@ ul.blacklight-nav {
       i {
         margin-right: .5em;
       }
+    }
+    .btn-link {
+      color: $link-color;
     }
 }
 ul.blacklight-nav.noncatalog-nav {
@@ -227,7 +229,7 @@ ul.blacklight-nav.noncatalog-nav {
     margin: 5px 0;
   }
   .util-links-toggle {
-    margin-right: -7rem;
+    margin-right: -11rem;
   }
   header {
     h1 {
