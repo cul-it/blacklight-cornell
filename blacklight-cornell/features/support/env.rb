@@ -100,6 +100,7 @@ Capybara.default_max_wait_time = 10
 #
 ActionController::Base.allow_rescue = false
 
+
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
@@ -160,6 +161,16 @@ end
 
 After('@omniauth_test') do
   BlacklightCornell::OmniauthMock.disable!
+end
+
+# Real forgery protection is enabled only for @javascript scenarios to test
+# csrf token headers in ajax requests.
+Before('@javascript') do
+  ActionController::Base.allow_forgery_protection = true
+end
+
+After('@javascript') do
+  ActionController::Base.allow_forgery_protection = false
 end
 
 # https://github.com/teampoltergeist/poltergeist/issues/375#issuecomment-112860044

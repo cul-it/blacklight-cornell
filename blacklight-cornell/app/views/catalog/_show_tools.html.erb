@@ -17,7 +17,9 @@
 <% end %>
 
 <% if !bookmarks_index %>
-<li><%= render :partial => "bookmark_control" , :locals => {:document => @document} %></li>
+<li><%= render :partial => "bookmark_control",
+               :locals => { document: @document,
+                            document_action_config: blacklight_config.show.document_actions[:bookmark] } %></li>
 <% end %>
 
 <% if bookmarks_index || emailable  || bookbags_index %>

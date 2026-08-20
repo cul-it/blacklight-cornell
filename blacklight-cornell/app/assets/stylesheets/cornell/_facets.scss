@@ -13,9 +13,6 @@
 		border-bottom: 1px solid $light-tan;
     	padding: 0 0 .25em 0;
 	}
-	i {
-		color: $dark-gray;
-	}
 	.navbar {
 		margin-bottom: 0;
 		padding: 0;
@@ -27,8 +24,10 @@
 		text-indent: 0;
 		padding-left: 0;
 		word-break: normal;
-		i {
+		i, svg {
 			margin-right: 3px;
+			height: 18px;
+  			width: 18px;
 		}
 	}
 	.selected {
@@ -48,6 +47,11 @@
 	}
 }
 
+.advanced-facet-limits {
+  --bl-facet-margin-bottom: #{$spacer};
+  --bl-facet-limit-body-padding: #{$spacer};
+}
+
 .sidenav {
 	.navbar-toggler {
 		margin-bottom: 1rem;
@@ -62,18 +66,13 @@
 	a.remove {
 		padding: 0;
 		display: inline-block;
-		margin-bottom: .25em;
 	}
 	a.remove:hover {
 		text-decoration: none;
 		background: white;
-		i { color: $medium-gray; }
 	}
 	a.remove:active, a.remove:focus {
 		border: 0;
-	}
-	span.selected {
-		color: $dark-gray;
 	}
 }
 
@@ -257,16 +256,10 @@
 	.facet-values {
 		.facet-label {
 			display: table-cell;
-			padding-bottom: .25rem;
 		}
 		.facet-count {
 			display: table-cell;
 			padding-bottom: 0;
-		}
-	}
-	#facets {
-		a.remove {
-			padding: 3px 5px;
 		}
 	}
 }

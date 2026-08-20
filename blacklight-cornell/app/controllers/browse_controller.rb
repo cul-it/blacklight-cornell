@@ -9,8 +9,6 @@ class BrowseController < ApplicationController
   before_action :redirect_catalog
   before_action :check_browse_and_heading_types, only: [:info]
 
-  rescue_from RSolr::Error::Http, :with => :handle_request_error
-
   # Needed to prevent saving when browse field is selected with no query
   def start_new_search_session?
     false
