@@ -52,12 +52,6 @@
   --bl-facet-limit-body-padding: #{$spacer};
 }
 
-.sidenav {
-	.navbar-toggler {
-		margin-bottom: 1rem;
-	}
-}
-
 #facets {
 	li {
 		// Align the facet count right; needed for hieirarchical facets
@@ -110,6 +104,11 @@
 			color: white;
 		} 
 	}
+}
+
+// BL8 BS5 facet toggle - removes larger border around full-width outer div on mobile
+.facets-toggleable-sm {
+	border: 0;
 }
 
 // Hierarchical call number facet
