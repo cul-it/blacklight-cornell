@@ -22,8 +22,8 @@ class BentoSearch::LibguidesEngine
     results.each do |i|
       item = BentoSearch::ResultItem.new
       item.title = i["name"].to_s
-      item.abstract = i["description"].to_s if i["description"].present?
-      item.link = i["friendly_url"]
+      item.abstract = i["description"].present? ? i["description"].to_s : i["type_label"].to_s
+      item.link = i["friendly_url"].present? ? i["friendly_url"].to_s : i["url"].to_s
       bento_results << item
     end
     
