@@ -24,7 +24,7 @@ Blacklight.onLoad(function() {
       // Create screen reader text
       const srIndicatorText = document.createElement('span');
       srIndicatorText.innerText = 'Loading more...';
-      srIndicatorText.classList.add('sr-only');
+      srIndicatorText.classList.add('visually-hidden');
       loadingIndicator.appendChild(srIndicatorText);
 
       moreLinkParent.classList.add('text-center');

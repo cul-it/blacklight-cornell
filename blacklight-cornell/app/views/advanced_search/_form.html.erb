@@ -25,9 +25,9 @@
             </div>
             <div class='col-md-6'>
               <h3>Sort results</h3>
-              <div class='form-group'>
+              <div class='mb-3'>
                 <%= form.label :sort, t('blacklight.search.form.sort'), class: 'sort-results' %>
-                <%= form.select :sort, advanced_search_sort_opts, {}, { class: 'form-control adv-search-control' } %>
+                <%= form.select :sort, advanced_search_sort_opts, {}, { class: 'form-select adv-search-control' } %>
               </div>
             </div>
           </div>

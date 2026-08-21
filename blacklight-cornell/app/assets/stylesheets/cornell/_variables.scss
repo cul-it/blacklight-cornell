@@ -35,10 +35,6 @@ $link-color: #005FBD; // not sure where link-color is referenced but this sets t
 // Boostrap overrides
 // -------------------
 
-// Scaffolding
-// -------------------------
-$body-bg: $light-tan;
-
 // Fonts
 // -------------------------
 // Protocol is intentionally absent from URL to allow browser to automatically
@@ -58,6 +54,7 @@ $monospace-font-family: Droid Sans Mono;
 // CUL typeface
 $font-family-cul: 'freight-sans-pro', 'Helvetica', 'Arial', sans-serif;
 
+// Monospace for call numbers
 $font-family-call-number: 'Courier', monospace;
 
 // Navbar - not sure if this is used or where it is referenced
@@ -66,10 +63,11 @@ $navbarCollapseWidth:             767px !default;
 $navbarCollapseDesktopWidth:      $navbarCollapseWidth + 1;
 
 
-// .danger color
+// BS5 variables
 // -----------------
 $danger: $cornell-primary;
 
+// TODO: BS5
 // temp for bootstrap 4 transition
 // --------------------------------
 $screen-sm: 768px !default;

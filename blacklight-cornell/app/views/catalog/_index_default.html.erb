@@ -1,7 +1,7 @@
  <%# default partial to display solr document fields in catalog index view -%>
  <%# This file is needed to display icon images in results display -%>
       <span class="blacklight-title_uniform_display"><%= render_delimited_index_field_value :document => document, :field => 'title_uniform_display' %></span>
-  <div class="data-block">
+  <div class="data-block mb-3">
       <span class="blacklight-author_display"><%= simple_render_index_field_value :document => document, :field => 'author_display' %></span>
       <% formats = simple_render_index_field_value document, :field => 'format' %>
       <% formats.each do |format| %>
@@ -18,7 +18,7 @@
   </div>
   <%# the ETAS conditional can be removed during the July '21 sprint %>
   <% if is_online?(document) && !document["url_access_json"].to_s.include?("ETAS")  %>
-    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <span class="status-online badge badge-primary badge-online">Online</span>
+    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <span class="status-online badge bg-success">Online</span>
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" >

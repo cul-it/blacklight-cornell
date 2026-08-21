@@ -16,8 +16,8 @@
   <ul class="fa-ul-dropdown d-sm-inline-block list-unstyled mb-2">
     <li class="dropdown">
       <div class="btn-group mb-2">
-        <a id="vb-view-type" href="#" class="btn btn-default btn-md dropdown-toggle" data-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false">
-    	    <i class="fa fa-th" aria-hidden="true">&nbsp;&nbsp;</i>View type <b class="caret"></b>
+        <a id="vb-view-type" href="#" class="btn btn-md dropdown-toggle" data-bs-toggle="dropdown" id="export-menu" aria-haspopup="true" aria-expanded="false">
+    	    <i class="fa fa-th" aria-hidden="true">&nbsp;&nbsp;</i>View type
         </a>
         <ul class="dropdown-menu" aria-labelledby="vb-view-type">
           <li>
@@ -40,14 +40,14 @@
     <div class="vb-scroll-nav">
 	    <a id="vb-scroll-left" href="javascript:void(0);" rel="scroll-left" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'scroll_left']);"> 
 		    <span class="fa fa-chevron-left" aria-hidden="true"></span>
-		    <span class="sr-only">Scroll left</span>
+		    <span class="visually-hidden">Scroll left</span>
 		</a>
 	</div>
 	<div class="vb-current-class"><%= classification %></div>
 	<div class="vb-scroll-nav">
 		<a id="vb-scroll-right" href="javascript:void(0);" rel="scroll-right" onclick="javascript:_paq.push(['trackEvent', 'virtualbrowse_callnumber', 'scroll_right']);"> 
 			<span class="fa fa-chevron-right" aria-hidden="true"></span>
-			<span class="sr-only">Scroll right</span>
+			<span class="visually-hidden">Scroll right</span>
 		</a>
 	</div>
     <%= image_tag("cornell/virtual-browse/indicator1.gif", alt: "processing time indicator", id: "vb-time-indicator") %>

@@ -8,7 +8,7 @@
   </div>
   <div class="col-sm-2">
     <%# bookmark functions for items/docs -%>
-    <%= helpers.render_index_doc_actions @document, :wrapping_class => "select-item" %>
+    <%= helpers.render_index_doc_actions @document, :wrapping_class => "select-item mb-2" %>
     <% oclc_num = helpers.bookcover_oclc(@document) %>
     <% if oclc_num.present? && !@document["no_google_img_b"] %>
     <div class="bookcover" id="OCLC:<%= oclc_num %>" data-oclc="<%= oclc_num %>">

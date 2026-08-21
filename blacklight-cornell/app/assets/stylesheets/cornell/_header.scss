@@ -6,10 +6,11 @@ header {
     display: inline-block;
     line-height: 1em;
     font-family: $font-family-cul;
-    text-transform: uppercase;
-    font-size: 1.8rem;
-  	a { 
-      color: $dark-gray;}
+    @include font-size(2.2rem);
+  	a {
+      color: $dark-gray;
+      text-decoration: none;
+    }
     a:hover,
     a:active,
     a:focus {
@@ -61,6 +62,8 @@ header {
 
 // Links like Search History, Selected Items, etc.
 // --------------------------------------------------//
+
+// this class is used in multiple parts of the app - header non-catalog links, user links, bento search options
 ul.blacklight-nav {
   	margin: .5rem 0 0 0;
     a.user-email,
@@ -85,7 +88,6 @@ ul.blacklight-nav {
       }
     }
     li {
-      font-size: .9rem;
       padding: .5rem 0;
     }
     .myaccount-link {
@@ -97,6 +99,9 @@ ul.blacklight-nav {
       i {
         margin-right: .5em;
       }
+    }
+    .btn-link {
+      color: $link-color;
     }
 }
 ul.blacklight-nav.noncatalog-nav {
@@ -112,7 +117,11 @@ ul.blacklight-nav.noncatalog-nav {
 
 .util-links-toggle {
   float: right;
-  margin-right: 2.5rem;
+  // BS5 - fix padding and border missing from user-util-links mobile icon
+  // TODO: consider refactoring this collapse nav in the future so we don't need these styles
+  padding: 0.25rem 0.75rem;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 6px;
 }
 
 .navbar-toggler, .facet-toggle-button {
@@ -130,7 +139,6 @@ ul.blacklight-nav.noncatalog-nav {
 
 .help-menu {
   float: right;
-  margin-right: 2.5rem; // to account for the Chat slideout on mobile
 }
 
 // Library menu 
@@ -167,6 +175,12 @@ ul.blacklight-nav.noncatalog-nav {
     border-bottom: 0;
     padding: 0;
   }
+}
+
+// BL8/BS5 - Override Springshare styles - move the slide-out further down so it doesn't block the header on mobile
+// This is not needed if we end up changing to a floating icon widget.
+.lcs_slide_out-r {
+  top: 300px !important;
 }
 
 // System alert - for things like service outages
@@ -215,13 +229,12 @@ ul.blacklight-nav.noncatalog-nav {
     margin: 5px 0;
   }
   .util-links-toggle {
-    margin-right: -7rem;
+    margin-right: -11rem;
   }
   header {
     h1 {
       margin-bottom: 0;
       margin-top: 0;
-      font-size: 2rem;
     }
   }
   .service-alert {

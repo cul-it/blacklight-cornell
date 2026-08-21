@@ -72,7 +72,7 @@ class CatalogController < ApplicationController
   before_action :redirect_browse
 
   configure_blacklight do |config|
-    config.bootstrap_version = 4
+    config.bootstrap_version = 5
 
     # chris beer recommended for latest version of unapi
     config.unapi = {

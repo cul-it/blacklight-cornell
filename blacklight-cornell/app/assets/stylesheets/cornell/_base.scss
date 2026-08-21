@@ -1,7 +1,14 @@
 // Layout
 // ------------------------
 
-.main-content { 
+body {
+	min-height: 100vh; // ensure that body is as tall as the viewport so that the BS5 body bg color (white) doesn't display under the footer tan
+	display: flex;
+	flex-direction: column;
+}
+
+.main-content {
+	flex: 1;
 	padding: 0.5em 0 30px 0;
 	background: white;
 }
@@ -120,7 +127,7 @@ h3 { font-size: 20px; line-height: 1.5em;}
 
 // Modal overrides
 // ----------------------
-.close {
+.btn-close {
 	color: $medium-gray;
 	opacity: 1;
 }

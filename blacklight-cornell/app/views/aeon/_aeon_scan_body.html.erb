@@ -1,11 +1,11 @@
 <div>
-        <div class="form-group row">
+        <div class="row mb-3">
                 <div class="col-form-label col-sm-2">
                         <span class="req">*</span>
                         <label for="Format">Format:</label>
                 </div>
                 <div class="col-form-label col-sm-10">
-                        <select class="form-control" id="Format" name="Format">
+                        <select class="form-select" id="Format" name="Format">
                                 <option value="PDF">PDF</option>
                                 <option value="TIFF 600 dpi">TIFF 600 dpi</option>
                                 <option value="TIFF 600 dpi > 12x17">TIFF 600 dpi > 12x17</option>
@@ -22,7 +22,7 @@
                         </select>
                 </div>
         </div>
-        <div class="form-group row">
+        <div class="row mb-3">
                 <div class="col-form-label col-sm-2">
                         <span class="req">*</span>
                         <label for="ServiceLevel">Service level:</label>
@@ -33,14 +33,14 @@
                                         <option selected value="a. Normal: $15">Normal</option> 
                                 </select>
                         <% else %>
-                                <select class="form-control" id="ServiceLevel" name="ServiceLevel">
+                                <select class="form-select" id="ServiceLevel" name="ServiceLevel">
                                         <option value="a. Normal: $15">Normal</option>
                                         <option value="b. Rush <3 weeks: $40">Rush < 3 weeks</option>
                                 </select>
                         <% end %>
                 </div>
         </div>
-        <div class="form-group row">
+        <div class="row mb-3">
                 <div class="col-form-label col-sm-2">
                         <span class="req">*</span>
                         <label for="ShippingOption">Delivery method:</label>
@@ -52,7 +52,7 @@
                 </div>
         </div>
 
-        <div class="form-group row">
+        <div class="row mb-3">
                 <div class="col-form-label col-sm-2">
                         <label for="SpecialRequest">Special Requests or Questions:</label>
                 </div>
@@ -64,7 +64,7 @@
                         <textarea class="form-control col-md-9" id="SpecialRequest" name="SpecialRequest" rows="3" maxlength="250" oninput="checkLength('SpecialRequest', 'charWarning-sr')" aria-describedby="charWarning-sr"></textarea>
                 </div>
         </div>
-        <div class="form-group row">
+        <div class="row mb-3">
                 <div class="col-form-label col-sm-2">
                         <label for="ItemCitation">Citation:</label>
                 </div>
@@ -76,7 +76,7 @@
                         <textarea class="form-control col-md-9" id="ItemCitation" name="ItemCitation" rows="3" maxlength="250" oninput="checkLength('ItemCitation', 'charWarning-cit')" aria-describedby="charWarning-cit"></textarea>
                 </div>
         </div>
-        <div class="form-group row">
+        <div class="row mb-3">
                 <div class="col-form-label col-sm-2">
                         <label for="Notes">My Notes:</label>                
                 </div>

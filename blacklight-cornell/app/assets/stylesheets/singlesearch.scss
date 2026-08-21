@@ -1,4 +1,3 @@
-input.search-query { width: 35%; }
 #field,
 #sort,
 #per_page { margin-bottom: 0; }
@@ -8,15 +7,6 @@ input.search-query { width: 35%; }
   margin-right: .6em;
 }
 .sort_group { margin: 1em 0; }
-
-.single-search {
-  .form-group {
-    width: 80%;
-  }
-  .search-query {
-    width: 100%;
-  }
-}
 
 #top2 {
   .search-source {
@@ -71,7 +61,7 @@ div.view-all {
 .search-source {
   font-size: 24px;
   margin: 0 0 .25em 0;
-  i { color: $concrete}
+  i { color: $cornell-primary}
   a {
     color: $dark-gray;
     border: none;
@@ -139,6 +129,14 @@ div.view-all {
 // -----------------------------------------------//
 
 // See .highlight-box in _base.scss
+.highlight-box {
+  .search-source {
+    font-size: 24px;
+  }
+  .best-bet-title {
+    font-size: 20px;
+  }
+}
 
 .bento-box {
   position:relative;
@@ -202,13 +200,6 @@ div.view-all {
 // Repositories results page
 // -------------------------------- //
 
-.institutionalrepository-search {
-  .form-group {
-    .ir-search {
-      width: 100%;
-    }
-  }
-}
 .blacklight-institutional_repositories {
   h2 {
     margin-top: 1em;
@@ -430,7 +421,7 @@ div.view-all {
     overflow: visible !important;
   }
   .single-search {
-    .form-group {
+    .input-group {
       width: 60%;
     }
   }

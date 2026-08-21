@@ -24,7 +24,7 @@
       <div class="card card-well">
         <div class="card-body">
           <div class="search-info">
-            <%= tooltip("Search the Library Catalog, Articles and Full Text, and more. WorldCat is available through the Libraries Worldwide link in the search results.", link_name: "About this search", class_name: "float-right") %>
+            <%= tooltip("Search the Library Catalog, Articles and Full Text, and more. WorldCat is available through the Libraries Worldwide link in the search results.", link_name: "About this search", class_name: "float-end") %>
           </div>
           <h2>Search</h2>
           <%= render 'single_search/search_form' %>
@@ -53,8 +53,8 @@
           <div class="col-md-3 ">
             <div class="navbar sidenav facets-toggleable-sm">
               <h2 class="all-results-header">All results</h2>
-              <button class="navbar-toggler navbar-toggler-right facets-toggle" type="button" data-toggle="collapse" data-target=".results-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
-              <span class="sr-only">Toggle facets</span>
+              <button class="navbar-toggler navbar-toggler-right facets-toggle" type="button" data-bs-toggle="collapse" data-bs-target=".results-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
+              <span class="visually-hidden">Toggle facets</span>
                 <span class="navbar-toggler-icon"></span>
               </button>
             </div>
@@ -194,13 +194,10 @@
                     <% #alertsArray << $db_recommendation unless $db_recommendation.blank? %>
                     <% alertsArray.each do |alert| %>
                       <div class="highlight-box">
-                        <div class="heads-up">
-                          <i class="fa fa-star"></i>
-                          <%= 'Best Bet' %>
-                        </div>
-                        <h2>
+                        <h2 class="search-source mb-2"><i class="fa fa-star"></i><%= 'Best Bet' %></h2>
+                        <div class="best-bet-title">
                           <%= link_to alert['title'], alert['link'], :onclick => "javascript:_paq.push(['trackEvent', 'BestBet', 'BentoBox'])" %>
-                        </h2>
+                        </div>
                       </div>
                     <% end %>
                     <% #this is the first result %>
