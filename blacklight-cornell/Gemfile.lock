@@ -27,8 +27,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 276f60a245f6eab731a9334277a3cd5d193177d5
-  branch: DACCESS-970
+  revision: a5513009b9c9295fbeeaef6ecbb325018e479edc
+  branch: dev
   specs:
     my_account (2.5)
       blacklight (>= 7.0, < 9.0)
