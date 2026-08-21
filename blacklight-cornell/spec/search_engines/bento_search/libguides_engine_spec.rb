@@ -10,7 +10,7 @@ describe BentoSearch::LibguidesEngine do
                 headers: { "Content-Type" => "application/json" })
 
     stub_request(:get, /guides/)
-      .to_return(body: JSON.dump([{ "name" => "guide title", "description" => "guide description", "friendly_url" => "https://example.org/guides/123" }]),
+      .to_return(body: JSON.dump([{ "name" => "guide title", "description" => "guide description", "friendly_url" => "https://example.org/123" }]),
                 status: 200,
                 headers: { "Content-Type" => "application/json" })
 
@@ -24,8 +24,27 @@ describe BentoSearch::LibguidesEngine do
         expect(results.count).to eq(1)
         expect(results.first.title).to eq('guide title')
         expect(results.first.abstract).to eq('guide description')
-        expect(results.first.link).to eq('https://example.org/guides/123')
+        expect(results.first.link).to eq('https://example.org/123')
         expect(results.total_items).to eq(0)
+      end
+    end
+
+    context 'when the LibGuides API returns no friendly url or description' do
+      before do
+        stub_request(:get, /guides/)
+          .to_return(body: JSON.dump([{ "name" => "guide title", "type_label" => "guide type", "url" => "https://example.org/456" }]),
+                     status: 200,
+                     headers: { "Content-Type" => "application/json" })
+      end
+
+      it 'uses the type label as the abstract' do
+        results = libguides_engine.search('test')
+        expect(results.first.abstract).to eq('guide type')
+      end
+
+      it 'uses the url as the link' do
+        results = libguides_engine.search('test')
+        expect(results.first.link).to eq('https://example.org/456')
       end
     end
   end
