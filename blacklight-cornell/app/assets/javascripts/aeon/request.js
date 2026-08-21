@@ -189,6 +189,15 @@ $(document).ready(function () {
   $('#clear').click(clearForm);
   $('#RequestForm').submit(doSubmit);
   $('.ItemNo').each((_, element) => $(element).click(doClick));
+
+  // Give each checkbox an accessible label
+  document.querySelectorAll('.ItemNo').forEach((element) => {
+    const text = element.parentElement.textContent.replace(/\s+/g, ' ').trim();
+    if (text) {
+      element.setAttribute('aria-label', `Select ${text}`);
+    }
+  });
+
   if ($('.ItemNo').length === 1) {
     const item = $('.ItemNo').first();
     item.click().unbind('click');
