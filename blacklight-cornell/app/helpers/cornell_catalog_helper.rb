@@ -301,15 +301,13 @@ module CornellCatalogHelper
 	return formatted
   end
 
-# Check if the document is in the user's bookbag
-  def bookbagged? did
-    d = did.to_s
-    value = "bibid-#{d}"
-    if @bb
-      @bb.index.any? {  |x|  x == value }
-    else
-      false
-    end
+  def bookbagged?(document)
+    @bb.present? && @bb.index.include?(document.id)
+  end
+
+  def can_add_books?
+    !(current_or_guest_user.present? && current_or_guest_user.bookmarks.present? && current_or_guest_user.bookmarks.count.present?) ||
+      (current_or_guest_user.bookmarks.count < BookBagsController::MAX_BOOKBAGS_COUNT)
   end
 
   # For musical recordings, renders the image returned by Discogs when available.

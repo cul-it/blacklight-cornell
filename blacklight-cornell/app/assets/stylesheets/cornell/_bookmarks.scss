@@ -6,27 +6,6 @@
 		margin-top: .5em;
 	}
 }
-	
-.clear-bookmarks {
-	margin-left: 1em;
-}
-
-.dropdown-menu {
-	> li > form > a {
-		display: block;
-		padding: 3px 20px;
-		clear: both;
-		font-weight: normal;
-		line-height: $line-height-base;
-    	color: $dropdown-link-color;
-		white-space: nowrap;
-	}
-	> li > form > a:hover {
-		text-decoration: none;
-	  	color: $dropdown-link-hover-color;
-	  	@include gradient-vertical($dropdown-link-hover-bg, darken($dropdown-link-hover-bg, 5%));
-	}
-}
 
 .results-info {
   margin: 0;

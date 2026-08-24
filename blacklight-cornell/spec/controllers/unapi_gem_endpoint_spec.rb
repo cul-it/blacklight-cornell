@@ -23,7 +23,7 @@ RSpec.describe CatalogController, type: :controller do
 
     before do
       allow(controller).to receive(:search_service).and_return(search_service)
-      allow(search_service).to receive(:fetch).with('123').and_return([nil, document])
+      allow(search_service).to receive(:fetch).with('123').and_return(document)
       allow(document).to receive(:export_formats).and_return(export_formats)
       allow(document).to receive(:exports_as?).and_return(false)
       allow(document).to receive(:exports_as?).with(:xml).and_return(true)

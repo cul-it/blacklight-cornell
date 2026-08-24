@@ -8,7 +8,6 @@ RSpec.describe BookBagsController, type: :controller do
   let(:book_bag) { instance_double(BookBag) }
   let(:book_bag_count) { 1 }
   let(:response_obj) { instance_double(Blacklight::Solr::Response, total: 0) }
-  let(:documents) { [double('doc')] }
   let(:search_service) { instance_double(Blacklight::SearchService) }
   let(:user) { User.create!(email: 'dev@example.com') }
 
@@ -29,8 +28,8 @@ RSpec.describe BookBagsController, type: :controller do
     allow(book_bag).to receive(:set_bagname)
     allow(book_bag).to receive(:debug)
     allow_any_instance_of(BookBagsController).to receive(:search_service).and_return(search_service)
-    allow(search_service).to receive(:search_results).and_return([response_obj, documents])
-    allow(search_service).to receive(:fetch).and_return([response_obj, documents])
+    allow(search_service).to receive(:search_results).and_return(response_obj)
+    allow(search_service).to receive(:fetch).and_return(response_obj)
     allow_any_instance_of(BookBagsController).to receive(:save_bookmarks_for_book_bags)
     allow_any_instance_of(BookBagsController).to receive(:additional_response_formats)
     allow_any_instance_of(BookBagsController).to receive(:document_export_formats)
@@ -161,7 +160,7 @@ RSpec.describe BookBagsController, type: :controller do
     it 'fetches and assigns documents for a BookBag instance' do
       allow(book_bag).to receive(:is_a?).with(BookBag).and_return(true)
       allow(book_bag).to receive(:index).and_return(%w[1 2])
-      expect(search_service).to receive(:search_results).and_return([response_obj, documents])
+      expect(search_service).to receive(:search_results).and_return(response_obj)
       get :index
       expect(assigns(:response)).to eq(response_obj)
     end
@@ -170,7 +169,7 @@ RSpec.describe BookBagsController, type: :controller do
       non_book_bag = instance_double('NonBookBag', index: [String.new('bibid-1')])
       allow(non_book_bag).to receive(:is_a?).with(BookBag).and_return(false)
       controller.instance_variable_set(:@bb, non_book_bag)
-      expect(search_service).to receive(:search_results).and_return([response_obj, documents])
+      expect(search_service).to receive(:search_results).and_return(response_obj)
       get :index
       expect(assigns(:response)).to eq(response_obj)
     end
@@ -212,14 +211,14 @@ RSpec.describe BookBagsController, type: :controller do
     it 'fetches all documents using per_page rows equal to bag size' do
       allow(book_bag).to receive(:index).and_return(%w[1 2 3])
       controller.instance_variable_set(:@bb, book_bag)
-      expect(search_service).to receive(:fetch).with(%w[1 2 3], hash_including(per_page: 3, rows: 3)).and_return([response_obj, documents])
+      expect(search_service).to receive(:fetch).with(%w[1 2 3], hash_including(per_page: 3, rows: 3)).and_return(response_obj)
       controller.action_documents
     end
   end
 
   describe 'GET endnote' do
     it 'fetches when an id is provided' do
-      expect(search_service).to receive(:fetch).with('123').and_return([response_obj, documents])
+      expect(search_service).to receive(:fetch).with('123').and_return(response_obj)
       get :endnote, params: { id: '123' }, format: :endnote
     end
 

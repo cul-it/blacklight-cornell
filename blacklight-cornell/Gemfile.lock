@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: c23a2f6bd50ff4899c220cde438ec58773f1bc00
-  tag: v5.5
+  revision: f6865931680bfeb98c2d727ff3b7fc94cf4fc98c
+  branch: dev
   specs:
-    blacklight_cornell_requests (5.5)
-      blacklight
+    blacklight_cornell_requests (5.5.1)
+      blacklight (~> 8.0)
       dotenv
       dotenv-deployment
       dotenv-rails
@@ -27,11 +27,11 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 9c5c302869870132234a619552d920e35b6fc793
-  tag: v2.5
+  revision: a5513009b9c9295fbeeaef6ecbb325018e479edc
+  branch: dev
   specs:
     my_account (2.5)
-      blacklight (~> 7.0)
+      blacklight (>= 7.0, < 9.0)
       cul-folio-edge (> 3.3)
       haml
       rails (~> 8.0)
@@ -138,8 +138,6 @@ GEM
       nokogiri
     appsignal (3.3.11)
       rack
-    autoprefixer-rails (10.4.21.0)
-      execjs (~> 2)
     awesome_print (1.9.2)
     aws-eventstream (1.4.0)
     aws-partitions (1.1263.0)
@@ -178,23 +176,21 @@ GEM
       logger (~> 1.7)
       racc (~> 1.7)
     bigdecimal (4.1.2)
-    blacklight (7.42.0)
-      deprecation
+    blacklight (8.12.3)
       globalid
-      hashdiff
       i18n (>= 1.7.0)
       jbuilder (~> 2.7)
       kaminari (>= 0.15)
       ostruct (>= 0.3.2)
       rails (>= 6.1, < 9)
-      view_component (>= 2.74, < 4)
+      view_component (>= 2.74, < 5)
       zeitwerk
     blacklight-hierarchy (6.5.0)
       blacklight (>= 7.18, < 9)
       deprecation
       rails (>= 7.1, < 9)
-    blacklight-marc (8.2.0)
-      blacklight (>= 7.11, < 9)
+    blacklight-marc (9.0.0)
+      blacklight (>= 7.11, < 10)
       library_stdnums
       marc (>= 0.4.3, < 2.0)
       marc-fastxmlwriter
@@ -204,9 +200,8 @@ GEM
       blacklight (>= 7.25.2, < 9)
       deprecation
       view_component (>= 2.54, < 4)
-    bootstrap (4.6.2.1)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.16.1, < 2)
+    bootstrap (5.3.8)
+      popper_js (>= 2.11.8, < 3)
     brakeman (8.0.5)
       racc
     builder (3.3.0)
@@ -585,7 +580,7 @@ GEM
       activesupport
       rails (>= 3.0.0)
     plist (3.7.2)
-    popper_js (1.16.1)
+    popper_js (2.11.8)
     pp (0.6.4)
       prettyprint
     prettyprint (0.2.0)
@@ -873,12 +868,12 @@ DEPENDENCIES
   awesome_print
   aws-sdk-s3 (~> 1.143)
   bento_search (~> 2.0.0.rc2)
-  blacklight (<= 8.0)
+  blacklight (< 9.0)
   blacklight-hierarchy (~> 6.5.0)
-  blacklight-marc (~> 8.2)
+  blacklight-marc (~> 9.0)
   blacklight_cornell_requests!
   blacklight_range_limit (~> 8.5.0)
-  bootstrap (~> 4.6)
+  bootstrap (~> 5.3)
   brakeman
   byebug
   capybara

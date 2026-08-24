@@ -19,7 +19,7 @@ Feature: Select and export items from the result set
     Then I should be on 'the bookmarks page'
     Then I should see the label 'You have no selected items'
     Given I request the item view for 595322
-    Then I should select checkbox "toggle-bookmark_595322"
+    Then I should select checkbox "toggle-bookmark"
     And I sleep 5 seconds
     And I view my selected items
     And I sleep 5 seconds
@@ -36,7 +36,7 @@ Feature: Select and export items from the result set
     And I sleep 5 seconds
     Then I should be on 'the bookmarks page'
     Given I request the item view for 595322
-    Then I should select checkbox "toggle-bookmark_595322"
+    Then I should select checkbox "toggle-bookmark"
     And I sleep 5 seconds
     And I view my selected items
     And I sleep 5 seconds
@@ -54,7 +54,7 @@ Feature: Select and export items from the result set
     And I sleep 5 seconds
     Then I should be on 'the bookmarks page'
     Given I request the item view for 595322
-    Then I should select checkbox "toggle-bookmark_595322"
+    Then I should select checkbox "toggle-bookmark"
     And I sleep 5 seconds
     And I view my selected items
     And I sleep 5 seconds

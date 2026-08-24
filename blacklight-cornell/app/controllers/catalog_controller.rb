@@ -72,6 +72,8 @@ class CatalogController < ApplicationController
   before_action :redirect_browse
 
   configure_blacklight do |config|
+    config.bootstrap_version = 5
+
     # chris beer recommended for latest version of unapi
     config.unapi = {
       'oai_dc_xml' => { :content_type => 'text/xml' }
@@ -180,6 +182,7 @@ class CatalogController < ApplicationController
 
     # Custom index view components
     config.index.constraints_component = ConstraintsComponent
+    config.index.document_component = DocumentComponent
 
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
@@ -227,6 +230,7 @@ class CatalogController < ApplicationController
                            limit: 10,
                            collapse: false,
                            include_in_advanced_search: true,
+                           advanced_search_component: AdvancedFacetFieldCheckboxesComponent,
                            advanced_search_order: 1,
                            sort: 'count'
     config.add_facet_field 'location',
@@ -252,6 +256,7 @@ class CatalogController < ApplicationController
                            limit: 5,
                            show: true,
                            include_in_advanced_search: true,
+                           advanced_search_component: AdvancedFacetFieldCheckboxesComponent,
                            advanced_search_order: 2,
                            sort: 'count'
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?

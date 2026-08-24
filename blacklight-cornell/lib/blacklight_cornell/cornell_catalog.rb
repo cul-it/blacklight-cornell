@@ -9,6 +9,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   include CornellParamsHelper
   include Blacklight::SearchContext
   include Blacklight::TokenBasedUser
+  include BlacklightCornell::Errors
   include BlacklightCornell::VirtualBrowse
   include BlacklightCornell::Discogs
 
@@ -59,17 +60,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     before_action :delete_or_assign_search_session_params, :only => :index
     # before_action :add_cjk_params_logic
     after_action :set_additional_search_session_values, :only=>:index
-    # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
-    # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
-    # which is used in the #show action here.
-    # BLACKLIGHT 7 note: InvalidSolrID is no longer included as a Blacklight Excreption
-    # and raises an unititialized constant error. A RecordNotFound error is now raised.
-    # rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
     rescue_from Blacklight::Exceptions::RecordNotFound, :with => :record_not_found_error
-    # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
-    # The index action will more than likely throw this one.
-    # Example, when the standard query parser is used, and a user submits a "bad" query.
-    rescue_from RSolr::Error::Http, :with => :rsolr_request_error
     # BlacklightRangeLimit::InvalidRange is raised when an invalid date range is executed.
     rescue_from BlacklightRangeLimit::InvalidRange, :with => :range_limit_error
   end
@@ -117,14 +108,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
     end
 
     # Query solr for document list
-    (@response, deprecated_document_list) = search_service.search_results(session['search_limit_exceeded'])
-
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_document_list,
-      'The @document_list instance variable is deprecated; use @response.documents instead.',
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
-
+    @response = search_service.search_results(session['search_limit_exceeded'])
+    
     if params.nil? || params[:f].nil?
       @filters = []
     else
@@ -161,14 +146,8 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   # get single document from the solr index
   def show
-    deprecated_response, @document = search_service.fetch(params[:id])
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_response,
-      'The @response instance variable is deprecated; use @document.response instead.',
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
+    @document = search_service.fetch(params[:id])
     @documents = [ @document ]
-    # set_bag_name
     # For musical recordings, if the solr doc doesn't have a discogs id, call the Discogs module.
     # If it does have the id, save it globally and just get the image url.
     notes_check = @document["notes"].present? ? @document["notes"].join : ""
@@ -234,15 +213,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
         bookmark_ids = bookmark_ids[0..BookBagsController::MAX_BOOKBAGS_COUNT]
       end
       # Ensure user can export all selected bookmarks and not just 1 page.
-      (deprecated_response, @documents) = search_service.fetch(bookmark_ids, start: 0, rows: bookmark_ids.size, per_page: bookmark_ids.size)
+      @documents = search_service.fetch(bookmark_ids, start: 0, rows: bookmark_ids.size, per_page: bookmark_ids.size)
     else
-      (deprecated_response, @documents) = search_service.fetch(params[:id])
+      @documents = search_service.fetch(params[:id])
     end
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
-      deprecated_response,
-      'The @response instance variable is deprecated.',
-      ActiveSupport::Deprecation.new("8.0", "blacklight")
-    )
     if @documents.count() < 1
       return
     end
@@ -267,7 +241,7 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
   def validate_email_params
     if params[:to].blank?
       flash.now[:error] = I18n.t('blacklight.email.errors.to.blank')
-    elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
+    elsif !params[:to].match(Blacklight::Engine.config.blacklight.email_regexp)
       flash.now[:error] = I18n.t('blacklight.email.errors.to.invalid', to: params[:to])
     end
 
@@ -349,25 +323,6 @@ protected
     end
   end
 
-  # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
-  def rsolr_request_error(exception)
-    if Rails.env.development?
-      raise exception # Rails own code will catch and give usual Rails error page with stack trace
-    else
-      flash_notice = I18n.t('blacklight.search.errors.request_error')
-
-      # If there are errors coming from the index page, we want to trap those sensibly
-      if flash[:notice] == flash_notice
-        logger.error 'Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception'
-        raise exception
-      end
-
-      logger.error exception
-      flash[:notice] = flash_notice
-      redirect_to root_path
-    end
-  end
-
   # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
   def record_not_found_error
     if Rails.env == 'development'
@@ -404,7 +359,7 @@ protected
   end
 
   # Overrides from Blacklight::SearchContext to add :document_id
-  def blacklisted_search_session_params
+  def nonpersisted_search_session_params
     [:commit, :counter, :document_id, :id, :page, :per_page, :search_id, :total]
   end
 

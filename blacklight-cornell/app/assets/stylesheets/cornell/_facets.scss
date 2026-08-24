@@ -13,9 +13,6 @@
 		border-bottom: 1px solid $light-tan;
     	padding: 0 0 .25em 0;
 	}
-	i {
-		color: $dark-gray;
-	}
 	.navbar {
 		margin-bottom: 0;
 		padding: 0;
@@ -27,8 +24,10 @@
 		text-indent: 0;
 		padding-left: 0;
 		word-break: normal;
-		i {
+		i, svg {
 			margin-right: 3px;
+			height: 18px;
+  			width: 18px;
 		}
 	}
 	.selected {
@@ -48,10 +47,9 @@
 	}
 }
 
-.sidenav {
-	.navbar-toggler {
-		margin-bottom: 1rem;
-	}
+.advanced-facet-limits {
+  --bl-facet-margin-bottom: #{$spacer};
+  --bl-facet-limit-body-padding: #{$spacer};
 }
 
 #facets {
@@ -62,18 +60,13 @@
 	a.remove {
 		padding: 0;
 		display: inline-block;
-		margin-bottom: .25em;
 	}
 	a.remove:hover {
 		text-decoration: none;
 		background: white;
-		i { color: $medium-gray; }
 	}
 	a.remove:active, a.remove:focus {
 		border: 0;
-	}
-	span.selected {
-		color: $dark-gray;
 	}
 }
 
@@ -111,6 +104,11 @@
 			color: white;
 		} 
 	}
+}
+
+// BL8 BS5 facet toggle - removes larger border around full-width outer div on mobile
+.facets-toggleable-sm {
+	border: 0;
 }
 
 // Hierarchical call number facet
@@ -257,16 +255,10 @@
 	.facet-values {
 		.facet-label {
 			display: table-cell;
-			padding-bottom: .25rem;
 		}
 		.facet-count {
 			display: table-cell;
 			padding-bottom: 0;
-		}
-	}
-	#facets {
-		a.remove {
-			padding: 3px 5px;
 		}
 	}
 }

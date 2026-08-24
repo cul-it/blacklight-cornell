@@ -1,0 +1,18 @@
+<% # container for a single doc -%>
+<div class="document <%= helpers.render_document_class @document %> row" data-bibid="<%= @document.id %>" <%= online_data.html_safe %> <%= atl_data.html_safe %> >
+  <div class="document-data col-sm-10">
+    <%= helpers.render 'microformat_index', document: @document %>
+    <%= helpers.render 'document_header', document: @document, document_counter: @counter %>
+    <% # main container for doc partial view -%>
+    <%= helpers.render_document_partial @document, :index %>
+  </div>
+  <div class="col-sm-2">
+    <%# bookmark functions for items/docs -%>
+    <%= helpers.render_index_doc_actions @document, :wrapping_class => "select-item mb-2" %>
+    <% oclc_num = helpers.bookcover_oclc(@document) %>
+    <% if oclc_num.present? && !@document["no_google_img_b"] %>
+    <div class="bookcover" id="OCLC:<%= oclc_num %>" data-oclc="<%= oclc_num %>">
+    </div>
+    <% end %>
+  </div>
+</div>

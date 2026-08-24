@@ -20,7 +20,7 @@ module BlacklightRangeLimit
       ### BEGIN CUSTOMIZATION
       html = number_field_tag("range[#{@facet_field.key}][#{type}]", default, data: { dynamic: true }, maxlength: maxlength_override || maxlength, class: "form-control text-center range_#{type}")
       ### END CUSTOMIZATION
-      html += label_tag("range[#{@facet_field.key}][#{type}]", input_label, class: "sr-only visually-hidden") if input_label.present?
+      html += label_tag("range[#{@facet_field.key}][#{type}]", input_label, class: "visually-hidden") if input_label.present?
       html
     end
   end

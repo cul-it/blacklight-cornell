@@ -267,7 +267,6 @@ module AeonHelper
   def labeled_checkbox(id)
     <<~HTML
       <div>
-        <label for='#{id}' class='sr-only'>#{id}</label>
         <input class='ItemNo' id='#{id}' name='#{id}' type='checkbox' VALUE='#{id}'>
     HTML
   end

@@ -33,7 +33,7 @@
 	.clear-bookmarks,
 	#startOverLink,
 	.search-widgets,
-	.pagination,
+	.paginate-section,
     .bookmarks-login,
 	.lcs_slide_out,
 	#syndetics_unbound, // TODO: does this actually hide syndetics?
@@ -42,8 +42,7 @@
 	.digitalcollections-search .card,
 	.toplink,
 	.facet-pagination,
-	.navbar-toggler,
-	.survey-button {
+	.navbar-toggler {
 		display: none;
 	}
 

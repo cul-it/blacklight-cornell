@@ -2,8 +2,8 @@
 <div id="facets" class="facets sidenav facets-toggleable-sm">
 
   <div class="navbar">
-    <button class="navbar-toggler navbar-toggler-right facets-toggle" type="button" data-toggle="collapse" data-target="#facet-panel-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
-	  <span class="sr-only">Toggle facets</span>
+    <button class="navbar-toggler navbar-toggler-right facets-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#facet-panel-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
+	    <span class="visually-hidden">Toggle facets</span>
       <span class="navbar-toggler-icon"></span>
     </button>
   </div>
@@ -13,9 +13,6 @@
     <h2 class="facets-heading">
       <%= t('blacklight.search.facets.title') %>
     </h2>
-    <% # TODO - Replace render_facet_partials with body when we upgrade to BL8 %>
-    <% ::Deprecation.silence(Blacklight::FacetsHelperBehavior) do %>
-      <%= helpers.render_facet_partials @fields, response: @response %>
-    <% end %>
+    <%= body %>
   </div>
 </div>
