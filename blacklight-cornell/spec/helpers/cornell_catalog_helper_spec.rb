@@ -113,6 +113,180 @@ RSpec.describe CornellCatalogHelper, type: :helper do
     end
   end
 
+  describe '#request_path' do
+    let(:group) { 'Test' }
+    let(:id) { '123456' }
+    let(:aeon_codes) { ['olin', 'rmc'] }
+    let(:scan) { false }
+    let(:document) { {} }
+
+    before do
+      allow(helper).to receive(:blacklight_cornell_request).and_return(double)
+    end
+
+    def mock_standard_env
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('SAML_IDP_TARGET_URL').and_return(nil)
+    end
+
+    def mock_aeon_request_env(url)
+      mock_standard_env
+      allow(ENV).to receive(:[]).with('AEON_REQUEST').and_return(url)
+    end
+
+    def mock_blank_aeon_env
+      mock_standard_env
+      allow(ENV).to receive(:[]).with('AEON_REQUEST').and_return('')
+      allow(ENV).to receive(:[]).with('AEON_SCAN_REQUEST').and_return(nil)
+    end
+
+    def mock_saml_env
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('SAML_IDP_TARGET_URL').and_return('http://saml.example.com')
+    end
+
+    def mock_aeon_scan_request_env(url)
+      mock_standard_env
+      allow(ENV).to receive(:[]).with('AEON_REQUEST').and_return('http://aeon.example.com?id=~id~')
+      allow(ENV).to receive(:[]).with('AEON_SCAN_REQUEST').and_return(url)
+    end
+
+    context 'when group is "Circulating"' do
+      let(:group) { 'Circulating' }
+
+      it 'returns the magic_path' do
+        mock_standard_env
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path).with('123456').and_return('/magic/path')
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).to eq('/magic/path')
+      end
+    end
+
+    context 'when group is not "Circulating"' do
+      it 'returns aeon_req' do
+        mock_aeon_request_env('http://aeon.example.com?id=~id~&libid=~libid~')
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path).and_return('/magic/path')
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).to include('http://aeon.example.com')
+        expect(result).to include('123456')
+        expect(result).to include('olin|rmc')
+      end
+    end
+
+    context 'when scan is true' do
+      let(:scan) { true }
+
+      it 'appends .scan to the id' do
+        mock_aeon_request_env('http://aeon.example.com?id=~id~')
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path).with('123456.scan')
+        
+        helper.request_path(group, id, aeon_codes, document, scan)
+      end
+    end
+
+    context 'when SAML_IDP_TARGET_URL is present' do
+      it 'uses auth_magic_request_path instead of magic_request_path' do
+        mock_saml_env
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path).with('123456')
+        expect(helper.blacklight_cornell_request).to receive(:auth_magic_request_path).with('123456').and_return('/auth/magic/path')
+        
+        group = 'Circulating'
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).to eq('/auth/magic/path')
+      end
+    end
+
+    context 'when AEON_REQUEST is blank' do
+      it 'creates aeon_req with /aeon/id pattern' do
+        mock_blank_aeon_env
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).to include("/aeon/#{id}")
+      end
+    end
+
+    context 'when group is "AEON_SCAN_REQUEST"' do
+      let(:group) { 'AEON_SCAN_REQUEST' }
+
+      it 'uses AEON_SCAN_REQUEST environment variable' do
+        mock_aeon_scan_request_env('http://scan.example.com?id=~id~&libid=~libid~')
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).to include('http://scan.example.com')
+      end
+    end
+
+    context 'when document has finding aid URL' do
+      let(:document) do
+        {
+          'url_findingaid_display' => ['http://findingaid.example.com/resource|Some Resource']
+        }
+      end
+
+      it 'replaces ~fa~ placeholder with the finding aid URL' do
+        mock_aeon_request_env('http://aeon.example.com?id=~id~&finding=~fa~')
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).to include('http://findingaid.example.com/resource')
+      end
+    end
+
+    context 'when document has no finding aid URL' do
+      let(:document) { {} }
+
+      it 'removes the &finding=~fa~ placeholder from aeon_req' do
+        mock_aeon_request_env('http://aeon.example.com?id=~id~&finding=~fa~')
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).not_to include('~fa~')
+        expect(result).not_to include('&finding=')
+      end
+    end
+
+    context 'when finding aid display is empty array' do
+      let(:document) do
+        {
+          'url_findingaid_display' => []
+        }
+      end
+
+      it 'removes the &finding=~fa~ placeholder' do
+        mock_aeon_request_env('http://aeon.example.com?id=~id~&finding=~fa~')
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).not_to include('~fa~')
+      end
+    end
+
+    context 'when aeon_codes has multiple codes' do
+      let(:aeon_codes) { ['olin', 'rmc', 'mann'] }
+
+      it 'joins codes with pipe separator' do
+        mock_aeon_request_env('http://aeon.example.com?id=~id~&libid=~libid~')
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan)
+        
+        expect(result).to include('libid=olin|rmc|mann')
+      end
+    end
+  end
+
   describe '#ill_scan_link' do
     it 'returns nil if one of the required values is missing' do
       expect(helper.ill_scan_link(nil, {'title': 'Test' }, 'Test title', 'Test subtitle')).to be nil
