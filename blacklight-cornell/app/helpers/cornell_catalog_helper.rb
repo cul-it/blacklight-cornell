@@ -218,9 +218,10 @@ module CornellCatalogHelper
   # @param [Array<String>] aeon_codes
   # @param [Hash] document - metadata for the item
   # @param [Boolean] scan - photoduplication request flag
+	# @param [nil|Int] counter - search results item position
   #
   # @return [String] the target URL
-  def request_path(group, id, aeon_codes, document, scan)
+  def request_path(group, id, aeon_codes, document, scan, counter)
     id_scan = scan ? "#{id}.scan" : "#{id}"
     magic_path  = blacklight_cornell_request.magic_request_path("#{id_scan}")
 
@@ -250,7 +251,9 @@ module CornellCatalogHelper
 			aeon_req = aeon_req.gsub('&finding=~fa~', '')
 		end
 
-    (group == "Circulating" ) ? magic_path : aeon_req
+    constructed_url = (group == "Circulating" ) ? magic_path : aeon_req
+    constructed_url += "?counter=#{counter}" if group == "Circulating" && counter.present?
+    constructed_url
   end
 
   def acquired_date(document)

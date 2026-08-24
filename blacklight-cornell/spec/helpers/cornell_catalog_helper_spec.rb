@@ -119,6 +119,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
     let(:aeon_codes) { ['olin', 'rmc'] }
     let(:scan) { false }
     let(:document) { {} }
+    let(:counter) { nil}
 
     before do
       allow(helper).to receive(:blacklight_cornell_request).and_return(double)
@@ -158,8 +159,24 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_standard_env
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path).with('123456').and_return('/magic/path')
         
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
+        expect(result).to eq('/magic/path')
+      end
+
+      it 'appends the counter parameter if present' do
+        mock_standard_env
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path).with('123456').and_return('/magic/path')
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan, 5)
+        expect(result).to eq('/magic/path?counter=5')
+      end
+
+      it 'does not append the counter parameter if nil' do
+        mock_standard_env
+        expect(helper.blacklight_cornell_request).to receive(:magic_request_path).with('123456').and_return('/magic/path')
+        
+        result = helper.request_path(group, id, aeon_codes, document, scan, nil)
         expect(result).to eq('/magic/path')
       end
     end
@@ -169,7 +186,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_aeon_request_env('http://aeon.example.com?id=~id~&libid=~libid~')
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path).and_return('/magic/path')
         
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
         expect(result).to include('http://aeon.example.com')
         expect(result).to include('123456')
@@ -184,7 +201,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_aeon_request_env('http://aeon.example.com?id=~id~')
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path).with('123456.scan')
         
-        helper.request_path(group, id, aeon_codes, document, scan)
+        helper.request_path(group, id, aeon_codes, document, scan, counter)
       end
     end
 
@@ -195,7 +212,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         expect(helper.blacklight_cornell_request).to receive(:auth_magic_request_path).with('123456').and_return('/auth/magic/path')
         
         group = 'Circulating'
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
         expect(result).to eq('/auth/magic/path')
       end
@@ -206,7 +223,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_blank_aeon_env
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
         
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
         expect(result).to include("/aeon/#{id}")
       end
@@ -219,7 +236,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_aeon_scan_request_env('http://scan.example.com?id=~id~&libid=~libid~')
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
         
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
         expect(result).to include('http://scan.example.com')
       end
@@ -236,7 +253,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_aeon_request_env('http://aeon.example.com?id=~id~&finding=~fa~')
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
         
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
         expect(result).to include('http://findingaid.example.com/resource')
       end
@@ -249,7 +266,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_aeon_request_env('http://aeon.example.com?id=~id~&finding=~fa~')
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
         
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
         expect(result).not_to include('~fa~')
         expect(result).not_to include('&finding=')
@@ -267,7 +284,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_aeon_request_env('http://aeon.example.com?id=~id~&finding=~fa~')
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
         
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
         expect(result).not_to include('~fa~')
       end
@@ -280,7 +297,7 @@ RSpec.describe CornellCatalogHelper, type: :helper do
         mock_aeon_request_env('http://aeon.example.com?id=~id~&libid=~libid~')
         expect(helper.blacklight_cornell_request).to receive(:magic_request_path)
         
-        result = helper.request_path(group, id, aeon_codes, document, scan)
+        result = helper.request_path(group, id, aeon_codes, document, scan, counter)
         
         expect(result).to include('libid=olin|rmc|mann')
       end
