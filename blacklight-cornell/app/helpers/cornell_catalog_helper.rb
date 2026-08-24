@@ -412,8 +412,13 @@ module CornellCatalogHelper
 	def ill_scan_link(base_url, document, title, subtitle)
 		return nil unless base_url.present? && document.present?
 
-		form_definition = '?Action=10&Form=30&url_ver=Z39.88-2004&rfr_id=info%3Asid%2Fcatalog.library.cornell.edu'
-		ill_link = base_url + form_definition
+		form_definition = {
+			Action: '10',
+			Form: '30',
+			url_ver: 'Z39.88-2004',
+			rfr_id: 'info:sid/catalog.library.cornell.edu'
+		}
+		ill_link = "#{base_url}?#{form_definition.to_query}"
 		title = "#{title}" + (subtitle.present? ? ": #{subtitle}" : '')
 		identifier = Array(document[:isbn_display]).find(&:present?)
 		identifier ||= Array(document[:issn_display]).find(&:present?)

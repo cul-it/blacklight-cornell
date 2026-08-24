@@ -13,10 +13,11 @@ RSpec.describe 'catalog/_request_buttons.html.erb', type: :view do
       group: 'Circulating',
       noncirc: false,
       aeon_codes: [],
-      not_spif: 1,
+      has_non_spif_items: true,
       reading: '',
       reserve_item: false,
-      reserve_only: false
+      reserve_only: false,
+      restricted_request_item: false
     }
   end
 
@@ -69,5 +70,21 @@ RSpec.describe 'catalog/_request_buttons.html.erb', type: :view do
 
     expect(rendered).to have_link('Request item', href: '#')
     expect(rendered).to include("This item is on reserve and can't be requested for delivery.")
+  end
+
+  it 'does not render request buttons for restricted-location items' do
+    allow(ENV).to receive(:[]).with('ILLIAD_URL').and_return('https://illiad.example.edu/OpenURL')
+
+    render_partial(restricted_request_item: true)
+
+    expect(rendered).to be_blank
+  end
+
+  it 'renders a request button for a standard circulating item' do
+    allow(ENV).to receive(:[]).with('ILLIAD_URL').and_return(nil)
+
+    render_partial
+
+    expect(rendered).to have_link('Request item', href: '/request/path')
   end
 end

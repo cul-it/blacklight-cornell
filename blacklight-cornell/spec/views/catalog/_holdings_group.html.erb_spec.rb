@@ -1,0 +1,43 @@
+require 'rails_helper'
+
+RSpec.describe 'catalog/_holdings_group.html.erb', type: :view do
+  let(:document) { { 'multivol_b' => nil } }
+
+  def build_item(location_code)
+    {
+      'call' => 'PS123 .A1',
+      'circ' => true,
+      'location' => { 'code' => location_code, 'name' => 'Olin Library' }
+    }
+  end
+
+  def render_partial(items:, group: 'Circulating')
+    render partial: 'catalog/holdings_group', locals: { items: items, group: group }
+  end
+
+  before do
+    assign(:document, document)
+    assign(:title, 'Test Title')
+    assign(:subtitle, 'Test Subtitle')
+
+    allow(view).to receive(:params).and_return({ id: '123' })
+    allow(view).to receive(:request_path).and_return('/request/path', '/scan/path')
+    allow(view).to receive(:aspace_pui_url).and_return(nil)
+
+    allow(ENV).to receive(:[]).and_call_original
+    allow(ENV).to receive(:[]).with('DISABLE_AEON').and_return(nil)
+    allow(ENV).to receive(:[]).with('ILLIAD_URL').and_return(nil)
+  end
+
+  it 'renders the request item link for an item at a standard location' do
+    render_partial(items: [build_item('olin,stacks')])
+
+    expect(rendered).to have_link('Request item', href: '/request/path')
+  end
+
+  it 'suppresses the request buttons for an item at the restricted olin,701 location' do
+    render_partial(items: [build_item('olin,701')])
+
+    expect(rendered).not_to have_link('Request item')
+  end
+end
