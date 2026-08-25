@@ -218,9 +218,10 @@ module CornellCatalogHelper
   # @param [Array<String>] aeon_codes
   # @param [Hash] document - metadata for the item
   # @param [Boolean] scan - photoduplication request flag
+	# @param [nil|Int] counter - search results item position
   #
   # @return [String] the target URL
-  def request_path(group, id, aeon_codes, document, scan)
+  def request_path(group, id, aeon_codes, document, scan, counter)
     id_scan = scan ? "#{id}.scan" : "#{id}"
     magic_path  = blacklight_cornell_request.magic_request_path("#{id_scan}")
 
@@ -250,7 +251,9 @@ module CornellCatalogHelper
 			aeon_req = aeon_req.gsub('&finding=~fa~', '')
 		end
 
-    (group == "Circulating" ) ? magic_path : aeon_req
+    constructed_url = (group == "Circulating" ) ? magic_path : aeon_req
+    constructed_url += "?counter=#{counter}" if group == "Circulating" && counter.present?
+    constructed_url
   end
 
   def acquired_date(document)
@@ -398,6 +401,34 @@ module CornellCatalogHelper
 		session[:cu_authenticated_groups].include?('employee') #&&
 		#session[:cu_authenticated_groups].include?('staff')
 	end
+
+	# Create a link to the ILLiad scan request form.
+	# N.B. This should really live in blacklight-cornell-requests, but since we have request logic in this codebase to display the various
+	# request buttons, we're stuck with it for now.
+	# 
+	# @param [string] base_url - base URL of the ILLiad instance
+	# @param [Hash] document - Solr document for the instance record
+	# @param [string] title - title of the instance (defined in _show_metadata.html.erb)
+	# @param [string] subtitle - subtitle of the instance (defined in _show_metadata.html.erb)
+  #
+  # @return [string|nil] OpenURL link to ILLiad scan request form with metadata, or nil
+	def ill_scan_link(base_url, document, title, subtitle)
+		return nil unless base_url.present? && document.present?
+
+		form_definition = {
+			Action: '10',
+			Form: '30',
+			url_ver: 'Z39.88-2004',
+			rfr_id: 'info:sid/catalog.library.cornell.edu'
+		}
+		ill_link = "#{base_url}?#{form_definition.to_query}"
+		title = "#{title}" + (subtitle.present? ? ": #{subtitle}" : '')
+		identifier = Array(document[:isbn_display]).find(&:present?)
+		identifier ||= Array(document[:issn_display]).find(&:present?)
+		identifier ||= ''
+		ill_link += "&rft.title=#{CGI.escape(title)}&rft.isbn=#{CGI.escape(identifier)}"
+	end
 end
+
 
 # End of Module

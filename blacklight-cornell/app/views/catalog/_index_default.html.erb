@@ -16,9 +16,9 @@
       <span class="blacklight-edition_display"><%= simple_render_index_field_value :document => document, :field => 'edition_display' %></span>
 
   </div>
-  <%# the ETAS conditional can be removed during the July '21 sprint %>
-  <% if is_online?(document) && !document["url_access_json"].to_s.include?("ETAS")  %>
-    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <span class="status-online badge bg-success">Online</span>
+
+  <% if is_online?(document)  %>
+    <i class="fa fa-check" title="Available" aria-hidden="true"></i> <span class="status-online badge badge-primary badge-online">Online</span>
   <% end %>
 
   <div id="blacklight-avail-<%=document.id%>" >
