@@ -26,7 +26,6 @@
 //= require 'blacklight_range_limit'
 
 
-//= require 'blacklight/hierarchy/hierarchy'
 //= require jquery-ui/widgets/autocomplete
 //= require print_button.js
 //
