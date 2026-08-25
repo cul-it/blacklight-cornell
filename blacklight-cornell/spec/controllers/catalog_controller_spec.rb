@@ -220,6 +220,29 @@ RSpec.describe CatalogController, type: :controller do
     end
   end
 
+  describe 'GET email' do
+    before do
+      session[:cu_authenticated_user] = true
+    end
+
+    context 'with a valid document id and no q or search_field params' do
+      it 'renders the email form instead of raising RecordNotFound' do
+        get :email, xhr: true, params: { id: '1001' }
+        expect(response).to be_successful
+        expect(assigns(:documents).map(&:id)).to eq(['1001'])
+      end
+    end
+
+    context 'without a session-authenticated user' do
+      it 'renders the cuwebauth prompt instead of the email form' do
+        session[:cu_authenticated_user] = nil
+        get :email, xhr: true, params: { id: '1001' }
+        expect(response).to be_successful
+        expect(response).to render_template(partial: 'catalog/_email_cuwebauth')
+      end
+    end
+  end
+
   describe "Ensure no duplicate saved searches to search history" do
     it "does not create a duplicate for equivalent BASIC search params" do
       params = { "q" => "cat", "search_field" => "all_fields" }
