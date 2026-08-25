@@ -230,3 +230,9 @@ Feature: Results list
     And I press 'search'
     And I navigate to a page that exceeds search results
     Then I should see the text 'Search limit exceeded. To view additional results, modify your search using the available filters.'
+
+  @all_results_list @search_with_no_results
+  Scenario: Search with no results
+    Given I view the search results list for 'awfasdf acawfdfas'
+    Then I should get 0 results
+    And I should not see the text "Looking for more?"
