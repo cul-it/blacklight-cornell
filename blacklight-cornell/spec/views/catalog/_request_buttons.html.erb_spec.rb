@@ -31,6 +31,7 @@ RSpec.describe 'catalog/_request_buttons.html.erb', type: :view do
     assign(:subtitle, 'Test Subtitle')
 
     allow(view).to receive(:params).and_return({ id: '123' })
+    allow(view).to receive(:session).and_return({ search: { counter: 1 } })
     allow(view).to receive(:request_path).and_return('/request/path', '/scan/path')
     allow(view).to receive(:aspace_pui_url).and_return(nil)
 

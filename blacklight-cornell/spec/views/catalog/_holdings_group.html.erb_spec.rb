@@ -1,7 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'catalog/_holdings_group.html.erb', type: :view do
-  let(:document) { { 'multivol_b' => nil } }
+  let(:document) do
+    {
+      'multivol_b' => nil,
+      'location' => 'Olin Library',
+      'callnum_sort' => 'PS123 .A1'
+    }
+  end
 
   def build_item(location_code)
     {
@@ -22,6 +28,7 @@ RSpec.describe 'catalog/_holdings_group.html.erb', type: :view do
 
     allow(view).to receive(:params).and_return({ id: '123' })
     allow(view).to receive(:request_path).and_return('/request/path', '/scan/path')
+    allow(view).to receive(:session).and_return({ search: { counter: 1 } })
     allow(view).to receive(:aspace_pui_url).and_return(nil)
 
     allow(ENV).to receive(:[]).and_call_original
