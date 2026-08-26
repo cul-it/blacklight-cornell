@@ -17,23 +17,21 @@
 		margin-bottom: 0;
 		padding: 0;
 	}
-	a:hover { background: white; }
 }
-.facet-values {
+.facet-values, .h-leaf {
 	.facet-label {
 		text-indent: 0;
 		padding-left: 0;
 		word-break: normal;
 		i, svg {
 			margin-right: 3px;
-			height: 18px;
-  			width: 18px;
+			height: 19px;
+  			width: 19px;
 		}
 	}
 	.selected {
-		.facet-label {
-			padding-bottom: 0;
-		}
+		color: var(--bl-facet-active-item-color);
+		padding-bottom: 0;
 	}
 }
 .facets-heading {
@@ -58,12 +56,11 @@
 		padding-right: 0;
 	}
 	a.remove {
-		padding: 0;
 		display: inline-block;
 	}
 	a.remove:hover {
+      	color: $cornell-primary-hover;
 		text-decoration: none;
-		background: white;
 	}
 	a.remove:active, a.remove:focus {
 		border: 0;
