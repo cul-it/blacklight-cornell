@@ -8,18 +8,18 @@
 <div id='reference-info'>
   <%# display any seeAlso info first %>
   <% if @heading_document["seeAlso"].present?  %>
-    <dl class="dl-horizontal">
+    <dl>
     <% sa=JSON.parse(@heading_document["seeAlso"]) %>
     <% sa.each do |r,h| %>
       <% if r.blank? %>
-        <dt>See Also:</dt>
+        <dt class="mt-3 mb-2">See Also</dt>
       <% end %>
       <% if !r.blank? %>
-        <dt><%= r + ':' %></dt>
+        <dt class="mt-3 mb-2"><%= r %></dt>
       <% end %>
-  	  <% if h.count > 20 %>
-  	    <div class="columns" style="margin-left:165px;column-width:22.5">
-  	  <% end %>
+   	  <% if h.count > 20 %>
+   	    <div class="columns">
+   	  <% end %>
       <% loop_count = 0 %>
       <% h.each do |headingInfo| %>
         <dd <% if h.count > 20 and loop_count >= 20 %>style="margin-left:0;display:none;"  class="toggled-cr-refs"<% elsif h.count > 20  %>style="margin-left:0;"<%end%>>
@@ -44,16 +44,16 @@
           </span>
         <% end %>
         </dd>
-  	    <% loop_count += 1 %>
+   	    <% loop_count += 1 %>
       <% end %>
-  	  <% if loop_count > 20 %>
-  	    <div>
-  	      <a id="cr-refs-toggle" href="#" class="btn btn-sm btn-outline-secondary">Show more &raquo;</a>
-  	    </div>
-  	  <% end %>
-  	  <% if h.count >= 20 %>
-  	    </div>
-  	  <% end %>
+   	  <% if loop_count > 20 %>
+   	    <div>
+   	      <a id="cr-refs-toggle" href="#" class="btn btn-sm btn-secondary">Show all terms &raquo;</a>
+   	    </div>
+   	  <% end %>
+   	  <% if h.count >= 20 %>
+   	    </div>
+   	  <% end %>
     <% end %>
     </dl>
   <% end %>

@@ -108,7 +108,7 @@ body.blacklight-browse-show_subject,
 	.main-content {
 		padding-bottom: .5em;
 	}
-	.dl-horizontal {
+	.dl {
     &:not(#item-details) {
       margin-bottom: 2rem;
     }
@@ -164,7 +164,7 @@ dl {
 	body.blacklight-browse-show_subject,
 	.browse-info,
 	.browse-show_subject {
-		.dl-horizontal {
+		.dl {
 			dt {
 				float: left;
 			}
