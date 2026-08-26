@@ -183,6 +183,7 @@ class CatalogController < ApplicationController
     # Custom index view components
     config.index.constraints_component = ConstraintsComponent
     config.index.document_component = DocumentComponent
+    config.index.facet_group_component = FacetGroupComponent
 
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
@@ -249,6 +250,7 @@ class CatalogController < ApplicationController
                            show: true,
                            include_in_advanced_search: true,
                            if: :has_search_parameters?,
+                           component: RangeFacetComponent,
                            advanced_search_component: AdvancedRangeLimitComponent,
                            advanced_search_order: 0
     config.add_facet_field 'language_facet',
