@@ -24,7 +24,7 @@ Given /^I request the item holdings view for (.*?)$/ do |bibid|
 end
 
 Given("I request the item") do
-  page.find("#id_request").click
+  page.find('.js-request-link', match: :first).click
 end
 
 Then /^(?:|I )click on link "(.*?)"$/ do |link|

@@ -294,7 +294,6 @@ class CatalogController < ApplicationController
     config.add_facet_field 'availability_facet', show: false, label: "Availability"
     config.add_facet_field 'collection', show: false, label: "Collection"
     config.add_facet_field 'ebsco_title_facet', show: false, label: "EBSCO Title"
-    config.add_facet_field 'etas_facet', show: false, label: "Emergency Temporary Access Service (ETAS)"
     config.add_facet_field 'format_main_facet', show: false, label: "Format Main"
     config.add_facet_field 'lc_alpha_facet', show: false, label: 'Call Number', limit: 5
     config.add_facet_field 'source', show: false, label: 'Source'
