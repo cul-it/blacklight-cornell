@@ -5,7 +5,16 @@
 		margin: 0;
 		color: #000;
 		background-color: #fff;
+		min-width: 0 !important;
 	}
+
+	.container, .container-fluid {
+		width: 100% !important;
+		max-width: 100% !important;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
 
 	// Hide this stuff - TODO: some of these selectors may have been used in BL4, but not needed in BL5
 	.search-home {
@@ -33,22 +42,18 @@
 	.clear-bookmarks,
 	#startOverLink,
 	.search-widgets,
-	.paginate-section,
     .bookmarks-login,
 	.lcs_slide_out,
-	#syndetics_unbound, // TODO: does this actually hide syndetics?
+	#syndetics_unbound,
 	.databases-search,
 	.databases-az,
 	.digitalcollections-search .card,
 	.toplink,
 	.facet-pagination,
-	.navbar-toggler {
+	.navbar-toggler,
+	.other-resources {
 		display: none;
 	}
-
-	// TODO: want to hide these classes but it doesn't work; possibly because it is loaded via js after the print stylesheet is applied
-	// .call-number-browse
-	// .checkbox.select_all
 
 	// Hide dropdowns on Selected Items
 	.bookmarks {
@@ -62,24 +67,14 @@
 		a { text-decoration: none;}
 	}
 
-	// Don't print URLs
-	a[href]:after {
-	    content: ""
-	  }
-	abbr[title]:after {
-	    content: "";
-	  }
-
 	// hides covers on results
 	.document {
-		.iconcover, .bookcover { display: none; } 
+		.bookcover { display: none; } 
 	}
 
 	.blacklight-title_display {
 		margin: 1rem 0 0;
 	}
-
-	// .modal-header button { display: none; } // TODO: not needed?
 
 	// print  librarian view in monospace font
 	#marc_view { font-family: courier, monospace; }
