@@ -64,8 +64,9 @@ class ConstraintsComponent < Blacklight::ConstraintsComponent
 
   private
 
+  # Overrides Blacklight::InclusiveFacetItemPresenter defaults
   def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
-      InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
+    InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
   end
 
 end
