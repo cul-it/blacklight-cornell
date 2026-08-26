@@ -1,12 +1,14 @@
 <%= render :partial=>'/shared/skip_to' %>
 <div class="cornell-identity" aria-label="Cornell" role="banner">
+  
   <div class="mobile-cornell-wrapper d-block d-sm-none">
     <div class="container">
       <a class="mobile-cornell-logo" href="http://www.cornell.edu">Cornell University</a>
     </div>
   </div>
   <div class="container">
-    <div class="cornell-brand">
+    <%= image_tag('cornell/layout/cul-logo-white.gif', class: 'd-none d-print-block') %>
+    <div class="cornell-brand d-print-none">
       <div class="row">
         <div class="cornell-logo col-9">
           <div class="logo d-none d-sm-block">

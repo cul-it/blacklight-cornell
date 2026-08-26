@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/cul-it/blacklight-cornell-requests
-  revision: f6865931680bfeb98c2d727ff3b7fc94cf4fc98c
+  revision: 11831329aac0c8f6be095a877f74967ea6a5b660
   branch: dev
   specs:
     blacklight_cornell_requests (5.5.1)
@@ -187,8 +187,8 @@ GEM
       rails (>= 6.1, < 9)
       view_component (>= 2.74, < 5)
       zeitwerk
-    blacklight-hierarchy (6.5.0)
-      blacklight (>= 7.18, < 9)
+    blacklight-hierarchy (6.9.0)
+      blacklight (>= 7.18, < 10)
       deprecation
       rails (>= 7.1, < 9)
     blacklight-marc (9.0.0)
@@ -865,7 +865,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1.143)
   bento_search (~> 2.0.0.rc2)
   blacklight (< 9.0)
-  blacklight-hierarchy (~> 6.5.0)
+  blacklight-hierarchy (~> 6.9.0)
   blacklight-marc (~> 9.0)
   blacklight_cornell_requests!
   blacklight_range_limit (~> 8.5.0)
