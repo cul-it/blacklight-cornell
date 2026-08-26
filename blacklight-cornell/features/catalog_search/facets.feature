@@ -138,8 +138,8 @@ Scenario: Searching multiple times retains the previous search session's facets
   And it should contain filter "AND Language" with value "English OR French"
   And I should not see the label 'Modify advanced search'
 
-Scenario: Filtering by f_inclusive facet with one value
-  When I literally go to ?boolean_row%5B1%5D=AND&f_inclusive%5Bformat%5D%5B%5D=Book&op_row%5B%5D=AND&op_row%5B%5D=AND&q=&q_row%5B%5D=Canada&q_row%5B%5D=&range%5Bpub_date_facet%5D%5Bbegin%5D=1960&range%5Bpub_date_facet%5D%5Bend%5D=2000&search_field=advanced&search_field_row%5B%5D=all_fields&search_field_row%5B%5D=all_fields
+  Scenario: Filtering by f_inclusive facet when there are no other queries/filters
+  When I literally go to ?boolean_row%5B1%5D=AND&f_inclusive%5Bformat%5D%5B%5D=Book&op_row%5B%5D=AND&op_row%5B%5D=AND&q=&q_row%5B%5D=&q_row%5B%5D=&range%5Bpub_date_facet%5D%5Bbegin%5D=1960&range%5Bpub_date_facet%5D%5Bend%5D=2000&search_field=advanced&search_field_row%5B%5D=all_fields&search_field_row%5B%5D=all_fields
   Then I should get results
   And it should contain filter "Format" with value "Book"
   And it should not contain filter "AND Format"
