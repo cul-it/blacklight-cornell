@@ -61,4 +61,11 @@ class ConstraintsComponent < Blacklight::ConstraintsComponent
 
     content.join.html_safe
   end
+
+  private
+
+  def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
+      InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
+  end
+
 end
