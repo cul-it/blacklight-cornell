@@ -91,6 +91,7 @@ label.toggle_bookmark {
 }
 
 dd.blacklight-notes_display {
+	// TODO: Review - we can't possibly still need these?
 	// -ms-word-break: break-all; - remove this style to fix word wrap bug in IE 8/9/10 (DNA 741)
 	// word-break: break-all; - remove this style to fix word wrap bug in Firefox (DNA 741)
 	/* Non standard for webkit */
@@ -117,7 +118,6 @@ dd.blacklight-notes_display {
 		padding-left: 0;
 	}
 	li {
-		font-size: 0.875em;
 		float: left;
 		margin-right: .5em;
 		margin-bottom: 6px;
@@ -134,7 +134,6 @@ dd.blacklight-notes_display {
 		li {
 			float: none;
 			margin: 0;
-			font-size: 1em;
 		}
 	}
 	i { margin-right: 3px; }
@@ -158,13 +157,12 @@ dd.blacklight-notes_display {
 	.show-select-box {
 		width: 100px;
 		text-align: center;
-		padding-top: 6px;
+		padding-top: 3px;
 	}
 }
 .catalog-show, .bookmarks, .book_bags {
 	label.toggle_bookmark { 
 		margin-right: .5em;
-		font-size: 14px;
 	}
 }
 .main-content {

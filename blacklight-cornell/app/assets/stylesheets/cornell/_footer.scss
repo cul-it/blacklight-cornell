@@ -53,29 +53,8 @@ footer {
 .footer-copyright {
 	padding: 1.5em 0;
 	border-top: 1px solid #ddd;
-	margin-top: em;
 }
 
-footer {
-	h3 {
-		text-transform: uppercase;
-		font-size: .9rem;
-		margin: 2em 0 0 0;
-		color: $dark-gray;
-	}
-}
-
-// MEDIA QUERIES
-// -------------------------
-
-// Extra small devices (portrait phones, less than 576px)
-// No media query for `xs` since this is the default in Bootstrap
-
-// Small devices (landscape phones, 576px and up)
-// @include media-breakpoint-up(sm) {
-// }
-
-// Medium devices (tablets, 768px and up)
 @include media-breakpoint-up(md) {
 	.footer-nav {
 		li {
@@ -87,9 +66,3 @@ footer {
 		}
 	}
 }
-
-// Large devices (desktops, 992px and up)
-// @include media-breakpoint-up(lg) { ... }
-
-// Extra large devices (large desktops, 1200px and up)
-// @include media-breakpoint-up(xl) { ... }
