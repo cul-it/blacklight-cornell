@@ -47,4 +47,42 @@ RSpec.describe 'catalog/_holdings_group.html.erb', type: :view do
 
     expect(rendered).not_to have_link('Request item')
   end
+
+  context 'DACCESS-979 circulating copy plus an aspace collection' do
+    before do
+      allow(view).to receive(:aspace_pui_url)
+        .and_return('https://archives.example.edu/repositories/2/resources/2345')
+    end
+
+    it 'renders the request item button for the circulating group' do
+      render_partial(items: [build_item('olin,anx')])
+
+      expect(rendered).to have_link('Request item', href: '/request/path')
+      expect(rendered).not_to have_link('Request from Archives at Cornell')
+    end
+
+    it 'renders the archives link for the rare group' do
+      render_partial(items: [build_item('rmc,anx')], group: 'Rare')
+
+      expect(rendered).to have_link('Request from Archives at Cornell')
+      expect(rendered).not_to have_link('Request item', exact: true)
+    end
+  end
+
+  context 'circulating copy plus a rare copy requestable via Aeon reading room' do
+    it 'renders the request item button for the circulating group' do
+      render_partial(items: [build_item('olin')])
+
+      expect(rendered).to have_link('Request item', href: '/request/path')
+      expect(rendered).not_to have_link('Request item for Reading Room Delivery')
+    end
+
+    it 'renders the Aeon reading room and scan buttons for the rare group' do
+      render_partial(items: [build_item('rmc')], group: 'Rare')
+
+      expect(rendered).to have_link('Request item for Reading Room Delivery')
+      expect(rendered).to have_link('Request item for scanning')
+      expect(rendered).not_to have_link('Request item', exact: true)
+    end
+  end
 end
