@@ -61,4 +61,17 @@ class ConstraintsComponent < Blacklight::ConstraintsComponent
 
     content.join.html_safe
   end
+
+  private
+
+  # Overrides Blacklight::InclusiveFacetItemPresenter defaults
+  def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
+    # Use Blacklight::InclusiveFacetItemPresenter default only if inclusive facet is only param
+    if (advanced_query_params.blank? || advanced_query_params&.all?(&:blank?)) && params[:f].nil?
+      Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
+    else
+      InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
+    end
+  end
+
 end
