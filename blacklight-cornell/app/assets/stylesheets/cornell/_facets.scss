@@ -18,15 +18,16 @@
 		padding: 0;
 	}
 }
-.facet-values, .h-leaf {
+.facet-values, .h-leaf, .h-node {
 	.facet-label {
 		text-indent: 0;
 		padding-left: 0;
 		word-break: normal;
+
 		i, svg {
 			margin-right: 3px;
-			height: 19px;
-  			width: 19px;
+			height: 20px;
+  			width: 20px;
 		}
 	}
 	.selected {
@@ -108,17 +109,28 @@
 	border: 0;
 }
 
-// Hierarchical call number facet
+// Hierarchical call number / location facets
 // ------------------------------------
 
-// Indent child lists - default has no indentation
 #facets ul.facet-hierarchy  {
+
+	// Adjust spacing for open/close icon 
+	.h-node {
+		padding: 0.25rem 0; 
+
+		.toggle-handle {
+			height: 1.2rem;
+		}
+		
+	}
+
+	// Indent child lists - default has no indentation
 	ul {
 		padding-left: 1.2rem;
-		margin-bottom: .3rem;
-	}
-	.h-leaf {
-		padding-left: 1.4rem;
+
+		.h-leaf {
+			padding-left: 1.4rem;
+		}
 	}
 }
 
