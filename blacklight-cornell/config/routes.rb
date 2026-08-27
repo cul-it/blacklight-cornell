@@ -67,8 +67,6 @@ BlacklightCornell::Application.routes.draw do
   #  Instead of: match "controller#action"
   #  Do: get "controller#action"
 
-  # commenting out until certain this is a dead-end route  get 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
-
   #ArgumentError: Invalid route name, already in use: 'catalog_email'
   #You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here:
   #post 'catalog/sms' => 'catalog#sms', :as => 'catalog_sms' # :via => :post
