@@ -67,13 +67,7 @@ BlacklightCornell::Application.routes.draw do
   #  Instead of: match "controller#action"
   #  Do: get "controller#action"
 
-  #  get 'backend/holdings/:id' => 'backend#holdings', :as => 'backend_holdings'
-  #  get 'backend/holdings_short/:id' => 'backend#holdings_short', :as => 'backend_holdings_short'
-  #  get 'backend/holdings_shorth/:id' => 'backend#holdings_shorth', :as => 'backend_holdings_shorth'
-  get "backend/holdings_shorthm/:id" => "backend#holdings_shorthm", :as => "backend_holdings_shorthm", :constraints => { :id => /.+/ }
-  get "backend/holdings_mail/:id" => "backend#holdings_mail", :as => "backend_holdings_mail"
   # commenting out until certain this is a dead-end route  get 'backend/clio_recall/:id', :to => "backend#clio_recall" , :as => :clio_recall
-  get "backend/feedback_mail", :to => "backend#feedback_mail"
 
   #ArgumentError: Invalid route name, already in use: 'catalog_email'
   #You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here:
@@ -193,7 +187,6 @@ BlacklightCornell::Application.routes.draw do
   put "book_bags/add/:id" => "book_bags#add", :as => "add_pindex", :constraints => { :id => /.+/ }
   get "book_bags/add/:id" => "book_bags#add", :as => "add_index", :constraints => { :id => /.+/ }
   get "book_bags/addbookmarks" => "book_bags#addbookmarks", :as => "addbookmarks_index"
-  # #get 'backend/holdings_shorthm/:id' => 'backend#holdings_shorthm', :as => 'backend_holdings_shorthm', :constraints => { :id => /.+/}
   delete "book_bags/add/:id" => "book_bags#delete", :as => "delete_d_index", :constraints => { :id => /.+/ }
   get "book_bags/delete/:id" => "book_bags#delete", :as => "delete_index", :constraints => { :id => /.+/ }
   # get 'book_bags/index(.:format)' => 'book_bags#index'
