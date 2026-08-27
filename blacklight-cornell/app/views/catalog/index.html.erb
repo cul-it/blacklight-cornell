@@ -3,11 +3,11 @@
 <div class="row gx-xl-5">
 	<% # TODO: delete this bit, old call to sidebar partial in BL4 %>
 	<% #= render :partial=>'sidebar' %>
-	<div id="sidebar" class="col-md-4">
+	<div id="sidebar" class="col-md-4 col-lg-3">
 		<%= render "search_sidebar" %>
 	</div>
 
-	<div class="col-md-8" id="results">
+	<div class="col-md-8 col-lg-9" id="results">
 		<% unless has_search_parameters? %>
 			<% # if there are no input/search related params, display the "home" partial -%>
 			<%= render "home" %>

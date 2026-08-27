@@ -2,7 +2,7 @@
 <% if bio_data.present? %>
   <div id='bio-without-ld' class='d-none'>
     <h3>Description</h3>
-    <dl class='dl-horizontal'>
+    <dl>
       <%= render_bio_data(bio_data) %>
     </dl>
   </div>
@@ -18,7 +18,7 @@
         </div>
         <div id='comment-container' class='col-md-8 col-lg-9'>
           <div id='dbp-comment'></div>
-          <dl class='dl-horizontal' id='item-details'>
+          <dl id='item-details'>
             <%# display different data per heading type in <HEADING_TYPE>_info.html.erb %>
             <%= yield %>
           </dl>
