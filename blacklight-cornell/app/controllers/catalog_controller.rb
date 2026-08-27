@@ -289,26 +289,26 @@ class CatalogController < ApplicationController
     }, if: :has_search_parameters?
 
     # Facets not shown in side bar, but available for filtering
-    config.add_facet_field 'author_corp_roman_facet', show: false, label: "Author: Corporate Name (Roman)"
-    config.add_facet_field 'author_event_roman_facet', show: false, label: "Author: Event (Roman)"
-    config.add_facet_field 'author_pers_roman_facet', show: false, label: "Author: Personal Name (Roman)"
-    config.add_facet_field 'authortitle_facet', show: false, label: "Author-Title"
-    config.add_facet_field 'availability_facet', show: false, label: "Availability"
-    config.add_facet_field 'collection', show: false, label: "Collection"
-    config.add_facet_field 'ebsco_title_facet', show: false, label: "EBSCO Title"
-    config.add_facet_field 'format_main_facet', show: false, label: "Format Main"
+    config.add_facet_field 'author_corp_roman_facet', show: false, include_in_request: false, label: "Author: Corporate Name (Roman)"
+    config.add_facet_field 'author_event_roman_facet', show: false, include_in_request: false, label: "Author: Event (Roman)"
+    config.add_facet_field 'author_pers_roman_facet', show: false, include_in_request: false, label: "Author: Personal Name (Roman)"
+    config.add_facet_field 'authortitle_facet', show: false, include_in_request: false, label: "Author-Title"
+    config.add_facet_field 'availability_facet', show: false, include_in_request: false, label: "Availability"
+    config.add_facet_field 'collection', show: false, include_in_request: false, label: "Collection"
+    config.add_facet_field 'ebsco_title_facet', show: false, include_in_request: false, label: "EBSCO Title"
+    config.add_facet_field 'format_main_facet', show: false, include_in_request: false, label: "Format Main"
     config.add_facet_field 'lc_alpha_facet', show: false, label: 'Call Number', limit: 5
-    config.add_facet_field 'source', show: false, label: 'Source'
-    config.add_facet_field 'statcode_facet', show: false, label: "Stat Code"
-    config.add_facet_field 'subject_overlay_facet', show: false, label: 'Subject Overlay'
-    config.add_facet_field 'subject_work_lc_facet', show: false, label: "Subject: Work LC"
-    config.add_facet_field 'workid_facet', show: false, label: 'Work'
+    config.add_facet_field 'source', show: false, include_in_request: false, label: 'Source'
+    config.add_facet_field 'statcode_facet', show: false, include_in_request: false, label: "Stat Code"
+    config.add_facet_field 'subject_overlay_facet', show: false, include_in_request: false, label: 'Subject Overlay'
+    config.add_facet_field 'subject_work_lc_facet', show: false, include_in_request: false, label: "Subject: Work LC"
+    config.add_facet_field 'workid_facet', show: false, include_in_request: false, label: 'Work'
 
     # Generate staff-only subject facet fields based on the given pattern
     %w[topic genr pers corp event era geo gen sub].each do |type|
       %w[lc lcgft lcjsh fast aat agrovoc homoit mesh rbmscv zst local unk other].each do |source|
         facet_field_name = "subject_#{type}_#{source}_facet"
-        config.add_facet_field facet_field_name, show: false, label: "Subject: #{type.capitalize} #{source.upcase}"
+        config.add_facet_field facet_field_name, show: false, include_in_request: false, label: "Subject: #{type.capitalize} #{source.upcase}"
       end
     end
 
