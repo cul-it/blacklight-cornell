@@ -297,7 +297,6 @@ class CatalogController < ApplicationController
     config.add_facet_field 'collection', show: false, include_in_request: false, label: "Collection"
     config.add_facet_field 'ebsco_title_facet', show: false, include_in_request: false, label: "EBSCO Title"
     config.add_facet_field 'format_main_facet', show: false, include_in_request: false, label: "Format Main"
-    config.add_facet_field 'lc_alpha_facet', show: false, label: 'Call Number', limit: 5
     config.add_facet_field 'source', show: false, include_in_request: false, label: 'Source'
     config.add_facet_field 'statcode_facet', show: false, include_in_request: false, label: "Stat Code"
     config.add_facet_field 'subject_overlay_facet', show: false, include_in_request: false, label: 'Subject Overlay'
