@@ -59,7 +59,7 @@ RSpec.describe 'catalog/_request_buttons.html.erb', type: :view do
     allow(ENV).to receive(:[]).with('ILLIAD_URL').and_return(nil)
     allow(view).to receive(:aspace_pui_url).and_return('https://archives.example.edu/repositories/2/resources/2345')
 
-    render_partial
+    render_partial(group: 'Rare')
 
     expect(rendered).to have_link('Request from Archives at Cornell', href: 'https://archives.example.edu/repositories/2/resources/2345')
   end
