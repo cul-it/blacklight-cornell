@@ -50,7 +50,7 @@ module BrowseHelper
   end
 
 def build_heading_type(heading_type)
-   html = '<dl class="dl-horizontal"><dt>Heading Type:</dt><dd>' + heading_type + '</dd></dt></dl>'
+   html = '<dl><dt class="mt-3 mb-2">Heading Type</dt><dd>' + heading_type + '</dd></dt></dl>'
    return html.html_safe
  end
 
@@ -66,18 +66,20 @@ def build_heading_type(heading_type)
    return html.html_safe
  end
 
+ 
  def build_alt_forms(alt_forms)
    alt_form_count = alt_forms.size
    html = ""
    if alt_form_count > 0 && alt_form_count < 13
-     html = '<dl class="dl-horizontal"><dt>Alternate Form(s):</dt>'
+     html = '<dl><dt class="mt-3 mb-2">Alternate Form(s)</dt>'
      alt_forms.each do |af|
        html += '<dd>' + af + '</dd>'
   	 end
      html += "</dl>"
-   elsif alt_form_count >= 13
-     html = '<div>Alternate Form(s)
-     : </div><div class="row" style="margin: 0;padding-top: 10px;"><div class="col-md-6">'
+   elsif alt_form_count >= 13\
+    # TODO: can this be updated to use the same markup/UI as Narrower Terms show/hide? See _reference_info.html.erb:20
+    # Also use <dl> to be consistent with the rest of Browse data structure
+     html = '<div><strong>Alternate Form(s)</strong></div><div class="row" style="margin: 0;padding-top: 10px;"><div class="col-md-6">'
      count = 0
      alt_form_count = alt_form_count + 1 unless alt_form_count.even?
      split_at = alt_form_count / 2

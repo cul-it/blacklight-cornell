@@ -12,18 +12,9 @@ body.book_bags-index #documents .document {
 .blacklight-title_display {
 	margin: 0 0 .5em 0;
 	font-weight: normal;
-	// line-height: 1.5em;
 	font-size: 1.4rem;
 	a {
 		margin-left: .25em;
-	}
-}
-
-// Document - BL7 adjustment
-// ---------------
-.documents-list {
-	.document {
-		padding-bottom: 1rem;
 	}
 }
 
@@ -39,7 +30,6 @@ body.book_bags-index #documents .document {
 	}
 	.blacklight-title_uniform_display {
 		display: block;
-		// color: $dark-gray;
 	}
 	.blacklight-author_display {
 		display: block;

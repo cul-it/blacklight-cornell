@@ -12,28 +12,28 @@
   <div id='left-container' class='col-sm-8'>
 		<%= render 'bio_info', heading_type: 'author', bio_data: bio_data do %>
 			<% if bio_data['Occupation'].present? %>
-				<dt>Occupation:</dt>
+				<dt>Occupation</dt>
 				<dd><%= bio_data['Occupation'].map { |o| o.gsub(/s$/, '') }.join(', ') %></dd>
 			<% end %>
 			<% if bio_data['Birth Place'].present? %>
-				<dt>Place of Birth:</dt>
+				<dt>Place of Birth</dt>
 				<dd><%=bio_data['Birth Place'][0]%></dd>
 				<% end %>
 			<% if bio_data['Place of Death'].present? %>
-				<dt>Place of Death:</dt>
+				<dt>Place of Death</dt>
 				<dd><%=bio_data['Place of Death'][0]%></dd>
 				<% end %>
-				<dt class='citizenship'>Citizenship:</dt>
+				<dt class='citizenship'>Citizenship</dt>
 				<dd class='citizenship'></dd>
-				<dt class='education'>Educated at:</dt>
+				<dt class='education'>Educated at</dt>
 				<dd class='education'></dd>
 			<% if bio_data['Group/Organization'].present? %>
-				<dt>Affiliations:</dt>
+				<dt>Affiliations</dt>
 				<dd><%=bio_data['Group/Organization'].join(', ')%></dd>
 				<% end %>
 			<% if @heading_document['notes'].present? %>
 				<% the_notes = JSON.parse(@heading_document['notes'][0])%>
-				<dt>Notes:</dt>
+				<dt>Notes</dt>
 				<dd>
 					<% notes_str = the_notes[0].to_s %>
 					<%= notes_str.ends_with?(':') ? notes_str : "#{notes_str}:" %>

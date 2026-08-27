@@ -15,6 +15,7 @@
   <% disabled_request_btn_opts = request_btn_opts.merge(:class => 'btn btn-danger disabled', :tabindex => '-1', :aria_disabled => 'true', :style => 'pointer-events: none;') %>
   <% scan_btn_opts = { :title => 'Request', :class => 'btn btn-outline-secondary', :id => 'id_request2' } %>
   <% pui_url = aspace_pui_url(@document) %>
+  <% show_archives_button = pui_url.present? && group == "Rare" %>
   <% illiad_url = ENV['ILLIAD_URL'] %>
 
   <div class="item-requests">
@@ -22,7 +23,7 @@
       <% if group == 'Rare' && ENV['DISABLE_AEON'] == 'true' %>
         <%= 'Reading Room delivery and scans of these materials are temporarily unavailable.' %>
       <% else %>
-        <% if @document["location"].present? && pui_url.nil? %>
+        <% if @document["location"].present? && !show_archives_button %>
           <% if reserve_only %>
             <%= link_to "Request item#{reading}", "#", disabled_request_btn_opts %>
           <% else %>
@@ -36,7 +37,7 @@
     <% end %>
 
     <%# show Archive button if the item is in Aspace %>
-    <% if pui_url.present? %>
+    <% if show_archives_button %>
       <%= link_to "Request from Archives at Cornell", pui_url, { :title => 'Request from Archives at Cornell', :class => 'btn btn-danger' } %>
     <% end %>
 
