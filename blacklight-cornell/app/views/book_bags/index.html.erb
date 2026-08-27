@@ -6,6 +6,18 @@
       <% end -%>
 
   <h2><%= "Book Bag" %></h2>
+  <% if ENV['DEBUG_USER'].present? && Rails.env.development? %>
+  <div class="alert alert-warning" role="alert">
+    <h3 class="alert-heading fs-6 fw-bold">Debug book bag</h3>
+    <ul id="debug-book-bag">
+      <li>current_or_guest_user: <%= current_or_guest_user.to_s %></li>
+      <li>current_user: <%= current_user.to_s %></li>
+      <li>BookBag.enabled?: <%= BookBag.enabled?.to_s %></li>
+      <li>user_session: <%= user_session.present?.to_s %></li>
+      <li>params: <%= params.inspect %>
+    </ul>
+  </div>
+  <% end %>
   <div class="bookbag-tips">
     <h3><i class="fa fa-info-circle" aria-hidden="true"></i>Tips</h3>
     <ul>
@@ -22,15 +34,6 @@
             <i class="fa fa-bookmark" aria-hidden="true"></i> <%= t('blacklight.bookmarks.bag.action_confirm', count: bookmarks.count ) %>
       <% end %>
     <% end %>
-  <% end %>
-  <% if ENV['DEBUG_USER'].present? && Rails.env.development? %>
-  <ul id="debug-book-bag">
-    <li>current_or_guest_user: <%= current_or_guest_user.to_s %></li>
-    <li>current_user: <%= current_user.to_s %></li>
-    <li>BookBag.enabled?: <%= BookBag.enabled?.to_s %></li>
-    <li>user_session: <%= user_session.present?.to_s %></li>
-    <li>params: <%= params.inspect %>
-  </ul>
   <% end %>
   <div class="results-info">
     <% @selectedcount =
