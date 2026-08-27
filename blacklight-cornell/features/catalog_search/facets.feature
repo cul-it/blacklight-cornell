@@ -127,15 +127,15 @@ Scenario: Searching multiple times retains the previous search session's facets
   And I press 'search'
   Then I should get results
   And it should contain filter "All Fields" with value "beef"
-  And it should contain filter "AND Format" with value "Book OR Journal/Periodical"
-  And it should contain filter "AND Language" with value "English OR French"
+  And it should contain filter "Format" with value "Book OR Journal/Periodical"
+  And it should contain filter "Language" with value "English OR French"
   And I should not see the label 'Modify advanced search'
   And I fill in the search box with 'law'
   And I press 'search'
   Then I should get results
   And it should contain filter "All Fields" with value "law"
-  And it should contain filter "AND Format" with value "Book OR Journal/Periodical"
-  And it should contain filter "AND Language" with value "English OR French"
+  And it should contain filter "Format" with value "Book OR Journal/Periodical"
+  And it should contain filter "Language" with value "English OR French"
   And I should not see the label 'Modify advanced search'
 
   Scenario: Filtering by f_inclusive facet when there are no other queries/filters
