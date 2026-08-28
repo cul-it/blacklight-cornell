@@ -33,8 +33,6 @@
 //
 //= require blacklight_cornell_requests
 //
-//= require spin.min.js
-//= require jquery.spin.js
 
 //= require browse_placeholder.js
 //= require jquery.waypointz.js
