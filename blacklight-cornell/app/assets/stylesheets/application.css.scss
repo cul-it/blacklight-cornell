@@ -17,6 +17,9 @@
  *
  *= require jquery-ui
  *
+ * Public manifest for the blacklight_cornell_requests engine
+ *= require blacklight_cornell_requests/application
+ *
 */
 // Cornell catalog variables & overrides
 @import 'cornell/variables';
