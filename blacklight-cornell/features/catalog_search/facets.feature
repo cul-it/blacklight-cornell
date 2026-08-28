@@ -102,7 +102,6 @@ Feature: Facets
 		| fast_era_facet | Subject: Era | x |
 		| fast_genre_facet | Genre | x |
 		| subject_content_facet | Fiction/Non-Fiction | x |
-		| lc_alpha_facet | Call Number | x |
 		| location | Library Location | yes |
 		| hierarchy_facet | Hierarchy Facet | yes |
 		| authortitle_facet | Author-Title | x |
