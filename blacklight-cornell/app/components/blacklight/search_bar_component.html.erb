@@ -84,7 +84,7 @@
   <% if params[:controller] !='advanced_search' && !params[:q_row] %>
     <div class="search-nav col-12 col-lg-4">
       <div class="advanced-search-link">
-          <%= link_to advanced_search_edit_path(helpers.convert_to_advanced_params(params)), id: 'advanced-search-link' do %>
+          <%= link_to advanced_search_edit_path(helpers.convert_to_advanced_params(params)), id: 'advanced-search-link', class: 'fw-bold' do %>
             <i class="fa fa-search" aria-hidden="true"></i>Advanced Search
           <% end %>
       </div>

@@ -1,12 +1,12 @@
 <footer>
   <div class="container">
   	<div class="row">
-  		<div class="col-sm-8">
-        <h3>Contact Us</h3>
+  		<div class="col-md-8">
+        <h3 class="mt-3 mb-2">Contact Us</h3>
         <ul class="nav nav-pills">
           <li class="nav-item"><a href="http://www.library.cornell.edu/get-help/ask" onclick="javascript:_paq.push(['Footer', 'footer_links', 'Ask a Librarian']);" class="nav-link btn mr-1"><i class="fa fa-question" aria-hidden="true"></i>Ask a Librarian</a></li>
         </ul>
-        <h3 id="library-resources">Resources</h3>
+        <h3 id="library-resources" class="mt-3 mb-2">Resources</h3>
         <nav aria-labelledby="library-resources">
           <ul class="nav footer-nav">
             <li><a href="http://www.library.cornell.edu">Library Website</a></li>
@@ -20,14 +20,14 @@
           </ul>
         </nav>
     	</div>
-      <div class="col-sm-4 text-end">
+      <div class="col-md-4 text-md-end">
     		<a href="https://cornell.libwizard.com/f/feedback?&4589755=https%3A%2F%2Fcatalog.library.cornell.edu<%= CGI.escape request.original_fullpath %>" class="btn btn-cul" title="Link opens in new window" target="_blank">Feedback</a>
             <p><a href="http://blogs.cornell.edu/discoveryandaccess/" title="Updates to the catalog and our discovery environment">Discovery Updates</a></p>
             <p><%= link_to 'Credits', '/credits' %></p>
     	</div>
     </div>
     <div class="row footer-copyright">
-      <div class="col-sm-8">
+      <div class="col-md-8">
         <p>&#169; <%= Time.now.strftime("%Y") %> Cornell University Library | <a href="http://www.library.cornell.edu/privacy">Privacy</a> | <a href="https://www.library.cornell.edu/web-accessibility">Web Accessibility Assistance</a></p>
       </div>
     </div>

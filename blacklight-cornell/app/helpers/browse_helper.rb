@@ -76,7 +76,7 @@ def build_heading_type(heading_type)
        html += '<dd>' + af + '</dd>'
   	 end
      html += "</dl>"
-   elsif alt_form_count >= 13\
+   elsif alt_form_count >= 13
     # TODO: can this be updated to use the same markup/UI as Narrower Terms show/hide? See _reference_info.html.erb:20
     # Also use <dl> to be consistent with the rest of Browse data structure
      html = '<div><strong>Alternate Form(s)</strong></div><div class="row" style="margin: 0;padding-top: 10px;"><div class="col-md-6">'
