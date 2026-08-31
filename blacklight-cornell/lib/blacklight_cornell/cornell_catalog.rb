@@ -18,6 +18,10 @@ module BlacklightCornell::CornellCatalog extend Blacklight::Catalog
 
   def set_return_path
     op = request.original_fullpath
+    # The asynchronous call number facet fetch (app/assets/javascripts/facets.js) renders
+    # js only, so it must never become the return path: signing in from a search results
+    # page would redirect the browser to it and raise ActionController::UnknownFormat.
+    return true if op.include?('/catalog/facet_values')
     # if we headed for the login page, should remember PREVIOUS return to.
     if op.include?('logins') && !session[:cuwebauth_return_path].blank?
       op = session[:cuwebauth_return_path]
