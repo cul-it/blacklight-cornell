@@ -46,7 +46,12 @@ BlacklightCornell::Application.configure do
   config.active_support.deprecation = :log
 
   # Log to STDOUT by default
-  config.logger    = ActiveSupport::TaggedLogging.logger(STDOUT)
+  # Colorize the compact dev log lines
+  require_relative "../development_log_formatter"
+  config.colorize_logging = true
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+                                       .tap  { |logger| logger.formatter = DevelopmentLogFormatter.new }
+                                       .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
   config.log_level = ENV["LOG_LEVEL"].blank? ? :debug : ENV["LOG_LEVEL"].to_sym
 
   # Raise an error on page load if there are pending migrations.
