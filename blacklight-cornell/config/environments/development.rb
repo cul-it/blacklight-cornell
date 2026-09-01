@@ -46,7 +46,12 @@ BlacklightCornell::Application.configure do
   config.active_support.deprecation = :log
 
   # Log to STDOUT by default
-  config.logger    = ActiveSupport::TaggedLogging.logger(STDOUT)
+  # Colorize the compact dev log lines
+  require_relative "../development_log_formatter"
+  config.colorize_logging = true
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+                                       .tap  { |logger| logger.formatter = DevelopmentLogFormatter.new }
+                                       .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
   config.log_level = ENV["LOG_LEVEL"].blank? ? :debug : ENV["LOG_LEVEL"].to_sym
 
   # Raise an error on page load if there are pending migrations.
@@ -60,6 +65,9 @@ BlacklightCornell::Application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+
+  # Highlight code that triggered redirect in logs.
+  config.action_dispatch.verbose_redirect_logs = true
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

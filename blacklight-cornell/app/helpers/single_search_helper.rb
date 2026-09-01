@@ -1,4 +1,7 @@
 module SingleSearchHelper
+  # Explicit include to ensure blacklight overrides take priority in development
+  include Blacklight::LayoutHelperBehavior
+
   def extra_body_classes
     @extra_body_classes ||= [controller.controller_name, [controller.controller_name, controller.action_name].join('-')]
   end

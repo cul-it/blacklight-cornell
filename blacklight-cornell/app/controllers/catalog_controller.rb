@@ -72,6 +72,8 @@ class CatalogController < ApplicationController
   before_action :redirect_browse
 
   configure_blacklight do |config|
+    config.bootstrap_version = 5
+
     # chris beer recommended for latest version of unapi
     config.unapi = {
       'oai_dc_xml' => { :content_type => 'text/xml' }
@@ -180,6 +182,8 @@ class CatalogController < ApplicationController
 
     # Custom index view components
     config.index.constraints_component = ConstraintsComponent
+    config.index.document_component = DocumentComponent
+    config.index.facet_group_component = FacetGroupComponent
 
     # solr field configuration for search results/index views
     config.index.title_field = 'fulltitle_display', 'fulltitle_vern_display' #display as 'fulltitle_vern / title : subtitle'
@@ -227,6 +231,7 @@ class CatalogController < ApplicationController
                            limit: 10,
                            collapse: false,
                            include_in_advanced_search: true,
+                           advanced_search_component: AdvancedFacetFieldCheckboxesComponent,
                            advanced_search_order: 1,
                            sort: 'count'
     config.add_facet_field 'location',
@@ -245,6 +250,7 @@ class CatalogController < ApplicationController
                            show: true,
                            include_in_advanced_search: true,
                            if: :has_search_parameters?,
+                           component: RangeFacetComponent,
                            advanced_search_component: AdvancedRangeLimitComponent,
                            advanced_search_order: 0
     config.add_facet_field 'language_facet',
@@ -252,6 +258,7 @@ class CatalogController < ApplicationController
                            limit: 5,
                            show: true,
                            include_in_advanced_search: true,
+                           advanced_search_component: AdvancedFacetFieldCheckboxesComponent,
                            advanced_search_order: 2,
                            sort: 'count'
     config.add_facet_field 'fast_topic_facet', :label => 'Subject', :limit => 5, if: :has_search_parameters?
@@ -282,27 +289,25 @@ class CatalogController < ApplicationController
     }, if: :has_search_parameters?
 
     # Facets not shown in side bar, but available for filtering
-    config.add_facet_field 'author_corp_roman_facet', show: false, label: "Author: Corporate Name (Roman)"
-    config.add_facet_field 'author_event_roman_facet', show: false, label: "Author: Event (Roman)"
-    config.add_facet_field 'author_pers_roman_facet', show: false, label: "Author: Personal Name (Roman)"
-    config.add_facet_field 'authortitle_facet', show: false, label: "Author-Title"
-    config.add_facet_field 'availability_facet', show: false, label: "Availability"
-    config.add_facet_field 'collection', show: false, label: "Collection"
-    config.add_facet_field 'ebsco_title_facet', show: false, label: "EBSCO Title"
-    config.add_facet_field 'etas_facet', show: false, label: "Emergency Temporary Access Service (ETAS)"
-    config.add_facet_field 'format_main_facet', show: false, label: "Format Main"
-    config.add_facet_field 'lc_alpha_facet', show: false, label: 'Call Number', limit: 5
-    config.add_facet_field 'source', show: false, label: 'Source'
-    config.add_facet_field 'statcode_facet', show: false, label: "Stat Code"
-    config.add_facet_field 'subject_overlay_facet', show: false, label: 'Subject Overlay'
-    config.add_facet_field 'subject_work_lc_facet', show: false, label: "Subject: Work LC"
-    config.add_facet_field 'workid_facet', show: false, label: 'Work'
+    config.add_facet_field 'author_corp_roman_facet', show: false, include_in_request: false, label: "Author: Corporate Name (Roman)"
+    config.add_facet_field 'author_event_roman_facet', show: false, include_in_request: false, label: "Author: Event (Roman)"
+    config.add_facet_field 'author_pers_roman_facet', show: false, include_in_request: false, label: "Author: Personal Name (Roman)"
+    config.add_facet_field 'authortitle_facet', show: false, include_in_request: false, label: "Author-Title"
+    config.add_facet_field 'availability_facet', show: false, include_in_request: false, label: "Availability"
+    config.add_facet_field 'collection', show: false, include_in_request: false, label: "Collection"
+    config.add_facet_field 'ebsco_title_facet', show: false, include_in_request: false, label: "EBSCO Title"
+    config.add_facet_field 'format_main_facet', show: false, include_in_request: false, label: "Format Main"
+    config.add_facet_field 'source', show: false, include_in_request: false, label: 'Source'
+    config.add_facet_field 'statcode_facet', show: false, include_in_request: false, label: "Stat Code"
+    config.add_facet_field 'subject_overlay_facet', show: false, include_in_request: false, label: 'Subject Overlay'
+    config.add_facet_field 'subject_work_lc_facet', show: false, include_in_request: false, label: "Subject: Work LC"
+    config.add_facet_field 'workid_facet', show: false, include_in_request: false, label: 'Work'
 
     # Generate staff-only subject facet fields based on the given pattern
     %w[topic genr pers corp event era geo gen sub].each do |type|
       %w[lc lcgft lcjsh fast aat agrovoc homoit mesh rbmscv zst local unk other].each do |source|
         facet_field_name = "subject_#{type}_#{source}_facet"
-        config.add_facet_field facet_field_name, show: false, label: "Subject: #{type.capitalize} #{source.upcase}"
+        config.add_facet_field facet_field_name, show: false, include_in_request: false, label: "Subject: #{type.capitalize} #{source.upcase}"
       end
     end
 

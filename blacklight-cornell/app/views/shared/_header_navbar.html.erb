@@ -1,12 +1,14 @@
 <%= render :partial=>'/shared/skip_to' %>
 <div class="cornell-identity" aria-label="Cornell" role="banner">
+  
   <div class="mobile-cornell-wrapper d-block d-sm-none">
     <div class="container">
       <a class="mobile-cornell-logo" href="http://www.cornell.edu">Cornell University</a>
     </div>
   </div>
   <div class="container">
-    <div class="cornell-brand">
+    <%= image_tag('cornell/layout/cul-logo-white.gif', class: 'd-none d-print-block', alt: 'Cornell University Library') %>
+    <div class="cornell-brand d-print-none">
       <div class="row">
         <div class="cornell-logo col-9">
           <div class="logo d-none d-sm-block">
@@ -21,7 +23,7 @@
         </div>
         <div class="col-3">
           <div class="dropdown help-menu">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="help-menu-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Help button']);">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="help-menu-button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="javascript:_paq.push(['trackEvent', 'header_links', 'Help button']);">
               Help
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="help-menu-button">
@@ -46,8 +48,8 @@
       <div class="col-sm-8 col-lg-4 catalog-name">
         <% if part_of_catalog? or params[:controller] == 'advanced_search' %>
           <div class="facets-toggleable-sm">
-            <button class="navbar-toggler navbar-toggler-right util-links-toggle" type="button" data-toggle="collapse" data-target="#links-panel-collapse" aria-controls="links-panel-collapse" aria-expanded="false" aria-label="Toggle links">
-              <span class="sr-only">Toggle links</span>
+            <button class="navbar-toggler navbar-toggler-right util-links-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#links-panel-collapse" aria-controls="links-panel-collapse" aria-expanded="false" aria-label="Toggle links">
+              <span class="visually-hidden">Toggle links</span>
               <span class="navbar-toggler-icon"></span>
             </button>
           </div>

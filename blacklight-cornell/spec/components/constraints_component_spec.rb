@@ -90,17 +90,17 @@ RSpec.describe ConstraintsComponent, type: :component do
         
         # Filter constraints from search results facets
         removed_f_format_param = advanced_query_params[:f].except('format')
-        removed_facet_params = advanced_query_params.merge(f: removed_f_format_param, only_path: true)
+        removed_facet_params = advanced_query_params.merge(f: removed_f_format_param)
         expect(rendered).to have_link 'Format: Book', href: "http://test.host/catalog?#{removed_facet_params.to_query}"
         removed_f_english_param = { 'format' => ['Book'], 'language_facet' => ['French'] }
-        removed_facet_params = advanced_query_params.merge(f: removed_f_english_param, only_path: true)
+        removed_facet_params = advanced_query_params.merge(f: removed_f_english_param)
         expect(rendered).to have_link 'Language: English', href: "http://test.host/catalog?#{removed_facet_params.to_query}"
         removed_f_french_param = { 'format' => ['Book'], 'language_facet' => ['English'] }
-        removed_facet_params = advanced_query_params.merge(f: removed_f_french_param, only_path: true)
+        removed_facet_params = advanced_query_params.merge(f: removed_f_french_param)
         expect(rendered).to have_link 'Language: French', href: "http://test.host/catalog?#{removed_facet_params.to_query}"
 
         # Filter constraint from advanced search form
-        removed_advanced_facet_params = advanced_query_params.except(:f_inclusive).merge(only_path: true)
+        removed_advanced_facet_params = advanced_query_params.except(:f_inclusive)
         expect(rendered).to have_link 'Language: English OR French', href: "http://test.host/catalog?#{removed_advanced_facet_params.to_query}"
       end
     end

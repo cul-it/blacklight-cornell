@@ -10,8 +10,9 @@
 	}
 	.location {
 		margin-top: 0;
-		margin-bottom: .25em;
-		font-size: 16px;
+		margin-bottom: .25rem;
+		// font-size: 16px;
+		font-weight: 700;
 	}
 	.location-online {
 		color: white;
@@ -41,9 +42,6 @@
 	.call-number {
 		margin-bottom: .5em;
 		font-family: $font-family-call-number;
-		span {
-			font-family: $realBaseFontFamily;
-		}
 	}
 	.status {
 		margin: 0 0 .5em 0;
@@ -150,17 +148,6 @@ h3.rare {
 	border-top: solid 2px #d8d2c9;
 }
 
-#request-loading-spinner {
-	position: relative;
-	display: inline-block;
-	vertical-align: middle;
-	width: 2em;
-	height: 2em;
-}
-
-#volume-selection {
-    width: 30%;
-}
 // Other forms
 // ----------------
 .other-forms {

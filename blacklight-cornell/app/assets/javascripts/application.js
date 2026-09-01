@@ -14,7 +14,8 @@
 //= require error_check.js
 
 // Required by Blacklight
-//= require jquery
+//= require rails-ujs
+//= require jquery3
 //= require popper
 //= require bootstrap
 //= require blacklight/blacklight
@@ -25,8 +26,6 @@
 //= require 'blacklight_range_limit'
 
 
-//= require 'blacklight/hierarchy/hierarchy'
-//= require jquery_ujs
 //= require jquery-ui/widgets/autocomplete
 //= require print_button.js
 //
@@ -34,8 +33,6 @@
 //
 //= require blacklight_cornell_requests
 //
-//= require spin.min.js
-//= require jquery.spin.js
 
 //= require browse_placeholder.js
 //= require jquery.waypointz.js
@@ -49,3 +46,11 @@
 //= require linked_data/work.js
 //= require retrieve_lcsh.js
 
+// Set CSRF token as a default header for plain $.ajax calls, same as
+// jquery_ujs used to. Skip cross-domain requests (e.g. Wikidata, id.loc.gov)
+// since adding a custom header forces a CORS preflight those hosts reject.
+$.ajaxPrefilter(function(options, originalOptions, xhr) {
+  if (!options.crossDomain) {
+    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+  }
+})

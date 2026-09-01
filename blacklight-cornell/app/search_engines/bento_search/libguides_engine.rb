@@ -13,19 +13,8 @@ class BentoSearch::LibguidesEngine
       # 'args' should be a normalized search arguments hash including the following elements:
       # :query, :per_page, :start, :page, :search_field, :sort
       bento_results = BentoSearch::Results.new
-
-      guides_response = []
-      path = "http://lgapi-us.libapps.com/1.1/guides/"
-      st = args[:query].gsub(/["”“]/, '')
-      escaped = { site_id: 45, search_terms: st, status: 1, key: ENV["LIBGUIDES_API_KEY"] }.to_param
-      guides_url = path + "?" + escaped
-      guides_response = JSON.load(URI.open(guides_url))
-    rescue Exception => e
-      guides_response = []
-      # :nocov:
-        Rails.logger.error "Runtime Error: #{__FILE__} #{__LINE__} Error:: #{e.inspect}"
-        Rails.logger.error "Guides URL: " + guides_url
-      # :nocov:
+      token = get_auth_token
+      guides_response = get_guides_response(args[:query], token)
     end
 
     results = guides_response[0, 3]
@@ -33,14 +22,67 @@ class BentoSearch::LibguidesEngine
     results.each do |i|
       item = BentoSearch::ResultItem.new
       item.title = i["name"].to_s
-      if i["description"].present?
-        item.abstract = i["description"].to_s
-      end
-      item.link = i["friendly_url"]
+      item.abstract = i["description"].present? ? i["description"].to_s : i["type_label"].to_s
+      item.link = i["friendly_url"].present? ? i["friendly_url"].to_s : i["url"].to_s
       bento_results << item
     end
+    
     bento_results.total_items = 0
-
     return bento_results
   end
+
+  def get_guides_response(search_terms, token)
+    uri = URI("#{ENV["LIBGUIDES_API_URL"]}/guides")
+    uri.query = URI.encode_www_form({ search_terms: search_terms, sort_by: "relevance", status: 1 })
+    response = Net::HTTP.get_response(uri, { "Authorization" => "Bearer #{token}" })
+
+    if response.is_a? Net::HTTPSuccess
+      JSON.parse(response.body)
+    else
+      Rails.logger.error "Net::HTTP Error for #{uri}. HTTP response: #{response.inspect}"
+      []
+    end
+  end
+
+  def get_auth_token
+    cached = Rails.cache.read(cache_key)
+    if cached.present? && cached[:expires_at] > Time.current.to_i + 60
+      cached[:access_token].to_s
+    else
+      client_id = ENV["LIBGUIDES_CLIENT_ID"]
+      client_secret = ENV["LIBGUIDES_CLIENT_SECRET"]
+
+      uri = URI("#{ENV["LIBGUIDES_API_URL"]}/oauth/token")
+      client_data = { client_id: client_id, client_secret: client_secret, grant_type: "client_credentials" }
+      response = Net::HTTP.post_form(uri, client_data)
+
+      if response.is_a? Net::HTTPSuccess
+        token_data = JSON.parse(response.body)
+        access_token = token_data["access_token"].to_s
+        expires_in = token_data["expires_in"].present? ? token_data["expires_in"].to_i : 3600
+        expires_at = (Time.current + expires_in.seconds).to_i
+
+        Rails.logger.info "Caching new LibGuides auth token"
+        write_cached_token(access_token, expires_in, expires_at)
+        access_token
+      else
+        Rails.logger.error "Net::HTTP Error for #{uri}. HTTP response: #{response.inspect}"
+        nil
+      end
+    end
+
+    rescue StandardError => e
+      Rails.logger.error "Failed to retrieve LibGuides auth token. Error: #{e.message}" 
+      nil
+  end
+
+  private
+    def cache_key
+      "libguides_auth_token"
+    end
+
+    def write_cached_token(access_token, expires_in, expires_at)
+      payload = { access_token: access_token, expires_at: expires_at }
+      Rails.cache.write(cache_key, payload, expires_in: expires_in)
+    end
 end

@@ -1,7 +1,14 @@
 // Layout
 // ------------------------
 
-.main-content { 
+body {
+	min-height: 100vh; // ensure that body is as tall as the viewport so that the BS5 body bg color (white) doesn't display under the footer tan
+	display: flex;
+	flex-direction: column;
+}
+
+.main-content {
+	flex: 1;
 	padding: 0.5em 0 30px 0;
 	background: white;
 }
@@ -9,6 +16,7 @@
 // Links
 // ------------------------
 
+// TODO: BS5 underlines links by default?
 // Add underlines to most links
 .main-content,
 .blacklight-nav,
@@ -120,11 +128,14 @@ h3 { font-size: 20px; line-height: 1.5em;}
 
 // Modal overrides
 // ----------------------
-.close {
+.btn-close {
 	color: $medium-gray;
 	opacity: 1;
 }
+
 .modal {
+	padding: 0; 
+	
 	h1 {
 		font-weight: 700;
 		margin: 0;
@@ -145,6 +156,10 @@ h3 { font-size: 20px; line-height: 1.5em;}
 	h2:first-child {
 		margin-top: 0;
 	}
+}
+
+dialog.modal[open] {
+	overflow-y: auto;
 }
 
 // Miscellaneous

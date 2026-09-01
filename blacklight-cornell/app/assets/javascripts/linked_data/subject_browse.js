@@ -7,11 +7,11 @@ function SubjectBrowse() {
     $('#cr-refs-toggle').click(function() {
       if ( $('.toggled-cr-refs').first().is(':visible') ) {
         $('.toggled-cr-refs').hide();
-        $('#cr-refs-toggle').html('Show more &raquo;');
+        $('#cr-refs-toggle').html('Show all terms &raquo;');
       }
       else {
         $('.toggled-cr-refs').show();
-        $('#cr-refs-toggle').html('&laquo; Show less');
+        $('#cr-refs-toggle').html('&laquo; Show fewer terms');
       }
       return false;
     });

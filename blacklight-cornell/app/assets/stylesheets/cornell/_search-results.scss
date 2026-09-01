@@ -5,13 +5,6 @@ body.book_bags-index #documents .document {
 	border-bottom: 1px solid $light-tan;
 	padding: 1.5em 0;
 	margin-top: 0;
-	// Book cover and icon cover
-	img {
-		float: left;
-		margin-right: 1em;
-		// width: 75px;
-		height: auto;
-	}
 }
 
 // Title
@@ -19,18 +12,9 @@ body.book_bags-index #documents .document {
 .blacklight-title_display {
 	margin: 0 0 .5em 0;
 	font-weight: normal;
-	// line-height: 1.5em;
 	font-size: 1.4rem;
 	a {
 		margin-left: .25em;
-	}
-}
-
-// Document - BL7 adjustment
-// ---------------
-.documents-list {
-	.document {
-		padding-bottom: 1rem;
 	}
 }
 
@@ -38,24 +22,17 @@ body.book_bags-index #documents .document {
 // ------------------------------------------
 .document-data {
 	span {
-		font-size: 14px;
 		margin-bottom: .5rem;
-	}
-	.shadow-record {
-		margin-top: .15em;
-		vertical-align: top;
-		color: $white;
 	}
 	.blacklight-pub_date_display {
 		margin-left: .2em;
+    font-size: 1rem;
 	}
 	.blacklight-title_uniform_display {
 		display: block;
-		// color: $dark-gray;
 	}
 	.blacklight-author_display {
 		display: block;
-		font-size: 14px;
 	}
 	.format {
 		margin-right: .5em;
@@ -64,7 +41,6 @@ body.book_bags-index #documents .document {
 		margin-right: .5em;
 	}
 	.status {
-		font-size: 12px;
 		line-height: 1em;
 		margin-top: 1em;
 	}
@@ -73,16 +49,6 @@ body.book_bags-index #documents .document {
 		font-size: 11px;
 	}
 }
-.data-block {
-	line-height: 1em;
-}
-
-// Availability status
-// ------------------------------------------
-
-// .status-online {
-// 	font-size: 12px;
-// }
 
 .fa-check { color: $available; }
 .fa-clock-o { color: $unavailable; }
@@ -157,10 +123,10 @@ body.book_bags-index #documents .document {
 	margin-top: 1em;
 }
 .document-data {
-	.badge-online {
-		background: $green;
-		font-size: 75%;
-	}
+  .bg-online {
+    background: $green;
+    font-size: 75%;
+  }
 }
 
 // ------------------------------------------

@@ -34,7 +34,8 @@ form.advanced {
 }
 
 // TODO: if possible (BL8 upgrade?) remove this global style and add more specificity to individual form controls; removing this now affects other parts of the app (12/3/24, mhk33)
-.form-control {
+.form-control,
+.form-select {
   width: 25%;
   display: inline-block;
 }
@@ -77,9 +78,6 @@ form.advanced {
     .facet-count {
       vertical-align: initial;
       text-align: left;
-    }
-    .facet-label {
-      padding-bottom: .5rem;
     }
   }
 
@@ -155,7 +153,7 @@ form.advanced {
   }
   // Adjust width of first row so that it is the same as subsequent rows
   #q_row0 {
-    width: 37.5%;
+    width: 38.25%;
   }
 }
 
@@ -168,7 +166,7 @@ form.advanced {
   }
   // Adjust width of first row so that it is the same as subsequent rows
   #q_row0 {
-    width: 34%;
+    width: 40%;
   }
 }
 
@@ -182,5 +180,13 @@ form.advanced {
   // Adjust width of first row so that it is the same as subsequent rows
   #q_row0 {
     width: 37.5%;
+  }
+}
+
+// Extra extra large devices (x1400px and up)
+@include media-breakpoint-up(xxl) {
+  // Adjust width of first row so that it is the same as subsequent rows
+  #q_row0 {
+    width: 35.75%;
   }
 }

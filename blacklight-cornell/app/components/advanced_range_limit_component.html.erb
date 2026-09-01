@@ -1,10 +1,10 @@
-<div class="form-group advanced-search-facet facet_limit adv-range">
+<div class="mb-3 advanced-search-facet facet_limit adv-range">
   <%= label_tag "#{field}", :class => 'col-form-label' do %><%= label %><% end %>
-  <div class="form-inline">
-    <%= label_tag("range[#{field}][begin]", 'from year', class: 'sr-only visually-hidden') %>
+  <div class="d-flex align-items-center">
+    <%= label_tag("range[#{field}][begin]", 'from year', class: 'visually-hidden') %>
     <%= number_field_tag("range[#{field}][begin]", begin_val, maxlength: 6, class: 'form-control text-center range_begin') %>
     <span class="col-form-label"> - </span>
-    <%= label_tag("range[#{field}][end]", 'to year', class: 'sr-only visually-hidden') %>
+    <%= label_tag("range[#{field}][end]", 'to year', class: 'visually-hidden') %>
     <%= number_field_tag("range[#{field}][end]", end_val, maxlength: 6, class: 'form-control text-center range_end') %>
   </div>
 </div>

@@ -101,17 +101,6 @@ module DisplayHelper
   def field_value_separator; '<br>'; end
   def hide_this_field field; false; end
 
-  def render_first_available_partial(partials, options)
-    partials.each do |partial|
-      begin
-        return render(:partial => partial, :locals => options)
-      rescue ActionView::MissingTemplate
-        next
-      end
-    end
-    raise "No partials found from #{partials.inspect}"
-  end
-
   def contents_list field
     content_tag(:ul) do
       field[:value].each do |v|
@@ -386,7 +375,7 @@ module DisplayHelper
             i = 0
             display_list = []
             while i < value_array.size()
-              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + Maybe(value_array[i + 1]).to_s + '"'))
+              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + value_array[i + 1].to_s + '"'))
               i = i + 2
             end
             display_list.join(sep_display).html_safe
@@ -414,7 +403,7 @@ module DisplayHelper
             i = 0
             display_list = []
             while i < value_array.size()
-              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + Maybe(value_array[i + 1]).to_s + '"'))
+              display_list.push link_to(value_array[i], add_search_params(args[:field], '"' + value_array[i + 1].to_s + '"'))
               i = i + 2
             end
             display_list.join(sep_display).html_safe
@@ -510,26 +499,12 @@ module DisplayHelper
     (document['online'].present? && document['online'].include?('Online')) ? true : false
   end
 
-  def is_at_the_library? document
-    (document['online'].present? && document['online'].include?('At the Library')) ? true : false
-  end
-
   def finding_aid(document)
     if document['url_findingaid_display'].present?
       if document['url_findingaid_display'].size > 1
         facet_catalog_path(document)
       else
         render_display_link(:document => document, :field => 'url_findingaid_display', :format => 'url')
-      end
-    end
-  end
-
-  def other_availability(document)
-    if document['other_availability_piped'].present?
-      if document['other_availability_piped'].size > 1
-        facet_catalog_path(document)
-      else
-        render_display_link(:document => document, :field => 'other_availability_piped', :format => 'url')
       end
     end
   end
@@ -591,226 +566,11 @@ module DisplayHelper
     end
   end
 
-  def render_documents(documents, options)
-    partial = "/_display/#{options[:action]}/#{options[:view_style]}"
-    render partial, { :documents => documents.listify }
-  end
-
-  def render_document_view(document, options = {})
-    template       = options.delete(:template) || raise("Must specify template")
-    formats        = determine_formats(document, options.delete(:format))
-    partial_list   = formats.collect { |format| "/_formats/#{format}/#{template}" }
-    @add_row_style = options[:style]
-    view           = render_first_available_partial(partial_list, options.merge(:document => document))
-    @add_row_style = nil
-    view
-  end
-
-  def format_online_results(urls)
-    non_circ = image_tag("icons/noncirc.png", :class => :availability)
-    urls.collect { |link| non_circ + link_to(process_online_title(link.first).abbreviate(80), link.last) }
-  end
-
-  def format_location_results(locations)
-    locations.collect do |location|
-      loc_display, hold_id = location.split('|DELIM|')
-      holdings_id = "holding_" + hold_id.to_s
-      image_tag("icons/unknown.png", :class => "availability " + holdings_id) + process_holdings_location(loc_display)
-    end
-  end
-
-  def determine_formats(document, defaults = [])
-    formats = defaults.listify
-    formats << "ac" if @active_source == "Academic Commons"
-    formats << "database" if @active_source == "Databases"
-    case document
-    when SolrDocument
-      document["format"].listify.each do |format|
-        formats << SOLR_FORMAT_LIST[format] if SOLR_FORMAT_LIST[format]
-      end
-    when SerialSolutions::Link360
-      formats << "summon"
-    end
-    formats.sort { |x, y| FORMAT_RANKINGS.index(x) <=> FORMAT_RANKINGS.index(y) }
-  end
-
-  def generate_value_links(values, category)
-    out = []
-    values.listify.each do |v|
-      s = v.split('|DELIM|')
-      unless s.length >= 2
-        out << v
-        next
-      end
-
-      if @add_row_style == :text
-        out << s[0] # if displaying plain text, do not include links
-      else
-        case category
-        when :all
-          q = '"' + s[1] + '"'
-          out << link_to(s[0], url_for(:controller => "catalog", :action => "index", :q => q, :commit => "search"))
-        when :author
-          # s[2] is not nil when data is from an 880 field (vernacular)
-          # temp workaround until we can get 880 authors into the author facet
-          if s[2]
-            out << s[0]
-          else
-            # remove puntuation from s[1] to match entries in author_facet using solrmarc removeTrailingPunc rule
-            s[1] = s[1].gsub(/\.$/, '') if s[1] =~ /\w{3}\.$/ || s[1] =~ /[\]\)]\.$/
-            out << link_to(s[0], url_for(:controller => "catalog", :action => "index", "f[author_facet][]" => s[1]))
-          end
-        when :subject
-          out << link_to(s[0], url_for(:controller => "catalog", :action => "index", :q => s[1], :search_field => "subject", :commit => "search"))
-        when :title
-          q = '"' + s[1] + '"'
-          out << link_to(s[0], url_for(:controller => "catalog", :action => "index", :q => q, :search_field => "title", :commit => "search"))
-        else
-          raise "invalid category specified for generate_value_links"
-        end
-      end
-    end
-    out
-  end
-
-  # ============================================================================
-  # search value the same as the display value
-  # but chained to create a series of searches that is increasingly narrower
-  # esample: a - b - c
-  # link display   search
-  #   a             "a"
-  #   b             "a b"
-  #   c             "a b c"
-  # ----------------------------------------------------------------------------
-  def generate_value_links_subject(values)
-    values.listify.collect do |value|
-      searches = []
-      subheads = value.split(" - ")
-      first    = subheads.shift
-      display  = first
-      search   = first
-      title    = first
-      searches << build_subject_url(display, search, title)
-
-      unless subheads.empty?
-        subheads.each do |subhead|
-          display = subhead
-          search += ' ' + subhead
-          title += ' - ' + subhead
-          searches << build_subject_url(display, search, title)
-        end
-      end
-
-      if @add_row_style == :text
-        searches.join(' - ')
-      else
-        searches.join(' > ')
-      end
-    end
-  end
-
-  def build_subject_url(display, search, title)
-    if @add_row_style == :text
-      display
-    else
-      link_to(display,
-              url_for(:controller => "catalog",
-                       :action => "index",
-                       :q => '"' + search + '"',
-                       :search_field => "subject",
-                       :commit => "search"),
-              :title => title)
-    end
-  end
-
-  def add_row(title, value, options = {})
-    options.reverse_merge!({
-      :display_blank => false,
-      :display_only_first => false,
-      :join => nil,
-      :abbreviate => nil,
-      :html_safe => true,
-      :expand => false,
-      :style => @add_row_style || :definition
-    })
-
-    value_txt = convert_values_to_text(value, options)
-    result = ""
-
-    if options[:display_blank] || !value_txt.empty?
-      if options[:style] == :text
-        result = (title.to_s + ": " + value_txt.to_s + "\r\n").html_safe
-      else
-        result = content_tag(:div, :class => "row") do
-          if options[:style] == :definition
-            content_tag(:div, title.to_s.html_safe, :class => "label") + content_tag(:div, content_tag(:div, value_txt, :class => "value_box"), :class => "value")
-          elsif options[:style] == :blockquote
-            content_tag(:div, content_tag(:div, value_txt, :class => "value_box"), :class => "blockquote")
-          end
-        end
-      end
-    end
-    result
-  end
-
-  def convert_values_to_text(value, options = {})
-    values = value.listify
-    values = values.collect { |txt| txt.to_s.abbreviate(options[:abbreviate]) } if options[:abbreviate]
-    values = values.collect(&:html_safe) if options[:html_safe]
-    values = if options[:display_only_first]
-               values.first.to_s.listify
-             elsif options[:join]
-               values.join(options[:join]).to_s.listify.reject { |item| item.to_s.empty? }
-             else
-               values
-             end
-
-    value_txt = if options[:style] == :text
-                  values.join("\r\n  ")
-                else
-                  pre_values = values.collect { |v| content_tag(:div, v, :class => 'entry') }
-
-                  if options[:expand] && values.length > 3
-                    pre_values = [
-                      pre_values[0],
-                      pre_values[1],
-                      content_tag(:div, link_to("#{values.length - 2} more &#x25BC;".html_safe, "#"), :class => 'entry expander'),
-                      content_tag(:div, pre_values[2..-1].join('').html_safe, :class => 'expander_more')
-                    ]
-                  end
-                  pre_values.join('')
-                end
-    value_txt = value_txt.html_safe if options[:html_safe]
-    value_txt
-  end
-
-  # ============================================================================
-  # Test whether we need previous or next document links
-  # ----------------------------------------------------------------------------
-  def prev_next_needed(prev_doc, next_doc, prev_bookmark = nil, next_bookmark = nil)
-    if (params[:controller] == 'bookmarks' || (prev_bookmark.present? || next_bookmark.present?) || (prev_doc.present? || next_doc.present?))
-      true
-    end
-  end
-
   # ============================================================================
   # Test whether we need back to catalog link
   # ----------------------------------------------------------------------------
   def back_to_catalog_needed
     !session[:search].blank?
-  end
-
-  # ============================================================================
-  # set URL & counter for previous/next link_to depending on current controller
-  # ----------------------------------------------------------------------------
-  def bookmark_or_not(document)
-    unless document.blank?
-      if params[:controller] == 'bookmarks'
-        context = { :url => bookmark_path(document) }
-      else
-        context = { :url => facet_catalog_path(document), :data_counter => session[:search][:counter].to_i }
-      end
-    end
   end
 
   # ============================================================================
@@ -861,9 +621,7 @@ module DisplayHelper
   end
 
   def is_emailable document
-    if document.respond_to?(:to_email_text)
-      true
-    end
+    true
   end
 
   def is_exportable document
@@ -1311,29 +1069,12 @@ module DisplayHelper
             class: class_name,
             role: 'button',
             data: {
-              toggle: 'tooltip',
-              placement: 'bottom',
-              html: "true"
-            },
-            title: tooltip_text do
+              bs_toggle: 'tooltip',
+              bs_placement: 'bottom',
+              bs_html: "true", 
+              bs_title: tooltip_text
+            } do
       content_tag(:i, '', class: 'fa fa-info-circle', aria: { hidden: true }) + ((" #{link_name}") if link_name.present?)
     end
   end
-
-  # TODO: no longer needed? commented out 5/31/23 to see if it breaks anything - mhk33, DISCOVERYACCESS-7501
-  # Clean up isbn in prep for bookcovers via Google Books API
-  # def bookcover_isbn(document)
-  #   isbn = document['isbn_display']
-  #   unless isbn.blank?
-  #     isbn = isbn.first
-  #     # Find first occurence of a space (remove non integer chars)
-  #     space = isbn.index(' ')
-  #     unless space.blank?
-  #       stop = space - 1
-  #       isbn[0..stop]
-  #     else
-  #       isbn
-  #     end
-  #   end
-  # end
 end

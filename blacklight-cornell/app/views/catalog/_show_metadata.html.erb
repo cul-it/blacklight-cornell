@@ -36,7 +36,7 @@
   <% end %>
   </div>
   <div class="row">
-    <div class="col-md-4 order-md-8">
+    <div class="col-md-4 order-md-last">
 	  <div class="availability card">
 	    <div class="card-header">
 	      Availability
@@ -323,8 +323,8 @@
 	    <% end %>
 	  </div>
 	  <%# end col-md-4 %>
-	  <div class="col-md-8 order-md-4">
-	    <div class="float-sm-right item-cover">
+	  <div class="col-md-8 order-md-first">
+	    <div class="float-sm-end item-cover">
 				<% if @document["format_main_facet"] == "Musical Recording" && @discogs_image_url.present?%>
 					<%= format_discogs_image(@discogs_image_url)%>
 				<% end %>

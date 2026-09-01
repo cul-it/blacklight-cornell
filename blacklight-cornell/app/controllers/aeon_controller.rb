@@ -21,7 +21,7 @@ class AeonController < ApplicationController
   def set_variables
     # @finding_aid = params[:finding] || ''
     @bibid = params[:id]
-    _, @document = search_service.fetch(params[:id])
+    @document = search_service.fetch(params[:id])
     @title = @document['fulltitle_display']
     @author = @document['author_display']
     @re506 = @document['restrictions_display']&.first&.delete_suffix("'") || ''

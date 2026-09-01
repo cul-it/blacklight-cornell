@@ -1,6 +1,8 @@
 const facetDiv = document.querySelector('#facet-lc_callnum_facet div.card-body');
 if (facetDiv) {
-  facetDiv.innerHTML = "<%= j render_facet_limit(@display_facet, layout: false) %>";
+  facetDiv.innerHTML = "<%= j render Blacklight::FacetComponent.new(display_facet: @display_facet,
+                                                                    blacklight_config: blacklight_config,
+                                                                    layout: false) %>";
 }
 
 // Re-initialize blacklight-hierarchy behavior to display +/- icons correctly

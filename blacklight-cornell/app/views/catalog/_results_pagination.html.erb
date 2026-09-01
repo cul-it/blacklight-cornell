@@ -1,7 +1,5 @@
 <% if @response.response["numFound"] > 10 %>
-<div class="row">
-  <div class="col-sm-12">
-      <%= paginate @response, :outer_window => 2, :theme => 'blacklight' %>
-  </div>
- </div>
+    <div class="mt-4">
+        <%= paginate @response, :outer_window => 2, :theme => 'blacklight' %>
+    </div>        
 <% end %>

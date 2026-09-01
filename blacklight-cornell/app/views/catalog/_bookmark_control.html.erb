@@ -1,83 +1,19 @@
-  <%-bookmarks = !(BookBag.enabled? and current_user)
+<%
+  bookmarks = !(BookBag.enabled? and current_user)
 	bookbags = BookBag.enabled? && current_user
-	if current_or_guest_user.present? && current_or_guest_user.bookmarks.present? && current_or_guest_user.bookmarks.count.present?
-		can_add_books = current_or_guest_user.bookmarks.count < BookBagsController::MAX_BOOKBAGS_COUNT
-	else
-		can_add_books = true
-	end
-  %>
+%>
 <% if current_or_guest_user %>
-  <%-
-  # Note these two forms are pretty similar but for different :methods, classes, and labels.
-  # but it was simpler to leave them seperate instead of DRYing them, got confusing trying that.
-  # the data-doc-id attribute is used by our JS that converts to a checkbox/label.
-  -%>
   <%if bookmarks %>
-  <div class="show-select-box">
-	  <% unless bookmarked? document %>
-	    <%= form_tag(bookmark_path(document),
-	                 method: :put,
-	                 class: 'bookmark-toggle d-none',
-	                 data: {
-	                   'doc-id' => document.id,
-	                   present: t('blacklight.search.bookmarks.present'),
-	                   absent: t('blacklight.search.bookmarks.absent'),
-	                   inprogress: t('blacklight.search.bookmarks.inprogress')
-	                }) do %>
-	      <%= submit_tag(t('blacklight.bookmarks.add.button'),
-	                     id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-	                     class: "bookmark-add btn btn-outline-secondary") %>
-	    <% end %>
-	  <% else %>
-	    <%= form_tag(bookmark_path(document),
-	                 method: :delete,
-	                 class: "bookmark-toggle d-none",
-	                 data: {
-	                   'doc-id' => document.id,
-	                   present: t('blacklight.search.bookmarks.present'),
-	                   absent: t('blacklight.search.bookmarks.absent'),
-	                   inprogress: t('blacklight.search.bookmarks.inprogress')
-	                }) do %>
-	      <%= submit_tag(t('blacklight.bookmarks.remove.button'),
-	                     id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-	                     class: "bookmark-remove btn btn-outline-secondary") %>
-	    <% end %>
-	  <% end %>
-  </div>
+    <div class="show-select-box">
+      <%= render Blacklight::Document::BookmarkComponent.new(document: document, action: document_action_config) %>
+    </div>
   <% end %>
-  <%if bookbags %>
-   <% if !bookbagged? document.id  %>
-    <% if can_add_books %>
-      <%= form_tag( "/book_bags/add/#{document.id}" ,
-                    method: :put,
-                    class: "bookmark-toggle",
-	                data: {
-	                   "doc-id" => document.id,
-	                   present: t('blacklight.search.bookmarks.present'),
-	                   absent: t('blacklight.search.bookmarks.absent'),
-	                   inprogress: t('blacklight.search.bookmarks.inprogress')
-	                }) do %>
-        <%= submit_tag(t('blacklight.bookmarks.add.button'),
-                       id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-                       class: "bookmark_add btn btn-outline-secondary") %>
-       <%end%>
-    <% end %>
-   <% else %>
-      <%= form_tag( "/book_bags/add/#{document.id}" ,
-                   method: :delete,
-                   class: "bookmark-toggle",
-	               data: {
-	                 "doc-id" => document.id,
-	                 present: t('blacklight.search.bookmarks.present'),
-	                 absent: t('blacklight.search.bookmarks.absent'),
-	                 inprogress: t('blacklight.search.bookmarks.inprogress')
-	               }) do %>
-        <%= submit_tag(t('blacklight.bookmarks.remove.button'),
-                       id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-                       class: "bookmark_remove btn btn-outline-secondary") %>
-         <%end%>
-      <% end %>
-   <% end %>
+  <% if bookbags && (bookbagged?(document) || can_add_books?) %>
+    <%= render Blacklight::Document::BookmarkComponent.new(document:,
+                                                           action: document_action_config,
+                                                           checked: bookbagged?(document),
+                                                           bookmark_path: add_pindex_path(document)) %>
+  <% end %>
 <% else %>
   &nbsp;
 <% end %>

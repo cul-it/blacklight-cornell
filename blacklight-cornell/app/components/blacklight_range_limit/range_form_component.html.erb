@@ -7,6 +7,7 @@
     <div class="input-group-append visually-hidden">
       <%= submit_tag t('blacklight.range_limit.submit_limit'), class: @classes[:submit], name: nil %>
     </div>
-    <%= submit_tag t('blacklight.range_limit.submit_limit'), class: @classes[:submit] + " sr-only", "aria-hidden": "true", name: nil %>
+    <%# BEGIN CUSTOMIZATION: Remove sr-only tag that conflicts with fontawesome sr-only styling %>
+    <%= submit_tag t('blacklight.range_limit.submit_limit'), class: @classes[:submit], "aria-hidden": "true", name: nil %>
   </div>
 <% end %>

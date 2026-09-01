@@ -15,11 +15,7 @@
 }
 
 .search-options { margin-left: 0; }
-input.search-query {
-  width: 93%;
-  padding-right: 0;
-  padding-left: 15px;
-}
+
 .start-over {
   display: block;
   font-size: 14px;
@@ -38,9 +34,6 @@ input.search-query {
     display: inline;
     margin-left: .5em;
   }
-}
-.results-pagination {
-  margin: .1em 0 0 1em;
 }
 .results-sortby-form,
 .results-view {
@@ -63,16 +56,6 @@ p.suggest {
 
 div.search-tools > h2 {line-height: 1em}
 
-.search-tools {
-  .form-inline {
-    .form-group {
-      padding-left: 0;
-    }
-    .form-control {
-      width: 100%;
-    }
-  }
-}
 .btn-search,
 .btn-search:hover,
 .btn-search:active,
@@ -81,6 +64,19 @@ div.search-tools > h2 {line-height: 1em}
   color: white;
 }
 
+// BS5: adjust responsive width of simple search box
+// ----------------------------------------------------
+
+@include media-breakpoint-up(xxl) {
+  .search-form {
+    width: 80%;
+    .search-query {
+      width: 14%;
+    }
+  }
+}
+
+
 // Advanced search link - catalog + bento
 // ---------------------------------------- //
 
@@ -88,10 +84,6 @@ div.search-tools > h2 {line-height: 1em}
   margin: 1rem 0 .5rem 0;
   a {
     color: $dark-gray;
-    font-weight: 700;
-    font-size: 1rem;
-    text-decoration: underline;
-    display: inline-block;
     i {
       margin-right: .5em;
       color: $cornell-primary;

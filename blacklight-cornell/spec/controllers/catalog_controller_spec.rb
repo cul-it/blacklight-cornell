@@ -220,6 +220,29 @@ RSpec.describe CatalogController, type: :controller do
     end
   end
 
+  describe 'GET email' do
+    before do
+      session[:cu_authenticated_user] = true
+    end
+
+    context 'with a valid document id and no q or search_field params' do
+      it 'renders the email form instead of raising RecordNotFound' do
+        get :email, xhr: true, params: { id: '1001' }
+        expect(response).to be_successful
+        expect(assigns(:documents).map(&:id)).to eq(['1001'])
+      end
+    end
+
+    context 'without a session-authenticated user' do
+      it 'renders the cuwebauth prompt instead of the email form' do
+        session[:cu_authenticated_user] = nil
+        get :email, xhr: true, params: { id: '1001' }
+        expect(response).to be_successful
+        expect(response).to render_template(partial: 'catalog/_email_cuwebauth')
+      end
+    end
+  end
+
   describe "Ensure no duplicate saved searches to search history" do
     it "does not create a duplicate for equivalent BASIC search params" do
       params = { "q" => "cat", "search_field" => "all_fields" }
@@ -266,6 +289,31 @@ RSpec.describe CatalogController, type: :controller do
       expect(Search.count).to eq(1), "should not create a second Search for equivalent advanced query"
       expect(search_two.id).to eq(search_one.id)
       expect(session[:history].count).to eq(1)
+    end
+  end
+
+  # set_return_path only runs as a before_action when SAML_IDP_TARGET_URL is set, so
+  # exercise it directly here.
+  describe '#set_return_path' do
+    let(:search_path) { '/catalog?q=test&search_field=all_fields' }
+
+    before { session[:cuwebauth_return_path] = search_path }
+
+    it 'keeps the search path when the async call number facet is fetched' do
+      allow(controller.request).to receive(:original_fullpath)
+        .and_return('/catalog/facet_values/lc_callnum_facet?q=test&search_field=all_fields')
+
+      controller.send(:set_return_path)
+
+      expect(session[:cuwebauth_return_path]).to eq(search_path)
+    end
+
+    it 'stores an ordinary catalog path' do
+      allow(controller.request).to receive(:original_fullpath).and_return('/catalog/12345')
+
+      controller.send(:set_return_path)
+
+      expect(session[:cuwebauth_return_path]).to eq('/catalog/12345')
     end
   end
 

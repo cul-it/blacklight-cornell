@@ -7,7 +7,7 @@ const createAlertIconMarkup = () => `<svg class="advanced-search-alert__icon" vi
 
 // Group row (label + inputs)
 const findGroupRow = ($element) => {
-    const $group = $element.closest('.blacklight-date-range, fieldset, .range_limit, .form-group, .row');
+    const $group = $element.closest('.blacklight-date-range, fieldset, .range_limit, .adv-range, .row');
     return $group.length ? $group : $element.closest('form');
 };
 

@@ -47,9 +47,9 @@ protected
     return if session[:cu_authenticated_email].blank?
     return if ENV['BAG_MYSQL_HOST'].blank?
 
-    book_bag = BookBag.new
-    book_bag.set_bagname("#{session[:cu_authenticated_email]}-bookbag-default")
-    session[:bookbag_count] = book_bag.count if session[:bookbag_count].blank?
+    @bb = BookBag.new
+    @bb.set_bagname("#{session[:cu_authenticated_email]}-bookbag-default")
+    session[:bookbag_count] = @bb.count if session[:bookbag_count].blank?
   end
 
   def allow_libwizard_iframe

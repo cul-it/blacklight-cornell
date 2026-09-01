@@ -6,8 +6,7 @@ class BentoSearch::CatalogSearcher
   end
 
   def search_response
-    (response, _deprecated_document_list) = search_service.search_results
-    response
+    search_service.search_results
   end
 
   private
