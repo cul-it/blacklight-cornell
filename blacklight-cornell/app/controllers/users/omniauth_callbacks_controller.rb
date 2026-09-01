@@ -106,7 +106,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
       return
     else
-      redirect_to root_path, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
+      # Fall back to the page Sign in was clicked from, so the search isn't lost.
+      redirect_to request.env["omniauth.origin"].presence || root_path, :allow_other_host => false, :notice => "You are logged in as #{request.env["omniauth.auth"].info.name.first}."
     end
   end
 
