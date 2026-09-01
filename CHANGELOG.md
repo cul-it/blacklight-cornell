@@ -4,6 +4,53 @@
 
 ### 🚀 Features
 
+- Fix sign-in redirect losing your search results page and improve development log formatting by @JeremyDuncan in [#2529](https://github.com/cul-it/blacklight-cornell/pull/2529) ([DACCESS-1000](https://culibrary.atlassian.net/browse/DACCESS-1000)) (#2529)
+- Add AND labeling to advanced search constraints for clearer facet combinations by @ebtoner in [#2521](https://github.com/cul-it/blacklight-cornell/pull/2521) ([DACCESS-638](https://culibrary.atlassian.net/browse/DACCESS-638)) (#2521)
+- Suppress request buttons for Digital CoLab items by @Baroquem in [#2505](https://github.com/cul-it/blacklight-cornell/pull/2505) ([DACCESS-216](https://culibrary.atlassian.net/browse/DACCESS-216)) (#2505)
+- Add fallback link and abstract text for research guide results in bento search by @ebtoner in [#2512](https://github.com/cul-it/blacklight-cornell/pull/2512) ([DACCESS-969](https://culibrary.atlassian.net/browse/DACCESS-969)) (#2512)
+
+### 🐛 Bug Fixes
+
+- Exclude non-public facets from Solr requests to improve search performance by @ebtoner in [#2525](https://github.com/cul-it/blacklight-cornell/pull/2525) ([DACCESS-750](https://culibrary.atlassian.net/browse/DACCESS-750)) (#2525)
+- Refine search results, browse, and general UI spacing and responsiveness by @mhk33 in [#2523](https://github.com/cul-it/blacklight-cornell/pull/2523) ([DACCESS-986](https://culibrary.atlassian.net/browse/DACCESS-986)) (#2523)
+- Show correct request buttons on ArchivesSpace items with circulating holdings by @sarah-cul in [#2517](https://github.com/cul-it/blacklight-cornell/pull/2517) ([DACCESS-961](https://culibrary.atlassian.net/browse/DACCESS-961)) (#2517)
+- Fix remaining blacklight-hierarchy icon and spacing styling issues by @ebtoner in [#2524](https://github.com/cul-it/blacklight-cornell/pull/2524) ([DACCESS-968](https://culibrary.atlassian.net/browse/DACCESS-968)) (#2524)
+- Upgrade blacklight-hierarchy to 6.9.0, removing its jQuery dependency and updating icon styling by @chrisrlc in [#2518](https://github.com/cul-it/blacklight-cornell/pull/2518) ([DACCESS-968](https://culibrary.atlassian.net/browse/DACCESS-968)) (#2518)
+- Hide the Looking
+for
+more? sidebar on zero-result catalog searches by @chrisrlc in [#2519](https://github.com/cul-it/blacklight-cornell/pull/2519) ([DACCESS-983](https://culibrary.atlassian.net/browse/DACCESS-983)) (#2519)
+- Fix broken catalog record emails caused by a search field regression by @chrisrlc in [#2516](https://github.com/cul-it/blacklight-cornell/pull/2516) ([DACCESS-978](https://culibrary.atlassian.net/browse/DACCESS-978)) (#2516)
+- Restore the Apply button on the publication year facet and fix advanced search error placement by @chrisrlc in [#2515](https://github.com/cul-it/blacklight-cornell/pull/2515) ([DACCESS-975](https://culibrary.atlassian.net/browse/DACCESS-975)) (#2515)
+- Update My Account to add Bootstrap 5 support and fix a login bug by @chrisrlc in [#2514](https://github.com/cul-it/blacklight-cornell/pull/2514) ([DACCESS-961](https://culibrary.atlassian.net/browse/DACCESS-961), [DACCESS-970](https://culibrary.atlassian.net/browse/DACCESS-970)) (#2514)
+- Upgrade Blacklight to v8.12.3 and fix bookbag checkboxes not persisting after refresh by @chrisrlc in [#2507](https://github.com/cul-it/blacklight-cornell/pull/2507) ([DACCESS-739](https://culibrary.atlassian.net/browse/DACCESS-739), [DACCESS-942](https://culibrary.atlassian.net/browse/DACCESS-942)) (#2507)
+- Return consistent basic search results by defaulting to all-fields search when none is specified by @ebtoner in [#2502](https://github.com/cul-it/blacklight-cornell/pull/2502) ([DACCESS-917](https://culibrary.atlassian.net/browse/DACCESS-917)) (#2502)
+
+### 🦮 Accessibility
+
+- Remove unsupported aria-labels on div elements to resolve accessibility issues by @sarah-cul in [#2509](https://github.com/cul-it/blacklight-cornell/pull/2509) ([DACCESS-955](https://culibrary.atlassian.net/browse/DACCESS-955)) (#2509)
+
+### 🧰 Maintenance
+
+- Clean up footer, item tools, and bookbag debug styling by @mhk33 in [#2527](https://github.com/cul-it/blacklight-cornell/pull/2527) ([DACCESS-986](https://culibrary.atlassian.net/browse/DACCESS-986)) (#2527)
+- Remove obsolete spinner libraries and legacy holdings/backend code by @Baroquem in [#2526](https://github.com/cul-it/blacklight-cornell/pull/2526) ([DACCESS-977](https://culibrary.atlassian.net/browse/DACCESS-977), [DACCESS-988](https://culibrary.atlassian.net/browse/DACCESS-988)) (#2526)
+- Improve print layout spacing and clean up Aeon print styles by @mhk33 in [#2520](https://github.com/cul-it/blacklight-cornell/pull/2520) ([DACCESS-984](https://culibrary.atlassian.net/browse/DACCESS-984)) (#2520)
+- Upgrade Rails to 8.1 and update Ruby gems to resolve dependency alerts by @chrisrlc in [#2510](https://github.com/cul-it/blacklight-cornell/pull/2510) ([DACCESS-939](https://culibrary.atlassian.net/browse/DACCESS-939)) (#2510)
+- Update Aeon request forms to Bootstrap 5, fixing excessive scrolling on items with many holdings by @sarah-cul in [#2513](https://github.com/cul-it/blacklight-cornell/pull/2513) ([DACCESS-918](https://culibrary.atlassian.net/browse/DACCESS-918)) (#2513)
+- Upgrade Bootstrap from v4 to v5 by @chrisrlc in [#2511](https://github.com/cul-it/blacklight-cornell/pull/2511) ([DACCESS-918](https://culibrary.atlassian.net/browse/DACCESS-918)) (#2511)
+- Remove the survey button from bento search pages by @mhk33 in [#2508](https://github.com/cul-it/blacklight-cornell/pull/2508) ([DACCESS-959](https://culibrary.atlassian.net/browse/DACCESS-959)) (#2508)
+- Update LibGuides API integration to v1.2 with token caching and improved guide search relevance by @ebtoner in [#2506](https://github.com/cul-it/blacklight-cornell/pull/2506) ([DACCESS-940](https://culibrary.atlassian.net/browse/DACCESS-940)) (#2506)
+- Enable eager loading of classes in production for improved performance by @chrisrlc in [#2503](https://github.com/cul-it/blacklight-cornell/pull/2503) ([DACCESS-935](https://culibrary.atlassian.net/browse/DACCESS-935)) (#2503)
+- Remove legacy Elastic Beanstalk configuration files by @chrisrlc in [#2504](https://github.com/cul-it/blacklight-cornell/pull/2504) (#2504)
+- Update Requests and My Account gems to their latest releases by @Baroquem in [#2528](https://github.com/cul-it/blacklight-cornell/pull/2528) (#2528)
+
+
+### Needs Review
+- 🧰 Maintenance Bump blacklight_cornell_requests to the latest dev revision by @chrisrlc in [#2522](https://github.com/cul-it/blacklight-cornell/pull/2522) (#2522) — _PR body has no 'Type of Change' checkboxes filled in, so category is inferred as Maintenance per team default._
+
+## 2026-09-01 - Sprint release (dev -> main)
+
+### 🚀 Features
+
 - Add AND prefix to advanced search constraint labels to clarify combined facet filters by @ebtoner in [#2521](https://github.com/cul-it/blacklight-cornell/pull/2521) ([DACCESS-638](https://culibrary.atlassian.net/browse/DACCESS-638)) (#2521)
 - Hide request buttons on Digital CoLab item records and clean up duplicate button IDs by @Baroquem in [#2505](https://github.com/cul-it/blacklight-cornell/pull/2505) ([DACCESS-216](https://culibrary.atlassian.net/browse/DACCESS-216)) (#2505)
 - Add fallback link and description fields so research guide bento results no longer appear broken by @ebtoner in [#2512](https://github.com/cul-it/blacklight-cornell/pull/2512) ([DACCESS-969](https://culibrary.atlassian.net/browse/DACCESS-969)) (#2512)
