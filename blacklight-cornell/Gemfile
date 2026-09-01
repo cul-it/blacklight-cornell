@@ -59,7 +59,7 @@ gem "yaml_db"
 
 gem "blacklight_cornell_requests", git: "https://github.com/cul-it/blacklight-cornell-requests", tag: "v5.6"
 gem "cul-folio-edge", git: "https://github.com/cul-it/cul-folio-edge"
-gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.6"
+gem "my_account", git: "https://github.com/cul-it/cul-my-account", tag: "v2.6.1"
 
 group :development, :test do
   gem "awesome_print"
