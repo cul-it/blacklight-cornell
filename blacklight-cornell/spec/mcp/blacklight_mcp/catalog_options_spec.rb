@@ -71,9 +71,10 @@ RSpec.describe BlacklightMcp::CatalogOptions do
                                                           'subject_content_facet', 'lc_callnum_facet')
     end
 
-    it 'includes facets that are filterable but hidden from the sidebar' do
-      expect(described_class.facet_field_keys).to include('authortitle_facet', 'availability_facet', 'collection',
-                                                          'format_main_facet', 'source', 'workid_facet')
+    it 'excludes internal facets hidden from public catalog requests' do
+      expect(described_class.facet_field_keys).not_to include('authortitle_facet', 'availability_facet', 'collection',
+                                                              'format_main_facet', 'source', 'workid_facet',
+                                                              'subject_topic_lc_facet')
     end
   end
 

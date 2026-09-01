@@ -54,6 +54,12 @@ RSpec.describe BlacklightMcp::Tools::DescribeSearchOptions do
       expect(by_field['acquired_dt_query']['values']).to include('last_1_week', 'last_1_month', 'last_1_years')
     end
 
+    it 'does not advertise internal facets hidden from students' do
+      fields = payload['facet_fields'].map { |field| field['facet_field'] }
+
+      expect(fields).not_to include('availability_facet', 'collection', 'subject_topic_lc_facet')
+    end
+
     it 'names the range facets and the advanced-form facets' do
       expect(payload['range_facet_fields']).to eq(['pub_date_facet'])
       expect(payload['advanced_facet_fields']).to eq(%w[pub_date_facet format language_facet])

@@ -178,6 +178,11 @@ RSpec.describe BlacklightMcp::QueryBuilder do
         .to raise_error(BlacklightMcp::InvalidArgument, /unknown facet field "genre_facet"/)
     end
 
+    it 'rejects an internal facet hidden from students' do
+      expect { described_class.simple(query: 'x', filters: { 'availability_facet' => ['Available'] }) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /unknown facet field "availability_facet"/)
+    end
+
     it 'sends a range facet to date_range rather than accepting it as a filter' do
       expect { described_class.simple(query: 'x', filters: { 'pub_date_facet' => ['1999'] }) }
         .to raise_error(BlacklightMcp::InvalidArgument, /range facet; filter it with date_range/)

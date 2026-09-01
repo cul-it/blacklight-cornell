@@ -62,9 +62,14 @@ module BlacklightMcp
       blacklight_config.default_sort_field&.key.to_s
     end
 
-    # Every facet, including ones the sidebar hides but you can still filter on.
+    # The facets a student can see in the public catalog. The catalog also
+    # registers internal/staff facets for specialized links and metadata work;
+    # those explicitly opt out of the public UI/request and should not become
+    # part of the MCP vocabulary just because they share the same registry.
     def facet_fields
-      blacklight_config.facet_fields
+      blacklight_config.facet_fields.reject do |_key, field|
+        field.show == false || field.include_in_request == false
+      end
     end
 
     def facet_field_keys

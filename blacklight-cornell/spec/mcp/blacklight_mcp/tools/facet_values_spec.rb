@@ -15,6 +15,7 @@ RSpec.describe BlacklightMcp::Tools::FacetValues do
     enum = described_class.input_schema.to_h[:properties][:field][:enum]
     expect(enum).to include('format', 'language_facet', 'online', 'author_facet')
     expect(enum).not_to include('pub_date_facet')
+    expect(enum).not_to include('availability_facet', 'collection', 'subject_topic_lc_facet')
   end
 
   describe '.call' do
