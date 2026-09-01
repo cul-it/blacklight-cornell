@@ -27,10 +27,10 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: bb8a1567db371481e6acc5ba3f14b332374acfd6
-  tag: v2.6
+  revision: 11488696c5d7dd283197c34ae0a881a08e9b3729
+  tag: v2.6.2
   specs:
-    my_account (2.6)
+    my_account (2.6.1)
       blacklight (>= 7.0, < 9.0)
       cul-folio-edge (> 3.3)
       haml
