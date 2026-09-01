@@ -2,8 +2,8 @@
 
 module BlacklightMcp
   module Tools
-    # The catalog's /advanced form: several query rows, each with its own search
-    # field and operator, joined by AND/OR/NOT.
+    # The catalog's /advanced page: several search rows, each with its own field
+    # and match type, joined by AND/OR/NOT.
     class AdvancedSearch < Base
       tool_name 'advanced_search'
       read_only 'Advanced (boolean) catalog search'

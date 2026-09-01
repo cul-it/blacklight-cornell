@@ -31,6 +31,7 @@ gem "jquery-ui-rails", "8.0.0"
 gem "kaminari", ">= 0.15"
 gem "libv8-node"
 gem "marc"
+gem "mcp", "~> 1.4"
 gem "mini_racer", "0.6.2", platforms: :ruby
 gem "net-smtp"
 gem "nokogiri", "~> 1.19.1"
