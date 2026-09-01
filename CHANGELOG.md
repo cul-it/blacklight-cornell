@@ -4,13 +4,13 @@
 
 ### 🚀 Features
 
-- Fix sign-in redirecting to a broken internal facet URL instead of back to your search results by @JeremyDuncan in [#2529](https://github.com/cul-it/blacklight-cornell/pull/2529) ([DACCESS-1000](https://culibrary.atlassian.net/browse/DACCESS-1000)) (#2529)
 - Add AND prefix to advanced search constraint labels to clarify combined facet filters by @ebtoner in [#2521](https://github.com/cul-it/blacklight-cornell/pull/2521) ([DACCESS-638](https://culibrary.atlassian.net/browse/DACCESS-638)) (#2521)
 - Hide request buttons on Digital CoLab item records and clean up duplicate button IDs by @Baroquem in [#2505](https://github.com/cul-it/blacklight-cornell/pull/2505) ([DACCESS-216](https://culibrary.atlassian.net/browse/DACCESS-216)) (#2505)
 - Add fallback link and description fields so research guide bento results no longer appear broken by @ebtoner in [#2512](https://github.com/cul-it/blacklight-cornell/pull/2512) ([DACCESS-969](https://culibrary.atlassian.net/browse/DACCESS-969)) (#2512)
 
 ### 🐛 Bug Fixes
 
+- Fix sign-in redirecting to a broken internal facet URL instead of back to your search results by @JeremyDuncan in [#2529](https://github.com/cul-it/blacklight-cornell/pull/2529) ([DACCESS-1000](https://culibrary.atlassian.net/browse/DACCESS-1000)) (#2529)
 - Exclude non-public facets from search requests to reduce Solr response times by @ebtoner in [#2525](https://github.com/cul-it/blacklight-cornell/pull/2525) ([DACCESS-750](https://culibrary.atlassian.net/browse/DACCESS-750)) (#2525)
 - Improve search results layout, facet spacing, and browse page styling for Bootstrap 5 by @mhk33 in [#2523](https://github.com/cul-it/blacklight-cornell/pull/2523) ([DACCESS-986](https://culibrary.atlassian.net/browse/DACCESS-986)) (#2523)
 - Show the Request item button for Aspace records that also have circulating holdings by @sarah-cul in [#2517](https://github.com/cul-it/blacklight-cornell/pull/2517) ([DACCESS-961](https://culibrary.atlassian.net/browse/DACCESS-961)) (#2517)
