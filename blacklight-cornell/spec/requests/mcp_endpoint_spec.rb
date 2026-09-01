@@ -17,7 +17,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
       get '/mcp'
 
       expect(response).to have_http_status(:ok)
-      expect(json).to include('name' => 'blacklight-cornell', 'read_only' => true)
+      expect(json).to include('name' => BlacklightMcp::Server::NAME, 'read_only' => true)
       expect(json['tools']).to include('search', 'advanced_search')
     end
 
@@ -30,7 +30,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
         get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/event-stream' }
 
         expect(response).to have_http_status(:method_not_allowed)
-        expect(response.headers['Allow']).to eq('POST, DELETE')
+        expect(response.headers['Allow']).to eq('POST')
       end
 
       it 'explains itself in a JSON-RPC error the client can log' do
@@ -48,16 +48,6 @@ RSpec.describe 'The MCP endpoint', type: :request do
     end
   end
 
-  describe 'DELETE /mcp' do
-    # Clients send this when they disconnect. We keep no session, so we just
-    # say OK and do nothing.
-    it 'acknowledges a session teardown' do
-      delete '/mcp'
-
-      expect(response).to have_http_status(:ok)
-      expect(json).to eq('success' => true)
-    end
-  end
 
   describe 'POST /mcp' do
     it 'completes the MCP handshake' do
@@ -66,7 +56,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq('application/json')
-      expect(json['result']['serverInfo']['name']).to eq('blacklight-cornell')
+      expect(json['result']['serverInfo']['name']).to eq(BlacklightMcp::Server::NAME)
     end
 
     it 'lists the tools' do
@@ -239,6 +229,42 @@ RSpec.describe 'The MCP endpoint', type: :request do
     end
   end
 
+  # Every address mcp-remote 0.8.3 checks on connect, taken from a real session.
+  describe 'the addresses an MCP client checks for a login' do
+    LOGIN_DISCOVERY_PATHS = [
+      '/.well-known/oauth-protected-resource/mcp',
+      '/.well-known/oauth-protected-resource',
+      '/.well-known/oauth-authorization-server/mcp',
+      '/.well-known/oauth-authorization-server',
+      '/.well-known/openid-configuration/mcp',
+      '/.well-known/openid-configuration',
+      '/mcp/.well-known/openid-configuration'
+    ].freeze
+
+    it 'answers each one with a plain 404 instead of raising' do
+      LOGIN_DISCOVERY_PATHS.each do |path|
+        expect { get path }.not_to raise_error, "#{path} should not raise"
+        expect(response).to have_http_status(:not_found), path
+      end
+    end
+
+    it 'says why, for anyone who looks' do
+      get '/.well-known/oauth-protected-resource'
+
+      expect(response.media_type).to eq('application/json')
+      expect(json['error']).to match(/does not require authorization/)
+    end
+
+    # A blanket /.well-known catch-all would swallow certificate renewal
+    # challenges. They must fall through to normal routing, not to this handler.
+    it 'leaves the rest of /.well-known alone' do
+      get '/.well-known/acme-challenge/token'
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).not_to include('does not require authorization')
+    end
+  end
+
   describe 'read-only enforcement' do
     it 'refuses any JSON-RPC method outside the read-only allowlist' do
       %w[resources/read resources/write prompts/get logging/setLevel sampling/createMessage].each do |method|
@@ -256,19 +282,14 @@ RSpec.describe 'The MCP endpoint', type: :request do
       expect(json['error']['code']).to eq(-32_601)
     end
 
-    it 'is not reachable by any verb the transport does not use' do
-      put '/mcp'
-      expect(response).to have_http_status(:not_found)
-
-      patch '/mcp'
-      expect(response).to have_http_status(:not_found)
-    end
-
-    it 'never mutates anything on the verbs it does answer' do
-      # DELETE only exists so a disconnecting client gets an answer. There is no
-      # session, and nothing is removed.
-      expect { delete '/mcp' }.not_to change { CatalogController.blacklight_config.facet_fields.keys }
-      expect(response).to have_http_status(:ok)
+    # Only GET and POST are routed. There is no DELETE: that verb exists in MCP
+    # to end a session, and this server never starts one -- it issues no session
+    # id, so a client has nothing to end.
+    it 'is not reachable by any verb other than GET and POST' do
+      %i[put patch delete].each do |verb|
+        send(verb, '/mcp')
+        expect(response).to have_http_status(:not_found), "#{verb.upcase} should not be routed"
+      end
     end
   end
 

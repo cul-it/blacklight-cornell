@@ -26,9 +26,6 @@ class McpController < ActionController::API
   # Indent for argument lines in the development log.
   ARGUMENT_INDENT = '  '
 
-  # What a client sends when it wants to open a live update stream.
-  EVENT_STREAM = 'text/event-stream'
-
   PARSE_ERROR = -32_700
   INVALID_REQUEST = -32_600
   METHOD_NOT_FOUND = -32_601
@@ -63,21 +60,30 @@ class McpController < ActionController::API
     render json: response_json
   end
 
-  # GET /mcp
+  # GET /mcp, when a client asks for the live update stream.
   #
-  # Two very different callers land here.
+  # Assistants open this once per connection, to listen for messages we might
+  # push them. We never push any -- every tool answers on the POST instead -- so
+  # we decline with 405. That is what the client expects, and what makes it fall
+  # back to POST. Anything else, like a 200 with some JSON, looks to it like the
+  # stream opened; it then fails on the reply and reconnects over and over,
+  # hitting the app several times a second.
   #
-  # An AI assistant (Claude Desktop, Claude Code) asks for a live update stream. We
-  # have nothing to send it -- every tool answers on the POST instead -- so we
-  # must reply 405. Anything else, like a 200 with some JSON, looks to the client
-  # like the stream opened. It then fails on the reply and reconnects over and
-  # over, hitting the app several times a second.
-  #
-  # A person opening the URL in a browser gets a short description instead of an
-  # error page.
-  def info
-    return no_event_stream if wants_event_stream?
+  # A few of these when an assistant starts up are normal.
+  def event_stream
+    response.headers['Allow'] = 'POST'
+    render json: {
+      jsonrpc: '2.0',
+      id: nil,
+      error: { code: INVALID_REQUEST,
+               message: 'Method not allowed: this server does not offer a server-to-client ' \
+                        'event stream. Send requests as JSON-RPC over POST.' }
+    }, status: :method_not_allowed
+  end
 
+  # GET /mcp, from a browser or a misconfigured client. A short description of
+  # the endpoint instead of an error page.
+  def info
     render json: {
       name: BlacklightMcp::Server::NAME,
       version: BlacklightMcp::VERSION,
@@ -88,31 +94,7 @@ class McpController < ActionController::API
     }
   end
 
-  # DELETE /mcp
-  #
-  # Clients send this when they disconnect, to close their session. We don't keep
-  # sessions, so there's nothing to close and nothing to delete -- we just say OK.
-  # The DELETE is the client's idea, not ours.
-  def terminate
-    render json: { success: true }
-  end
-
   private
-
-  def wants_event_stream?
-    request.headers['Accept'].to_s.include?(EVENT_STREAM)
-  end
-
-  def no_event_stream
-    response.headers['Allow'] = 'POST, DELETE'
-    render json: {
-      jsonrpc: '2.0',
-      id: nil,
-      error: { code: INVALID_REQUEST,
-               message: 'Method not allowed: this server does not offer a server-to-client ' \
-                        'event stream. Send requests as JSON-RPC over POST.' }
-    }, status: :method_not_allowed
-  end
 
   # A readable summary of each request, so you can see a tool call at a glance
   # instead of picking it out of the raw `Parameters:` line Rails logs.
