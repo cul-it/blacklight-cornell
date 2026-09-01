@@ -4,6 +4,12 @@
 
 ### 🐛 Bug Fixes
 
+- Update My Account to the latest version, resolving bug fixes in renewals and cancellations by @Baroquem in [#2533](https://github.com/cul-it/blacklight-cornell/pull/2533) (#2533)
+
+## 2026-09-01 - Sprint release (dev -> main)
+
+### 🐛 Bug Fixes
+
 - Update My Account to the latest version, resolving several bugs in the renewals and cancellations flow by @Baroquem in [#2533](https://github.com/cul-it/blacklight-cornell/pull/2533) (#2533)
 
 ## 2026-09-01 - Sprint release (dev -> main)
