@@ -2,6 +2,12 @@
 
 ## 2026-09-01 - Sprint release (dev -> main)
 
+### 🐛 Bug Fixes
+
+- Update My Account to the latest version, resolving several bugs in the renewals and cancellations flow by @Baroquem in [#2533](https://github.com/cul-it/blacklight-cornell/pull/2533) (#2533)
+
+## 2026-09-01 - Sprint release (dev -> main)
+
 ### 🚀 Features
 
 - Add AND prefix to advanced search constraint labels to clarify combined facet filters by @ebtoner in [#2521](https://github.com/cul-it/blacklight-cornell/pull/2521) ([DACCESS-638](https://culibrary.atlassian.net/browse/DACCESS-638)) (#2521)
