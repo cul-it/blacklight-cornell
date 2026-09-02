@@ -12,6 +12,7 @@ module BlacklightMcp
       initialize
       notifications/initialized
       ping
+      server/discover
       tools/list
       tools/call
     ].freeze

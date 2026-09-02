@@ -3,9 +3,45 @@
 require 'rails_helper'
 
 RSpec.describe 'The MCP endpoint', type: :request do
-  # headers comes before any keywords so an inline body is not read as keywords.
-  def rpc(body, headers = { 'CONTENT_TYPE' => 'application/json' })
-    post '/mcp', params: body.is_a?(String) ? body : body.to_json, headers: headers
+  PROTOCOL_VERSION = '2026-07-28'
+  LEGACY_PROTOCOL_VERSION = '2025-11-25'
+
+  # Adds the per-request metadata and mirrored HTTP headers required by modern,
+  # stateless MCP.
+  def rpc(body, headers = {})
+    payload = body.is_a?(Hash) ? modern_request(body) : body
+    method = payload.is_a?(Hash) ? payload[:method] : 'tools/list'
+    params = payload.is_a?(Hash) ? payload[:params] : nil
+
+    request_headers = {
+      'CONTENT_TYPE' => 'application/json',
+      'HTTP_ACCEPT' => 'application/json, text/event-stream',
+      'HTTP_MCP_PROTOCOL_VERSION' => PROTOCOL_VERSION,
+      'HTTP_MCP_METHOD' => method
+    }
+    request_headers['HTTP_MCP_NAME'] = params[:name] if params.is_a?(Hash) && params[:name]
+
+    post '/mcp', params: payload.is_a?(String) ? payload : payload.to_json,
+                 headers: request_headers.merge(headers)
+  end
+
+  def modern_request(body)
+    request_body = body.deep_dup
+    params = request_body[:params] ||= {}
+    params[:_meta] = {
+      'io.modelcontextprotocol/protocolVersion' => PROTOCOL_VERSION,
+      'io.modelcontextprotocol/clientInfo' => { name: 'spec', version: '1' },
+      'io.modelcontextprotocol/clientCapabilities' => {}
+    }
+    request_body
+  end
+
+  def legacy_rpc(body, headers = {})
+    request_headers = {
+      'CONTENT_TYPE' => 'application/json',
+      'HTTP_ACCEPT' => 'application/json, text/event-stream'
+    }
+    post '/mcp', params: body.to_json, headers: request_headers.merge(headers)
   end
 
   def json
@@ -13,50 +49,23 @@ RSpec.describe 'The MCP endpoint', type: :request do
   end
 
   describe 'GET /mcp' do
-    it 'describes the endpoint for anyone who lands on it' do
-      get '/mcp'
+    it 'cleanly declines the optional legacy SSE stream' do
+      get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/event-stream' }
 
-      expect(response).to have_http_status(:ok)
-      expect(json).to include('name' => BlacklightMcp::Server::NAME, 'read_only' => true)
-      expect(json['tools']).to include('search', 'advanced_search')
-    end
-
-    # This one bit us. An AI assistant opens this GET to ask for a live update
-    # stream. Replying 200 with JSON looks to it like the stream opened; it then
-    # fails on the reply and reconnects over and over, hitting the app several
-    # times a second. 405 tells it there is no stream, which it handles fine.
-    context 'when a client asks to open the server-to-client event stream' do
-      it 'refuses with 405 rather than looking like an open stream' do
-        get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/event-stream' }
-
-        expect(response).to have_http_status(:method_not_allowed)
-        expect(response.headers['Allow']).to eq('POST')
-      end
-
-      it 'explains itself in a JSON-RPC error the client can log' do
-        get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/event-stream' }
-
-        expect(json['jsonrpc']).to eq('2.0')
-        expect(json['error']['message']).to match(/does not offer a server-to-client event stream/)
-      end
-
-      it 'still refuses when the stream type is one of several accepted types' do
-        get '/mcp', headers: { 'HTTP_ACCEPT' => 'application/json, text/event-stream' }
-
-        expect(response).to have_http_status(:method_not_allowed)
-      end
+      expect(response).to have_http_status(:method_not_allowed)
+      expect(json.dig('error', 'message')).to eq('Method not allowed')
     end
   end
 
-
   describe 'POST /mcp' do
-    it 'completes the MCP handshake' do
-      rpc(jsonrpc: '2.0', id: 1, method: 'initialize',
-          params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'spec', version: '1' } })
+    it 'supports stateless server discovery without a handshake' do
+      rpc(jsonrpc: '2.0', id: 1, method: 'server/discover')
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq('application/json')
-      expect(json['result']['serverInfo']['name']).to eq(BlacklightMcp::Server::NAME)
+      expect(json['result']['supportedVersions']).to eq([PROTOCOL_VERSION])
+      expect(json.dig('result', '_meta', 'io.modelcontextprotocol/serverInfo', 'name'))
+        .to eq(BlacklightMcp::Server::NAME)
     end
 
     it 'lists the tools' do
@@ -67,15 +76,43 @@ RSpec.describe 'The MCP endpoint', type: :request do
     end
 
     it 'does not require a CSRF token' do
-      expect { rpc(jsonrpc: '2.0', id: 3, method: 'ping') }.not_to raise_error
+      expect { rpc(jsonrpc: '2.0', id: 3, method: 'tools/list') }.not_to raise_error
       expect(response).to have_http_status(:ok)
     end
 
-    it 'answers a notification with no body' do
-      rpc(jsonrpc: '2.0', method: 'notifications/initialized')
+    it 'accepts the legacy initialize handshake used by Claude' do
+      legacy_rpc(jsonrpc: '2.0', id: 1, method: 'initialize',
+                 params: { protocolVersion: LEGACY_PROTOCOL_VERSION, capabilities: {},
+                           clientInfo: { name: 'mcp-remote-fallback-test', version: '0.0.0' } })
+
+      expect(response).to have_http_status(:ok)
+      expect(json.dig('result', 'protocolVersion')).to eq(LEGACY_PROTOCOL_VERSION)
+      expect(json.dig('result', 'serverInfo', 'name')).to eq(BlacklightMcp::Server::NAME)
+      expect(response.headers['Mcp-Session-Id']).to be_nil
+    end
+
+    it 'accepts legacy follow-up requests without retaining a session' do
+      legacy_rpc({ jsonrpc: '2.0', id: 2, method: 'tools/list' },
+                 'HTTP_MCP_PROTOCOL_VERSION' => LEGACY_PROTOCOL_VERSION)
+
+      expect(response).to have_http_status(:ok)
+      expect(json['result']['tools'].map { |tool| tool['name'] })
+        .to contain_exactly('search', 'advanced_search', 'describe_search_options', 'facet_values', 'get_record')
+    end
+
+    it 'accepts the legacy initialized notification' do
+      legacy_rpc({ jsonrpc: '2.0', method: 'notifications/initialized' },
+                 'HTTP_MCP_PROTOCOL_VERSION' => LEGACY_PROTOCOL_VERSION)
 
       expect(response).to have_http_status(:accepted)
       expect(response.body).to be_empty
+    end
+
+    it 'requires the protocol version header when the body uses the modern envelope' do
+      rpc({ jsonrpc: '2.0', id: 2, method: 'tools/list' }, 'HTTP_MCP_PROTOCOL_VERSION' => nil)
+
+      expect(response).to have_http_status(:bad_request)
+      expect(json['error']['code']).to eq(MCP::ErrorCodes::HEADER_MISMATCH)
     end
 
     it 'runs a tool and returns its result' do
@@ -177,7 +214,11 @@ RSpec.describe 'The MCP endpoint', type: :request do
         expect(lines.last).to include('query="red planet"').and include('op=AND')
       end
 
-      it 'summarizes a handshake by the client that sent it' do
+      it 'summarizes modern discovery on one line' do
+        expect(summarize('server/discover', {}, 0)).to eq(['#0 server/discover'])
+      end
+
+      it 'summarizes a legacy handshake by the client that sent it' do
         lines = summarize('initialize', { 'clientInfo' => { 'name' => 'claude-ai', 'version' => '0.1.0' } }, 0)
 
         expect(lines).to eq(['#0 initialize <- claude-ai 0.1.0'])
@@ -229,42 +270,6 @@ RSpec.describe 'The MCP endpoint', type: :request do
     end
   end
 
-  # Every address mcp-remote 0.8.3 checks on connect, taken from a real session.
-  describe 'the addresses an MCP client checks for a login' do
-    LOGIN_DISCOVERY_PATHS = [
-      '/.well-known/oauth-protected-resource/mcp',
-      '/.well-known/oauth-protected-resource',
-      '/.well-known/oauth-authorization-server/mcp',
-      '/.well-known/oauth-authorization-server',
-      '/.well-known/openid-configuration/mcp',
-      '/.well-known/openid-configuration',
-      '/mcp/.well-known/openid-configuration'
-    ].freeze
-
-    it 'answers each one with a plain 404 instead of raising' do
-      LOGIN_DISCOVERY_PATHS.each do |path|
-        expect { get path }.not_to raise_error, "#{path} should not raise"
-        expect(response).to have_http_status(:not_found), path
-      end
-    end
-
-    it 'says why, for anyone who looks' do
-      get '/.well-known/oauth-protected-resource'
-
-      expect(response.media_type).to eq('application/json')
-      expect(json['error']).to match(/does not require authorization/)
-    end
-
-    # A blanket /.well-known catch-all would swallow certificate renewal
-    # challenges. They must fall through to normal routing, not to this handler.
-    it 'leaves the rest of /.well-known alone' do
-      get '/.well-known/acme-challenge/token'
-
-      expect(response).to have_http_status(:not_found)
-      expect(response.body).not_to include('does not require authorization')
-    end
-  end
-
   describe 'read-only enforcement' do
     it 'refuses any JSON-RPC method outside the read-only allowlist' do
       %w[resources/read resources/write prompts/get logging/setLevel sampling/createMessage].each do |method|
@@ -275,21 +280,47 @@ RSpec.describe 'The MCP endpoint', type: :request do
       end
     end
 
-    it 'refuses a batch containing a disallowed method' do
+    it 'refuses JSON-RPC batches because every modern POST is one request' do
       rpc([{ jsonrpc: '2.0', id: 1, method: 'tools/list' },
            { jsonrpc: '2.0', id: 2, method: 'resources/read' }])
 
-      expect(json['error']['code']).to eq(-32_601)
+      expect(json['error']['code']).to eq(-32_600)
     end
 
-    # Only GET and POST are routed. There is no DELETE: that verb exists in MCP
-    # to end a session, and this server never starts one -- it issues no session
-    # id, so a client has nothing to end.
-    it 'is not reachable by any verb other than GET and POST' do
+    it 'is not reachable by mutation verbs' do
       %i[put patch delete].each do |verb|
         send(verb, '/mcp')
         expect(response).to have_http_status(:not_found), "#{verb.upcase} should not be routed"
       end
+    end
+  end
+
+  describe 'authorization discovery probes' do
+    paths = [
+      '/.well-known/oauth-protected-resource/mcp',
+      '/.well-known/oauth-protected-resource',
+      '/.well-known/oauth-authorization-server/mcp',
+      '/.well-known/oauth-authorization-server',
+      '/.well-known/openid-configuration/mcp',
+      '/.well-known/openid-configuration',
+      '/mcp/.well-known/openid-configuration'
+    ]
+
+    paths.each do |path|
+      it "returns a quiet JSON 404 for #{path}" do
+        get path
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.media_type).to eq('application/json')
+        expect(json['error']).to match(/does not require authorization/)
+      end
+    end
+
+    it 'does not intercept unrelated well-known paths' do
+      get '/.well-known/acme-challenge/token'
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).not_to include('does not require authorization')
     end
   end
 

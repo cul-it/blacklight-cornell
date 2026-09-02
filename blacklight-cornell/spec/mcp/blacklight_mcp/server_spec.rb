@@ -8,8 +8,13 @@ RSpec.describe BlacklightMcp::Server do
   # id comes before any keywords so a params hash written inline here is not
   # mistaken for keyword arguments.
   def rpc(method, params = nil, id = 1)
+    params ||= {}
+    params[:_meta] = {
+      'io.modelcontextprotocol/protocolVersion' => '2026-07-28',
+      'io.modelcontextprotocol/clientCapabilities' => {}
+    }
     body = { jsonrpc: '2.0', id: id, method: method }
-    body[:params] = params if params
+    body[:params] = params
     result = server.handle_json(body.to_json)
     result && JSON.parse(result)
   end
@@ -28,18 +33,18 @@ RSpec.describe BlacklightMcp::Server do
     end
   end
 
-  describe 'initialize' do
-    it 'identifies the server and declares only the tools capability' do
-      result = rpc('initialize', protocolVersion: '2025-06-18', capabilities: {},
-                                 clientInfo: { name: 'spec', version: '1' })['result']
+  describe 'server/discover' do
+    it 'identifies the modern stateless server and declares only the tools capability' do
+      result = rpc('server/discover')['result']
 
-      expect(result['serverInfo']).to include('name' => 'blacklight-cornell', 'version' => BlacklightMcp::VERSION)
+      expect(result['supportedVersions']).to eq(['2026-07-28'])
+      expect(result.dig('_meta', 'io.modelcontextprotocol/serverInfo'))
+        .to include('name' => described_class::NAME, 'version' => BlacklightMcp::VERSION)
       expect(result['capabilities'].keys).to eq(['tools'])
     end
 
     it 'ships instructions telling a client where to start' do
-      result = rpc('initialize', protocolVersion: '2025-06-18', capabilities: {},
-                                 clientInfo: { name: 'spec', version: '1' })['result']
+      result = rpc('server/discover')['result']
       expect(result['instructions']).to include('describe_search_options')
     end
   end
@@ -60,13 +65,14 @@ RSpec.describe BlacklightMcp::Server do
   end
 
   describe 'the allowlist of JSON-RPC methods' do
-    it 'permits only reads and the handshake' do
+    it 'permits only lifecycle methods, discovery and reads' do
       expect(described_class::ALLOWED_METHODS)
-        .to eq(%w[initialize notifications/initialized ping tools/list tools/call])
+        .to eq(%w[initialize notifications/initialized ping server/discover tools/list tools/call])
     end
 
     it 'rejects anything else' do
       expect(described_class.allowed_method?('tools/call')).to be true
+      expect(described_class.allowed_method?('initialize')).to be true
       expect(described_class.allowed_method?('resources/read')).to be false
       expect(described_class.allowed_method?('completion/complete')).to be false
     end

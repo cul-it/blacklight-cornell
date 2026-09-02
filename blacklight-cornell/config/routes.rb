@@ -228,5 +228,21 @@ BlacklightCornell::Application.routes.draw do
   mount MyAccount::Engine => '/myaccount', :as => 'my_account'
 
   get "/status", to: "status#index"
+
+  ##############################################################################
+  ##  MCP Routes  ##
+  ##################
+  # One stateless, read-only MCP endpoint. POST carries all RPCs; GET only lets
+  # legacy clients discover that this server does not offer an SSE stream.
+  match "/mcp", to: "mcp#handle", via: [:get, :post], as: "mcp"
+
+  # Remote MCP clients probe these standard locations before deciding that the
+  # endpoint needs no login. Return the expected 404 without routing exceptions.
+  # The constraint is deliberately narrow so unrelated /.well-known paths keep
+  # normal Rails routing (including certificate challenges).
+  no_mcp_login = ->(_env) { [404, { "content-type" => "application/json" }, ['{"error":"this server does not require authorization"}']] }
+  mcp_login_provider = /oauth-protected-resource|oauth-authorization-server|openid-configuration/
+  get "/.well-known/:provider(/*rest)", to: no_mcp_login, constraints: { provider: mcp_login_provider }
+  get "/mcp/.well-known/:provider(/*rest)", to: no_mcp_login, constraints: { provider: mcp_login_provider }
 end
 # rubocop:enable Metrics/BlockLength
