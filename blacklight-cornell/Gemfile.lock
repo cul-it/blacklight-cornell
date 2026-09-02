@@ -27,8 +27,8 @@ GIT
 
 GIT
   remote: https://github.com/cul-it/cul-my-account
-  revision: 11488696c5d7dd283197c34ae0a881a08e9b3729
-  tag: v2.6.2
+  revision: 357e9386faff447422ff3376a3c1cfe360d6a009
+  branch: dev
   specs:
     my_account (2.6.1)
       blacklight (>= 7.0, < 9.0)
