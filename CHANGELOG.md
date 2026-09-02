@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-02 - Sprint release (dev -> main)
+
+### 🐛 Bug Fixes
+
+- Update the My Account gem dependency to fix an account-related bug by @Baroquem in [#2537](https://github.com/cul-it/blacklight-cornell/pull/2537) (#2537)
+
 ## 2026-09-01 - Sprint release (dev -> main)
 
 ### 🐛 Bug Fixes
