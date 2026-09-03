@@ -75,7 +75,12 @@ module BlacklightMcp
                            CatalogOptions.sort_options.map { |o| "#{o['label']}" }.join(', ') + '.',
               enum: CatalogOptions.sort_field_keys + CatalogOptions.sort_options.map { |o| o['label'] }
             },
-            page: { type: 'integer', minimum: 1, description: 'Result page, 1-based.' },
+            page: {
+              type: 'integer',
+              minimum: 1,
+              description: 'Result page, 1-based. page x per_page cannot reach past record ' \
+                           "#{QueryBuilder::MAX_RESULT_WINDOW}; to go further, narrow the search or change sort."
+            },
             per_page: {
               type: 'integer',
               minimum: 1,
@@ -125,6 +130,11 @@ module BlacklightMcp
         rescue Blacklight::Exceptions::InvalidRequest, RSolr::Error::Http => e
           Rails.logger.warn("[mcp] solr rejected request: #{e.message}")
           failure('The catalog could not run that search. Try simplifying the query or removing filters.')
+        rescue Blacklight::Exceptions::RepositoryTimeout, Blacklight::Exceptions::ECONNREFUSED => e
+          # Only the class name: these messages embed the Solr connection, which
+          # can carry credentials.
+          Rails.logger.warn("[mcp] solr unavailable: #{e.class}")
+          failure('The catalog took too long to answer. Try a narrower search, or try again in a moment.')
         end
 
         def base_url(server_context)

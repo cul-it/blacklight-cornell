@@ -21,6 +21,13 @@ module BlacklightMcp
     MAX_ADVANCED_ROWS = 10
     MAX_QUERY_LENGTH = 1_000
 
+    # How far into a result set a request may reach. Solr walks every row it
+    # skips, so page 50,000 costs the whole index no matter how narrow the query
+    # is -- the cheapest way there is to knock the catalog over. Nobody reads
+    # their way to record 10,000 either: past that, the answer is a better
+    # search, not another page.
+    MAX_RESULT_WINDOW = 10_000
+
     DEFAULT_SEARCH_FIELD = 'all_fields'
     DEFAULT_OP = 'AND'
     DEFAULT_BOOLEAN = 'AND'
@@ -85,6 +92,7 @@ module BlacklightMcp
       params[:sort] = sort if sort
       params[:page] = page
       params[:per_page] = per_page
+      check_result_window!(params[:page], params[:per_page])
       params
     end
 
@@ -331,6 +339,20 @@ module BlacklightMcp
       end
 
       per_page
+    end
+
+    # Paging is checked as a pair, because neither number is a problem on its
+    # own. The message names the last page that does work, so the caller can
+    # either stop there or narrow the search instead of probing for the edge.
+    def check_result_window!(page, per_page)
+      last_record = page * per_page
+      return if last_record <= MAX_RESULT_WINDOW
+
+      raise InvalidArgument,
+            "page #{page} at per_page #{per_page} would reach record #{last_record}, past this catalog's " \
+            "#{MAX_RESULT_WINDOW}-record limit. The last page at per_page #{per_page} is " \
+            "#{MAX_RESULT_WINDOW / per_page}. To reach records beyond it, narrow the search with filters " \
+            'or a date range, or change sort so the records you want come nearer the front.'
     end
 
     def integer(value, label)

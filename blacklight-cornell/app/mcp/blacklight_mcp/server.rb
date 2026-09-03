@@ -25,6 +25,9 @@ module BlacklightMcp
       facet values. Use search for a single query string and advanced_search when terms
       need to be combined with AND/OR/NOT or searched in different fields. facet_values
       finds the exact spelling of a facet value, and get_record pulls a full record.
+      check_availability answers "can I get this right now" for records a search has
+      found: online links, holding library, call number, and how many items are on the
+      shelf rather than checked out.
     TEXT
 
     module_function
@@ -35,7 +38,8 @@ module BlacklightMcp
         Tools::AdvancedSearch,
         Tools::DescribeSearchOptions,
         Tools::FacetValues,
-        Tools::GetRecord
+        Tools::GetRecord,
+        Tools::CheckAvailability
       ]
     end
 

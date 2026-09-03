@@ -24,12 +24,12 @@ RSpec.describe SolrQueryPrettyPrinter do
     end
 
     it 'indents each parameter and separates them with commas' do
-      expect(lines).to include('  "qt" => "search",')
-      expect(lines).to include('  "rows" => 20,')
+      expect(lines).to include('     "qt" => "search",')
+      expect(lines).to include('     "rows" => 20,')
     end
 
     it 'leaves the last parameter without a trailing comma' do
-      expect(lines).to include('  "facet" => true')
+      expect(lines).to include('     "facet" => true')
       expect(lines.grep(/"facet" => true,/)).to be_empty
     end
   end
@@ -41,32 +41,32 @@ RSpec.describe SolrQueryPrettyPrinter do
     end
 
     it 'keeps quotes and escapes on values exactly as Ruby wrote them' do
-      expect(lines).to include('  "q" => "((author:\"Stephen\" AND author:\"King\") NOT (subject:\"cats\"))",')
+      expect(lines).to include('     "q" => "((author:\"Stephen\" AND author:\"King\") NOT (subject:\"cats\"))",')
     end
 
     it 'keeps the brackets around an expanded array' do
-      expect(lines).to include('  "fq" => [')
-      expect(lines).to include('  ],')
+      expect(lines).to include('     "fq" => [')
+      expect(lines).to include('     ],')
     end
 
     it 'keeps the quotes on each element of an expanded array' do
-      expect(lines).to include('    "pub_date_facet:[1984 TO 1999]",')
-      expect(lines).to include('    "{!term f=language_facet}Spanish"')
+      expect(lines).to include('          "pub_date_facet:[1984 TO 1999]",')
+      expect(lines).to include('          "{!term f=language_facet}Spanish"')
     end
   end
 
   describe 'deciding what to expand' do
     it 'gives each element its own line when the array is too wide for one' do
-      expect(lines.grep(/\A {4}"/).length).to eq(3)
+      expect(lines.grep(/\A {10}"/).length).to eq(3)
     end
 
     it 'leaves a short array inline, so it does not cost three lines to say one thing' do
-      expect(lines).to include('  "stats.field" => ["pub_date_facet"],')
+      expect(lines).to include('     "stats.field" => ["pub_date_facet"],')
     end
 
     it 'leaves a long scalar alone -- there is nothing to break it on' do
       long = %(Solr query: get select {"q" => "#{'a' * 200}"})
-      expect(described_class.call("#{long}}").grep(/\A {2}"q" =>/).length).to eq(1)
+      expect(described_class.call("#{long}}").grep(/\A {5}"q" =>/).length).to eq(1)
     end
 
     it 'expands a nested container inside an expanded one' do
@@ -74,15 +74,15 @@ RSpec.describe SolrQueryPrettyPrinter do
                "\"#{'x' * 120}\", \"languages\" => \"#{'y' * 120}\"}}}"
       out = described_class.call(nested)
 
-      expect(out).to include('  "json" => {')
-      expect(out).to include('    "facet" => {')
-      expect(out.grep(/\A {6}"formats" =>/).length).to eq(1)
+      expect(out).to include('     "json" => {')
+      expect(out).to include('          "facet" => {')
+      expect(out.grep(/\A {15}"formats" =>/).length).to eq(1)
     end
   end
 
   describe 'reading the inspect output correctly' do
     def parameters(hash_literal)
-      described_class.call("Solr query: get select #{hash_literal}").grep(/\A {2}\S/)
+      described_class.call("Solr query: get select #{hash_literal}").grep(/\A {5}\S/)
     end
 
     it 'does not split on a comma inside a quoted value' do
@@ -98,14 +98,14 @@ RSpec.describe SolrQueryPrettyPrinter do
     end
 
     it 'does not split on a => inside a quoted value' do
-      expect(parameters('{"q" => "a => b", "rows" => 1}')).to include('  "q" => "a => b",')
+      expect(parameters('{"q" => "a => b", "rows" => 1}')).to include('     "q" => "a => b",')
     end
 
     it 'reads symbol keys as well as string keys' do
       out = parameters('{qt: "document", "id" => "12275844"}')
 
-      expect(out).to include('  qt: "document",')
-      expect(out).to include('  "id" => "12275844"')
+      expect(out).to include('     qt: "document",')
+      expect(out).to include('     "id" => "12275844"')
     end
 
     it 'is not confused by braces inside a value' do

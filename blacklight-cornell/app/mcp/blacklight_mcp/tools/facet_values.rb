@@ -42,7 +42,12 @@ module BlacklightMcp
             enum: %w[count index],
             description: '"count" for most-used first (default), "index" for alphabetical.'
           },
-          page: { type: 'integer', minimum: 1, description: 'Page of facet values, 1-based.' }
+          page: {
+            type: 'integer',
+            minimum: 1,
+            description: 'Page of facet values, 1-based. Paging cannot reach past value ' \
+                         "#{QueryBuilder::MAX_RESULT_WINDOW}; use prefix to jump instead."
+          }
         },
         required: %w[field],
         additionalProperties: false

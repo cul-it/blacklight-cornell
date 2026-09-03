@@ -22,12 +22,13 @@ module McpSpecHelpers
 
   # Replaces the search runner so a tool can run without Solr, and records the
   # parameters the tool built. Returns those parameters.
-  def stub_search_runner(response: nil, document: nil, facet_response: nil, solr_params: {})
+  def stub_search_runner(response: nil, document: nil, documents: [], facet_response: nil, solr_params: {})
     captured = {}
     runner = instance_double(BlacklightMcp::SearchRunner)
 
     allow(runner).to receive(:search_results).and_return(response || solr_response)
     allow(runner).to receive(:document).and_return(document)
+    allow(runner).to receive(:documents).and_return(documents)
     allow(runner).to receive(:facet_results).and_return(facet_response)
     allow(runner).to receive(:solr_params).and_return(solr_params)
 

@@ -72,5 +72,27 @@ RSpec.describe BlacklightMcp::Tools::FacetValues do
       stub_search_runner
       expect(tool_error(described_class, field: 'pub_date_facet')).to match(/range facet and has no discrete values/)
     end
+
+    # Facet paging becomes a Solr facet.offset, walked the same way a deep
+    # result page is, so it gets the same window.
+    it 'refuses to page past the result window' do
+      stub_search_runner
+      window = BlacklightMcp::QueryBuilder::MAX_RESULT_WINDOW
+
+      expect(tool_error(described_class, field: 'author_facet', page: window))
+        .to match(/past this catalog's #{window}-value limit/)
+    end
+
+    it 'allows a page that stays inside the window' do
+      captured = stub_search_runner(facet_response: solr_response(facets: { 'format' => %w[Book 10] }))
+      tool_payload(described_class, field: 'format', page: 2)
+
+      expect(captured[:'facet.page']).to eq(2)
+    end
+
+    it 'rejects a non-numeric page' do
+      stub_search_runner
+      expect(tool_error(described_class, field: 'format', page: 'two')).to match(/page must be a whole number/)
+    end
   end
 end

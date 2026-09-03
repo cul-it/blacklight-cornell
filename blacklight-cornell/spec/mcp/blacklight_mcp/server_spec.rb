@@ -22,7 +22,8 @@ RSpec.describe BlacklightMcp::Server do
   describe 'tools' do
     it 'advertises exactly the read-only catalog tools' do
       expect(described_class.tools.map(&:name_value))
-        .to contain_exactly('search', 'advanced_search', 'describe_search_options', 'facet_values', 'get_record')
+        .to contain_exactly('search', 'advanced_search', 'describe_search_options', 'facet_values', 'get_record',
+                            'check_availability')
     end
 
     it 'marks every tool read-only and non-destructive' do
@@ -54,7 +55,8 @@ RSpec.describe BlacklightMcp::Server do
 
     it 'returns every tool with a schema and a description' do
       expect(tools.map { |tool| tool['name'] })
-        .to contain_exactly('search', 'advanced_search', 'describe_search_options', 'facet_values', 'get_record')
+        .to contain_exactly('search', 'advanced_search', 'describe_search_options', 'facet_values', 'get_record',
+                            'check_availability')
 
       tools.each do |tool|
         expect(tool['description']).to be_present

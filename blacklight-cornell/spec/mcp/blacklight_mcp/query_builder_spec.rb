@@ -333,6 +333,38 @@ RSpec.describe BlacklightMcp::QueryBuilder do
     end
   end
 
+  # Solr walks every row it skips, so a deep page is the cheapest way to make
+  # one request cost the whole index. Neither number is a problem alone, so the
+  # pair is what gets checked.
+  describe 'the result window' do
+    let(:window) { described_class::MAX_RESULT_WINDOW }
+
+    it 'allows the last page that stays inside the window' do
+      params = described_class.simple(query: 'x', page: window / 100, per_page: 100)
+      expect(params[:page]).to eq(window / 100)
+    end
+
+    it 'refuses the page after it' do
+      expect { described_class.simple(query: 'x', page: (window / 100) + 1, per_page: 100) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /past this catalog's #{window}-record limit/)
+    end
+
+    it 'tells the caller which page is the last one that works' do
+      expect { described_class.simple(query: 'x', page: 5_000, per_page: 20) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /last page at per_page 20 is #{window / 20}/)
+    end
+
+    it 'catches a deep page reached with a small per_page too' do
+      expect { described_class.simple(query: 'x', page: window + 1, per_page: 1) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /#{window}-record limit/)
+    end
+
+    it 'applies to advanced searches as well' do
+      expect { described_class.advanced(rows: [{ query: 'a' }], page: window, per_page: 100) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /#{window}-record limit/)
+    end
+  end
+
   describe 'argument hygiene' do
     it 'accepts string keys as well as symbols' do
       params = described_class.simple('query' => 'batman', 'search_field' => 'title')
