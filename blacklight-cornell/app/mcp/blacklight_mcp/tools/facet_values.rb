@@ -81,10 +81,29 @@ module BlacklightMcp
       # not be passed along as a result sort.
       def self.facet_params(field, args)
         params = QueryBuilder.simple(args.except(:sort, :page, :per_page, :field, :prefix))
-        params[:'facet.page'] = args[:page] if args[:page].present?
+        params[:'facet.page'] = checked_page(field, args[:page]) if args[:page].present?
         params[:'facet.sort'] = args[:sort] if args[:sort].present?
         params[:'facet.prefix'] = args[:prefix] if args[:prefix].present?
         params
+      end
+
+      # Facet paging becomes a Solr facet.offset, which is walked the same way a
+      # deep result page is, so it gets the same window. `prefix` is the cheap
+      # way to reach a value far down the list.
+      def self.checked_page(field, value)
+        page = Integer(value.to_s.strip)
+        raise InvalidArgument, 'page must be 1 or greater' if page < 1
+
+        limit = more_limit(field).to_i
+        return page if limit <= 0 || page * limit <= QueryBuilder::MAX_RESULT_WINDOW
+
+        raise InvalidArgument,
+              "page #{page} would reach facet value #{page * limit}, past this catalog's " \
+              "#{QueryBuilder::MAX_RESULT_WINDOW}-value limit. The last page for #{field} is " \
+              "#{QueryBuilder::MAX_RESULT_WINDOW / limit}. Use prefix to jump to the values you want, " \
+              'or scope the counts with a query and filters.'
+      rescue ArgumentError, TypeError
+        raise InvalidArgument, "page must be a whole number (got #{value.inspect})"
       end
 
       def self.payload(field, response, args)
