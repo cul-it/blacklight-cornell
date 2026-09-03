@@ -27,6 +27,10 @@ Start with `describe_search_options` if you are unsure what to ask for.
 
 Swap the URL for `http://localhost:9292/mcp` when working locally.
 
+Every client uses a slightly different key for the same thing — `mcpServers`,
+`servers`, `mcp_servers` — so for anything not shown here, follow its own
+instructions in [Reference](#reference) below.
+
 **Claude Code** -- one command:
 
 ```bash
@@ -58,7 +62,7 @@ URL. If your version has no such option, use the `mcp-remote` bridge below.
 
 **Any client that only launches commands**, or refuses a plain `http://` address
 -- which covers local development -- bridges through
-[`mcp-remote`](https://www.npmjs.com/package/mcp-remote):
+[`mcp-remote`](https://github.com/geelen/mcp-remote):
 
 ```jsonc
 {
@@ -98,6 +102,38 @@ and `fetch` must return `id`, `title`, `text`, `url` and `metadata`. This server
 has both, so it should qualify -- though that pairing has not been tested against
 ChatGPT itself, only against the documented shape.
 
+
+## Reference
+
+**The protocol itself**
+
+- [What MCP is](https://modelcontextprotocol.io/docs/getting-started/intro) — the plain-language introduction
+- [Specification](https://modelcontextprotocol.io/specification/2025-06-18) — and the
+  [transport chapter](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports),
+  which is what this endpoint implements
+- [How tools work](https://modelcontextprotocol.io/docs/concepts/tools)
+- [Every known MCP client](https://modelcontextprotocol.io/clients) — check here first if
+  yours is not listed below
+
+**Connecting each assistant**
+
+| Assistant | Their instructions |
+| --------- | ------------------ |
+| Claude Code | [MCP in Claude Code](https://docs.claude.com/en/docs/claude-code/mcp) |
+| Claude Desktop | [Custom integrations using remote MCP](https://support.claude.com/en/articles/11175166-about-custom-integrations-using-remote-mcp) |
+| Claude API | [MCP connector](https://docs.claude.com/en/docs/agents-and-tools/mcp-connector) |
+| OpenAI Codex CLI | [MCP in Codex](https://developers.openai.com/codex/mcp/) |
+| ChatGPT | [MCP and deep research connectors](https://platform.openai.com/docs/mcp) |
+| Cursor | [Model Context Protocol](https://docs.cursor.com/context/model-context-protocol) |
+| VS Code / Copilot | [Use MCP servers](https://code.visualstudio.com/docs/copilot/chat/mcp-servers) |
+| Windsurf | [MCP in Cascade](https://docs.windsurf.com/windsurf/cascade/mcp) |
+| Gemini CLI | [MCP servers](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md) |
+| Zed | [MCP](https://zed.dev/docs/ai/mcp) |
+
+**Bridging a client that cannot speak HTTP**
+
+- [`mcp-remote`](https://github.com/geelen/mcp-remote) — turns a stdio-only client into
+  an HTTP one, and the reason `--allow-http` is needed for `localhost`
 
 ## Limits
 
