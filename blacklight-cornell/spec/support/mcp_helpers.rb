@@ -67,4 +67,9 @@ end
 
 RSpec.configure do |config|
   config.include McpSpecHelpers
+
+  # The MCP endpoint counts requests per caller, and every request spec arrives
+  # from the same address. Without this the suite would trip its own rate limit
+  # partway through and later examples would start failing.
+  config.before(:each, type: :request) { BlacklightMcp::RateLimit.store.clear }
 end

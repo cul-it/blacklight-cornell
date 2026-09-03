@@ -272,6 +272,74 @@ RSpec.describe 'The MCP endpoint', type: :request do
     end
   end
 
+  describe 'rate limiting' do
+    # The endpoint needs no login, so this is the only thing standing between a
+    # public URL and someone running searches as fast as they can send them.
+    let(:limit) { BlacklightMcp::RateLimit.requests }
+
+    def spend(count, ip: nil)
+      count.times { get '/mcp', headers: ip ? { 'REMOTE_ADDR' => ip } : {} }
+    end
+
+    it 'lets a caller work right up to the limit' do
+      spend(limit)
+
+      expect(response).not_to have_http_status(:too_many_requests)
+    end
+
+    it 'refuses the request after that' do
+      spend(limit)
+      get '/mcp'
+
+      expect(response).to have_http_status(:too_many_requests)
+    end
+
+    it 'answers in JSON-RPC, so the assistant can say why the search did not run' do
+      spend(limit)
+      get '/mcp'
+
+      expect(json['jsonrpc']).to eq('2.0')
+      expect(json['error']['code']).to eq(McpController::RATE_LIMITED)
+      expect(json['error']['message']).to match(/Too many requests/)
+    end
+
+    it 'says how long to wait' do
+      spend(limit)
+      get '/mcp'
+
+      expect(response.headers['Retry-After']).to eq(BlacklightMcp::RateLimit.period.to_i.to_s)
+    end
+
+    it 'counts each caller separately, so one client cannot lock everyone out' do
+      spend(limit + 1, ip: '203.0.113.5')
+
+      get '/mcp', headers: { 'REMOTE_ADDR' => '198.51.100.9' }
+      expect(response).not_to have_http_status(:too_many_requests)
+    end
+
+    it 'counts POSTs too, not just the handshake' do
+      spend(limit)
+
+      rpc(jsonrpc: '2.0', id: 1, method: 'tools/list')
+      expect(response).to have_http_status(:too_many_requests)
+    end
+
+    context 'when MCP_RATE_LIMIT is 0' do
+      around do |example|
+        original = ENV['MCP_RATE_LIMIT']
+        ENV['MCP_RATE_LIMIT'] = '0'
+        example.run
+        ENV['MCP_RATE_LIMIT'] = original
+      end
+
+      it 'is turned off entirely' do
+        spend(limit + 5)
+
+        expect(response).not_to have_http_status(:too_many_requests)
+      end
+    end
+  end
+
   describe 'read-only enforcement' do
     it 'refuses any JSON-RPC method outside the read-only allowlist' do
       %w[resources/read resources/write prompts/get logging/setLevel sampling/createMessage].each do |method|

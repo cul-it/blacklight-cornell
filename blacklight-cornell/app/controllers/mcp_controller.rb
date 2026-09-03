@@ -27,9 +27,21 @@ class McpController < ActionController::API
   # Indent for argument lines in the development log.
   ARGUMENT_INDENT = '  '
 
+  # JSON-RPC keeps -32000 to -32099 for a server's own errors.
+  RATE_LIMITED = -32_000
+
   PARSE_ERROR = -32_700
   INVALID_REQUEST = -32_600
   METHOD_NOT_FOUND = -32_601
+
+  # Anyone who finds this URL can search without logging in, so cap how fast one
+  # caller can go. Counts GET as well as POST, since connecting uses both.
+  # See BlacklightMcp::RateLimit to tune it or turn it off.
+  rate_limit to: BlacklightMcp::RateLimit.requests,
+             within: BlacklightMcp::RateLimit.period,
+             store: BlacklightMcp::RateLimit.store,
+             with: -> { too_many_requests },
+             if: -> { BlacklightMcp::RateLimit.enabled? }
 
   # GET or POST /mcp
   def handle
@@ -70,6 +82,22 @@ class McpController < ActionController::API
   end
 
   private
+
+  # Answered as JSON-RPC rather than an error page, so the AI assistant can read
+  # what happened and tell the person why the search did not run.
+  def too_many_requests
+    retry_after = BlacklightMcp::RateLimit.period.to_i
+    response.headers['Retry-After'] = retry_after.to_s
+
+    render json: {
+      jsonrpc: '2.0',
+      id: nil,
+      error: { code: RATE_LIMITED,
+               message: "Too many requests. This endpoint allows " \
+                        "#{BlacklightMcp::RateLimit.requests} requests every #{retry_after} seconds. " \
+                        "Wait #{retry_after} seconds and try again." }
+    }, status: :too_many_requests
+  end
 
   def render_transport_response
     status, headers, response_body = transport.handle_request(request)
