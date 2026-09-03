@@ -188,6 +188,32 @@ RSpec.describe BlacklightMcp::QueryBuilder do
         .to raise_error(BlacklightMcp::InvalidArgument, /range facet; filter it with date_range/)
     end
 
+    # Each value becomes its own Solr subquery, and `query` is capped too, so
+    # filters should not be the one unbounded way into the index.
+    it 'rejects more values than any real search would use' do
+      values = Array.new(described_class::MAX_FILTER_VALUES + 1) { |i| "Format #{i}" }
+
+      expect { described_class.simple(query: 'x', filters: { 'format' => values }) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /at most #{described_class::MAX_FILTER_VALUES} values/)
+    end
+
+    it 'accepts a list right at the limit' do
+      values = Array.new(described_class::MAX_FILTER_VALUES) { |i| "Format #{i}" }
+
+      expect(described_class.simple(query: 'x', filters: { 'format' => values })[:f_inclusive]['format'].length)
+        .to eq(described_class::MAX_FILTER_VALUES)
+    end
+
+    it 'rejects a single value longer than any real facet value' do
+      expect { described_class.simple(query: 'x', formats: ['z' * (described_class::MAX_FILTER_VALUE_LENGTH + 1)]) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /facet values are at most/)
+    end
+
+    it 'applies the caps to the shortcut arguments too' do
+      expect { described_class.simple(query: 'x', languages: Array.new(51) { |i| "L#{i}" }) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /at most/)
+    end
+
     it 'rejects a filter with no usable values' do
       expect { described_class.simple(query: 'x', filters: { 'format' => ['', '  '] }) }
         .to raise_error(BlacklightMcp::InvalidArgument, /at least one non-blank value/)

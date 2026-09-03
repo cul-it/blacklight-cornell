@@ -28,6 +28,15 @@ module BlacklightMcp
     # search, not another page.
     MAX_RESULT_WINDOW = 10_000
 
+    # Each facet value becomes its own Solr subquery, so a long list is real work
+    # for Solr. No genuine search picks 50 formats or 50 languages; a list that
+    # long means the caller is filtering by the wrong thing.
+    MAX_FILTER_VALUES = 50
+
+    # Facet values are terms like "Journal/Periodical", not free text. `query`
+    # already has its own, much longer limit.
+    MAX_FILTER_VALUE_LENGTH = 255
+
     DEFAULT_SEARCH_FIELD = 'all_fields'
     DEFAULT_OP = 'AND'
     DEFAULT_BOOLEAN = 'AND'
@@ -236,6 +245,18 @@ module BlacklightMcp
         values = Array.wrap(values).map { |value| value.to_s.strip }.reject(&:blank?)
         if values.empty?
           raise InvalidArgument, "#{label}[#{field}] must contain at least one non-blank value"
+        end
+
+        if values.length > MAX_FILTER_VALUES
+          raise InvalidArgument, "#{label}[#{field}] accepts at most #{MAX_FILTER_VALUES} values " \
+                                 "(got #{values.length}). Use fewer, or drop the filter and narrow the query."
+        end
+
+        too_long = values.find { |value| value.length > MAX_FILTER_VALUE_LENGTH }
+        if too_long
+          raise InvalidArgument, "#{label}[#{field}] has a value of #{too_long.length} characters; " \
+                                 "facet values are at most #{MAX_FILTER_VALUE_LENGTH}. " \
+                                 'Use facet_values to find the exact value you want.'
         end
 
         result[field] = values
