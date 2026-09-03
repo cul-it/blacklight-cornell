@@ -39,7 +39,8 @@ module BlacklightMcp
         Tools::DescribeSearchOptions,
         Tools::FacetValues,
         Tools::GetRecord,
-        Tools::CheckAvailability
+        Tools::CheckAvailability,
+        Tools::Fetch
       ]
     end
 

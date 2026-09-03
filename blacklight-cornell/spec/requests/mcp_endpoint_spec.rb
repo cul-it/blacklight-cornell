@@ -73,7 +73,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
 
       expect(json['result']['tools'].map { |tool| tool['name'] })
         .to contain_exactly('search', 'advanced_search', 'describe_search_options', 'facet_values', 'get_record',
-                            'check_availability')
+                            'check_availability', 'fetch')
     end
 
     it 'does not require a CSRF token' do
@@ -99,7 +99,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
       expect(response).to have_http_status(:ok)
       expect(json['result']['tools'].map { |tool| tool['name'] })
         .to contain_exactly('search', 'advanced_search', 'describe_search_options', 'facet_values', 'get_record',
-                            'check_availability')
+                            'check_availability', 'fetch')
     end
 
     it 'accepts the legacy initialized notification' do

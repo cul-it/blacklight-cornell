@@ -50,7 +50,24 @@ module BlacklightMcp
     # a per-process count, which still stops a single runaway client but is not a
     # shared limit -- see #shared?.
     def store
-      @store ||= redis_host.present? ? redis_store : ActiveSupport::Cache::MemoryStore.new
+      @store ||= build_store
+    end
+
+    # Says in the log which store it picked, so nobody has to guess whether the
+    # count is shared. Runs once, when the controller class loads.
+    def build_store
+      Rails.logger.info("[MCP] #{describe}")
+      shared? ? redis_store : ActiveSupport::Cache::MemoryStore.new
+    end
+
+    def describe
+      return "rate limit off (MCP_RATE_LIMIT=0)" unless enabled?
+
+      rate = "rate limit #{requests} requests per #{period.to_i}s per caller"
+      return "#{rate}, counted in Redis and shared by every task" if shared?
+
+      "#{rate}, counted in this process only -- with more than one task running, " \
+        "each gets its own allowance. Set REDIS_SESSION_HOST to share one count."
     end
 
     # True when every task is counting against the same total.

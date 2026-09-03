@@ -32,3 +32,12 @@ Refer to [UI Development](https://github.com/cul-it/blacklight-cornell/wiki/UI-D
     - rspec: `bundle exec rspec spec/helpers/advanced_helper_spec.rb`
 
 For additional options and a more detailed explanation, refer to [Running Tests](https://github.com/cul-it/blacklight-cornell/wiki/Running-Tests).
+
+## MCP server
+
+A read-only [Model Context Protocol](https://modelcontextprotocol.io) endpoint at
+`/mcp` lets an AI assistant search the catalog: seven read-only tools, no login,
+rate limited.
+
+See **[MCP.md](MCP.md)** for the tools, how to connect each assistant, and how it
+works.

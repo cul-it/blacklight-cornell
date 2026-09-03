@@ -84,7 +84,7 @@ RSpec.describe 'MCP tool vocabulary' do
     it 'offers exactly the tool names clients have been told about' do
       expect(BlacklightMcp::Server.tools.map(&:name_value)).to contain_exactly(
         'search', 'advanced_search', 'describe_search_options', 'facet_values', 'get_record',
-        'check_availability'
+        'check_availability', 'fetch'
       )
     end
   end
