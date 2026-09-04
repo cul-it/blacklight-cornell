@@ -236,6 +236,14 @@ BlacklightCornell::Application.routes.draw do
   # legacy clients discover that this server does not offer an SSE stream.
   match "/mcp", to: "mcp#handle", via: [:get, :post], as: "mcp"
 
+  # A browser MCP client for the endpoint above. A development tool: the route
+  # only exists where BlacklightMcp::Console says it should, so on a deployed
+  # host this is an ordinary 404 unless MCP_CONSOLE=on. Declared before the
+  # /mcp/.well-known catch-all so the two cannot compete for the path.
+  constraints(->(_request) { BlacklightMcp::Console.enabled? }) do
+    get BlacklightMcp::Console::PATH, to: "mcp_console#show", as: "mcp_console"
+  end
+
   # Remote MCP clients probe these standard locations before deciding that the
   # endpoint needs no login. Return the expected 404 without routing exceptions.
   # The constraint is deliberately narrow so unrelated /.well-known paths keep

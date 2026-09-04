@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>MCP console &mdash; Cornell University Library Catalog</title>
+  <%= stylesheet_link_tag "mcp", media: "all" %>
+</head>
+<body class="mcp-console">
+<main class="container py-4 py-md-5 mcp-page">
+  <p class="mcp-eyebrow text-danger text-uppercase fw-semibold small mb-1">Cornell University Library</p>
+  <h1 class="h3 fw-semibold mb-2">
+    <i class="fa fa-terminal text-body-secondary me-2" aria-hidden="true"></i>Catalog MCP console
+  </h1>
+  <p class="text-body-secondary mb-4 mcp-lede">
+    A browser MCP client for <code id="endpoint" class="text-break"></code>. Every control here makes
+    a real JSON-RPC call to that endpoint &mdash; the same one an AI assistant talks to. The forms
+    are built from the tool schemas the endpoint reports, so they cannot drift from it. Start with an
+    example below; the address bar keeps whatever you run, so a link to this page carries the call
+    with it.
+  </p>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="mb-3">
+        <label class="form-label mb-1" for="tool">Tool</label>
+        <select class="form-select" id="tool">
+          <option>loading&hellip;</option>
+        </select>
+        <p class="form-text mt-2 mcp-tool-desc" id="tool-desc"></p>
+      </div>
+
+      <div class="d-flex flex-wrap gap-2 align-items-center mb-3" id="examples"></div>
+
+      <form id="args" autocomplete="off" class="row g-3"></form>
+
+      <div class="d-flex flex-wrap gap-2 align-items-center mt-4">
+        <button type="button" class="btn btn-danger" id="run" disabled>
+          <i class="fa fa-play me-2" aria-hidden="true"></i>Run
+        </button>
+        <button type="button" class="btn btn-outline-secondary" id="curl">
+          <i class="fa fa-clipboard me-2" aria-hidden="true"></i>Copy as curl
+        </button>
+        <span class="small text-body-secondary" id="status"></span>
+      </div>
+    </div>
+  </div>
+  <details id="raw-wrap" class="mb-4" hidden>
+    <summary class="small text-body-secondary">
+      <i class="fa fa-code me-1" aria-hidden="true"></i>JSON-RPC request and response
+      <span id="raw-label" class="font-monospace ms-1"></span>
+    </summary>
+    <pre id="raw" class="bg-body-tertiary border rounded p-3 small mb-0 mt-2"></pre>
+  </details>
+  <div id="results"></div>
+
+<!--  <details id="raw-wrap" class="mb-4" hidden>-->
+<!--    <summary class="small text-body-secondary">-->
+<!--      <i class="fa fa-code me-1" aria-hidden="true"></i>JSON-RPC request and response-->
+<!--      <span id="raw-label" class="font-monospace ms-1"></span>-->
+<!--    </summary>-->
+<!--    <pre id="raw" class="bg-body-tertiary border rounded p-3 small mb-0 mt-2"></pre>-->
+<!--  </details>-->
+
+</main>
+
+<%= javascript_include_tag "mcp_console" %>
+</body>
+</html>

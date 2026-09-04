@@ -1,0 +1,28 @@
+// One palette for both MCP pages, following the viewer's system theme. Defined
+// on :root so either page can use them without repeating the dark-mode block.
+:root {
+  color-scheme: light dark;
+  --mcp-ink: #1a1a1a;
+  --mcp-muted: #5c5c5c;
+  --mcp-rule: #e0ddd8;
+  --mcp-bg: #fbfaf8;
+  --mcp-panel: #fff;
+  --mcp-accent: #b31b1b;
+  --mcp-ok: #197a4b;
+  --mcp-off: #9a6a00;
+  --mcp-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --mcp-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mcp-ink: #ececec;
+    --mcp-muted: #a3a3a3;
+    --mcp-rule: #333;
+    --mcp-bg: #161615;
+    --mcp-panel: #201f1e;
+    --mcp-accent: #ff6b6b;
+    --mcp-ok: #4ec98a;
+    --mcp-off: #e0a33a;
+  }
+}

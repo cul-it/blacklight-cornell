@@ -158,6 +158,93 @@ The app logs which one it picked at startup, so you can check rather than guess:
 If Redis is configured but unreachable, the limit is skipped rather than blocking
 every search.
 
+## Console
+
+`/mcp/console` is a browser MCP client for this endpoint — a development tool for
+testing it and showing people what it does. Pick a tool, fill in the form, see
+the results rendered, with the raw JSON-RPC underneath and a button to copy the
+equivalent `curl`.
+
+Getting started with it:
+
+- Every tool has one-click **Try** examples, so there is something to run before
+  you know what any of the arguments mean. The ones for tools that need a record
+  id (`get_record`, `fetch`, `check_availability`) go and find a real record
+  first — reusing the ids from your last search if there was one — so no bib
+  number is ever hardcoded and nothing rots when the index is rebuilt.
+  `spec/requests/mcp_console_spec.rb` fails if a tool ships with no example.
+- Search results carry a **Full record** link, so reading a record does not mean
+  copying an id and switching tools by hand.
+- Arguments that are awkward as JSON get a builder instead of a text box:
+  - **`rows`** (advanced search) is a row at a time — query, field, and how the
+    words are matched, each a dropdown, with the boolean joining it to the row
+    above. `rows` and `booleans` are one widget, so the two arrays cannot fall
+    out of alignment: an empty row drops out and takes its operator with it.
+  - **`filters` / `filters_all`** pick a facet, then a value — and the values are
+    fetched from `facet_values`, with counts, so you cannot mistype one. A
+    *Type a value* option covers anything past the first page. Two rows naming
+    the same facet become one filter with two values, as ticking two boxes does
+    on the site.
+  - **`formats` / `languages`** are one facet each, so they get that facet's real
+    values with counts, added one at a time. The schema says which facet with an
+    `x-facet` annotation, so a client does not have to read it out of the prose.
+  - **`date_range`** is a from/to pair of years.
+- Whatever you run goes into the address bar, so a link to the console carries
+  the call with it — useful for "try this" in a ticket.
+- The tool dropdown shows each tool's own title next to its name.
+
+The page *is* the client: it speaks JSON-RPC to `/mcp` with `fetch()` like any
+other MCP client, and builds its forms from the schemas `tools/list` reports, so
+a new tool or argument appears there without anyone editing it. Its styling and
+behaviour live in the asset pipeline, not in the markup:
+
+| File | What it is |
+| ---- | ---------- |
+| `app/assets/stylesheets/mcp.scss` | bundle for both MCP pages — `cornell/variables`, Bootstrap, Font Awesome, then `mcp/_landing` and `mcp/_console` |
+| `app/assets/javascripts/mcp_console.js` | bundle for the console — `mcp/console.js` |
+
+Both pages are built from **Bootstrap 5.3 and Font Awesome 4.7**, the same two
+the catalog uses, and the bundle imports `cornell/variables` before Bootstrap
+exactly as `application.css.scss` does — so `$danger` is Carnelian and a button
+here matches a button in the catalog. The two `mcp/` partials hold only what
+Bootstrap has no utility for (a page width, a `white-space: pre-wrap`, a
+last-row border). Colour modes are compiled with `$color-mode-type: media-query`,
+so the pages follow the reader's system theme without a switcher.
+
+Both are standalone bundles (the pages render outside the Blacklight layout), so
+both are listed in `config/initializers/assets.rb`. Every rule is scoped to
+`body.mcp-landing` or `body.mcp-console`, so the bundle cannot restyle the
+catalog if it is ever loaded elsewhere. **Adding an MCP asset means adding it to
+that precompile list** — production runs with `config.assets.compile = false`, so
+an unlisted asset is a 500 on these pages, not a missing stylesheet. There is no
+server-side proxy, so nothing the console can reach is out of reach of an outside
+client. Its calls count against the rate limit like anyone else's.
+
+Where it exists:
+
+| `MCP_CONSOLE` | Result |
+| ------------- | ------ |
+| unset (default) | on in development, **absent everywhere else** |
+| `on` | on, wherever it is set |
+| `off` | absent, development included |
+
+The route is constrained on that, so where the console is off the path is an
+ordinary 404 — there is nothing there to find. `/mcp` links to it only where it
+exists.
+
+## date_range and ranges
+
+`date_range` sets a start and end year on the publication-year facet. `ranges` is
+the general form of the same thing for *other* range facets — and this catalog
+has none: publication year is its only one, so `ranges` could only ever duplicate
+`date_range`, and offering both invites the "appears in both" error for no gain.
+
+So `ranges` is **not advertised** while that stays true. It is still accepted, so
+a caller already sending it keeps working; configure a second range facet in
+`catalog_controller.rb` and it starts being offered again on its own.
+`spec/mcp/blacklight_mcp/mcp_schema_spec.rb` fails when that day comes, because
+it is a new argument appearing on two published tools.
+
 ## Facet names
 
 Facets are named the way the catalog names them -- `Language`, `Subject: Region`,

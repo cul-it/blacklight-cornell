@@ -25,33 +25,41 @@ module BlacklightMcp
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noindex">
         <title>Cornell University Library Catalog &mdash; MCP</title>
-        <style>#{STYLE}</style>
+        #{stylesheet}
         </head>
-        <body>
-        <main>
-          <p class="eyebrow">Cornell University Library</p>
-          <h1>Catalog MCP endpoint</h1>
-          <p class="lede">Connect the library catalog to your AI assistant of choice.
-             Read-only, and no account or key required.</p>
+        <body class="mcp-landing">
+        <main class="container py-5 mcp-page">
+          <p class="mcp-eyebrow text-danger text-uppercase fw-semibold small mb-1">Cornell University Library</p>
+          <h1 class="h2 fw-semibold mb-3">Catalog MCP endpoint</h1>
+          <p class="lead text-body-secondary mb-4">Connect the library catalog to your AI assistant of
+             choice. Read-only, and no account or key required.</p>
 
-          <p class="url">#{escape(url)}</p>
+          <div class="card bg-body-tertiary mb-4">
+            <div class="card-body py-3 font-monospace text-break">#{escape(url)}</div>
+          </div>
 
-          <h2>Connecting</h2>
-          <dl>
-            <dt>Claude Code</dt>
-            <dd><code>claude mcp add --transport http cornell-library-catalog #{escape(url)}</code></dd>
+          <h2 class="mcp-section h6 text-uppercase text-body-secondary fw-semibold mt-5 mb-3">Connecting</h2>
+          <div class="list-group mb-4">
+            <div class="list-group-item py-3">
+              <p class="fw-semibold mb-2"><i class="fa fa-terminal text-body-secondary me-2" aria-hidden="true"></i>Claude Code</p>
+              <code class="mcp-command bg-body-tertiary border rounded px-2 py-1">claude mcp add --transport http cornell-library-catalog #{escape(url)}</code>
+            </div>
+            <div class="list-group-item py-3">
+              <p class="fw-semibold mb-2"><i class="fa fa-plug text-body-secondary me-2" aria-hidden="true"></i>Claude Desktop or claude.ai</p>
+              <p class="text-body-secondary mb-0">Settings &rarr; Connectors &rarr; Add custom connector, then paste the URL above.</p>
+            </div>
+            <div class="list-group-item py-3">
+              <p class="fw-semibold mb-2"><i class="fa fa-globe text-body-secondary me-2" aria-hidden="true"></i>Anything else</p>
+              <p class="text-body-secondary mb-0">Add it as a remote MCP server over &ldquo;streamable HTTP&rdquo; using the URL above.</p>
+            </div>
+          </div>
 
-            <dt>Claude Desktop or claude.ai</dt>
-            <dd>Settings &rarr; Connectors &rarr; Add custom connector, then paste the URL above.</dd>
-
-            <dt>Anything else</dt>
-            <dd>Add it as a remote MCP server over &ldquo;streamable HTTP&rdquo; using the URL above.</dd>
-          </dl>
-
-          <h2>What your assistant can do with it</h2>
-          <ul class="tools">#{tool_items}</ul>
-
-          <p class="footnote">This URL speaks the
+          <h2 class="mcp-section h6 text-uppercase text-body-secondary fw-semibold mt-5 mb-3">What your assistant can do with it</h2>
+          <ul class="list-group list-group-flush mb-4">#{tool_items}
+          </ul>
+#{console_section}
+          <p class="small text-body-secondary border-top pt-3 mt-5 mb-0">
+             <i class="fa fa-info-circle me-1" aria-hidden="true"></i>This URL speaks the
              <a href="https://modelcontextprotocol.io">Model Context Protocol</a> over POST, so there
              is nothing to browse here. To search the catalog yourself, use
              <a href="/">the catalog</a>.</p>
@@ -61,9 +69,50 @@ module BlacklightMcp
       HTML
     end
 
+    # McpController is an ActionController::API, so it has no asset helpers of
+    # its own -- ask ActionController::Base for them. The stylesheet is a
+    # precompiled bundle (config/initializers/assets.rb), shared with the
+    # console so the two pages cannot drift apart visually.
+    def stylesheet
+      ActionController::Base.helpers.stylesheet_link_tag('mcp', media: 'all')
+    end
+
+    # Only where the console actually exists. A link to a 404 is worse than no
+    # link, and on a deployed host the console is usually not there.
+    def console_section
+      return '' unless Console.enabled?
+
+      <<-HTML
+
+          <h2 class="mcp-section h6 text-uppercase text-body-secondary fw-semibold mt-5 mb-3">Try it here</h2>
+          <p class="text-body-secondary">Run these tools in the browser &mdash; no client to install.</p>
+          <a class="btn btn-outline-danger" href="#{Console::PATH}">
+            <i class="fa fa-terminal me-2" aria-hidden="true"></i>Open the MCP console</a>
+      HTML
+    end
+
+    # One icon per tool, from the set the rest of the catalog uses. Presentation
+    # only -- a tool with no entry still lists, it just gets the generic glyph.
+    TOOL_ICONS = {
+      'search' => 'search',
+      'advanced_search' => 'sliders',
+      'describe_search_options' => 'list-ul',
+      'facet_values' => 'tags',
+      'get_record' => 'file-text-o',
+      'check_availability' => 'check-circle-o',
+      'fetch' => 'align-left'
+    }.freeze
+
+    DEFAULT_TOOL_ICON = 'wrench'
+
     def tool_items
       Server.tools.map do |tool|
-        "\n    <li><code>#{escape(tool.name_value)}</code> #{escape(tool.annotations.title)}</li>"
+        glyph = TOOL_ICONS.fetch(tool.name_value, DEFAULT_TOOL_ICON)
+
+        "\n            <li class=\"list-group-item d-flex align-items-baseline gap-2 px-0\">" \
+          "<i class=\"fa fa-#{glyph} text-body-secondary\" aria-hidden=\"true\"></i>" \
+          "<code>#{escape(tool.name_value)}</code>" \
+          "<span class=\"text-body-secondary\">#{escape(tool.annotations.title)}</span></li>"
       end.join
     end
 
@@ -71,40 +120,5 @@ module BlacklightMcp
       ERB::Util.html_escape(value.to_s)
     end
 
-    STYLE = <<~CSS
-      :root { color-scheme: light dark; --ink: #1a1a1a; --muted: #5c5c5c; --rule: #e0ddd8;
-              --bg: #fbfaf8; --panel: #fff; --accent: #b31b1b; }
-      @media (prefers-color-scheme: dark) {
-        :root { --ink: #ececec; --muted: #a3a3a3; --rule: #333; --bg: #161615; --panel: #201f1e;
-                --accent: #ff6b6b; }
-      }
-      * { box-sizing: border-box; }
-      body { margin: 0; padding: 3rem 1.25rem; background: var(--bg); color: var(--ink);
-             font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-      main { max-width: 44rem; margin: 0 auto; }
-      .eyebrow { margin: 0; color: var(--accent); font-size: .8rem; font-weight: 600;
-                 letter-spacing: .08em; text-transform: uppercase; }
-      h1 { margin: .25rem 0 0; font-size: 1.9rem; line-height: 1.2; font-weight: 600; }
-      .lede { margin: .75rem 0 2rem; color: var(--muted); font-size: 1.05rem; max-width: 34rem; }
-      h2 { margin: 2.25rem 0 .75rem; font-size: .8rem; font-weight: 600; letter-spacing: .08em;
-           text-transform: uppercase; color: var(--muted); }
-      .url { margin: 0; padding: .9rem 1.1rem; background: var(--panel); border: 1px solid var(--rule);
-             border-radius: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-             font-size: .95rem; overflow-wrap: anywhere; }
-      dl { margin: 0; }
-      dt { font-weight: 600; margin-top: 1.1rem; }
-      dd { margin: .35rem 0 0; color: var(--muted); }
-      code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .875rem;
-             background: var(--panel); border: 1px solid var(--rule); border-radius: 5px;
-             padding: .15rem .4rem; overflow-wrap: anywhere; }
-      dd code { display: inline-block; padding: .55rem .7rem; }
-      ul.tools { margin: 0; padding: 0; list-style: none; }
-      ul.tools li { padding: .5rem 0; border-bottom: 1px solid var(--rule); color: var(--muted); }
-      ul.tools li:last-child { border-bottom: 0; }
-      ul.tools code { margin-right: .5rem; color: var(--ink); }
-      .footnote { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule);
-                  color: var(--muted); font-size: .9rem; }
-      a { color: var(--accent); }
-    CSS
   end
 end

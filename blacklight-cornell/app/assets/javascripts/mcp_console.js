@@ -1,0 +1,1 @@
+//= require mcp/console

@@ -1,0 +1,26 @@
+// Styling for the MCP pages: the landing page at /mcp and the console at
+// /mcp/console. Both render outside the Blacklight layout, so this is a
+// standalone bundle rather than part of application.css -- see aeon.scss for
+// the same pattern.
+//
+// Almost all of it is Bootstrap and Font Awesome, the same two the catalog
+// uses, so these pages look like they belong to the same site. The MCP partials
+// below hold only what Bootstrap has no utility for.
+
+// Follow the reader's system setting rather than a data attribute: these pages
+// have no theme switcher, and Bootstrap emits @media (prefers-color-scheme)
+// blocks when told to. Must come before Bootstrap is imported.
+$color-mode-type: media-query;
+
+// The catalog's brand variables, imported before Bootstrap exactly as
+// application.css.scss does it -- so $danger is Carnelian, the body font is the
+// catalog's, and a button here matches a button there.
+@import 'cornell/variables';
+@import 'bootstrap';
+@import 'font-awesome';
+
+// The page a browser gets when someone pastes the endpoint URL in.
+@import 'mcp/landing';
+
+// The browser MCP client.
+@import 'mcp/console';
