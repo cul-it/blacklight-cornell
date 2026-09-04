@@ -91,6 +91,43 @@ RSpec.describe BlacklightMcp::Tools::CheckAvailability do
       expect(record['summary']).to eq('Held at Olin Library, none on the shelf right now (Not on the shelf)')
     end
 
+    # An electronic holding has no location and no items -- only links. Treated
+    # as a copy it turns an ebook into "held at the library, status unknown".
+    it 'reports an electronic holding as online access, not as a copy on a shelf' do
+      electronic = { 'e1' => { 'call' => 'ONLINE', 'online' => true, 'active' => true,
+                               'links' => [{ 'url' => 'https://example.com/ebook',
+                                             'description' => 'Access this title' }] } }.to_json
+      stub_search_runner(documents: [document(holdings_json: electronic)])
+      record = tool_payload(described_class, ids: %w[123])['records'].first
+
+      expect(record['copies']).to eq([])
+      expect(record['online_access'])
+        .to eq([{ 'url' => 'https://example.com/ebook', 'description' => 'Access this title' }])
+      expect(record['summary']).to eq('Online (1 link)')
+      expect(record['available_now']).to be true
+    end
+
+    it 'does not list the same link twice when both fields carry it' do
+      url = 'https://example.com/ebook'
+      electronic = { 'e1' => { 'online' => true, 'links' => [{ 'url' => url }] } }.to_json
+      stub_search_runner(documents: [document(holdings_json: electronic,
+                                              url_access_json: [{ 'url' => url }.to_json])])
+
+      expect(tool_payload(described_class, ids: %w[123])['records'].first['online_access'].size).to eq(1)
+    end
+
+    it 'keeps the physical copies of a record that is also online' do
+      mixed = { 'e1' => { 'online' => true, 'links' => [{ 'url' => 'https://example.com/ebook' }] },
+                'h1' => { 'call' => 'PS3561 .N48', 'active' => true,
+                          'location' => { 'name' => 'Olin Main', 'library' => 'Olin Library' },
+                          'items' => { 'count' => 1, 'avail' => 1 } } }.to_json
+      stub_search_runner(documents: [document(holdings_json: mixed)])
+      record = tool_payload(described_class, ids: %w[123])['records'].first
+
+      expect(record['copies'].map { |copy| copy['library'] }).to eq(['Olin Library'])
+      expect(record['summary']).to eq('Online (1 link). On the shelf now at Olin Library')
+    end
+
     it 'leaves available_now unknown when nothing in the record says either way' do
       stub_search_runner(documents: [document])
       record = tool_payload(described_class, ids: %w[123])['records'].first

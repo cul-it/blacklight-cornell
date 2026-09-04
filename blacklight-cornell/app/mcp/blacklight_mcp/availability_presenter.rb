@@ -47,23 +47,31 @@ module BlacklightMcp
     # --- the one-line answer -------------------------------------------------
 
     def summary
-      return 'No holdings are listed for this record in the catalog.' if copies.empty? && !online?
-
       parts = []
       parts << "Online (#{online_access.size} link#{'s' if online_access.size != 1})" if online?
       parts << shelf_summary if copies.any?
-      parts.join('. ')
+      parts.compact!
+
+      parts.any? ? parts.join('. ') : 'No holdings are listed for this record in the catalog.'
     end
 
     def shelf_summary
       on_shelf = copies.select { |copy| on_shelf?(copy) }
-      return "On the shelf now at #{to_sentence(on_shelf.map { |copy| copy['library'] }.uniq)}" if on_shelf.any?
+      if on_shelf.any?
+        where = places(on_shelf)
+        return where ? "On the shelf now at #{where}" : 'On the shelf now'
+      end
 
-      known = copies.filter_map { |copy| copy['status'].presence }.uniq
-      held_at = to_sentence(copies.map { |copy| copy['library'] }.uniq)
-      return "Held at #{held_at}, none on the shelf right now (#{to_sentence(known)})" if known.any?
+      statuses = copies.filter_map { |copy| copy['status'].presence }.uniq
+      held_at = places(copies)
 
-      "Held at #{held_at}; the catalog does not report a current status"
+      if statuses.any?
+        return "Held at #{held_at}, none on the shelf right now (#{statuses.to_sentence})" if held_at
+
+        "None on the shelf right now (#{statuses.to_sentence})"
+      elsif held_at
+        "Held at #{held_at}; the catalog does not report a current status"
+      end
     end
 
     # nil, not false, when nothing in the record says either way -- "we don't
@@ -96,11 +104,27 @@ module BlacklightMcp
       online_access.any? || availability['online'] == true
     end
 
+    # Two places carry access links: the record's own url_access_json, and the
+    # electronic holdings. A record may have either, or both naming the same
+    # URL, so they are merged and de-duplicated.
     def online_access
-      @online_access ||= parse_each(document['url_access_json']).filter_map do |entry|
-        next unless entry.is_a?(Hash) && entry['url'].present?
+      @online_access ||= begin
+        seen = Set.new
 
-        { 'url' => entry['url'].to_s, 'description' => entry['description'].presence }.compact
+        (parse_each(document['url_access_json']) + holdings_links).filter_map do |entry|
+          next unless entry.is_a?(Hash) && entry['url'].present?
+          next unless seen.add?(entry['url'].to_s)
+
+          { 'url' => entry['url'].to_s, 'description' => entry['description'].presence }.compact
+        end
+      end
+    end
+
+    def holdings_links
+      holdings.each_value.flat_map do |holding|
+        next [] unless holding.is_a?(Hash) && holding['active'] != false
+
+        Array(holding['links']).select { |link| link.is_a?(Hash) }
       end
     end
 
@@ -116,6 +140,10 @@ module BlacklightMcp
       holdings.filter_map do |holding_id, holding|
         next unless holding.is_a?(Hash)
         next if holding['active'] == false
+        # An electronic holding is not a copy on a shelf. It has no location and
+        # no items, only links, which online_access already reports. Left in, it
+        # turns an ebook into "held at the library, status unknown".
+        next if holding['online'] == true
 
         items = items_for(holding_id)
         copy = {
@@ -235,8 +263,11 @@ module BlacklightMcp
       hash[key].presence if hash.is_a?(Hash) && hash[key].is_a?(String)
     end
 
-    def to_sentence(values)
-      values.compact_blank.to_sentence.presence || 'the library'
+    # Only places the record actually names. A copy with no library is not worth
+    # inventing one for: "the library" reads as a fact rather than a shrug.
+    def places(copies)
+      names = copies.filter_map { |copy| copy['library'].presence }.uniq
+      names.any? ? names.to_sentence : nil
     end
   end
 end

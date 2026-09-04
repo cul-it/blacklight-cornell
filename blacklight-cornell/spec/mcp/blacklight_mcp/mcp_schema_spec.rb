@@ -71,6 +71,16 @@ RSpec.describe 'MCP tool vocabulary' do
     it 'advertises exactly the readable range facet names' do
       expect(BlacklightMcp::FacetNames.public_range_names).to contain_exactly('Publication Year')
     end
+
+    # date_range already covers publication year. A second range facet would make
+    # `ranges` meaningful again and it would start being advertised, which is a
+    # new argument on two published tools -- so notice it here first.
+    it 'has no range facet that date_range does not already cover' do
+      others = BlacklightMcp::CatalogOptions.range_facet_field_keys -
+               [BlacklightMcp::QueryBuilder::DATE_RANGE_FIELD]
+
+      expect(others).to be_empty
+    end
   end
 
   describe 'sorts' do

@@ -27,6 +27,11 @@ module BlacklightMcp
             formats: {
               type: 'array',
               items: { type: 'string' },
+              # Which facet these values come from, said once in a form a client
+              # can act on. The description says the same in prose, and reading a
+              # list back out of prose is how one ends up in the wrong place.
+              # JSON Schema ignores keywords it does not recognise.
+              'x-facet': FacetNames.public_name(QueryBuilder::FORMAT_FIELD),
               description: "Shortcut for filters[#{FacetNames.public_name(QueryBuilder::FORMAT_FIELD).inspect}]. " \
                            'Values are OR-ed, e.g. ["Book", "Journal/Periodical"]. ' \
                            'Use describe_search_options to see the available values.'
@@ -34,6 +39,7 @@ module BlacklightMcp
             languages: {
               type: 'array',
               items: { type: 'string' },
+              'x-facet': FacetNames.public_name(QueryBuilder::LANGUAGE_FIELD),
               description: "Shortcut for filters[#{FacetNames.public_name(QueryBuilder::LANGUAGE_FIELD).inspect}]. " \
                            'Values are OR-ed, e.g. ["English", "German"].'
             },
@@ -43,6 +49,7 @@ module BlacklightMcp
                            '(a record matching any of them is kept), which is what the catalog\'s facet ' \
                            'checkboxes do. Range facets are not accepted here; use date_range/ranges. ' \
                            "Facets: #{FacetNames.public_names.map(&:inspect).join(', ')}.",
+              propertyNames: { enum: FacetNames.public_names },
               additionalProperties: { type: 'array', items: { type: 'string' } }
             },
             filters_all: {
@@ -50,12 +57,13 @@ module BlacklightMcp
               description: 'Facet => array of values, AND-ed instead of OR-ed: a record must carry ' \
                            'every listed value. Use this only when you really mean "all of these at once". ' \
                            "Same facets as filters.",
+              propertyNames: { enum: FacetNames.public_names },
               additionalProperties: { type: 'array', items: { type: 'string' } }
             },
             date_range: {
               type: 'object',
-              description: 'Publication-year limit. Both bounds are required -- the catalog ignores a ' \
-                           'half-open range.',
+              description: "Publication-year limit: the #{FacetNames.public_name(QueryBuilder::DATE_RANGE_FIELD).inspect} " \
+                           'range facet. Both bounds are required -- the catalog ignores a half-open range.',
               properties: {
                 begin: { type: 'integer', description: 'Earliest publication year, e.g. 1966' },
                 end: { type: 'integer', description: 'Latest publication year, e.g. 2025' }
@@ -65,8 +73,9 @@ module BlacklightMcp
             },
             ranges: {
               type: 'object',
-              description: 'Other range facets, facet => { begin, end }. Configured range facets: ' \
-                           "#{FacetNames.public_range_names.map(&:inspect).join(', ')}.",
+              description: 'Range facets other than the one date_range covers, facet => { begin, end }. ' \
+                           "Configured: #{other_range_names.map(&:inspect).join(', ')}.",
+              propertyNames: { enum: other_range_names },
               additionalProperties: {
                 type: 'object',
                 properties: { begin: { type: 'integer' }, end: { type: 'integer' } },
@@ -97,7 +106,20 @@ module BlacklightMcp
               description: 'When true, return the catalog and Solr parameters this call would produce ' \
                            'without running the search. Useful for checking a query before spending a request.'
             }
-          }
+          }.tap { |properties| properties.delete(:ranges) if other_range_names.empty? }
+        end
+
+        # date_range and ranges both set a start and end on a range facet.
+        # date_range names one outright; ranges is the general form for the
+        # others. When there are no others -- and this catalog has exactly one
+        # range facet, publication year -- ranges can only duplicate date_range,
+        # and offering both invites the "appears in both" error for no gain. It
+        # is not removed, only unadvertised: a caller already sending it still
+        # works, and configuring a second range facet brings it back on its own.
+        def other_range_names
+          FacetNames.public_names(
+            CatalogOptions.range_facet_field_keys - [QueryBuilder::DATE_RANGE_FIELD]
+          )
         end
 
         # Runs the search and formats the reply. With `explain`, describes the

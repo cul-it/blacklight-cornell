@@ -24,7 +24,30 @@ RSpec.describe BlacklightMcp::Tools::Search do
     it 'accepts facet, range and paging arguments' do
       properties = described_class.input_schema.to_h[:properties].keys
       expect(properties).to include(:query, :search_field, :formats, :languages, :filters, :filters_all,
-                                    :date_range, :ranges, :sort, :page, :per_page)
+                                    :date_range, :sort, :page, :per_page)
+    end
+
+    # Publication year is the only range facet this catalog has, and date_range
+    # covers it, so ranges could only duplicate it. Still accepted, not offered.
+    it 'does not offer ranges while date_range covers the only range facet' do
+      expect(described_class.input_schema.to_h[:properties].keys).not_to include(:ranges)
+    end
+
+    # formats and languages are one facet each. Saying which, in the schema,
+    # lets a client offer that facet's real values instead of a text box.
+    it 'says which facet the shortcut arguments draw their values from' do
+      properties = described_class.input_schema.to_h[:properties]
+
+      expect(properties[:formats][:'x-facet']).to eq('Format')
+      expect(properties[:languages][:'x-facet']).to eq('Language')
+    end
+
+    # Which facets the argument takes, in the schema rather than only in prose,
+    # so a client never has to guess or borrow the list from another tool.
+    it 'names the facets filters accepts' do
+      filters = described_class.input_schema.to_h[:properties][:filters]
+
+      expect(filters[:propertyNames][:enum]).to eq(BlacklightMcp::FacetNames.public_names)
     end
 
     it 'refuses arguments it does not define, so a typo fails loudly' do

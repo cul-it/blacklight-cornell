@@ -54,8 +54,13 @@ module BlacklightMcp
     # Several records in one Solr round trip. Ids that don't exist are simply
     # missing from the result rather than an error, so the caller can report
     # them alongside the ones that were found.
+    #
+    # `fl: '*'` is load-bearing. Fetching many records goes through the search
+    # path, which returns only the fields the results page displays. Holdings
+    # and item data are show-page fields, so without this they are absent and
+    # anything reading them sees an empty record rather than an error.
     def documents(ids)
-      Array(search_service.fetch(Array(ids).map { |id| id.to_s.strip }))
+      Array(search_service.fetch(Array(ids).map { |id| id.to_s.strip }, fl: '*'))
     end
 
     # All the values for one facet, not just the few the sidebar shows.

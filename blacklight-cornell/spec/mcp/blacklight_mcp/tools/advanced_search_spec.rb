@@ -31,7 +31,8 @@ RSpec.describe BlacklightMcp::Tools::AdvancedSearch do
     it 'accepts the same facet, range and sort arguments as search' do
       properties = described_class.input_schema.to_h[:properties].keys
       expect(properties).to include(:rows, :booleans, :formats, :languages, :filters, :filters_all,
-                                    :date_range, :ranges, :sort, :page, :per_page)
+                                    :date_range, :sort, :page, :per_page)
+      expect(properties).not_to include(:ranges)
     end
   end
 

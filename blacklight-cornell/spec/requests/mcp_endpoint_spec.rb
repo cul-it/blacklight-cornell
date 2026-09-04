@@ -177,14 +177,26 @@ RSpec.describe 'The MCP endpoint', type: :request do
       expect(json['result']['content'].first['text']).to match(/not one of.*relevance/m)
     end
 
-    it 'returns a schema-valid but catalog-invalid argument as a tool error the caller can act on' do
+    # The schema names the facets it accepts, so an unknown one is refused before
+    # any search runs, and the refusal lists what it could have been instead.
+    it 'rejects an unknown facet against the schema, naming the ones that exist' do
       stub_search_runner
 
       rpc(jsonrpc: '2.0', id: 7, method: 'tools/call',
           params: { name: 'search', arguments: { query: 'x', filters: { 'not_a_facet' => ['y'] } } })
 
       expect(json['result']['isError']).to be true
-      expect(json['result']['content'].first['text']).to match(/unknown facet "not_a_facet"/)
+      expect(json['result']['content'].first['text']).to match(/not one of.*"Format".*"Language"/m)
+    end
+
+    it 'returns a schema-valid but catalog-invalid argument as a tool error the caller can act on' do
+      stub_search_runner
+
+      rpc(jsonrpc: '2.0', id: 8, method: 'tools/call',
+          params: { name: 'search', arguments: { query: 'x', filters: { 'Format' => [] } } })
+
+      expect(json['result']['isError']).to be true
+      expect(json['result']['content'].first['text']).to match(/must contain at least one non-blank value/)
     end
   end
 
