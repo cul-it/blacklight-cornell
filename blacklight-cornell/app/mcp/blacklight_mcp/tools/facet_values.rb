@@ -21,8 +21,8 @@ module BlacklightMcp
         properties: {
           field: {
             type: 'string',
-            description: 'The facet field to list.',
-            enum: CatalogOptions.filterable_facet_field_keys
+            description: 'The facet to list.',
+            enum: FacetNames.public_names
           },
           query: { type: 'string', description: 'Optional search terms scoping the facet counts.' },
           search_field: { type: 'string', enum: CatalogOptions.search_field_keys },
@@ -55,8 +55,7 @@ module BlacklightMcp
 
       def self.call(server_context: nil, **args)
         handling_errors do
-          field = args[:field].to_s
-          validate_field!(field)
+          field = resolved_field(args[:field])
 
           runner = SearchRunner.new(facet_params(field, args))
           response = runner.facet_results(field)
@@ -64,16 +63,22 @@ module BlacklightMcp
         end
       end
 
-      def self.validate_field!(field)
-        unless CatalogOptions.facet_field?(field)
-          raise InvalidArgument, "#{field.inspect} is not a configured facet field. " \
-                                 "Valid values: #{CatalogOptions.filterable_facet_field_keys.join(', ')}"
+      # Takes the name the caller used and gives back the Solr field, or explains
+      # what it could have said instead.
+      def self.resolved_field(value)
+        field = FacetNames.resolve(value)
+        unless field
+          raise InvalidArgument, "#{value.to_s.inspect} is not a facet in this catalog. " \
+                                 "Valid values: #{FacetNames.public_names.map(&:inspect).join(', ')}"
         end
 
-        return unless CatalogOptions.range_facet_field?(field)
+        if CatalogOptions.range_facet_field?(field)
+          raise InvalidArgument, "#{FacetNames.public_name(field)} is a range facet and has no discrete " \
+                                 'values; search with date_range instead, and read min/max off the ' \
+                                 'search response.'
+        end
 
-        raise InvalidArgument, "#{field} is a range facet and has no discrete values; " \
-                               'search with date_range instead, and read min/max off the search response.'
+        field
       end
 
       # The search that narrows the counts, plus the paging arguments. Careful:
@@ -99,7 +104,8 @@ module BlacklightMcp
 
         raise InvalidArgument,
               "page #{page} would reach facet value #{page * limit}, past this catalog's " \
-              "#{QueryBuilder::MAX_RESULT_WINDOW}-value limit. The last page for #{field} is " \
+              "#{QueryBuilder::MAX_RESULT_WINDOW}-value limit. The last page for " \
+              "#{FacetNames.public_name(field)} is " \
               "#{QueryBuilder::MAX_RESULT_WINDOW / limit}. Use prefix to jump to the values you want, " \
               'or scope the counts with a query and filters.'
       rescue ArgumentError, TypeError
@@ -114,7 +120,7 @@ module BlacklightMcp
         page = [args[:page].to_i, 1].max
 
         {
-          'facet_field' => field,
+          'facet' => FacetNames.public_name(field),
           'label' => CatalogOptions.label_for_facet(field),
           'page' => page,
           'per_page' => limit,

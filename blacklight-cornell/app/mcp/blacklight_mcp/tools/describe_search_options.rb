@@ -29,7 +29,7 @@ module BlacklightMcp
           },
           facet_fields: {
             type: 'array',
-            items: { type: 'string', enum: CatalogOptions.facet_field_keys },
+            items: { type: 'string', enum: FacetNames.public_names(CatalogOptions.facet_field_keys) },
             description: 'Which facets to sample values for. Defaults to the facets on the advanced search form.'
           }
         },
@@ -47,8 +47,8 @@ module BlacklightMcp
             'sorts' => CatalogOptions.sort_options,
             'default_sort' => CatalogOptions.default_sort,
             'facet_fields' => described_facet_fields,
-            'range_facet_fields' => CatalogOptions.range_facet_field_keys,
-            'advanced_facet_fields' => CatalogOptions.advanced_facet_fields.keys.map(&:to_s)
+            'range_facet_fields' => FacetNames.public_range_names,
+            'advanced_facet_fields' => FacetNames.public_names(CatalogOptions.advanced_facet_fields.keys)
           }
 
           payload['facet_values'] = facet_values(args[:facet_fields]) unless args[:include_facet_values] == false
@@ -68,7 +68,7 @@ module BlacklightMcp
 
       def self.described_facet_fields
         CatalogOptions.facet_fields.map do |key, field|
-          entry = { 'facet_field' => key.to_s, 'label' => field.label.to_s }
+          entry = { 'facet' => FacetNames.public_name(key), 'label' => field.label.to_s }
           entry['type'] = 'range' if field.range
           entry['type'] = 'query' if field.query
           entry['values'] = field.query.keys.map(&:to_s) if field.query
@@ -81,13 +81,22 @@ module BlacklightMcp
       # cheaper than asking about each facet separately, and the counts match
       # what the website shows.
       def self.facet_values(requested)
-        fields = Array(requested).map(&:to_s).presence || CatalogOptions.advanced_facet_fields.keys.map(&:to_s)
-        unknown = fields.reject { |field| CatalogOptions.facet_field?(field) }
-        raise InvalidArgument, "unknown facet field(s): #{unknown.join(', ')}" if unknown.any?
+        names = Array(requested).map(&:to_s).presence ||
+                FacetNames.public_names(CatalogOptions.advanced_facet_fields.keys)
 
+        unknown = names.reject { |name| FacetNames.resolve(name) }
+        if unknown.any?
+          raise InvalidArgument, "unknown facet(s): #{unknown.join(', ')}. " \
+                                 "Valid facets: #{FacetNames.public_names(CatalogOptions.facet_field_keys).map(&:inspect).join(', ')}"
+        end
+
+        # ResultPresenter already keys its facets by the public name, so a
+        # caller who asked by Solr field still gets an answer under the name
+        # this endpoint advertises.
         presented = ResultPresenter.new(sample_response, params: {}).to_h['facets']
-        fields.each_with_object({}) do |field, result|
-          result[field] = presented[field] if presented.key?(field)
+        names.each_with_object({}) do |name, result|
+          public_name = FacetNames.public_name(FacetNames.resolve(name))
+          result[public_name] = presented[public_name] if presented.key?(public_name)
         end
       end
 

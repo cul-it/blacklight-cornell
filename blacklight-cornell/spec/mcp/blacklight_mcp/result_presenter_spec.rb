@@ -72,21 +72,21 @@ RSpec.describe BlacklightMcp::ResultPresenter do
 
   describe 'facets' do
     it 'returns each facet with its label, values and counts' do
-      expect(payload['facets']['format']).to eq(
+      expect(payload['facets']['Format']).to eq(
         'label' => 'Format',
         'values' => [{ 'value' => 'Book', 'count' => 10 }, { 'value' => 'Video', 'count' => 3 }]
       )
     end
 
     it 'reports range facets as min/max bounds rather than values' do
-      expect(payload['facets']['pub_date_facet']).to eq(
+      expect(payload['facets']['Publication Year']).to eq(
         'label' => 'Publication Year', 'type' => 'range', 'min' => 1900, 'max' => 2020
       )
     end
 
     it 'caps the values returned per facet' do
       many = solr_response(facets: { 'format' => (1..50).map { |i| ["Format #{i}", i] } })
-      values = described_class.new(many, params: {}).to_h['facets']['format']['values']
+      values = described_class.new(many, params: {}).to_h['facets']['Format']['values']
       expect(values.size).to eq(described_class::FACET_VALUE_LIMIT)
     end
   end

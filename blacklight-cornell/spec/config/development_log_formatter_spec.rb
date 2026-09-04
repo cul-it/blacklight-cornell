@@ -81,7 +81,7 @@ RSpec.describe DevelopmentLogFormatter do
       expect(badged?(format('[MCP] tools/call search {"query":"Stephen King"}'))).to be true
     end
 
-    it 'badges a line that already carries its own colours, without recolouring it' do
+    it 'badges a line that already carries its own colors, without recoloring it' do
       format(MCP_START)
       line = format("\e[1mSolr query\e[0m")
 
@@ -97,13 +97,13 @@ RSpec.describe DevelopmentLogFormatter do
       expect(format('[MCP] tools/call search {}')).to include(described_class::COLORS[:mcp])
     end
 
-    # The badge already says whose request it is, so the colour stays free to
+    # The badge already says whose request it is, so the color stays free to
     # say what kind of line it is. A Solr query inside an MCP request should be
     # visually identical to one from a browser request.
     describe 'lines that merely happen inside an MCP request' do
       before { format(MCP_START) }
 
-      it 'colours Solr queries exactly as they are coloured anywhere else' do
+      it 'colors Solr queries exactly as they are colored anywhere else' do
         query = 'Solr query: get select {"qt" => "search", "rows" => 10}'
 
         mcp_line = strip_badge(format(query, severity: 'DEBUG'))
@@ -114,15 +114,15 @@ RSpec.describe DevelopmentLogFormatter do
         expect(mcp_line).to include(described_class::COLORS[:debug])
       end
 
-      it 'colours Solr fetch timings the same way' do
+      it 'colors Solr fetch timings the same way' do
         mcp_line = strip_badge(format('Solr fetch (641.0ms)', severity: 'DEBUG'))
         Thread.current[described_class::MCP_FLAG] = nil
 
         expect(mcp_line).to eq(format('Solr fetch (641.0ms)', severity: 'DEBUG'))
       end
 
-      # Otherwise a failing tool call would hide inside a uniformly coloured block.
-      it 'keeps the completion line on its status colour' do
+      # Otherwise a failing tool call would hide inside a uniformly colored block.
+      it 'keeps the completion line on its status color' do
         expect(format('Completed 500 Internal Server Error in 4ms')).to include(described_class::COLORS[:fatal])
 
         format(MCP_START)
@@ -154,14 +154,14 @@ RSpec.describe DevelopmentLogFormatter do
       expect(lines).to all(satisfy { |line| badged?(line) })
     end
 
-    it 'opens and closes the colour on each line, so it never bleeds across a newline' do
+    it 'opens and closes the color on each line, so it never bleeds across a newline' do
       format(summary).lines.each do |line|
         expect(line).to include(described_class::COLORS[:mcp])
         expect(line).to end_with("#{described_class::RESET}\n")
       end
     end
 
-    it 'colours the whole block from its first line, not line by line' do
+    it 'colors the whole block from its first line, not line by line' do
       # The continuation lines match none of the lifecycle patterns on their own;
       # they should still take the MCP hue rather than the severity fallback.
       expect(format(summary).lines.last).to include(described_class::COLORS[:mcp])
@@ -208,7 +208,7 @@ RSpec.describe DevelopmentLogFormatter do
       expect(badged?(format('Completed 200 OK in 2116ms'))).to be false
     end
 
-    it 'keeps the existing colours for non-MCP lines' do
+    it 'keeps the existing colors for non-MCP lines' do
       expect(format(CATALOG_START)).to include(described_class::COLORS[:bold_blue])
       expect(format('Completed 200 OK in 12ms')).to include(described_class::COLORS[:green])
     end
@@ -255,7 +255,7 @@ RSpec.describe DevelopmentLogFormatter do
         expect(lines.last).to eq('}')
       end
 
-      it 'keeps the standard Solr colour on every expanded line' do
+      it 'keeps the standard Solr color on every expanded line' do
         solr_lines('true').each { |line| expect(line).to include(described_class::COLORS[:debug]) }
       end
 

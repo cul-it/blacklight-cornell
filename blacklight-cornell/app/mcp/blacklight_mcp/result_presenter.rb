@@ -103,7 +103,7 @@ module BlacklightMcp
         items = Array(facet.items).first(FACET_VALUE_LIMIT)
         next if items.empty?
 
-        result[field] = {
+        result[FacetNames.public_name(field)] = {
           'label' => CatalogOptions.label_for_facet(field),
           'values' => items.map { |item| { 'value' => item.value.to_s, 'count' => item.hits.to_i } }
         }
@@ -120,7 +120,7 @@ module BlacklightMcp
         next unless CatalogOptions.range_facet_field?(field)
         next if values.blank? || values['min'].nil?
 
-        result[field] = {
+        result[FacetNames.public_name(field)] = {
           'label' => CatalogOptions.label_for_facet(field),
           'type' => 'range',
           'min' => values['min'].to_i,

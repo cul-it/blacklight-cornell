@@ -45,6 +45,10 @@ class McpController < ActionController::API
 
   # GET or POST /mcp
   def handle
+    # Someone who pasted the URL into a browser gets a page explaining what it
+    # is. The protocol's own 405 is correct, but it reads like a broken site.
+    return render_landing_page if request.get? && browser?
+
     # A legacy client may probe for the optional server-to-client SSE stream.
     # The stateless SDK transport answers that GET with a clean 405.
     return render_transport_response if request.get?
@@ -97,6 +101,22 @@ class McpController < ActionController::API
                         "#{BlacklightMcp::RateLimit.requests} requests every #{retry_after} seconds. " \
                         "Wait #{retry_after} seconds and try again." }
     }, status: :too_many_requests
+  end
+
+  # A browser, not a client probing for the SSE stream. MCP clients ask for
+  # `application/json, text/event-stream`; browsers ask for HTML. Anything
+  # ambiguous -- curl's `*/*`, a health check sending no Accept at all -- keeps
+  # the protocol response, so no existing tooling changes behaviour.
+  def browser?
+    accept = request.headers['Accept'].to_s
+    accept.include?('text/html') && accept.exclude?('text/event-stream')
+  end
+
+  def render_landing_page
+    # Static for the life of a deploy, and the most likely thing a crawler or a
+    # curious link-follower hits. No reason to rebuild it every time.
+    expires_in 1.hour, public: true
+    render body: BlacklightMcp::LandingPage.html(url: request.original_url), content_type: 'text/html'
   end
 
   def render_transport_response

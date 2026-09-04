@@ -83,9 +83,9 @@ RSpec.describe BlacklightMcp::Tools::Search do
     describe 'invalid arguments' do
       before { stub_search_runner }
 
-      it 'reports an unknown facet field as a tool error, not an exception' do
+      it 'reports an unknown facet as a tool error, not an exception' do
         expect(tool_error(described_class, query: 'x', filters: { 'nope' => ['y'] }))
-          .to match(/unknown facet field "nope"/)
+          .to match(/unknown facet "nope"/)
       end
 
       it 'reports an unknown search field' do

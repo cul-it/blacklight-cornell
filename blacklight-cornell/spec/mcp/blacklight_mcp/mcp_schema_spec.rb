@@ -55,6 +55,24 @@ RSpec.describe 'MCP tool vocabulary' do
     end
   end
 
+  # The names in the tool schemas, which is what a client actually sends. These
+  # come from the facet labels in catalog_controller.rb, so renaming a facet
+  # heading on the website renames it here too -- a breaking change for every
+  # client already using the old name.
+  describe 'facet names' do
+    it 'advertises exactly the readable facet names clients have been told about' do
+      expect(BlacklightMcp::FacetNames.public_names).to contain_exactly(
+        'Access', 'Format', 'Library Location', 'Author, etc.', 'Language', 'Subject',
+        'Subject: Region', 'Subject: Era', 'Genre', 'Fiction/Non-Fiction', 'Hierarchy Facet',
+        'Call Number'
+      )
+    end
+
+    it 'advertises exactly the readable range facet names' do
+      expect(BlacklightMcp::FacetNames.public_range_names).to contain_exactly('Publication Year')
+    end
+  end
+
   describe 'sorts' do
     it 'offers exactly the sort keys clients have been told about' do
       expect(BlacklightMcp::CatalogOptions.sort_field_keys).to contain_exactly(

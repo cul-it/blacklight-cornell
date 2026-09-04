@@ -163,7 +163,7 @@ RSpec.describe BlacklightMcp::QueryBuilder do
     it 'refuses the same field in both filters and filters_all' do
       expect {
         described_class.simple(query: 'x', filters: { 'format' => ['Book'] }, filters_all: { 'format' => ['Video'] })
-      }.to raise_error(BlacklightMcp::InvalidArgument, /format appears in both filters and filters_all/)
+      }.to raise_error(BlacklightMcp::InvalidArgument, /Format appears in both filters and filters_all/)
     end
 
     it 'accepts every configured facet field' do
@@ -173,14 +173,31 @@ RSpec.describe BlacklightMcp::QueryBuilder do
       end
     end
 
-    it 'rejects a facet field the catalog does not have' do
+    it 'rejects a facet the catalog does not have' do
       expect { described_class.simple(query: 'x', filters: { 'genre_facet' => ['Comedy'] }) }
-        .to raise_error(BlacklightMcp::InvalidArgument, /unknown facet field "genre_facet"/)
+        .to raise_error(BlacklightMcp::InvalidArgument, /unknown facet "genre_facet"/)
     end
 
     it 'rejects an internal facet hidden from students' do
       expect { described_class.simple(query: 'x', filters: { 'availability_facet' => ['Available'] }) }
-        .to raise_error(BlacklightMcp::InvalidArgument, /unknown facet field "availability_facet"/)
+        .to raise_error(BlacklightMcp::InvalidArgument, /unknown facet "availability_facet"/)
+    end
+
+    # The readable name is what the tools advertise; the Solr field still works
+    # so nothing written against the old vocabulary breaks.
+    it 'accepts a facet by the name the catalog shows' do
+      params = described_class.simple(query: 'x', filters: { 'Library Location' => ['Olin Library'] })
+      expect(params[:f_inclusive]).to eq('location' => ['Olin Library'])
+    end
+
+    it 'accepts a readable facet name whatever its case' do
+      params = described_class.simple(query: 'x', filters: { 'fiction/non-fiction' => ['Fiction (books)'] })
+      expect(params[:f_inclusive]).to eq('subject_content_facet' => ['Fiction (books)'])
+    end
+
+    it 'treats the readable name and the Solr field as one filter, not two' do
+      params = described_class.simple(query: 'x', filters: { 'Format' => ['Book'], 'format' => ['Video'] })
+      expect(params[:f_inclusive]).to eq('format' => %w[Book Video])
     end
 
     it 'sends a range facet to date_range rather than accepting it as a filter' do
@@ -221,7 +238,7 @@ RSpec.describe BlacklightMcp::QueryBuilder do
 
     it 'rejects filters that are not an object of field => values' do
       expect { described_class.simple(query: 'x', filters: ['format']) }
-        .to raise_error(BlacklightMcp::InvalidArgument, /must be an object of facet field/)
+        .to raise_error(BlacklightMcp::InvalidArgument, /must be an object of facet/)
     end
 
     describe 'the formats and languages shortcuts' do
@@ -269,9 +286,9 @@ RSpec.describe BlacklightMcp::QueryBuilder do
 
     it 'requires both bounds, because the catalog ignores a half-open range' do
       expect { described_class.simple(query: 'x', date_range: { begin: 1966 }) }
-        .to raise_error(BlacklightMcp::InvalidArgument, /ranges\[pub_date_facet\]\.end is required/)
+        .to raise_error(BlacklightMcp::InvalidArgument, /ranges\[Publication Year\]\.end is required/)
       expect { described_class.simple(query: 'x', date_range: { end: 2025 }) }
-        .to raise_error(BlacklightMcp::InvalidArgument, /ranges\[pub_date_facet\]\.begin is required/)
+        .to raise_error(BlacklightMcp::InvalidArgument, /ranges\[Publication Year\]\.begin is required/)
     end
 
     it 'rejects a reversed range, which the catalog treats as an error' do
@@ -286,7 +303,7 @@ RSpec.describe BlacklightMcp::QueryBuilder do
 
     it 'rejects a range on a facet that is not configured as a range' do
       expect { described_class.simple(query: 'x', ranges: { 'format' => { begin: 1, end: 2 } }) }
-        .to raise_error(BlacklightMcp::InvalidArgument, /"format" is not a range facet/)
+        .to raise_error(BlacklightMcp::InvalidArgument, /"Format" is not a range facet/)
     end
 
     it 'refuses the same field in both date_range and ranges' do

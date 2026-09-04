@@ -27,25 +27,29 @@ module BlacklightMcp
             formats: {
               type: 'array',
               items: { type: 'string' },
-              description: 'Shortcut for filters["format"]. Values are OR-ed, e.g. ["Book", "Journal/Periodical"]. ' \
+              description: "Shortcut for filters[#{FacetNames.public_name(QueryBuilder::FORMAT_FIELD).inspect}]. " \
+                           'Values are OR-ed, e.g. ["Book", "Journal/Periodical"]. ' \
                            'Use describe_search_options to see the available values.'
             },
             languages: {
               type: 'array',
               items: { type: 'string' },
-              description: 'Shortcut for filters["language_facet"]. Values are OR-ed, e.g. ["English", "German"].'
+              description: "Shortcut for filters[#{FacetNames.public_name(QueryBuilder::LANGUAGE_FIELD).inspect}]. " \
+                           'Values are OR-ed, e.g. ["English", "German"].'
             },
             filters: {
               type: 'object',
-              description: 'Facet field => array of values. Multiple values for one field are OR-ed ' \
+              description: 'Facet => array of values. Multiple values for one facet are OR-ed ' \
                            '(a record matching any of them is kept), which is what the catalog\'s facet ' \
-                           'checkboxes do. Range facets are not accepted here; use date_range/ranges.',
+                           'checkboxes do. Range facets are not accepted here; use date_range/ranges. ' \
+                           "Facets: #{FacetNames.public_names.map(&:inspect).join(', ')}.",
               additionalProperties: { type: 'array', items: { type: 'string' } }
             },
             filters_all: {
               type: 'object',
-              description: 'Facet field => array of values, AND-ed instead of OR-ed: a record must carry ' \
-                           'every listed value. Use this only when you really mean "all of these at once".',
+              description: 'Facet => array of values, AND-ed instead of OR-ed: a record must carry ' \
+                           'every listed value. Use this only when you really mean "all of these at once". ' \
+                           "Same facets as filters.",
               additionalProperties: { type: 'array', items: { type: 'string' } }
             },
             date_range: {
@@ -61,7 +65,8 @@ module BlacklightMcp
             },
             ranges: {
               type: 'object',
-              description: "Other range facets, field => { begin, end }. Configured range facets: #{CatalogOptions.range_facet_field_keys.join(', ')}.",
+              description: 'Other range facets, facet => { begin, end }. Configured range facets: ' \
+                           "#{FacetNames.public_range_names.map(&:inspect).join(', ')}.",
               additionalProperties: {
                 type: 'object',
                 properties: { begin: { type: 'integer' }, end: { type: 'integer' } },

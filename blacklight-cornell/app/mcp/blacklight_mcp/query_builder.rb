@@ -204,19 +204,30 @@ module BlacklightMcp
         raw = validate_filters(filter_hash(args[:filters_all], 'filters_all'), 'filters_all')
         overlap = raw.keys & inclusive_filters.keys
         if overlap.any?
-          raise InvalidArgument, "#{overlap.join(', ')} appears in both filters and filters_all; " \
-                                 'use one or the other for a given facet field'
+          raise InvalidArgument, "#{FacetNames.public_names(overlap).join(', ')} appears in both " \
+                                 'filters and filters_all; use one or the other for a given facet'
         end
 
         raw
       end
     end
 
+    # Keys arrive as the names the tools advertise ("Library Location") and leave
+    # as the Solr fields Blacklight filters on. Two spellings of the same facet
+    # -- the readable name and the Solr field -- are one filter, not two.
     def filter_hash(value, label)
       return {} if value.blank?
-      raise InvalidArgument, "#{label} must be an object of facet field => array of values" unless value.is_a?(Hash)
+      raise InvalidArgument, "#{label} must be an object of facet => array of values" unless value.is_a?(Hash)
 
-      value.to_h { |field, values| [field.to_s, values] }
+      value.each_with_object({}) do |(name, values), result|
+        field = FacetNames.resolve(name)
+        unless field
+          raise InvalidArgument, "#{label} contains unknown facet #{name.to_s.inspect}. " \
+                                 "Valid facets: #{FacetNames.public_names.map(&:inspect).join(', ')}"
+        end
+
+        result[field] = Array.wrap(result[field]) + Array.wrap(values)
+      end
     end
 
     def merge_filter(filters, field, values, label)
@@ -229,32 +240,31 @@ module BlacklightMcp
       filters.merge(field => Array.wrap(filters[field]) + Array.wrap(values))
     end
 
+    # Keys are Solr fields by now -- filter_hash resolved them -- but every
+    # message here names the facet the way the caller does.
     def validate_filters(filters, label)
       filters.each_with_object({}) do |(field, values), result|
-        unless CatalogOptions.facet_field?(field)
-          raise InvalidArgument, "#{label} contains unknown facet field #{field.inspect}. " \
-                                 "Valid facet fields: #{CatalogOptions.filterable_facet_field_keys.join(', ')}"
-        end
+        name = FacetNames.public_name(field)
 
         if CatalogOptions.range_facet_field?(field)
-          raise InvalidArgument, "#{field} is a range facet; filter it with " \
-                                 "#{field == DATE_RANGE_FIELD ? 'date_range' : "ranges[#{field}]"} " \
+          raise InvalidArgument, "#{name} is a range facet; filter it with " \
+                                 "#{field == DATE_RANGE_FIELD ? 'date_range' : "ranges[#{name}]"} " \
                                  '(begin/end), not with ' + label
         end
 
         values = Array.wrap(values).map { |value| value.to_s.strip }.reject(&:blank?)
         if values.empty?
-          raise InvalidArgument, "#{label}[#{field}] must contain at least one non-blank value"
+          raise InvalidArgument, "#{label}[#{name}] must contain at least one non-blank value"
         end
 
         if values.length > MAX_FILTER_VALUES
-          raise InvalidArgument, "#{label}[#{field}] accepts at most #{MAX_FILTER_VALUES} values " \
+          raise InvalidArgument, "#{label}[#{name}] accepts at most #{MAX_FILTER_VALUES} values " \
                                  "(got #{values.length}). Use fewer, or drop the filter and narrow the query."
         end
 
         too_long = values.find { |value| value.length > MAX_FILTER_VALUE_LENGTH }
         if too_long
-          raise InvalidArgument, "#{label}[#{field}] has a value of #{too_long.length} characters; " \
+          raise InvalidArgument, "#{label}[#{name}] has a value of #{too_long.length} characters; " \
                                  "facet values are at most #{MAX_FILTER_VALUE_LENGTH}. " \
                                  'Use facet_values to find the exact value you want.'
         end
@@ -274,13 +284,14 @@ module BlacklightMcp
 
         if args[:ranges].present?
           unless args[:ranges].is_a?(Hash)
-            raise InvalidArgument, 'ranges must be an object of facet field => { "begin": year, "end": year }'
+            raise InvalidArgument, 'ranges must be an object of facet => { "begin": year, "end": year }'
           end
 
-          args[:ranges].each do |field, bounds|
-            field = field.to_s
+          args[:ranges].each do |name, bounds|
+            field = FacetNames.resolve(name) || name.to_s
             if raw.key?(field)
-              raise InvalidArgument, "#{field} appears in both date_range and ranges; use one or the other"
+              raise InvalidArgument, "#{FacetNames.public_name(field)} appears in both date_range " \
+                                     'and ranges; use one or the other'
             end
 
             raw[field] = bounds
@@ -294,21 +305,23 @@ module BlacklightMcp
     end
 
     def range_bounds(field, bounds)
+      name = FacetNames.public_name(field)
+
       unless CatalogOptions.range_facet_field?(field)
-        raise InvalidArgument, "#{field.inspect} is not a range facet. " \
-                               "Range facets: #{CatalogOptions.range_facet_field_keys.join(', ')}"
+        raise InvalidArgument, "#{name.inspect} is not a range facet. " \
+                               "Range facets: #{FacetNames.public_range_names.map(&:inspect).join(', ')}"
       end
 
       unless bounds.is_a?(Hash)
-        raise InvalidArgument, "ranges[#{field}] must be an object with 'begin' and 'end'"
+        raise InvalidArgument, "ranges[#{name}] must be an object with 'begin' and 'end'"
       end
 
       bounds = bounds.symbolize_keys
-      first = year(bounds[:begin], "ranges[#{field}].begin")
-      last = year(bounds[:end], "ranges[#{field}].end")
+      first = year(bounds[:begin], "ranges[#{name}].begin")
+      last = year(bounds[:end], "ranges[#{name}].end")
 
       if first > last
-        raise InvalidArgument, "ranges[#{field}] begin (#{first}) must not be later than end (#{last})"
+        raise InvalidArgument, "ranges[#{name}] begin (#{first}) must not be later than end (#{last})"
       end
 
       # Sent as text, exactly like the date range form does.

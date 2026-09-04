@@ -11,19 +11,21 @@ RSpec.describe BlacklightMcp::Tools::FacetValues do
     expect(described_class.input_schema.to_h[:required]).to eq(['field'])
   end
 
-  it 'offers only facets that have discrete values' do
+  # The enum a client sees is the readable catalog vocabulary, not Solr's.
+  it 'offers only facets that have discrete values, named as the catalog names them' do
     enum = described_class.input_schema.to_h[:properties][:field][:enum]
-    expect(enum).to include('format', 'language_facet', 'online', 'author_facet')
-    expect(enum).not_to include('pub_date_facet')
+    expect(enum).to include('Format', 'Language', 'Access', 'Author, etc.')
+    expect(enum).not_to include('format', 'language_facet', 'author_facet')
+    expect(enum).not_to include('Publication Year', 'pub_date_facet')
     expect(enum).not_to include('availability_facet', 'collection', 'subject_topic_lc_facet')
   end
 
   describe '.call' do
     it 'returns the facet values with their counts' do
       stub_search_runner(facet_response: solr_response(facets: { 'language_facet' => [['English', 9], ['German', 4]] }))
-      payload = tool_payload(described_class, field: 'language_facet')
+      payload = tool_payload(described_class, field: 'Language')
 
-      expect(payload).to include('facet_field' => 'language_facet', 'label' => 'Language', 'page' => 1)
+      expect(payload).to include('facet' => 'Language', 'label' => 'Language', 'page' => 1)
       expect(payload['values']).to eq([{ 'value' => 'English', 'count' => 9 },
                                        { 'value' => 'German', 'count' => 4 }])
       expect(payload['has_more']).to be false
@@ -63,9 +65,20 @@ RSpec.describe BlacklightMcp::Tools::FacetValues do
       expect(payload['has_more']).to be true
     end
 
-    it 'rejects an unknown facet field' do
+    it 'rejects an unknown facet' do
       stub_search_runner
-      expect(tool_error(described_class, field: 'nope')).to match(/not a configured facet field/)
+      expect(tool_error(described_class, field: 'nope')).to match(/is not a facet in this catalog/)
+    end
+
+    # Nothing written against the old vocabulary should break.
+    it 'still accepts the Solr field name' do
+      stub_search_runner(facet_response: solr_response(facets: { 'language_facet' => [['English', 9]] }))
+      expect(tool_payload(described_class, field: 'language_facet')).to include('facet' => 'Language')
+    end
+
+    it 'matches a facet name whatever its case' do
+      stub_search_runner(facet_response: solr_response(facets: { 'language_facet' => [['English', 9]] }))
+      expect(tool_payload(described_class, field: 'language')).to include('facet' => 'Language')
     end
 
     it 'points a range facet at date_range instead' do

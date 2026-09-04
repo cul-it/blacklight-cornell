@@ -55,6 +55,36 @@ RSpec.describe 'The MCP endpoint', type: :request do
       expect(response).to have_http_status(:method_not_allowed)
       expect(json.dig('error', 'message')).to eq('Method not allowed')
     end
+
+    # A person pasting the URL into the address bar should not meet a JSON-RPC
+    # error that reads like a broken site.
+    it 'shows a browser what the endpoint is for' do
+      get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html,application/xhtml+xml' }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq('text/html')
+      expect(response.body).to include('Catalog MCP endpoint', 'claude mcp add')
+    end
+
+    it 'lists the live tools on that page, so it cannot go stale' do
+      get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+      BlacklightMcp::Server.tools.each do |tool|
+        expect(response.body).to include("<code>#{tool.name_value}</code>")
+      end
+    end
+
+    it 'keeps the protocol response for a client that also accepts html' do
+      get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html, text/event-stream' }
+
+      expect(response).to have_http_status(:method_not_allowed)
+    end
+
+    it 'keeps the protocol response when the client asks for anything' do
+      get '/mcp', headers: { 'HTTP_ACCEPT' => '*/*' }
+
+      expect(response).to have_http_status(:method_not_allowed)
+    end
   end
 
   describe 'POST /mcp' do
@@ -154,7 +184,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
           params: { name: 'search', arguments: { query: 'x', filters: { 'not_a_facet' => ['y'] } } })
 
       expect(json['result']['isError']).to be true
-      expect(json['result']['content'].first['text']).to match(/unknown facet field "not_a_facet"/)
+      expect(json['result']['content'].first['text']).to match(/unknown facet "not_a_facet"/)
     end
   end
 

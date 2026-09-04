@@ -158,6 +158,39 @@ The app logs which one it picked at startup, so you can check rather than guess:
 If Redis is configured but unreachable, the limit is skipped rather than blocking
 every search.
 
+## Facet names
+
+Facets are named the way the catalog names them -- `Language`, `Subject: Region`,
+`Fiction/Non-Fiction` -- not by their Solr field (`language_facet`,
+`fast_geo_facet`, `subject_content_facet`). Students should not have to learn the
+catalog's internals to ask a question, and an assistant that says "I filtered by
+fast_geo_facet" has leaked one.
+
+```json
+{ "query": "cholera", "filters": { "Library Location": ["Olin Library"] } }
+```
+
+The names come from the facet labels in `catalog_controller.rb`, so they match
+the headings on the website and there is no second list to maintain. Rename a
+facet heading and it is renamed here too.
+
+Input is lenient: a caller may send the readable name in any case, or the Solr
+field itself, so nothing written against the older vocabulary breaks. Only what
+the endpoint *advertises* changes.
+
+| Variable | Effect |
+| -------- | ------ |
+| unset (default) | tools advertise the readable names |
+| `MCP_SOLR_FACETS_DISPLAY=true` | tools advertise the raw Solr field names |
+
+Tool schemas are built when the app boots, so this takes effect on restart, not
+per request.
+
+One exception, by design: `search(explain: true)` returns the Solr parameters a
+query would produce, Solr field names and all. That is the whole point of
+`explain`, and it is a debugging affordance no student-facing assistant will
+reach for.
+
 ## How it works
 
 Tools never build Solr queries. They turn their arguments into the same
