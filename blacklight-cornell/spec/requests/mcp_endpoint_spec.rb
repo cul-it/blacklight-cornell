@@ -200,6 +200,40 @@ RSpec.describe 'The MCP endpoint', type: :request do
     end
   end
 
+  # MCP=false takes the endpoint away rather than refusing at it: no route, no
+  # controller, no page. A request should not be able to tell it was ever here.
+  describe 'when MCP is switched off' do
+    before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('MCP', '').and_return('false')
+    end
+
+    it 'has no endpoint' do
+      rpc(jsonrpc: '2.0', id: 1, method: 'tools/list')
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'has no landing page' do
+      get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'has no console' do
+      get '/mcp/console'
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'does no work before refusing' do
+      expect(BlacklightMcp::SearchRunner).not_to receive(:new)
+
+      rpc(jsonrpc: '2.0', id: 1, method: 'tools/call',
+          params: { name: 'search', arguments: { query: 'batman' } })
+    end
+  end
+
   describe 'request logging' do
     # This summary is what shows up in the development log in place of the raw
     # `Parameters:` line, so its exact wording is worth pinning down. #summarize

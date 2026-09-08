@@ -24,24 +24,37 @@ RSpec.describe 'The MCP console', type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'can be turned on anywhere with MCP_CONSOLE=on' do
-      console('on')
+    it 'can be turned on anywhere with MCP_CONSOLE=true' do
+      console('true')
       get '/mcp/console'
 
       expect(response).to have_http_status(:ok)
     end
 
-    it 'can be turned off in development with MCP_CONSOLE=off' do
+    it 'can be turned off in development with MCP_CONSOLE=false' do
       allow(Rails.env).to receive(:development?).and_return(true)
-      console('off')
+      console('false')
       get '/mcp/console'
 
       expect(response).to have_http_status(:not_found)
     end
+
+    # Only the two words. Anything else falls back to the default, which in
+    # development means the console stays.
+    it 'treats a value that is neither word as unset' do
+      allow(Rails.env).to receive(:development?).and_return(true)
+
+      ['on', 'off', '1', '0', 'maybe'].each do |value|
+        console(value)
+        get '/mcp/console'
+
+        expect(response).to have_http_status(:ok), "#{value.inspect} should fall back to the default"
+      end
+    end
   end
 
   describe 'the page' do
-    before { console('on') }
+    before { console('true') }
 
     it 'serves the client page' do
       get '/mcp/console'
@@ -140,7 +153,7 @@ RSpec.describe 'The MCP console', type: :request do
 
   describe 'the landing page at /mcp' do
     it 'points people at the console when there is one' do
-      console('on')
+      console('true')
       get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
 
       expect(response.body).to include('/mcp/console', 'Try it here')

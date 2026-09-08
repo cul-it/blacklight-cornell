@@ -27,15 +27,16 @@ RSpec.describe BlacklightMcp::FacetNames do
       expect(described_class.public_name('fast_geo_facet')).to eq('fast_geo_facet')
     end
 
-    it 'accepts the usual ways of writing yes' do
-      %w[1 true TRUE yes on].each do |value|
+    it 'ignores the case it is written in' do
+      %w[true TRUE True].each do |value|
         solr_names(value)
         expect(described_class).to be_solr_names, "#{value.inspect} should turn it on"
       end
     end
 
-    it 'stays off for anything else, including nonsense' do
-      ['', 'false', '0', 'no', 'maybe'].each do |value|
+    # Only the word true, so nobody gets Solr field names by writing "yes".
+    it 'stays off for anything that is not the word true' do
+      ['', 'false', '1', 'yes', 'on', '0', 'no', 'maybe'].each do |value|
         solr_names(value)
         expect(described_class).not_to be_solr_names, "#{value.inspect} should leave it off"
       end

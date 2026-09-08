@@ -232,16 +232,20 @@ BlacklightCornell::Application.routes.draw do
   ##############################################################################
   ##  MCP Routes  ##
   ##################
-  # One stateless, read-only MCP endpoint. POST carries all RPCs; GET only lets
-  # legacy clients discover that this server does not offer an SSE stream.
-  match "/mcp", to: "mcp#handle", via: [:get, :post], as: "mcp"
+  # Every MCP route, present only while MCP is switched on. With MCP=false in the
+  # environment none of these paths exist and a request 404s like any other
+  # unknown path -- as if the endpoint had never been added.
+  constraints(->(_request) { BlacklightMcp.enabled? }) do
+    # One stateless, read-only MCP endpoint. POST carries all RPCs; GET only lets
+    # legacy clients discover that this server does not offer an SSE stream.
+    match "/mcp", to: "mcp#handle", via: [:get, :post], as: "mcp"
 
-  # A browser MCP client for the endpoint above. A development tool: the route
-  # only exists where BlacklightMcp::Console says it should, so on a deployed
-  # host this is an ordinary 404 unless MCP_CONSOLE=on. Declared before the
-  # /mcp/.well-known catch-all so the two cannot compete for the path.
-  constraints(->(_request) { BlacklightMcp::Console.enabled? }) do
-    get BlacklightMcp::Console::PATH, to: "mcp_console#show", as: "mcp_console"
+    # A browser MCP client for the endpoint above, and a development tool -- so
+    # it has a switch of its own on top of this one. Declared before the
+    # /mcp/.well-known catch-all so the two cannot compete for the path.
+    constraints(->(_request) { BlacklightMcp::Console.enabled? }) do
+      get BlacklightMcp::Console::PATH, to: "mcp_console#show", as: "mcp_console"
+    end
   end
 
   # Remote MCP clients probe these standard locations before deciding that the

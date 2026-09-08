@@ -25,12 +25,12 @@ module BlacklightMcp
   # Tool schemas are built when the classes load, so the variable takes effect at
   # boot rather than per request.
   module FacetNames
-    TRUTHY = %w[1 true yes on].freeze
-
     module_function
 
+    # Only the word true. Unset, or anything else, keeps the readable names --
+    # the same rule MCP and MCP_CONSOLE follow.
     def solr_names?
-      TRUTHY.include?(ENV.fetch('MCP_SOLR_FACETS_DISPLAY', '').to_s.strip.downcase)
+      ENV.fetch('MCP_SOLR_FACETS_DISPLAY', '').to_s.strip.downcase == 'true'
     end
 
     # What this endpoint calls the facet stored in `field`.

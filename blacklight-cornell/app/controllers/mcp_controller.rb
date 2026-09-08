@@ -45,6 +45,8 @@ class McpController < ActionController::API
 
   # GET or POST /mcp
   def handle
+    return head :not_found unless BlacklightMcp.enabled? # The route only exists while MCP is on
+
     # Someone who pasted the URL into a browser gets a page explaining what it
     # is. The protocol's own 405 is correct, but it reads like a broken site.
     return render_landing_page if request.get? && browser?

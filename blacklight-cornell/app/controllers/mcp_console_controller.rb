@@ -13,7 +13,7 @@
 #
 # A development tool. BlacklightMcp::Console decides where it exists, and the
 # route is constrained on the same predicate, so off a development machine this
-# path is an ordinary 404 unless someone sets MCP_CONSOLE=on. The check below is
+# path is an ordinary 404 unless someone sets MCP_CONSOLE=true. The check below is
 # the same answer again, in case the route is ever reached another way.
 class McpConsoleController < ActionController::Base
   layout false

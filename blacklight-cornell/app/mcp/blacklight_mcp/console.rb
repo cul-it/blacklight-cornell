@@ -9,24 +9,24 @@ module BlacklightMcp
   # page -- so it is absent everywhere but development unless someone asks for
   # it by name.
   #
-  #   MCP_CONSOLE unset    on in development, absent everywhere else
-  #   MCP_CONSOLE=on       on, wherever it is set
-  #   MCP_CONSOLE=off      absent, development included
+  #   MCP_CONSOLE unset     on in development, absent everywhere else
+  #   MCP_CONSOLE=true      on, wherever it is set
+  #   MCP_CONSOLE=false     absent, development included
   #
   # The route is constrained on this, so when it is off the path does not exist
   # rather than answering with a refusal -- there is nothing there to find.
   module Console
     PATH = '/mcp/console'
 
-    ON = %w[1 true yes on].freeze
-    OFF = %w[0 false no off].freeze
-
     module_function
 
     def enabled?
+      # Do not show the MCP Console if MCP is disabled
+      return false unless BlacklightMcp.enabled?
+
       case ENV.fetch('MCP_CONSOLE', '').to_s.strip.downcase
-      when *ON then true
-      when *OFF then false
+      when 'true' then true
+      when 'false' then false
       else Rails.env.development?
       end
     end
