@@ -16,6 +16,18 @@ RSpec.describe BlacklightMcp::FacetNames do
       expect(described_class.public_name('subject_content_facet')).to eq('Fiction/Non-Fiction')
     end
 
+    # Deployed without the variable at all, which is how most hosts will run,
+    # readable names are what a client gets. Set apart from the empty-string
+    # case below because "nobody configured this" is the one that matters.
+    it 'shows readable names when the variable is not set at all' do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('MCP_SOLR_FACETS_DISPLAY', '').and_call_original
+      ENV.delete('MCP_SOLR_FACETS_DISPLAY')
+
+      expect(described_class).not_to be_solr_names
+      expect(described_class.public_name('fast_geo_facet')).to eq('Subject: Region')
+    end
+
     it 'advertises no Solr field names at all' do
       expect(described_class.public_names).to all(satisfy { |name| !name.end_with?('_facet') })
     end

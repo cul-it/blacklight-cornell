@@ -1,0 +1,48 @@
+#################################################################
+## MCP env values:                                             ##
+## Add these to your .env file to configure the MCP endpoints  ##
+##                                                             ##
+## Every one is optional. Commented out = the default.         ##
+## Only the words true and false are understood.               ##
+#################################################################
+
+# ==============================================================================
+# Turn the MCP endpoint on or off. false makes /mcp vanish entirely (404).
+# Default is on.
+# ------------------------------------------------------------------------------
+MCP=true
+
+# ==============================================================================
+# Show the browser test page at /mcp/console.
+# Default is on in development only. Set true to have it on a deployed host.
+# ------------------------------------------------------------------------------
+#MCP_CONSOLE=true
+
+# ==============================================================================
+# Name facets the way the catalog does ("Publication Year") or the way Solr
+# does ("pub_date_facet"). Only true shows Solr names, so leaving this line
+# out is the same as false. Default is false: true is for debugging.
+# ------------------------------------------------------------------------------
+MCP_SOLR_FACETS_DISPLAY=false
+
+# ==============================================================================
+# How many requests one caller gets, and over how many seconds.
+# Defaults are 120 requests per 60 seconds. 
+# MCP_RATE_LIMIT=0 turns it off.
+# ------------------------------------------------------------------------------
+MCP_RATE_LIMIT=120
+MCP_RATE_LIMIT_PERIOD=60
+
+# ==============================================================================
+# How long an MCP request waits on Solr before giving up, in seconds.
+# Defaults are 5 to answer and 2 to connect. Short on purpose: a slow query
+# holds a thread the website also needs.
+# ------------------------------------------------------------------------------
+MCP_SOLR_TIMEOUT=5
+MCP_SOLR_OPEN_TIMEOUT=2
+
+# ==============================================================================
+# Print Solr queries readably in the development log instead of one long line.
+# Default is off. Development only, and nothing to do with MCP in itself.
+# ------------------------------------------------------------------------------
+FORMAT_SOLR_QUERY=true
