@@ -27,7 +27,8 @@ module BlacklightMcp
       finds the exact spelling of a facet value, and get_record pulls a full record.
       check_availability answers "can I get this right now" for records a search has
       found: online links, holding library, call number, and how many items are on the
-      shelf rather than checked out.
+      shelf rather than checked out. browse_call_numbers walks the shelf around a call
+      number, which finds books a subject search misses.
     TEXT
 
     module_function
@@ -40,6 +41,7 @@ module BlacklightMcp
         Tools::FacetValues,
         Tools::GetRecord,
         Tools::CheckAvailability,
+        Tools::BrowseCallNumbers,
         Tools::Fetch
       ]
     end

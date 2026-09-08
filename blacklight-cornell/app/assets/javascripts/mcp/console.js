@@ -1255,6 +1255,16 @@
                     }
                 }
             ],
+            browse_call_numbers: [
+                {
+                    label: 'What is shelved here',
+                    args: {call_number: 'PS3561.I483', limit: 10}
+                },
+                {
+                    label: 'And what comes before it',
+                    args: {call_number: 'PS3561.I483', direction: 'backward', limit: 10}
+                }
+            ],
             describe_search_options: [
                 {label: 'What can I ask for?', args: {}},
                 {label: 'Fields and facets only', args: {include_facet_values: false}}
