@@ -102,10 +102,6 @@ module BlacklightMcp
                   .to_h
     end
 
-    def query_facet_fields
-      facet_fields.select { |_key, field| field.query }
-    end
-
     def search_field?(key)
       search_field_keys.include?(key.to_s)
     end

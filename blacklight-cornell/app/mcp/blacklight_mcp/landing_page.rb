@@ -57,7 +57,7 @@ module BlacklightMcp
           <h2 class="mcp-section h6 text-uppercase text-body-secondary fw-semibold mt-5 mb-3">What your assistant can do with it</h2>
           <ul class="list-group list-group-flush mb-4">#{tool_items}
           </ul>
-#{console_section}
+          #{console_section}
           <p class="small text-body-secondary border-top pt-3 mt-5 mb-0">
              <i class="fa fa-info-circle me-1" aria-hidden="true"></i>This URL speaks the
              <a href="https://modelcontextprotocol.io">Model Context Protocol</a> over POST, so there
@@ -83,7 +83,6 @@ module BlacklightMcp
       return '' unless Console.enabled?
 
       <<-HTML
-
           <h2 class="mcp-section h6 text-uppercase text-body-secondary fw-semibold mt-5 mb-3">Try it here</h2>
           <p class="text-body-secondary">Run these tools in the browser &mdash; no client to install.</p>
           <a class="btn btn-outline-danger" href="#{Console::PATH}">
@@ -103,13 +102,13 @@ module BlacklightMcp
       'fetch' => 'align-left'
     }.freeze
 
-    DEFAULT_TOOL_ICON = 'wrench'
+    DEFAULT_TOOL_ICON = 'book'
 
     def tool_items
       Server.tools.map do |tool|
         glyph = TOOL_ICONS.fetch(tool.name_value, DEFAULT_TOOL_ICON)
 
-        "\n            <li class=\"list-group-item d-flex align-items-baseline gap-2 px-0\">" \
+        "\n <li class=\"list-group-item d-flex align-items-baseline gap-2 px-0\">" \
           "<i class=\"fa fa-#{glyph} text-body-secondary\" aria-hidden=\"true\"></i>" \
           "<code>#{escape(tool.name_value)}</code>" \
           "<span class=\"text-body-secondary\">#{escape(tool.annotations.title)}</span></li>"

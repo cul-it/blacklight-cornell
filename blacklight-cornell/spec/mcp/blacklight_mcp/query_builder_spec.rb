@@ -208,21 +208,21 @@ RSpec.describe BlacklightMcp::QueryBuilder do
     # Each value becomes its own Solr subquery, and `query` is capped too, so
     # filters should not be the one unbounded way into the index.
     it 'rejects more values than any real search would use' do
-      values = Array.new(described_class::MAX_FILTER_VALUES + 1) { |i| "Format #{i}" }
+      values = Array.new(BlacklightMcp::QueryBuilder::Filters::MAX_VALUES + 1) { |i| "Format #{i}" }
 
       expect { described_class.simple(query: 'x', filters: { 'format' => values }) }
-        .to raise_error(BlacklightMcp::InvalidArgument, /at most #{described_class::MAX_FILTER_VALUES} values/)
+        .to raise_error(BlacklightMcp::InvalidArgument, /at most #{BlacklightMcp::QueryBuilder::Filters::MAX_VALUES} values/)
     end
 
     it 'accepts a list right at the limit' do
-      values = Array.new(described_class::MAX_FILTER_VALUES) { |i| "Format #{i}" }
+      values = Array.new(BlacklightMcp::QueryBuilder::Filters::MAX_VALUES) { |i| "Format #{i}" }
 
       expect(described_class.simple(query: 'x', filters: { 'format' => values })[:f_inclusive]['format'].length)
-        .to eq(described_class::MAX_FILTER_VALUES)
+        .to eq(BlacklightMcp::QueryBuilder::Filters::MAX_VALUES)
     end
 
     it 'rejects a single value longer than any real facet value' do
-      expect { described_class.simple(query: 'x', formats: ['z' * (described_class::MAX_FILTER_VALUE_LENGTH + 1)]) }
+      expect { described_class.simple(query: 'x', formats: ['z' * (BlacklightMcp::QueryBuilder::Filters::MAX_VALUE_LENGTH + 1)]) }
         .to raise_error(BlacklightMcp::InvalidArgument, /facet values are at most/)
     end
 
