@@ -225,8 +225,12 @@ Where it exists:
 | `MCP_CONSOLE` | Result |
 | ------------- | ------ |
 | unset (default) | on in development, **absent everywhere else** |
-| `on` | on, wherever it is set |
-| `off` | absent, development included |
+| `true` | on, wherever it is set |
+| `false` | absent, development included |
+
+Same spelling as `MCP`. Three states rather than two, because "not set" has to
+mean something different from "set to false": unset follows the environment,
+`false` is a decision. Anything that is neither word is treated as unset.
 
 The route is constrained on that, so where the console is off the path is an
 ordinary 404 — there is nothing there to find. `/mcp` links to it only where it
