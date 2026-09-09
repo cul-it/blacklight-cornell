@@ -29,6 +29,11 @@
         var $raw = document.getElementById('raw');
         var $rawWrap = document.getElementById('raw-wrap');
         var $rawLabel = document.getElementById('raw-label');
+        var $rawFormat = document.getElementById('raw-format');
+
+        // The last call the raw panel is showing, kept so the Format switch can
+        // redraw it without making the call again.
+        var lastRaw = null;
 
         document.getElementById('endpoint').textContent = ENDPOINT;
 
@@ -120,7 +125,43 @@
                 }
                 $rawLabel.textContent = label;
             }
-            $raw.textContent = '\u2192 request\n' + JSON.stringify(request, null, 2) +
+            lastRaw = {request: request, response: response};
+            renderRaw();
+        }
+
+        // A tool answers with its payload as JSON *inside* a JSON string, so on
+        // the wire every record is one long line of \n and \" escapes. Format
+        // parses those blocks back into structure before printing: the same
+        // bytes the endpoint sent, indented instead of escaped.
+        function expandContent(response) {
+            if (!response || typeof response === 'string' ||
+                !response.result || !Array.isArray(response.result.content)) {
+                return response;
+            }
+
+            var copy = JSON.parse(JSON.stringify(response));
+            copy.result.content = copy.result.content.map(function (block) {
+                if (block && typeof block.text === 'string') {
+                    try {
+                        block.text = JSON.parse(block.text);
+                    } catch (e) { /* not JSON -- leave the text as it came */
+                    }
+                }
+                return block;
+            });
+            return copy;
+        }
+
+        function renderRaw() {
+            if (!lastRaw) {
+                return;
+            }
+
+            var response = lastRaw.response;
+            if ($rawFormat && $rawFormat.checked) {
+                response = expandContent(response);
+            }
+            $raw.textContent = '\u2192 request\n' + JSON.stringify(lastRaw.request, null, 2) +
                 '\n\n\u2190 response\n' +
                 (typeof response === 'string' ? response : JSON.stringify(response, null, 2));
         }
@@ -1493,6 +1534,7 @@
             }).catch(function () {
                 setStatus('could not copy \u2014 the command is in the panel below', true);
                 $rawWrap.hidden = false;
+                lastRaw = null;
                 $raw.textContent = command;
             });
         }
@@ -1501,6 +1543,9 @@
             selectTool($tool.value);
         });
         $run.addEventListener('click', run);
+        if ($rawFormat) {
+            $rawFormat.addEventListener('change', renderRaw);
+        }
         $curl.addEventListener('click', copyCurl);
         // Without this, Enter in a text field navigates away instead of searching.
         $args.addEventListener('submit', function (event) {
