@@ -17,7 +17,11 @@ module BlacklightMcp
 
       input_schema(
         properties: {
-          id: { type: 'string', minLength: 1, description: 'The catalog record id, e.g. "9876543".' },
+          id: {
+            type: 'string',
+            minLength: 1,
+            description: 'The catalog record id, e.g. "9876543".'
+          },
           fields: {
             type: 'array',
             items: { type: 'string' },

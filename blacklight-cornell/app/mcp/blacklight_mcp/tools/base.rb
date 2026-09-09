@@ -27,10 +27,6 @@ module BlacklightMcp
             formats: {
               type: 'array',
               items: { type: 'string' },
-              # Which facet these values come from, said once in a form a client
-              # can act on. The description says the same in prose, and reading a
-              # list back out of prose is how one ends up in the wrong place.
-              # JSON Schema ignores keywords it does not recognise.
               'x-facet': FacetNames.public_name(QueryBuilder::FORMAT_FIELD),
               description: "Shortcut for filters[#{FacetNames.public_name(QueryBuilder::FORMAT_FIELD).inspect}]. " \
                            'Values are OR-ed, e.g. ["Book", "Journal/Periodical"]. ' \
