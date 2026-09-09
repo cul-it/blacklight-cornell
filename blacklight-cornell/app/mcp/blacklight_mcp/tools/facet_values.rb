@@ -17,32 +17,68 @@ module BlacklightMcp
         exist at all".
       TEXT
 
+      # ========================================================================
+      # The arguments this tool takes, as JSON Schema.
+      #
+      # Two jobs:
+      # 1. The client shows it to the AI so it knows what to send.
+      # 2. The client checks a call against it before the tool ever runs.
+      #    bad arguments fail early.
+      #
+      # Every list of allowed values is read from the catalog's live settings,
+      # so adding a facet in catalog_controller.rb shows up here with no edit.
+      # ------------------------------------------------------------------------
       input_schema(
         properties: {
+          # enum
           field: {
             type: 'string',
             description: 'The facet to list.',
             enum: FacetNames.public_names
           },
-          query: { type: 'string', description: 'Optional search terms scoping the facet counts.' },
-          search_field: { type: 'string', enum: CatalogOptions.search_field_keys },
-          formats: { type: 'array', items: { type: 'string' },
-                     'x-facet': FacetNames.public_name(QueryBuilder::FORMAT_FIELD) },
-          languages: { type: 'array', items: { type: 'string' },
-                       'x-facet': FacetNames.public_name(QueryBuilder::LANGUAGE_FIELD) },
-          filters: { type: 'object',
-                     propertyNames: { enum: FacetNames.public_names },
-                     additionalProperties: { type: 'array', items: { type: 'string' } } },
-          filters_all: { type: 'object',
-                         propertyNames: { enum: FacetNames.public_names },
-                         additionalProperties: { type: 'array', items: { type: 'string' } } },
+          query: {
+            type: 'string',
+            description: 'Optional search terms scoping the facet counts.'
+          },
+          search_field: {
+            type: 'string',
+            enum: CatalogOptions.search_field_keys
+          },
+          formats: {
+            type: 'array',
+            items: { type: 'string' },
+            'x-facet': FacetNames.public_name(QueryBuilder::FORMAT_FIELD)
+          },
+          languages: {
+            type: 'array', items: { type: 'string' },
+            'x-facet': FacetNames.public_name(QueryBuilder::LANGUAGE_FIELD)
+          },
+          filters: {
+            type: 'object',
+            propertyNames: { enum: FacetNames.public_names },
+            additionalProperties: { type: 'array', items: { type: 'string' } }
+          },
+          filters_all: {
+            type: 'object',
+            propertyNames: { enum: FacetNames.public_names },
+            additionalProperties: { type: 'array', items: { type: 'string' } }
+          },
           date_range: {
             type: 'object',
             properties: { begin: { type: 'integer' }, end: { type: 'integer' } },
             required: %w[begin end],
             additionalProperties: false
           },
-          prefix: { type: 'string', description: 'Only values starting with this prefix.' },
+          prefix: {
+            type: 'string',
+            description: 'Only values starting with this prefix.'
+          },
+          parent: {
+            type: 'string',
+            description: 'For a facet whose values are paths, like Call Number: list what sits ' \
+              'directly under this value, e.g. "A - General". Leave it out for the ' \
+              'top level.'
+          },
           sort: {
             type: 'string',
             enum: %w[count index],
@@ -52,16 +88,19 @@ module BlacklightMcp
             type: 'integer',
             minimum: 1,
             description: 'Page of facet values, 1-based. Paging cannot reach past value ' \
-                         "#{QueryBuilder::MAX_RESULT_WINDOW}; use prefix to jump instead."
+              "#{QueryBuilder::MAX_RESULT_WINDOW}; use prefix to jump instead."
           }
         },
-        required: %w[field],
-        additionalProperties: false
+        required: %w[field], # Only `field` must be sent.
+        additionalProperties: false # Anything not listed above is rejected, so typos fails loudly instead of being silently ignored.
       )
 
       def self.call(server_context: nil, **args)
         handling_errors do
           field = resolved_field(args[:field])
+
+          separator = CatalogOptions.hierarchy_separator(field)
+          return respond(one_level(field, separator, args)) if separator
 
           runner = SearchRunner.new(facet_params(field, args))
           response = runner.facet_results(field)
@@ -116,6 +155,36 @@ module BlacklightMcp
               'or scope the counts with a query and filters.'
       rescue ArgumentError, TypeError
         raise InvalidArgument, "page must be a whole number (got #{value.inspect})"
+      end
+
+      # Call Number is one long flat list -- thousands of values, only twenty of
+      # them top level. Return one level at a time instead, the way the dropdown does.
+      def self.one_level(field, separator, args)
+        parent = args[:parent].to_s.strip.presence
+        params = facet_params(field, args.except(:parent))
+        params[:'facet.prefix'] = "#{parent}#{separator}" if parent
+        # No paging: one level is short, and Solr would page the whole flat list.
+        params.delete(:'facet.page')
+
+        response = SearchRunner.new(params).facet_results(field, :"f.#{field}.facet.limit" => -1)
+
+        { 'facet' => FacetNames.public_name(field),
+          'label' => CatalogOptions.label_for_facet(field),
+          'parent' => parent,
+          'values' => children_of(response, field, parent, separator) }.compact
+      end
+
+      # Keep only the level asked for: no separator for the top, one more than
+      # the parent for its children.
+      def self.children_of(response, field, parent, separator)
+        depth = parent ? parent.split(separator).length : 0
+
+        Array(response.aggregations[field]&.items).filter_map do |item|
+          value = item.value.to_s
+          next unless value.split(separator).length == depth + 1
+
+          { 'value' => value, 'count' => item.hits.to_i }
+        end
       end
 
       def self.payload(field, response, args)

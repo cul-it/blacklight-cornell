@@ -110,6 +110,18 @@ module BlacklightMcp
       search_field_keys.include?(key.to_s)
     end
 
+    # Some facets hold a path, like "A - General > AC - Collections". Blacklight
+    # keeps the separator in facet_display; nil means the facet is flat.
+    def hierarchy_separator(field)
+      (blacklight_config.facet_display || {}).fetch(:hierarchy, {}).each do |prefix, (suffixes, separator)|
+        Array(suffixes).each do |suffix|
+          return separator if [prefix, suffix].compact.join('_') == field.to_s
+        end
+      end
+
+      nil
+    end
+
     def facet_field?(key)
       facet_field_keys.include?(key.to_s)
     end

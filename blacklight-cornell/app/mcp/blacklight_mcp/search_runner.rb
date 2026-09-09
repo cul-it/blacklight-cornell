@@ -64,8 +64,8 @@ module BlacklightMcp
     end
 
     # All the values for one facet, not just the few the sidebar shows.
-    def facet_results(facet_key)
-      search_service.facet_field_response(facet_key)
+    def facet_results(facet_key, extra = {})
+      search_service.facet_field_response(facet_key, extra)
     end
 
     # Shows the Solr query these parameters would produce, without running it.

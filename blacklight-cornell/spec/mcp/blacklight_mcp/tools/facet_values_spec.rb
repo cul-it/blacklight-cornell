@@ -103,6 +103,48 @@ RSpec.describe BlacklightMcp::Tools::FacetValues do
       expect(captured[:'facet.page']).to eq(2)
     end
 
+    # Call Number is thousands of values in one flat list, only twenty of them
+    # top level, so the tool returns one level at a time like the dropdown does.
+    describe 'a facet whose values are paths' do
+      let(:tree) do
+        [['A - General', 63], ['A - General > AC - Collections', 54],
+         ['A - General > AC - Collections > AC1-195 - Monographs', 51],
+         ['A - General > AM - Museums', 3], ['B - Philosophy', 116]]
+      end
+
+      it 'gives the top level when nothing is asked for' do
+        stub_search_runner(facet_response: solr_response(facets: { 'lc_callnum_facet' => tree }))
+        payload = tool_payload(described_class, field: 'Call Number')
+
+        expect(payload['values']).to eq([{ 'value' => 'A - General', 'count' => 63 },
+                                         { 'value' => 'B - Philosophy', 'count' => 116 }])
+      end
+
+      it 'gives the children of a value, not its grandchildren' do
+        stub_search_runner(facet_response: solr_response(facets: { 'lc_callnum_facet' => tree }))
+        payload = tool_payload(described_class, field: 'Call Number', parent: 'A - General')
+
+        expect(payload['values'].map { |v| v['value'] })
+          .to eq(['A - General > AC - Collections', 'A - General > AM - Museums'])
+        expect(payload['parent']).to eq('A - General')
+      end
+
+      it 'asks Solr for the branch rather than sifting the whole list' do
+        captured = stub_search_runner(facet_response: solr_response(facets: { 'lc_callnum_facet' => tree }))
+        tool_payload(described_class, field: 'Call Number', parent: 'A - General')
+
+        expect(captured[:'facet.prefix']).to eq('A - General > ')
+      end
+
+      # Paging a flat list would page across levels, not within one.
+      it 'does not page' do
+        captured = stub_search_runner(facet_response: solr_response(facets: { 'lc_callnum_facet' => tree }))
+        tool_payload(described_class, field: 'Call Number', page: 3)
+
+        expect(captured).not_to have_key(:'facet.page')
+      end
+    end
+
     it 'rejects a non-numeric page' do
       stub_search_runner
       expect(tool_error(described_class, field: 'format', page: 'two')).to match(/page must be a whole number/)
