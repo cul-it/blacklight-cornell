@@ -22,6 +22,16 @@ RSpec.describe BlacklightMcp::Tools::DescribeSearchOptions do
   describe 'the reported options' do
     subject(:payload) { tool_payload(described_class, include_facet_values: false) }
 
+    # A client reads tools/list once, at connect, and this transport cannot tell
+    # it later that a tool came or went. An assistant that calls this tool
+    # mid-conversation can compare these two against what it was given and say
+    # the server has moved on, which is the only self-detection available here.
+    it 'names the running build and the tools it currently offers' do
+      expect(payload['server']).to include('version' => BlacklightMcp::VERSION)
+      expect(payload['server']['tools']).to eq(BlacklightMcp::Server.tools.map(&:name_value))
+      expect(payload['server']['note']).to include('reconnect')
+    end
+
     it 'lists every search field with its label and whether the advanced form offers it' do
       all_fields = payload['search_fields'].find { |f| f['search_field'] == 'all_fields' }
       expect(all_fields).to include('in_advanced_form' => true)

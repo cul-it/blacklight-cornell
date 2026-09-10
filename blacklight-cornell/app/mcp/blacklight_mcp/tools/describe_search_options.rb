@@ -16,6 +16,11 @@ module BlacklightMcp
         By default it also samples the most-used values for the facets the catalog's own
         advanced form exposes (format, language, publication year), so you can pick real
         facet values instead of guessing at spelling.
+
+        The reply also names this server's version and every tool it currently offers. If
+        that list is not the list of tools you were given when you connected, this server
+        has been updated since: say so, and tell the reader to reconnect to it, because
+        you will not see the new tools until they do.
       TEXT
 
       # How many example values to show per facet.
@@ -40,6 +45,7 @@ module BlacklightMcp
       def self.call(server_context: nil, **args)
         handling_errors do
           payload = {
+            'server' => described_server,
             'search_fields' => described_search_fields,
             'advanced_search_fields' => CatalogOptions.advanced_search_fields.keys.map(&:to_s),
             'row_operators' => CatalogOptions::OPS,
@@ -54,6 +60,23 @@ module BlacklightMcp
           payload['facet_values'] = facet_values(args[:facet_fields]) unless args[:include_facet_values] == false
           respond(payload)
         end
+      end
+
+      # What this build of the server is and what it offers right now.
+      #
+      # A client reads tools/list once, when it connects, and the transport is
+      # stateless, so there is no way to tell it later that a tool was added or
+      # removed. This is the next best thing: an assistant mid-conversation can
+      # compare what it was given at connect against what is here, and if they
+      # disagree it can say so instead of insisting a tool does not exist.
+      def self.described_server
+        {
+          'version' => BlacklightMcp::VERSION,
+          'tools' => Server.tools.map(&:name_value),
+          'note' => 'Tool lists are read once, at connect. If these are not the tools you were ' \
+                    'given, this server has changed since you connected -- tell the reader to ' \
+                    'reconnect to it.'
+        }
       end
 
       # Named for what it returns -- the description sent back to the AI,

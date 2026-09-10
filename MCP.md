@@ -141,7 +141,7 @@ ChatGPT itself, only against the documented shape.
 `MCP_RATE_LIMIT_PERIOD`; `MCP_RATE_LIMIT=0` turns it off.
 
 Where the count is kept depends on whether `REDIS_SESSION_HOST` is set -- the same
-variable the app already uses for sessions:
+variable the app already uses for sessions (Redis is a future implementaion):
 
 | `REDIS_SESSION_HOST` | Count is kept | Effect |
 | -------------------- | ------------- | ------ |

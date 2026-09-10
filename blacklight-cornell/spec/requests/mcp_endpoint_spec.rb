@@ -74,6 +74,17 @@ RSpec.describe 'The MCP endpoint', type: :request do
       end
     end
 
+    # The version says which build answered, and the note says what to do when
+    # the tools listed here are not the tools an assistant is offering. Both are
+    # the same question -- "is my client behind, or the server?" -- asked by
+    # someone standing on this page.
+    it 'says which build is answering, and how to catch a client up' do
+      get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+      expect(response.body).to include("v#{BlacklightMcp::VERSION}")
+      expect(response.body).to include('connect again to pick up anything new')
+    end
+
     it 'keeps the protocol response for a client that also accepts html' do
       get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html, text/event-stream' }
 
@@ -492,10 +503,23 @@ RSpec.describe 'The MCP endpoint', type: :request do
       expect(json['error']['message']).to match(/exceeds/)
     end
 
-    it 'reports an unknown tool' do
+    # Almost always a client that connected before a tool was renamed or
+    # removed: tool lists are read once, at connect, and nothing in a stateless
+    # transport can tell it otherwise. So the error says what this server has
+    # now, and that reconnecting is what fixes it.
+    it 'reports an unknown tool, and says how a stale client catches up' do
       rpc(jsonrpc: '2.0', id: 8, method: 'tools/call', params: { name: 'delete_everything', arguments: {} })
 
-      expect(json).to have_key('error').or satisfy { |body| body.dig('result', 'isError') }
+      expect(json['error']['code']).to eq(-32_602)
+      expect(json['error']['message']).to include('Tool not found: delete_everything')
+      expect(json['error']['message']).to include('search', 'reconnect')
+    end
+
+    it 'answers a real tool call as normal' do
+      rpc(jsonrpc: '2.0', id: 9, method: 'tools/call',
+          params: { name: 'describe_search_options', arguments: { include_facet_values: false } })
+
+      expect(json).not_to have_key('error')
     end
   end
 end

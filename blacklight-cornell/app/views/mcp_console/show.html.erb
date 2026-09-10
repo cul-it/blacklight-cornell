@@ -10,8 +10,11 @@
 <body class="mcp-console">
 <main class="container py-4 py-md-5 mcp-page">
   <p class="mcp-eyebrow text-danger text-uppercase fw-semibold small mb-1">Cornell University Library</p>
-  <h1 class="h3 fw-semibold mb-2">
-    <i class="fa fa-terminal text-body-secondary me-2" aria-hidden="true"></i>Catalog MCP console
+  <h1 class="h3 fw-semibold mb-2 d-flex flex-wrap align-items-baseline gap-2">
+    <span><i class="fa fa-terminal text-body-secondary me-2" aria-hidden="true"></i>Catalog MCP console</span>
+    <%# Which build is answering. A tool you just added and cannot see here means
+        the deploy, not the console. %>
+    <span class="badge text-bg-secondary align-middle">v<%= BlacklightMcp::VERSION %></span>
   </h1>
   <p class="text-body-secondary mb-4 mcp-lede">
     A browser MCP client for <code id="endpoint" class="text-break"></code>. Every control here makes

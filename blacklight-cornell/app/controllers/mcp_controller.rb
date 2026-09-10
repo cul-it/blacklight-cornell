@@ -33,6 +33,7 @@ class McpController < ActionController::API
   PARSE_ERROR = -32_700
   INVALID_REQUEST = -32_600
   METHOD_NOT_FOUND = -32_601
+  INVALID_PARAMS = -32_602
 
   # Anyone who finds this URL can search without logging in, so cap how fast one
   # caller can go. Counts GET as well as POST, since connecting uses both.
@@ -78,6 +79,12 @@ class McpController < ActionController::API
     if rejected.any?
       return render_error(METHOD_NOT_FOUND,
                           "This server is read-only and does not support: #{rejected.uniq.join(', ')}",
+                          id: request_id(payload), status: :not_found)
+    end
+
+    missing = unknown_tools(payload)
+    if missing.any?
+      return render_error(INVALID_PARAMS, unknown_tool_message(missing),
                           id: request_id(payload), status: :not_found)
     end
 
@@ -264,6 +271,34 @@ class McpController < ActionController::API
         rejected << name.to_s if name.present? && !BlacklightMcp::Server.allowed_method?(name)
       end
     end
+  end
+
+  # Tools this server does not have, named by a tools/call.
+  #
+  # The SDK answers these on its own with "Tool not found: x", which is true and
+  # useless: the caller is almost always a client that connected before a tool
+  # was renamed or removed, and it cannot know that because tool lists are read
+  # once, at connect, and this transport is stateless. Saying so here is the one
+  # moment the endpoint can tell a stale client what is actually wrong.
+  def unknown_tools(payload)
+    [].tap do |missing|
+      each_request_object(payload) do |request_object|
+        next unless request_object['method'] == 'tools/call'
+
+        name = request_object.dig('params', 'name').to_s
+        missing << name if name.present? && tool_names.exclude?(name)
+      end
+    end
+  end
+
+  def unknown_tool_message(missing)
+    "Tool not found: #{missing.uniq.join(', ')}. This server offers: #{tool_names.join(', ')}. " \
+      'If you were given a different list of tools, this server has changed since you connected -- ' \
+      'reconnect to it to pick up the tools it has now.'
+  end
+
+  def tool_names
+    BlacklightMcp::Server.tools.map(&:name_value)
   end
 
   def request_id(payload)

@@ -35,7 +35,10 @@ module BlacklightMcp
              choice. Read-only, and no account or key required.</p>
 
           <div class="card bg-body-tertiary mb-4">
-            <div class="card-body py-3 font-monospace text-break">#{escape(url)}</div>
+            <div class="card-body py-3 d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+              <span class="font-monospace text-break">#{escape(url)}</span>
+              <span class="badge text-bg-secondary">v#{escape(BlacklightMcp::VERSION)}</span>
+            </div>
           </div>
 
           <h2 class="mcp-section h6 text-uppercase text-body-secondary fw-semibold mt-5 mb-3">Connecting</h2>
@@ -57,6 +60,7 @@ module BlacklightMcp
           <h2 class="mcp-section h6 text-uppercase text-body-secondary fw-semibold mt-5 mb-3">What your assistant can do with it</h2>
           <ul class="list-group list-group-flush mb-4">#{tool_items}
           </ul>
+          #{reconnect_note}
           #{console_section}
           <p class="small text-body-secondary border-top pt-3 mt-5 mb-0">
              <i class="fa fa-info-circle me-1" aria-hidden="true"></i>This URL speaks the
@@ -66,6 +70,24 @@ module BlacklightMcp
         </main>
         </body>
         </html>
+      HTML
+    end
+
+    # An assistant reads the tool list once, when it connects, and keeps it for
+    # the life of that connection. So this page can list a tool the assistant
+    # in front of you has never heard of, and the fix is always the same:
+    # connect again. Said here because this is where someone looks when their
+    # assistant cannot find a tool the library has announced.
+    def reconnect_note
+      <<-HTML
+          <div class="alert alert-secondary small d-flex gap-2" role="note">
+            <i class="fa fa-refresh mt-1" aria-hidden="true"></i>
+            <div>
+              <span class="fw-semibold">Missing a tool from this list?</span>
+              Your assistant only checks what this endpoint offers when it first connects, so
+              disconnect it and connect again to pick up anything new.
+            </div>
+          </div>
       HTML
     end
 
