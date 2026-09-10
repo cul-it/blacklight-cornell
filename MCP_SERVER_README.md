@@ -20,6 +20,7 @@ A read-only [Model Context Protocol](https://modelcontextprotocol.io) endpoint a
 | `get_record` | `id` | The full record for one id, every stored field |
 | `fetch` | `id` | The same record as readable text -- what ChatGPT deep research expects |
 | `check_availability` | `ids` | Online links, which library holds it, call number, copies on the shelf |
+| `browse_call_numbers` | `call_number` | What is shelved either side of a call number, the way browsing a shelf works |
 
 Start with `describe_search_options` if you are unsure what to ask for.
 
@@ -201,7 +202,7 @@ behaviour live in the asset pipeline, not in the markup:
 | File | What it is |
 | ---- | ---------- |
 | `app/assets/stylesheets/mcp.scss` | bundle for both MCP pages — `cornell/variables`, Bootstrap, Font Awesome, then `mcp/_landing` and `mcp/_console` |
-| `app/assets/javascripts/mcp_console.js` | bundle for the console — `mcp/console.js` |
+| `app/assets/javascripts/mcp_console.js` | bundle for the console — the classes in [`mcp/console/`](blacklight-cornell/app/assets/javascripts/mcp/console/MCP_CONSOLE_README.md) |
 
 Both pages are built from **Bootstrap 5.3 and Font Awesome 4.7**, the same two
 the catalog uses, and the bundle imports `cornell/variables` before Bootstrap
@@ -299,6 +300,11 @@ refuses any request outside `BlacklightMcp::Server::ALLOWED_METHODS`, and runs
 on `ActionController::API` -- no session, no CSRF token, no views. There is no
 code path from any tool to a Solr update.
 
-Code is in `blacklight-cornell/app/mcp/blacklight_mcp/`, specs in
-`blacklight-cornell/spec/mcp/` and
-`blacklight-cornell/spec/requests/mcp_endpoint_spec.rb`.
+Code is in `blacklight-cornell/app/mcp/`, specs in `blacklight-cornell/spec/mcp/`
+and `blacklight-cornell/spec/requests/mcp_endpoint_spec.rb`. Two READMEs cover
+it from the inside:
+
+- [BLACKLIGHT_MCP_README.md](blacklight-cornell/app/mcp/BLACKLIGHT_MCP_README.md)
+  — the server code: what each class does, how a request travels, adding a tool
+- [MCP_CONSOLE_README.md](blacklight-cornell/app/assets/javascripts/mcp/console/MCP_CONSOLE_README.md)
+  — the console's JavaScript

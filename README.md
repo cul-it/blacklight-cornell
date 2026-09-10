@@ -1,11 +1,11 @@
 # Cornell University implementation of Blacklight
 
-## Requirements
+## ⚙️ Requirements
 
 - Docker
 - CUL VPN
 
-## Development Setup
+## 🚧 Development Setup
 
 1. Clone the GitHub repo
 1. Set up your env file in the rails_env/ directory, e.g. at rails_env/.env.dev
@@ -21,7 +21,7 @@ The Blacklight instance should be accessible from:
 
 Refer to [UI Development](https://github.com/cul-it/blacklight-cornell/wiki/UI-Development) for additional information.
 
-## Testing
+## 🧪 Testing
 
 1. Set up your env file in the rails_env/ directory, e.g. at rails_env/.env.test
     - Contact the Library Systems team for access to environment values
@@ -33,11 +33,17 @@ Refer to [UI Development](https://github.com/cul-it/blacklight-cornell/wiki/UI-D
 
 For additional options and a more detailed explanation, refer to [Running Tests](https://github.com/cul-it/blacklight-cornell/wiki/Running-Tests).
 
-## MCP server
+## 🤖 MCP Server
 
 A read-only [Model Context Protocol](https://modelcontextprotocol.io) endpoint at
-`/mcp` lets an AI assistant search the catalog: seven read-only tools, no login,
-rate limited.
+`/mcp` lets an AI assistant search the catalog: eight read-only tools, no login,
+rate limited. There is also a browser client for it at `/mcp/console`, that's on in
+development.
 
-See **[MCP.md](MCP.md)** for the tools, how to connect each assistant, and how it
-works.
+Three READMEs, depending on what you are doing:
+
+| Description                                                                              | Documentation                                                                                                                           |
+|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| **Using it** — the tools, connecting each assistant, limits, the console                 | [MCP_SERVER_README.md](MCP_SERVER_README.md)                                                                                            |
+| **Developing on the MCP server** — the code layout, how a request travels, adding a tool | [app/mcp/BLACKLIGHT_MCP_README.md](blacklight-cornell/app/mcp/BLACKLIGHT_MCP_README.md)                                                 |
+| **MCP Console** — its JavaScript code layout                                             | [app/assets/javascripts/mcp/console/MCP_CONSOLE_README.md](blacklight-cornell/app/assets/javascripts/mcp/console/MCP_CONSOLE_README.md) |

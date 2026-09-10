@@ -8,6 +8,12 @@ Sprockets loads the files through `app/assets/javascripts/mcp_console.js`. The
 order in that manifest matters because these files share the
 `window.McpConsole` namespace.
 
+**This file is about the console's JavaScript.** The other two:
+[BLACKLIGHT_MCP_README.md](../../../../mcp/BLACKLIGHT_MCP_README.md) for the
+server code behind the endpoint it calls, and
+[MCP_SERVER_README.md](../../../../../../MCP_SERVER_README.md) for using the
+endpoint, including what the console is for and how to switch it on.
+
 ## Structure
 
 ```text
@@ -42,7 +48,8 @@ console/
 ## Adding a tool
 
 A new server tool already gets a schema form and JSON result display. No custom
-JavaScript is required.
+JavaScript is required. Adding the tool itself is
+[BLACKLIGHT_MCP_README.md](../../../../mcp/BLACKLIGHT_MCP_README.md).
 
 For custom examples or result markup, update `tools.js`:
 
