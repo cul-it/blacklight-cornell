@@ -51,6 +51,12 @@
             return title ? this.name + ' \u2014 ' + title : this.name;
         }
 
+        // Whether this tool's results are records that could be on a shelf.
+        // The Check availability switch appears only for the tools that say so.
+        get showsAvailability() {
+            return false;
+        }
+
         // Returns examples that can be built from the schema.
         examples() {
             return this.derivedExamples();
@@ -79,7 +85,9 @@
             ];
         }
 
-        // Builds examples with real record IDs.
+        // Builds examples with real record IDs. A hardcoded bib number would
+        // rot the first time the index was rebuilt, so these look one up when
+        // clicked, which is why they say where the id came from.
         recordExamples() {
             if (!this.app.hasTool('search')) {
                 return [];
@@ -295,10 +303,17 @@
             return rec;
         }
 
-        // Adds availability with a background tool call.
+        get showsAvailability() {
+            return this.app.hasTool('check_availability');
+        }
+
+        // Follows the search with check_availability, the way an assistant
+        // would chain them: search says what exists, check_availability says
+        // whether you can walk up and take it. Only when the switch asks for
+        // it, so testing the search endpoint means one request, not two.
         enrich(docs) {
             const ids = docs.map((doc) => String(doc.id)).slice(0, 10);
-            if (!ids.length || !this.app.hasTool('check_availability')) {
+            if (!ids.length || !this.showsAvailability || !this.app.availabilityWanted) {
                 return;
             }
 

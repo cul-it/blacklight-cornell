@@ -286,7 +286,9 @@
         }
     }
 
-    // Loads and caches values from the facet_values tool.
+    // Loads and caches values from the facet_values tool, once per facet per
+    // page load. Asked for by adding a filter row, so it is part of building
+    // the call rather than something the console does behind your back.
     class FacetValueLoader {
         constructor(client) {
             this.client = client;
@@ -350,6 +352,15 @@
             return this.facetValueLoader.load(facet).then((values) => {
                 this.select.innerHTML = '';
                 this.select.disabled = false;
+
+                // Nothing to choose from -- helper calls are off, or the facet
+                // could not be read. Either way a text box beats an empty menu.
+                if (!values.length) {
+                    this.typed.hidden = false;
+                    this.select.hidden = true;
+                    return;
+                }
+
                 this.select.appendChild(new Option('', ''));
 
                 values.forEach((entry) => {

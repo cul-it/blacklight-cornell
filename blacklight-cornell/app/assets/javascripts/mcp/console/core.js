@@ -98,6 +98,8 @@
             this.rawPanel = document.getElementById('raw-wrap');
             this.rawLabel = document.getElementById('raw-label');
             this.rawFormat = document.getElementById('raw-format');
+            this.availability = document.getElementById('availability');
+            this.availabilitySwitch = document.getElementById('availability-switch');
 
             document.getElementById('endpoint').textContent = this.endpoint;
 

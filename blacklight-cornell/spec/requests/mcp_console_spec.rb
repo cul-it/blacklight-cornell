@@ -98,6 +98,15 @@ RSpec.describe 'The MCP console', type: :request do
       expect(response.body).not_to match(/<option[^>]*>(search|get_record|facet_values)</)
     end
 
+    # The console is a place to test one endpoint at a time, so a search calls
+    # check_availability only when you ask it to.
+    it 'offers the availability check, switched off' do
+      get '/mcp/console'
+
+      expect(response.body).to include('id="availability"')
+      expect(response.body).not_to match(/id="availability"[^>]*checked/)
+    end
+
     it 'keeps itself out of search engines' do
       get '/mcp/console'
 
@@ -124,7 +133,7 @@ RSpec.describe 'The MCP console', type: :request do
     # a server-side proxy, so there is only ever one code path to the tools.
     it 'points at this app\'s own MCP endpoint and calls it over JSON-RPC' do
       expect(source).to include("new URL('/mcp', window.location.href)")
-      expect(source).to include("call('tools/list')")
+      expect(source).to include("request('tools/list')")
     end
 
     # The tool list and every form come from the endpoint, so a new tool or a
@@ -133,7 +142,7 @@ RSpec.describe 'The MCP console', type: :request do
     # without one gets the base class, which prints the payload as JSON.
     it 'ships no tool list of its own' do
       expect(source).to include('result.tools')
-      expect(source).to include('Tool.registry[spec.name] || Tool')
+      expect(source).to include('Tool.registry[toolDefinition.name] || Tool')
     end
 
     # Solr field names are exactly what the endpoint stopped advertising; the

@@ -104,6 +104,13 @@
             return this.client.callTool(toolName, toolArguments, options);
         }
 
+        // Whether a search should follow itself with check_availability. Off
+        // by default: a search you ran to test the search endpoint should put
+        // one request in the log, not two.
+        get availabilityWanted() {
+            return !!(this.page.availability && this.page.availability.checked);
+        }
+
         rememberRecordIds(docs) {
             this.recentIds = docs.map((doc) => String(doc.id)).filter(Boolean);
         }
@@ -127,6 +134,12 @@
 
             this.page.tool.value = name;
             this.page.description.textContent = tool.description;
+
+            // Only the tools that show records have anything to check.
+            if (this.page.availabilitySwitch) {
+                this.page.availabilitySwitch.hidden = !tool.showsAvailability;
+            }
+
             this.toolForm.build(tool);
             this.toolExamples.show(tool);
         }
