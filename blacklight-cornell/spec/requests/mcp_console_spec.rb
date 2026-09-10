@@ -10,6 +10,21 @@ RSpec.describe 'The MCP console', type: :request do
     allow(ENV).to receive(:fetch).with('MCP_CONSOLE', '').and_return(setting)
   end
 
+  # The client is a directory of files, assembled by the Sprockets manifest.
+  # Reading it the way Sprockets does means these assertions keep working as
+  # the files are split up further.
+  def client_files
+    manifest = Rails.root.join('app/assets/javascripts/mcp_console.js')
+
+    manifest.read.scan(%r{^//=\s*require\s+(\S+)}).flatten.map do |name|
+      Rails.root.join('app/assets/javascripts', "#{name}.js")
+    end
+  end
+
+  def client_source
+    client_files.map(&:read).join("\n")
+  end
+
   describe 'where it exists' do
     it 'is absent outside development' do
       get '/mcp/console'
@@ -93,22 +108,32 @@ RSpec.describe 'The MCP console', type: :request do
   # These assertions are about the client's source, not about how it is
   # delivered, so they read the asset rather than the page.
   describe 'the client script' do
-    let(:source) { Rails.root.join('app/assets/javascripts/mcp/console.js').read }
+    let(:source) { client_source }
+
+    # Sprockets only ships what the manifest names, and a file left out of it
+    # fails as a missing function at runtime rather than as a missing file.
+    it 'is assembled from every file in the console directory' do
+      root = Rails.root.join('app/assets/javascripts')
+      listed = client_files.map { |path| path.relative_path_from(root).to_s }
+      present = root.glob('mcp/console/**/*.js').map { |path| path.relative_path_from(root).to_s }
+
+      expect(listed).to match_array(present)
+    end
 
     # The page is the client: it talks to /mcp itself rather than going through
     # a server-side proxy, so there is only ever one code path to the tools.
     it 'points at this app\'s own MCP endpoint and calls it over JSON-RPC' do
       expect(source).to include("new URL('/mcp', window.location.href)")
-      expect(source).to include("rpc('tools/list')")
+      expect(source).to include("call('tools/list')")
     end
 
     # The tool list and every form come from the endpoint, so a new tool or a
-    # new argument needs no change here. Result *renderers* are keyed by tool
-    # name on purpose -- an availability card cannot be drawn generically -- and
-    # anything without one falls back to formatted JSON.
+    # new argument needs no change here. A tool *class* is keyed by name on
+    # purpose -- an availability card cannot be drawn generically -- and a tool
+    # without one gets the base class, which prints the payload as JSON.
     it 'ships no tool list of its own' do
       expect(source).to include('result.tools')
-      expect(source).to include('return renderJson(payload);')
+      expect(source).to include('Tool.registry[spec.name] || Tool')
     end
 
     # Solr field names are exactly what the endpoint stopped advertising; the
@@ -120,26 +145,44 @@ RSpec.describe 'The MCP console', type: :request do
 
   # Every tool in the dropdown needs something to click, or the console is only
   # usable by someone who already knows the schema. A tool earns its example
-  # either by being named in the console's own PRESETS, or by taking an argument
-  # the console knows how to fill for itself -- a record id, or a facet name.
+  # either from a class of its own under console/tools, or by taking an argument
+  # the base class knows how to fill for itself -- a record id, or a facet name.
   describe 'try options' do
-    let(:source) { Rails.root.join('app/assets/javascripts/mcp/console.js').read }
-
     # id and ids are filled by looking a record up; field comes from the facet
     # enum the endpoint reports.
     DERIVABLE_ARGUMENTS = %w[id ids field].freeze
 
+    # Which tool names have a class of their own, and whether that class writes
+    # its own examples rather than only drawing results.
+    def tool_classes
+      Rails.root.glob('app/assets/javascripts/mcp/console/tools/*.js').filter_map do |path|
+        source = path.read
+        name = source[/Tool\.register\('([^']+)'/, 1]
+
+        [name, source] if name
+      end.to_h
+    end
+
     it 'offers at least one for every advertised tool' do
+      classes = tool_classes
+
       without = BlacklightMcp::Server.tools.reject do |tool|
-        named = source.match?(/^\s*#{Regexp.escape(tool.name_value)}:\s*\[/)
         arguments = tool.input_schema.to_h[:properties].keys.map(&:to_s)
 
-        named || (arguments & DERIVABLE_ARGUMENTS).any?
+        classes[tool.name_value].to_s.include?('examples()') || (arguments & DERIVABLE_ARGUMENTS).any?
       end
 
       expect(without.map(&:name_value)).to be_empty,
-        "no Try example for: #{without.map(&:name_value).join(', ')}. Add one to PRESETS in " \
-        'app/assets/javascripts/mcp/console.js.'
+        "no Try example for: #{without.map(&:name_value).join(', ')}. Give it an examples() " \
+        'in app/assets/javascripts/mcp/console/tools/, or a class of its own there.'
+    end
+
+    # A class registered under a name the endpoint no longer advertises is dead
+    # code that nothing will ever reach.
+    it 'registers no tool this endpoint does not have' do
+      advertised = BlacklightMcp::Server.tools.map(&:name_value)
+
+      expect(tool_classes.keys - advertised).to be_empty
     end
   end
 
