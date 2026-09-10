@@ -1,16 +1,9 @@
 // The page at /mcp for anyone who pastes the endpoint URL into a browser.
 // Bootstrap does the rest; these are the few things it has no utility for.
 body.mcp-landing {
-  // Narrower than a Bootstrap container: this is a page of prose, and prose
-  // stops being readable past about this width.
-  .mcp-page { max-width: 46rem; }
-
+  .mcp-page    { max-width: 46rem; }
   .mcp-eyebrow { letter-spacing: .08em; }
-
-  // Section headings here are labels rather than titles.
   .mcp-section { letter-spacing: .08em; }
-
-  // A whole command, not a word, so it needs room to breathe and to wrap.
   .mcp-command {
     display: inline-block;
     overflow-wrap: anywhere;

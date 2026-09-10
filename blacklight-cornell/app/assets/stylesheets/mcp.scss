@@ -3,10 +3,6 @@
 // standalone bundle rather than part of application.css -- see aeon.scss for
 // the same pattern.
 //
-// Almost all of it is Bootstrap and Font Awesome, the same two the catalog
-// uses, so these pages look like they belong to the same site. The MCP partials
-// below hold only what Bootstrap has no utility for.
-
 // Follow the reader's system setting rather than a data attribute: these pages
 // have no theme switcher, and Bootstrap emits @media (prefers-color-scheme)
 // blocks when told to. Must come before Bootstrap is imported.

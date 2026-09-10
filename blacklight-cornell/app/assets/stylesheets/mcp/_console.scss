@@ -1,18 +1,11 @@
 // The browser MCP client at /mcp/console.
-// Bootstrap does the rest; these are the few things it has no utility for.
 body.mcp-console {
-  .mcp-page { max-width: 60rem; }
-
-  .mcp-eyebrow { letter-spacing: .08em; }
-
-  .mcp-lede { max-width: 44rem; }
-
-  // Tool descriptions arrive from the endpoint already wrapped into
-  // paragraphs, and that shaping is worth keeping.
+  .mcp-page      { max-width: 60rem; }
+  .mcp-eyebrow   { letter-spacing: .08em; }
+  .mcp-lede      { max-width: 44rem; }
   .mcp-tool-desc { white-space: pre-wrap; }
 
-  // Results are rows inside one card, so the last one should not draw a line
-  // against the card's own edge.
+  // Last result should not draw a line against the card's own edge.
   .mcp-rec:last-child {
     border-bottom: 0 !important;
     padding-bottom: 0 !important;
