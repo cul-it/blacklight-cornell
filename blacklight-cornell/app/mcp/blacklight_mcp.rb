@@ -10,6 +10,14 @@
 module BlacklightMcp
   VERSION = '1.0.0'
 
+  # Where the MCP points to for records links.
+  # MCP_CATALOG_URL allows MCP to link somewhere else
+  CATALOG_URL = 'https://catalog.library.cornell.edu'
+
+  def self.catalog_url
+    ENV.fetch('MCP_CATALOG_URL', CATALOG_URL).to_s.strip.chomp('/').presence || CATALOG_URL
+  end
+
   # MCP Endpoint Switch
   #
   # Set MCP=false in the environment and /mcp, /mcp/console and the discovery

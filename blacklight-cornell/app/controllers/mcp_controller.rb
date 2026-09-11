@@ -140,7 +140,7 @@ class McpController < ActionController::API
   # retaining a session and lets modern clients use self-contained requests.
   def transport
     @transport ||= MCP::Server::Transports::StreamableHTTPTransport.new(
-      BlacklightMcp::Server.build(base_url: request.base_url),
+      BlacklightMcp::Server.build,
       stateless: true,
       serve_subscriptions_listen: false,
       max_request_bytes: MAX_BODY_BYTES,

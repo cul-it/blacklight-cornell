@@ -66,7 +66,7 @@ module BlacklightMcp
              <i class="fa fa-info-circle me-1" aria-hidden="true"></i>This URL speaks the
              <a href="https://modelcontextprotocol.io">Model Context Protocol</a> over POST, so there
              is nothing to browse here. To search the catalog yourself, use
-             <a href="/">the catalog</a>.</p>
+             <a href="#{escape(BlacklightMcp.catalog_url)}">the catalog</a>.</p>
         </main>
         </body>
         </html>

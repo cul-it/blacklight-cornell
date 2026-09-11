@@ -161,15 +161,37 @@ RSpec.describe 'The MCP console', type: :request do
     # enum the endpoint reports.
     DERIVABLE_ARGUMENTS = %w[id ids field].freeze
 
-    # Which tool names have a class of their own, and whether that class writes
-    # its own examples rather than only drawing results.
+    # Which tool names have a class of their own, and what that class says.
+    #
+    # Read out of whatever the manifest lists rather than off a path: these
+    # classes have lived in a directory of one file per tool and in a single
+    # tools.js, and a glob that goes stale silently credits every tool with
+    # nothing, which is a confusing way to fail.
     def tool_classes
-      Rails.root.glob('app/assets/javascripts/mcp/console/tools/*.js').filter_map do |path|
-        source = path.read
-        name = source[/Tool\.register\('([^']+)'/, 1]
+      source = client_source
+      bodies = class_bodies(source)
+      parents = source.scan(/class\s+(\w+)\s+extends\s+(?:App\.)?(\w+)/).to_h
 
-        [name, source] if name
-      end.to_h
+      source.scan(/Tool\.register\(\s*'([^']+)'\s*,\s*(\w+)\s*\)/).to_h.transform_values do |klass|
+        own_and_inherited(klass, bodies, parents)
+      end
+    end
+
+    # A class's body plus its ancestors', so a tool that inherits its examples
+    # counts as having them. The walk stops at the base Tool on purpose: its
+    # examples() is the derived one, which is what this is telling apart.
+    def own_and_inherited(klass, bodies, parents, seen = [])
+      return '' if klass.nil? || klass == 'Tool' || seen.include?(klass)
+
+      bodies[klass].to_s + own_and_inherited(parents[klass], bodies, parents, seen + [klass])
+    end
+
+    # Split at each class declaration, so a question about one tool is not
+    # answered by the next tool's code in the same file.
+    def class_bodies(source)
+      source.split(/^\s*class\s+(\w+)[^\n]*$/).drop(1).each_slice(2).to_h do |name, body|
+        [name, body.to_s]
+      end
     end
 
     it 'offers at least one for every advertised tool' do
@@ -182,8 +204,9 @@ RSpec.describe 'The MCP console', type: :request do
       end
 
       expect(without.map(&:name_value)).to be_empty,
-        "no Try example for: #{without.map(&:name_value).join(', ')}. Give it an examples() " \
-        'in app/assets/javascripts/mcp/console/tools/, or a class of its own there.'
+        "no Try example for: #{without.map(&:name_value).join(', ')}. Give its class an " \
+        'examples() in app/assets/javascripts/mcp/console/, or take an argument the base ' \
+        "class can fill: #{DERIVABLE_ARGUMENTS.join(', ')}."
     end
 
     # A class registered under a name the endpoint no longer advertises is dead

@@ -93,6 +93,7 @@ telling the caller to reconnect.
 | --- | --- | --- |
 | `MCP` | on | `MCP=false` makes `/mcp` and `/mcp/console` 404, as if never added |
 | `MCP_CONSOLE` | development only | `true` anywhere, `false` nowhere |
+| `MCP_CATALOG_URL` | `https://catalog.library.cornell.edu` | where the links in a reply point |
 | `MCP_SOLR_FACETS_DISPLAY` | off | `true` advertises raw Solr facet fields |
 | `MCP_SOLR_TIMEOUT` | 5 | seconds a request waits on Solr |
 | `MCP_SOLR_OPEN_TIMEOUT` | 2 | seconds to open that connection |

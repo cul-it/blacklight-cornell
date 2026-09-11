@@ -170,14 +170,17 @@ RSpec.describe 'The MCP endpoint', type: :request do
       expect(payload['documents'].first).to include('id' => '1', 'title' => 'Batman')
     end
 
-    it 'builds record urls from the requesting host' do
+    # Whatever host answered -- localhost, an integration box, or a domain of
+    # this endpoint's own -- a link has to be one a reader can open.
+    it 'links to the catalog, not to the host that answered' do
       stub_search_runner(response: solr_response(docs: [{ 'id' => '1' }]))
 
       rpc(jsonrpc: '2.0', id: 5, method: 'tools/call',
           params: { name: 'search', arguments: { query: 'x' } })
 
       payload = JSON.parse(json['result']['content'].first['text'])
-      expect(payload['documents'].first['url']).to eq('http://www.example.com/catalog/1')
+      expect(payload['documents'].first['url']).to eq("#{BlacklightMcp::CATALOG_URL}/catalog/1")
+      expect(payload['documents'].first['url']).not_to include('www.example.com')
     end
 
     it 'rejects an argument the tool schema forbids, naming the allowed values' do

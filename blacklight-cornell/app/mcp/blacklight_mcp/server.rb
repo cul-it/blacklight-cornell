@@ -46,7 +46,7 @@ module BlacklightMcp
       ]
     end
 
-    def build(base_url: nil)
+    def build(base_url: BlacklightMcp.catalog_url)
       MCP::Server.new(
         name: NAME,
         title: 'Cornell University Library catalog',
