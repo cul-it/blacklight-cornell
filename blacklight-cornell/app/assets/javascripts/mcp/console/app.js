@@ -9,8 +9,13 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
-    const Dom = App.Dom;
+    // application.js ends with `require_tree .`, which loads this directory
+    // alphabetically -- app, client, core, form, tools -- not in the order the
+    // manifest lists. So every file has to create the namespace rather than
+    // assume an earlier one did, and must not read another file's classes at
+    // load time. (On the console page the manifest order applies and all of
+    // this is moot; it is the catalog pages that see the alphabet.)
+    const App = (window.McpConsole = window.McpConsole || {});
 
     class ToolExamples {
         constructor(app) {
@@ -26,12 +31,12 @@
                 return;
             }
 
-            const hint = Dom.text('span', 'small text-body-secondary me-1', ' Try:');
-            hint.insertBefore(Dom.icon('lightbulb-o'), hint.firstChild);
+            const hint = App.Dom.text('span', 'small text-body-secondary me-1', ' Try:');
+            hint.insertBefore(App.Dom.icon('lightbulb-o'), hint.firstChild);
             this.el.appendChild(hint);
 
             examples.forEach((example) => {
-                const button = Dom.button('btn btn-sm btn-outline-secondary rounded-pill');
+                const button = App.Dom.button('btn btn-sm btn-outline-secondary rounded-pill');
                 button.textContent = example.label;
                 button.addEventListener('click', () => this.apply(example, button));
                 this.el.appendChild(button);
@@ -70,7 +75,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
 
     class ConsoleApp {
         constructor() {
@@ -274,6 +279,16 @@
     }
 
     App.ConsoleApp = ConsoleApp;
-    App.app = new ConsoleApp();
-    App.app.start();
+
+    // Only on the page this is the client for.
+    //
+    // application.js ends with `require_tree .`, so every file in here is also
+    // bundled into every catalog page -- the same as aeon.js and
+    // search_form.js. ConsolePage reads the console's own elements the moment
+    // it is built, so without this check it throws on load everywhere else.
+    // Whatever else these files grow, they have to stay inert off this page.
+    if (document.getElementById('tool')) {
+        App.app = new ConsoleApp();
+        App.app.start();
+    }
 })();

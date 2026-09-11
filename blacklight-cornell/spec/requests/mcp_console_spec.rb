@@ -129,6 +129,30 @@ RSpec.describe 'The MCP console', type: :request do
       expect(listed).to match_array(present)
     end
 
+    # application.js ends with `require_tree .`, so these files are also loaded
+    # into every catalog page -- alphabetically, not in manifest order. A file
+    # that assumes an earlier one made the namespace throws on the first line
+    # of the first file, which breaks javascript on every page of the site.
+    it 'makes its own namespace in every file, whatever the load order' do
+      client_files.each do |path|
+        expect(path.read).to include('window.McpConsole = window.McpConsole || {}'),
+          "#{path.basename} must create the namespace, not assume it: " \
+          'require_tree loads app.js before core.js.'
+      end
+    end
+
+    # Same reason: a class from another file, read while this one loads, is not
+    # there yet under alphabetical order. Reading it inside a method is fine.
+    it 'reads no other file\'s classes at load time' do
+      offenders = client_files.reject do |path|
+        head = path.read[/\A.*?(?=\n    (?:class|\/\/ ---))/m].to_s
+
+        head.scan(/App\.\w+/).all? { |ref| ref == 'App.Dom' && path.basename.to_s != 'app.js' }
+      end
+
+      expect(offenders.map { |path| path.basename.to_s }).to be_empty
+    end
+
     # The page is the client: it talks to /mcp itself rather than going through
     # a server-side proxy, so there is only ever one code path to the tools.
     it 'points at this app\'s own MCP endpoint and calls it over JSON-RPC' do

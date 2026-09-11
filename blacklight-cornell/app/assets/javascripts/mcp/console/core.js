@@ -133,7 +133,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
 
     class UrlState {
         save(toolName, toolArguments) {

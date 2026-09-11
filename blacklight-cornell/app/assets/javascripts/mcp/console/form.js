@@ -9,7 +9,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     class Widget {
@@ -119,7 +119,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     class SimpleWidget extends App.Widget {
@@ -269,7 +269,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     // Reads the allowed facets from an argument schema.
@@ -408,7 +408,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     // Handles an argument tied to one facet, such as formats.
@@ -527,7 +527,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     function yearInput(placeholder) {
@@ -634,7 +634,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     const OP_LABELS = {
@@ -750,7 +750,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     class ToolForm {

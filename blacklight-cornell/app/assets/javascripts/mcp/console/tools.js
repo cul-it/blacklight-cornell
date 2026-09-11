@@ -9,7 +9,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     class Tool {
@@ -219,7 +219,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     class SearchTool extends App.Tool {
@@ -339,7 +339,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
 
     class AdvancedSearchTool extends App.SearchTool {
         examples() {
@@ -370,7 +370,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     class FacetValuesTool extends App.Tool {
@@ -404,7 +404,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     class CheckAvailabilityTool extends App.Tool {
@@ -472,7 +472,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
     const Dom = App.Dom;
 
     class FetchTool extends App.Tool {
@@ -519,7 +519,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
 
     class GetRecordTool extends App.FetchTool {
     }
@@ -532,7 +532,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
 
     class BrowseCallNumbersTool extends App.Tool {
         examples() {
@@ -557,7 +557,7 @@
 (function () {
     'use strict';
 
-    const App = window.McpConsole;
+    const App = (window.McpConsole = window.McpConsole || {});
 
     class DescribeSearchOptionsTool extends App.Tool {
         examples() {
