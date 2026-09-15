@@ -8,7 +8,7 @@
 # the catalog's normal search code. So an MCP search and the same search typed
 # into the website give the same results, and they can't drift apart.
 module BlacklightMcp
-  VERSION = '1.0.0'
+  VERSION = '1.0.1'
 
   # Where the MCP points to for records links.
   # MCP_CATALOG_URL allows MCP to link somewhere else
