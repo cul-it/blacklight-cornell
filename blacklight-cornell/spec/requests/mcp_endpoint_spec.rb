@@ -63,7 +63,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq('text/html')
-      expect(response.body).to include('inside your AI assistant', 'claude mcp add')
+      expect(response.body).to include("Search the library catalog with your AI assistant", 'claude mcp add')
     end
 
     it 'lists the live tools on that page, so it cannot go stale' do

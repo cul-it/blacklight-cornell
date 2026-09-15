@@ -51,8 +51,8 @@ module BlacklightMcp
     # ------------------------------------------------------------------------
     def header(url)
       <<-HTML
-          <p class="mcp-eyebrow text-danger text-uppercase fw-semibold small mb-1">Cornell University Library</p>
-          <h1 class="display-6 fw-semibold mb-3">The library catalog, inside your AI assistant</h1>
+          <h1 class="text-danger display-2 fs-3 fw-semibold mb-2">Cornell University Library</h1>
+          <h1 class="fw-semibold mb-3">Search the library catalog with your AI assistant</h1>
           <p class="lead text-body-secondary mb-1">Connect once, then ask questions in plain English. </p>
             <p class="lead text-body-secondary mb-4">Your AI assistant can then search the catalog for you. No library account or login needed.</p>
 
