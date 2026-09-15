@@ -33,10 +33,18 @@ module BlacklightMcp
         <body class="mcp-landing">
         <main class="container py-4 py-md-5 mcp-page">
           #{header(url)}
-          #{connect_section(url)}
-          #{tools_section}
-          #{walkthrough_section}
-          #{tips_section}
+          <section class="bg-body-secondary border rounded-4 p-3 p-md-4 mb-4" aria-labelledby="mcp-section-1">
+            #{connect_section(url)}
+          </section>
+          <section class="bg-body-secondary border rounded-4 p-3 p-md-4 mb-4" aria-labelledby="mcp-section-2">
+            #{tools_section}
+          </section>
+          <section class="bg-body-secondary border rounded-4 p-3 p-md-4 mb-4" aria-labelledby="mcp-section-3">
+            #{walkthrough_section}
+          </section>
+          <section class="bg-body-secondary border rounded-4 p-3 p-md-4 mb-4" aria-labelledby="mcp-section-4">
+            #{tips_section}
+          </section>
           #{console_section}
           #{footer}
         </main>
@@ -56,7 +64,7 @@ module BlacklightMcp
           <p class="lead text-body-secondary mb-1">Connect once, then ask questions in plain English. </p>
             <p class="lead text-body-secondary mb-4">Your AI assistant can then search the catalog for you. No library account or login needed.</p>
 
-          <div class="card bg-body-tertiary border-0 shadow-sm mb-4">
+          <div class="card bg-body-secondary border-0 shadow-sm mb-4">
             <div class="card-body py-3">
               <p class="small text-uppercase fw-semibold text-body-secondary mb-2">Your connection URL</p>
               <div class="d-flex flex-wrap align-items-center gap-2">
@@ -64,8 +72,27 @@ module BlacklightMcp
                 #{copy_button('endpoint-url', 'Copy URL')}
                 <span class="badge text-bg-secondary" title="Server version">v#{escape(BlacklightMcp::VERSION)}</span>
               </div>
+              #{tool_list}
             </div>
           </div>
+      HTML
+    end
+
+    # A compact reference, populated from the same registry as the server.
+    # Native disclosure keeps it keyboard-accessible without extra JavaScript.
+    def tool_list
+      items = Server.tools.map do |tool|
+        description = TOOL_GUIDE.fetch(tool.name_value, {})[:title] || tool.annotations.title
+
+        "<li class=\"list-group-item py-2\"><code class=\"text-break\">#{escape(tool.name_value)}</code>" \
+          " <span class=\"small text-body-secondary\">&mdash; #{escape(description)}</span></li>"
+      end.join
+
+      <<-HTML
+              <details class="mt-3">
+                <summary class="btn btn-outline-secondary"><i class="fa fa-list-ul me-1" aria-hidden="true"></i>MCP Tool List</summary>
+                <ul class="list-group mt-3" aria-label="Available MCP tools">#{items}</ul>
+              </details>
       HTML
     end
 
@@ -86,7 +113,7 @@ module BlacklightMcp
     def connect_section(url)
       <<-HTML
           #{section_heading('1', 'Connect it to your AI assistant', 'Choose your AI assistant for setup instructions.')}
-          <div class="mcp-picker mb-5">
+          <div class="mcp-picker">
             <div class="d-flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Your AI assistant">#{assistant_pills}
             </div>
             #{assistant_panel('claude', claude_steps(url))}
@@ -230,7 +257,7 @@ module BlacklightMcp
           #{section_heading('2', 'Ask in plain English',
                             'You never have to name a tool. Ask a question and your assistant picks the right one. ' \
                             'Here is everything it can do for you, with things you could say to get there.')}
-          <div class="row g-3 mb-5">#{tool_cards}
+          <div class="row g-3">#{tool_cards}
           </div>
       HTML
     end
@@ -292,7 +319,7 @@ module BlacklightMcp
     def walkthrough_section
       <<-HTML
           #{section_heading('3', 'Put it together', 'One question can set off several tools. Here is what that looks like.')}
-          <div class="card mb-5 border-danger-subtle">
+          <div class="card">
             <div class="card-body">
               <p class="mcp-prompt mb-4 fs-6">
                 <i class="fa fa-comment-o text-body-secondary me-2" aria-hidden="true"></i>&ldquo;I&rsquo;m writing a paper on
@@ -354,7 +381,7 @@ module BlacklightMcp
     def tip(glyph, title, body)
       <<-HTML
             <div class="col-md-6 d-flex">
-              <div class="d-flex gap-3 p-3 rounded-3 bg-body-tertiary w-100">
+              <div class="d-flex gap-3 p-3 border rounded-3 bg-body w-100">
                 <i class="fa fa-#{glyph} fa-lg text-danger mt-1" aria-hidden="true"></i>
                 <div>
                   <p class="fw-semibold mb-1">#{escape(title)}</p>
@@ -372,7 +399,7 @@ module BlacklightMcp
     # assistant cannot find a tool the library has announced.
     def reconnect_note
       <<-HTML
-          <div class="alert alert-secondary small d-flex gap-2" role="note">
+          <div class="alert alert-secondary small d-flex gap-2 mb-0" role="note">
             <i class="fa fa-refresh mt-1" aria-hidden="true"></i>
             <div>
               <span class="fw-semibold">Missing a tool from this list?</span>
@@ -418,10 +445,10 @@ module BlacklightMcp
       lede_html = lede ? "<p class=\"text-body-secondary mb-0\">#{escape(lede)}</p>" : ''
 
       <<-HTML
-          <div class="d-flex align-items-start gap-3 mb-3">
+          <div class="d-flex align-items-start gap-3 mb-4">
             <span class="mcp-step badge rounded-pill text-bg-danger fs-6 flex-shrink-0" aria-hidden="true">#{escape(number)}</span>
             <div>
-              <h2 class="h4 fw-semibold mb-1">#{escape(title)}</h2>
+              <h2 class="h4 fw-semibold mb-1" id="mcp-section-#{escape(number)}">#{escape(title)}</h2>
               #{lede_html}
             </div>
           </div>
