@@ -255,7 +255,7 @@ RSpec.describe 'The MCP console', type: :request do
       console('true')
       get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
 
-      expect(response.body).to include('/mcp/console', 'Try it here')
+      expect(response.body).to include('/mcp/console', 'Open the MCP console')
     end
 
     it 'does not link to a console that is not there' do

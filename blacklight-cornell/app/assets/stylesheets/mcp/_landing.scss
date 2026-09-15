@@ -1,11 +1,43 @@
 // The page at /mcp for anyone who pastes the endpoint URL into a browser.
 // Bootstrap does the rest; these are the few things it has no utility for.
 body.mcp-landing {
-  .mcp-page    { max-width: 46rem; }
+  .mcp-page    { max-width: 62rem; }
   .mcp-eyebrow { letter-spacing: .08em; }
-  .mcp-section { letter-spacing: .08em; }
+
   .mcp-command {
     display: inline-block;
     overflow-wrap: anywhere;
+    color: var(--bs-body-color);
+  }
+
+  // The numbered section markers: a circle the same height as the heading
+  // beside it, so the number reads as part of the title rather than a tag.
+  .mcp-step {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: .1rem;
+  }
+
+  // A tool's glyph in a soft tile, so the eight cards scan as a set.
+  .mcp-tool-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+  }
+
+  // An example thing to say, styled as a message so it reads as words to type
+  // rather than as a command.
+  .mcp-prompt {
+    background: var(--bs-tertiary-bg);
+    border-left: 3px solid var(--bs-danger);
+    border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
+    padding: .5rem .75rem;
+    font-size: .925rem;
   }
 }

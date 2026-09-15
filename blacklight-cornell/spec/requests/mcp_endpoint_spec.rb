@@ -63,7 +63,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq('text/html')
-      expect(response.body).to include('Catalog MCP endpoint', 'claude mcp add')
+      expect(response.body).to include('inside your AI assistant', 'claude mcp add')
     end
 
     it 'lists the live tools on that page, so it cannot go stale' do
@@ -83,6 +83,80 @@ RSpec.describe 'The MCP endpoint', type: :request do
 
       expect(response.body).to include("v#{BlacklightMcp::VERSION}")
       expect(response.body).to include('connect again to pick up anything new')
+    end
+
+    # Most people who land here are students who have never heard of MCP. The
+    # tool names mean nothing to them; something they could actually type does.
+    describe 'the guide for students' do
+      let(:guide) { BlacklightMcp::LandingPage::TOOL_GUIDE }
+
+      it 'has words and example prompts for every tool the endpoint offers' do
+        BlacklightMcp::Server.tools.each do |tool|
+          expect(guide).to have_key(tool.name_value), "no TOOL_GUIDE entry for #{tool.name_value}"
+          expect(guide[tool.name_value][:prompts]).to be_present
+        end
+      end
+
+      it 'shows each example prompt as something to say' do
+        get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+        guide.values.flat_map { |entry| entry[:prompts] }.each do |prompt|
+          expect(response.body).to include(ERB::Util.html_escape(prompt))
+        end
+      end
+
+      # A student wants the steps for the assistant they have, not a survey of
+      # all of them. One pill per assistant, and each pill has a panel.
+      it 'lets the reader pick their assistant and get its own steps' do
+        get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+        BlacklightMcp::LandingPage::ASSISTANTS.each do |assistant|
+          expect(response.body).to include("id=\"pick-#{assistant[:key]}\"", "id=\"assistant-#{assistant[:key]}\"")
+        end
+        expect(response.body).to include('Claude', 'ChatGPT', 'Gemini', 'Something else')
+      end
+
+      it 'gives the exact command for each terminal assistant' do
+        get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+        %w[claude codex gemini].each do |cli|
+          expect(response.body).to match(%r{#{cli} mcp add .*cornell-library-catalog.*http://www\.example\.com/mcp})
+        end
+      end
+
+      it 'does not link prompts anywhere; they are words to say, not buttons' do
+        get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+        expect(response.body).not_to include('Try it', "#{BlacklightMcp::Console::PATH}#")
+      end
+
+      it 'walks through one question that uses several tools in turn' do
+        get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+        expect(response.body).to include('Put it together', '1918 flu')
+        %w[search check_availability browse_call_numbers].each do |tool|
+          expect(response.body).to include("<code>#{tool}</code>")
+        end
+      end
+
+      # Students, not developers, read this page: no protocol talk, and the
+      # tips point at the record page for anything the assistant cannot do.
+      it 'speaks to a student, not a developer' do
+        get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+        expect(response.body).to include('Same catalog, same results', 'place a hold')
+        expect(response.body).not_to match(/read-only|JSON-RPC|endpoint URL|OAuth/i)
+      end
+
+      context 'when the console is off' do
+        before { allow(BlacklightMcp::Console).to receive(:enabled?).and_return(false) }
+
+        it 'links nothing to it' do
+          get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+          expect(response.body).not_to include(BlacklightMcp::Console::PATH)
+        end
+      end
     end
 
     it 'keeps the protocol response for a client that also accepts html' do
