@@ -53,8 +53,8 @@ module BlacklightMcp
       <<-HTML
           <p class="mcp-eyebrow text-danger text-uppercase fw-semibold small mb-1">Cornell University Library</p>
           <h1 class="display-6 fw-semibold mb-3">The library catalog, inside your AI assistant</h1>
-          <p class="lead text-body-secondary mb-4">Connect once, then ask questions in plain English &mdash;
-             your assistant searches the catalog for you. No account or login needed.</p>
+          <p class="lead text-body-secondary mb-1">Connect once, then ask questions in plain English. </p>
+            <p class="lead text-body-secondary mb-4">Your AI assistant can then search the catalog for you. No library account or login needed.</p>
 
           <div class="card bg-body-tertiary border-0 shadow-sm mb-4">
             <div class="card-body py-3">
@@ -85,7 +85,7 @@ module BlacklightMcp
 
     def connect_section(url)
       <<-HTML
-          #{section_heading('1', 'Connect it to your assistant', 'Takes about two minutes. Which assistant do you use?')}
+          #{section_heading('1', 'Connect it to your AI assistant', 'Choose your AI assistant for setup instructions.')}
           <div class="mcp-picker mb-5">
             <div class="d-flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Your AI assistant">#{assistant_pills}
             </div>
@@ -103,15 +103,15 @@ module BlacklightMcp
 
         "\n              <input type=\"radio\" class=\"btn-check\" name=\"assistant\" " \
           "id=\"pick-#{assistant[:key]}\" value=\"#{assistant[:key]}\" autocomplete=\"off\"#{checked}>" \
-          "\n              <label class=\"btn btn-outline-danger\" for=\"pick-#{assistant[:key]}\">" \
+          "\n              <label class=\"btn btn-outline-danger rounded-pill px-3\" for=\"pick-#{assistant[:key]}\">" \
           "<i class=\"fa fa-#{assistant[:icon]} me-2\" aria-hidden=\"true\"></i>#{escape(assistant[:label])}</label>"
       end.join
     end
 
     def assistant_panel(key, body)
       <<-HTML
-            <div class="card mcp-assistant" id="assistant-#{key}" data-assistant="#{key}">
-              <div class="card-body">
+            <div class="card rounded-3 shadow-sm mcp-assistant" id="assistant-#{key}" data-assistant="#{key}">
+              <div class="card-body p-3 p-md-4">
 #{body}
               </div>
             </div>
@@ -123,17 +123,21 @@ module BlacklightMcp
                 <div class="row g-4">
                   <div class="col-md-6">
                     <h3 class="h6 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>Claude app or claude.ai</h3>
-                    <ol class="ps-3 mb-0 small">
-                      <li class="mb-2">Open <span class="fw-semibold">Settings &rarr; Connectors</span>.</li>
-                      <li class="mb-2">Choose <span class="fw-semibold">Add custom connector</span>.</li>
-                      <li class="mb-2">Name it <span class="fw-semibold">Cornell Library Catalog</span> and paste the URL above.</li>
-                      <li>Start a new chat. Claude can now search the catalog.</li>
+                    <ol class="ps-3 mb-3 small">
+                      <li class="mb-2">Open <span class="fw-semibold">Customize &rarr; Connectors</span>.</li>
+                      <li class="mb-2">Choose <span class="fw-semibold">+ &rarr; Add custom connector</span>.</li>
+                      <li class="mb-2">Paste the URL above and click <span class="fw-semibold">Add</span>.</li>
+                      <li>In a chat, open <span class="fw-semibold">+ &rarr; Connectors</span> and enable the catalog.</li>
                     </ol>
+                    <p class="small text-body-secondary mb-2">On Team and Enterprise plans, an organization owner must add
+                       the connector first. Free accounts are limited to one custom connector.</p>
+                    <a class="small" href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Claude setup guide</a>
                   </div>
                   <div class="col-md-6">
                     <h3 class="h6 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Claude Code</h3>
-                    <p class="small mb-2">Run this once in your terminal:</p>
-                    #{command_block('claude-code-command', "claude mcp add --transport http cornell-library-catalog #{url}")}
+                    <p class="small mb-2">With Claude Code installed, run this once for all your projects:</p>
+                    #{command_block('claude-code-command', "claude mcp add --transport http --scope user cornell-library-catalog #{url}")}
+                    <a class="small" href="https://code.claude.com/docs/en/mcp">Claude Code setup guide</a>
                   </div>
                 </div>
       HTML
@@ -144,21 +148,23 @@ module BlacklightMcp
                 <div class="row g-4">
                   <div class="col-md-6">
                     <h3 class="h6 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>ChatGPT</h3>
-                    <ol class="ps-3 mb-2 small">
-                      <li class="mb-2">Open <span class="fw-semibold">Settings &rarr; Connectors</span>.</li>
-                      <li class="mb-2">Choose <span class="fw-semibold">Create</span> to add a custom connector. If you do not see it,
-                          turn on <span class="fw-semibold">Developer mode</span> under Advanced first.</li>
-                      <li class="mb-2">Name it <span class="fw-semibold">Cornell Library Catalog</span>, paste the URL above, and set
-                          authentication to <span class="fw-semibold">none</span>.</li>
-                      <li>In a new chat, turn the connector on and ask away.</li>
+                    <ol class="ps-3 mb-3 small">
+                      <li class="mb-2">Open <span class="fw-semibold">Settings &rarr; Security and login</span> and enable
+                          <span class="fw-semibold">Developer mode</span>.</li>
+                      <li class="mb-2">Open <span class="fw-semibold">Plugins</span> and select <span class="fw-semibold">+</span>.</li>
+                      <li class="mb-2">Enter a name such as <span class="fw-semibold">Cornell Library Catalog</span> and a description.
+                          Under <span class="fw-semibold">Connection</span>, enter the URL above. No catalog authentication is required.</li>
+                      <li class="mb-2">Create the connection and review the discovered tools.</li>
+                      <li>In a new chat, add the connection from the tools menu.</li>
                     </ol>
-                    <p class="small text-body-secondary mb-0">Custom connectors are not available on every ChatGPT plan.
-                       If the Create button is missing, that is why.</p>
+                    <p class="small text-body-secondary mb-2">Developer mode availability depends on your account and workspace policy.</p>
+                    <a class="small" href="https://developers.openai.com/plugins/deploy/connect-chatgpt">ChatGPT setup guide</a>
                   </div>
                   <div class="col-md-6">
                     <h3 class="h6 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Codex</h3>
-                    <p class="small mb-2">Run this once in your terminal:</p>
+                    <p class="small mb-2">With the Codex CLI installed, run this once in your terminal:</p>
                     #{command_block('codex-command', "codex mcp add cornell-library-catalog --url #{url}")}
+                    <a class="small" href="https://learn.chatgpt.com/docs/extend/mcp?surface=cli">Codex setup guide</a>
                   </div>
                 </div>
       HTML
@@ -169,16 +175,23 @@ module BlacklightMcp
                 <div class="row g-4">
                   <div class="col-md-6">
                     <h3 class="h6 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Gemini CLI</h3>
-                    <p class="small mb-2">Run this once in your terminal:</p>
-                    #{command_block('gemini-command', "gemini mcp add --transport http cornell-library-catalog #{url}")}
+                    <p class="small mb-2">With Gemini CLI installed, run this once for all your projects:</p>
+                    #{command_block('gemini-command', "gemini mcp add --transport http --scope user cornell-library-catalog #{url}")}
+                    <a class="small" href="https://geminicli.com/docs/tools/mcp-server/">Gemini CLI setup guide</a>
                   </div>
                   <div class="col-md-6">
                     <h3 class="h6 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>Gemini app</h3>
-                    <p class="small mb-2">Look in <span class="fw-semibold">Settings</span> for
-                       <span class="fw-semibold">Connectors</span>, <span class="fw-semibold">Extensions</span> or
-                       <span class="fw-semibold">MCP servers</span>, and add the URL above there.</p>
-                    <p class="small text-body-secondary mb-0">Not every version of the Gemini app can add a custom
-                       connector yet. If yours cannot, the Gemini CLI can.</p>
+                    <ol class="ps-3 mb-3 small">
+                      <li class="mb-2">On <span class="fw-semibold">gemini.google.com</span>, open
+                          <span class="fw-semibold">Settings &rarr; Connected Apps</span> (this may be under
+                          <span class="fw-semibold">Personal Intelligence</span>).</li>
+                      <li class="mb-2">Under <span class="fw-semibold">Custom apps</span>, add the URL above.</li>
+                      <li>Click <span class="fw-semibold">Next</span> and follow the prompts. In a chat, type
+                          <span class="fw-semibold">@</span> to select the app.</li>
+                    </ol>
+                    <p class="small text-body-secondary mb-2">Requires a personal Google Account, age 18+, US location,
+                       and Keep Activity enabled. Work and school accounts are not currently supported.</p>
+                    <a class="small" href="https://support.google.com/gemini/answer/17209137">Gemini app setup guide</a>
                   </div>
                 </div>
       HTML
@@ -186,18 +199,25 @@ module BlacklightMcp
 
     def other_steps
       <<-HTML
-                <h3 class="h6 fw-semibold mb-3"><i class="fa fa-globe text-danger me-2" aria-hidden="true"></i>Any assistant that supports MCP</h3>
-                <p class="small mb-2">Cursor, Copilot, Perplexity, Zed, Windsurf and many others can connect to
-                   <span class="fw-semibold">MCP servers</span> or <span class="fw-semibold">connectors</span>. Find that setting,
-                   choose to add a <span class="fw-semibold">remote</span> one, and paste the URL above.</p>
+                <h3 class="h6 fw-semibold mb-3"><i class="fa fa-globe text-danger me-2" aria-hidden="true"></i>Assistants that support remote MCP</h3>
+                <p class="small mb-3">Follow your assistant's instructions for adding a custom remote MCP server.
+                   Paste the URL above, choose <span class="fw-semibold">Streamable HTTP</span> if asked for a transport,
+                   and choose <span class="fw-semibold">None</span> for authentication.</p>
+                <p class="small text-body-secondary mb-2">Setup and availability vary by assistant and account.</p>
+                <div class="d-flex flex-wrap gap-3 small">
+                  <a href="https://cursor.com/docs/mcp">Cursor setup guide</a>
+                  <a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">GitHub Copilot in VS Code setup guide</a>
+                  <a href="https://www.perplexity.ai/help-center/en/articles/13915507-adding-custom-remote-connectors">Perplexity setup guide</a>
+                </div>
       HTML
     end
 
     # A terminal command with its own copy button, on one line the reader can
     # select whole.
     def command_block(id, command)
-      "<code class=\"mcp-command small bg-body-tertiary border rounded px-2 py-1 d-block mb-2\" id=\"#{escape(id)}\">#{escape(command)}</code>\n" \
-        "                    #{copy_button(id, 'Copy command', size: 'sm')}"
+      "<div class=\"bg-body-tertiary border rounded-3 p-3 mb-3\">" \
+        "<code class=\"mcp-command small d-block mb-3\" id=\"#{escape(id)}\">#{escape(command)}</code>\n" \
+        "                    #{copy_button(id, 'Copy command', size: 'sm')}</div>"
     end
 
     # ------------------------------------------------------------------------
