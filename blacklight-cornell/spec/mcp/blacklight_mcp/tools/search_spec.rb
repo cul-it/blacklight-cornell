@@ -103,6 +103,47 @@ RSpec.describe BlacklightMcp::Tools::Search do
       end
     end
 
+    # Solr failures reach the assistant as a tool error it can act on, never as
+    # an exception that takes the whole request down.
+    describe 'when Solr fails' do
+      def failing_runner(error)
+        runner = instance_double(BlacklightMcp::SearchRunner)
+        allow(runner).to receive(:search_results).and_raise(error)
+        allow(BlacklightMcp::SearchRunner).to receive(:new).and_return(runner)
+        allow(Rails.logger).to receive(:warn)
+      end
+
+      it 'says a rejected query could not be run, and logs why' do
+        failing_runner(Blacklight::Exceptions::InvalidRequest.new('undefined field nope'))
+
+        expect(tool_error(described_class, query: 'x')).to match(/could not run that search/)
+        expect(Rails.logger).to have_received(:warn).with('[mcp] solr rejected request: undefined field nope')
+      end
+
+      it 'treats an HTTP error from Solr the same way' do
+        failing_runner(RSolr::Error::Http.new({ uri: URI('http://solr.example/select') },
+                                              { status: 400, body: +'bad request' }))
+
+        expect(tool_error(described_class, query: 'x')).to match(/could not run that search/)
+      end
+
+      # Only the class name is logged: the message carries the Solr URL, and
+      # that URL carries credentials.
+      it 'says the catalog took too long, logging the class and not the connection' do
+        failing_runner(Blacklight::Exceptions::RepositoryTimeout.new('http://user:secret@solr.example'))
+
+        expect(tool_error(described_class, query: 'x')).to match(/took too long to answer/)
+        expect(Rails.logger).to have_received(:warn).with('[mcp] solr unavailable: Blacklight::Exceptions::RepositoryTimeout')
+        expect(Rails.logger).not_to have_received(:warn).with(/secret/)
+      end
+
+      it 'treats a refused connection as the catalog being unavailable' do
+        failing_runner(Blacklight::Exceptions::ECONNREFUSED)
+
+        expect(tool_error(described_class, query: 'x')).to match(/took too long to answer/)
+      end
+    end
+
     describe 'invalid arguments' do
       before { stub_search_runner }
 

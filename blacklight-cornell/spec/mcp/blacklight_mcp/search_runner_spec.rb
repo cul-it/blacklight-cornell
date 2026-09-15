@@ -30,6 +30,56 @@ RSpec.describe BlacklightMcp::SearchRunner do
     end
   end
 
+  describe '#search_results' do
+    it "runs the search through the catalog's own search service" do
+      service = instance_double(Blacklight::SearchService)
+      runner = described_class.new(q: 'cats')
+      allow(runner).to receive(:search_service).and_return(service)
+      response = solr_response
+
+      expect(service).to receive(:search_results).and_return(response)
+
+      expect(runner.search_results).to be(response)
+    end
+  end
+
+  describe '#document' do
+    let(:service) { instance_double(Blacklight::SearchService) }
+    let(:runner) { described_class.new({}) }
+
+    before { allow(runner).to receive(:search_service).and_return(service) }
+
+    it 'fetches one record by id, as a string' do
+      document = SolrDocument.new('id' => '7')
+      expect(service).to receive(:fetch).with('7').and_return(document)
+
+      expect(runner.document(7)).to be(document)
+    end
+
+    # The tools turn NotFound into a message the assistant can act on;
+    # Blacklight's own exception would surface as a hard failure instead.
+    it 'reports a missing record as NotFound, naming the id' do
+      allow(service).to receive(:fetch).and_raise(Blacklight::Exceptions::RecordNotFound)
+
+      expect { runner.document('nope') }
+        .to raise_error(BlacklightMcp::NotFound, 'No catalog record found with id "nope"')
+    end
+  end
+
+  describe '#facet_results' do
+    it 'asks for the whole facet, passing any extra Solr params through' do
+      service = instance_double(Blacklight::SearchService)
+      runner = described_class.new({})
+      allow(runner).to receive(:search_service).and_return(service)
+      response = solr_response
+
+      expect(service).to receive(:facet_field_response)
+        .with('format', { 'facet.prefix' => 'B' }).and_return(response)
+
+      expect(runner.facet_results('format', 'facet.prefix' => 'B')).to be(response)
+    end
+  end
+
   describe 'Solr timeouts' do
     # Shorter than the website's on purpose: an MCP client retries, and a slow
     # query holding a Puma thread is how MCP traffic starves the catalog.

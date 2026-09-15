@@ -132,6 +132,13 @@ RSpec.describe BlacklightMcp::Tools::BrowseCallNumbers do
         .to match(/direction must be one of/)
     end
 
+    it 'passes a limit inside the cap through, as a whole number' do
+      captured = stub_browse
+      tool_payload(described_class, call_number: 'PS3561', limit: '25')
+
+      expect(captured[:limit]).to eq(25)
+    end
+
     it 'caps how much shelf one call can ask for' do
       stub_browse
       over = BlacklightMcp::CallNumberBrowse::MAX_LIMIT + 1

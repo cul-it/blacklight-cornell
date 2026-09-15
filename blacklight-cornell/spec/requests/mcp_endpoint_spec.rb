@@ -250,6 +250,33 @@ RSpec.describe 'The MCP endpoint', type: :request do
     end
   end
 
+  # The SDK refuses a request whose Host header is not on this list (loopback
+  # is always allowed). Deployed catalog hosts live under Cornell Library's DNS
+  # zone; anything else gets an empty list and is turned away.
+  describe 'allowed hosts' do
+    def allowed_hosts_for(host)
+      controller = McpController.new
+      controller.request = ActionDispatch::TestRequest.create('HTTP_HOST' => host)
+      controller.send(:allowed_hosts)
+    end
+
+    it 'allows whatever host Rails uses in tests' do
+      expect(allowed_hosts_for('www.example.com')).to eq(['www.example.com'])
+    end
+
+    context 'outside the test environment' do
+      before { allow(Rails.env).to receive(:test?).and_return(false) }
+
+      it 'allows a catalog host under library.cornell.edu, case-insensitively' do
+        expect(allowed_hosts_for('Catalog.Library.Cornell.edu')).to eq(['catalog.library.cornell.edu'])
+      end
+
+      it 'allows nothing for any other host' do
+        expect(allowed_hosts_for('catalog.example.org')).to eq([])
+      end
+    end
+  end
+
   describe 'request logging' do
     # This summary is what shows up in the development log in place of the raw
     # `Parameters:` line, so its exact wording is worth pinning down. #summarize

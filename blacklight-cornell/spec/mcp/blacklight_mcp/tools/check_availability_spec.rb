@@ -61,6 +61,52 @@ RSpec.describe BlacklightMcp::Tools::CheckAvailability do
       expect(record['summary']).to include('none on the shelf right now', 'Checked out')
     end
 
+    # A holding the indexer wrote without a location still has a status to
+    # report; the summary just has nowhere to say "held at".
+    it 'reports the status without a place when the holding names no library' do
+      nowhere = { 'h1' => { 'call' => 'PS3561 .N48', 'active' => true } }.to_json
+      out = { 'h1' => [{ 'id' => 'i1', 'status' => { 'status' => 'Checked out' } }] }.to_json
+      stub_search_runner(documents: [document(holdings_json: nowhere, items_json: out)])
+      record = tool_payload(described_class, ids: %w[123])['records'].first
+
+      expect(record['copies'].first).not_to have_key('library')
+      expect(record['summary']).to eq('None on the shelf right now (Checked out)')
+    end
+
+    # No items and no tally: the record says where the copy is but nothing
+    # about whether it is there. That is "unknown", never "checked out".
+    it 'says where a copy is held when the record carries no counts or items' do
+      no_counts = { 'h1' => { 'call' => 'PS3561 .N48', 'active' => true,
+                              'location' => { 'name' => 'Olin Library Main Collection',
+                                              'library' => 'Olin Library' } } }.to_json
+      stub_search_runner(documents: [document(holdings_json: no_counts)])
+      record = tool_payload(described_class, ids: %w[123])['records'].first
+
+      expect(record['copies'].first).to include('library' => 'Olin Library')
+      expect(record['copies'].first.keys).not_to include('total_items', 'available_items', 'status')
+      expect(record).not_to have_key('available_now')
+      expect(record['summary']).to eq('Held at Olin Library; the catalog does not report a current status')
+    end
+
+    # Older records carry the item status as a bare string rather than an
+    # object; it still has to count as on the shelf.
+    it 'reads an item status written as a plain string' do
+      plain = { 'h1' => [{ 'id' => 'i1', 'status' => 'Available' }] }.to_json
+      stub_search_runner(documents: [document(holdings_json: holdings, items_json: plain)])
+      record = tool_payload(described_class, ids: %w[123])['records'].first
+
+      expect(record['copies'].first['items']).to eq([{ 'status' => 'Available' }])
+      expect(record['available_now']).to be true
+    end
+
+    it 'skips an access link that is not valid JSON and keeps the rest' do
+      stub_search_runner(documents: [document(url_access_json: ['not json',
+                                                                 '{"url":"https://example.com/book"}'])])
+      record = tool_payload(described_class, ids: %w[123])['records'].first
+
+      expect(record['online_access']).to eq([{ 'url' => 'https://example.com/book' }])
+    end
+
     it 'treats an online record as available and lists its links' do
       url_access = ['{"url":"https://example.com/book","description":"Connect to full text"}']
       stub_search_runner(documents: [document(url_access_json: url_access)])

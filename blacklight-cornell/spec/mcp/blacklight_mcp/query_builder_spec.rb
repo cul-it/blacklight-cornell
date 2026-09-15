@@ -122,6 +122,11 @@ RSpec.describe BlacklightMcp::QueryBuilder do
           .to raise_error(BlacklightMcp::InvalidArgument, /expected 1 for 2 row\(s\), got 2/)
       end
 
+      it 'rejects booleans that are not a list' do
+        expect { described_class.advanced(rows: [{ query: 'a' }, { query: 'b' }], booleans: 'AND') }
+          .to raise_error(BlacklightMcp::InvalidArgument, /booleans must be an array of AND\/OR\/NOT values/)
+      end
+
       it 'rejects an unknown boolean' do
         expect { described_class.advanced(rows: [{ query: 'a' }, { query: 'b' }], booleans: ['XOR']) }
           .to raise_error(BlacklightMcp::InvalidArgument, /must be one of AND, OR, NOT/)
@@ -257,6 +262,11 @@ RSpec.describe BlacklightMcp::QueryBuilder do
         expect(params[:f_inclusive]).to eq('format' => %w[Video Book])
       end
 
+      it 'rejects a shortcut that is not a list of values' do
+        expect { described_class.simple(query: 'x', formats: { 'Book' => true }) }
+          .to raise_error(BlacklightMcp::InvalidArgument, /formats must be an array of facet values/)
+      end
+
       it 'is ignored when empty' do
         expect(described_class.simple(query: 'x', formats: [], languages: [])).not_to have_key(:f_inclusive)
       end
@@ -299,6 +309,11 @@ RSpec.describe BlacklightMcp::QueryBuilder do
     it 'rejects a non-numeric year' do
       expect { described_class.simple(query: 'x', date_range: { begin: 'nineteen sixty six', end: 2025 }) }
         .to raise_error(BlacklightMcp::InvalidArgument, /must be a whole year/)
+    end
+
+    it 'rejects ranges that are not an object of facet => bounds' do
+      expect { described_class.simple(query: 'x', ranges: [1900, 1950]) }
+        .to raise_error(BlacklightMcp::InvalidArgument, /ranges must be an object of facet/)
     end
 
     it 'rejects a range on a facet that is not configured as a range' do
