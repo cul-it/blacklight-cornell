@@ -501,11 +501,11 @@ module BlacklightMcp
     end
 
     # McpController is an ActionController::API, so it has no asset helpers of
-    # its own -- ask ActionController::Base for them. The stylesheet is a
-    # precompiled bundle (config/initializers/assets.rb), shared with the
-    # console so the two pages cannot drift apart visually.
+    # its own. In development, use a fresh view context so Sprockets picks up
+    # stylesheet edits. Elsewhere, reuse the shared helpers proxy.
     def stylesheet
-      ActionController::Base.helpers.stylesheet_link_tag('mcp', media: 'all')
+      helpers = Rails.env.development? ? ActionController::Base.new.helpers : ActionController::Base.helpers
+      helpers.stylesheet_link_tag('mcp', media: 'all')
     end
 
     def escape(value)

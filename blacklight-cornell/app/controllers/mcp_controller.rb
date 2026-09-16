@@ -122,9 +122,13 @@ class McpController < ActionController::API
   end
 
   def render_landing_page
-    # Static for the life of a deploy, and the most likely thing a crawler or a
-    # curious link-follower hits. No reason to rebuild it every time.
-    expires_in 1.hour, public: true
+    # Development asset fingerprints change as stylesheets are edited, so the
+    # browser must fetch fresh HTML rather than reuse an old stylesheet URL.
+    if Rails.env.development?
+      no_store
+    else
+      expires_in 1.hour, public: true
+    end
     render body: BlacklightMcp::LandingPage.html(url: request.original_url), content_type: 'text/html'
   end
 

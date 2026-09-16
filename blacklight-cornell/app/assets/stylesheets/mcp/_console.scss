@@ -1,9 +1,18 @@
 // The browser MCP client at /mcp/console.
 body.mcp-console {
-  .mcp-page      { max-width: 60rem; }
-  .mcp-eyebrow   { letter-spacing: .08em; }
-  .mcp-lede      { max-width: 44rem; }
+  .mcp-page      { max-width: 85rem; }
   .mcp-tool-desc { white-space: pre-wrap; }
+  #endpoint     { overflow-wrap: anywhere; }
+
+  // Match the numbered headings on the connection guide.
+  .mcp-step {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: .1rem;
+  }
 
   // Last result should not draw a line against the card's own edge.
   .mcp-rec:last-child {

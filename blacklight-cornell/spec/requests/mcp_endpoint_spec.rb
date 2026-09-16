@@ -66,6 +66,22 @@ RSpec.describe 'The MCP endpoint', type: :request do
       expect(response.body).to include("Search the library catalog with your AI assistant", 'claude mcp add')
     end
 
+    it 'does not cache development HTML with an obsolete stylesheet fingerprint' do
+      allow(Rails.env).to receive(:development?).and_return(true)
+
+      get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+      expect(response.headers['Cache-Control']).to include('no-store')
+    end
+
+    it 'keeps the landing page cacheable outside development' do
+      allow(Rails.env).to receive(:development?).and_return(false)
+
+      get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
+
+      expect(response.headers['Cache-Control']).to include('max-age=3600', 'public')
+    end
+
     it 'lists the live tools on that page, so it cannot go stale' do
       get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
 

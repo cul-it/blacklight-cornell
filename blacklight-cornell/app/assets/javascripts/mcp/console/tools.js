@@ -126,10 +126,10 @@
         // Adds a result card and returns its body.
         panel() {
             const card = document.createElement('div');
-            card.className = 'card mb-4';
+            card.className = 'card rounded-3 shadow-sm';
 
             const body = document.createElement('div');
-            body.className = 'card-body';
+            body.className = 'card-body p-3 p-md-4';
             card.appendChild(body);
 
             this.app.page.results.appendChild(card);
