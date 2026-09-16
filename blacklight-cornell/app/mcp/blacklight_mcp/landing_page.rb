@@ -59,7 +59,7 @@ module BlacklightMcp
     # ------------------------------------------------------------------------
     def header(url)
       <<-HTML
-          <p class="text-danger fs-4 fw-semibold mb-2">Cornell University Library</p>
+          #{brand}
           <h1 class="fw-semibold mb-3">Search the library catalog with your AI assistant</h1>
           <p class="lead text-body-secondary mb-1">Connect once, then ask questions in plain English. </p>
             <p class="lead text-body-secondary mb-4">Your AI assistant can then search the catalog for you. No library account or login needed.</p>
@@ -506,6 +506,12 @@ module BlacklightMcp
     def stylesheet
       helpers = Rails.env.development? ? ActionController::Base.new.helpers : ActionController::Base.helpers
       helpers.stylesheet_link_tag('mcp', media: 'all')
+    end
+
+    # The library lockup, from the partial the console renders too, so both
+    # pages carry the same brand mark in the same place.
+    def brand
+      ActionController::Base.render(partial: 'mcp/brand')
     end
 
     def escape(value)

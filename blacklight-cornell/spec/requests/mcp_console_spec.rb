@@ -78,6 +78,12 @@ RSpec.describe 'The MCP console', type: :request do
       expect(response.body).to include('Catalog MCP console')
     end
 
+    describe 'branding' do
+      before { get '/mcp/console' }
+
+      it_behaves_like 'a page carrying the library lockup'
+    end
+
     it 'carries no markup-level styling or scripting of its own' do
       get '/mcp/console'
 

@@ -1,0 +1,13 @@
+<%# The Cornell University Library lockup, per the Library branding guide:
+    the red lockup on light backgrounds, the white lockup on dark ones. These
+    pages follow the reader's system color scheme (see mcp.scss), so the swap
+    is done the same way, with a media query rather than a class. The seal is
+    120px tall on a desktop, the guide's digital minimum, and scales down on
+    a phone. Shared by the landing page and the console so the two cannot
+    drift. %>
+<a class="mcp-brand d-inline-block mb-4" href="https://www.library.cornell.edu/">
+  <picture>
+    <source srcset="/img/CULibraryWhite.svg" media="(prefers-color-scheme: dark)">
+    <img class="mcp-lockup" src="/img/CULibraryRed.svg" alt="Cornell University Library" width="382" height="120">
+  </picture>
+</a>

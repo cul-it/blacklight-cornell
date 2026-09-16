@@ -15,6 +15,20 @@ $color-mode-type: media-query;
 @import 'bootstrap';
 @import 'font-awesome';
 
+// The Library lockup at the head of both pages (app/views/mcp/_brand.html.erb).
+// 120px is the branding guide's minimum seal height for digital use; a phone
+// gets a smaller one so the wordmark does not wrap the whole width.
+.mcp-lockup {
+  display: block;
+  height: 120px;
+  width: auto;
+  max-width: 100%;
+
+  @include media-breakpoint-down(md) {
+    height: 84px;
+  }
+}
+
 // The page a browser gets when someone pastes the endpoint URL in.
 @import 'mcp/landing';
 

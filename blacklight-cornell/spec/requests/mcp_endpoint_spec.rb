@@ -56,6 +56,12 @@ RSpec.describe 'The MCP endpoint', type: :request do
       expect(json.dig('error', 'message')).to eq('Method not allowed')
     end
 
+    describe 'branding' do
+      before { get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' } }
+
+      it_behaves_like 'a page carrying the library lockup'
+    end
+
     # A person pasting the URL into the address bar should not meet a JSON-RPC
     # error that reads like a broken site.
     it 'shows a browser what the endpoint is for' do
