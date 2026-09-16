@@ -20,7 +20,7 @@
     <div class="card-body py-3">
       <p class="small text-uppercase fw-semibold text-body-secondary mb-2">Your connection URL</p>
       <div class="d-flex flex-wrap align-items-center gap-2">
-        <code id="endpoint" class="text-body fs-6 bg-body border rounded px-3 py-2 flex-grow-1"></code>
+        <code id="endpoint" class="text-body bg-body border rounded px-3 py-2 flex-grow-1"></code>
         <span class="badge text-bg-secondary" title="Server version">v<%= BlacklightMcp::VERSION %></span>
         <a class="btn btn-outline-secondary" href="/mcp">Connection guide</a>
       </div>
@@ -59,7 +59,7 @@
           <span class="small text-body-secondary" id="status" role="status"></span>
         </div>
 
-        <div class="form-check form-switch small mt-3" id="availability-switch" hidden>
+        <div class="form-check form-switch mt-3" id="availability-switch" hidden>
           <input class="form-check-input" type="checkbox" id="availability">
           <label class="form-check-label text-body-secondary" for="availability">
             Check availability &mdash; after the search, call check_availability as well, to show what is
@@ -86,7 +86,7 @@
         <i class="fa fa-code me-1" aria-hidden="true"></i>JSON-RPC request and response
         <span id="raw-label" class="font-monospace ms-1"></span>
       </summary>
-      <div class="form-check form-switch small mt-2">
+      <div class="form-check form-switch mt-2">
         <input class="form-check-input" type="checkbox" id="raw-format">
         <label class="form-check-label text-body-secondary" for="raw-format">
           Format &mdash; expand the JSON the tool answers with, instead of the escaped string it travels as
@@ -96,7 +96,7 @@
     </details>
   </section>
 
-  <p class="small text-body-secondary border-top pt-3 mt-5 mb-0">
+  <p class="text-body-secondary border-top pt-3 mt-5 mb-0">
     This console calls the same MCP endpoint as your AI assistant. Tools and forms are loaded from the server.
     <a href="/mcp">Back to the connection guide</a>.
   </p>

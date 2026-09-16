@@ -146,7 +146,7 @@
         }
 
         note(content, className) {
-            return Dom.text('p', 'small mb-0 ' + (className || 'text-body-secondary'), content);
+            return Dom.text('p', 'mb-0 ' + (className || 'text-body-secondary'), content);
         }
 
         // Builds a record row with its title and year.
@@ -276,11 +276,11 @@
 
             const meta = [doc.author, doc.format, doc.call_number].filter(Boolean).join(' \u00b7 ');
             if (meta) {
-                rec.appendChild(Dom.text('div', 'small text-body-secondary mt-1', meta));
+                rec.appendChild(Dom.text('div', 'text-body-secondary mt-1', meta));
             }
 
             const slot = document.createElement('div');
-            slot.className = 'small mt-1 text-body-secondary';
+            slot.className = 'mt-1 text-body-secondary';
             slot.dataset.slot = doc.id;
             rec.appendChild(slot);
 
@@ -422,7 +422,7 @@
                     record.publication_year);
 
                 const line = document.createElement('div');
-                line.className = 'small mt-1 text-body-secondary';
+                line.className = 'mt-1 text-body-secondary';
                 this.availabilityInto(line, record);
                 rec.appendChild(line);
 

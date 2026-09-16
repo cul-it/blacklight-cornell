@@ -59,7 +59,7 @@ module BlacklightMcp
     # ------------------------------------------------------------------------
     def header(url)
       <<-HTML
-          <h1 class="text-danger display-2 fs-3 fw-semibold mb-2">Cornell University Library</h1>
+          <p class="text-danger fs-4 fw-semibold mb-2">Cornell University Library</p>
           <h1 class="fw-semibold mb-3">Search the library catalog with your AI assistant</h1>
           <p class="lead text-body-secondary mb-1">Connect once, then ask questions in plain English. </p>
             <p class="lead text-body-secondary mb-4">Your AI assistant can then search the catalog for you. No library account or login needed.</p>
@@ -68,7 +68,7 @@ module BlacklightMcp
             <div class="card-body py-3">
               <p class="small text-uppercase fw-semibold text-body-secondary mb-2">Your connection URL</p>
               <div class="d-flex flex-wrap align-items-center gap-2">
-                <code class="mcp-command fs-6 bg-body border rounded px-3 py-2 flex-grow-1" id="endpoint-url">#{escape(url)}</code>
+                <code class="mcp-command bg-body border rounded px-3 py-2 flex-grow-1" id="endpoint-url">#{escape(url)}</code>
                 #{copy_button('endpoint-url', 'Copy URL')}
                 <span class="badge text-bg-secondary" title="Server version">v#{escape(BlacklightMcp::VERSION)}</span>
               </div>
@@ -85,7 +85,7 @@ module BlacklightMcp
         description = TOOL_GUIDE.fetch(tool.name_value, {})[:title] || tool.annotations.title
 
         "<li class=\"list-group-item py-2\"><code class=\"text-break\">#{escape(tool.name_value)}</code>" \
-          " <span class=\"small text-body-secondary\">&mdash; #{escape(description)}</span></li>"
+          " <span class=\"text-body-secondary\">&mdash; #{escape(description)}</span></li>"
       end.join
 
       <<-HTML
@@ -149,22 +149,22 @@ module BlacklightMcp
       <<-HTML
                 <div class="row g-4">
                   <div class="col-md-6">
-                    <h3 class="h6 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>Claude app or claude.ai</h3>
-                    <ol class="ps-3 mb-3 small">
+                    <h3 class="h5 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>Claude app or claude.ai</h3>
+                    <ol class="ps-3 mb-3">
                       <li class="mb-2">Open <span class="fw-semibold">Customize &rarr; Connectors</span>.</li>
                       <li class="mb-2">Choose <span class="fw-semibold">+ &rarr; Add custom connector</span>.</li>
                       <li class="mb-2">Paste the URL above and click <span class="fw-semibold">Add</span>.</li>
                       <li>In a chat, open <span class="fw-semibold">+ &rarr; Connectors</span> and enable the catalog.</li>
                     </ol>
-                    <p class="small text-body-secondary mb-2">On Team and Enterprise plans, an organization owner must add
+                    <p class="text-body-secondary mb-2">On Team and Enterprise plans, an organization owner must add
                        the connector first. Free accounts are limited to one custom connector.</p>
-                    <a class="small" href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Claude setup guide</a>
+                    <a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Claude setup guide</a>
                   </div>
                   <div class="col-md-6">
-                    <h3 class="h6 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Claude Code</h3>
-                    <p class="small mb-2">With Claude Code installed, run this once for all your projects:</p>
+                    <h3 class="h5 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Claude Code</h3>
+                    <p class="mb-2">With Claude Code installed, run this once for all your projects:</p>
                     #{command_block('claude-code-command', "claude mcp add --transport http --scope user cornell-library-catalog #{url}")}
-                    <a class="small" href="https://code.claude.com/docs/en/mcp">Claude Code setup guide</a>
+                    <a href="https://code.claude.com/docs/en/mcp">Claude Code setup guide</a>
                   </div>
                 </div>
       HTML
@@ -174,8 +174,8 @@ module BlacklightMcp
       <<-HTML
                 <div class="row g-4">
                   <div class="col-md-6">
-                    <h3 class="h6 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>ChatGPT</h3>
-                    <ol class="ps-3 mb-3 small">
+                    <h3 class="h5 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>ChatGPT</h3>
+                    <ol class="ps-3 mb-3">
                       <li class="mb-2">Open <span class="fw-semibold">Settings &rarr; Security and login</span> and enable
                           <span class="fw-semibold">Developer mode</span>.</li>
                       <li class="mb-2">Open <span class="fw-semibold">Plugins</span> and select <span class="fw-semibold">+</span>.</li>
@@ -184,14 +184,14 @@ module BlacklightMcp
                       <li class="mb-2">Create the connection and review the discovered tools.</li>
                       <li>In a new chat, add the connection from the tools menu.</li>
                     </ol>
-                    <p class="small text-body-secondary mb-2">Developer mode availability depends on your account and workspace policy.</p>
-                    <a class="small" href="https://developers.openai.com/plugins/deploy/connect-chatgpt">ChatGPT setup guide</a>
+                    <p class="text-body-secondary mb-2">Developer mode availability depends on your account and workspace policy.</p>
+                    <a href="https://developers.openai.com/plugins/deploy/connect-chatgpt">ChatGPT setup guide</a>
                   </div>
                   <div class="col-md-6">
-                    <h3 class="h6 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Codex</h3>
-                    <p class="small mb-2">With the Codex CLI installed, run this once in your terminal:</p>
+                    <h3 class="h5 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Codex</h3>
+                    <p class="mb-2">With the Codex CLI installed, run this once in your terminal:</p>
                     #{command_block('codex-command', "codex mcp add cornell-library-catalog --url #{url}")}
-                    <a class="small" href="https://learn.chatgpt.com/docs/extend/mcp?surface=cli">Codex setup guide</a>
+                    <a href="https://learn.chatgpt.com/docs/extend/mcp?surface=cli">Codex setup guide</a>
                   </div>
                 </div>
       HTML
@@ -201,14 +201,14 @@ module BlacklightMcp
       <<-HTML
                 <div class="row g-4">
                   <div class="col-md-6">
-                    <h3 class="h6 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Gemini CLI</h3>
-                    <p class="small mb-2">With Gemini CLI installed, run this once for all your projects:</p>
+                    <h3 class="h5 fw-semibold mb-3"><i class="fa fa-terminal text-danger me-2" aria-hidden="true"></i>Gemini CLI</h3>
+                    <p class="mb-2">With Gemini CLI installed, run this once for all your projects:</p>
                     #{command_block('gemini-command', "gemini mcp add --transport http --scope user cornell-library-catalog #{url}")}
-                    <a class="small" href="https://geminicli.com/docs/tools/mcp-server/">Gemini CLI setup guide</a>
+                    <a href="https://geminicli.com/docs/tools/mcp-server/">Gemini CLI setup guide</a>
                   </div>
                   <div class="col-md-6">
-                    <h3 class="h6 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>Gemini app</h3>
-                    <ol class="ps-3 mb-3 small">
+                    <h3 class="h5 fw-semibold mb-3"><i class="fa fa-plug text-danger me-2" aria-hidden="true"></i>Gemini app</h3>
+                    <ol class="ps-3 mb-3">
                       <li class="mb-2">On <span class="fw-semibold">gemini.google.com</span>, open
                           <span class="fw-semibold">Settings &rarr; Connected Apps</span> (this may be under
                           <span class="fw-semibold">Personal Intelligence</span>).</li>
@@ -216,9 +216,9 @@ module BlacklightMcp
                       <li>Click <span class="fw-semibold">Next</span> and follow the prompts. In a chat, type
                           <span class="fw-semibold">@</span> to select the app.</li>
                     </ol>
-                    <p class="small text-body-secondary mb-2">Requires a personal Google Account, age 18+, US location,
+                    <p class="text-body-secondary mb-2">Requires a personal Google Account, age 18+, US location,
                        and Keep Activity enabled. Work and school accounts are not currently supported.</p>
-                    <a class="small" href="https://support.google.com/gemini/answer/17209137">Gemini app setup guide</a>
+                    <a href="https://support.google.com/gemini/answer/17209137">Gemini app setup guide</a>
                   </div>
                 </div>
       HTML
@@ -226,12 +226,12 @@ module BlacklightMcp
 
     def other_steps
       <<-HTML
-                <h3 class="h6 fw-semibold mb-3"><i class="fa fa-globe text-danger me-2" aria-hidden="true"></i>Assistants that support remote MCP</h3>
-                <p class="small mb-3">Follow your assistant's instructions for adding a custom remote MCP server.
+                <h3 class="h5 fw-semibold mb-3"><i class="fa fa-globe text-danger me-2" aria-hidden="true"></i>Assistants that support remote MCP</h3>
+                <p class="mb-3">Follow your assistant's instructions for adding a custom remote MCP server.
                    Paste the URL above, choose <span class="fw-semibold">Streamable HTTP</span> if asked for a transport,
                    and choose <span class="fw-semibold">None</span> for authentication.</p>
-                <p class="small text-body-secondary mb-2">Setup and availability vary by assistant and account.</p>
-                <div class="d-flex flex-wrap gap-3 small">
+                <p class="text-body-secondary mb-2">Setup and availability vary by assistant and account.</p>
+                <div class="d-flex flex-wrap gap-3">
                   <a href="https://cursor.com/docs/mcp">Cursor setup guide</a>
                   <a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">GitHub Copilot in VS Code setup guide</a>
                   <a href="https://www.perplexity.ai/help-center/en/articles/13915507-adding-custom-remote-connectors">Perplexity setup guide</a>
@@ -243,8 +243,8 @@ module BlacklightMcp
     # select whole.
     def command_block(id, command)
       "<div class=\"bg-body-tertiary border rounded-3 p-3 mb-3\">" \
-        "<code class=\"mcp-command small d-block mb-3\" id=\"#{escape(id)}\">#{escape(command)}</code>\n" \
-        "                    #{copy_button(id, 'Copy command', size: 'sm')}</div>"
+        "<code class=\"mcp-command d-block mb-3\" id=\"#{escape(id)}\">#{escape(command)}</code>\n" \
+        "                    #{copy_button(id, 'Copy command')}</div>"
     end
 
     # ------------------------------------------------------------------------
@@ -281,8 +281,8 @@ module BlacklightMcp
                     <span class="mcp-tool-icon bg-danger-subtle text-danger rounded-3 flex-shrink-0" aria-hidden="true">
                       <i class="fa fa-#{glyph}"></i></span>
                     <div>
-                      <h3 class="h6 fw-semibold mb-1">#{escape(title)}</h3>
-                      <p class="small text-body-secondary mb-0">#{escape(use_when)}</p>
+                      <h3 class="h5 fw-semibold mb-1">#{escape(title)}</h3>
+                      <p class="text-body-secondary mb-0">#{escape(use_when)}</p>
                     </div>
                   </div>
                   #{prompt_list(guide[:prompts])}
@@ -321,7 +321,7 @@ module BlacklightMcp
           #{section_heading('3', 'Put it together', 'One question can set off several tools. Here is what that looks like.')}
           <div class="card">
             <div class="card-body">
-              <p class="mcp-prompt mb-4 fs-6">
+              <p class="mcp-prompt mb-4">
                 <i class="fa fa-comment-o text-body-secondary me-2" aria-hidden="true"></i>&ldquo;I&rsquo;m writing a paper on
                 the 1918 flu in New York. Find me five recent books, tell me which ones I can pick up
                 today, and show me what&rsquo;s shelved next to the best one.&rdquo;</p>
@@ -346,7 +346,7 @@ module BlacklightMcp
                   <span>Answer with titles, call numbers, and a link to each record in the catalog.</span>
                 </li>
               </ol>
-              <p class="small text-body-secondary mb-0">Follow up in the same chat: <em>&ldquo;Summarize the second
+              <p class="text-body-secondary mb-0">Follow up in the same chat: <em>&ldquo;Summarize the second
                  one&rdquo;</em> (<code>fetch</code>), <em>&ldquo;What subject headings does it use?&rdquo;</em>
                  (<code>get_record</code>), <em>&ldquo;Any of these in Spanish?&rdquo;</em> (<code>facet_values</code>).</p>
             </div>
@@ -384,8 +384,8 @@ module BlacklightMcp
               <div class="d-flex gap-3 p-3 border rounded-3 bg-body w-100">
                 <i class="fa fa-#{glyph} fa-lg text-danger mt-1" aria-hidden="true"></i>
                 <div>
-                  <p class="fw-semibold mb-1">#{escape(title)}</p>
-                  <p class="small text-body-secondary mb-0">#{escape(body)}</p>
+                  <p class="fs-5 fw-semibold mb-1">#{escape(title)}</p>
+                  <p class="text-body-secondary mb-0">#{escape(body)}</p>
                 </div>
               </div>
             </div>
@@ -399,7 +399,7 @@ module BlacklightMcp
     # assistant cannot find a tool the library has announced.
     def reconnect_note
       <<-HTML
-          <div class="alert alert-secondary small d-flex gap-2 mb-0" role="note">
+          <div class="alert alert-secondary d-flex gap-2 mb-0" role="note">
             <i class="fa fa-refresh mt-1" aria-hidden="true"></i>
             <div>
               <span class="fw-semibold">Missing a tool from this list?</span>
@@ -420,7 +420,7 @@ module BlacklightMcp
             <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
               <div>
                 <p class="fw-semibold mb-1"><i class="fa fa-terminal me-2" aria-hidden="true"></i>No assistant handy? Try the tools in your browser.</p>
-                <p class="small text-body-secondary mb-0">Run any of the examples above right here and see what the catalog sends back.</p>
+                <p class="text-body-secondary mb-0">Run any of the examples above right here and see what the catalog sends back.</p>
               </div>
               <a class="btn btn-danger" href="#{Console::PATH}">Open the MCP console</a>
             </div>
@@ -430,7 +430,7 @@ module BlacklightMcp
 
     def footer
       <<-HTML
-          <p class="small text-body-secondary border-top pt-3 mt-5 mb-0">
+          <p class="text-body-secondary border-top pt-3 mt-5 mb-0">
              <i class="fa fa-info-circle me-1" aria-hidden="true"></i>This address is for your assistant;
              there is nothing to search on this page. To search the catalog yourself, go to
              <a href="#{escape(BlacklightMcp.catalog_url)}">the catalog</a>.
