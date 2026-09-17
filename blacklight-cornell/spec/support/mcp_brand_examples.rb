@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # The Cornell University Library lockup, as the Library branding guide has it:
-# the red lockup on a light background, the white lockup on a dark one. Both
-# MCP pages carry it, from one partial, so both are checked the same way.
+# the red lockup on a light background, the white lockup on a dark one. The
+# landing page carries it from its own partial.
 RSpec.shared_examples 'a page carrying the library lockup' do
   it 'shows the red lockup, swapping to the white one in dark mode' do
     expect(response.body).to include('src="/img/CULibraryRed.svg"')

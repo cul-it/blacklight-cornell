@@ -4,11 +4,9 @@ A read-only [Model Context Protocol](https://modelcontextprotocol.io) endpoint
 at `/mcp`. An AI assistant can search the catalog, read records, list facet
 values, check availability and walk the shelf. Nothing here writes.
 
-**This file is about the server code.** The other two:
+**This file is about the server code.** The other one:
 [MCP_SERVER_README.md](../../../MCP_SERVER_README.md) for using the endpoint and
-connecting an assistant to it, and
-[MCP_CONSOLE_README.md](../assets/javascripts/mcp/console/MCP_CONSOLE_README.md)
-for the browser console's JavaScript.
+connecting an assistant to it.
 
 **The rule the design follows:** tools do not build Solr queries. They turn
 their arguments into the same URL parameters the catalog's own search forms
@@ -33,8 +31,7 @@ app/mcp/
     ├── availability_presenter.rb  "can I get this now", read off the record
     ├── call_number_browse.rb      the separate call-number Solr collection
     ├── rate_limit.rb              how often one caller may hit /mcp
-    ├── landing_page.rb            the page a browser gets at /mcp
-    └── console.rb                 whether /mcp/console exists
+    └── landing_page.rb            the page a browser gets at /mcp
 ```
 
 ## A request, end to end
@@ -75,11 +72,6 @@ builds its tool list from `Server.tools`.
 Bump `VERSION` while you are there. Nothing reads it, but it is what tells a
 human which build answered.
 
-The console needs no JavaScript for a new tool: it builds a form from the schema
-and prints the reply as JSON. For a nicer result display, add a class in
-`tools.js` — see
-[MCP_CONSOLE_README.md](../assets/javascripts/mcp/console/MCP_CONSOLE_README.md).
-
 **Clients read `tools/list` once, at connect.** The transport is stateless, so
 there is no `list_changed` notification to send — a new tool reaches an
 assistant only when it reconnects. Two things soften that:
@@ -91,8 +83,7 @@ telling the caller to reconnect.
 
 | Variable | Default | Effect |
 | --- | --- | --- |
-| `MCP` | on | `MCP=false` makes `/mcp` and `/mcp/console` 404, as if never added |
-| `MCP_CONSOLE` | development only | `true` anywhere, `false` nowhere |
+| `MCP` | on | `MCP=false` makes `/mcp` 404, as if never added |
 | `MCP_CATALOG_URL` | `https://catalog.library.cornell.edu` | where the links in a reply point |
 | `MCP_SOLR_FACETS_DISPLAY` | off | `true` advertises raw Solr facet fields |
 | `MCP_SOLR_TIMEOUT` | 5 | seconds a request waits on Solr |
@@ -113,7 +104,6 @@ no login without Rails raising a routing error.
 | | |
 | --- | --- |
 | `app/controllers/mcp_controller.rb` | the endpoint |
-| `app/controllers/mcp_console_controller.rb`, `app/views/mcp_console/` | the console page |
-| [`app/assets/javascripts/mcp/console/`](../assets/javascripts/mcp/console/MCP_CONSOLE_README.md) | its JavaScript |
-| `config/routes.rb` | routes, constrained on the switches above |
-| `spec/mcp/`, `spec/requests/mcp_endpoint_spec.rb`, `spec/requests/mcp_console_spec.rb` | specs |
+| `app/views/mcp/_brand.html.erb`, `app/assets/stylesheets/mcp.scss` | the landing page's lockup and stylesheet |
+| `config/routes.rb` | routes, constrained on the `MCP` switch above |
+| `spec/mcp/`, `spec/requests/mcp_endpoint_spec.rb` | specs |

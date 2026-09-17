@@ -149,7 +149,7 @@ RSpec.describe 'The MCP endpoint', type: :request do
       it 'does not link prompts anywhere; they are words to say, not buttons' do
         get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
 
-        expect(response.body).not_to include('Try it', "#{BlacklightMcp::Console::PATH}#")
+        expect(response.body).not_to include('Try it')
       end
 
       it 'walks through one question that uses several tools in turn' do
@@ -170,15 +170,6 @@ RSpec.describe 'The MCP endpoint', type: :request do
         expect(response.body).not_to match(/read-only|JSON-RPC|endpoint URL|OAuth/i)
       end
 
-      context 'when the console is off' do
-        before { allow(BlacklightMcp::Console).to receive(:enabled?).and_return(false) }
-
-        it 'links nothing to it' do
-          get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
-
-          expect(response.body).not_to include(BlacklightMcp::Console::PATH)
-        end
-      end
     end
 
     it 'keeps the protocol response for a client that also accepts html' do
@@ -328,12 +319,6 @@ RSpec.describe 'The MCP endpoint', type: :request do
 
     it 'has no landing page' do
       get '/mcp', headers: { 'HTTP_ACCEPT' => 'text/html' }
-
-      expect(response).to have_http_status(:not_found)
-    end
-
-    it 'has no console' do
-      get '/mcp/console'
 
       expect(response).to have_http_status(:not_found)
     end

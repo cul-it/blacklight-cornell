@@ -1,10 +1,9 @@
-// Styling for the MCP pages: the landing page at /mcp and the console at
-// /mcp/console. Both render outside the Blacklight layout, so this is a
-// standalone bundle rather than part of application.css -- see aeon.scss for
-// the same pattern.
+// Styling for the MCP landing page at /mcp. It renders outside the Blacklight
+// layout, so this is a standalone bundle rather than part of application.css
+// -- see aeon.scss for the same pattern.
 //
-// Follow the reader's system setting rather than a data attribute: these pages
-// have no theme switcher, and Bootstrap emits @media (prefers-color-scheme)
+// Follow the reader's system setting rather than a data attribute: the page
+// has no theme switcher, and Bootstrap emits @media (prefers-color-scheme)
 // blocks when told to. Must come before Bootstrap is imported.
 $color-mode-type: media-query;
 
@@ -15,7 +14,7 @@ $color-mode-type: media-query;
 @import 'bootstrap';
 @import 'font-awesome';
 
-// The Library lockup at the head of both pages (app/views/mcp/_brand.html.erb).
+// The Library lockup at the head of the page (app/views/mcp/_brand.html.erb).
 // 120px is the branding guide's minimum seal height for digital use; a phone
 // gets a smaller one so the wordmark does not wrap the whole width.
 .mcp-lockup {
@@ -31,6 +30,3 @@ $color-mode-type: media-query;
 
 // The page a browser gets when someone pastes the endpoint URL in.
 @import 'mcp/landing';
-
-// The browser MCP client.
-@import 'mcp/console';

@@ -45,7 +45,6 @@ module BlacklightMcp
           <section class="bg-body-secondary border rounded-4 p-3 p-md-4 mb-4" aria-labelledby="mcp-section-4">
             #{tips_section}
           </section>
-          #{console_section}
           #{footer}
         </main>
         #{copy_script}
@@ -410,24 +409,6 @@ module BlacklightMcp
       HTML
     end
 
-    # Only where the console actually exists. A link to a 404 is worse than no
-    # link, and on a deployed host the console is usually not there.
-    def console_section
-      return '' unless Console.enabled?
-
-      <<-HTML
-          <div class="card border-0 bg-danger-subtle mt-5 mb-4">
-            <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
-              <div>
-                <p class="fw-semibold mb-1"><i class="fa fa-terminal me-2" aria-hidden="true"></i>No assistant handy? Try the tools in your browser.</p>
-                <p class="text-body-secondary mb-0">Run any of the examples above right here and see what the catalog sends back.</p>
-              </div>
-              <a class="btn btn-danger" href="#{Console::PATH}">Open the MCP console</a>
-            </div>
-          </div>
-      HTML
-    end
-
     def footer
       <<-HTML
           <p class="text-body-secondary border-top pt-3 mt-5 mb-0">
@@ -508,8 +489,7 @@ module BlacklightMcp
       helpers.stylesheet_link_tag('mcp', media: 'all')
     end
 
-    # The library lockup, from the partial the console renders too, so both
-    # pages carry the same brand mark in the same place.
+    # The library lockup, from its own partial.
     def brand
       ActionController::Base.render(partial: 'mcp/brand')
     end

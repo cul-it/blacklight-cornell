@@ -28,7 +28,7 @@ module BlacklightMcp
     module_function
 
     # Only the word true. Unset, or anything else, keeps the readable names --
-    # the same rule MCP and MCP_CONSOLE follow.
+    # the same rule MCP follows.
     def solr_names?
       ENV.fetch('MCP_SOLR_FACETS_DISPLAY', '').to_s.strip.downcase == 'true'
     end

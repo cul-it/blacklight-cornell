@@ -20,8 +20,8 @@ module BlacklightMcp
 
   # MCP Endpoint Switch
   #
-  # Set MCP=false in the environment and /mcp, /mcp/console and the discovery
-  # routes stop existing. The routes are constrained on this, so a request gets
+  # Set MCP=false in the environment and /mcp and the discovery routes stop
+  # existing. The routes are constrained on this, so a request gets
   # an ordinary 404 -- not a refusal, not an error page. Nothing to find, which
   # is the point: an endpoint under attack should look like it was never there.
   #

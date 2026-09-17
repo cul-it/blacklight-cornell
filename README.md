@@ -37,13 +37,11 @@ For additional options and a more detailed explanation, refer to [Running Tests]
 
 A read-only [Model Context Protocol](https://modelcontextprotocol.io) endpoint at
 `/mcp` lets an AI assistant search the catalog: eight read-only tools, no login,
-rate limited. There is also a browser client for it at `/mcp/console`, that's on in
-development.
+rate limited.
 
-Three READMEs, depending on what you are doing:
+Two READMEs, depending on what you are doing:
 
-| Description                                                                              | Documentation                                                                                                                           |
-|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| **Using it** — the tools, connecting each assistant, limits, the console                 | [MCP_SERVER_README.md](MCP_SERVER_README.md)                                                                                            |
-| **Developing on the MCP server** — the code layout, how a request travels, adding a tool | [app/mcp/BLACKLIGHT_MCP_README.md](blacklight-cornell/app/mcp/BLACKLIGHT_MCP_README.md)                                                 |
-| **MCP Console** — its JavaScript code layout                                             | [app/assets/javascripts/mcp/console/MCP_CONSOLE_README.md](blacklight-cornell/app/assets/javascripts/mcp/console/MCP_CONSOLE_README.md) |
+| Description                                                                              | Documentation                                                                           |
+|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| **Using it** — the tools, connecting each assistant, limits                              | [MCP_SERVER_README.md](MCP_SERVER_README.md)                                            |
+| **Developing on the MCP server** — the code layout, how a request travels, adding a tool | [app/mcp/BLACKLIGHT_MCP_README.md](blacklight-cornell/app/mcp/BLACKLIGHT_MCP_README.md) |

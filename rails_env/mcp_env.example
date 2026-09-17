@@ -13,12 +13,6 @@
 MCP=true
 
 # ==============================================================================
-# Show the browser test page at /mcp/console.
-# Default is on in development only. Set true to have it on a deployed host.
-# ------------------------------------------------------------------------------
-#MCP_CONSOLE=true
-
-# ==============================================================================
 # Name facets the way the catalog does ("Publication Year") or the way Solr
 # does ("pub_date_facet"). Only true shows Solr names, so leaving this line
 # out is the same as false. Default is false: true is for debugging.
