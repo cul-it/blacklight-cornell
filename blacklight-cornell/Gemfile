@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "3.4.10"
+ruby "3.4.13"
 gem "rails", "~> 8.1.0"
 
 # Pin to v2.2.0 until https://github.com/rails/activerecord-session_store/issues/236 is fixed
