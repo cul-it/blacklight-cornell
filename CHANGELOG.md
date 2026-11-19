@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-19 - Sprint release (dev -> main)
+
+### 🧰 Maintenance
+
+- Update Ruby to 3.4.13 to apply a security patch for vulnerabilities in Regexp and String by @ebtoner in [#2552](https://github.com/cul-it/blacklight-cornell/pull/2552) (#2552)
+
 ## 2026-09-01 - Sprint release (dev -> main)
 
 ### 🐛 Bug Fixes
