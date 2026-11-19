@@ -4,6 +4,16 @@
 
 ### 🧰 Maintenance
 
+- Update Ruby to 3.4.13 to apply the security patch for the Regexp and String vulnerabilities by @ebtoner in [#2552](https://github.com/cul-it/blacklight-cornell/pull/2552) (#2552)
+
+
+### Needs Review
+- 🧰 Maintenance Update the automated changelog for the dev-to-main release PR #2554 by @github-actions[bot] in [#2555](https://github.com/cul-it/blacklight-cornell/pull/2555) (#2555) — _The PR body has no Type of Change section, so the category is inferred as Maintenance. I couldn't inspect the diff because the main and dev refs aren't available locally._
+
+## 2026-11-19 - Sprint release (dev -> main)
+
+### 🧰 Maintenance
+
 - Update Ruby to 3.4.13 to apply a security patch for vulnerabilities in Regexp and String by @ebtoner in [#2552](https://github.com/cul-it/blacklight-cornell/pull/2552) (#2552)
 
 ## 2026-09-01 - Sprint release (dev -> main)
